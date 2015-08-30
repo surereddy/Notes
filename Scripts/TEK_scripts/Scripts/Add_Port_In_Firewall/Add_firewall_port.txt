@@ -1,0 +1,1 @@
+for /L %i in (6021,1,6080) do netsh firewall add portopening UDP %i "UDP %i"

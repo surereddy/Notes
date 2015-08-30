@@ -1,0 +1,11 @@
+program zoey_4;
+   makecall;
+   pause 20;
+   digits <4>;
+   pause 13;
+   play {sqrechoref};
+   pause 38;
+   digits <9>;
+   pause 5;
+   dropcall;
+stop;

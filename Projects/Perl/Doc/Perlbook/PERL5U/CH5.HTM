@@ -1,0 +1,1674 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 5 -- Object-Oriented Programming in
+Perl</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 5</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Object-Oriented Programming in
+Perl</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#IntroductiontoModules" >Introduction to Modules</A>
+<UL>
+<LI><A HREF="#TheThreeImportantRules" >The Three Important Rules</A>
+</UL>
+<LI><A HREF="#ClassesinPerl" >Classes in Perl</A>
+<LI><A HREF="#CreatingaClass" >Creating a Class</A>
+<LI><A HREF="#BlessingaConstructor" >Blessing a Constructor</A>
+<UL>
+<LI><A HREF="#InstanceVariables" >Instance Variables</A>
+</UL>
+<LI><A HREF="#Methods" >Methods</A>
+<LI><A HREF="#ExportingMethodswithExporterpm" >Exporting Methods with Exporter.pm</A>
+<LI><A HREF="#InvokingMethods" >Invoking Methods</A>
+<LI><A HREF="#Overrides" >Overrides</A>
+<LI><A HREF="#Destructors" >Destructors</A>
+<LI><A HREF="#Inheritance" >Inheritance</A>
+<LI><A HREF="#OverridingMethods" >Overriding Methods</A>
+<LI><A HREF="#AFewCommentsAboutClassesandObjects" >A Few Comments About Classes and Objects in Perl</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter covers the object-oriented programming (OOP) features
+of Perl. You'll see how to construct objects in Perl as well as
+how to use the OOP features offered by Perl. You'll also learn
+about inheritance, overriding of methods, and data encapsulation.
+<H2><A NAME="IntroductiontoModules"><FONT SIZE=5 COLOR=#FF0000>Introduction
+to Modules</FONT></A></H2>
+<P>
+A <I>module</I> is also referred to as a <I>package</I>. Objects
+in Perl are based on references to data items within a package.
+An <I>object</I> in Perl is simply a reference to something that
+knows which class it belongs to. For more information, you can
+consult the <TT><FONT FACE="Courier">perlmod</FONT></TT> and <TT><FONT FACE="Courier">perlobj</FONT></TT>
+text files at <TT><A HREF="tppmsgs/msgs0.htm#14" tppabs="http://www.metronet.com/">http://www.metronet.com</A></TT>.
+These files are the primary source of information on the Internet
+about Perl modules.
+<P>
+When performing object-oriented programming with other languages,
+you declare a class and then create (instantiate) <I>objects</I>
+of that class. All objects of a particular class behave in a certain
+way, which is governed by the <I>methods</I> of the class to which
+the object belongs. You create classes by defining new ones or
+by <I>inheriting</I> properties from an existing class.
+<P>
+For programmers already familiar with object-oriented principles,
+this will all seem familiar. Perl is, and pretty much always has
+been, an object-oriented language. In Perl 4, the use of packages
+gave you different symbol tables from which to choose your symbol
+names. In Perl 5, the syntax has changed a bit, and the use of
+objects has been formalized somewhat.
+<H3><A NAME="TheThreeImportantRules">The Three Important Rules</A>
+</H3>
+<P>
+The following three declarations are extremely important to understanding
+how objects, classes, and methods work in Perl. Each is covered
+in more detail in the rest of the chapter.
+<UL>
+<LI><FONT COLOR=#000000>A </FONT><I>class</I> is a Perl package.
+The package for a class provides the methods for objects.
+<LI><FONT COLOR=#000000>A </FONT><I>method</I> is a Perl subroutine.
+The only catch with writing methods is that the name of the class
+is the first argument.
+<LI><FONT COLOR=#000000>An </FONT><I>object</I> in Perl is a reference
+to some data item within the class.
+</UL>
+<H2><A NAME="ClassesinPerl"><FONT SIZE=5 COLOR=#FF0000>Classes
+in Perl</FONT></A></H2>
+<P>
+This point is important enough to repeat: A Perl class is simply
+a package. When you see a Perl document referring to a <I>class</I>,
+think <I>package</I>. Also, both <I>package</I> and <I>module</I>
+mean the same thing. For C programmers, it's easy to use <TT><FONT FACE="Courier">::</FONT></TT>
+notation for classes and <TT><FONT FACE="Courier">-&gt;</FONT></TT>
+for pointing to structure elements and class members.
+<P>
+One of the key features of OOP in any object-oriented language
+is that of inheritance. This is where new classes can be created
+by adding new features to existing classes. The inheritance feature
+offered by Perl is not the same as you would expect in other object-oriented
+languages. Perl classes inherit methods only. You have to use
+your own mechanisms to implement data inheritance. 
+<P>
+Because each class is a package, it has its own name space with
+its own associative array of symbol names. Therefore, each class
+can have its own independent set of symbol names. As with package
+references, you can address the variables in a class with the
+<TT><FONT FACE="Courier">'</FONT></TT> operator. Therefore, members
+of a class are addressed as <TT><FONT FACE="Courier">$class'$member</FONT></TT>.
+In Perl 5, you can use the double colon instead of <TT><FONT FACE="Courier">'</FONT></TT>
+to get the reference. Thus, <TT><FONT FACE="Courier">$class'member</FONT></TT>
+is the same as <TT><FONT FACE="Courier">$class::$member</FONT></TT>.
+<H2><A NAME="CreatingaClass"><FONT SIZE=5 COLOR=#FF0000>Creating
+a Class</FONT></A></H2>
+<P>
+This section covers the requisite steps to take when you create
+a new class. This chapter covers the semantics in the creation
+of a very simple class, called <TT><FONT FACE="Courier">Invest</FONT></TT>,
+for printing the required parts of a simple Java application source
+code file. No, you will not become a Java expert, nor does this
+package require you to have any experience in Java. The concept
+of creating a class is what you're concerned with. For example,
+this chapter could just as easily have been on creating a phone
+book application, but how many such examples have you seen to
+date in books? You'll use a different example this time.
+<P>
+First of all, you need to create a package file called <TT><FONT FACE="Courier">Cocoa.pm</FONT></TT>.
+The <TT><FONT FACE="Courier">.pm</FONT></TT> extension is the
+default extension for packages; it stands for Perl Module. A module
+is a package, and a package is a class for all practical purposes.
+Before you do anything else to the file, place a <TT><FONT FACE="Courier">1;</FONT></TT>
+in the file. As you add more lines to the package file, make sure
+you have <TT><FONT FACE="Courier">1;</FONT></TT> as the last line
+of this file. The basic structure of the file is shown in Listing
+5.1.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.1. The package template.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 package Cocoa;<BR>
+&nbsp;2 #<BR>
+&nbsp;3 # Put &quot;require&quot;
+statements in for all required,imported packages<BR>
+&nbsp;4 #<BR>
+&nbsp;5 <BR>
+&nbsp;6 #<BR>
+&nbsp;7 # Just add code here
+<BR>
+&nbsp;8 #<BR>
+&nbsp;9<BR>
+10 1;&nbsp;&nbsp;&nbsp;# terminate the package with the required
+1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+It's important that you remember to always keep the required <TT><FONT FACE="Courier">1;</FONT></TT>
+line as the last of the package file. This statement is required
+for all packages in Perl.
+<P>
+Now you're ready to add your methods to this package and make
+this a class. The first method you would probably want to add
+is the <TT><FONT FACE="Courier">new()</FONT></TT> method, which
+should be called to create a new object. The <TT><FONT FACE="Courier">new()</FONT></TT>
+method is the constructor for the object.
+<H2><A NAME="BlessingaConstructor"><FONT SIZE=5 COLOR=#FF0000>Blessing
+a Constructor</FONT></A></H2>
+<P>
+A <I>constructor</I> is a Perl subroutine in a class that returns
+a reference to something that has the class name attached to it.
+Connecting a class name with a reference is referred to as <I>blessing</I>
+an object. The function to establish this connection is <TT><FONT FACE="Courier">bless</FONT></TT>.
+Here's the syntax for the <TT><FONT FACE="Courier">bless</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">bless YeReference [,<I>classname</I>]</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">YeReference</FONT></TT> is the reference
+to the object being blessed. <TT><I><FONT FACE="Courier">classname</FONT></I></TT>
+is optional and specifies the name of the package from which this
+object will have methods. If <TT><I><FONT FACE="Courier">classname</FONT></I></TT>
+is not specified, the name of the currently used package is used
+instead. Thus, the way to create a constructor in Perl is to return
+a reference to an internal structure that has been blessed into
+this class. The initial <TT><FONT FACE="Courier">Cocoa.pm</FONT></TT>
+package is shown in Listing 5.2.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.2. The first pass at the </B><TT><B><FONT FACE="Courier">new()</FONT></B></TT><B>
+function.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 package Cocoa;<BR>
+2 <BR>
+3 sub new {<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp; my $this = {};&nbsp;&nbsp;# Create an
+anonymous hash, and #self points to it.<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp; bless $this;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# Connect the hash to the package Cocoa.<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp; return $this;&nbsp;&nbsp;&nbsp;&nbsp;
+# Return the reference to the hash.<BR>
+7&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+8 <BR>
+9 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">{}</FONT></TT> constructs a reference
+to an empty hash. The returned value to this hash is assigned
+to the local variable <TT><FONT FACE="Courier">$this</FONT></TT>.
+The <TT><FONT FACE="Courier">bless()</FONT></TT> function takes
+that reference to <TT><FONT FACE="Courier">$this</FONT></TT> and
+tells the object it references that it's now <TT><FONT FACE="Courier">Cocoa</FONT></TT>
+and then returns the reference.
+<P>
+The returned value to the calling function now refers to this
+anonymous hash. On returning from the <TT><FONT FACE="Courier">new()</FONT></TT>
+function, the <TT><FONT FACE="Courier">$this</FONT></TT> reference
+is destroyed, but the calling function keeps a reference to this
+hash. Therefore, the reference count to the hash will not be zero,
+and Perl keeps the hash in memory. You do not have to keep the
+hash in memory, but it's nice to have it around for reference
+later.
+<P>
+To create an object, you make a call like this one:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$cup = new Cocoa;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The code is Listing 5.3 shows you how to use this package to create
+the constructor.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.3. Using the </B><TT><B><FONT FACE="Courier">Cocoa</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!/usr/bin/perl<BR>
+2 push (@Inc,'pwd');<BR>
+3 use Cocoa;<BR>
+4 $cup = new Cocoa;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The first line refers to the location of the Perl interpreter
+to use. Your Perl interpreter may be located at <TT><FONT FACE="Courier">/usr/local/bin/perl</FONT></TT>
+or wherever you installed it.
+<P>
+In line 2, the local directory is added to the search path in
+<TT><FONT FACE="Courier">@Inc</FONT></TT> for the list of paths
+to use when the Perl interpreter is looking for a package. You
+can create your module in a different directory and specify the
+path explicitly there. Had I created the package in <TT><FONT FACE="Courier">/home/khusain/test/scripts/</FONT></TT>,
+line 2 would read as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">push (@Inc,&quot;/home/khusain/test/scripts&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In line 3 you include the package <TT><FONT FACE="Courier">Cocoa.pm</FONT></TT>
+to get all the functionality in your script. The <TT><FONT FACE="Courier">use</FONT></TT>
+statement asks Perl to look in the <TT><FONT FACE="Courier">@Inc</FONT></TT>
+path for a file called <TT><FONT FACE="Courier">Cocoa.pm</FONT></TT>
+and include it in the copy of the source file being parsed. The
+<TT><FONT FACE="Courier">use</FONT></TT> statement is required
+if you want to work with a class.
+<P>
+Line 4 creates the <TT><FONT FACE="Courier">Cocoa</FONT></TT>
+object by calling the <TT><FONT FACE="Courier">new</FONT></TT>
+function on it. Now comes the beautiful (yet confusing and powerful)
+part of Perl. There is more than one way to do this. You can rewrite
+line 3 as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$cup = Cocoa-&gt;new();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Or if you are a C-programming hack, you can use the double colons
+(<TT><FONT FACE="Courier">::</FONT></TT>) to force the function
+<TT><FONT FACE="Courier">new()</FONT></TT> from the <TT><FONT FACE="Courier">Cocoa</FONT></TT>
+package. Thus, line 4 could also be written as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$cup = Cocoa::new();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+There is nothing preventing you from adding more code in the constructor
+than what is shown here. For this <TT><FONT FACE="Courier">Cocoa.pm</FONT></TT>
+module, if you would like to print a disclaimer when each object
+is created, you can. For example, you can add statements like
+these in the constructor for debugging purposes:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">print &quot;Hey! I am alive&quot; if
+($debuglevel &gt; 1); </FONT></TT>
+</BLOCKQUOTE>
+<P>
+This way, you can set a variable<TT><FONT FACE="Courier"> $debuglevel</FONT></TT>
+to a numeric value of <TT><FONT FACE="Courier">&nbsp;2</FONT></TT>
+or greater in your program to display the debug message shown
+every time a new <TT><FONT FACE="Courier">Cocoa</FONT></TT> object
+is created. Usually, you would like to initialize variables in
+a constructor before any processing is done with the object. For
+example, if the object you are constructing will be writing a
+log to disk, you would like to open the file it's writing to in
+the constructor. (Of course, you would also have to remember to
+close the file when the object is destroyed by placing the <TT><FONT FACE="Courier">close()</FONT></TT>
+function call in the destructor.) 
+<P>
+Here's what the constructor looks like for the <TT><FONT FACE="Courier">Cocoa.pm</FONT></TT>
+module:
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.4. Expanding the constructor.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 sub new {<BR>
+2&nbsp;&nbsp;&nbsp;&nbsp; my $this = {};<BR>
+3&nbsp;&nbsp;&nbsp;&nbsp; print &quot;\n /* \n ** Created by Cocoa.pm
+\n ** Use at own risk&quot;;<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp; print &quot;\n ** Did this code even
+get past the javac compiler? &quot;;<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp; print &quot;\n **/ \n&quot;;<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp; bless $this;<BR>
+7&nbsp;&nbsp;&nbsp;&nbsp; return $this;<BR>
+8&nbsp;&nbsp;&nbsp;&nbsp; }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The output from running the test script (called <TT><FONT FACE="Courier">testme</FONT></TT>)
+on this bare bones class would look like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier"> /*<BR>
+ ** Created by Cocoa.pm<BR>
+ ** Use at own risk<BR>
+ ** Did this code even get past the javac compiler?<BR>
+ **/</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Now, regardless of which of these three methods you used to create
+the <TT><FONT FACE="Courier">Cocoa</FONT></TT> object, you should
+see the same output.
+<P>
+Some comments have been added at the start of the file with some
+<TT><FONT FACE="Courier">print</FONT></TT> statements. You can
+just as easily call other functions in or outside of the package
+to get more initialization functionality. You should allow any
+given class to be inherited, however. You should be able to call
+the <TT><FONT FACE="Courier">new</FONT></TT> operator with the
+class name as the first parameter. This ability to parse the class
+name from the first argument causes the class to be inherited.
+Thus, the new function becomes more or less like the function
+shown in Listing 5.5.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.5. The improved </B><TT><B><FONT FACE="Courier">new()</FONT></B></TT><B>
+function with class name recognition.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 sub new {<BR>
+2&nbsp;&nbsp;&nbsp;&nbsp; my $class = shift;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Get the request class name<BR>
+3&nbsp;&nbsp;&nbsp;&nbsp; my $this = {};<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp; bless $this, $class&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# Use class name to bless() reference<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp; $this-&gt;doInitialization();<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp; return $this;<BR>
+7 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+However, this method will force your class users to make calls
+in one of three ways:
+<UL>
+<LI><TT><FONT FACE="Courier">Cocoa::new()</FONT></TT>
+<LI><TT><FONT FACE="Courier">Cocoa-&gt;new()</FONT></TT>
+<LI><TT><FONT FACE="Courier">new Cocoa;</FONT></TT>
+</UL>
+<P>
+What if you wanted to use a reference to the object instead, such
+as <TT><FONT FACE="Courier">$obj-&gt;new()</FONT></TT>? The <TT><FONT FACE="Courier">doInitialization()</FONT></TT>
+method used will be of whatever <TT><FONT FACE="Courier">$class</FONT></TT>
+the object is blessed into. Listing 5.6 uses the function call
+<TT><FONT FACE="Courier">ref()</FONT></TT> to determine if the
+class exists per se. The <TT><FONT FACE="Courier">ref()</FONT></TT>
+function returns <TT><FONT FACE="Courier">true</FONT></TT> if
+the item passed to it is a reference and <TT><FONT FACE="Courier">null</FONT></TT>
+if not a reference. In the case of classes, the <TT><FONT FACE="Courier">true</FONT></TT>
+value returned from the <TT><FONT FACE="Courier">ref()</FONT></TT>
+function is the name of the class. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.6. The </B><TT><B><FONT FACE="Courier">new()</FONT></B></TT><B>
+function with the capability to inherit classes.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 sub new {<BR>
+&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp; my $this = shift;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Get the class name<BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;
+my $class = ref($this) || $this; <BR>
+&nbsp;</FONT></TT><FONT FACE="ZapfDingbats">&Acirc;</FONT><TT><FONT FACE="Courier">&nbsp;&nbsp;&nbsp;#
+If class exists, use it&nbsp;&nbsp;else use reference.<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;
+my $this = {};<BR>
+&nbsp;5 <BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;
+bless $this, $class<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp; $this-&gt;doInitialization();
+<BR>
+&nbsp;8 <BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp; return $this;<BR>
+10 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Within the class package, the methods typically deal with the
+reference as an ordinary reference. Outside the class package,
+the reference is generally treated as an opaque value that may
+only be accessed through the class's methods. You can access the
+values within a package directly, but it's not a good idea to
+do so because such access defeats the whole purpose of object
+orientation.
+<P>
+It's possible to bless a reference object more than once. However,
+the caveat to such a task is that the new class must get rid of
+the object at the previously blessed reference. For C and Pascal
+programmers, this is like assigning a pointer to <TT><FONT FACE="Courier">malloc</FONT></TT>-ed
+memory and then assigning the same pointer to another location
+without freeing the previous location. In effect, a Perl object
+must belong to one and only one class at a time.
+<P>
+So what's the real difference between an object and a reference?
+Perl objects are blessed to belong to a class. References are
+not blessed; if they are, they belong to a class and are objects.
+Objects know to which class they belong. References do not have
+a class, as such, to which they belong.
+<H3><A NAME="InstanceVariables">Instance Variables</A></H3>
+<P>
+The arguments to a <TT><FONT FACE="Courier">new()</FONT></TT>
+function for a constructor are called <I>instance variables</I>.
+Instance variables are used for initializing each instance of
+an object as it is created. For example, the <TT><FONT FACE="Courier">new()</FONT></TT>
+function could expect a name for each new instance of an object
+created. Using instance variables allows the customization of
+each object as it is created.
+<P>
+Either an anonymous array or an anonymous hash can be used to
+hold instance variables. To use a hash to store the parameters
+coming in, you would use code similar to what is shown in Listing
+5.7.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.7. Using instance variables.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 sub new {<BR>
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $type
+= shift;<BR>
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %parm
+= @_;<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $this
+= {};<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;{'Name'}
+= $parm{'Name'};<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;{'x'}&nbsp;&nbsp;=
+$parm{'x'};<BR>
+7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;{'y'}&nbsp;&nbsp;=
+$parm{'y'};<BR>
+8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bless $this,
+$type;<BR>
+9 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+You can also use an array instead of a hash to store the instance
+variables. See Listing 5.8 for an example.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.8. Using hashes for instance variables.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 sub new {<BR>
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $type
+= shift;<BR>
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %parm
+= @_;<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $this
+= [];<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;[0]
+= $parm{'Name'};<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;[1]
+= $parm{'x'};<BR>
+7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;[2]
+= $parm{'y'};<BR>
+8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bless $this,
+$type;<BR>
+9 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+To construct an object, you can pass the parameters with the <TT><FONT FACE="Courier">new()</FONT></TT>
+function call. For example, the call to create the <TT><FONT FACE="Courier">Cocoa</FONT></TT>
+object becomes this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$mug = Cocoa::new( 'Name' =&gt; 'top',
+<BR>
+&nbsp;&nbsp;'x' =&gt; 10,<BR>
+&nbsp;&nbsp;'y' =&gt; 20 );</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">=&gt;</FONT></TT> operator is just
+like the comma operator, although it's a bit more readable. You
+can write this code with commas instead of the <TT><FONT FACE="Courier">=&gt;</FONT></TT>
+operator if that's what you prefer.
+<P>
+To access the variables as you would any other data members, you
+can use the following statements:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">print &quot;Name=$mug-&gt;{'Name'}\n&quot;;
+<BR>
+print &quot;x=$mug-&gt;{'x'}\n&quot;;<BR>
+<BR>
+print &quot;y=$mug-&gt;{'y'}\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="Methods"><FONT SIZE=5 COLOR=#FF0000>Methods</FONT></A>
+</H2>
+<P>
+A method in a Perl class is simply a Perl subroutine. Perl doesn't
+provide any special syntax for method definition. A method expects
+its first argument to be the object or package on which it is
+being invoked. Perl has just two types of methods: static and
+virtual.
+<P>
+A <I>static</I> method expects a class name as the first argument.
+A <I>virtual</I> <FONT SIZE=1>&nbsp;</FONT>method expects a reference
+to an object as the first argument. Therefore, the way each method
+handles the first argument determines whether the method is static
+or virtual.
+<P>
+A static method applies functionality to the class as a whole
+because it uses the name of the class. Therefore, functionality
+in static methods is applicable to all objects of the class. Generally,
+static methods ignore the first argument because they already
+know which class they are in. Therefore, constructors are static
+methods.
+<P>
+A virtual method expects a reference to an object as its first
+argument. Typically the first thing a virtual method does is to
+shift the first argument to a <TT><FONT FACE="Courier">self</FONT></TT>
+or <TT><FONT FACE="Courier">this</FONT></TT> variable; it then
+uses that shifted value as an ordinary reference. For example,
+consider the code in Listing 5.9.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.9. Listing data items in a class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 sub nameLister {<BR>
+2&nbsp;&nbsp;&nbsp;&nbsp; my $this = shift;<BR>
+3&nbsp;&nbsp;&nbsp;&nbsp; my ($keys ,$value );<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp; while (($key, $value) = each (%$this))
+{<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\t$key
+is $value.\n&quot;;<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+7 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Line 2 in this listing is where the <TT><FONT FACE="Courier">$this</FONT></TT>
+variable is set to point to the object. In line 4, the <TT><FONT FACE="Courier">$this</FONT></TT>
+array is dereferenced at every <TT><FONT FACE="Courier">$key</FONT></TT>
+location.
+<H2><A NAME="ExportingMethodswithExporterpm"><FONT SIZE=5 COLOR=#FF0000>Exporting
+Methods with </FONT><TT><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">Exporter.pm</FONT></TT></A>
+</H2>
+<P>
+If you tried to invoke the <TT><FONT FACE="Courier">Cocoa.pm</FONT></TT>
+package right now, you would get an error message from Perl at
+compile time about the methods not being found. This is because
+the <TT><FONT FACE="Courier">Cocoa.pm</FONT></TT> methods have
+not been exported. To export these functions, you need the <TT><FONT FACE="Courier">Exporter</FONT></TT>
+module. This is done by adding the following lines to the start
+of code in the package:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">require Exporter;<BR>
+@ISA = qw(Exporter);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+These two lines force the inclusion of the <TT><FONT FACE="Courier">Exporter.pm</FONT></TT>
+module and then set the <TT><FONT FACE="Courier">@ISA</FONT></TT>
+array with the name of the <TT><FONT FACE="Courier">Exporter</FONT></TT>
+class for which to look.
+<P>
+To export your own class methods, you would have to list them
+in the <TT><FONT FACE="Courier">@EXPORT</FONT></TT> array. For
+example, to export the <TT><FONT FACE="Courier">closeMain</FONT></TT>
+and <TT><FONT FACE="Courier">declareMain</FONT></TT> methods,
+you would use the following statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">@EXPORT(declareMain, closeMain);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Inheritance in a Perl class is accomplished via the <TT><FONT FACE="Courier">@ISA</FONT></TT>
+array. The <TT><FONT FACE="Courier">@ISA</FONT></TT> array does
+not have to be defined in every package; however, when it is defined,
+Perl treats it as a special array of directory names. This is
+akin to the <TT><FONT FACE="Courier">@Inc</FONT></TT> array where
+directories are searched for files to include. In the case of
+the <TT><FONT FACE="Courier">@ISA</FONT></TT> array, the paths
+define the classes (packages) and where to look for other class
+packages, if a method is not found in the current package. Thus,
+the <TT><FONT FACE="Courier">@ISA</FONT></TT> array contains the
+names of the base classes from which the current class inherits.
+The search is done in the order in which the classes are listed
+in the <TT><FONT FACE="Courier">@ISA</FONT></TT> arrays.
+<P>
+All methods called by a class do have to belong to the same class
+or to the base classes defined in the <TT><FONT FACE="Courier">@ISA</FONT></TT>
+array. If a method isn't found in <TT><FONT FACE="Courier">@ISA</FONT></TT>
+array, Perl looks for an <TT><FONT FACE="Courier">AUTOLOAD()</FONT></TT>
+routine. This routine is defined as <TT><FONT FACE="Courier">sub</FONT></TT>
+in the current package and is optional. To use the <TT><FONT FACE="Courier">AUTOLOAD</FONT></TT>
+function, you have to use the <TT><FONT FACE="Courier">autoload.pm</FONT></TT>
+package with the <TT><FONT FACE="Courier">use Autoload</FONT></TT>;
+statement. The <TT><FONT FACE="Courier">AUTOLOAD</FONT></TT> function
+tries to load the called function from the installed Perl libraries.
+If the <TT><FONT FACE="Courier">AUTOLOAD</FONT></TT> call also
+fails, Perl makes one final try at the <TT><FONT FACE="Courier">UNIVERSAL</FONT></TT>
+class, which is the catch-all for all methods not defined elsewhere.
+Perl will generate an error about unresolved functions if this
+step also fails.
+<P>
+Here are some simple rules when exporting methods. First, export
+only those functions that you have to. Do not export every function
+in your module because you will be increasing the likelihood of
+conflicts with a program that is using your module. Use the <TT><FONT FACE="Courier">@EXPORT_OK</FONT></TT>
+array instead of the <TT><FONT FACE="Courier">@EXPORT</FONT></TT>
+array if you feel that the names of your methods may clash with
+those in an application. Choosing long, descriptive names for
+functions may help eliminate problems with synonymous variable
+names. 
+<P>
+Second, if you are going to have multiple versions of your module,
+consider setting a variable called <TT><FONT FACE="Courier">$VERSION</FONT></TT>
+in your module to a numeric string; for example, <TT><FONT FACE="Courier">&quot;2.11&quot;</FONT></TT>
+or something. This version number will be exported for you automatically
+and can be used with the <TT><FONT FACE="Courier">require</FONT></TT>
+statement. Remember to use two digits for all integers in the
+version numbers because <TT><FONT FACE="Courier">&quot;1.10&quot;</FONT></TT>
+is interpreted lower than <TT><FONT FACE="Courier">&quot;1.9&quot;</FONT></TT>
+but higher than <TT><FONT FACE="Courier">&quot;1.09&quot;</FONT></TT>.
+You will see some modules or programs with a statement of the
+following form: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">require 5.001; </FONT></TT>
+</BLOCKQUOTE>
+<P>
+The statement above indicates that Perl version 5.001 or greater
+is required. The same analogy can be used for your module with
+a call to a function called<TT><FONT FACE="Courier"> require_version</FONT></TT>
+of the following form: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$moduleName-&gt;require_version($value);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+A returned value of <TT><FONT FACE="Courier">true</FONT></TT>
+will indicate that it's okay to proceed. A returned value of <TT><FONT FACE="Courier">false</FONT></TT>
+will indicate that the version number of the module is less than
+what is specified in the <TT><FONT FACE="Courier">$value</FONT></TT>.
+<H2><A NAME="InvokingMethods"><FONT SIZE=5 COLOR=#FF0000>Invoking
+Methods</FONT></A></H2>
+<P>
+There are two ways to invoke a method for an object: one via a
+reference to an object (virtual) and the other via explicitly
+referring to the class name (static). A method has to be exported
+for you to be able to call it. Let's add a few more methods to
+the <TT><FONT FACE="Courier">Cocoa</FONT></TT> class to get the
+file to look like the one shown in Listing 5.10.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.10. Adding methods to the </B><TT><B><FONT FACE="Courier">Cocoa</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 package Cocoa;<BR>
+&nbsp;2 require Exporter;<BR>
+&nbsp;3 <BR>
+&nbsp;4 @ISA = qw(Exporter);<BR>
+&nbsp;5 @EXPORT = qw(setImports,
+declareMain, closeMain);<BR>
+&nbsp;6 <BR>
+&nbsp;7 #<BR>
+&nbsp;8 # This routine creates the references for imports in Java
+functions<BR>
+&nbsp;9 #<BR>
+10 sub setImports{<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp; my $class = shift @_;<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp; my @names = @_;<BR>
+13 <BR>
+14&nbsp;&nbsp;&nbsp;&nbsp; foreach (@names) {<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;import &quot;
+.&nbsp;&nbsp;$_ . &quot;;\n&quot;;<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+18 <BR>
+19 #<BR>
+20 # This routine declares the main function in a Java script
+<BR>
+21 #<BR>
+22 sub declareMain{<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp; my $class = shift @_;<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp; my ( $name, $extends, $implements)
+= @_;<BR>
+25 <BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n public class
+$name&quot;;<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($extends) {<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot; extends &quot; . $extends;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($implements) {<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot; implements &quot; . $implements;<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;print &quot; { \n&quot;;<BR>
+34 }<BR>
+35 <BR>
+36 #<BR>
+37 # This routine declares the main function in a Java script
+<BR>
+38 #<BR>
+39 sub closeMain{<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;print &quot;} \n&quot;;<BR>
+41 }<BR>
+42 <BR>
+43 #<BR>
+44 #&nbsp;&nbsp;This subroutine creates the header for the file.
+<BR>
+45 #<BR>
+46 sub new {<BR>
+47&nbsp;&nbsp;&nbsp;&nbsp; my $this = {};<BR>
+48&nbsp;&nbsp;&nbsp;&nbsp; print &quot;\n /* \n ** Created by
+Cocoa.pm \n ** Use at own risk \n */ \n&quot;;<BR>
+49&nbsp;&nbsp;&nbsp;&nbsp; bless $this;<BR>
+50&nbsp;&nbsp;&nbsp;&nbsp; return $this;<BR>
+51&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+52 <BR>
+53 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Now let's write a simple Perl script to use the methods for this
+class. Because you can only start and close the header, let's
+see how the code for a script to create a skeleton Java applet
+source looks. (See Listing 5.11.)
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.11. Using the methods just added in Listing 5.10.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!/usr/bin/perl<BR>
+2 <BR>
+3 use Cocoa;<BR>
+4 <BR>
+5 $cup = new Cocoa;<BR>
+6 <BR>
+7 $cup-&gt;setImports( 'java.io.InputStream', 'java.net.*');<BR>
+8 $cup-&gt;declareMain( &quot;Msg&quot; , &quot;java.applet.Applet&quot;,
+&quot;Runnable&quot;);<BR>
+9 $cup-&gt;closeMain();</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+What we are doing in this script is generating code for a Java
+applet called <TT><FONT FACE="Courier">Msg</FONT></TT>, which
+extends the <TT><FONT FACE="Courier">java.applet.Applet</FONT></TT>
+applet and implements functions that can be run. The function
+is called with a function <TT><FONT FACE="Courier">$cup-&gt;...</FONT></TT>
+call. Lines 7 through 9 could be rewritten as functions, like
+this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Cocoa::setImports($cup,  'java.io.InputStream',
+'java.net.*');<BR>
+Cocoa::declareMain($cup, &quot;Msg&quot; , &quot;java.applet.Applet&quot;,
+&quot;Runnable&quot;);<BR>
+Cocoa::closeMain($cup);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This type of equivalence was shown in a previous section, &quot;Blessing
+a Constructor.&quot; In both cases, the first parameter is the
+reference to the object itself. Running this test script generates
+the following output:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier"> /*<BR>
+ ** Created by Cocoa.pm<BR>
+ ** Use at own risk<BR>
+ */<BR>
+import java.io.InputStream;<BR>
+import java.net.*;<BR>
+<BR>
+ public class Msg extends java.applet.Applet implements Runnable
+{<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+There are a couple of points to note when calling the methods.
+If you have any arguments to a method, use parentheses if you
+are using the method <TT><FONT FACE="Courier">-&gt;</FONT></TT>
+(also known as indirect). The parentheses are required to include
+all the arguments with this statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$cup-&gt;setImports( 'java.io.InputStream',
+'java.net.*');</FONT></TT>
+</BLOCKQUOTE>
+<P>
+However, this statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Cocoa::setImports($cup,  'java.io.InputStream',
+'java.net.*');</FONT></TT>
+</BLOCKQUOTE>
+<P>
+can also be rewritten without parentheses.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Cocoa::setImports $cup,  'java.io.InputStream',
+'java.net.*' ;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The choice is really yours as to how you intend to make your code
+readable for other programmers. Use parentheses if you feel that
+the code will be more readable.
+<H2><A NAME="Overrides"><FONT SIZE=5 COLOR=#FF0000>Overrides</FONT></A>
+</H2>
+<P>
+There are times when you'll want to specify which class' method
+to use, such as when the same-named method is specified in two
+different classes. For example, if the function <TT><FONT FACE="Courier">grind</FONT></TT>
+is defined in both <TT><FONT FACE="Courier">Espresso</FONT></TT>
+and <TT><FONT FACE="Courier">Qava</FONT></TT> classes, you can
+specify which class' function to use with the use of the <TT><FONT FACE="Courier">::</FONT></TT>
+operator. These two calls:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$mess = Espresso::grind(&quot;whole&quot;,&quot;lotta&quot;,&quot;bags&quot;);
+<BR>
+Espresso::grind($mess, &quot;whole&quot;,&quot;lotta&quot;,&quot;bags&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+use the call in <TT><FONT FACE="Courier">Espresso</FONT></TT>,
+whereas the following calls use the <TT><FONT FACE="Courier">grind()</FONT></TT>
+function in the <TT><FONT FACE="Courier">Qava</FONT></TT> class:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$mess = Qava::grind(&quot;whole&quot;,&quot;lotta&quot;,&quot;bags&quot;);
+<BR>
+Qava::grind($mess, &quot;whole&quot;,&quot;lotta&quot;,&quot;bags&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Sometimes you want to call a method based on some action that
+the program you are writing has already taken. In other words,
+you want to use the <TT><FONT FACE="Courier">Qava</FONT></TT>
+method for a certain condition and the <TT><FONT FACE="Courier">Espresso</FONT></TT>
+method for another. In this case, you can use symbolic references
+to make the call to the required function. This is illustrated
+in the following example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$method = $local ? &quot;Qava::&quot;
+: &quot;Espresso::&quot;;<BR>
+$cup-&gt;{$method}grind(@args);</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="Destructors"><FONT SIZE=5 COLOR=#FF0000>Destructors</FONT></A>
+</H2>
+<P>
+Perl tracks the number of links to objects. When the last reference
+to an object goes away, the object is automatically destroyed.
+This destruction of an object may occur after your code stops
+and the script is about to exit. For global variables, the destruction
+happens after the last line in your code executes.
+<P>
+If you want to capture control just before the object is freed,
+you can define a <TT><FONT FACE="Courier">DESTROY()</FONT></TT>
+method in your class. Note the use of all capitals in the name.
+The <TT><FONT FACE="Courier">DESTROY()</FONT></TT> method is called
+just before the object is released, allowing you to do any cleanup.
+The <TT><FONT FACE="Courier">DESTROY()</FONT></TT> function does
+not call other <TT><FONT FACE="Courier">DESTROY()</FONT></TT>
+functions. Perl doesn't do nested destruction for you. If your
+constructor reblessed a reference from one of your base classes,
+your <TT><FONT FACE="Courier">DESTROY()</FONT></TT> may need to
+call <TT><FONT FACE="Courier">DESTROY()</FONT></TT> for any base
+classes. All object references that are contained in a given object
+are freed and destroyed automatically when the current object
+is freed.
+<P>
+Normally, you don't have to define a <TT><FONT FACE="Courier">DESTROY</FONT></TT>
+function. However, when you do need it, its form is as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sub DESTROY {<BR>
+#<BR>
+# Add code here.<BR>
+#<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+For most purposes, Perl uses a simple reference-based garbage
+collection system. The number of references to any given object
+at the time of garbage collection has to be greater than zero,
+or else the memory for that object is freed. When your program
+exits, an exhaustive search-and-destroy function in Perl does
+the garbage collection. Everything in the process is summarily
+deleted. In UNIX or UNIX-like systems, this may seem like a waste,
+but it is actually quite necessary in embedded systems or in a
+multithreaded environment.
+<H2><A NAME="Inheritance"><FONT SIZE=5 COLOR=#FF0000>Inheritance</FONT></A>
+</H2>
+<P>
+Methods in classes are inherited with the use of the paths in
+the <TT><FONT FACE="Courier">@ISA</FONT></TT> array. Variables
+have to be inherited and set up explicitly for inheritance. Let's
+say you define a new class called <TT><FONT FACE="Courier">Bean.pm</FONT></TT>
+to include some of the functionality that another class, <TT><FONT FACE="Courier">Coffee.pm</FONT></TT>,
+will inherit.
+<P>
+The example in this section demonstrates how to inherit instance
+variables from one class (also referred to as a <I>superclass</I>
+or <I>base class</I>). The steps in inheritance require calling
+the superclass's constructor and adding one's own instance variables
+to the new object.
+<P>
+In this example, the <TT><FONT FACE="Courier">Coffee</FONT></TT>
+class is the class that inherits values from the base class <TT><FONT FACE="Courier">Bean</FONT></TT>.
+The two files are called <TT><FONT FACE="Courier">Coffee.pm</FONT></TT>
+and <TT><FONT FACE="Courier">Bean.pm</FONT></TT>, respectively.
+The code for <TT><FONT FACE="Courier">Bean.pm</FONT></TT> is shown
+in Listing 5.12.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.12. The </B><TT><B><FONT FACE="Courier">Bean.pm</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 package Bean;<BR>
+&nbsp;2 require Exporter;<BR>
+&nbsp;3 <BR>
+&nbsp;4 @ISA = qw(Exporter);<BR>
+&nbsp;5 @EXPORT = qw(setBeanType);
+<BR>
+&nbsp;6 <BR>
+&nbsp;7 sub new {<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp; my $type = shift;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;
+my $this = {};<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp; $this-&gt;{'Bean'} = 'Colombian';<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp; bless $this, $type;<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp; return $this;<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+14 <BR>
+15 #<BR>
+16 # This subroutine sets the<BR>
+17 sub setBeanType{<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp; my ($class, $name) =&nbsp;&nbsp;@_;
+<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp; $class-&gt;{'Bean'} = $name;<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp; print &quot;Set bean to $name \n&quot;;
+<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+22 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+In this listing, the <TT><FONT FACE="Courier">$this</FONT></TT>
+variable sets a value in the anonymous hash for the <TT><FONT FACE="Courier">'Bean'</FONT></TT>
+class to be <TT><FONT FACE="Courier">'Colombian'</FONT></TT>.
+The <TT><FONT FACE="Courier">setBeanType</FONT></TT> function
+method is also declared so that the item referred to by the word
+<TT><FONT FACE="Courier">'Bean' </FONT></TT>is set for any class
+that is sent in as an argument. Therefore, you can use this <TT><FONT FACE="Courier">setBeanType</FONT></TT>
+function in other classes to set the value of any member whose
+name is <TT><FONT FACE="Courier">'Bean'</FONT></TT>.
+<P>
+The subroutine for resetting the value of <TT><FONT FACE="Courier">'Bean'</FONT></TT>
+uses the <TT><FONT FACE="Courier">$class</FONT></TT> reference
+to get to the anonymous hash for the object. Remember that it
+is a reference to this anonymous hash that created the reference
+in the first place with the <TT><FONT FACE="Courier">new()</FONT></TT>
+function.
+<P>
+The values in the <TT><FONT FACE="Courier">Bean</FONT></TT> class
+are inherited by the <TT><FONT FACE="Courier">Coffee</FONT></TT>
+class. The <TT><FONT FACE="Courier">Coffee.pm</FONT></TT> file
+is shown in Listing 5.13.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.13. Using inheritance.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;# The Coffee.pm file to illustrate
+inheritance.<BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;package Coffee;<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;require
+Exporter;<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;require Bean;<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;@ISA
+= qw(Exporter, Bean);<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;@EXPORT = qw(setImports, declareMain,
+closeMain);<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;
+#<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp; # set item<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp; #<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp; sub setCoffeeType{<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my ($class,$name)
+=&nbsp;&nbsp;@_;<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$class-&gt;{'Coffee'}
+= $name;<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;Set coffee type to $name \n&quot;;<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp; #<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp; #&nbsp;&nbsp;constructor<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp; #<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp; sub new {<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $type&nbsp;&nbsp;=
+shift;<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $this&nbsp;&nbsp;=
+Bean-&gt;new();&nbsp;&nbsp;&nbsp;&nbsp; ##### &lt;-- LOOK HERE!!!
+####<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;{'Coffee'}
+= 'Instant';&nbsp;&nbsp;# unless told otherwise<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bless
+$this, $type;<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+$this;<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp; 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Note the use of the <TT><FONT FACE="Courier">require Bean;</FONT></TT>
+statement at line 6. (<A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch4.htm" >See Chapter 4</A>, &quot;Introduction
+to Perl Modules,&quot; in the section titled &quot;Using Perl
+Modules&quot; for the reasons why the <TT><FONT FACE="Courier">require</FONT></TT>
+statement is used instead of the <TT><FONT FACE="Courier">use</FONT></TT>
+statement.) This line forces the inclusion of the <TT><FONT FACE="Courier">Bean.pm</FONT></TT>
+file and all its related functions without importing the functions
+until compile time. Lines 12 through 16 define a subroutine to
+use when resetting the value of the local variable in <TT><FONT FACE="Courier">$class-&gt;{'Coffee'}</FONT></TT>.
+<P>
+Look at the <TT><FONT FACE="Courier">new()</FONT></TT> constructor
+for the <TT><FONT FACE="Courier">Coffee</FONT></TT> class. The
+<TT><FONT FACE="Courier">$this</FONT></TT> reference points to
+the anonymous hash returned by <TT><FONT FACE="Courier">Bean.pm</FONT></TT>,
+not a hash created locally. In other words, the following statement
+creates an entirely different hash that has nothing to do with
+the hash created in the <TT><FONT FACE="Courier">Bean.pm</FONT></TT>
+constructor.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">my $this = {};  # This is not the way
+to do it for inheritance.<BR>
+my $this = $theSuperClass-&gt;new();  # this is the way.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Listing 5.14 illustrates how to call these functions. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.14. Using inheritance.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 push (@Inc,'pwd');<BR>
+&nbsp;3 use Coffee;<BR>
+&nbsp;4 $cup = new Coffee;<BR>
+&nbsp;5 print &quot;\n --------------------
+Initial values ------------ \n&quot;;<BR>
+&nbsp;6 print &quot;Coffee: $cup-&gt;{'Coffee'} \n&quot;;<BR>
+&nbsp;7 print &quot;Bean:
+$cup-&gt;{'Bean'} \n&quot;;<BR>
+&nbsp;8 print &quot;\n -------------------- Change Bean Type ----------
+\n&quot;;<BR>
+&nbsp;9 $cup-&gt;setBeanType('Mixed');
+<BR>
+10 print &quot;Bean Type is now $cup-&gt;{'Bean'} \n&quot;;<BR>
+11 print &quot;\n ------------------ Change Coffee Type ----------
+\n&quot;;<BR>
+12 $cup-&gt;setCoffeeType('Instant');<BR>
+13 print &quot;Type of coffee: $cup-&gt;{'Coffee'} \n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The initial values for the <TT><FONT FACE="Courier">'Bean'</FONT></TT>
+and <TT><FONT FACE="Courier">'Coffee'</FONT></TT> indexes in the
+anonymous hash for the object are printed first. The member functions
+are called to set the values to different names and are printed
+out.
+<P>
+Here is the output of the script:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">-------------------- Initial values ------------
+<BR>
+Coffee: Instant<BR>
+Bean: Colombian<BR>
+<BR>
+ -------------------- Change Bean Type ----------<BR>
+Set bean to Mixed<BR>
+Bean Type is now Mixed<BR>
+<BR>
+ ------------------ Change Coffee Type ----------<BR>
+Set coffee type to Instant<BR>
+Type of coffee: Instant</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Methods can have several types of arguments. It's how you process
+the arguments that counts. For example, you can add the method
+shown in Listing 5.15 to the <TT><FONT FACE="Courier">Coffee.pm</FONT></TT>
+module.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.15. Variable-length lists of parameters.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 sub makeCup {<BR>
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my ($class, $cream, $sugar,
+$dope) = @_;<BR>
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n==================================
+\n&quot;;<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;Making a cup
+\n&quot;;<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;Add cream \n&quot;
+if ($cream);<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;Add $sugar sugar
+cubes\n&quot; if ($sugar);<BR>
+7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;Making some really
+addictive coffee ;-) \n&quot; if ($dope);<BR>
+8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;==================================
+\n&quot;;<BR>
+9 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+This function takes three arguments, but it processes them only
+if it sees them. To test this functionality, consider the Perl
+code shown in Listing 5.16.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.16. Testing variable length lists.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;#!/usr/bin/perl
+<BR>
+&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;push (@Inc,'pwd');<BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;use
+Coffee;<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;$cup = new Coffee;<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;&nbsp;With no parameters
+<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n Calling&nbsp;&nbsp;with
+no parameters: \n&quot;;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;$cup-&gt;makeCup;
+<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;&nbsp;With one parameter<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n Calling&nbsp;&nbsp;with
+one parameter: \n&quot;;<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;$cup-&gt;makeCup('1');<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;&nbsp;With two parameters<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n Calling&nbsp;&nbsp;with
+two parameters: \n&quot;;<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;$cup-&gt;makeCup(1,'2');<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;&nbsp;With all three parameters
+<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n Calling&nbsp;&nbsp;with
+three parameters: \n&quot;;<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;$cup-&gt;makeCup('1',3,'1');</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Line 9 calls the function with no parameters. In Line 14, the
+call is with one parameter. The parameters are passed either as
+strings or integers-something this particular method does not
+care about (see lines 19 and 24). However, some methods you write
+in the future may require this distinction. 
+<P>
+Here's the output from this program:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;Calling&nbsp;&nbsp;with no parameters:
+<BR>
+<BR>
+==================================<BR>
+Making a cup<BR>
+==================================<BR>
+<BR>
+&nbsp;Calling&nbsp;&nbsp;with
+one parameter:<BR>
+<BR>
+==================================<BR>
+Making a cup<BR>
+Add cream<BR>
+==================================<BR>
+<BR>
+&nbsp;Calling&nbsp;&nbsp;with two parameters:<BR>
+<BR>
+==================================<BR>
+Making a cup<BR>
+Add cream<BR>
+Add 2 sugar cubes<BR>
+==================================<BR>
+<BR>
+&nbsp;Calling with three parameters:<BR>
+<BR>
+==================================<BR>
+Making a cup<BR>
+Add cream<BR>
+Add 3 sugar cubes<BR>
+Making some really addictive coffee ;-)<BR>
+==================================</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In any event, you can have default values in the function to set
+if the expected parameter is not passed in. Thus, the behavior
+of the method can be different depending on the number of arguments
+you pass into it.
+<H2><A NAME="OverridingMethods"><FONT SIZE=5 COLOR=#FF0000>Overriding
+Methods</FONT></A></H2>
+<P>
+Inheriting functionality from another class is beneficial in that
+you can get all the exported functionality of the base class in
+your new class. To see an example of how this works, let's add
+a function called <TT><FONT FACE="Courier">printType</FONT></TT>
+in the <TT><FONT FACE="Courier">Bean.pm</FONT></TT> class. Here's
+the subroutine:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sub printType {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;my $class =&nbsp;&nbsp;shift @_;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;print &quot;The type of Bean is $class-&gt;{'Bean'}
+\n&quot;;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Do not forget to update the <TT><FONT FACE="Courier">@EXPORT</FONT></TT>
+array by adding the name of the function to export. The new statement
+should look like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">@EXPORT = qw(setBeanType, printType,
+printType);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Next, call the <TT><FONT FACE="Courier">printType</FONT></TT>
+function. The following three lines show three ways to call this
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$cup-&gt;Coffee::printType();<BR>
+$cup-&gt;printType();<BR>
+$cup-&gt;Bean::printType();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The output from all three lines is the same:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">The type of Bean is Mixed<BR>
+The type of Bean is Mixed<BR>
+The type of Bean is Mixed</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Why is this so? Because there is no <TT><FONT FACE="Courier">printType()</FONT></TT>
+function in the inheriting class, the <TT><FONT FACE="Courier">printType()</FONT></TT>
+function in the base class is used instead. Naturally, if you
+want your own class to have its own <TT><FONT FACE="Courier">printType</FONT></TT>
+function, you would define its own <TT><FONT FACE="Courier">printType</FONT></TT>
+function.
+<P>
+In the <TT><FONT FACE="Courier">Coffee.pm</FONT></TT> file, you
+would add the following lines to the end of the file:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#<BR>
+# This routine prints the type of $class-&gt;{'Coffee'}<BR>
+#<BR>
+sub printType {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;my $class =&nbsp;&nbsp;shift @_;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;print &quot;The type of Coffee is $class-&gt;{'Coffee'}
+\n&quot;;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">@EXPORT</FONT></TT> would also have to
+be modified to work with this function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">@EXPORT = qw(setImports, declareMain,
+closeMain, printType);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The output from the three lines now looks like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">The type of Coffee is Instant<BR>
+The type of Coffee is Instant<BR>
+The type of Bean is Mixed</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Now the base class function is called only when the <TT><FONT FACE="Courier">Bean::</FONT></TT>
+override is given. In the other cases, only the inherited class
+function is called.
+<P>
+What if you do not know what the base class name is or even where
+the name is defined. In this case, you can use the <TT><FONT FACE="Courier">SUPER::</FONT></TT>
+pseudoclass reserved word. Using the <TT><FONT FACE="Courier">SUPER::</FONT></TT>
+override allows you to call an overridden superclass method without
+actually knowing where that method is defined. The <TT><FONT FACE="Courier">SUPER::</FONT></TT>
+construct is meaningful only within the class.
+<P>
+If you're trying to control where the method search begins and
+you're executing in the class itself, you can use the <TT><FONT FACE="Courier">SUPER::</FONT></TT>
+pseudoclass, which says to start looking in your base class's
+<TT><FONT FACE="Courier">@ISA</FONT></TT> list without having
+to explicitly name it.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$this-&gt;SUPER::function( ... argument
+list ... );</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Therefore, instead of <TT><FONT FACE="Courier">Bean::</FONT></TT>,
+you can use <TT><FONT FACE="Courier">SUPER::</FONT></TT>. The
+call to the function <TT><FONT FACE="Courier">printType()</FONT></TT>
+becomes this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$cup-&gt;SUPER::printType();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here's the output:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">The type of Bean is Mixed</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="AFewCommentsAboutClassesandObjects"><FONT SIZE=5 COLOR=#FF0000>A
+Few Comments About Classes and Objects in Perl</FONT></A></H2>
+<P>
+One advertised strength of object-oriented languages is the ease
+with which new code can use old code. Packages and modules in
+Perl provide a great deal of data encapsulation. You are never
+really guaranteeing that a class inheriting your code will not
+attempt to access your class variables directly. They can if they
+really want to. However, this type of procedure is considered
+bad practice, and shame on you if you do it.
+<P>
+When writing a package, you should ensure that everything a method
+needs is available via the object or is passed as a parameter
+to the method. From within the package, access any global variables
+only through references passed in via methods.
+<P>
+For static or global data to be used by the methods, you have
+to define the context of the data in the base class using the
+<TT><FONT FACE="Courier">local()</FONT></TT> construct. The subclass
+will then call the base class to get the data for it. On occasion,
+a subclass may want to override that data and replace it with
+new data. When this happens, the superclass may not know how to
+find the new copy of the data. In such cases, it's best to define
+a reference to the data and then have all base classes and subclasses
+modify the variable via that reference.
+<P>
+Finally, you'll see references to objects and classes like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use Coffee::Bean;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This code is interpreted to mean &quot;look for <TT><FONT FACE="Courier">Bean.pm</FONT></TT>
+in the <TT><FONT FACE="Courier">Coffee</FONT></TT> subdirectory
+in all the directories in the <TT><FONT FACE="Courier">@Inc</FONT></TT>
+array.&quot; So, if you were to move <TT><FONT FACE="Courier">Bean.pm</FONT></TT>
+into the <TT><FONT FACE="Courier">./Coffee</FONT></TT> directory,
+all the previous examples would work with the new <TT><FONT FACE="Courier">use</FONT></TT>
+statement. The advantage to this approach is that you have one
+file for the parent class in one directory and the files for each
+base class in their own  sub-directories. It helps keep code organized.
+Therefore, to have a statement like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use Another::Sub::Menu;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+you would see a directory subtree like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">./Another/Sub/Menu.pm</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Let's look at an example of a simple portfolio manager class called
+<TT><FONT FACE="Courier">Invest.pm</FONT></TT>. There are two
+subclasses derived from it that manage the type of funds. The
+three files are shown in Listings 5.17, 5.18, and 5.19. The test
+code to use these modules is shown in Listing 5.20. The <TT><FONT FACE="Courier">Invest.pm</FONT></TT>
+file is placed in the current directory, and the <TT><FONT FACE="Courier">Stock.pm</FONT></TT>
+and <TT><FONT FACE="Courier">Fund.pm</FONT></TT> files are placed
+in the <TT><FONT FACE="Courier">Invest</FONT></TT> subdirectory.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.17. The </B><TT><B><FONT FACE="Courier">./Invest.pm</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 package Invest;<BR>
+&nbsp;2 <BR>
+&nbsp;3 require Exporter;
+<BR>
+&nbsp;4 @ISA = (Exporter);<BR>
+&nbsp;5 <BR>
+&nbsp;6 =head1 NAME<BR>
+&nbsp;7 <BR>
+&nbsp;8 Letter - Sample module to simulate Bond behaviour<BR>
+&nbsp;9 <BR>
+10 =head1 SYNOPSIS<BR>
+11 <BR>
+12&nbsp;&nbsp;&nbsp;&nbsp; use Invest;<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp; use Invest::Fund;<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp; use Invest::Stock;<BR>
+15 <BR>
+16&nbsp;&nbsp;&nbsp;&nbsp; $port = new Invest::new();<BR>
+17 <BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$i1 = Invest::Fund('symbol'
+=&gt; 'twcux');<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$i2 = Invest::Stock('symbol'
+=&gt; 'INTC');<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$i3 = Invest::Stock('symbol'
+=&gt; 'MSFT');<BR>
+21 <BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$port-&gt;Invest::AddItem($i1);
+<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$port-&gt;Invest::AddItem($i2);
+<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$port-&gt;Invest::AddItem($i3);
+<BR>
+25 <BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$port-&gt;ShowPortfolio();
+<BR>
+27 <BR>
+28 =head1 DESCRIPTION<BR>
+29 <BR>
+30 This module provides a short example of generating a letter
+for a<BR>
+31 friendly neighborbood loan shark.<BR>
+32 <BR>
+33 The code begins after the &quot;cut&quot; statement.<BR>
+34 =cut<BR>
+35 <BR>
+36 @EXPORT = qw( new, AddItem, ShowPortfolio, PrintMe);<BR>
+37 <BR>
+38 @portfolio = ();<BR>
+39 $portIndex = 0;<BR>
+40 <BR>
+41 sub Invest::new {<BR>
+42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $this
+= shift;<BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $class
+= ref($this) || $this;<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $self
+= {};<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bless
+$self, $class;<BR>
+46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$portIndex = 0;<BR>
+47 <BR>
+48&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n Start portfolio&quot;;
+<BR>
+49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+$self;<BR>
+50 }<BR>
+51 <BR>
+52 sub Invest::AddItem {<BR>
+53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my ($type,$stock) = @_;
+<BR>
+54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$portfolio[$portIndex] =
+$stock;<BR>
+55&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$portIndex++;<BR>
+56 }<BR>
+57 <BR>
+58 sub Invest::ShowPortfolio&nbsp;&nbsp;{<BR>
+59&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $i;<BR>
+60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n Our Portfolio
+is:&quot;;<BR>
+61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach $i (@portfolio)
+{<BR>
+62&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n &quot;.&nbsp;&nbsp;$i-&gt;{'shares'} . &quot; shares
+of &quot; . $i-&gt;{'symbol'};<BR>
+63&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+64&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n&quot;;<BR>
+65 }<BR>
+66 <BR>
+67 sub PrintMe {<BR>
+68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $this = shift;<BR>
+69&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n Class : $$this&quot;;
+<BR>
+70 }<BR>
+71 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.18. The </B><TT><B><FONT FACE="Courier">./Invest/Stock.pm</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 package Invest::Stock;<BR>
+&nbsp;2 <BR>
+&nbsp;3 require Exporter;
+<BR>
+&nbsp;4 @ISA = (Exporter);<BR>
+&nbsp;5 @EXPORT = qw( new
+);<BR>
+&nbsp;6 <BR>
+&nbsp;7 sub new {<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$this = shift;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$class = ref($this) || $this;<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $self
+= {};<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %parm = @_;<BR>
+12 <BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bless
+$self, $class;<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$self-&gt;{'symbol'} = $parm{'symbol'};
+<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$self-&gt;{'shares'} = $parm{'shares'};
+<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n New stock
+$parm{'symbol'} added&quot;;<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+$self;<BR>
+18 }<BR>
+19 <BR>
+20 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.19. The </B><TT><B><FONT FACE="Courier">./Invest/Fund.pm</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 package Invest::Fund;<BR>
+&nbsp;2 <BR>
+&nbsp;3 require Exporter;
+<BR>
+&nbsp;4 @ISA = (Exporter,Invest);<BR>
+&nbsp;5 <BR>
+&nbsp;6 @EXPORT = qw( new );<BR>
+&nbsp;7 <BR>
+&nbsp;8 sub new {<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$this = shift;<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $class
+= ref($this) || $this;<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# my $self
+= {};<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $self
+= Invest::new();<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my %parm = @_;<BR>
+14 <BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bless
+$self, $class;<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$self-&gt;{'symbol'} = $parm{'symbol'};
+<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$self-&gt;{'shares'} = $parm{'shares'};
+<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n new mutual
+fund $parm{'symbol'} added&quot;;<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+$self;<BR>
+20 }<BR>
+21 <BR>
+22 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.20. Using the </B><TT><B><FONT FACE="Courier">Invest</FONT></B></TT><B>,
+</B><TT><B><FONT FACE="Courier">Fund</FONT></B></TT><B>, and </B><TT><B><FONT FACE="Courier">Stock</FONT></B></TT><B>
+files.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 push(@Inc,'pwd');
+<BR>
+&nbsp;4 <BR>
+&nbsp;5 use Invest;<BR>
+&nbsp;6 use Invest::Fund;<BR>
+&nbsp;7 use Invest::Stock;
+<BR>
+&nbsp;8 <BR>
+&nbsp;9 $port = new Invest;
+<BR>
+10 <BR>
+11 $i1 = new Invest::Fund('symbol' =&gt; 'TWCUX', 'shares' =&gt;
+'100');<BR>
+12 $i2 = new Invest::Fund('symbol' =&gt; 'FIXLL', 'shares' =&gt;
+'200');<BR>
+13 <BR>
+14 $i3 = new Invest::Stock('symbol' =&gt; 'INTC', 'shares' =&gt;
+'400');<BR>
+15 $i4 = new Invest::Stock('symbol' =&gt; 'MSFT', 'shares' =&gt;
+'200');<BR>
+16 <BR>
+17 print &quot;\n&quot;;<BR>
+18 $port-&gt;Invest::AddItem($i1);<BR>
+19 $port-&gt;Invest::AddItem($i2);<BR>
+20 $port-&gt;Invest::AddItem($i3);<BR>
+21 $port-&gt;Invest::AddItem($i4);<BR>
+22 print &quot;\n&quot;;<BR>
+23 <BR>
+24 $port-&gt;ShowPortfolio();</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+This chapter has provided a brief introduction to object-oriented
+programming in Perl. Perl provides the OOP features of data encapsulation
+and inheritance using modules and packages. A class in Perl is
+simply a package. This class package for a class provides all
+the methods for objects created for the class.
+<P>
+An object is simply a reference to data that knows to which class
+it belongs. A method in a class is simply a subroutine. The only
+catch with writing such methods is that the name of the class
+is always the first argument in the method.
+<P>
+The <TT><FONT FACE="Courier">bless()</FONT></TT> function is used
+to tie a reference to a class name. The <TT><FONT FACE="Courier">bless()</FONT></TT>
+function is called in the constructor function <TT><FONT FACE="Courier">new()</FONT></TT>
+to create an object and then connect the reference to the object
+with the name of the class.
+<P>
+In inheritance, the base class is the class from which methods
+(and data) are inherited. The base class is also called the superclass.
+The class that inherits these items from the superclass is called
+the subclass. Multiple inheritance is allowed in Perl. Data inheritance
+is the programmers' responsibility with the use of references.
+The subclass is allowed to know things about its immediate superclass,
+and the superclass is allowed to know nothing about a subclass.
+Subclasses exist as <TT><FONT FACE="Courier">.pm</FONT></TT> files
+in subdirectories under the superclass directory name.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch4.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch6.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

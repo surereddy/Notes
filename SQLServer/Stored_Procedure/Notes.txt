@@ -1,0 +1,85 @@
+|- create procedure
+
+A. Using a simple procedure with a complex SELECT
+--Copy Code 
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'HumanResources.uspGetAllEmployees', 'P' ) IS NOT NULL 
+    DROP PROCEDURE HumanResources.uspGetAllEmployees;
+GO
+CREATE PROCEDURE HumanResources.uspGetAllEmployees
+AS
+    SET NOCOUNT ON;
+    SELECT LastName, FirstName, JobTitle, Department
+    FROM HumanResources.vEmployeeDepartment;
+GO
+
+B. Using a simple procedure with parameters
+-- Copy Code 
+USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'HumanResources.uspGetEmployees', 'P' ) IS NOT NULL 
+    DROP PROCEDURE HumanResources.uspGetEmployees;
+GO
+CREATE PROCEDURE HumanResources.uspGetEmployees 
+    @LastName nvarchar(50), 
+    @FirstName nvarchar(50) 
+AS     
+    SET NOCOUNT ON;
+    SELECT FirstName, LastName, JobTitle, Department
+    FROM HumanResources.vEmployeeDepartment
+    WHERE FirstName = @FirstName AND LastName = @LastName;
+GO
+
+-- execute
+EXECUTE HumanResources.uspGetEmployees N'Ackerman', N'Pilar';
+-- Or
+EXEC HumanResources.uspGetEmployees @LastName = N'Ackerman', @FirstName = N'Pilar';
+GO
+
+C. Study no parameter
+USE test1;
+GO
+
+CREATE PROCEDURE dbo.uspGetAllEmployees
+AS
+    SET NOCOUNT ON;
+    SELECT name,salary
+    FROM dbo.Table_1;
+GO
+
+--execute
+EXEC test1.dbo.uspGetAllEmployees;
+
+D. Study with parameter
+USE test1;
+GO
+
+CREATE PROCEDURE dbo.uspUpdateSalary
+    @name nvarchar(50) 
+AS
+    SET NOCOUNT ON;
+    Update dbo.Table_1 set salary=1000 where name=@name;
+GO
+
+--execute
+EXEC test1.dbo.uspUpdateSalary 'XIE Jiping';
+
+
+|- Execute procedure 
+-- AdventureWorks is a database
+USE AdventureWorks;
+GO
+EXEC dbo.uspGetEmployeeManagers 50;
+
+-- or  
+EXEC AdventureWorks.dbo.uspGetEmployeeManagers 50;
+GO
+
+
+|- Where to find these stored procedures
+SQL server studio
+Database->programability->Stored procedures 
+
+|- Naming rules
+sp,xp are reserved.

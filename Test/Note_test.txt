@@ -1,0 +1,153 @@
+﻿|- * Notes *
+||- Testability examples
+Check client - server transaction failure or response time.
+
+Testability:
+Add timestamp of when client sends request and receives response into log.
+Add timestamp of when server receives request and sends response into log.
+
+||- Benefits of reviewing detailed design
+The correspondent carAdvice website example:
+The car review comment requires Facebook login. But from the review filling form you see it at the most uses the names from your Facebook account.
+But the bug was when you do not set the gender in Facebook account, the submit fails. 
+Because the server retrieves the gender info and convert it to 1 for male, 0 for female, and fails when the field is null.
+
+With blackbox or feature requirement review, you won’t be able to see this issue. 
+
+||- Trust (consult) v.s. not Trust dev
+Sometimes consult and trust developers may save unnecessary time and cut some cases.
+For example:
+TEK AA: If add a new column in report, do we need to test view result, saved report and email notification with report as attachment?
+For QA, of course it is better to test all of them.
+But if develpoer says they are all generated from one same place. We may only need to test one.
+
+||- Fail in only one server, pass in others.
+If a case fails in a specific server, but pass in others, don't let it go.
+First of all, make sure it is always reproduced at this server, and there is no configuration error.
+If it is always reproduced and there is no configuration error as you can see, log a defect!
+
+Some issues are exposed in certain circumstance. 
+For instance, in TEK DirectQuality, the maximum duration of BIVQ-SIP test plan with post dial string has issue on CDC_2_EP6 and CDC_2_EP7 only.
+It is because the id of them in database is duplicated with the id of another table of destination. 
+
+||- Weird issue and you don't see the rule, but log the issue!
+Sometimes you will see some weird issues, and you can't find the rule from QA point of view. But once the issue is there, log the defect!
+There must be a reason and a rule, it is just beyond the view of QA.
+
+For instance, in TEK DirectQuality, the maximum duration of BIVQ-SIP test plan with post dial string has issue on CDC_2_EP6 and CDC_2_EP7 only.
+Compare the SIP profile and SIP endpoint configuration with other SIP endpoints, they were very similar, or could say the same. But only these two SIP EP got the issue.
+It is because the id of them in database is duplicated with the id of another table of destination. You won't never see this rule from GUI.
+
+
+|- Test Strategy and Test Plan
+||- Test Strategy:
+IMO, what to test and not test; who (skill level) test; test tools; tester number v.s. schedule; risks for test limitation, high level test design / test points (O). 
+
+TEK geoblade example:
+Test Strategy - This document. Describes the scope, approach, resources and schedule for the testing activities of the project. 
+This includes defining what will be tested, who will perform testing, how testing will be managed, and the associated risks and contingencies.
+
+||- Test Plan:
+IMO, time schedule, human resource, test environment / tools / test data (traffic) needs, what to test (High level, like feature ID, story ID), risk.
+
+|--------------
+|- * Content design: *
+|--------------
+Functional, Performance/Load, Stability(Longtime call,longtime repetition),Robustness(illegal parameter, boundaries ,Break test like unpluging card or shutdown),
+Security test,Installation/Upgrade, Regression, 
+
+|--------------
+|- * QA requirement *
+|--------------
+||- From Microsoft SDET:
+Understanding in exquisite detail how customers will use the product. 
+creative enough to think like millions of customers.
+Remember, the basic responsibility is to make sure the feature works. Then, consider all the factors that could cause problems. 
+What are the security implications of the feature? Will it work in another country? How can I stress this code? What are the boundaries and error conditions? 
+
+|--------------
+|- * (TEK) Managing Quality - Design/Code/Case Review and Inspection, UT *
+|--------------
+Terms:
+Review - Personal Review with a check list. 
+Inspection - Team review with a check list. 
+
+Work flow:
+Author does the review first.
+Then send out for team review.
+Team review and send back comments or enter defects.
+Hold a inspection meeting to identify and discuss the defects and comments.
+Unit test -> functional test / integration test by developers.
+Deliver high quality build to QA. < 0.3 defects / story point.
+
+Advantage:
+The earlier stage a bug is found, the less time it is cost.
+
+||- Things to better test in UT than SIT:
+1. Timeout handling
+For example, it is required to test ORU disconnect the call in 60 seconds if TRU does not disconnect the call. 
+It is easy to test in code. Change timeout constant from 60 to 6 sec and test timeout.
+
+2. Boundary check
+Ideally this can be ensured in UT and SIT does not care it at all.
+
+|--------------
+|- * Performance Test: *
+|--------------
+Modules:
+1. 并发数。能及时处理，测瞬间最大并发处理能力。
+2. 长时间。如24h长话测试。
+3. 长时间并发/负压稳定性。
+4. 稳定性，长期重复操作不出问题
+5. 长期负压+稳定性测试：模拟实际情况
+   如点播performance test，50用户同时不断的做点播5分钟关掉重连操作，持续24h。
+
+Key monitor values(As LoadRunner shows as defaults):
+1. Running users
+2. Trancation response time
+3. TPS / Hit Per Second / Caps
+4. Server resources
+
+LoadRunner's result Analysis tool is good.
+It can create html report and its report summary page includes above 4 values, duration and total throughout.
+It can also create word report but it's summary is not good and not same as analysis windows shows.
+
+||- performance check cmds
+vmstat：（cpu/mem/io throughout）
+iostat：设备的IO统计 linux 默认没有
+netstat：网络活动信息统计
+top：cpu/mem/io wait
+cat /proc/meninfo：查看系统的总men大小
+cat /proc/cpuinfo：查看系统总CPU大小
+df –k：查看系统硬盘大小
+
+I/O:
+These tools include top, vmstat, iostat, and sar. 
+|--------------
+|- * User Experience test(界面友好性测试)*
+|--------------
+1. 默认焦点(next,finish,第一个文本输入框) ×
+2. Tab顺序 ×
+3. 字体设置
+4. 界面元素的尺寸
+
+|--------------
+|- * Case and Test Efficiency/plan *
+|--------------
+Case:
+TEK AA:
+After reading the requirement and design, and already making a test list, 
+it takes about 1 case/1 hour to write the cases, about half page of each case.
+
+
+Test:
+Experience Data(SVT):
+功能: 2~3case/人天
+性能：1case/2天×2人
+
+|--------------
+|- * Installation / Upgrade *
+|--------------
+||- Default value in configuration
+Default configuraton values should be universal.
+Ex. vau config.xml vsp standard or not causes RTP substream wrong seq.

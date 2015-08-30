@@ -1,0 +1,165 @@
+ {
+	BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: none! important; OVERFLOW: visible! important; WIDTH: auto! important; COLOR: #000; BORDER-TOP-STYLE: none! important; BORDER-RIGHT-STYLE: none! important; BORDER-LEFT-STYLE: none! important; HEIGHT: auto! important; BORDER-BOTTOM-STYLE: none! important
+}
+A:link:unknown {
+	FONT-SIZE: 70%; content: " (" attr(href) ") "
+}
+A:visited:unknown {
+	FONT-SIZE: 70%; content: " (" attr(href) ") "
+}
+DIV {
+	PADDING-RIGHT: 0px! important; PADDING-LEFT: 0px! important; PADDING-BOTTOM: 0px! important; MARGIN: 0px; PADDING-TOP: 0px! important
+}
+#top-of-page {
+	DISPLAY: none! important
+}
+#navigation-bottom {
+	DISPLAY: none! important
+}
+#content-right {
+	DISPLAY: none! important
+}
+#breadcrumbs {
+	DISPLAY: none! important
+}
+DIV.tabhead {
+	DISPLAY: none! important
+}
+OBJECT {
+	DISPLAY: none! important
+}
+EMBED {
+	DISPLAY: none! important
+}
+.seo {
+	DISPLAY: none! important
+}
+H1 {
+	MARGIN: 1em 0px
+}
+H2 {
+	MARGIN: 1em 0px
+}
+H3 {
+	MARGIN: 1em 0px
+}
+H4 {
+	MARGIN: 1em 0px
+}
+H5 {
+	MARGIN: 1em 0px
+}
+P {
+	MARGIN: 0.5em 0px
+}
+TD {
+	MARGIN: 0.5em 0px
+}
+LI {
+	MARGIN: 0.5em 0px
+}
+UL {
+	
+}
+LI {
+	
+}
+UL.news_column LI {
+	BORDER-BOTTOM: #ccc 1px dotted
+}
+TABLE {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-BOTTOM: #ccc 1px solid
+}
+TABLE TD {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-BOTTOM: #ccc 1px solid
+}
+TABLE.comparison {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-BOTTOM: #ccc 1px solid
+}
+TABLE.comparison TD {
+	BORDER-RIGHT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-BOTTOM: #ccc 1px solid
+}
+#header {
+	BORDER-BOTTOM-WIDTH: 1px! important
+}
+.firstlevel#header {
+	BORDER-BOTTOM-WIDTH: 1px! important
+}
+DIV.overlay {
+	BORDER-BOTTOM-WIDTH: 1px! important
+}
+#footer {
+	BORDER-TOP: 2px solid; MARGIN: 2em 0px
+}
+#evaluate-steps DIV.inner-left {
+	DISPLAY: none; VISIBILITY: hidden
+}
+#evaluate-steps DIV#rightparent {
+	DISPLAY: none; VISIBILITY: hidden
+}
+#betaSolo DIV#right {
+	DISPLAY: none; VISIBILITY: hidden
+}
+#betaSolo #left H2 {
+	COLOR: #333! important
+}
+#betaSolo #left P {
+	COLOR: #333! important
+}
+#content TABLE#main-table {
+	MARGIN: 0px; WIDTH: 650px; POSITION: relative; TEXT-ALIGN: left
+}
+#content TD#main-body {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; VERTICAL-ALIGN: top; PADDING-TOP: 0px; POSITION: relative; max-width: 600px
+}
+.features {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BACKGROUND: #ecf2f9; BORDER-BOTTOM-WIDTH: 0px; BORDER-COLLAPSE: collapse; BORDER-RIGHT-WIDTH: 0px
+}
+.features TD {
+	BORDER-RIGHT: #ffffff 1px solid; PADDING-RIGHT: 10px; BORDER-TOP: #ffffff 1px solid; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; BORDER-LEFT: #ffffff 1px solid; PADDING-TOP: 10px; BORDER-BOTTOM: #ffffff 1px solid
+}
+#content #main-body BLOCKQUOTE {
+	BACKGROUND-IMAGE: none
+}
+.graytext {
+	COLOR: #77787c
+}
+.smallers {
+	COLOR: #77787c
+}
+.smaller {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #565656; PADDING-TOP: 0px; FONT-FAMILY: Arial, Verdana, Helvetica, sans-serif
+}
+.smallerb {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #565656; PADDING-TOP: 0px; FONT-FAMILY: Arial, Verdana, Helvetica, sans-serif
+}
+.medium {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 115%; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #565656; PADDING-TOP: 0px; FONT-FAMILY: Arial, Verdana, Helvetica, sans-serif
+}
+.mediumb {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: bold; FONT-SIZE: 115%; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #565656; PADDING-TOP: 0px; FONT-FAMILY: Arial, Verdana, Helvetica, sans-serif
+}
+.h3 {
+	CLEAR: both; PADDING-RIGHT: 0px; DISPLAY: block; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 16px; PADDING-BOTTOM: 5px; MARGIN: 0px; COLOR: #ff9901; PADDING-TOP: 5px
+}
+#content #main-body .h3 {
+	FONT-SIZE: 18px
+}
+#content #main-body UL LI {
+	MARGIN-LEFT: 10px; LIST-STYLE-TYPE: square
+}
+#content #main-body LI A {
+	PADDING-LEFT: 0px; BACKGROUND-IMAGE: none
+}
+#content #main-body UL UL {
+	MARGIN-LEFT: 10px
+}
+#content #main-body OL OL {
+	MARGIN-LEFT: 10px
+}
+#content #main-body OL {
+	max-width: 600px
+}
+#content #main-body OL LI {
+	LIST-STYLE-TYPE: decimal
+}

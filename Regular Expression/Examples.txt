@@ -1,0 +1,11 @@
+Supported URL formats are 
+ http://www.cnn.com (http is the ONLY supported protocol)
+ www.cnn.com
+ cnn.com
+
+alphanumeric characters, '+', '/', '.' are supported characters for URLs.
+
+This is the validation RegEx currently in use ?var urlRegex=/^(http:\/\/|www\.)?[a-z0-9][a-z0-9-](\.[a-z0-9-])([/?].)?$/i;
+
+whitespace
+\s 

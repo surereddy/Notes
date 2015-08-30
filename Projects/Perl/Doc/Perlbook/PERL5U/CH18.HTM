@@ -1,0 +1,1424 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 18 -- Databases for Perl</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 18</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Databases for Perl</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#TheDBMPackages" >The DBM Packages</A>
+<LI><A HREF="#ViewingYourData" >Viewing Your Data</A>
+<LI><A HREF="#AddingandRemovingItems" >Adding and Removing Items</A>
+<LI><A HREF="#OperationsonaDBMFile" >Operations on a DBM File</A>
+<LI><A HREF="#UsingDBMinModules" >Using DBM in Modules</A>
+<LI><A HREF="#MultipleDBMFiles" >Multiple DBM Files</A>
+<LI><A HREF="#TheCatchwithDBMUtilities" >The Catch with DBM Utilities</A>
+<LI><A HREF="#WhatIstheDBIPackage" >What Is the DBI Package?</A>
+<UL>
+<LI><A HREF="#AvailablePackages" >Available Packages</A>
+</UL>
+<LI><A HREF="#RDB" >RDB</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+There are two ways to look at working with databases in Perl.
+You can either implement the database entirely in Perl or use
+Perl as an interface to existing database engines on your machine.
+You can use stand-alone database packages, such as the DBM package
+that comes with Perl, or you can get other packages, such as the
+RDBM package, off the Internet. To use Perl as an interface to
+a commercial package, you can use driver front-ends to the database
+engine for the package.
+<H2><A NAME="TheDBMPackages"><FONT SIZE=5 COLOR=#FF0000>The DBM
+Packages</FONT></A></H2>
+<P>
+Perl comes with a set of database management (DBM) library files.
+Here's the list of packages that come with the latest version
+of Perl (5.002):
+<UL>
+<LI><TT><FONT FACE="Courier">GDBM_File.pm</FONT></TT>-GNU's database
+interface files
+<LI><TT><FONT FACE="Courier">NDBM_File.pm</FONT></TT>-Berkeley
+UNIX compatibility
+<LI><TT><FONT FACE="Courier">ODBM_File.pm</FONT></TT>-Standard
+Perl package
+<LI><TT><FONT FACE="Courier">SDBM_File.pm</FONT></TT>-Standard
+Perl package
+<LI><TT><FONT FACE="Courier">AnyDBM_File.pm</FONT></TT>-Virtual
+classes for any of the above database interfaces
+</UL>
+<P>
+The <TT><FONT FACE="Courier">AnyDBM_File</FONT></TT> package encapsulates
+the rest of the packages. If you use the <TT><FONT FACE="Courier">AnyDBM</FONT></TT>
+file, you'll automatically load one of the standard packages from
+the previous list. To use the <TT><FONT FACE="Courier">AnyDBM_File</FONT></TT>
+package, insert the following statement at the start of your Perl
+script:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use AnyDBM_File;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+There is nothing preventing you from explicitly naming a particular
+DBM package to override the defaults used by the <TT><FONT FACE="Courier">AnyDBM_file</FONT></TT>
+package. To use the <TT><FONT FACE="Courier">GDBM_File</FONT></TT>
+explicitly, insert this statement instead:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use GDBM_File;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+A DBM, when used with these packages, is a mapping of an associative
+array to a file on disk. To map the associative array to disk,
+you use <TT><FONT FACE="Courier">dbmopen()</FONT></TT> to create
+or open an existing file, make all the modifications to the associative
+array, and then close the file with a call to <TT><FONT FACE="Courier">dmbclose()</FONT></TT>.
+<P>
+I covered how to bind variables to associative arrays and how
+to use the <TT><FONT FACE="Courier">tie()</FONT></TT> function
+in <A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch6.htm" >Chapter 6</A>, &quot;Binding Variables to
+Objects.&quot; In the future, most <TT><FONT FACE="Courier">dbmopen()</FONT></TT>
+function calls will be replaced by, or at least internally work
+as, <TT><FONT FACE="Courier">tie()</FONT></TT> function calls.
+Basically, a DBM file will be tied to an associative array. Subsequent
+updates to the associative array will be reflected in the file
+on disk. However, you will come across legacy code that does use
+the <TT><FONT FACE="Courier">dbmopen()</FONT></TT> and <TT><FONT FACE="Courier">dbmclose()</FONT></TT>
+functions, so it's important to see how these work together. Also,
+you may find it easier to use these DBM functions to program for
+quick prototyping than to have to code the callback functions
+required for the <TT><FONT FACE="Courier">tie()</FONT></TT> function.
+After you've read this chapter, you should be able to decide whether
+to use DBM functions or write the functions for database access
+using the <TT><FONT FACE="Courier">tie()</FONT></TT> function.
+<P>
+Here's an example to illustrate how the DBM files work. First,
+I'll create a small database of some stock symbols and the names
+of the companies. The file containing this data sample is called
+<TT><FONT FACE="Courier">sym.txt</FONT></TT> and is partially
+shown here: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>head sym.txt<BR>
+</B>ASZ&nbsp;&nbsp;AMSCO INTL Inc<BR>
+AMSR&nbsp;&nbsp;AMSERV HEALTHCARE<BR>
+ASO&nbsp;&nbsp;AMSOUTH BAncORP<BR>
+AMTC&nbsp;&nbsp;AMTEch<BR>
+AMTL&nbsp;&nbsp;AMTROL<BR>
+AVFC&nbsp;&nbsp;AMVESTORS FIN CORP<BR>
+AMW&nbsp;&nbsp;AMWEST INSURAncE GROUP<BR>
+AMLN&nbsp;&nbsp;AMYLIN PHARMACEUTICALS<BR>
+AAC&nbsp;&nbsp;ANACOMP Inc<BR>
+Apc&nbsp;&nbsp;ANADARKO PETROLEUM CORP<BR>
+$</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This file contains several lines of records where each record
+has two items of data: the first column is the stock ticker symbol
+followed by the company name. Note that a company name can contain
+one or more space characters.
+<P>
+Now I'll construct a mini-database of all company names indexed
+by their stock symbol. To use the DBM utilities for this endeavor,
+I would use the script shown in Listing 18.1.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 18.1. Creating a DBM file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 # --------------------------------------------------------
+<BR>
+&nbsp;3 # Sample script to create a DBM repository.<BR>
+&nbsp;4 # Input file &quot;sym.txt&quot; to the script has the
+format:<BR>
+&nbsp;5 #&nbsp;&nbsp;&nbsp;&nbsp;SYMBOL&nbsp;&nbsp;Company Name
+<BR>
+&nbsp;6 # --------------------------------------------------------
+<BR>
+&nbsp;7 #<BR>
+&nbsp;8 # Use the default DBM utilites<BR>
+&nbsp;9 #<BR>
+10 use AnyDBM_File;<BR>
+11 open(SFILE, &quot;sym.txt&quot;) || die &quot;\n Cannot open
+sym.txt $!\n&quot;;<BR>
+12 #<BR>
+13 # Open the database &quot;ticker&quot;. If it does not exist,
+create it.<BR>
+14 # Map the hash stocks to this database.<BR>
+15 #<BR>
+16 dbmopen(%stocks,&quot;ticker&quot;,0666);<BR>
+17 while (&lt;SFILE&gt;) {<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp; chop;<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp; ($symbol,@name) =&nbsp;&nbsp;split('
+',$_);<BR>
+20<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp; $stocks{$symbol} = join(' ',@name);
+<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp; # print &quot; $symbol [ @name ] \n&quot;;
+<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+24 #<BR>
+25 # Close the input file<BR>
+26 #<BR>
+27 close(SFILE);<BR>
+28 #<BR>
+29 # Commit changes in hash to disk for the next flush.<BR>
+30 #<BR>
+31 dbmclose(%stocks);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+In Listing 18.1, the <TT><FONT FACE="Courier">AnyDBM_File</FONT></TT>
+package is used at line 10 to get the best available package for
+the system. You can override the type by replacing the <TT><FONT FACE="Courier">AnyDBM_File</FONT></TT>
+package with a DBM package of your choice. In line 11, the input
+file is opened.
+<P>
+Line 16 creates a DBM called <TT><FONT FACE="Courier">ticker</FONT></TT>
+and maps it onto an associative array called <TT><FONT FACE="Courier">%stocks{}</FONT></TT>.
+Note that you are actually creating two files called <TT><FONT FACE="Courier">ticker.pag</FONT></TT>.
+The file permissions given for this <TT><FONT FACE="Courier">open</FONT></TT>
+are 0666 so that it's possible for all other users to use this
+DBM. 
+<P>
+In lines 17 through 23, the symbol names are read in, and the
+values are assigned to the newly created hash, called <TT><FONT FACE="Courier">stocks</FONT></TT>.
+Lines 18 and 19 simply take the text input from the <TT><FONT FACE="Courier">sym.txt</FONT></TT>
+file and separate it into a symbol and a company name. At line
+21 a value is assigned to the associative array using the symbol
+as the index into the array. Now that this array has been mapped
+to the disk, the data can be kept in the array even after the
+script that created this file is long gone.
+<P>
+Note also that the <TT><FONT FACE="Courier">join() </FONT></TT>function
+is used in line 21 to piece together the items of names of the
+companies into one string. Had the <TT><FONT FACE="Courier">join()</FONT></TT>
+function not been used, <TT><FONT FACE="Courier">$stocks{$symbol}</FONT></TT>
+would contain the number of items of the <TT><FONT FACE="Courier">@names</FONT></TT>
+array and not the contents.
+<P>
+In line 31 the <TT><FONT FACE="Courier">dbmclose()</FONT></TT>
+function is used to commit the changes to disk. If you do not
+use <TT><FONT FACE="Courier">dbmclose()</FONT></TT>, your DBM
+file modifications are not be saved to disk. The <TT><FONT FACE="Courier">dbmclose()</FONT></TT>
+function disconnects (or un-<I>tie</I>s) the hash from the file
+on disk so that any changes made to the hash after the <TT><FONT FACE="Courier">dbmclose()</FONT></TT>
+function are made as if to an uninitialized associative array.
+When the contents of the hash will be flushed to disk depends
+on the underlying system. As far as the program is concerned,
+the hash connected to the underlying database is not initialized
+anymore.
+<P>
+Two files are created with the use of the <TT><FONT FACE="Courier">AnyDBM_File</FONT></TT>
+package. These are the two files that were created by the script
+in Listing 18.1 when I ran it:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">-rw-r--r--&nbsp;&nbsp;&nbsp;2 khusain&nbsp;&nbsp;users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6608
+Mar 26 08:08 scripts/ticker.dir<BR>
+-rw-r--r--&nbsp;&nbsp;&nbsp;2 khusain&nbsp;&nbsp;users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6608
+Mar 26 08:08 scripts/ticker.pag</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Of course, because you do not have access to the original files
+that I used in this example, the sizes shown here will be different
+for the data file that you use. Just note that the size of both
+the files is the same. 
+<P>
+If the <TT><FONT FACE="Courier">AnyDBM_File</FONT></TT> package
+had been substituted with the <TT><FONT FACE="Courier">GDBM_File</FONT></TT>
+page, we would only get one file:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">-rw-r--r--&nbsp;&nbsp;&nbsp;1 khusain&nbsp;&nbsp;users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6608
+Mar 26 08:06 scripts/ticker</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Again, the size of the <TT><FONT FACE="Courier">ticker</FONT></TT>
+file will be different depending on the input data file that you
+use. However, you should note that the size of the ticker file
+is the same as that of the two files created by the <TT><FONT FACE="Courier">AnyDBM-File</FONT></TT>
+package. 
+<H2><A NAME="ViewingYourData"><FONT SIZE=5 COLOR=#FF0000>Viewing
+Your Data</FONT></A></H2>
+<P>
+The database has now been created on disk. Whether it consists
+of one file or two is not important in the application that will
+access the database because all the internals are hidden with
+the DBM function calls. 
+<P>
+In order for us to look at the data in the newly created DBM file,
+another script needs to be created. The viewing script is shown
+in Listing 18.2.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 18.2. Viewing the contents of a DBM file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 # --------------------------------------------------------
+<BR>
+&nbsp;3 # Sample script to list contents of a DBM repository.
+<BR>
+&nbsp;4 # --------------------------------------------------------
+<BR>
+&nbsp;5 #<BR>
+&nbsp;6 # Use the default DBM utilites<BR>
+&nbsp;7 #<BR>
+&nbsp;8 use AnyDBM_File;<BR>
+&nbsp;9 #<BR>
+10 # Open the database &quot;ticker&quot;. (If it does not exist,
+create it.)<BR>
+11 # Map the hash stocks to this database.<BR>
+12 #<BR>
+13 dbmopen(%stocks,&quot;ticker&quot;,0666);<BR>
+14 while (($symbol,$name) = each(%stocks)) {<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp; print &quot;Symbol [$symbol] for [$name]\n&quot;;
+<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+17 #<BR>
+18 # Keep any changes, if any, in hash back on disk.<BR>
+19 #<BR>
+20 dbmclose(%stocks);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Line 13 opens the hash as before. Because the file already exists,
+there is no need to create it. Lines 14 and 15 are where the contents
+of the hash <TT><FONT FACE="Courier">$stocks</FONT></TT> is printed
+out. Line 20 closes the file.
+<H2><A NAME="AddingandRemovingItems"><FONT SIZE=5 COLOR=#FF0000>Adding
+and Removing Items</FONT></A></H2>
+<P>
+It's relatively simple to add a new symbol to the newly created
+database. To see how to add to the database, refer to Listing
+18.3.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 18.3. Adding to the DBM array.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 # --------------------------------------------------------
+<BR>
+&nbsp;3 # Sample script to add to contents of a DBM repository.
+<BR>
+&nbsp;4 # --------------------------------------------------------
+<BR>
+&nbsp;5 #<BR>
+&nbsp;6 # Use the default DBM utilites<BR>
+&nbsp;7 #<BR>
+&nbsp;8 use AnyDBM_File;<BR>
+&nbsp;9 #<BR>
+10 # Open the database &quot;ticker&quot;. (If it does not exist,
+create it.)<BR>
+11 # Map the hash stocks to this database.<BR>
+12 #<BR>
+13 dbmopen(%stocks,&quot;ticker&quot;,0666);<BR>
+14 print &quot;\n Symbol: &quot;;<BR>
+15 # Get the symbol for the company <BR>
+16 chop&nbsp;&nbsp;($symbol = &lt;STDIN&gt;);<BR>
+17 print &quot;\n Company Name: &quot;;<BR>
+18&nbsp;&nbsp;# Get the name of the company <BR>
+19 chop ($name = &lt;STDIN&gt;);<BR>
+20 $stocks{$symbol} = $name;<BR>
+21 # Keep any changes, if any, in hash back on disk.<BR>
+22 #<BR>
+23 dbmclose(%stocks);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+To delete an item from the <TT><FONT FACE="Courier">%stocks{}</FONT></TT>
+associative array, use the <TT><FONT FACE="Courier">delete</FONT></TT>
+command. For example, the code in Listing 18.3 can be modified
+to become a deletion command by adding the <TT><FONT FACE="Courier">delete</FONT></TT>
+operator to line 20. The code in line 20 would look like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">delete $stocks{$symbol};</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="OperationsonaDBMFile"><FONT SIZE=5 COLOR=#FF0000>Operations
+on a DBM File</FONT></A></H2>
+<P>
+The contents of a DBM array can be easily searched using Perl's
+features. To look for a symbol in an existing DBM, use the Perl
+search operation with the <TT><FONT FACE="Courier">=~ //</FONT></TT>
+syntax. Listing 18.5 illustrates this.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 18.5. Searching the DBM array.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 # --------------------------------------------------------
+<BR>
+&nbsp;3 # Sample script to search contents of a DBM repository.
+<BR>
+&nbsp;4 # --------------------------------------------------------
+<BR>
+&nbsp;5 #<BR>
+&nbsp;6 # Use the default DBM utilites<BR>
+&nbsp;7 #<BR>
+&nbsp;8 use AnyDBM_File;<BR>
+&nbsp;9 #<BR>
+10 # Open the database &quot;ticker&quot;. (If it does not exist,
+create it.)<BR>
+11 # Map the hash stocks to this database.<BR>
+12 #<BR>
+13 dbmopen(%stocks,&quot;ticker&quot;,0666);<BR>
+14 print &quot;\n Enter String to Look for: &quot;;<BR>
+15 $search = &lt;STDIN&gt;;<BR>
+16 chop $search;<BR>
+17 printf &quot;\n Searching.\n&quot;;<BR>
+18 $i = 0;<BR>
+19 while (($symbol,$name) = each(%stocks)) {<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp; if ($name =~ /$search/) {<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$i++;
+<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;$i. [$symbol] has [$name]\n&quot;<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+25 printf &quot;\n ===&gt; $i Records found.\n &quot;;<BR>
+26 #<BR>
+27 # Keep any changes, if any, in hash back on disk.<BR>
+28 #<BR>
+29 dbmclose(%stocks);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Lines 19 through 24 contain a <TT><FONT FACE="Courier">while</FONT></TT>
+loop that uses the <TT><FONT FACE="Courier">each</FONT></TT> command.
+The <TT><FONT FACE="Courier">each</FONT></TT> command is more
+efficient than using a <TT><FONT FACE="Courier">for</FONT></TT>
+loop command because both the key and the indexed value are retrieved
+with the <TT><FONT FACE="Courier">each</FONT></TT> command. In
+the <TT><FONT FACE="Courier">for </FONT></TT>loop on the keys
+of an associative array, two separate steps must be taken to retrieve
+the same information-first to get the key for the loop iteration
+with a call to the<I> keys(hash)</I> function, and second to get
+the value based on the retrieved key.
+<P>
+Running the program to look for <TT><FONT FACE="Courier">NAL</FONT></TT>
+in the company names produces the following output:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;Enter String to Look for: <B>NAL
+<BR>
+</B>&nbsp;Searching.<BR>
+1. [ALOG] has [ANALOGIC CORP]<BR>
+2. [AATI] has [ANALYSIS &amp; TEchNOLOGY]<BR>
+3. [ANLY] has [ANALYSTS INTL CORP]<BR>
+4. [APSG] has [APPLIED SIGNAL TEch]<BR>
+5. [ADI] has [ANALOG DEVICES]<BR>
+<BR>
+&nbsp;===&gt; 5 Records found.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The program found all company names with the string <TT><FONT FACE="Courier">NAL</FONT></TT>
+in their name. As you can see, within Perl you have the power
+to create a new database, add or delete items from the database,
+and list the contents of the database. Using the hash as the map,
+you can perform many other operations on the hash and reflect
+the results back to disk.
+<P>
+The DBM files are still a flat database; therefore, in order to
+create relationships between data items, you still have to do
+some shuffling around of indexes, filenames, and files. Fairly
+sophisticated data algorithms are not out of reach, however, if
+you are careful. For example, the sample <TT><FONT FACE="Courier">$symbol</FONT></TT>
+index can also be used as a filename containing historical data.
+Let's say the <TT><FONT FACE="Courier">%stocks{}</FONT></TT> DBM
+array is used as a storage area for the stocks in a portfolio.
+It's easy to get historical data from the Internet (for example,
+via CompuServe) for a given stock symbol. Listing 18.5 collects
+and displays some statistics for the symbols in the sample portfolio.
+<P>
+So that you don't have to type everything via <TT><FONT FACE="Courier">STDIN</FONT></TT>,
+the script is designed to use command-line options with the <TT><FONT FACE="Courier">Getopts::Long</FONT></TT>
+module. <A HREF="ch16.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch16.htm" >See Chapter 16</A>, &quot;Command-Line
+Interface with Perl,&quot; for more information on how to use
+the <TT><FONT FACE="Courier">Getopts::Long.pm</FONT></TT> module.
+In this example, the <TT><FONT FACE="Courier">-s</FONT></TT> option
+is used to specify the stock symbol and the <TT><FONT FACE="Courier">-v</FONT></TT>
+option is used to get a complete listing of all the readings.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 18.4. Using the DBM array.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 # --------------------------------------------------------
+<BR>
+&nbsp;3 # Sample script to use the DBM array for indexing.<BR>
+&nbsp;4 # --------------------------------------------------------
+<BR>
+&nbsp;5 #<BR>
+&nbsp;6 # Use the default DBM utilites<BR>
+&nbsp;7 #<BR>
+&nbsp;8 use AnyDBM_File;<BR>
+&nbsp;9 use Getopt::Long;<BR>
+10 #<BR>
+11 # Open the database &quot;ticker&quot;. (If it does not exist,
+create it.)<BR>
+12 # Map the hash stocks to this database.<BR>
+13 #<BR>
+14 dbmopen(%stocks,&quot;ticker&quot;,0666);<BR>
+15 #print &quot;\n Enter Symbol to Look for: &quot;;<BR>
+16 #$search = &lt;STDIN&gt;;<BR>
+17 #chop $search;<BR>
+18 GetOptions('stock=s','v!');<BR>
+19 $search = $opt_stock;<BR>
+20 $i = 0;<BR>
+21 $highest = 0;<BR>
+22 $lowest = 10000;<BR>
+23 if ($stocks{$search}) {<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp; if (-e $search) {<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;open(SDATA,$search)
+|| die &quot;Cannot open $search $!\n&quot;;<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+&quot;\n Historical data for $search \n&quot; if ($opt_v);<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while
+(&lt;SDATA&gt;) {<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+($day,$hi,$lo,$close) = split('\s',$_);<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$sum += $close;<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$i++;<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if ($hi &gt; $highest) { $highest = $hi; }<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if ($lo &lt; $lowest) { $lowest = $lo; }<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+write if ($opt_v);<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;close
+SDATA;<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf&nbsp;&nbsp;&quot;\n
+Summay of %d readings on $search&quot;, $i;<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+&quot;\n Lowest&nbsp;&nbsp;On File = %f &quot;, $lowest;<BR>
+38&nHTTP/1.0 500 Cache Detected Error
+Content-Type: text/html
+Content-Length: 773
+Date: Fri, 02 Apr 1999 05:39:13 GMT
+Expires: Fri, 02 Apr 1999 05:44:13 GMT
+Last-Modified: Fri, 02 Apr 1999 05:39:13 GMT
+
+<HTML><BODY BGCOLOR=#FFFFFF TEXT=#000000>
+<TITLE>ERROR: The requested URL could not be retrieved</TITLE>
+<H2>ERROR: The requested URL could not be retrieved</H2>
+<HR>
+<P>
+While trying to retrieve the URL:
+<A HREF="http://wangcj.163.net/books/perl5u/ch18.htm">http://wangcj.163.net/books/perl5u/ch18.htm</A>
+<P>
+The following error was encountered:
+<UL>
+<LI><STRONG>ERROR 301 -- Read timeout</STRONG>
+</UL>
+<P>This means that:
+<PRE>
+    The Network/Remote site may be down.  Try again later.
+</PRE>
+<P> <HR>
+</BODY>
+<ADDRESS>
+<a href="http://www.netapp.com"><img src="http://prefetch-atm:8080/disk_objects/graphics/logo.gif" alt="Network Appliance"></a> Web-Caching powered by Network Appliance.<br>
+Generated by netcache/3.1.1d-Solaris@prefetch-atm:8080
+</ADDRESS></HTML>
+
+ourier">if ($stocks{$search}) {</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Once the file is found to exist with the <TT><FONT FACE="Courier">-e</FONT></TT>
+flag in line 24, it is opened and read from in lines 27 to 35.
+The summary is printed in lines 36 through 40. In case the symbol
+is not listed in the database, an error message is printed in
+the <TT><FONT FACE="Courier">else</FONT></TT> clause in line 43.
+The format for the output via the <TT><FONT FACE="Courier">write</FONT></TT>
+statement in line 33 is defined in lines 50 to 53.
+<P>
+In this example, the historical data for a stock is stored in
+a file called <TT><FONT FACE="Courier">AMAT</FONT></TT>. Therefore,
+to invoke the script, use this command:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$<B> test.pl -s AMAT<BR>
+<BR>
+</B>Summay of 305 readings on AMAT<BR>
+Lowest&nbsp;&nbsp;On File = 18.500000<BR>
+Highest On File = 59.875000<BR>
+Average Price&nbsp;&nbsp;&nbsp;= 38.879393</FONT></TT>
+</BLOCKQUOTE>
+<P>
+As you can see, the output from this script is made a bit more
+presentable with the use of the <TT><FONT FACE="Courier">format</FONT></TT>
+statement.
+<H2><A NAME="UsingDBMinModules"><FONT SIZE=5 COLOR=#FF0000>Using
+DBM in Modules</FONT></A></H2>
+<P>
+Because it's possible to use the DBM files from within modules,
+let's see if the <TT><FONT FACE="Courier">Invest.pm</FONT></TT>
+module (covered in <A HREF="ch5.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch5.htm" >Chapter 5</A>, &quot;Object-Oriented
+Programming in Perl&quot;) can be updated to include saving and
+restoring portfolio information on disk. You will be appending
+some functions to the original <TT><FONT FACE="Courier">Invest.pm</FONT></TT>.
+All the new functions will go at the end of the file unless specified
+<BR>
+otherwise. 
+<P>
+Some changes need to be made to the <TT><FONT FACE="Courier">Invest.pm</FONT></TT>
+module to get it to work with the DBM files. The first change
+is to include the following statement before the first executable
+line in the <TT><FONT FACE="Courier">Invest.pm</FONT></TT> file:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">require AnyDBM_File;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">@portfolio</FONT></TT> array is changed
+to <TT><FONT FACE="Courier">%portfolio</FONT></TT> because this
+array can be mapped directly to disk via a DBM file. The <TT><FONT FACE="Courier">@portfolio</FONT></TT>
+array contains references to hashes and not the content of the
+item in the referenced hash. Therefore, a new scheme has to be
+incorporated in order to parse the values and then store them
+to disk. After the values are stored to disk, the reverse operation
+has to be applied to read them back. Because this sample portfolio
+is not a large database, the important values can be stored using
+a colon delimited array. If this example were a very large array,
+the items could be stored with the <TT><FONT FACE="Courier">pack()</FONT></TT>
+function and thus store only binary values.
+<P>
+A new function has to be created to save the contents of the portfolio
+to disk. Add the following function to the end of the <TT><FONT FACE="Courier">Invest.pm</FONT></TT>
+file on or about line 116:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">savePortfolio {<BR>
+my ($this, $filename) = @_;<BR>
+my %dummy;<BR>
+my $a;<BR>
+my ($key, $val);<BR>
+dbmopen(%dummy,$filename,0666);<BR>
+while (($key,$val) = each(%portfolio)) {<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$a = &quot;$key:&quot; . $val-&gt;{'type'}
+. &quot;:&quot; .<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$val-&gt;{'symbol'} . &quot;:&quot; .
+$val-&gt;{'shares'};<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$dummy{$key} = $a;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;# Debug: print &quot;\n Writing $dummy{$key}&quot;;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+dbmclose(%dummy);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">%dummy</FONT></TT> hash is used to
+map to the disk file. Each item in the <TT><FONT FACE="Courier">portfolio</FONT></TT>
+hash is parsed for storage in the <TT><FONT FACE="Courier">%dummy</FONT></TT>
+hash. The value of <TT><FONT FACE="Courier">$key</FONT></TT> goes
+from <TT><FONT FACE="Courier">0</FONT></TT>, <TT><FONT FACE="Courier">1</FONT></TT>,
+<TT><FONT FACE="Courier">2</FONT></TT>, and up. One string is
+saved to disk per hash item. Here's the format of the string:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$key:$type:$symbol:$shares</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">$type</FONT></TT> can be <TT><FONT FACE="Courier">Stock</FONT></TT>
+or <TT><FONT FACE="Courier">Fund</FONT></TT>. <TT><FONT FACE="Courier">$symbol</FONT></TT>
+is the stock or fund symbol and <TT><FONT FACE="Courier">$shares</FONT></TT>
+is the number of shares of the stock. Keep in mind that this is
+only an example-the real data stored would probably have to include
+date of purchase, purchase price, and so on. In this event, the
+fields could be appended to the string with colons separating
+each field. If you want to add purchase price, your field would
+look like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$key:$type:$symbol:$shares:$purchased</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To restore the file back from disk, the <TT><FONT FACE="Courier">Invest.pm</FONT></TT>
+file will have to read back the same portfolio file and restore
+all the values in the portfolio array. The function will also
+have to recognize the difference between the types of items it
+has to re-create. The restoration is done by this function which
+is added to the end of the <TT><FONT FACE="Courier">Invest.pm</FONT></TT>
+file at about line 132:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sub restorePortfolio {<BR>
+my ($this, $filename) = @_;<BR>
+my %dummy;<BR>
+my ($key, $val);<BR>
+my ($ndx,$sec,$sym,$shr);<BR>
+my $a;<BR>
+local $i1;<BR>
+dbmopen(%dummy,$filename,0666);<BR>
+while (($key,$val) = each(%dummy)) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$a = $dummy{$key};<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;($ndx,$sec,$sym,$shr) = split(':',$a);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;# print &quot;Read back $ndx,$sec,$sym,$shr
+\n&quot;;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if ($sec eq 'Fund')<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$i1 = Invest::Fund::new('Invest::Fund',
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'symbol'
+=&gt; &quot;$sym&quot;, 'shares' =&gt; &quot;$shr&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$i1 = Invest::Stock::new('Invest::Stock',
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'symbol'
+=&gt; &quot;$sym&quot;, 'shares' =&gt;&quot;$shr&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Invest::AddItem($i1);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Invest::showPortfolio;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+dbmclose(%dummy);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To create the sample portfolio, use the shell script shown in
+Listing 18.6. You might want to edit the code shown in Listing
+18.6 to print the reported information in a different format than
+the one shown here. In this sample script, two stocks are added
+and then the contents of the portfolio are printed.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 18.6. Creating a sample portfolio.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 push(@Inc,'pwd');<BR>
+&nbsp;4 <BR>
+&nbsp;5 use Invest;<BR>
+&nbsp;6 # use Invest::Fund;<BR>
+&nbsp;7 use Invest::Stock;<BR>
+&nbsp;8 <BR>
+&nbsp;9 #<BR>
+10 # Create a new portfolio object<BR>
+11 #<BR>
+12 $port = new Invest;<BR>
+13 <BR>
+14 print &quot;\n -- CREATE PORTFOLIO --&quot;;<BR>
+15 $s1 = new Invest::Stock('symbol' =&gt; 'AMAT', 'shares' =&gt;
+'400');<BR>
+16 $s2 = new Invest::Stock('symbol' =&gt; 'INTC', 'shares' =&gt;
+'200');<BR>
+17 <BR>
+18 print &quot;\n Adding stocks &quot;;<BR>
+19 $port-&gt;Invest::AddItem($s1);<BR>
+20 $port-&gt;Invest::AddItem($s2);<BR>
+21 <BR>
+22 $port-&gt;Invest::showPortfolio();<BR>
+23 <BR>
+24 #<BR>
+25 #&nbsp;&nbsp;&nbsp;SAVE THE DATA HERE in the DBM file called
+myStocks<BR>
+26 #<BR>
+27 $port-&gt;Invest::savePortfolio(&quot;myStocks&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+To view the contents of the portfolio, you'll have to write another
+simple script. This script is shown is Listing 18.7. The file
+to recover data from is called <TT><FONT FACE="Courier">myStocks</FONT></TT>.
+You should be able to see this file in your directory.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 18.7. Listing the portfolio.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 push(@Inc,'pwd');<BR>
+&nbsp;4 <BR>
+&nbsp;5 use Invest;<BR>
+&nbsp;6 use Invest::Fund;<BR>
+&nbsp;7 use Invest::Stock;<BR>
+&nbsp;8 <BR>
+&nbsp;9 $port = new Invest;<BR>
+10 <BR>
+11 print &quot;\n -- LIST PORTFOLIO --&quot;;<BR>
+12 <BR>
+13 $port-&gt;Invest::restorePortfolio(&quot;myStocks&quot;);<BR>
+14 $port-&gt;Invest::showPortfolio();</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<H2><A NAME="MultipleDBMFiles"><FONT SIZE=5 COLOR=#FF0000>Multiple
+DBM Files</FONT></A></H2>
+<P>
+There are occasions when you'll want to have more than one file
+open for DBM access. You can use a unique stock ticker symbol
+as the index into several hashes, each of which is then mapped
+to its own DBM file. For example, the following database code
+could be used to track stock price information in one DBM file
+and earnings information in another DBM file. Both DBM files will
+be indexed via the stock symbol name. Results of analyzing data
+from both DBM files could be printed using code similar to the
+following snippet: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">foreach $symbol (@listOfsymbols) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;dbmopen(%earnings,$symbol,0666);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;dbmopen(%prices,$symbol,0666);<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;@results = analyzeEarnings(\%earnings,\%prices);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;printResults(\@results);<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;dbmclose(%prices);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;dbmclose(%earnings);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="TheCatchwithDBMUtilities"><FONT SIZE=5 COLOR=#FF0000>The
+Catch with DBM Utilities</FONT></A></H2>
+<P>
+So far I have only covered the standard DBM utilities that come
+with Perl distribution. For most casual users, these DBM files
+will be sufficient for their database needs. Unfortunately, when
+things get complicated, as in the case of relational databases,
+you might want to reconsider your options with other database
+solutions. The price tag for DBM utilities is attractive because
+they're free. However, you just might want to pay someone to acquire
+a commercial Relational Database Management System (RDBMS).
+<P>
+Second, there is an inherent danger in using DBM utilities that
+I must warn you about. If you make a mistake in working with your
+mapped hash and somehow write it to disk with a <TT><FONT FACE="Courier">dbmclose()</FONT></TT>,
+guess what? You just wiped out your entire database. This type
+of faux pas is not hard to do, especially if you are modifying
+data. Obliteration of your DBM database is generally only recoverable
+from backup.
+<P>
+Commercial databases have a &quot;safer&quot; feel because they
+provide you with a safety net by keeping alternate backups. You
+are still your own worst enemy, but it's a little bit harder to
+destroy all data. In any event, <I>always</I> back up your data.
+<P>
+If you do decide to use a database management system (DBMS) other
+than the DBM utilities, all is not lost. You can use RDB (a freeware
+relational database) or other Perl front-ends to popular databases.
+All of the front packages allow your Perl programs to talk to
+different databases via the protocol used by a DBI package.
+<P>
+Listing 18.8 presents the final version of the <TT><FONT FACE="Courier">Invest.pm</FONT></TT>
+file after all the modifications discussed up to now in this chapter
+have been made to it. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 18.8. The final version of </B><TT><B><FONT FACE="Courier">Invest.pm</FONT></B></TT><B>
+with DBM support.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;1<BR>
+&nbsp;&nbsp;2 package Invest;<BR>
+&nbsp;&nbsp;3<BR>
+&nbsp;&nbsp;4 push (@Inc,'pwd');<BR>
+&nbsp;&nbsp;5 require Exporter;<BR>
+&nbsp;&nbsp;6 require Invest::Stock;<BR>
+&nbsp;&nbsp;7 require Invest::Fund;<BR>
+&nbsp;&nbsp;8 require AnyDBM_File;<BR>
+&nbsp;&nbsp;9 @ISA = (Exporter);<BR>
+&nbsp;10<BR>
+&nbsp;11 =head1 NAME<BR>
+&nbsp;12<BR>
+&nbsp;13 Invest - Sample module to simulate Bond behaviour<BR>
+&nbsp;14<BR>
+&nbsp;15 =head1 SYNOPSIS<BR>
+&nbsp;16<BR>
+&nbsp;17&nbsp;&nbsp;&nbsp;&nbsp; use Invest;<BR>
+&nbsp;18&nbsp;&nbsp;&nbsp;&nbsp; use Invest::Fund;<BR>
+&nbsp;19&nbsp;&nbsp;&nbsp;&nbsp; use Invest::Stock;<BR>
+&nbsp;20<BR>
+&nbsp;21&nbsp;&nbsp;&nbsp;&nbsp; $port = new Invest::new();<BR>
+&nbsp;22<BR>
+&nbsp;23&nbsp;&nbsp;&nbsp;&nbsp; $i1 = Invest::Fund('symbol' =&gt;
+'twcux');&nbsp;&nbsp;&nbsp;&nbsp; <BR>
+&nbsp;24&nbsp;&nbsp;&nbsp;&nbsp; $i2 = Invest::Stock('symbol'
+=&gt; 'INTC');&nbsp;&nbsp;&nbsp;&nbsp; <BR>
+&nbsp;25&nbsp;&nbsp;&nbsp;&nbsp; $i3 = Invest::Stock('symbol'
+=&gt; 'MSFT', 'shares' =&gt; '10');&nbsp;&nbsp;&nbsp;&nbsp; <BR>
+&nbsp;26<BR>
+&nbsp;27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$port-&gt;Invest::AddItem($i1);
+<BR>
+&nbsp;28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$port-&gt;Invest::AddItem($i2);
+<BR>
+&nbsp;29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$port-&gt;Invest::AddItem($i3);
+<BR>
+&nbsp;30<BR>
+&nbsp;31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$port-&gt;showPortfolio();
+<BR>
+&nbsp;32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$port-&gt;savePortfolio(&quot;myStocks&quot;);
+<BR>
+&nbsp;33<BR>
+&nbsp;34 =head1 DESCRIPTION<BR>
+&nbsp;35<BR>
+&nbsp;36 This module provides a short example of generating a
+letter for a<BR>
+&nbsp;37 friendly neighborbood loan shark.<BR>
+&nbsp;38<BR>
+&nbsp;39 The code begins after the &quot;cut&quot; statement.
+<BR>
+&nbsp;40 =cut<BR>
+&nbsp;41<BR>
+&nbsp;42 @EXPORT = qw( new, AddItem, showPortfolio, savePortfolio,
+<BR>
+&nbsp;43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reportPortfolio,
+<BR>
+&nbsp;44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;restorePortfolio,
+PrintMe);<BR>
+&nbsp;45<BR>
+&nbsp;46 my %portfolio = {};<BR>
+&nbsp;47 my $portIndex = 0;<BR>
+&nbsp;48<BR>
+&nbsp;49 sub Invest::new {<BR>
+&nbsp;50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$this = shift;<BR>
+&nbsp;51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$class = ref($this) || $this;<BR>
+&nbsp;52&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$self = {};<BR>
+&nbsp;53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bless
+$self, $class;<BR>
+&nbsp;54&nbsp;&nbsp;&nbsp;&nbsp; $portIndex = 0;<BR>
+&nbsp;55&nbsp;&nbsp;&nbsp;&nbsp; # printf &quot;\n Start portfolio&quot;;
+<BR>
+&nbsp;56&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+$self;<BR>
+&nbsp;57 }<BR>
+&nbsp;58<BR>
+&nbsp;59 sub Invest::AddItem {<BR>
+&nbsp;60&nbsp;&nbsp;&nbsp;&nbsp; my ($type,$stock) = @_;<BR>
+&nbsp;61&nbsp;&nbsp;&nbsp;&nbsp; $portfolio{$portIndex} = $stock;
+<BR>
+&nbsp;62&nbsp;&nbsp;&nbsp;&nbsp; # print &quot;\nAdded &quot;.&nbsp;&nbsp;$stock-&gt;{'shares'}
+. &quot; shares of &quot; . $stock-&gt;{'symbol'};<BR>
+&nbsp;63&nbsp;&nbsp;&nbsp;&nbsp; $portIndex++;<BR>
+&nbsp;64 }<BR>
+&nbsp;65<BR>
+&nbsp;66 sub Invest::showPortfolio&nbsp;&nbsp;{<BR>
+&nbsp;67&nbsp;&nbsp;&nbsp;&nbsp; printf &quot;\n Our Portfolio
+is:&quot;;<BR>
+&nbsp;68&nbsp;&nbsp;&nbsp;&nbsp; my ($key, $i);<BR>
+&nbsp;69&nbsp;&nbsp;&nbsp;&nbsp; while (($key,$i) = each(%portfolio))
+{<BR>
+&nbsp;70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n &quot;.&nbsp;&nbsp;$i-&gt;{'shares'} . &quot; shares
+of &quot; . $i-&gt;{'symbol'};<BR>
+&nbsp;71&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+&nbsp;72&nbsp;&nbsp;&nbsp;&nbsp; print &quot;\n&quot;;<BR>
+&nbsp;73 }<BR>
+&nbsp;74<BR>
+&nbsp;75 sub Invest::reportPortfolio {<BR>
+&nbsp;76&nbsp;&nbsp;&nbsp;&nbsp; my $hdrfmt = $~;<BR>
+&nbsp;77&nbsp;&nbsp;&nbsp;&nbsp; my $topfmt = $^;<BR>
+&nbsp;78&nbsp;&nbsp;&nbsp;&nbsp; my $pageCt = $=;<BR>
+&nbsp;79&nbsp;&nbsp;&nbsp;&nbsp; my $lineCt = $-;<BR>
+&nbsp;80&nbsp;&nbsp;&nbsp;&nbsp; my $sym;<BR>
+&nbsp;81&nbsp;&nbsp;&nbsp;&nbsp; my $shr;<BR>
+&nbsp;82&nbsp;&nbsp;&nbsp;&nbsp; my ($key, $i);<BR>
+&nbsp;83<BR>
+&nbsp;84&nbsp;&nbsp;&nbsp;&nbsp; $~ = &quot;PORT_RPT&quot;;<BR>
+&nbsp;85&nbsp;&nbsp;&nbsp;&nbsp; $^ = &quot;PORT_RPT_TOP&quot;;
+<BR>
+&nbsp;86<BR>
+&nbsp;87 format PORT_RPT_TOP =<BR>
+&nbsp;88<BR>
+&nbsp;89&nbsp;&nbsp;&nbsp;&nbsp; Report<BR>
+&nbsp;90 STOCK&nbsp;&nbsp;&nbsp;&nbsp; SHARES<BR>
+&nbsp;91 =====&nbsp;&nbsp;&nbsp;======<BR>
+&nbsp;92 .<BR>
+&nbsp;93<BR>
+&nbsp;94 format PORT_RPT =<BR>
+&nbsp;95 @&lt;&lt;&lt;&lt;&nbsp;&nbsp;&nbsp;@&lt;&lt;&lt;&lt;
+<BR>
+&nbsp;96 $sym, $shr<BR>
+&nbsp;97 .<BR>
+&nbsp;98&nbsp;&nbsp;&nbsp;&nbsp; # note how the code is intermingled
+with the format!<BR>
+&nbsp;99&nbsp;&nbsp;&nbsp;&nbsp; while (($key,$i) = each(%portfolio))
+{<BR>
+100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$shr
+= $i-&gt;{'shares'};<BR>
+101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sym
+= $i-&gt;{'symbol'};<BR>
+102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write
+;<BR>
+103<BR>
+104&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+105<BR>
+106&nbsp;&nbsp;&nbsp;&nbsp; $= = $pageCt;<BR>
+107&nbsp;&nbsp;&nbsp;&nbsp; $- = $lineCt;<BR>
+108&nbsp;&nbsp;&nbsp;&nbsp; $~ = $hdrfmt;<BR>
+109&nbsp;&nbsp;&nbsp;&nbsp; $^ = $topfmt;<BR>
+110 }<BR>
+111<BR>
+112 sub PrintMe {<BR>
+113&nbsp;&nbsp;&nbsp;&nbsp; my $this = shift;<BR>
+114&nbsp;&nbsp;&nbsp;&nbsp; print &quot;\n Class : $$this&quot;;&nbsp;&nbsp;&nbsp;&nbsp;
+<BR>
+115 }<BR>
+116<BR>
+117 sub savePortfolio {<BR>
+118&nbsp;&nbsp;&nbsp;&nbsp; my ($this, $filename) = @_;<BR>
+119&nbsp;&nbsp;&nbsp;&nbsp; my %dummy;&nbsp;&nbsp;&nbsp;&nbsp;
+<BR>
+120&nbsp;&nbsp;&nbsp;&nbsp; my $a;<BR>
+121&nbsp;&nbsp;&nbsp;&nbsp; my ($key, $val);<BR>
+122&nbsp;&nbsp;&nbsp;&nbsp; dbmopen(%dummy,$filename,0666);<BR>
+123&nbsp;&nbsp;&nbsp;&nbsp; while (($key,$val) = each(%portfolio))
+{<BR>
+124&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$a =
+&quot;$key:&quot; . $val-&gt;{'type'} . &quot;:&quot; . $val-&gt;{'symbol'}
+. &quot;:&quot; . $val-&gt;{'shares'};<BR>
+125&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n Writing $key $a&quot;;<BR>
+126&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$dummy{$key}
+= $a;<BR>
+127&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n Writing $dummy{$key}&quot;;<BR>
+128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+129&nbsp;&nbsp;&nbsp;&nbsp; dbmclose(%dummy);<BR>
+130 }<BR>
+131<BR>
+132 sub restorePortfolio {<BR>
+133&nbsp;&nbsp;&nbsp;&nbsp; my ($this, $filename) = @_;<BR>
+134&nbsp;&nbsp;&nbsp;&nbsp; my %dummy;&nbsp;&nbsp;&nbsp;&nbsp;
+<BR>
+135&nbsp;&nbsp;&nbsp;&nbsp; my ($key, $val);<BR>
+136&nbsp;&nbsp;&nbsp;&nbsp; my ($ndx,$sec,$sym,$shr);<BR>
+137&nbsp;&nbsp;&nbsp;&nbsp; my $a;<BR>
+138&nbsp;&nbsp;&nbsp;&nbsp; local $i1;<BR>
+139&nbsp;&nbsp;&nbsp;&nbsp; dbmopen(%dummy,$filename,0666);<BR>
+140&nbsp;&nbsp;&nbsp;&nbsp; while (($key,$val) = each(%dummy))
+{<BR>
+141&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$a =
+$dummy{$key};<BR>
+142&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($ndx,$sec,$sym,$shr)
+= split(':',$a);<BR>
+143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# print
+&quot;Read back $ndx,$sec,$sym,$shr \n&quot;;<BR>
+144&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($sec
+eq 'Fund')<BR>
+145&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{<BR>
+146&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$i1 = Invest::Fund::new('Invest::Fund',<BR>
+147&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'symbol'
+=&gt; &quot;$sym&quot;, 'shares' =&gt; &quot;$shr&quot;);<BR>
+148&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+149&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+<BR>
+150&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{<BR>
+151&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$i1 = Invest::Stock::new('Invest::Stock',<BR>
+152&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'symbol'
+=&gt; &quot;$sym&quot;, 'shares' =&gt;&quot;$shr&quot;);<BR>
+153&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+154&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Invest::AddItem($i1);
+<BR>
+155&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this-&gt;Invest::showPortfolio;
+<BR>
+156&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+157&nbsp;&nbsp;&nbsp;&nbsp; dbmclose(%dummy);<BR>
+158 }<BR>
+159<BR>
+160 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Line 8 is where the <TT><FONT FACE="Courier">require</FONT></TT>
+statement is used to implement the <TT><FONT FACE="Courier">AnyDBM_FILE</FONT></TT>
+support. Lines 17 through 19 use other packages as well. 
+<H2><A NAME="WhatIstheDBIPackage"><FONT SIZE=5 COLOR=#FF0000>What
+Is the DBI Package?</FONT></A></H2>
+<P>
+The database interface (DBI) package for Perl is the implementation
+of the DBI Application Program Interface (API) specification written
+by Tim Bunce (<TT><FONT FACE="Courier">Tim.Bunce@ig.co.uk</FONT></TT>).
+The DBI package API is designed specifically for use with Perl.
+The set of functions and variables in the DBI package provide
+a consistent interface to the application using it. The strong
+point of the DBI package API, in addition to its broad set of
+available functions, is that it completely isolates the using
+application from the internal implementation of the underlying
+database. 
+<P>
+The DBI specification exists at various sites in the CPAN archives,
+but the latest version (v0.6) is not up to date. The best source
+of information is to look in the source files for a DBI package
+itself. The entire specification is good for getting an idea of
+how everything is intended to work together. However, the interface
+has changed considerably since the specification was released.
+Check out the file <TT><FONT FACE="Courier">dbispec.v06</FONT></TT>
+in compressed form at <TT><FONT FACE="Courier">ftp.demon.co.uk</FONT></TT>
+in the <TT><FONT FACE="Courier">/pub/perl/db</FONT></TT> directory.
+<P>
+The DBI specification started out as DBperl back in 1992 as a
+team effort from several Perl enthusiasts. Here are the initial
+contributors to the specification for each type of database:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=171>infoperl (Informix)</TD><TD WIDTH=398>Kurt Andersen (<TT><FONT FACE="Courier">kurt@hpsdid.sdd.hp.com</FONT></TT>)
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=171>interperl (Interbase)</TD><TD WIDTH=398>Buzz Moschetti (<TT><FONT FACE="Courier">buzz@fsrg.bear.com</FONT></TT>)
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=171>oraperl (Oracle)</TD><TD WIDTH=398>Kevin Stock (<TT><FONT FACE="Courier">kstock@encore.com</FONT></TT>)
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=171>sybperl (Sybperl)</TD><TD WIDTH=398>Michael Peppler (<TT><FONT FACE="Courier">mpeppler@itf.ch</FONT></TT>)
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=171>sqlperl/ingperl (Ingres)</TD><TD WIDTH=398>Ted Mellon (<TT><FONT FACE="Courier">dbi-users@fugue.com</FONT></TT>) and Tim Bunce
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The original DBI specification was edited by Kurt Anderson. In
+1994, Tim Bunce took over the editing and maintenance of the specification
+in addition to the DBI and <TT><FONT FACE="Courier">DBD::Oracle</FONT></TT>
+package development. The specification and related files are copyrighted
+by Tim Bunce.
+<P>
+The original specification was edited by Kurt Anderson from the
+discussions on the mailing list. In 1993, Tim Bunce took over
+the editing and maintenance of the specification and in 1994 started
+the development of the DBI and <TT><FONT FACE="Courier">DBD::Oracle</FONT></TT>
+modules. The DBI specification and modules are copyrighted by
+Tim Bunce but are freely available to all with the same terms
+as Perl. (Tim is the technical director of the software systems
+house, Paul Ingram Group in Surrey, England. Tim can be reached
+at <TT><FONT FACE="Courier">Tim.Bunce@ig.co.uk</FONT></TT>, but
+DBI related mail should be sent to the <TT><FONT FACE="Courier">dbi-users@fugue.com</FONT></TT>
+mailing list.)
+<P>
+The DBI is not related to any one specific database because it
+serves as an intermediary between a program and one or more <TT><FONT FACE="Courier">DBD::*</FONT></TT>
+driver modules. <TT><FONT FACE="Courier">DBD::</FONT></TT> modules
+are drivers written to support a specific database back-end. The
+<TT><FONT FACE="Courier">DBI::</FONT></TT> module manages all
+installed <TT><FONT FACE="Courier">DBD::</FONT></TT> drivers in
+your system. You can load and use more than one <TT><FONT FACE="Courier">DBD::</FONT></TT>
+module at the same time.
+<P>
+<TT><FONT FACE="Courier">DBD::</FONT></TT> modules are written
+in such a way that they may be copied and customized to suit your
+specific needs. For example, the <TT><FONT FACE="Courier">DBD::Oracle</FONT></TT>
+module served as the starting point for Alligator Descartes, another
+well-known pioneer in developing database interfaces for Perl,
+to develop <TT><FONT FACE="Courier">DBD::</FONT></TT> modules
+for other databases. He has written two copyrighted documents
+on how to develop your own driver from <TT><FONT FACE="Courier">DBD::</FONT></TT>
+modules. These documents are located on the Web site <TT><FONT FACE="Courier">www.hermetica.com</FONT></TT>
+in the <TT><FONT FACE="Courier">technologia/DBI</FONT></TT> directory.
+<H3><A NAME="AvailablePackages">Available Packages</A></H3>
+<P>
+Some of <TT><FONT FACE="Courier">DBI::</FONT></TT> packages available
+on the Internet are listed here; you can get the latest versions
+of these files from the Internet CPAN sites:
+<UL>
+<LI><TT><FONT FACE="Courier">DBD-Oracle-0.29.tar.gz</FONT></TT>
+for Oracle users
+<LI><TT><FONT FACE="Courier">DBD-Informix-0.20pl0.tar.gz</FONT></TT>
+for Informix database users
+<LI><TT><FONT FACE="Courier">DBD-QBase-0.03.tar.gz</FONT></TT>
+for Quickbase users
+<LI><TT><FONT FACE="Courier">DBD-mSQL-0.60pl9.tar.gz</FONT></TT>
+for mSQL-based databases
+<LI><TT><FONT FACE="Courier">DBI-0.67.tar.gz</FONT></TT> for the
+DBI interface
+</UL>
+<P>
+The interface packages are simply front-ends to the database engine
+that you must have installed on your machine. For example, in
+order to use the Oracle DBI package, you'll need the Oracle database
+engine installed on your system. The installation instructions
+are located in the <TT><FONT FACE="Courier">README</FONT></TT>
+files in the packages themselves. You'll need to have Perl 5.002
+installed on your system to get some of the packages to work,
+especially the DBI module.
+<P>
+The DBI interface is very different than the old, database-specific
+interfaces provided by oraperl, ingperl, interperl, and so on.
+To simplify the transition to Perl 5, some <TT><FONT FACE="Courier">DBD::</FONT></TT>
+drivers, such as <TT><FONT FACE="Courier">DBD::Oracle</FONT></TT>,
+come with an extra module that emulates the old-style interface.
+The DBI interface has never been fully defined because it has
+been constantly evolving. This evolution will take a large step
+forward with the adoption of the standard ODBC interface as the
+core of the DBI. Because this redefinition of the DBI interface
+standard  is bound to change the DBI interface, Tim Bunce recommends
+using stable emulation interfaces, such as oraperl, instead.
+<H2><A NAME="RDB"><FONT SIZE=5 COLOR=#FF0000>RDB</FONT></A></H2>
+<P>
+The RDB database utilities for Perl deserve an honorable mention.
+The RDB package is complete, simple to use, and very easy to set
+up. The author of this package is Walt Hobbs; he can be reached
+at <TT><FONT FACE="Courier">hobbs@rand.org</FONT></TT>.
+<P>
+The source and documentation is found in the file <TT><FONT FACE="Courier">RDB-2.5k.tar.Z</FONT></TT>
+in the CPAN modules directories. There is a file named <TT><FONT FACE="Courier">Info.RDB</FONT></TT>
+in the package that provides a short overview of how the RDB package
+organizes its data and what commands are available for you to
+use. The <TT><FONT FACE="Courier">Info.RDB</FONT></TT> file also
+lists the origins of the RDB package, describes how to use it,
+and provides a sample data file.
+<P>
+The operators in the RDB packages are Perl scripts that use standard
+I/O for UNIX to operate on ASCII files. The format for databases
+in the RDBM package is to store data in rows and columns in text
+files. Each row contains items separated by tabs, and each row
+is terminated by a newline character. (The field separator is
+a tab, and the record separator, therefore, is the newline character.)
+Each column in the text file has the items' names and format defined
+as the first two rows.
+<P>
+Because the data is stored in such a format, it's easier to access
+the data using programs other than those supplied with the RDB
+package. You can use Perl or awk scripts to get what you want
+if the RDM programs do not give you what you need. The RDB operators
+are only Perl scripts that you can use as a basis for writing
+your own extensions.
+<P>
+The operators on the package include listing by row, listing by
+column, merging tables, and printing reports. All operators in
+the RDB package read from standard input and write to standard
+output.
+<P>
+Consider the following sample data file. There are four columns
+in the data file. Each column has a heading and type of data associated
+with it. The comments with <TT><FONT FACE="Courier">#</FONT></TT>
+in the front of the line are ignored. The first uncommented row
+contains the name of fields per column. The row immediately after
+that stores the type of data. <TT><FONT FACE="Courier">4N</FONT></TT>
+means that <TT><FONT FACE="Courier">LINE</FONT></TT> and <TT><FONT FACE="Courier">WORD</FONT></TT>
+are four-digit wide numbers. (<TT><FONT FACE="Courier">S</FONT></TT>
+specifies a string and <TT><FONT FACE="Courier">M</FONT></TT>
+stands for month.) A digit by itself is a string; therefore, <TT><FONT FACE="Courier">NAME</FONT></TT>
+fields are eight characters wide.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#<BR>
+# Sample data file for Chapter 18<BR>
+#<BR>
+LINE&nbsp;&nbsp;&nbsp;&nbsp;WORD&nbsp;&nbsp;&nbsp;&nbsp;BYTE&nbsp;&nbsp;&nbsp;&nbsp;NAME
+<BR>
+4N&nbsp;&nbsp;&nbsp;&nbsp;4N&nbsp;&nbsp;&nbsp;&nbsp;5N&nbsp;&nbsp;&nbsp;&nbsp;8
+<BR>
+1128&nbsp;&nbsp;&nbsp;&nbsp;6300&nbsp;&nbsp;&nbsp;&nbsp;37140&nbsp;&nbsp;&nbsp;&nbsp;TS03.dat
+<BR>
+&nbsp;644&nbsp;&nbsp;&nbsp;&nbsp;3966&nbsp;&nbsp;&nbsp;&nbsp;24462&nbsp;&nbsp;&nbsp;&nbsp;TS04.dat
+<BR>
+1175&nbsp;&nbsp;&nbsp;&nbsp;6573&nbsp;&nbsp;&nbsp;&nbsp;40280&nbsp;&nbsp;&nbsp;&nbsp;TS05.dat
+<BR>
+&nbsp;968&nbsp;&nbsp;&nbsp;&nbsp;6042&nbsp;&nbsp;&nbsp;&nbsp;38088&nbsp;&nbsp;&nbsp;&nbsp;TS13.dat
+<BR>
+&nbsp;687&nbsp;&nbsp;&nbsp;&nbsp;3972&nbsp;&nbsp;&nbsp;&nbsp;24383&nbsp;&nbsp;&nbsp;&nbsp;TS14.dat
+<BR>
+&nbsp;741&nbsp;&nbsp;&nbsp;&nbsp;4653&nbsp;&nbsp;&nbsp;&nbsp;28100&nbsp;&nbsp;&nbsp;&nbsp;TS16.dat
+<BR>
+1621&nbsp;&nbsp;&nbsp;&nbsp;8804&nbsp;&nbsp;&nbsp;&nbsp;58396&nbsp;&nbsp;&nbsp;&nbsp;TS17.dat
+<BR>
+1061&nbsp;&nbsp;&nbsp;&nbsp;6086&nbsp;&nbsp;&nbsp;&nbsp;39001&nbsp;&nbsp;&nbsp;&nbsp;TS20.dat
+<BR>
+1107&nbsp;&nbsp;&nbsp;&nbsp;4782&nbsp;&nbsp;&nbsp;&nbsp;29440&nbsp;&nbsp;&nbsp;&nbsp;TS21.dat
+<BR>
+&nbsp;846&nbsp;&nbsp;&nbsp;&nbsp;5839&nbsp;&nbsp;&nbsp;&nbsp;37442&nbsp;&nbsp;&nbsp;&nbsp;TS22.dat
+<BR>
+1758&nbsp;&nbsp;&nbsp;&nbsp;8521&nbsp;&nbsp;&nbsp;&nbsp;54235&nbsp;&nbsp;&nbsp;&nbsp;TS23.dat
+<BR>
+&nbsp;836&nbsp;&nbsp;&nbsp;&nbsp;4856&nbsp;&nbsp;&nbsp;&nbsp;30916&nbsp;&nbsp;&nbsp;&nbsp;TS24.dat
+<BR>
+1084&nbsp;&nbsp;&nbsp;&nbsp;5742&nbsp;&nbsp;&nbsp;&nbsp;34816&nbsp;&nbsp;&nbsp;&nbsp;TS27.dat</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The commands to operate on are relatively simple. To sort the
+table by <TT><FONT FACE="Courier">LINE</FONT></TT> numbers, you
+use this command on the <TT><FONT FACE="Courier">test.data</FONT></TT>
+file:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sorttbl &lt; test.data  LINE &gt; out</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The resulting output in the <TT><FONT FACE="Courier">out</FONT></TT>
+file is as follows. The format for the output file is an RDB file
+itself. You can run other RDB operators on it, too!
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#<BR>
+# Sample data file for Chapter 18<BR>
+#<BR>
+LINE&nbsp;&nbsp;&nbsp;&nbsp;WORD&nbsp;&nbsp;&nbsp;&nbsp;BYTE&nbsp;&nbsp;&nbsp;&nbsp;NAME
+<BR>
+4N&nbsp;&nbsp;&nbsp;&nbsp;4N&nbsp;&nbsp;&nbsp;&nbsp;5N&nbsp;&nbsp;&nbsp;&nbsp;8
+<BR>
+&nbsp;644&nbsp;&nbsp;&nbsp;&nbsp;3966&nbsp;&nbsp;&nbsp;&nbsp;24462&nbsp;&nbsp;&nbsp;&nbsp;TS04.dat
+<BR>
+&nbsp;687&nbsp;&nbsp;&nbsp;&nbsp;3972&nbsp;&nbsp;&nbsp;&nbsp;24383&nbsp;&nbsp;&nbsp;&nbsp;TS14.dat
+<BR>
+&nbsp;741&nbsp;&nbsp;&nbsp;&nbsp;4653&nbsp;&nbsp;&nbsp;&nbsp;28100&nbsp;&nbsp;&nbsp;&nbsp;TS16.dat
+<BR>
+&nbsp;836&nbsp;&nbsp;&nbsp;&nbsp;4856&nbsp;&nbsp;&nbsp;&nbsp;30916&nbsp;&nbsp;&nbsp;&nbsp;TS24.dat
+<BR>
+&nbsp;846&nbsp;&nbsp;&nbsp;&nbsp;5839&nbsp;&nbsp;&nbsp;&nbsp;37442&nbsp;&nbsp;&nbsp;&nbsp;TS22.dat
+<BR>
+&nbsp;968&nbsp;&nbsp;&nbsp;&nbsp;6042&nbsp;&nbsp;&nbsp;&nbsp;38088&nbsp;&nbsp;&nbsp;&nbsp;TS13.dat
+<BR>
+1061&nbsp;&nbsp;&nbsp;&nbsp;6086&nbsp;&nbsp;&nbsp;&nbsp;39001&nbsp;&nbsp;&nbsp;&nbsp;TS20.dat
+<BR>
+1084&nbsp;&nbsp;&nbsp;&nbsp;5742&nbsp;&nbsp;&nbsp;&nbsp;34816&nbsp;&nbsp;&nbsp;&nbsp;TS27.dat
+<BR>
+1107&nbsp;&nbsp;&nbsp;&nbsp;4782&nbsp;&nbsp;&nbsp;&nbsp;29440&nbsp;&nbsp;&nbsp;&nbsp;TS21.dat
+<BR>
+1128&nbsp;&nbsp;&nbsp;&nbsp;6300&nbsp;&nbsp;&nbsp;&nbsp;37140&nbsp;&nbsp;&nbsp;&nbsp;TS03.dat
+<BR>
+1175&nbsp;&nbsp;&nbsp;&nbsp;6573&nbsp;&nbsp;&nbsp;&nbsp;40280&nbsp;&nbsp;&nbsp;&nbsp;TS05.dat
+HTTP/1.0 500 Cache Detected Error
+Content-Type: text/html
+Content-Length: 773
+Date: Fri, 02 Apr 1999 05:47:22 GMT
+Expires: Fri, 02 Apr 1999 05:52:22 GMT
+Last-Modified: Fri, 02 Apr 1999 05:47:22 GMT
+
+<HTML><BODY BGCOLOR=#FFFFFF TEXT=#000000>
+<TITLE>ERROR: The requested URL could not be retrieved</TITLE>
+<H2>ERROR: The requested URL could not be retrieved</H2>
+<HR>
+<P>
+While trying to retrieve the URL:
+<A HREF="http://wangcj.163.net/books/perl5u/ch18.htm">http://wangcj.163.net/books/perl5u/ch18.htm</A>
+<P>
+The following error was encountered:
+<UL>
+<LI><STRONG>ERROR 301 -- Read timeout</STRONG>
+</UL>
+<P>This means that:
+<PRE>
+    The Network/Remote site may be down.  Try again later.
+</PRE>
+<P> <HR>
+</BODY>
+<ADDRESS>
+<a href="http://www.netapp.com"><img src="http://prefetch-atm:8080/disk_objects/graphics/logo.gif" alt="Network Appliance"></a> Web-Caching powered by Network Appliance.<br>
+Generated by netcache/3.1.1d-Solaris@prefetch-atm:8080
+</ADDRESS></HTML>
+
+to do this is <TT><FONT FACE="Courier">jointbl</FONT></TT>.
+The <TT><FONT FACE="Courier">-c</FONT></TT> option does the merge
+for you on a per-column basis. Consider the two files <TT><FONT FACE="Courier">p1.dat</FONT></TT>
+and <TT><FONT FACE="Courier">p2.dat</FONT></TT> with a common
+column of <TT><FONT FACE="Courier">NAME</FONT></TT> in each file.
+The merged output is shown with this command:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">jointbl -c &lt; p1.dat NAME p2.dat</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The use of the <TT><FONT FACE="Courier">jointbl</FONT></TT> command
+is shown in the following input/output example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$<B> cat p1.dat<BR>
+<BR>
+</B>$<BR>
+$ <B>cat p2.dat<BR>
+</B>#<BR>
+# P2<BR>
+#<BR>
+LINE&nbsp;&nbsp;&nbsp;&nbsp;NAME<BR>
+4N&nbsp;&nbsp;&nbsp;&nbsp;8<BR>
+1128&nbsp;&nbsp;&nbsp;&nbsp;TS03.dat<BR>
+&nbsp;644&nbsp;&nbsp;&nbsp;&nbsp;TS04.dat<BR>
+1175&nbsp;&nbsp;&nbsp;&nbsp;TS05.dat<BR>
+&nbsp;968&nbsp;&nbsp;&nbsp;&nbsp;TS13.dat<BR>
+&nbsp;687&nbsp;&nbsp;&nbsp;&nbsp;TS14.dat<BR>
+&nbsp;741&nbsp;&nbsp;&nbsp;&nbsp;TS16.dat<BR>
+1621&nbsp;&nbsp;&nbsp;&nbsp;TS17.dat<BR>
+1061&nbsp;&nbsp;&nbsp;&nbsp;TS20.dat<BR>
+1107&nbsp;&nbsp;&nbsp;&nbsp;TS21.dat<BR>
+&nbsp;846&nbsp;&nbsp;&nbsp;&nbsp;TS22.dat<BR>
+1758&nbsp;&nbsp;&nbsp;&nbsp;TS23.dat<BR>
+&nbsp;836&nbsp;&nbsp;&nbsp;&nbsp;TS24.dat<BR>
+1084&nbsp;&nbsp;&nbsp;&nbsp;TS27.dat<BR>
+$<BR>
+$ <B>jointbl -c &lt; p1.dat NAME p2.dat<BR>
+</B>#<BR>
+# P1<BR>
+#<BR>
+#<BR>
+# P2<BR>
+#<BR>
+NAME&nbsp;&nbsp;&nbsp;&nbsp;BYTE&nbsp;&nbsp;&nbsp;&nbsp;LINE<BR>
+8&nbsp;&nbsp;&nbsp;&nbsp;5N&nbsp;&nbsp;&nbsp;&nbsp;4N<BR>
+TS03.dat&nbsp;&nbsp;&nbsp;&nbsp;37140&nbsp;&nbsp;&nbsp;&nbsp;1128
+<BR>
+TS04.dat&nbsp;&nbsp;&nbsp;&nbsp;24462&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;644
+<BR>
+TS05.dat&nbsp;&nbsp;&nbsp;&nbsp;40280&nbsp;&nbsp;&nbsp;&nbsp;1175
+<BR>
+TS13.dat&nbsp;&nbsp;&nbsp;&nbsp;38088&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;968
+<BR>
+TS14.dat&nbsp;&nbsp;&nbsp;&nbsp;24383&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;687
+<BR>
+TS16.dat&nbsp;&nbsp;&nbsp;&nbsp;28100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;741
+<BR>
+TS17.dat&nbsp;&nbsp;&nbsp;&nbsp;58396&nbsp;&nbsp;&nbsp;&nbsp;1621
+<BR>
+TS20.dat&nbsp;&nbsp;&nbsp;&nbsp;39001&nbsp;&nbsp;&nbsp;&nbsp;1061
+<BR>
+TS21.dat&nbsp;&nbsp;&nbsp;&nbsp;29440&nbsp;&nbsp;&nbsp;&nbsp;1107
+<BR>
+TS22.dat&nbsp;&nbsp;&nbsp;&nbsp;37442&nbsp;&nbsp;&nbsp;&nbsp;
+846<BR>
+TS23.dat&nbsp;&nbsp;&nbsp;&nbsp;54235&nbsp;&nbsp;&nbsp;&nbsp;1758
+<BR>
+TS24.dat&nbsp;&nbsp;&nbsp;&nbsp;30916&nbsp;&nbsp;&nbsp;&nbsp;
+836<BR>
+TS27.dat&nbsp;&nbsp;&nbsp;&nbsp;34816&nbsp;&nbsp;&nbsp;&nbsp;1084</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Other more powerful features of this RDB package are listed in
+the <TT><FONT FACE="Courier">RDB.ps</FONT></TT> PostScript file.
+It prints out to a 72-page manual with examples and details on
+all of the commands available for you. If you do not feel like
+killing a tree, you can use <TT><FONT FACE="Courier">ghostview</FONT></TT>
+to view the file.
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+Perl supplies a flat database package in the DBM utilities. The
+modules allow Perl scripts to map hashes to disk files for storage.
+For most users, storing data with DBM utilities is sufficient.
+Some <TT><FONT FACE="Courier">DBD::</FONT></TT> and <TT><FONT FACE="Courier">DBI::</FONT></TT>
+modules are available as front-ends to commercial databases such
+as Oracle, Sybase, Informix, and Quickbase. You need the specific
+database and database engine installed on your machine in order
+for the <TT><FONT FACE="Courier">DBD::</FONT></TT> code to work.
+The RDB package provides a text file-based relational database
+management system. Utilities in the RDB package are a set of Perl
+programs that operate on rows and columns of data files.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch17.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch17.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch19.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch19.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

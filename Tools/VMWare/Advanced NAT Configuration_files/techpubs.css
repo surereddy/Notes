@@ -1,0 +1,63 @@
+#content TABLE#main-table {
+	MARGIN: 0px; WIDTH: 650px; POSITION: relative; TEXT-ALIGN: left
+}
+#content TD#main-body {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; VERTICAL-ALIGN: top; PADDING-TOP: 0px; POSITION: relative; max-width: 600px
+}
+TABLE.padded TD {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; PADDING-TOP: 4px
+}
+TH {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; PADDING-TOP: 4px
+}
+.features {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BACKGROUND: #ecf2f9; BORDER-BOTTOM-WIDTH: 0px; BORDER-COLLAPSE: collapse; BORDER-RIGHT-WIDTH: 0px
+}
+.features TD {
+	BORDER-RIGHT: #ffffff 1px solid; PADDING-RIGHT: 10px; BORDER-TOP: #ffffff 1px solid; PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; BORDER-LEFT: #ffffff 1px solid; PADDING-TOP: 10px; BORDER-BOTTOM: #ffffff 1px solid
+}
+#content #main-body BLOCKQUOTE {
+	BACKGROUND-IMAGE: none
+}
+.graytext {
+	COLOR: #77787c
+}
+.smallers {
+	COLOR: #77787c
+}
+.smaller {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #565656; PADDING-TOP: 0px; FONT-FAMILY: Arial, Verdana, Helvetica, sans-serif
+}
+.smallerb {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #565656; PADDING-TOP: 0px; FONT-FAMILY: Arial, Verdana, Helvetica, sans-serif
+}
+.medium {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 115%; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #565656; PADDING-TOP: 0px; FONT-FAMILY: Arial, Verdana, Helvetica, sans-serif
+}
+.mediumb {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: bold; FONT-SIZE: 115%; PADDING-BOTTOM: 0px; MARGIN: 0px; COLOR: #565656; PADDING-TOP: 0px; FONT-FAMILY: Arial, Verdana, Helvetica, sans-serif
+}
+.h3 {
+	CLEAR: both; PADDING-RIGHT: 0px; DISPLAY: block; PADDING-LEFT: 0px; FONT-WEIGHT: normal; FONT-SIZE: 16px; PADDING-BOTTOM: 5px; MARGIN: 0px; COLOR: #ff9901; PADDING-TOP: 5px
+}
+#content #main-body .h3 {
+	FONT-SIZE: 18px
+}
+#content #main-body UL LI {
+	MARGIN-LEFT: 10px; LIST-STYLE-TYPE: square
+}
+#content #main-body LI A {
+	PADDING-LEFT: 0px; BACKGROUND-IMAGE: none
+}
+#content #main-body UL UL {
+	MARGIN-LEFT: 10px
+}
+#content #main-body OL OL {
+	MARGIN-LEFT: 10px
+}
+#content #main-body OL {
+	max-width: 90%
+}
+#content #main-body OL LI {
+	LIST-STYLE-TYPE: decimal
+}

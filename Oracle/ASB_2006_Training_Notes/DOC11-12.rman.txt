@@ -1,0 +1,70 @@
+D:\oracle\backup\rman>rman
+
+恢复管理器: 版本9.2.0.7.0 - Production
+
+Copyright (c) 1995, 2002, Oracle Corporation.  All rights reserved.
+
+RMAN> connect target sys/oracle
+
+连接到目标数据库: ORCL (DBID=1107259909)
+
+RMAN> run
+2> { allocate channel c1 device type disk
+3>   format 'd:\oracle\backup\orcl_%U.rman' ;
+4>  backup tablespace users;
+5> }
+
+正在使用目标数据库控制文件替代恢复目录
+分配的通道: c1
+通道 c1: sid=19 devtype=DISK
+
+启动 backup 于 05-8月 -06
+通道 c1: 正在启动 full 数据文件备份集
+通道 c1: 正在指定备份集中的数据文件
+输入数据文件 fno=00009 name=D:\ORACLE\ORADATA\ORCL\USERS01.DBF
+输入数据文件 fno=00013 name=D:\ORACLE\ORADATA\ORCL\USERS02.DBF
+通道 c1: 正在启动段 1 于 05-8月 -06
+通道 c1: 已完成段 1 于 05-8月 -06
+段 handle=D:\ORACLE\BACKUP\ORCL_0IHPVCGT_1_1.RMAN comment=NONE
+通道 c1: 备份集已完成, 经过时间:00:01:45
+完成 backup 于 05-8月 -06
+
+启动 Control File and SPFILE Autobackup 于 05-8月 -06
+段 handle=D:\ORACLE\BACKUP\ORCL\BACKUPSETS\ORCL-C-1107259909-20060805-01.CTL comment=NONE
+完成 Control File and SPFILE Autobackup 于 05-8月 -06
+释放的通道: c1
+
+RMAN>
+RMAN> show all;
+
+RMAN 配置参数为:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 2;
+CONFIGURE BACKUP OPTIMIZATION OFF; # default
+CONFIGURE DEFAULT DEVICE TYPE TO DISK;
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO 'D:\oracle\backup\orcl\ba
+CONFIGURE DEVICE TYPE DISK PARALLELISM 1;
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT   'D:\oracle\backup\orcl\backupsets\orcl_%U.rma
+CONFIGURE MAXSETSIZE TO UNLIMITED; # default
+CONFIGURE SNAPSHOT CONTROLFILE NAME TO 'D:\ORACLE\ORA92\DATABASE\SNCFORCL.ORA'; # default
+
+RMAN> list backup of tablespace users;
+
+
+备份集列表
+===================
+
+BS 关键字  类型 LV 大小       设备类型 经过时间 完成时间
+------- ---- -- ---------- ----------- ------------ ----------
+17      Full    782M       DISK        00:01:37     05-8月 -06
+BP 关键字: 17   状态: AVAILABLE   标记:TAG20060805T105940
+段名:D:\ORACLE\BACKUP\ORCL_0IHPVCGT_1_1.RMAN
+  备份集 17 中的数据文件列表
+  文件 LV 类型 Ckp SCN    Ckp 时间   名称
+  ---- -- ---- ---------- ---------- ----
+  9       Full 57603395   05-8月 -06 D:\ORACLE\ORADATA\ORCL\USERS01.DBF
+  13      Full 57603395   05-8月 -06 D:\ORACLE\ORADATA\ORCL\USERS02.DBF
+
+RMAN> 

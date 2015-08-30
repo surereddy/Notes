@@ -1,0 +1,15 @@
+#inline-dialog-selection-action-panel > div.contents {
+	padding: 4px;
+}
+#inline-dialog-selection-action-panel > div.contents .aui-button {
+	margin-left: 0px;
+}
+#inline-dialog-selection-action-panel .aui-button-compact.aui-button {
+	padding: 2px 5px; height: 2.16em; line-height: 1.6666; font-size: 12px;
+}
+#action-dialog-target {
+	position: absolute; z-index: -9999;
+}
+#inline-dialog-selection-action-panel {
+	-webkit-user-select: none; -moz-user-select: none; user-select: none;
+}

@@ -1,0 +1,198 @@
+.recently-updated .more-link-container {
+	display: none;
+}
+#main {
+	padding-bottom: 1em !important;
+}
+body {
+	line-height: 1.2; font-family: Arial,Helvetica,FreeSans,sans-serif; font-size: 10pt;
+}
+body {
+	background: rgb(255, 255, 255) !important; margin: 0px !important; padding: 0px !important; border: 0px currentColor !important; width: 100% !important; height: auto !important; color: rgb(0, 0, 0) !important; display: block !important; min-height: auto !important;
+}
+#full-height-container {
+	background: rgb(255, 255, 255) !important; margin: 0px !important; padding: 0px !important; border: 0px currentColor !important; width: 100% !important; height: auto !important; color: rgb(0, 0, 0) !important; display: block !important; min-height: auto !important;
+}
+#main {
+	background: rgb(255, 255, 255) !important; margin: 0px !important; padding: 0px !important; border: 0px currentColor !important; width: 100% !important; height: auto !important; color: rgb(0, 0, 0) !important; display: block !important; min-height: auto !important;
+}
+#page {
+	background: rgb(255, 255, 255) !important; margin: 0px !important; padding: 0px !important; border: 0px currentColor !important; width: 100% !important; height: auto !important; color: rgb(0, 0, 0) !important; display: block !important; min-height: auto !important;
+}
+#content {
+	background: rgb(255, 255, 255) !important; margin: 0px !important; padding: 0px !important; border: 0px currentColor !important; width: 100% !important; height: auto !important; color: rgb(0, 0, 0) !important; display: block !important; min-height: auto !important;
+}
+.has-personal-sidebar #content {
+	background: rgb(255, 255, 255) !important; margin: 0px !important; padding: 0px !important; border: 0px currentColor !important; width: 100% !important; height: auto !important; color: rgb(0, 0, 0) !important; display: block !important; min-height: auto !important;
+}
+a {
+	color: rgb(0, 0, 0);
+}
+a:link {
+	color: rgb(0, 0, 0);
+}
+a:visited {
+	color: rgb(0, 0, 0);
+}
+a:focus {
+	color: rgb(0, 0, 0);
+}
+a:hover {
+	color: rgb(0, 0, 0);
+}
+a:active {
+	color: rgb(0, 0, 0);
+}
+#content h1 {
+	font-family: Arial,Helvetica,FreeSans,sans-serif; page-break-after: avoid;
+}
+#content h2 {
+	font-family: Arial,Helvetica,FreeSans,sans-serif; page-break-after: avoid;
+}
+#content h3 {
+	font-family: Arial,Helvetica,FreeSans,sans-serif; page-break-after: avoid;
+}
+#content h4 {
+	font-family: Arial,Helvetica,FreeSans,sans-serif; page-break-after: avoid;
+}
+#content h5 {
+	font-family: Arial,Helvetica,FreeSans,sans-serif; page-break-after: avoid;
+}
+#content h6 {
+	font-family: Arial,Helvetica,FreeSans,sans-serif; page-break-after: avoid;
+}
+pre {
+	font-family: Monaco,"Courier New",monospace;
+}
+#header {
+	display: none !important;
+}
+.aui-header-inner {
+	display: none !important;
+}
+#navigation {
+	display: none !important;
+}
+#sidebar {
+	display: none !important;
+}
+.sidebar {
+	display: none !important;
+}
+#personal-info-sidebar {
+	display: none !important;
+}
+.ia-fixed-sidebar {
+	display: none !important;
+}
+.page-actions {
+	display: none !important;
+}
+.navmenu {
+	display: none !important;
+}
+.ajs-menu-bar {
+	display: none !important;
+}
+.noprint {
+	display: none !important;
+}
+.inline-control-link {
+	display: none !important;
+}
+.inline-control-link a {
+	display: none !important;
+}
+a.show-labels-editor {
+	display: none !important;
+}
+.global-comment-actions {
+	display: none !important;
+}
+.comment-actions {
+	display: none !important;
+}
+.quick-comment-container {
+	display: none !important;
+}
+#addcomment {
+	display: none !important;
+}
+.comment .date::before {
+	content: none !important;
+}
+h1.pagetitle img {
+	width: auto; height: auto;
+}
+.print-only {
+	display: block;
+}
+#footer {
+	background: 0px; margin: 0px; padding: 0px; clear: both; position: relative !important;
+}
+#poweredby {
+	background: 0px; border-top-color: currentColor; border-top-width: 0px; border-top-style: none;
+}
+#poweredby li.print-only {
+	font-style: italic; display: list-item;
+}
+#poweredby li.noprint {
+	display: none;
+}
+.wiki-content .table-wrap {
+	overflow: visible !important;
+}
+.wiki-content p {
+	overflow: visible !important;
+}
+.panel .codeContent {
+	overflow: visible !important;
+}
+.panel .codeContent pre {
+	overflow: visible !important;
+}
+.image-wrap {
+	overflow: visible !important;
+}
+#children-section {
+	page-break-inside: avoid;
+}
+#comments-section .comment {
+	page-break-inside: avoid;
+}
+#comments-section .comment .comment-body {
+	page-break-inside: avoid;
+}
+#comments-section .comment .comment-content {
+	page-break-inside: avoid;
+}
+#comments-section .comment p {
+	page-break-inside: avoid;
+}
+#page-children a {
+	text-decoration: none;
+}
+.pageSection#comments-section .section-header {
+	padding-left: 0px; margin-left: 0px;
+}
+.pageSection#comments-section .section-title {
+	padding-left: 0px; margin-left: 0px;
+}
+.pageSection#children-section .section-header {
+	padding-left: 0px; margin-left: 0px;
+}
+.pageSection#children-section .section-title {
+	padding-left: 0px; margin-left: 0px;
+}
+.children-show-hide {
+	padding-left: 0px; margin-left: 0px;
+}
+.icon.children-show-hide {
+	display: none;
+}
+.has-personal-sidebar #content {
+	margin-right: 0px;
+}
+.has-personal-sidebar #content .pageSection {
+	margin-right: 0px;
+}

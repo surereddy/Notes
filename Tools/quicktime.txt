@@ -1,0 +1,14 @@
+FAQ
+|- quicktime can not be opened
+1. Situation1:
+   Firewall disables quicktime. 
+   Solution:
+   Disable firewall.
+   
+2. It could be that the window of quicktime is not open but process is running. 
+   Check it in windows task manager.
+   If it's, kill the process and try again, then it could be opened in windows.
+   Reason is not known.
+   
+3. If above two are not the reasons, it may be caused by it's related process C:\Program Files\Bonjour\mDNSResponder.exe.
+   Double click to run mDNSResponder.exe first,which is a background running process, and try again.

@@ -1,0 +1,144 @@
+***************************************************
+** The usage of tcpdump command on Unix Platform **
+***************************************************
+simple example:
+tcpdump -s 4086 -w 3.cap                  => capture earliest match interface to 3.cap
+or 
+tcpdump -s 0 -w 3.cap                     => -s 0 means no length limitation and default ethe
+
+tcpdump -s 0 -i any/eth0/lo -w 3.cap      => capture all/eth0/loopback to 3.cap. All includes lo.
+
+tcpdump -A                               => print packet as Ascii in the screen without ... for none-Ascii, NOT support in Redhat
+tcpdump -X                               => print packet as hex and Ascii in the screen like ethereal
+
+tcpdump  "(src port 2006 and  src host 192.168.50.208) or (dst port 2006 and  src host 192.168.50.208) and tcp" -s 0 -A => 
+
+tcpdump "((src net $1 mask 255.255.255.255) and (dst net $2 mask 255.255.255.255)) or ((src net $2 mask 255.255.255.255) and (dst net $1 mask 255.255.255.255))" -s 0 -w $3 => shell script, $1,2,3 are input
+
+-i     Listen  on interface.  If unspecified, tcpdump searches the system interface list for the lowest numbered, configured
+              up interface (excluding loopback).  Ties are broken by choosing the earliest match.
+-s     Snarf snaplen bytes of data from each packet  rather  than  the
+              default  of  68 (with SunOSa€?s NIT, the minimum is actually 96).
+
+
+
+
+
+
+
+tcpdump -A                               => print packet as Ascii in the screen without ... for none-Ascii
+========
+09:29:53.481523 IP 192.168.50.208.61574 > ViSS.sbell.com.cn.invokator: P 0:175(175) ack 1 win 5840 <nop,nop,timestamp 30835043 138713693>
+E...`.@.@.....2...2......$..8(.............
+...c.D.]POST /viss/GetVS HTTP/1.1
+User-Agent: Jakarta Commons-HttpClient/2.0final
+Host: 192.168.50.243:2006
+Content-Length: 138
+Content-Type: application/x-www-form-urlencoded
+
+
+tcpdump -X                               => print packet as hex and Ascii in the screen like ethereal
+========
+09:28:48.798769 IP 192.168.50.208.61562 > ViSS.sbell.com.cn.invokator: P 0:177(177) ack 1 win 5840 <nop,nop,timestamp 30828574 138649000>
+0x0000   4500 00e5 970f 4000 4006 bbef c0a8 32d0        E.....@.@.....2.
+0x0010   c0a8 32f3 f07a 07d6 160f ff14 34fc b8b2        ..2..z......4...
+0x0020   8018 16d0 5d44 0000 0101 080a 01d6 681e        ....]D........h.
+0x0030   0843 9da8 504f 5354 202f 7669 7373 2f47        .C..POST./viss/G
+0x0040   6574 4172 6561 2048 5454 502f 312e 310d        etArea.HTTP/1.1.
+0x0050   0a55 7365 722d 4167 656e 743a 204a 616b        .User-Agent:.Jak
+0x0060   6172 7461 2043 6f6d 6d6f 6e73 2d48 7474        arta.Commons-Htt
+0x0070   7043 6c69 656e 742f 322e 3066 696e 616c        pClient/2.0final
+0x0080   0d0a 486f 7374 3a20 3139 322e 3136 382e        ..Host:.192.168.
+0x0090   3530 2e32 3433 3a32 3030 360d 0a43 6f6e        50.243:2006..Con
+0x00a0   7465 6e74 2d4c 656e 6774 683a 2031 3437        tent-Length:.147
+0x00b0   0d0a 436f 6e74 656e 742d 5479 7065 3a20        ..Content-Type:.
+0x00c0   6170 706c 6963 6174 696f 6e2f 782d 7777        application/x-ww
+0x00d0   772d 666f 726d 2d75 726c 656e 636f 6465        w-form-urlencode
+
+              
+#As we know the UNIX platform is frequently used on our solution, the UNIX command - tcpdump can dump the traffic
+#on network or local computer. The attachment is the simple introduction of this command.
+
+
+Preface
+-------
+The tcpdump is an UNIX command. It can be used to dump the traffic on network. It also can dump the traffic on local computer (127.0.0.1).
+Following text describes how to simply use this command, and gives 2 examples. To understand this command deeply, please type "man tcpdump" on UNIX platform.
+
+1. Create a group of packet filter device special files
+Log on UNIX with root user, type following commands:
+#cd /dev
+#./MAKEDEV pfilt4096
+
+2. Configure packet filter parameters
+Log on UNIX with root user, type following commands:
+#/usr/sbin/pfconfig +promisc +copyall interface-name
+
+Notes:
+    interface-name: You can use "ifconfig -a" to show all interfaces on UNIX platform.
+
+3. Dump traffic on a network
+Type following command to dump the data package:
+#tcpdump -mvvX -s 4086 -i interface-name expression
+
+Example:
+A. Dump the SIP traffic between A5020 and SIP terminal
+smc303@DS15-SingTel $ tcpdump -mnOvvX -s 4086 -i ee1 udp port 5060 and host 172.24.201.101
+tcpdump: listening on ee1
+Using kernel BPF filter
+15:39:06.768968 172.24.201.101.52041 > 172.24.198.210.5060: udp 309 (ttl 63, id 34744)
+                4500 0151 87b8 0000 3f11 0a7b ac18 c965  E..Q....?..{...e
+                ac18 c6d2 cb49 13c4 013d 6f7b 5245 4749  .....I...=o{REGI
+                5354 4552 2073 6970 3a33 3232 3030 3032  STER sip:3220002
+                3034 3140 6e67 6e2e 6265 2053 4950 2f32  041@ngn.be SIP/2
+                2e30 0d0a 5669 613a 2053 4950 2f32 2e30  .0..Via: SIP/2.0
+                2f55 4450 2031 3732 2e32 342e 3230 312e  /UDP 172.24.201.
+                3130 313a 3532 3034 313b 6272 616e 6368  101:52041;branch
+                3d7a 3968 4734 624b 3330 3031 6665 650d  =z9hG4bK3001fee.
+                0a46 726f 6d3a 203c 7369 703a 3332 3230  .From: <sip:3220
+                3030 3230 3431 406e 676e 2e62 653e 3b74  002041@ngn.be>;t
+                6167 3d30 3330 3031 6166 350d 0a54 6f3a  ag=03001af5..To:
+                203c 7369 703a 3332 3230 3030 3230 3431   <sip:3220002041
+                406e 676e 2e62 653e 0d0a 4361 6c6c 2d49  @ngn.be>..Call-I
+                443a 2032 3336 3640 6e67 6e2e 6265 0d0a  D: 2366@ngn.be..
+                4353 6571 3a20 3533 3134 3031 2052 4547  CSeq: 531401 REG
+                4953 5445 520d 0a43 6f6e 7461 6374 3a20  ISTER..Contact:
+                3c73 6970 3a33 3232 3030 3032 3034 3140  <sip:3220002041@
+                3137 322e 3234 2e32 3031 2e31 3031 3a35  172.24.201.101:5
+                3230 3431 3e3b 7369 702d 6578 7465 6e73  2041>;sip-extens
+                696f 6e73 3d22 7072 6976 6163 7922 0d0a  ions="privacy"..
+                4578 7069 7265 733a 2033 3630 300d 0a0d  Expires: 3600...
+                0a                                       .
+15:39:06.839278 172.24.198.210.5060 > 172.24.201.101.52041: udp 317 (DF) (ttl 128, id 35632)
+                4500 0159 8b30 4000 8011 85fa ac18 c6d2  E..Y.0@.........
+                ac18 c965 13c4 cb49 0145 f5ba 5349 502f  ...e...I.E..SIP/
+                322e 3020 3230 3020 4f4b 0d0a 5669 613a  2.0 200 OK..Via:
+                2053 4950 2f32 2e30 2f55 4450 2031 3732   SIP/2.0/UDP 172
+                2e32 342e 3230 312e 3130 313a 3532 3034  .24.201.101:5204
+                313b 6272 616e 6368 3d7a 3968 4734 624b  1;branch=z9hG4bK
+                3330 3031 6665 650d 0a46 726f 6d3a 203c  3001fee..From: <
+                7369 703a 3332 3230 3030 3230 3431 406e  sip:3220002041@n
+                676e 2e62 653e 3b74 6167 3d30 3330 3031  gn.be>;tag=03001
+                6166 350d 0a54 6f3a 203c 7369 703a 3332  af5..To: <sip:32
+                3230 3030 3230 3431 406e 676e 2e62 653e  20002041@ngn.be>
+                0d0a 4361 6c6c 2d49 443a 2032 3336 3640  ..Call-ID: 2366@
+                6e67 6e2e 6265 0d0a 4353 6571 3a20 3533  ngn.be..CSeq: 53
+                3134 3031 2052 4547 4953 5445 520d 0a43  1401 REGISTER..C
+                6f6e 7461 6374 3a20 3c73 6970 3a33 3232  ontact: <sip:322
+                3030 3032 3034 3140 3137 322e 3234 2e32  0002041@172.24.2
+                3031 2e31 3031 3a35 3230 3431 3e3b 6578  01.101:52041>;ex
+                7069 7265 733d 3336 3030 3b73 6970 2d65  pires=3600;sip-e
+                7874 656e 7369 6f6e 733d 2270 7269 7661  xtensions="priva
+                6379 220d 0a45 7870 6972 6573 3a20 3336  cy"..Expires: 36
+                3030 0d0a 436f 6e74 656e 742d 4c65 6e67  00..Content-Leng
+                7468 3a20 300d 0a0d 0a                   th: 0....
+
+B. Dump the SNMP traffic on A5020 gsnmpd
+smc303@DS15-SingTel $ tcpdump -mnOvvX -s 4086 -i lo0 tcp port 9009
+tcpdump: listening on ee1
+Using kernel BPF filter
+...
+
+
+or 
+tcpdump [-w test.cap] -i any -s 0 host 10.0.72.185 

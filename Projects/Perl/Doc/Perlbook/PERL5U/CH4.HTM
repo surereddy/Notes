@@ -1,0 +1,1566 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 4 -- Introduction to Perl Modules</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 4</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Introduction to Perl Modules</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#WhatIsaPerlModule" >What Is a Perl Module?</A>
+<LI><A HREF="#UsingPerlModulesusevsrequire" >Using Perl Modules: use vs. require</A>
+<LI><A HREF="#TheSampleLetterpmModule" >The Sample Letter.pm Module</A>
+<LI><A HREF="#SubroutinesandPassingParameters" >Subroutines and Passing Parameters</A>
+<LI><A HREF="#AnotherSampleModuleFinance" >Another Sample Module: Finance</A>
+<UL>
+<LI><A HREF="#ReturnedValuesfromSubroutinesinaPa" >Returned Values from Subroutines in a Package</A>
+</UL>
+<LI><A HREF="#MultipleInheritance" >Multiple Inheritance</A>
+<LI><A HREF="#ThePerlModuleLibraries" >The Perl Module Libraries</A>
+<UL>
+<LI><A HREF="#ExtensionModules" >Extension Modules</A>
+<LI><A HREF="#WhatIsCPAN" >What Is CPAN?</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter introduces you to the concepts behind references
+to Perl modules, packages, and classes. It also shows you how
+to create a few sample modules.
+<H2><A NAME="WhatIsaPerlModule"><FONT SIZE=5 COLOR=#FF0000>What
+Is a Perl Module?</FONT></A></H2>
+<P>
+A Perl module is a set of Perl code that acts like a library of
+function calls. The term <I>module</I> in Perl is synonymous with
+the word <I>package</I>. Packages are a feature of Perl 4, whereas
+modules are prevalent in Perl 5. 
+<P>
+You can keep all your reusable Perl code specific to a set of
+tasks in a Perl module. Therefore, all the functionality pertaining
+to one type of task is contained in one file. It's easier to build
+an application on these modular blocks. Hence, the word <I>module</I>
+applies a bit more than <I>package</I>.
+<P>
+Here's a quick introduction to modules. Certain topics in this
+section will be covered in detail throughout the rest of the book.
+Read the following paragraphs carefully to get an overview of
+what lies ahead as you write and use your own modules.
+<P>
+What is confusing is that the terms <I>module</I> and <I>package</I>
+are used interchangeably in all Perl documentation, and <I>these
+two terms mean the very same thing</I>. So when reading Perl documents,
+just think &quot;package&quot; when you see &quot;module&quot;
+and vice versa.
+<P>
+So, what's the premise for using modules? Well, modules are there
+to package (pardon the pun) variables, symbols, and interconnected
+data items together. For example, using global variables with
+very common names such as <TT><FONT FACE="Courier">$k</FONT></TT>,
+<TT><FONT FACE="Courier">$j</FONT></TT>, or <TT><FONT FACE="Courier">$i</FONT></TT>
+in a program is generally not a good idea. Also, a loop counter,
+<TT><FONT FACE="Courier">$i</FONT></TT>, should be allowed to
+work independently in two different portions of the code. Declaring
+<TT><FONT FACE="Courier">$i</FONT></TT> as a global variable and
+then incrementing it from within a subroutine will create unmanageable
+problems with your application code because the subroutine may
+have been called from within a loop that also uses a variable
+called <TT><FONT FACE="Courier">$i</FONT></TT>. The use of modules
+in Perl allows variables with the same name to be created at different,
+distinct places in the same program. 
+<P>
+The symbols defined for your variables are stored in an associative
+array, referred to as a <I>symbol table</I>. These symbol tables
+are unique to a package. Therefore, variables of the same name
+in two different packages can have different values. 
+<P>
+Each module has its own symbol table of all symbols that are declared
+within it. The symbol table basically isolates synonymous names
+in one module from another. The symbol table defines a <I>namespace</I>,
+that is, a space for independent variable names to exist in. Thus,
+the use of modules, each with its own symbol table, prevents a
+variable declared in one section from overwriting the values of
+other variables with the same name declared elsewhere in the same
+program.
+<P>
+As a matter of fact, all variables in Perl belong to a package.
+The variables in a Perl program belong to the <TT><FONT FACE="Courier">main</FONT></TT>
+package. All other packages within a Perl program either are nested
+within this main package or exist at the same level. There are
+some truly global variables, such as the signal handler array
+<TT><FONT FACE="Courier">%SIG</FONT></TT>, that are available
+to all other modules in an application program and cannot be isolated
+via namespaces. Only those variable identifiers starting with
+letters or an underscore are kept in a module's symbol table.
+All other symbols, such as the names <TT><FONT FACE="Courier">STDIN</FONT></TT>,
+<TT><FONT FACE="Courier">STDOUT</FONT></TT>, <TT><FONT FACE="Courier">STDERR</FONT></TT>,
+<TT><FONT FACE="Courier">ARGV</FONT></TT>, <TT><FONT FACE="Courier">ARGVOUT</FONT></TT>,
+<TT><FONT FACE="Courier">ENV</FONT></TT>, <TT><FONT FACE="Courier">Inc</FONT></TT>,
+and <TT><FONT FACE="Courier">SIG</FONT></TT> are forced to be
+in package <TT><FONT FACE="Courier">_main.</FONT></TT>
+<P>
+Switching between packages affects only namespaces. All you are
+doing when you use one package or another is declaring which symbol
+table to use as the default symbol table for lookup of variable
+names. Only dynamic variables are affected by the use of symbol
+tables. Variables declared by the use of the <TT><FONT FACE="Courier">my</FONT></TT>
+keyword are still resolved with the code block they happen to
+reside in and are not referenced through symbol tables. In fact,
+the scope of a package declaration remains active only within
+the code block it is declared in. Therefore, if you switch symbol
+tables by using a package within a subroutine, the original symbol
+table in effect when the call was made will be restored when the
+subroutine returns. 
+<P>
+Switching symbol tables affects only the default lookup of dynamic
+variable names. You can still explicitly refer to variables, file
+handles, and so on in a specific package by prepending a <TT><I><FONT FACE="Courier">packageName</FONT></I><FONT FACE="Courier">::</FONT></TT>
+to the variable name. You saw what a <I>package context</I> was
+when using references in <A HREF="ch3.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch3.htm" >Chapter 3</A>. A package
+context simply implies the use of the symbol table by the Perl
+interpreter for resolving variable names in a program. By switching
+symbol tables, you are switching the package context.
+<P>
+Modules can be nested within other modules. The nested module
+can use the variables and functions of the module it is nested
+within. For nested modules, you would have to use <TT><I><FONT FACE="Courier">moduleName</FONT></I><FONT FACE="Courier">::<I>nestedModuleName</I></FONT></TT>
+and so on. Using the double colon (<TT><FONT FACE="Courier">::</FONT></TT>)
+is synonymous with using a back quote (<TT><FONT FACE="Courier">`</FONT></TT>).
+However, the double colon is the preferred, future way of addressing
+variables within modules. 
+<P>
+Explicit addressing of module variables is always done with a
+complete reference. For example, suppose you have a module, <TT><FONT FACE="Courier">Investment</FONT></TT>,
+which is the default package in use, and you want to address another
+module, <TT><FONT FACE="Courier">Bonds</FONT></TT>, which is nested
+within the <TT><FONT FACE="Courier">Investment</FONT></TT> module.
+In this case, you cannot use <TT><FONT FACE="Courier">Bond::</FONT></TT>.
+Instead, you would have to use <TT><FONT FACE="Courier">Investment::Bond::</FONT></TT>
+to address variables and functions within the <TT><FONT FACE="Courier">Bond</FONT></TT>
+module. Using <TT><FONT FACE="Courier">Bond::</FONT></TT> would
+imply the use of a package <TT><FONT FACE="Courier">Bond</FONT></TT>
+that is nested within the <TT><FONT FACE="Courier">main</FONT></TT>
+module and not within the <TT><FONT FACE="Courier">Investment</FONT></TT>
+module. 
+<P>
+The symbol table for a module is actually stored in an associative
+array of the module's names appended with two colons. The symbol
+table for a module called <TT><FONT FACE="Courier">Bond</FONT></TT>
+will be referred to as the associative array <TT><FONT FACE="Courier">%Bond::</FONT></TT>.
+The name for the symbol table for the <TT><FONT FACE="Courier">main</FONT></TT>
+module is <TT><FONT FACE="Courier">%main::</FONT></TT>, and can
+even be shortened to <TT><FONT FACE="Courier">%::</FONT></TT>.
+Similarly, all nested packages have their symbols stored in associative
+arrays with double colons separating each nesting level. For example,
+in the <TT><FONT FACE="Courier">Bond</FONT></TT> module that is
+nested within the <TT><FONT FACE="Courier">Investment</FONT></TT>
+module, the associative array for the symbols in the <TT><FONT FACE="Courier">Bond</FONT></TT>
+module will be named <TT><FONT FACE="Courier">%Investment::Bond::</FONT></TT>.
+<P>
+A <TT><FONT FACE="Courier">typeglob</FONT></TT> is really a global
+type for a symbol name. You can perform aliasing operations by
+assigning to a <TT><FONT FACE="Courier">typeglob</FONT></TT>.
+One or more entries in an associative array for symbols will be
+used when an assignment via a <TT><FONT FACE="Courier">typeglob</FONT></TT>
+is used. The actual value in each entry of the associative array
+is what you are referring to when you use the <TT><FONT FACE="Courier">*<I>variableName</I></FONT></TT><I>
+</I>notation. Thus, there are two ways of referring to variable
+names in a package: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">*Investment::money = *Investment::bills;
+<BR>
+<BR>
+$Investment::{'money'} = $Investment::{'bills'};</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In the first method, you are referring to the variables via a
+<TT><FONT FACE="Courier">typeglob</FONT></TT> reference. The use
+of the symbol table, <TT><FONT FACE="Courier">%Investment::</FONT></TT>,
+is implied here, and Perl will optimize the lookup for symbols
+<TT><FONT FACE="Courier">money</FONT></TT> and <TT><FONT FACE="Courier">bills</FONT></TT>.
+This is the faster and preferred way of addressing a symbol. The
+second method uses a lookup for the value of a variable addressed
+by <TT><FONT FACE="Courier">'money'</FONT></TT> and <TT><FONT FACE="Courier">'bills'</FONT></TT>
+in the associative array used for symbols, <TT><FONT FACE="Courier">%Investment::</FONT></TT>
+explicitly. This lookup would be done dynamically and will not
+be optimized by Perl. Therefore, the lookup will be forced to
+check the associative array every time the statement is executed.
+As a result, the second method is not efficient and should be
+used only for demonstration of how the symbol table is implemented
+internally.
+<P>
+Another example in this statement 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">*kamran = *husain;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+causes variables, subroutines, and file handles that are named
+via the symbol <TT><FONT FACE="Courier">kamran</FONT></TT> to
+also be addressed via the symbol <TT><FONT FACE="Courier">husain</FONT></TT>.
+That is, all symbol entries in the current symbol table with the
+key <TT><FONT FACE="Courier">kamran</FONT></TT> will now contain
+references to those symbols addressed by the key <TT><FONT FACE="Courier">husain</FONT></TT>.
+To prevent such a global assignment, you can use explicit references.
+For example, the following statement will let you address the
+contents of <TT><FONT FACE="Courier">$husain</FONT></TT> via the
+variable <TT><FONT FACE="Courier">$kamran</FONT></TT>: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">*kamran = \$husain;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+However, any arrays such <TT><FONT FACE="Courier">@kamran</FONT></TT>
+and <TT><FONT FACE="Courier">@husain</FONT></TT> will not be the
+same. Only what the references specified explicitly will be changed.
+To summarize, when you assign one <TT><FONT FACE="Courier">typeglob</FONT></TT>
+to another, you affect all the entries in a symbol table regardless
+of the type of variable being referred to. When you assign a reference
+from one variable type to another, you are only affecting one
+entry in the symbol table. 
+<P>
+A Perl module file has the following format:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">package ModuleName;<BR>
+...<BR>
+ ####&nbsp;&nbsp;<I>Insert module code </I>####<BR>
+...<BR>
+1;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The filename has to be called <TT><FONT FACE="Courier">ModuleName.pm</FONT></TT>.
+The name of a module must end in the string <TT><FONT FACE="Courier">.pm</FONT></TT>
+by convention. The <TT><FONT FACE="Courier">package</FONT></TT>
+statement is the first line of the file. The last line of the
+file must contain the line with the <TT><FONT FACE="Courier">1;</FONT></TT>
+statement. This in effect returns a <TT><FONT FACE="Courier">true</FONT></TT>
+value to the application program using the module. Not using the
+<TT><FONT FACE="Courier">1;</FONT></TT> statement will not let
+the module be loaded correctly.
+<P>
+The <TT><FONT FACE="Courier">package</FONT></TT> statement tells
+the Perl interpreter to start with a new namespace domain. Basically,
+all your variables in a Perl script belong to a package called
+<TT><FONT FACE="Courier">main</FONT></TT>. Every variable in the
+<TT><FONT FACE="Courier">main</FONT></TT> package can be referred
+to as <TT><FONT FACE="Courier">$main'variable</FONT></TT>.
+<P>
+Here's the syntax for such references:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$packageName'variableName</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The single quote (<TT><FONT FACE="Courier">'</FONT></TT>) is synonymous
+with the double colon (<TT><FONT FACE="Courier">::</FONT></TT>)
+operator. I cover more uses of the <TT><FONT FACE="Courier">::</FONT></TT>
+operator in the next chapter. For the time being, you must remember
+that the following two statements are equivalent:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$packageName'variableName;<BR>
+$packageName::variableName;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The double-colon syntax is considered standard in the Perl world.
+Therefore, to preserve readability, I use the double-colon syntax
+in the rest of this book unless it's absolutely necessary to make
+exceptions to prove a point.
+<P>
+The default use of a variable name defers to the current package
+active at the time of compilation. Thus, if you are in the package
+<TT><FONT FACE="Courier">Finance.pm</FONT></TT> and specify a
+variable <TT><FONT FACE="Courier">$pv</FONT></TT>, the variable
+is actually equal to <TT><FONT FACE="Courier">$Finance::$pv</FONT></TT>.
+<H2><A NAME="UsingPerlModulesusevsrequire"><FONT SIZE=5 COLOR=#FF0000>Using
+Perl Modules: </FONT><TT><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">use</FONT></TT><FONT SIZE=5 COLOR=#FF0000>
+vs. </FONT><TT><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">require</FONT></TT></A>
+</H2>
+<P>
+You include Perl modules in your program by using the <TT><FONT FACE="Courier">use</FONT></TT>
+or the <TT><FONT FACE="Courier">require</FONT></TT> statement.
+Here's the way to use either of these statements:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use ModuleName;<BR>
+</FONT></TT>require ModuleName;
+</BLOCKQUOTE>
+<P>
+Note that the <TT><FONT FACE="Courier">.pm</FONT></TT> extension
+is not used in the code shown above. Also note that neither statement
+allows a file to be included more than once in a program. The
+returned value of true (<TT><FONT FACE="Courier">1;</FONT></TT>)
+as the last statement is required to let Perl know that a <TT><FONT FACE="Courier">require</FONT></TT>d
+or <TT><FONT FACE="Courier">use</FONT></TT>d module loaded correctly
+and lets the Perl interpreter ignore any reloads. In general,
+it's better to use the <TT><FONT FACE="Courier">use Module;</FONT></TT>
+statement than the <TT><FONT FACE="Courier">require Module;</FONT></TT>
+statement in a Perl program to remain compatible with future versions
+of Perl. 
+<P>
+For modules, you might want to consider continuing to use the
+<TT><FONT FACE="Courier">require</FONT></TT> statement. Here's
+why: The <TT><FONT FACE="Courier">use</FONT></TT> statement does
+a little bit more work than the <TT><FONT FACE="Courier">require</FONT></TT>
+statement in that it alters the namespace of the module that includes
+another module. You want this extra update of the namespace to
+be done in a program. However, when writing code for a module,
+you may not want the namespace to be altered unless it's explicitly
+required. In this event, you will use the <TT><FONT FACE="Courier">require</FONT></TT>
+statement. 
+<P>
+The <TT><FONT FACE="Courier">require</FONT></TT> statement includes
+the full pathname of a file in the <TT><FONT FACE="Courier">@Inc</FONT></TT>
+array so that the functions and variables in the module's file
+are in a known location during execution time. Therefore, the
+functions that are imported from a module are imported via an
+explicit module reference at runtime with the <TT><FONT FACE="Courier">require</FONT></TT>
+statement. The <TT><FONT FACE="Courier">use</FONT></TT> statement
+does the same thing as the <TT><FONT FACE="Courier">require</FONT></TT>
+statement because it updates the <TT><FONT FACE="Courier">@Inc</FONT></TT>
+array with full pathnames of loaded modules. The code for the
+<TT><FONT FACE="Courier">use</FONT></TT> function also goes a
+step further and calls an <TT><FONT FACE="Courier">import</FONT></TT>
+function in the module being <TT><FONT FACE="Courier">use</FONT></TT>d
+to explicitly load the list of exported functions at compile time,
+thus saving the time required for an explicit resolution of a
+function name during execution. 
+<P>
+Basically, the <TT><FONT FACE="Courier">use</FONT></TT> statement
+is equivalent to
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">require ModuleName; import ModuleName
+[list of imported functions];</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The use of the <TT><FONT FACE="Courier">use</FONT></TT> statement
+does change your program's namespace because the imported function
+names are inserted in the symbol table. The <TT><FONT FACE="Courier">require</FONT></TT>
+statement does not alter your program's namespace. Therefore,
+the following statement
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use ModuleName (); </FONT></TT>
+</BLOCKQUOTE>
+<P>
+is equivalent to this statement: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">require ModuleName;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Functions are imported from a module via a call to a function
+called <TT><FONT FACE="Courier">import</FONT></TT>. You can write
+your own <TT><FONT FACE="Courier">import</FONT></TT> function
+in a module, or you can use the <TT><FONT FACE="Courier">Exporter</FONT></TT>
+module and use its <TT><FONT FACE="Courier">import</FONT></TT>
+function. In almost all cases, you will use the <TT><FONT FACE="Courier">Exporter</FONT></TT>
+module to provide an <TT><FONT FACE="Courier">import</FONT></TT>
+function instead of reinventing the wheel. (You'll learn more
+on this in the next section.) Should you decide not to use the
+<TT><FONT FACE="Courier">Exporter</FONT></TT> module, you will
+have to write your own <TT><FONT FACE="Courier">import</FONT></TT>
+function in each module that you write. It's much easier to simply
+use the <TT><FONT FACE="Courier">Exporter</FONT></TT> module and
+let Perl do the work for you.
+<H2><A NAME="TheSampleLetterpmModule"><FONT SIZE=5 COLOR=#FF0000>The
+Sample </FONT><TT><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">Letter.pm</FONT></TT><FONT SIZE=5 COLOR=#FF0000>
+Module</FONT></A></H2>
+<P>
+The best way to illustrate the semantics of how a module is used
+in Perl is to write a simple module and show how to use it. Let's
+take the example of a local loan shark, Rudious Maximus, who is
+simply tired of typing the same &quot;request for payment&quot;
+letters. Being an avid fan of computers and Perl, Rudious takes
+the lazy programmer's approach and writes a Perl module to help
+him generate his memos and letters.
+<P>
+Now, instead of typing within fields in a memo template file,
+all he has to do is type a few lines to produce his nice, threatening
+note. Listing 4.1 shows you what he has to type.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 4.1. Using the </B><TT><B><FONT FACE="Courier">Letter</FONT></B></TT><B>
+module.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl -w<BR>
+&nbsp;2 #<BR>
+&nbsp;3 # Uncomment the line
+below to include the current dir in @Inc.<BR>
+&nbsp;4 # push (@Inc, 'pwd');<BR>
+&nbsp;5 #<BR>
+&nbsp;6 use Letter;<BR>
+&nbsp;7 <BR>
+&nbsp;8 Letter::To(&quot;Mr. Gambling Man&quot;,&quot;The money
+for Lucky Dog, Race 2&quot;);<BR>
+&nbsp;9 Letter::ClaimMoneyNice();
+<BR>
+10 Letter::ThankDem();<BR>
+11 Letter::Finish();</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">use Letter;</FONT></TT> statement
+is present to force the Perl interpreter to include the code for
+the module in the application program. The module should be located
+in the <TT><FONT FACE="Courier">/usr/lib/perl5/</FONT></TT> directory,
+or you can place it in any directory listed in the <TT><FONT FACE="Courier">@Inc</FONT></TT>
+array. The <TT><FONT FACE="Courier">@Inc</FONT></TT> array is
+the list of directories that the Perl interpreter will look for
+when attempting to load the code for the named module. The commented
+line (number 4) shows how to add the current working directory
+to include the path. The next four lines in the file generate
+the subject matter for the letter. 
+<P>
+Here's the output from using the <TT><FONT FACE="Courier">Letter</FONT></TT>
+module:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">To: Mr. Gambling Man<BR>
+Fm: Rudious Maximus, Loan Shark<BR>
+Dt: Wed Feb&nbsp;&nbsp;7 10:35:51 CST 1996<BR>
+<BR>
+Re: The money for Lucky Dog, Race 2<BR>
+<BR>
+<BR>
+====================================================<BR>
+<BR>
+It has come to my attention that your account is<BR>
+way over due.<BR>
+You gonna pay us soon?<BR>
+Or would you like me to come ovah?<BR>
+<BR>
+Thanks for your support.<BR>
+<BR>
+<BR>
+<BR>
+Sincerely,<BR>
+Rudious</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">Letter</FONT></TT> module file is
+shown in Listing 4.2. The name of the package is declared in the
+first line. Because this module's functions will be exported,
+I use the <TT><FONT FACE="Courier">Exporter</FONT></TT> module.
+Therefore, the statement <TT><FONT FACE="Courier">use Exporter;</FONT></TT>
+is required to inherit functionality from the <TT><FONT FACE="Courier">Exporter</FONT></TT>
+module. Another required step is putting the word <TT><FONT FACE="Courier">Exported</FONT></TT>
+in the <TT><FONT FACE="Courier">@ISA</FONT></TT> array to allow
+searching for <TT><FONT FACE="Courier">Exported.pm</FONT></TT>.
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">@ISA</FONT></TT> array is a special array within each package. Each item in the array lists where else to look for a method if it cannot be found in the current package. The order in which packages are listed in the <TT><FONT 
+FACE="Courier">@ISA</FONT></TT> array is the order in which Perl searches for unresolved symbols. A class that is listed in the <TT><FONT FACE="Courier">@ISA</FONT></TT> array is referred to as the base class of that particular class. Perl will cache 
+missing methods found in base classes for future references. Modifying the <TT><FONT FACE="Courier">@ISA</FONT></TT> array will flush the cache and cause Perl to look up all methods again. 
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Let's now look at the code for <TT><FONT FACE="Courier">Letter.pm</FONT></TT>
+in Listing 4.2.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 4.2. The </B><TT><B><FONT FACE="Courier">Letter.pm</FONT></B></TT><B>
+module.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 package Letter;<BR>
+&nbsp;2 <BR>
+&nbsp;3 require Exporter;
+<BR>
+&nbsp;4 @ISA = (Exporter);<BR>
+&nbsp;5 <BR>
+&nbsp;6 =head1 NAME<BR>
+&nbsp;7 <BR>
+&nbsp;8 Letter - Sample module to generate letterhead for you
+<BR>
+&nbsp;9 <BR>
+10 =head1 SYNOPSIS<BR>
+11 <BR>
+12&nbsp;&nbsp;&nbsp;&nbsp; use Letter;<BR>
+13 <BR>
+14&nbsp;&nbsp;&nbsp;&nbsp; Letter::Date();<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp; Letter::To($name,$company,$address);
+<BR>
+16 <BR>
+17 Then one of the following:<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp; Letter::ClaimMoneyNice()&nbsp;&nbsp;{
+<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp; Letter::ClaimMoney();<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp; Letter::ThreatBreakLeg();<BR>
+21 <BR>
+22&nbsp;&nbsp;&nbsp;&nbsp; Letter::ThankDem();<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp; Letter::Finish();<BR>
+24 <BR>
+25 =head1 DESCRIPTION<BR>
+26 <BR>
+27 This module provides a short example of generating a letter
+for a<BR>
+28 friendly neighborbood loan shark.<BR>
+29 <BR>
+30 The code begins after the &quot;cut&quot; statement.<BR>
+31 =cut<BR>
+32 <BR>
+33 @EXPORT = qw( Date,<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+To,<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ClaimMoney,<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ClaimMoneyNice,<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ThankDem,<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Finish );<BR>
+39 <BR>
+40 #<BR>
+41 # Print today's date<BR>
+42 #<BR>
+43 sub Letter::Date {<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$date = 'date';<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n Today is $date&quot;;<BR>
+46 }<BR>
+47 <BR>
+48 sub Letter::To {<BR>
+49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+local($name) = shift;<BR>
+50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+local($subject) = shift;<BR>
+51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n To: $name&quot;;<BR>
+52&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n Fm: Rudious Maximus, Loan Shark&quot;;<BR>
+53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n Dt: &quot;, `date`;<BR>
+54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n Re: $subject&quot;;<BR>
+55&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n\n&quot;;<BR>
+56&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n====================================================\n&quot;;
+<BR>
+57 }<BR>
+58 sub Letter::ClaimMoney()&nbsp;&nbsp;{<BR>
+59&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n You owe me money. Get your act together&quot;;
+<BR>
+60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n Do you want me to send Bruno over to &quot;;<BR>
+61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n collect it , or are you gonna pay up?&quot;;<BR>
+62 }<BR>
+63 <BR>
+64 sub Letter::ClaimMoneyNice()&nbsp;&nbsp;{<BR>
+65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n It is come to my attention that your account is
+&quot;;<BR>
+66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n way over due.&quot;;<BR>
+67&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n You gonna pay us soon..&quot;;<BR>
+68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n or would you like me to come ovah?&quot;;<BR>
+69 }<BR>
+70 <BR>
+71 sub Letter::ThreatBreakLeg() {<BR>
+72&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n apparently letters like these dont help&quot;;
+<BR>
+73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n I will have to make an example of you&quot;;<BR>
+74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n \n See you in the hospital, pal!&quot;;<BR>
+75 }<BR>
+76 <BR>
+77 sub Letter::ThankDem() {<BR>
+78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;\n\n Thanks for your support&quot;;<BR>
+79 }<BR>
+80 <BR>
+81 sub Letter::Finish(){<BR>
+82&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;\n\n\n\n Sincerely&quot;;<BR>
+83&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;\n Rudious \n &quot;;<BR>
+84 }<BR>
+85 <BR>
+86 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Lines containing the equal sign are used for documentation. You
+must document each module for your own reference; Perl modules
+do not need to be documented, but it's a good idea to write a
+few lines about what your code does. A few years from now, you
+may forget what a module is about. Good documentation is always
+a must if you want to remember what you did in the past!
+<P>
+I cover documentation styles used for Perl in <A HREF="ch8.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch8.htm" >Chapter 8</A>,
+&quot;Documenting Perl Scripts.&quot; For this sample module,
+the <TT><FONT FACE="Courier">=head1</FONT></TT> statement begins
+the documentation. Everything up to the <TT><FONT FACE="Courier">=cut</FONT></TT>
+statement is ignored by the Perl interpreter.
+<P>
+Next, the module lists all the functions exported by this module
+in the <TT><FONT FACE="Courier">@EXPORT</FONT></TT> array. The
+<TT><FONT FACE="Courier">@EXPORT</FONT></TT> array defines all
+the function names that can be called by outside code. If you
+do not list a function in this <TT><FONT FACE="Courier">@EXPORT</FONT></TT>
+array, it won't be seen by external code modules.
+<P>
+Following the <TT><FONT FACE="Courier">@EXPORT</FONT></TT> array
+is the body of the code, one subroutine at a time. After all the
+subroutines are defined, the final statement <TT><FONT FACE="Courier">1;</FONT></TT>
+ends the module file. <TT><FONT FACE="Courier">1;</FONT></TT>
+must be the last executable line in the file.
+<P>
+Let's look at some of the functions defined in this module. The
+first function to look at is the simple <TT><FONT FACE="Courier">Date</FONT></TT>
+function, lines 43 to 46, which prints the current UNIX date and
+time. There are no parameters to this function, and it doesn't
+return anything meaningful back to the caller.
+<P>
+Note the use of <TT><FONT FACE="Courier">my</FONT></TT> before
+the <TT><FONT FACE="Courier">$date</FONT></TT> variable in line
+44. The <TT><FONT FACE="Courier">my</FONT></TT> keyword is used
+to limit the scope of the variable to within the <TT><FONT FACE="Courier">Date</FONT></TT>
+function's curly braces. Code between curly braces is referred
+to as a <I>block</I>. Variables declared within a block are limited
+in scope to within the curly braces. In 49 and 50, the local variables
+<TT><FONT FACE="Courier">$name</FONT></TT> and <TT><FONT FACE="Courier">$subject</FONT></TT>
+are visible to all functions.
+<P>
+You can also declare variables with the <TT><FONT FACE="Courier">local</FONT></TT>
+qualifier. The use of <TT><FONT FACE="Courier">local</FONT></TT>
+allows a variable to be in scope for the current block as well
+as for other blocks of code called from within this block. Thus,
+a local <TT><FONT FACE="Courier">$x</FONT></TT> declared within
+one block is visible to all subsequent blocks called from within
+this block and can be referenced. In the following sample code,
+the <TT><FONT FACE="Courier">ToTitled</FONT></TT> function's <TT><FONT FACE="Courier">$name</FONT></TT>
+variable can be accessed but not the data in <TT><FONT FACE="Courier">$iphone</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 sub Letter::ToTitled {<BR>
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+local($name) = shift;<BR>
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my($phone) = shift;</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="SubroutinesandPassingParameters"><FONT SIZE=5 COLOR=#FF0000>Subroutines
+and Passing Parameters</FONT></A></H2>
+<P>
+The sample code for <TT><FONT FACE="Courier">Letter.pm</FONT></TT>
+showed how to extract one parameter at a time. The subroutine
+<TT><FONT FACE="Courier">To()</FONT></TT> takes two parameters
+to set up the header for the memo.
+<P>
+Using functions within a module is not any different than using
+and defining Perl modules within the same code file. Parameters
+are passed by reference unless otherwise specified. Multiple arrays
+passed into a subroutine, if not explicitly dereferenced using
+the backslash, are concatenated.
+<P>
+The <TT><FONT FACE="Courier">@_</FONT></TT> input array in a function
+is always an array of scalar values. Passing values by reference
+is the preferred way in Perl to pass a large amount of data into
+a subroutine. (<A HREF="ch3.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch3.htm" >See Chapter 3</A>, &quot;References.&quot;)
+<H2><A NAME="AnotherSampleModuleFinance"><FONT SIZE=5 COLOR=#FF0000>Another
+Sample Module: </FONT><TT><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">Finance</FONT></TT></A>
+</H2>
+<P>
+The <TT><FONT FACE="Courier">Finance</FONT></TT> module, shown
+in Listing 4.3, is used to provide simple calculations for loan
+values. Using the <TT><FONT FACE="Courier">Finance</FONT></TT>
+module is straightforward. All the functions are written with
+the same parameters, as shown in the formula for the functions.
+<P>
+Let's look at how the future value of an investment can be calculated.
+For example, if you invest some dollars, <TT><FONT FACE="Courier">$pv</FONT></TT>,
+in a bond that offers a fixed percentage rate, <TT><FONT FACE="Courier">$r</FONT></TT>,
+applied at known intervals for <TT><FONT FACE="Courier">$n</FONT></TT>
+time periods, what is the value of the bond at the time of its
+expiration? In this case, you'll be using the following formula:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$fv = $pv * (1+$r) ** $n ;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The function to get the future value is declared as <TT><FONT FACE="Courier">FutureValue</FONT></TT>.
+Refer to Listing 4.3 to see how to use it. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 4.3. Using the </B><TT><B><FONT FACE="Courier">Finance</FONT></B></TT><B>
+module.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl -w<BR>
+&nbsp;2 <BR>
+&nbsp;3 push(@Inc,'pwd');
+<BR>
+&nbsp;4 use Finance;<BR>
+&nbsp;5 <BR>
+&nbsp;6 $loan = 5000.00;<BR>
+&nbsp;7 $apr =&nbsp;&nbsp;3.5;&nbsp;&nbsp;&nbsp;#&nbsp;&nbsp;APR
+<BR>
+&nbsp;8 $year = 10;&nbsp;&nbsp;&nbsp;#&nbsp;&nbsp;in years.<BR>
+&nbsp;9 <BR>
+10 # ----------------------------------------------------------------
+<BR>
+11 # Calculate the value at the end of the loan if interest<BR>
+12 # is applied every year.<BR>
+13 # ----------------------------------------------------------------
+<BR>
+14 $time = $year;<BR>
+15 $fv1 = Finance::FutureValue($loan,$apr,$time);<BR>
+16 print &quot;\n If interest is applied at end of year&quot;;
+<BR>
+17 print &quot;\n The future value for a loan of \$&quot; . $loan
+. &quot;\n&quot;;<BR>
+18 print &quot; at an APR of &quot;, $apr , &quot; for &quot;,&nbsp;&nbsp;$time,
+&quot; years&quot;;<BR>
+19 printf &quot; is %8.2f \n&quot; , $fv1;<BR>
+20 <BR>
+21 # ----------------------------------------------------------------
+<BR>
+22 # Calculate the value at the end of the loan if interest<BR>
+23 # is applied every month.<BR>
+24 # ----------------------------------------------------------------
+<BR>
+25 $rate = $apr / 12;&nbsp;&nbsp;&nbsp;# APR<BR>
+26 $time = $year * 12; # in months<BR>
+27 $fv2 = Finance::FutureValue($loan,$rate,$time);<BR>
+28 <BR>
+29 print &quot;\n If interest is applied at end of each month&quot;;
+<BR>
+30 print &quot;\n The future value for a loan of \$&quot; . $loan
+. &quot;\n&quot;;<BR>
+31 print &quot; at an APR of &quot;, $apr , &quot; for &quot;,&nbsp;&nbsp;$time,
+&quot; months&quot;;<BR>
+32 printf &quot; is %8.2f \n&quot; , $fv2;<BR>
+33 <BR>
+34 printf &quot;\n The difference in value is %8.2f&quot;, $fv2
+- $fv1;<BR>
+35 printf &quot;\n Therefore by applying interest at shorter time
+periods&quot;;<BR>
+36 printf &quot;\n we are actually getting more money in interest.\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here is sample input and output of Listing 4.3.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>testme<BR>
+<BR>
+</B>&nbsp;If interest is
+applied at end of year<BR>
+&nbsp;The future value for a loan of $5000<BR>
+&nbsp;at an APR of 3.5 for
+10 years is&nbsp;&nbsp;7052.99<BR>
+<BR>
+&nbsp;If interest is applied
+at end of each month<BR>
+&nbsp;The future value for a loan of $5000<BR>
+&nbsp;at an APR of 3.5 for
+120 months is&nbsp;&nbsp;7091.72<BR>
+<BR>
+&nbsp;The difference in value
+is&nbsp;&nbsp;&nbsp;&nbsp;38.73<BR>
+&nbsp;Therefore by applying interest at shorter time periods<BR>
+&nbsp;we are actually getting more money in interest.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The revelation in the output is the result of the comparison of
+values between <TT><FONT FACE="Courier">$fv1</FONT></TT> and <TT><FONT FACE="Courier">$fv2</FONT></TT>.
+The <TT><FONT FACE="Courier">$fv1</FONT></TT> value is calculated
+with the application of interest once every year over the life
+of the bond. <TT><FONT FACE="Courier">$fv2</FONT></TT> is the
+value if the interest is applied every month at the equivalent
+monthly interest rate.
+<P>
+The <TT><FONT FACE="Courier">Finance.pm</FONT></TT> package is
+shown in Listing 4.4 in its early development stages.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 4.4. The </B><TT><B><FONT FACE="Courier">Finance.pm</FONT></B></TT><B>
+package.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;1 package Finance;<BR>
+&nbsp;&nbsp;2 <BR>
+&nbsp;&nbsp;3 require Exporter;
+<BR>
+&nbsp;&nbsp;4 @ISA = (Exporter);<BR>
+&nbsp;&nbsp;5 <BR>
+&nbsp;&nbsp;6 =head1 Finance.pm<BR>
+&nbsp;&nbsp;7 <BR>
+&nbsp;&nbsp;8 Financial Calculator - Financial calculations made
+easy with Perl<BR>
+&nbsp;&nbsp;9 <BR>
+&nbsp;10 =head 2<BR>
+&nbsp;11 use Finance;<BR>
+&nbsp;12 <BR>
+&nbsp;13 $pv = 10000.0;<BR>
+&nbsp;14 <BR>
+&nbsp;15 $rate = 12.5 / 12;
+# APR per month.<BR>
+&nbsp;16 <BR>
+&nbsp;17 $time = 360 ;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+months for loan to mature<BR>
+&nbsp;18 <BR>
+&nbsp;19 $fv = FutureValue();
+<BR>
+&nbsp;20 <BR>
+&nbsp;21 print $fv;<BR>
+&nbsp;22 <BR>
+&nbsp;23 =cut<BR>
+&nbsp;24 <BR>
+&nbsp;25 @EXPORT = qw(&nbsp;&nbsp;FutureValue,
+<BR>
+&nbsp;26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+PresentValue,<BR>
+&nbsp;27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FVofAnnuity,<BR>
+&nbsp;28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+AnnuityOfFV,<BR>
+&nbsp;29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+getLastAverage,<BR>
+&nbsp;30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+getMovingAverage,<BR>
+&nbsp;31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SetInterest);<BR>
+&nbsp;32 <BR>
+&nbsp;33 #<BR>
+&nbsp;34 # Globals, if any<BR>
+&nbsp;35 #<BR>
+&nbsp;36 <BR>
+&nbsp;37 local $defaultInterest
+= 5.0;<BR>
+&nbsp;38 <BR>
+&nbsp;39 sub Finance::SetInterest($)
+{<BR>
+&nbsp;40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $rate = shift(@_);<BR>
+&nbsp;41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$defaultInterest = $rate;<BR>
+&nbsp;42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;\n \$defaultInterest = $rate&quot;;<BR>
+&nbsp;43 }<BR>
+&nbsp;44 <BR>
+&nbsp;45 # --------------------------------------------------------------------
+<BR>
+&nbsp;46 # Notes:<BR>
+&nbsp;47 # 1. The interest
+rate $r is given in a value of [0-100].<BR>
+&nbsp;48 # 2. The $n given in the terms is the rate at which the
+interest<BR>
+&nbsp;49 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;is
+applied.<BR>
+&nbsp;50 #<BR>
+&nbsp;51 # --------------------------------------------------------------------
+<BR>
+&nbsp;52 <BR>
+&nbsp;53 # --------------------------------------------------------------------
+<BR>
+&nbsp;54 # Present value of an investment given<BR>
+&nbsp;55 # fv - a future
+value<BR>
+&nbsp;56 # r&nbsp;&nbsp;- rate per period<BR>
+&nbsp;57 # n&nbsp;&nbsp;-
+number of period<BR>
+&nbsp;58 # --------------------------------------------------------------------
+<BR>
+&nbsp;59 sub Finance::FutureValue($$$)
+{<BR>
+&nbsp;60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my ($pv,$r,$n) = @_;<BR>
+&nbsp;61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $fv = $pv * ((1 + ($r/100)) ** $n);<BR>
+&nbsp;62&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return $fv;<BR>
+&nbsp;63 }<BR>
+&nbsp;64 <BR>
+&nbsp;65 # --------------------------------------------------------------------
+<BR>
+&nbsp;66 # Present value of an investment given<BR>
+&nbsp;67 # fv - a future
+value<BR>
+&nbsp;68 # r&nbsp;&nbsp;- rate per period<BR>
+&nbsp;69 # n&nbsp;&nbsp;-
+number of period<BR>
+&nbsp;70 # --------------------------------------------------------------------
+<BR>
+&nbsp;71 sub Finance::PresentValue($$$)
+{<BR>
+&nbsp;72&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $pv;<BR>
+&nbsp;73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my ($fv,$r,$n) = @_;<BR>
+&nbsp;74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$pv = $fv / ((1 + ($r/100)) ** $n);<BR>
+&nbsp;75&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return $pv;<BR>
+&nbsp;76 <BR>
+&nbsp;77 }<BR>
+&nbsp;78 <BR>
+&nbsp;79 # --------------------------------------------------------------------
+<BR>
+&nbsp;80 # Get the future value of an annuity given<BR>
+&nbsp;81 # mp - Monthly Payment
+of Annuity<BR>
+&nbsp;82 # r&nbsp;&nbsp;- rate per period<BR>
+&nbsp;83 # n&nbsp;&nbsp;-
+number of period<BR>
+&nbsp;84 # --------------------------------------------------------------------
+<BR>
+&nbsp;85 <BR>
+&nbsp;86 sub FVofAnnuity($$$) {<BR>
+&nbsp;87&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $fv;<BR>
+&nbsp;88&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $oneR;<BR>
+&nbsp;89&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my ($mp,$r,$n) = @_;<BR>
+&nbsp;90 <BR>
+&nbsp;91&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$oneR = ( 1 + $r) ** $n;<BR>
+&nbsp;92&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$fv = $mp * ( ($oneR - 1)/ $r);<BR>
+&nbsp;93&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return $fv;<BR>
+&nbsp;94 }<BR>
+&nbsp;95 <BR>
+&nbsp;96 # --------------------------------------------------------------------
+<BR>
+&nbsp;97 # Get the annuity
+from the following bits of information<BR>
+&nbsp;98 # r&nbsp;&nbsp;- rate per period<BR>
+&nbsp;99 # n&nbsp;&nbsp;-
+number of period<BR>
+100 # fv - Future Value<BR>
+101 # --------------------------------------------------------------------
+<BR>
+102 <BR>
+103 sub AnnuityOfFV($$$) {<BR>
+104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $mp; # mp - Monthly Payment of Annuity<BR>
+105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $oneR;<BR>
+106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my ($fv,$r,$n) = @_;<BR>
+107 <BR>
+108&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$oneR = ( 1 + $r) ** $n;<BR>
+109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$mp = $fv * ( $r/ ($oneR - 1));<BR>
+110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return $mp;<BR>
+111 }<BR>
+112 <BR>
+113 # --------------------------------------------------------------------
+<BR>
+114 # Get the average of the last &quot;n&quot; values in an array.
+<BR>
+115 # --------------------------------------------------------------------
+<BR>
+116 # The last $count number of elements from the array in @values
+<BR>
+117 # The total number of elements in @values is in $number<BR>
+118 #<BR>
+119 sub getLastAverage($$@) {<BR>
+120&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my ($count, $number, @values) =&nbsp;&nbsp;@_;<BR>
+121&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $i;<BR>
+122 <BR>
+123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $a = 0;<BR>
+124&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 0 if ($count == 0);<BR>
+125&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+for ($i&nbsp;&nbsp;&nbsp;&nbsp; = 0; $i&lt; $count; $i++) {<BR>
+126&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$a += $values[$number - $i - 1];<BR>
+127&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return $a / $count;<BR>
+129&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+130 <BR>
+131 # --------------------------------------------------------------------
+<BR>
+132 # Get a moving average of the values.<BR>
+133 # --------------------------------------------------------------------
+<BR>
+134 # The window size is the first parameter, the number of items
+in the<BR>
+135 # passed array is next. (This can easily be calculated within
+the<BR>
+136 # function using the scalar() function, but the subroutine
+shown here<BR>
+137 # is also being used to illustrate how to pass pointers.)
+The reference to the<BR>
+138 # array of values is passed next, followed by a reference
+to the place<BR>
+139 # the return values are to be stored.<BR>
+140 #<BR>
+141 sub getMovingAve($$\@\@) {<BR>
+142&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my ($count, $number, $values, $movingAve) =&nbsp;&nbsp;@_;<BR>
+143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $i;<BR>
+144&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $a = 0;<BR>
+145&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $v = 0;<BR>
+146 <BR>
+147&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 0 if ($count == 0);<BR>
+148&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return -1 if ($count &gt; $number);<BR>
+149&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return -2 if ($count &lt; 2);<BR>
+150 <BR>
+151&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$$movingAve[0] = 0;<BR>
+152&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$$movingAve[$number - 1] = 0;<BR>
+153&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+for ($i=0; $i&lt;$count;$i++) {<BR>
+154&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$v = $$values[$i];<BR>
+155&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$a += $v / $count;<BR>
+156&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$$movingAve[$i] = 0;<BR>
+157&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+158&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+for ($i=$count; $i&lt;$number;$i++) {<BR>
+159&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$v = $$values[$i];<BR>
+160&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$a += $v / $count;<BR>
+161&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$v = $$values[$i - $count - 1];<BR>
+162&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$a -= $v / $count;<BR>
+163&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$$movingAve[$i] = $a;<BR>
+164&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+165&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0;<BR>
+166&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+167 <BR>
+168 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Look at the declaration of the function <TT><FONT FACE="Courier">FutureValue</FONT></TT>
+with <TT><FONT FACE="Courier">($$$)</FONT></TT>. The three dollar
+signs together signify three scalar numbers being passed into
+the function. This extra scoping is present for validating the
+type of the parameters passed into the function. If you were to
+pass a string instead of a number into the function, you would
+get a message very similar to this one:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Too many arguments for Finance::FutureValue
+at ./f4.pl line 15, near &quot;$time)&quot;<BR>
+Execution of ./f4.pl aborted due to compilation errors.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The use of prototypes when defining functions prevents you from
+sending in values other than what the function expects. Use <TT><FONT FACE="Courier">@</FONT></TT>
+or <TT><FONT FACE="Courier">%</FONT></TT> to pass in an array
+of values. If you are passing by reference, use <TT><FONT FACE="Courier">\@</FONT></TT>
+or <TT><FONT FACE="Courier">\%</FONT></TT> to show a scalar reference
+to an array or hash, respectively. If you do not use the backslash,
+all other types in the argument list prototype are ignored. Other
+types of disqualifiers include an ampersand for a reference to
+a function, an asterisk for any type, and a semicolon to indicate
+that all other parameters are optional.
+<P>
+Now, let's look at the <TT><FONT FACE="Courier">lastMovingAverage</FONT></TT>
+function declaration, which specifies two integers in the front
+followed by an array. The way the arguments are used in the function
+is to assign a value to each of the two scalars, <TT><FONT FACE="Courier">$count</FONT></TT>
+and <TT><FONT FACE="Courier">$number</FONT></TT>, whereas everything
+else is sent to the array. Look at the function <TT><FONT FACE="Courier">getMovingAverage()</FONT></TT>
+to see how two arrays are passed in order to get the moving average
+on a list of values.
+<P>
+The way to call the <TT><FONT FACE="Courier">getMovingAverage</FONT></TT>
+function is shown in Listing 4.5.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 4.5. Using the moving average function.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl -w<BR>
+&nbsp;2 <BR>
+&nbsp;3 push(@Inc,'pwd');
+<BR>
+&nbsp;4 use Finance;<BR>
+&nbsp;5 <BR>
+&nbsp;6 @values = ( 12,22,23,24,21,23,24,23,23,21,29,27,26,28
+);<BR>
+&nbsp;7 @mv = (0);<BR>
+&nbsp;8 $size = scalar(@values);<BR>
+&nbsp;9 print &quot;\n Values
+to work with = { @values } \n&quot;;<BR>
+10 print &quot; Number of values = $size \n&quot;;<BR>
+11 <BR>
+12 # ----------------------------------------------------------------
+<BR>
+13 # Calculate the average of the above function<BR>
+14 # ----------------------------------------------------------------
+<BR>
+15 $ave = Finance::getLastAverage(5,$size,@values);<BR>
+16 print &quot;\n Average of last 5 days = $ave \n&quot;;<BR>
+17 <BR>
+18 Finance::getMovingAve(5,$size,@values,@mv);<BR>
+19 print &quot;\n Moving Average with 5 days window = \n { @mv
+} \n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here's the output from Listing 4.5:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Values to work with = { 12 22 23 24 21
+23 24 23 23 21 29 27 26 28 }<BR>
+Number of values = 14<BR>
+<BR>
+Average of last 5 days = 26.2<BR>
+<BR>
+Moving Average with 5 days window =<BR>
+{ 0 0 0 0 0 19.4 21.8 22 22 21.4 23 23.8 24.2 25.2 }</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">getMovingAverage()</FONT></TT> function
+takes two scalars and then two references to arrays as scalars.
+Within the function, the two scalars to the arrays are dereferenced
+for use as numeric arrays. The returned set of values is inserted
+in the area passed in as the second reference. Had the input parameters
+not been specified with <TT><FONT FACE="Courier">\@</FONT></TT>
+for each referenced array, the <TT><FONT FACE="Courier">$movingAve</FONT></TT>
+array reference would have been empty and would have caused errors
+at runtime. In other words, the following declaration is not correct:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sub getMovingAve($$@@)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The resulting spew of error messages from a bad function prototype
+is as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Use of uninitialized value at Finance.pm
+line 128.<BR>
+Use of uninitialized value at Finance.pm line 128.<BR>
+Use of uninitialized value at Finance.pm line 128.<BR>
+Use of uninitialized value at Finance.pm line 128.<BR>
+Use of uninitialized value at Finance.pm line 128.<BR>
+Use of uninitialized value at Finance.pm line 133.<BR>
+Use of uninitialized value at Finance.pm line 135.<BR>
+Use of uninitialized value at Finance.pm line 133.<BR>
+Use of uninitialized value at Finance.pm line 135.<BR>
+Use of uninitialized value at Finance.pm line 133.<BR>
+Use of uninitialized value at Finance.pm line 135.<BR>
+Use of uninitialized value at Finance.pm line 133.<BR>
+Use of uninitialized value at Finance.pm line 135.<BR>
+Use of uninitialized value at Finance.pm line 133.<BR>
+Use of uninitialized value at Finance.pm line 135.<BR>
+Use of uninitialized value at Finance.pm line 133.<BR>
+Use of uninitialized value at Finance.pm line 135.<BR>
+Use of uninitialized value at Finance.pm line 133.<BR>
+Use of uninitialized value at Finance.pm line 135.<BR>
+Use of uninitialized value at Finance.pm line 133.<BR>
+Use of uninitialized value at Finance.pm line 135.<BR>
+Use of uninitialized value at Finance.pm line 133.<BR>
+Use of uninitialized value at Finance.pm line 135.<BR>
+<BR>
+Values to work with = { 12 22 23 24 21 23 24 23 23 21 29 27 26
+28 }<BR>
+Number of values = 14<BR>
+<BR>
+Average of last 5 days = 26.2<BR>
+<BR>
+Moving Average with 5 days window =<BR>
+{ 0 }</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This is obviously not the correct output. Therefore, it's critical
+that you pass by reference when sending more than one array.
+<P>
+Global variables for use within the package can also be declared.
+Look at the following segment of code from the <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+module to see what the default value of the <TT><FONT FACE="Courier">Interest</FONT></TT>
+variable would be if nothing was specified in the input. (The
+current module requires the interest to be passed in, but you
+can change this.)
+<P>
+Here's a little snippet of code that can be added to the end of
+the program shown in Listing 4.5 to add the ability to set interest
+rates. 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">20 local $defaultInterest = 5.0;<BR>
+21 sub Finance::SetInterest($) {<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $rate = shift(@_);<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$rate *= -1 if ($rate &lt; 0); <BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$defaultInterest = $rate;<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;\n \$defaultInterest = $rate&quot;;<BR>
+26 }</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The local variable <TT><FONT FACE="Courier">$defaultInterest</FONT></TT>
+is declared in line 20. The subroutine <TT><FONT FACE="Courier">SetInterest</FONT></TT>
+to modify the rate is declared in lines 21 through 26. The <TT><FONT FACE="Courier">$rate</FONT></TT>
+variable uses the values passed into the subroutine and simply
+assigns a positive value for it. You can always add more error
+checking if necessary. 
+<P>
+To access the <TT><FONT FACE="Courier">defaultInterest</FONT></TT>
+variable's value, you could define either a subroutine that returns
+the value or refer to the value directly with a call to the following
+in your application program:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$Finance::defaultInterest;</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="ReturnedValuesfromSubroutinesinaPa">Returned Values
+from Subroutines in a Package</A></H3>
+<P>
+The variable holding the return value from the module function
+is declared as <TT><FONT FACE="Courier">my variable</FONT></TT>.
+The scope of this variable is within the curly braces of the function
+only. When the called subroutine returns, the reference to <TT><FONT FACE="Courier">my
+variable</FONT></TT> is returned. If the calling program uses
+this returned reference somewhere, the link counter on the variable
+is not zero; therefore, the storage area containing the returned
+values is not freed to the memory pool. Thus, the function that
+declares
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">my $pv</FONT></TT>
+</BLOCKQUOTE>
+<P>
+and then later returns the value of <TT><FONT FACE="Courier">$pv</FONT></TT>
+returns a reference to the value stored at that location. If the
+calling routine performs a call like this one:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Finance::FVofAnnuity($monthly,$rate,$time);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+there is no variable specified here into which Perl stores the
+returned reference; therefore, any returned value (or a list of
+values) is destroyed. Instead, the call with the returned value
+assigned to a local variable, such as this one:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$fv = Finance::FVofAnnuity($monthly,$rate,$time);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+maintains the variable with the value. Consider the example shown
+in Listing 4.6, which manipulates values returned by functions.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 4.6. Sample usage of the </B><TT><B><FONT FACE="Courier">my</FONT></B></TT><B>
+function.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl -w<BR>
+&nbsp;2 <BR>
+&nbsp;3 push(@Inc,'pwd');
+<BR>
+&nbsp;4 use Finance;<BR>
+&nbsp;5 <BR>
+&nbsp;6 $monthly = 400;<BR>
+&nbsp;7 $rate = 0.2;&nbsp;&nbsp;&nbsp;#
+i.e. 6 % APR<BR>
+&nbsp;8 $time = 36;&nbsp;&nbsp;&nbsp;&nbsp;# in months<BR>
+&nbsp;9 <BR>
+10 print &quot;\n# ------------------------------------------------&quot;;
+<BR>
+11 $fv = Finance::FVofAnnuity($monthly,$rate,$time);<BR>
+12 printf &quot;\n For a monthly %8.2f at a rate of %%%6.2f for
+%d periods&quot;,<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$monthly, $rate, $time;<BR>
+14 printf &quot;\n you get a future value of %8.2f &quot;, $fv;
+<BR>
+15 <BR>
+16 $fv *= 1.1; # allow 10 % gain in the house value.<BR>
+17 <BR>
+18 $mo = Finance::AnnuityOfFV($fv,$rate,$time);<BR>
+19 <BR>
+20 printf &quot;\n To get 10 percent more at the end, i.e. %8.2f&quot;,$fv;
+<BR>
+21 printf &quot;\n you need a monthly payment value of %8.2f&quot;,$mo,$fv;
+<BR>
+22 <BR>
+23 print &quot;\n# ------------------------------------------------
+\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here is sample input and output for this function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>testme<BR>
+</B># ------------------------------------------------<BR>
+&nbsp;For a monthly&nbsp;&nbsp;&nbsp;400.00
+at a rate of %&nbsp;&nbsp;0.20 for 36 periods<BR>
+&nbsp;you get a future value of 1415603.75<BR>
+&nbsp;To get 10 percent more
+at the end, i.e. 1557164.12<BR>
+&nbsp;you need a monthly payment value of&nbsp;&nbsp;&nbsp;440.00
+<BR>
+# ------------------------------------------------</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="MultipleInheritance"><FONT SIZE=5 COLOR=#FF0000>Multiple
+Inheritance</FONT></A></H2>
+<P>
+Modules implement classes in a Perl program that uses the object-oriented
+features of Perl. Included in object-oriented features is the
+concept of <I>inheritance</I>. (You'll learn more on the object-oriented
+features of Perl in <A HREF="ch5.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch5.htm" >Chapter 5</A>, &quot;Object-Oriented
+Programming in Perl.&quot;) Inheritance means the process with
+which a module inherits the functions from its base classes. A
+module that is nested within another module inherits its parent
+modules' functions. So inheritance in Perl is accomplished with
+the <TT><FONT FACE="Courier">::</FONT></TT> construct. Here's
+the basic syntax:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SuperClass::NextSubClass:: ... ::ThisClass.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The file for these is stored in <TT><FONT FACE="Courier">./SuperClass/NextSubClass/&#133;</FONT></TT>.
+Each double colon indicates a lower-level directory in which to
+look for the module. Each module, in turn, declares itself as
+a package with statements like the following:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">package SuperClass::NextSubClass;<BR>
+package SuperClass::NextSubClass::EvenLower;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+For example, say that you really want to create a <TT><FONT FACE="Courier">Money</FONT></TT>
+class with two subclasses, <TT><FONT FACE="Courier">Stocks</FONT></TT>
+and <TT><FONT FACE="Courier">Finance</FONT></TT>. Here's how to
+structure the hierarchy, assuming you are in the <TT><FONT FACE="Courier">/usr/lib/perl5</FONT></TT>
+directory:
+<OL>
+<LI>Create a <TT><FONT FACE="Courier">Money</FONT></TT> directory
+under the <TT><FONT FACE="Courier">/usr/lib/perl5</FONT></TT>
+directory.
+<LI>Copy the existing <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+file into the <TT><FONT FACE="Courier">Money</FONT></TT> subdirectory.
+<LI>Create the new <TT><FONT FACE="Courier">Stocks.pm</FONT></TT>
+file in the <TT><FONT FACE="Courier">Money</FONT></TT> subdirectory.
+<LI>Edit the <TT><FONT FACE="Courier">Finance.pm</FONT></TT> file
+to use the line <TT><FONT FACE="Courier">package Money::Finance</FONT></TT>
+instead of <TT><FONT FACE="Courier">package Finance;</FONT></TT>.
+<LI>Edit scripts to use <TT><FONT FACE="Courier">Money::Finance</FONT></TT>
+as the subroutine prefix instead of <TT><FONT FACE="Courier">Finance::</FONT></TT>.
+<LI>Create a <TT><FONT FACE="Courier">Money.pm</FONT></TT> file
+in the <TT><FONT FACE="Courier">/usr/lib/perl5</FONT></TT> directory.
+</OL>
+<P>
+The Perl script that gets the moving average for a series of numbers
+is presented in Listing 4.7.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 4.7. Using inheriting modules.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1&nbsp;&nbsp;#!/usr/bin/perl -w
+<BR>
+&nbsp;2&nbsp;&nbsp;$aa = 'pwd';<BR>
+&nbsp;3&nbsp;&nbsp;$aa .=
+&quot;/Money&quot;;<BR>
+&nbsp;4&nbsp;&nbsp;push(@Inc,$aa);<BR>
+&nbsp;5&nbsp;&nbsp;use Money::Finance;
+<BR>
+&nbsp;6&nbsp;&nbsp;@values = ( 12,22,23,24,21,23,24,23,23,21,29,27,26,28
+);<BR>
+&nbsp;7&nbsp;&nbsp;@mv =
+(0);<BR>
+&nbsp;8&nbsp;&nbsp;$size = scalar(@values);<BR>
+&nbsp;9&nbsp;&nbsp;print
+&quot;\n Values to work with = { @values } \n&quot;;<BR>
+10 print &quot; Number of values = $size \n&quot;;<BR>
+11 # ----------------------------------------------------------------
+<BR>
+12 # Calculate the average of the above function<BR>
+13 # ----------------------------------------------------------------
+<BR>
+14 $ave = Money::Finance::getLastAverage(5,$size,@values);<BR>
+15 print &quot;\n Average of last 5 days = $ave \n&quot;;<BR>
+16 Money::Finance::getMovingAve(5,$size,@values,@mv);<BR>
+17 # foreach $i (@values) {<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# print &quot;\n Moving with 5 days window = $mv[$i] \n&quot;;
+<BR>
+19 # }<BR>
+20 print &quot;\n Moving Average with 5 days window = \n { @mv
+} \n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Lines 2 through 4 add the path to the <TT><FONT FACE="Courier">Money</FONT></TT>
+subdirectory. The <TT><FONT FACE="Courier">use</FONT></TT> statement
+in line 5 now addresses the <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+file in the <TT><FONT FACE="Courier">./Money</FONT></TT> subdirectory.
+The calls to the functions within <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+are now called with the prefix <TT><FONT FACE="Courier">Money::Finance::</FONT></TT>
+instead of <TT><FONT FACE="Courier">Finance::</FONT></TT>. Therefore,
+a new subdirectory is shown via the <TT><FONT FACE="Courier">::</FONT></TT>
+symbol when Perl is searching for modules to load.
+<P>
+The <TT><FONT FACE="Courier">Money.pm</FONT></TT> file is not
+required. Even so, you should create a template for future use.
+Actually, the file would be required to put any special requirements
+for initialization that the entire hierarchy of modules uses.
+The code for initialization is placed in the <TT><FONT FACE="Courier">BEGIN()</FONT></TT>
+function. The sample <TT><FONT FACE="Courier">Money.pm</FONT></TT>
+file is shown in Listing 4.8.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 4.8. The superclass module for </B><TT><B><FONT FACE="Courier">Finance.pm</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 package Money;<BR>
+2 require Exporter;<BR>
+3 <BR>
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+BEGIN {<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;\n Hello! Zipping into existence for you\n&quot;;
+<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+7 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+To see the line of output from the <TT><FONT FACE="Courier">printf</FONT></TT>
+statement in line 5, you have to insert the following commands
+at the beginning of your Perl script:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use Money;<BR>
+use Money::Finance;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To use the functions in the <TT><FONT FACE="Courier">Stocks.pm</FONT></TT>
+module, you use this line:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use Money::Stocks;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">Stocks.pm</FONT></TT> file appears
+in the <TT><FONT FACE="Courier">Money</FONT></TT> subdirectory
+and is defined in the same format as the <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+file, with the exceptions that <TT><FONT FACE="Courier">use Stocks</FONT></TT>
+is used instead of <TT><FONT FACE="Courier">use Finance</FONT></TT>
+and the set of functions to export is different.
+<H2><A NAME="ThePerlModuleLibraries"><FONT SIZE=5 COLOR=#FF0000>The
+Perl Module Libraries</FONT></A></H2>
+<P>
+A number of modules are included in the Perl distribution. Check
+the <TT><FONT FACE="Courier">/usr/lib/perl5/lib</FONT></TT> directory
+for a complete listing after you install Perl. There are two kinds
+of modules you should know about and look for in your Perl 5 release,
+Pragmatic and Standard modules.
+<P>
+Pragmatic modules, which are also like pragmas in C compiler directives,
+tend to affect the compilation of your program. They are similar
+in operation to the preprocessor elements of a C program. Pragmas
+are locally scoped so that they can be turned off with the <TT><FONT FACE="Courier">no</FONT></TT>
+command. Thus, the command
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">no POSIX ;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+turns off the <TT><FONT FACE="Courier">POSIX</FONT></TT> features
+in the script. These features can be turned back on with the <TT><FONT FACE="Courier">use</FONT></TT>
+statement.
+<P>
+Standard modules bundled with the Perl package include several
+functioning packages of code for you to use. Refer to appendix
+B, &quot;Perl Module Archives,&quot; for a complete list of these
+standard modules.
+<P>
+To find out all the <TT><FONT FACE="Courier">.pm</FONT></TT> modules
+installed on your system, issue the following command. (If you
+get an error, add the <TT><FONT FACE="Courier">/usr/lib/perl5</FONT></TT>
+directory to your path.)
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">find /usr/lib/perl5 -name perl &quot;*.pm&quot;
+-print</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="ExtensionModules">Extension Modules</A></H3>
+<P>
+Extension modules are written in C (or a mixture of Perl and C)
+and are dynamically loaded into Perl if and when you need them.
+These types of modules for dynamic loading require support in
+the kernel. Solaris lets you use these modules. For a Linux machine,
+check the installation pages on how to upgrade to the ELF format
+binaries for your Linux kernel.
+<H3><A NAME="WhatIsCPAN">What Is CPAN?</A></H3>
+<P>
+The term CPAN (Comprehensive Perl Archive Network) refers to all
+the hosts containing copies of sets of data, documents, and Perl
+modules on the Net. To find out about the CPAN site nearest you,
+search on the keyword <I>CPAN</I> in search engines such as Yahoo!,
+AltaVista, or Magellan. A good place to start is the <TT><FONT FACE="Courier">www.metronet.com
+site</FONT></TT>.
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+This chapter introduced you to Perl 5 modules and described what
+they have to offer. A more comprehensive list is found on the
+Internet via the addresses shown in the Web sites <TT><A HREF="tppmsgs/msgs0.htm#14" tppabs="http://www.metronet.com/">http://www.metronet.com</A></TT>
+and <TT><A HREF="tppmsgs/msgs0.htm#1" tppabs="http://www.perl.com/">http://www.perl.com</A></TT>.
+<P>
+A Perl package is a set of Perl code that looks like a library
+file. A Perl module is a package that is defined in a library
+file of the same name. A module is designed to be reusable. You
+can do some type checking with Perl function prototypes to see
+whether parameters are being passed correctly. A module has to
+export its functions with the <TT><FONT FACE="Courier">@EXPORT</FONT></TT>
+array and therefore requires the <TT><FONT FACE="Courier">Exporter</FONT></TT>
+module. Modules are searched for in the directories listed in
+the <TT><FONT FACE="Courier">@Inc</FONT></TT> array.
+<P>
+Obviously, there is a lot more to writing modules for Perl than
+what is shown in this chapter. The simple examples in this chapter
+show you how to get started with Perl modules. In the rest of
+the book I cover the modules and their features, so hang in there.
+<P>
+I cover Perl objects, classes, and related concepts in <A HREF="ch5.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch5.htm" >Chapter 5</A>.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch3.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch3.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch5.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch5.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

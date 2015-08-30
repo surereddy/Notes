@@ -1,0 +1,128 @@
+|-select
+=======================
+select firstname || ' ' || subname || 'is a'|| position as 'Employee job details' from emp;
+Result:
+Employee job details
+------------------------------
+Jiping Xie is a test engineer. 
+
+() for condition priority
+where (firstname='peter' or job='mananger') and  salary>1000; 
+
+from emp order by salary [asc];
+         order by salary desc;
+
+sorting by column alias:
+select salary * 12 as annsal from emp order by annsal;
+
+upper(Peter Xie)=  PETER XIE
+lower(Peter Xie) = PETER XIE
+eg. name= Peter XIE,
+select name from emp where name='Peter Xie'; 
+=>None
+select name from emp where lower(name)='peter xie';
+Peter XIE
+
+Join/two table
+-----------
+select table1.colume1 and table2.colume2 from table1, table2 where table1.colume1=table2.colume1;
+
+
+DATE condition:
+-----------
+select to_char(birth_date,'YYYY-MM-DD') from emp where birth_date<= to_date('19791027','YYYYMMDD');
+or 
+select * from rawticket_voip where to_char(insertion_date,'yyyymmdd') >'20051019';
+
+TO_DATE(t_sysdate,'YYYYMMDDHH24:MI:SS'),
+
+GROUP function:
+-----------
+select sum(salary) from emp;
+avg, max, min,count
+
+select count(*) from emp; return the rows
+select count(distinct department) from emp; distinct number
+
+select avg(salary) from emp group by department;
+
+char
+-------
+select ascii(ann_dur), ascii(ann_rp) from cmmgen421.subann_p where ann_id=10;
+update cmmgen421.subann_p set ann_dur=chr(0),ann_rp=chr(1) where ann_id=10;
+
+like
+---------
+like '%sup%' % some characters
+like '_sup_' _ one character 
+not like '_sup_'
+
+distinct
+-----------
+select distinct country from customer;
+
+
+order desc,asc(default)
+------------
+select * from customer order by country desc;
+
+not
+---------
+where country NOT like '_sup_'
+
+in, between
+---------
+in for varchar
+where country in ('China','USA')
+
+between 10 and 20
+
+|-update
+=======================
+update table set salary=10000 where lower(name)='peter';
+
+delete rows:
+delete from emp where lower(name)='peter';
+
+insert into emp(name, salary) values('peter',10000); Need only the mandatory fields
+                              select name,salary from emp2;
+                              
+|-commit and rollback
+=======================    
+commit;
+rollback;
+
+|-Query table
+==========                      
+select * from tab; table/view name of user
+select table_name from user_tables;
+select table_name from all_tables;
+
+desc emp;
+
+|-table manipulation
+=======================   
+drop table emp;
+create table smc303.emp(name varchar2(14),salary number(8));
+
+
+|-user, password and grant
+=======================   
+sqlplus /nolog
+conn / as sysdba;
+
+drop user first
+-----
+DROP USER ViSS234 CASCADE;
+alter tablespace ViSS234 offline immediate;
+drop tablespace ViSS234 INCLUDING CONTENTS; 
+!rm -f /opt/oracle/oradata/emsdb/ViSS234.dbf
+
+
+--------
+create user peter identified by asb!2345; DBA sys system
+grant create table to peter;
+grant select on emp to peter;
+grant select on emp to public; to all users
+
+      

@@ -1,0 +1,1502 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 21 -- Building VRML Models with Perl</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 21</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Building VRML Models with Perl</FONT></B></H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+<UL>
+<LI><A HREF="#WhatIsVRML" >What Is VRML?</A>
+<UL>
+<LI><A HREF="#WhyWriteVRMLpm" >Why Write VRML.pm?</A>
+<LI><A HREF="#WheretoGetMoreInformationonVRML" >Where to Get More Information on VRML</A>
+</UL>
+<LI><A HREF="#BasicsofVRML" >Basics of VRML</A>
+<LI><A HREF="#BuildingtheVRMLPerlModule" >Building the VRML Perl Module</A>
+<UL>
+<LI><A HREF="#WheretoGettheSourceforthePerlto" >Where to Get the Source for the Perl to VRML Package</A>
+</UL>
+<LI><A HREF="#UsingVRMLpm" >Using VRML.pm</A>
+<LI><A HREF="#HowtoViewYourWorld" >How to View Your World</A>
+<LI><A HREF="#InsidetheVRMLpmPackage" >Inside the VRML.pm Package</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+The Virtual Reality Modeling Language (VRML) is a relatively new
+language to surface on the Internet. The object-oriented features
+of Perl can be used with the three-dimensional object definitions
+of VRML to allow you as a user to produce relatively complex models
+in 3D space. This chapter introduces you to a Perl package called
+<TT><FONT FACE="Courier">VRML.pm</FONT></TT> that generates VRML-coded
+text based on Perl scripts.
+<H2><A NAME="WhatIsVRML"><B><FONT SIZE=5 COLOR=#FF0000>What Is
+VRML?</FONT></B></A></H2>
+<P>
+VRML is a language developed from the collective minds of a lot
+of Internet users. VRML enables you to define and lay out three-dimensional
+objects that can be viewed using a virtual program. VRML is often
+referred to as the virtual reality equivalent of HTML. It is becoming
+the <I>de facto</I> language on the Internet and World Wide Web
+for defining 3D objects. VRML is supported by many commercial
+vendors as the language to use in their software and hardware.
+<P>
+Using VRML, you can describe virtual worlds. Components of these
+virtual worlds can be interconnected using the World Wide Web
+just as in HTML. All transactions in HTML involve getting a document
+into a browser and then viewing the document as a static entity.
+VRML extends this viewing capability by allowing a user to &quot;walk
+through&quot; a virtual world and thus provides more functionality
+for user interaction.
+<P>
+The VRML 1.0 specification was the result of three individuals:
+Mark Pesce, Anthony Parisi, and Gavin Bell. The VRML 2.0 specification
+is still in the works; therefore, this chapter deals only with
+the 1.0 specification.
+<P>
+Information on VRML 2.0 can be found on the Web site <TT><A HREF="tppmsgs/msgs0.htm#20" tppabs="http://www.sd.tgs.com/VRML/vrml2.htm">http://www.sd.tgs.com/VRML/vrml2.htm</A></TT>.<FONT FACE="AGaramond Bold">
+</FONT>The letters <I>tgs</I> stand for Template Graphics Software.
+<H3><A NAME="WhyWriteVRMLpm"><B>Why Write </B><TT><B><FONT SIZE=4 FACE="Courier">VRML.pm</FONT></B></TT><B><FONT SIZE=4>?</FONT></B></A>
+</H3>
+<P>
+The VRML specification was in a state of flux at the time this
+book was written. This volatility somehow justifies the use of
+Perl to generate VRML code for worlds. If the changes to the VRML
+specification drastically affect my VRML code, all I do is change
+the <TT><FONT FACE="Courier">VRML.pm</FONT></TT> module file and
+rerun my scripts to generate new, up-to-date 3D worlds in the
+modified VRML specification.
+<P>
+Added to this reason for using Perl is the strict type checking
+and object-oriented features of Perl. Using Perl objects as building
+blocks, complex images and worlds can be created to represent
+results in a 3D environment.
+<P>
+The real reason is that I wanted to see whether it could be done.
+That is, can we use Perl's object-oriented features to manage
+3D objects in VRML? The answer is yes! There should be an asterisk
+next to the &quot;yes,&quot; though. The advantage gained in managing
+VRML objects can be offset by the fact that a program, no matter
+how well written, cannot crank out better VRML code than a human
+being. Using this module I can set up and create simple worlds;
+however, the code produced by the scripts can be optimized or
+shortened considerably manually. The changes you make manually
+will be overwritten the next time you run your program unless
+you save them. In short, although it's possible to generate VRML
+worlds from within Perl scripts, you might want to consider at
+least looking at the output to see whether you can improve it
+to reduce the size of the listings.
+<P>
+Also, before you get too deep into using Perl for generating objects
+and VRML files, ask yourself this question: Do I need the object-oriented
+features here? If your script is simply creating a model world
+and you are supplying all the coordinates manually, you should
+really consider buying a 3D modeling package. Of course, there
+might be a wide variety of such programs available for your needs.
+More and more tools are becoming available for VRML worlds as
+this book goes to print. In my humble opinion, you should consider
+looking at other VRML tools before you embark on writing your
+own in Perl. A shareware or commercial application might just
+do exactly what you need!
+<P>
+Also, if your Perl script is generating data that you want to
+view visually in three dimensions, then you should consider using
+this package. Some common uses for this package are creating chemical
+models, accumulative distribution of particles on a non-uniform
+surface, and contour seismic data.
+<H3><A NAME="WheretoGetMoreInformationonVRML"><B>Where to Get
+More Information on VRML</B></A></H3>
+<P>
+Your first choice is to use the WebCrawler or InfoSeek search
+results on VRML. The information from the online searches will
+be far more current than any printed matter. Here are some sites
+that have stood the test of time:
+<UL>
+<LI><FONT COLOR=#000000>For a VRML authoring primer, see the Web
+site at </FONT><TT><A HREF="tppmsgs/msgs0.htm#21" tppabs="http://www.sd.tgs.com/VRML/Help/vrmlhint.htm">http://www.sd.tgs.com/VRML/Help/vrmlhint.htm</A></TT>.
+<LI><FONT COLOR=#000000>The FAQs for </FONT>VRML can be found
+at <TT><A HREF="tppmsgs/msgs0.htm#22" tppabs="http://vrml.wired.com/listfaq.html">http://vrml.wired.com/listfaq.html</A></TT>.
+</UL>
+<P>
+In addition to the resources on the Net, there are several texts
+on the market. Some of the texts that deal with VRML and 3D graphics
+are listed at <TT><A HREF="tppmsgs/msgs0.htm#24" tppabs="http://wwwiz.com/books">http://wwwiz.com/books</A></TT>.
+There are books here on HTML, VRML, Java, and related topics.
+Select the <TT><FONT FACE="Courier">Subjects</FONT></TT> link
+to get a list of all the titles. Be sure to consult these books
+to get more information on the details of 3D graphics and how
+to work with VRML.
+<P>
+Free worlds can be found at <TT><FONT FACE="Courier"><A HREF="tppmsgs/msgs0.htm#25" tppabs="ftp://www.vrml.org/pub/graphics">ftp://www.vrml.org/pub/graphics</A></FONT></TT>.
+The artwork is free but copyrighted, so be sure to look for disclaimers.
+<H2><A NAME="BasicsofVRML"><B><FONT SIZE=5 COLOR=#FF0000>Basics
+of VRML</FONT></B></A></H2>
+<P>
+A VRML file simply defines all the objects required to generate
+a 3D virtual world. Objects within this file are also referred
+to as <I>nodes</I>. Each object knows the type of object it is,
+has fields in it to identify its properties, possibly has a name,
+and may have children. Sound like Perl yet?
+<P>
+All VRML files are written in ASCII and have the first line of
+the file in this form:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#VRML V1.0 ascii</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Generally, the VRML files have a <TT><FONT FACE="Courier">.WRL</FONT></TT>
+extension, but this is not necessary. Some viewers may require
+the use of <TT><FONT FACE="Courier">.WRL</FONT></TT> as the default
+extension.
+<P>
+Comments are possible with <TT><FONT FACE="Courier">#</FONT></TT>,
+as with the Perl or shell scripts. Strings can be within quotes.
+Numbers can be grouped together within square brackets or can
+be listed with white space between them. Numbers in VRML files
+are floating point with few exceptions. Bitmapped flags are possible,
+and so are Boolean variables.
+<P>
+The VRML specification lists numbers with an <TT><FONT FACE="Courier">SF</FONT></TT>
+prefix or an <TT><FONT FACE="Courier">MF</FONT></TT> prefix when
+defining types of variables. The <TT><FONT FACE="Courier">SF</FONT></TT>
+stands for <I>single field</I>; that is, the variable being referred
+to has only one field in it. An example is <TT><FONT FACE="Courier">SFLong</FONT></TT>
+for a long integer and <TT><FONT FACE="Courier">SFMatrix</FONT></TT>
+for a transformation matrix. Note that even though <TT><FONT FACE="Courier">SFMatrix</FONT></TT>
+contains 16 values, these values are all part of one field. The
+<TT><FONT FACE="Courier">MF</FONT></TT> prefix stands for <I>multiple-value
+fields</I>. An example of an <TT><FONT FACE="Courier">MF</FONT></TT>
+field is a vector.
+<P>
+Vectors and matrices are supported in VRML. Both two-dimensional
+(<TT><FONT FACE="Courier">SFVec2f</FONT></TT>) and three-dimensional
+(<TT><FONT FACE="Courier">SFvec3f</FONT></TT>) vectors are supported.
+Matrices are stored in a row major format.
+<P>
+Coordinates for objects are given in an XYZ format. All objects
+are created at the origin 0 0 0, unless otherwise specified at
+the time of creation. You apply transformations to the objects
+to move them to the desired location in the 3D space you are creating.
+<P>
+Colors are specified in RGB format, where floating numbers are
+given as 0.0 for darkest and 1.0 for brightest. Thus, 000 is black,
+001 is blue, and 111 is white. The brightness in each color component
+is scaled from 0.0 to 1.0 in a linear fashion. There are two ways
+to define colors. For a gray scale image (where the R:G:B ratios
+are the same), use the <TT><FONT FACE="Courier">SFColor</FONT></TT>
+type to use only one field for R, G, and B. For other colors,
+you have to use the <TT><FONT FACE="Courier">MFColor</FONT></TT>
+type to define different ratios for R:G:B.
+<P>
+You construct models based on types of objects by placing them
+in the virtual world at different coordinates. The transformations
+to place these objects in the world are of three basic types:
+<I>scaling</I> to get the right size, <I>translation</I> to move
+from one location to another, and a <I>rotation</I> of some degrees
+about a point of origin.
+<P>
+Each object also has features such as color, texture, shininess,
+and so on. These features are unique to the type of an object.
+Object definitions can be made into a template of sorts to create
+several objects of the same type and features.
+<P>
+There are several types of shapes that an object can take. The
+full list supported in version 1.0 of VRML is shown here:
+<UL>
+<LI><TT><FONT FACE="Courier">Cube</FONT></TT> (supported by <TT><FONT FACE="Courier">VRML.pm</FONT></TT>)
+<LI><TT><FONT FACE="Courier">Cone </FONT></TT>(supported by <TT><FONT FACE="Courier">VRML.pm</FONT></TT>)
+<LI><TT><FONT FACE="Courier">Cylinder</FONT></TT> (supported by
+<TT><FONT FACE="Courier">VRML.pm</FONT></TT>)
+<LI><TT><FONT FACE="Courier">Sphere</FONT></TT> (supported by
+<TT><FONT FACE="Courier">VRML.pm</FONT></TT>)
+<LI><TT><FONT FACE="Courier">PointSet</FONT></TT> (for multiple
+points)
+<LI><TT><FONT FACE="Courier">IndexedLineSet</FONT></TT> (for multiple
+vectors)
+<LI><TT><FONT FACE="Courier">IndexedFaceSet</FONT></TT> (for multiple
+surfaces)
+<LI><TT><FONT FACE="Courier">AsciiText</FONT></TT> (for annotation)
+</UL>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">VRML.pm</FONT></TT> module does not include support for generating all these types. As soon as this book goes to print, I will add the code to support these items. Stay tuned to the <TT><FONT 
+FACE="Courier">README.VRML</FONT></TT> file at <TT><FONT FACE="Courier">ikra.com/pub/perl5/modules</FONT></TT> directory for latest updates.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+There is one important type of node that you should know about
+before we continue. This node is called the separator node. Basically,
+a separator node creates a new traversal tree for all following
+nodes. A traversal tree is simply a tree structure with nodes
+that are traversed by a VRML when rendering the image. Each leaf
+in the tree is a VRML object or the start of a new subtree with
+a separator node. It's generally very easy to group nodes together
+in a separator node, apply all translations (and so on) to these
+nodes, and then close the separator node to proceed with what
+you were doing earlier. With the help of several separator nodes,
+you can define different objects with different types of properties.
+<P>
+The group node offers limited functionality of the separator node
+and is not supported by <TT><FONT FACE="Courier">VRML.pm</FONT></TT>.
+<P>
+The concept behind creating objects of a given type are simple.
+Let's look at a simple example of a <TT><FONT FACE="Courier">VRML</FONT></TT>
+script. The script shown in Listing 21.1 is the output from a
+Perl script using the <TT><FONT FACE="Courier">VRML.pm</FONT></TT>
+package. I will discuss the Perl script later in this chapter.
+For now, just look at the <TT><FONT FACE="Courier">VRML</FONT></TT>
+script. Note that the line numbers are added for reference.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 21.1. The sample </B><TT><B><FONT FACE="Courier">VRML</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #VRML V1.0 ascii<BR>
+&nbsp;2 #<BR>
+&nbsp;3 # Created by VRML.pm<BR>
+&nbsp;4 #<BR>
+&nbsp;5 Separator {<BR>
+&nbsp;6 Separator {<BR>
+&nbsp;7 Material {<BR>
+&nbsp;8 ambientColor .1 .1 .1<BR>
+&nbsp;9 # End Material<BR>
+10 Transform {<BR>
+11 } # End Transform<BR>
+12 Cube {<BR>
+13 width .8<BR>
+14 height .8<BR>
+15 depth .8<BR>
+16 }<BR>
+17 } # End Separator<BR>
+18 Separator {<BR>
+19 Material {<BR>
+20 ambientColor .1 1 1<BR>
+21 } # End Material<BR>
+22 Transform {<BR>
+23 translation 0 0 .4<BR>
+24 } # End Transform<BR>
+25 Cube {<BR>
+26 width .8<BR>
+27 height .1<BR>
+28 depth .8<BR>
+29 }<BR>
+30 } # End Separator<BR>
+31 Separator {<BR>
+32 Material {<BR>
+33 diffuseColor .1 .1 .1<BR>
+34 } # End Material<BR>
+35 Transform {<BR>
+36 translation 0 0 .5<BR>
+37 } # End Transform<BR>
+38 Cube {<BR>
+39 width .8<BR>
+40 height .1<BR>
+41 depth .8<BR>
+42 }<BR>
+43 } # End Separator<BR>
+44 } # End Separator</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Lines 1 through 4 are comments generated from the <TT><FONT FACE="Courier">VRML.pm</FONT></TT>
+module. In line 5, we define a separator which will contain the
+object just about to be defined in our virtual world. The ambient
+color for this object is defined in lines 6 through 9. More color,
+luminance, and reflectivity definitions could be defined in the
+Materials section. No transformation to move the object is applied
+in lines 10 and 11; however, the section is defined so that you
+can manually edit it. Lines 12 through 16 define the dimensions
+of a cube. The dimensions are given in a normalized coordinate
+scheme, i.e. ranging from 0 to 1. (To use a different reference
+for the size, you would have to apply a scaling transformation.)
+Line 17 ends the definition of this cube.
+<P>
+The process of defining the material type, transformation, and
+object type of two more objects are repeated in lines 18-30 and
+31-42. The process is repetitive: start a separator, define its
+type of material, apply a transformation to move, scale, or rotate
+it, and then define its normalized dimensions.
+<P>
+The separator we opened in line 5 was terminated at line 43. This
+completes the definition of all the objects in our little world.
+<P>
+The code required to generate the <TT><FONT FACE="Courier">VRML</FONT></TT>
+script is shown in Listing 21.2.
+<P>
+Admittedly, the number of lines in the Perl script are about the
+same as the number in the <TT><FONT FACE="Courier">VRML</FONT></TT>
+script. As your models become more and more complex, this ratio
+should change to very few lines of Perl code per 100 lines of
+definitions in the <TT><FONT FACE="Courier">VRML</FONT></TT> output.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 21.2. The code to generate two cubes.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 use VRML;<BR>
+&nbsp;3 use VRML::Cube;<BR>
+&nbsp;4 my $header = VRML::new();<BR>
+&nbsp;5 $header-&gt;VRML::startHeader;<BR>
+&nbsp;6 $header-&gt;VRML::startSeparator;<BR>
+&nbsp;7 my $cubeb = $header-&gt;VRML::putCube(<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'width'
+=&gt; 0.5, 'height' =&gt; 0.5 , 'depth' =&gt; 0.5 ,<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'translation'
+=&gt; [1,0,0]<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);
+<BR>
+11 my $cubed = $header-&gt;VRML::putCube(<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'width'
+=&gt; 1, 'height' =&gt; 1 , 'depth' =&gt; 1 ,<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'translation'
+=&gt; [1,1,0],<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);
+<BR>
+15 $header-&gt;VRML::stopSeparator;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Let's look at the code shown in Listing 21.2. Lines 2 and 3 indicate
+that the <TT><FONT FACE="Courier">VRML</FONT></TT> package and
+the <TT><FONT FACE="Courier">Cube</FONT></TT> object are being
+used. Line 4 creates the <TT><FONT FACE="Courier">VRML</FONT></TT>
+object, which will (eventually) contain all the definitions for
+the objects. Line 5 starts the required header for all <TT><FONT FACE="Courier">VRML</FONT></TT>
+output.
+<P>
+Line 6 starts a separator node, which will house all the current
+changes. In Lines 7 through 9, we create one cube by giving its
+width, height, and depth. The cube is placed at coordinates <TT><FONT FACE="Courier">[1,0,0]</FONT></TT>.
+A second cube is placed at <TT><FONT FACE="Courier">[1,1,0]</FONT></TT>,
+via code in lines 11-14. All changes to the current separator
+node are ended at line 15. At this point, the script could start
+a completely different separator.
+<P>
+It would be a good idea to examine the code in Listing 21.2 with
+the VRML output generated in Listing 21.1. By looking at how each
+line of Perl code generates each section of VRML, you should be
+able to see how to apply the <TT><FONT FACE="Courier">VRML.pm</FONT></TT>
+module for your own programs.
+<H2><A NAME="BuildingtheVRMLPerlModule"><B><FONT SIZE=5 COLOR=#FF0000>Building
+the </FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">VRML</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Perl Module</FONT></B></A></H2>
+<P>
+The <TT><FONT FACE="Courier">VRML</FONT></TT> module is composed
+of several components. The main component is the <TT><FONT FACE="Courier">VRML.pm</FONT></TT>
+file, and the rest of the components are shape object creators
+in the <TT><FONT FACE="Courier">VRML</FONT></TT> directory. The
+<TT><FONT FACE="Courier">VRML.pm</FONT></TT> file is located in
+the <TT><FONT FACE="Courier">PERLLIBDIR</FONT></TT> directory
+(<TT><FONT FACE="Courier">/usr/lib/perl5</FONT></TT>), and the
+shape creation files are located in the <TT><FONT FACE="Courier">${PERLLIBDIR}/VRML</FONT></TT>
+subdirectory. There are no extension files to worry about just
+yet.
+<H3><A NAME="WheretoGettheSourceforthePerlto"><B>Where to Get
+the Source for the </B><TT><B><FONT SIZE=4 FACE="Courier">Perl
+to VRML</FONT></B></TT><B><FONT SIZE=4> Package</FONT></B></A>
+</H3>
+<P>
+The source of the <TT><FONT FACE="Courier">Perl to VRML</FONT></TT>
+package is still in beta and resides at the ftp location <TT><FONT FACE="Courier"><A HREF="tppmsgs/msgs0.htm#26" tppabs="ftp://ikra.com/pub/perl5/modules">ftp://ikra.com/pub/perl5/modules</A></FONT></TT>.
+No warranty of any sort applies in any terms whatsoever. You may
+copy, modify, and even use the contents of the package in commercial
+applications just as long as you credit me as the author and keep
+a note about there being absolutely no warranty. The same disclaimer
+and warranty for Perl is used for <TT><FONT FACE="Courier">VRML.pm</FONT></TT>.
+<P>
+Currently, only the following shape nodes are supported: <TT><FONT FACE="Courier">Cube</FONT></TT>,
+<TT><FONT FACE="Courier">Cone</FONT></TT>, <TT><FONT FACE="Courier">Cylinder</FONT></TT>,
+and <TT><FONT FACE="Courier">Sphere</FONT></TT>. All <TT><FONT FACE="Courier">color</FONT></TT>,
+<TT><FONT FACE="Courier">transform</FONT></TT>, <TT><FONT FACE="Courier">PerspectiveCamera</FONT></TT>,
+and <TT><FONT FACE="Courier">Material</FONT></TT> nodes are supported
+for shapes. As time progresses and the need arises, I will add
+more node definitions to this package. For comments, updates,
+and patches, please send me e-mail directly at <TT><FONT FACE="Courier">khusain@ikra.com</FONT></TT>.
+If you have a better way of rewriting this module and would like
+to contribute, please let me know.
+<H2><A NAME="UsingVRMLpm"><B><FONT SIZE=5 COLOR=#FF0000>Using
+</FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">VRML.pm</FONT></B></TT></A>
+</H2>
+<P>
+You have already seen a use of the VRML package in placing two
+cubes in a 3D world. That's nice, but not very useful. Why not
+use the power of Perl to do your expression for you? Look at Listing
+21.3, which illustrates how to generate a staircase of values
+to show in 3D.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 21.3. Using </B><TT><B><FONT FACE="Courier">VRML.pm</FONT></B></TT><B>
+to represent 3D data.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2<BR>
+&nbsp;3 use VRML;<BR>
+&nbsp;4 use VRML::Cube;<BR>
+&nbsp;5<BR>
+&nbsp;6 my $header = VRML::new();<BR>
+&nbsp;7 $header-&gt;VRML::startHeader;<BR>
+&nbsp;8<BR>
+&nbsp;9 $header-&gt;VRML::startSeparator;<BR>
+10<BR>
+11 $header-&gt;VRML::setPointLight('location' =&gt; [1,1,1],<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'color'
+=&gt; [0.2, 0.2, 0.5]);<BR>
+13<BR>
+14 $width = 0.1;<BR>
+15 my @cubeb;<BR>
+16<BR>
+17 for ($i= 0; $i&lt; 9; $i++) {<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$j
+= $width / 2 + $i * $width;<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ht
+= $i * 0.1 + 0.1;<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cubeb[$i]
+= $header-&gt;VRML::putCube(<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'width'
+=&gt; $width, 'height' =&gt; $ht , 'depth' =&gt; 0.1 ,<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'translation'
+=&gt; [$j,$ht/2,0],<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ambientColor'
+=&gt; [$i/10, $i/10,$i/10]<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);
+<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+26 $header-&gt;VRML::stopSeparator;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+In Listing 21.3, ten boxes are created to represent data. The
+height, width, and color of the cubes could be used to represent
+different features of each box. For the moment, we are stretching
+the cube to represent the box. The height of the box is a function
+of a value of an indexed item in an array. Each cube is placed
+next to each other along the X axis. The output from this script
+is shown in Listing 21.4.
+<P>
+The point light sets a light source for illuminating the figures.
+(See Figure 21.1.) Note that I will use only the wireframe model
+rendering on my VRML viewer to display data because the colors
+and shading will not allow the models to be reproduced faithfully
+on paper.
+<P>
+<A HREF="f21-1.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f21-1.gif" ><B>Figure 21.1 : </B><I>Using boxes to represent data.</I></A>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 21.4. Using boxes to represent data.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;1&nbsp;#VRML V1.0 ascii<BR>
+&nbsp;&nbsp;2&nbsp;#<BR>
+&nbsp;&nbsp;3&nbsp;# Created by VRML.pm flag<BR>
+&nbsp;&nbsp;4&nbsp;#<BR>
+&nbsp;&nbsp;5<BR>
+&nbsp;&nbsp;6&nbsp;&nbsp;Separator {<BR>
+&nbsp;&nbsp;7&nbsp;PointLight {<BR>
+&nbsp;&nbsp;8&nbsp;&nbsp;location 1 1 1<BR>
+&nbsp;&nbsp;9&nbsp;&nbsp;color .2 .2 .5<BR>
+&nbsp;10&nbsp;&nbsp;} # End PointLight<BR>
+&nbsp;11&nbsp;&nbsp;Separator {<BR>
+&nbsp;12&nbsp;&nbsp;Material {<BR>
+&nbsp;13&nbsp;&nbsp;ambientColor 0 0 0<BR>
+&nbsp;14&nbsp;&nbsp;} # End Material<BR>
+&nbsp;15&nbsp;&nbsp;Transform {<BR>
+&nbsp;16&nbsp;&nbsp;translation .05 .05 0<BR>
+&nbsp;17&nbsp;&nbsp;} # End Transform<BR>
+&nbsp;18&nbsp;&nbsp;Cube {<BR>
+&nbsp;19&nbsp;&nbsp;width .1<BR>
+&nbsp;20&nbsp;&nbsp;height .1<BR>
+&nbsp;21&nbsp;&nbsp;depth .1<BR>
+&nbsp;22&nbsp;&nbsp;}<BR>
+&nbsp;23<BR>
+&nbsp;24&nbsp;&nbsp;} # End Separator<BR>
+&nbsp;25<BR>
+&nbsp;26&nbsp;&nbsp;Separator {<BR>
+&nbsp;27&nbsp;&nbsp;Material {<BR>
+&nbsp;28&nbsp;&nbsp;ambientColor .1 .1 .1<BR>
+&nbsp;29&nbsp;&nbsp;} # End Material<BR>
+&nbsp;30&nbsp;&nbsp;Transform {<BR>
+&nbsp;31&nbsp;&nbsp;translation .15 .1 0<BR>
+&nbsp;32&nbsp;&nbsp;} # End Transform<BR>
+&nbsp;33&nbsp;&nbsp;Cube {<BR>
+&nbsp;34&nbsp;&nbsp;width .1<BR>
+&nbsp;35&nbsp;&nbsp;height .2<BR>
+&nbsp;36&nbsp;&nbsp;depth .1<BR>
+&nbsp;37&nbsp;&nbsp;}<BR>
+&nbsp;38<BR>
+&nbsp;39&nbsp;&nbsp;} # End Separator<BR>
+&nbsp;40<BR>
+&nbsp;41&nbsp;&nbsp;Separator {<BR>
+&nbsp;42&nbsp;&nbsp;Material {<BR>
+&nbsp;43&nbsp;&nbsp;ambientColor .2 .2 .2<BR>
+&nbsp;44&nbsp;&nbsp;} # End Material<BR>
+&nbsp;45&nbsp;&nbsp;Transform {<BR>
+&nbsp;46&nbsp;&nbsp;translation .25 .15 0<BR>
+&nbsp;47&nbsp;&nbsp;} # End Transform<BR>
+&nbsp;48&nbsp;&nbsp;Cube {<BR>
+&nbsp;49&nbsp;&nbsp;width .1<BR>
+&nbsp;50&nbsp;&nbsp;height .3<BR>
+&nbsp;51&nbsp;&nbsp;depth .1<BR>
+&nbsp;52&nbsp;&nbsp;}<BR>
+&nbsp;53<BR>
+&nbsp;54&nbsp;&nbsp;} # End Separator<BR>
+&nbsp;55<BR>
+&nbsp;56&nbsp;&nbsp;Separator {<BR>
+&nbsp;57&nbsp;&nbsp;Material {<BR>
+&nbsp;58&nbsp;&nbsp;ambientColor .3 .3 .3<BR>
+&nbsp;59&nbsp;&nbsp;} # End Material<BR>
+&nbsp;60&nbsp;&nbsp;Transform {<BR>
+&nbsp;61&nbsp;&nbsp;translation .35 .2 0<BR>
+&nbsp;62&nbsp;&nbsp;} # End Transform<BR>
+&nbsp;63&nbsp;&nbsp;Cube {<BR>
+&nbsp;64&nbsp;&nbsp;width .1<BR>
+&nbsp;65&nbsp;&nbsp;height .4<BR>
+&nbsp;66&nbsp;&nbsp;depth .1<BR>
+&nbsp;67&nbsp;&nbsp;}<BR>
+&nbsp;68<BR>
+&nbsp;69&nbsp;&nbsp;} # End Separator<BR>
+&nbsp;70<BR>
+&nbsp;71&nbsp;&nbsp;Separator {<BR>
+&nbsp;72&nbsp;&nbsp;Material {<BR>
+&nbsp;73&nbsp;&nbsp;ambientColor .4 .4 .4<BR>
+&nbsp;74&nbsp;&nbsp;} # End Material<BR>
+&nbsp;75&nbsp;&nbsp;Transform {<BR>
+&nbsp;76&nbsp;&nbsp;translation .45 .25 0<BR>
+&nbsp;77&nbsp;&nbsp;} # End Transform<BR>
+&nbsp;78&nbsp;&nbsp;Cube {<BR>
+&nbsp;79&nbsp;&nbsp;width .1<BR>
+&nbsp;80&nbsp;&nbsp;height .5<BR>
+&nbsp;81&nbsp;&nbsp;depth .1<BR>
+&nbsp;82&nbsp;&nbsp;}<BR>
+&nbsp;83<BR>
+&nbsp;84&nbsp;&nbsp;} # End Separator<BR>
+&nbsp;85<BR>
+&nbsp;86&nbsp;&nbsp;Separator {<BR>
+&nbsp;87&nbsp;&nbsp;Material {<BR>
+&nbsp;88&nbsp;&nbsp;ambientColor .5 .5 .5<BR>
+&nbsp;89&nbsp;&nbsp;} # End Material<BR>
+&nbsp;90&nbsp;&nbsp;Transform {<BR>
+&nbsp;91&nbsp;&nbsp;translation .55 .3 0<BR>
+&nbsp;92&nbsp;&nbsp;} # End Transform<BR>
+&nbsp;93&nbsp;&nbsp;Cube {<BR>
+&nbsp;94&nbsp;&nbsp;width .1<BR>
+&nbsp;95&nbsp;&nbsp;height .6<BR>
+&nbsp;96&nbsp;&nbsp;depth .1<BR>
+&nbsp;97&nbsp;&nbsp;}<BR>
+&nbsp;98<BR>
+&nbsp;99&nbsp;&nbsp;} # End Separator<BR>
+100<BR>
+101&nbsp;&nbsp;Separator {<BR>
+102&nbsp;&nbsp;Material {<BR>
+103&nbsp;&nbsp;ambientColor .6 .6 .6<BR>
+104&nbsp;&nbsp;} # End Material<BR>
+105&nbsp;&nbsp;Transform {<BR>
+106&nbsp;&nbsp;translation .65 .35 0<BR>
+107&nbsp;&nbsp;} # End Transform<BR>
+108&nbsp;&nbsp;Cube {<BR>
+109&nbsp;&nbsp;width .1<BR>
+110&nbsp;&nbsp;height .7<BR>
+111&nbsp;&nbsp;depth .1<BR>
+112&nbsp;&nbsp;}<BR>
+113<BR>
+114&nbsp;&nbsp;} # End Separator<BR>
+115<BR>
+116&nbsp;&nbsp;Separator {<BR>
+117&nbsp;&nbsp;Material {<BR>
+118&nbsp;&nbsp;ambientColor .7 .7 .7<BR>
+119&nbsp;&nbsp;} # End Material<BR>
+120&nbsp;&nbsp;Transform {<BR>
+121&nbsp;&nbsp;translation .75 .4 0<BR>
+122&nbsp;&nbsp;} # End Transform<BR>
+123&nbsp;&nbsp;Cube {<BR>
+124&nbsp;&nbsp;width .1<BR>
+125&nbsp;&nbsp;height .8<BR>
+126&nbsp;&nbsp;depth .1<BR>
+127&nbsp;&nbsp;}<BR>
+128<BR>
+129&nbsp;&nbsp;} # End Separator<BR>
+130<BR>
+131&nbsp;&nbsp;Separator {<BR>
+132&nbsp;&nbsp;Material {<BR>
+133&nbsp;&nbsp;ambientColor .8 .8 .8<BR>
+134&nbsp;&nbsp;} # End Material<BR>
+135&nbsp;&nbsp;Transform {<BR>
+136&nbsp;&nbsp;translation .85 .45 0<BR>
+137&nbsp;&nbsp;} # End Transform<BR>
+138&nbsp;&nbsp;Cube {<BR>
+139&nbsp;&nbsp;width .1<BR>
+140&nbsp;&nbsp;height .9<BR>
+141&nbsp;&nbsp;depth .1<BR>
+142&nbsp;&nbsp;}<BR>
+143<BR>
+144&nbsp;&nbsp;} # End Separator<BR>
+145<BR>
+146&nbsp;&nbsp;} # End Separator</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The script can be modified to use cylinders instead of cubes with
+a minor adjustment. The modified script to use cylinders is shown
+in Listing 21.5. Note the use of <TT><FONT FACE="Courier">VRML::Cylinder</FONT></TT>
+instead of <TT><FONT FACE="Courier">Cube</FONT></TT>. Also, note
+how the parameters to <TT><FONT FACE="Courier">Cylinder</FONT></TT>
+are different from <TT><FONT FACE="Courier">Cube</FONT></TT>,
+but the calling sequence to put each <TT><FONT FACE="Courier">Cylinder</FONT></TT>
+at its location is not very different from the calling sequence
+used when placing <TT><FONT FACE="Courier">Cube</FONT></TT>s.
+<P>
+Listing 21.6 presents the output generated by the code in Listing
+21.5. Compare Listing 21.6 with Listing 21.4 and notice how the
+cylinders are translated and created. Figure 21.2 illustrates
+using cylinders to represent data.
+<P>
+<A HREF="f21-2.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f21-2.gif" ><B>Figure 21.2 : </B><I>Using cylinders to represent data.</I></A>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 21.5. Using cylinders instead of cubes to represent
+data.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2<BR>
+&nbsp;3 use VRML;<BR>
+&nbsp;4 use VRML::Cylinder;<BR>
+&nbsp;5<BR>
+&nbsp;6 my $header = VRML::new();<BR>
+&nbsp;7 $header-&gt;VRML::startHeader;<BR>
+&nbsp;8<BR>
+&nbsp;9 $header-&gt;VRML::startSeparator;<BR>
+10<BR>
+11 $header-&gt;VRML::setPointLight('location' =&gt; [1,1,1], 'color'
+=&gt; [0.2, 0.2, 0.5]);<BR>
+12 $width = 0.1;<BR>
+13 my @cubeb;<BR>
+14<BR>
+15 for ($i= 0; $i&lt; 9; $i++) {<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$j
+= $width / 2 + $i * $width;<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ht
+= $i * 0.1 + 0.1;<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cubeb[$i]
+= $header-&gt;VRML::putCylinder(<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'radius'
+=&gt; $width/2, 'height' =&gt; $ht , 'parts' =&gt; 'ALL',<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'translation'
+=&gt; [$j,$ht/2,0],<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ambientColor'
+=&gt; [$i/10, $i/10,$i/10]<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);
+<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+24<BR>
+25 $header-&gt;VRML::stopSeparator;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 21.6. VRML output when using cylinders instead of cubes.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;1&nbsp;#VRML V1.0 ascii<BR>
+&nbsp;&nbsp;2&nbsp;#<BR>
+&nbsp;&nbsp;3&nbsp;# Created by VRML.pm flag<BR>
+&nbsp;&nbsp;4&nbsp;#<BR>
+&nbsp;&nbsp;5<BR>
+&nbsp;&nbsp;6 Separator {<BR>
+&nbsp;&nbsp;7 PointLight {<BR>
+&nbsp;&nbsp;8 location 1 1 1<BR>
+&nbsp;&nbsp;9 color .2 .2 .5<BR>
+&nbsp;10 } # End PointLight<BR>
+&nbsp;11 Separator {<BR>
+&nbsp;12 Material {<BR>
+&nbsp;13 ambientColor 0 0 0<BR>
+&nbsp;14 } # End Material<BR>
+&nbsp;15 Transform {<BR>
+&nbsp;16 translation .05 .05 0<BR>
+&nbsp;17 } # End Transform<BR>
+&nbsp;18 Cylinder {<BR>
+&nbsp;19 parts ALL<BR>
+&nbsp;20 radius .05<BR>
+&nbsp;21 height .1<BR>
+&nbsp;22 }<BR>
+&nbsp;23<BR>
+&nbsp;24 } # End Separator<BR>
+&nbsp;25<BR>
+&nbsp;26 Separator {<BR>
+&nbsp;27 Material {<BR>
+&nbsp;28 ambientColor .1 .1 .1<BR>
+&nbsp;29 } # End Material<BR>
+&nbsp;30 Transform {<BR>
+&nbsp;31 translation .15 .1 0<BR>
+&nbsp;32 } # End Transform<BR>
+&nbsp;33 Cylinder {<BR>
+&nbsp;34 parts ALL<BR>
+&nbsp;35 radius .05<BR>
+&nbsp;36 height .2<BR>
+&nbsp;37 }<BR>
+&nbsp;38<BR>
+&nbsp;39 } # End Separator<BR>
+&nbsp;40<BR>
+&nbsp;41 Separator {<BR>
+&nbsp;42 Material {<BR>
+&nbsp;43 ambientColor .2 .2 .2<BR>
+&nbsp;44 } # End Material<BR>
+&nbsp;45 Transform {<BR>
+&nbsp;46 translation .25 .15 0<BR>
+&nbsp;47 } # End Transform<BR>
+&nbsp;48 Cylinder {<BR>
+&nbsp;49 parts ALL<BR>
+&nbsp;50 radius .05<BR>
+&nbsp;51 height .3<BR>
+&nbsp;52 }<BR>
+&nbsp;53<BR>
+&nbsp;54 } # End Separator<BR>
+&nbsp;55<BR>
+&nbsp;56 Separator {<BR>
+&nbsp;57 Material {<BR>
+&nbsp;58 ambientColor .3 .3 .3<BR>
+&nbsp;59 } # End Material<BR>
+&nbsp;60 Transform {<BR>
+&nbsp;61 translation .35 .2 0<BR>
+&nbsp;62 } # End Transform<BR>
+&nbsp;63 Cylinder {<BR>
+&nbsp;64 parts ALL<BR>
+&nbsp;65 radius .05<BR>
+&nbsp;66 height .4<BR>
+&nbsp;67 }<BR>
+&nbsp;68<BR>
+&nbsp;69 } # End Separator<BR>
+&nbsp;70<BR>
+&nbsp;71 Separator {<BR>
+&nbsp;72 Material {<BR>
+&nbsp;73 ambientColor .4 .4 .4<BR>
+&nbsp;74 } # End Material<BR>
+&nbsp;75 Transform {<BR>
+&nbsp;76 translation .45 .25 0<BR>
+&nbsp;77 } # End Transform<BR>
+&nbsp;78 Cylinder {<BR>
+&nbsp;79 parts ALL<BR>
+&nbsp;80 radius .05<BR>
+&nbsp;81 height .5<BR>
+&nbsp;82 }<BR>
+&nbsp;83<BR>
+&nbsp;84 } # End Separator<BR>
+&nbsp;85<BR>
+&nbsp;86 Separator {<BR>
+&nbsp;87 Material {<BR>
+&nbsp;88 ambientColor .5 .5 .5<BR>
+&nbsp;89 } # End Material<BR>
+&nbsp;90 Transform {<BR>
+&nbsp;91 translation .55 .3 0<BR>
+&nbsp;92 } # End Transform<BR>
+&nbsp;93 Cylinder {<BR>
+&nbsp;94 parts ALL<BR>
+&nbsp;95 radius .05<BR>
+&nbsp;96 height .6<BR>
+&nbsp;97 }<BR>
+&nbsp;98<BR>
+&nbsp;99 } # End Separator<BR>
+100<BR>
+101&nbsp;&nbsp;Separator {<BR>
+102&nbsp;&nbsp;Material {<BR>
+103&nbsp;&nbsp;ambientColor .6 .6 .6<BR>
+104&nbsp;&nbsp;} # End Material<BR>
+105&nbsp;&nbsp;Transform {<BR>
+106&nbsp;&nbsp;translation .65 .35 0<BR>
+107&nbsp;&nbsp;} # End Transform<BR>
+108&nbsp;&nbsp;Cylinder {<BR>
+109&nbsp;&nbsp;parts ALL<BR>
+110&nbsp;&nbsp;radius .05<BR>
+111&nbsp;&nbsp;height .7<BR>
+112&nbsp;&nbsp;}<BR>
+113<BR>
+114&nbsp;&nbsp;} # End Separator<BR>
+115<BR>
+116&nbsp;&nbsp;Separator {<BR>
+117&nbsp;&nbsp;Material {<BR>
+118&nbsp;&nbsp;ambientColor .7 .7 .7<BR>
+119&nbsp;&nbsp;} # End Material<BR>
+120&nbsp;&nbsp;Transform {<BR>
+121&nbsp;&nbsp;translation .75 .4 0<BR>
+122&nbsp;&nbsp;} # End Transform<BR>
+123&nbsp;&nbsp;Cylinder {<BR>
+124&nbsp;&nbsp;parts ALL<BR>
+125&nbsp;&nbsp;radius .05<BR>
+126&nbsp;&nbsp;height .8<BR>
+127&nbsp;&nbsp;}<BR>
+128<BR>
+129&nbsp;&nbsp;} # End Separator<BR>
+130<BR>
+131&nbsp;&nbsp;Separator {<BR>
+132&nbsp;&nbsp;Material {<BR>
+133&nbsp;&nbsp;ambientColor .8 .8 .8<BR>
+134&nbsp;&nbsp;} # End Material<BR>
+135&nbsp;&nbsp;Transform {<BR>
+136&nbsp;&nbsp;translation .85 .45 0<BR>
+137&nbsp;&nbsp;} # End Transform<BR>
+138&nbsp;&nbsp;Cylinder {<BR>
+139&nbsp;&nbsp;parts ALL<BR>
+140&nbsp;&nbsp;radius .05<BR>
+141&nbsp;&nbsp;height .9<BR>
+142&nbsp;&nbsp;}<BR>
+143<BR>
+144&nbsp;&nbsp;} # End Separator<BR>
+145<BR>
+146&nbsp;&nbsp;} # End Separator</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">for</FONT></TT> loop in Listing 21.5
+is a pretty canned approach to generating the test data for this
+chapter. In most cases, you'll want to generate your data in a
+function of some sort and then display it. A sample usage of such
+a function is shown in Listing 21.7.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 21.7. Using a function to get data for display.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2<BR>
+&nbsp;3 use VRML;<BR>
+&nbsp;4 use VRML::Cylinder;<BR>
+&nbsp;5<BR>
+&nbsp;6 sub getResults {<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+@answers;<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$i;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for
+($i = 0; $i &lt; 9; $i++) {<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$answers[$i]
+= $i;<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+(@answers);<BR>
+13 }<BR>
+14<BR>
+15 my $header = VRML::new();<BR>
+16 $header-&gt;VRML::startHeader;<BR>
+17<BR>
+18 $header-&gt;VRML::startSeparator;<BR>
+19<BR>
+20 $header-&gt;VRML::setPointLight('location' =&gt; [1,1,1], 'color'
+=&gt;<BR>
+&nbsp;&nbsp;&nbsp;&Acirc;[0.2, 0.2, 0.5]);<BR>
+21 $width = 0.1;<BR>
+22 my @cubeb;<BR>
+23<BR>
+24 @results = &amp;getResults();<BR>
+25<BR>
+26 foreach $i (@results) {<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$j
+= $width / 2 + $i * $width;<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ht
+= $i * 0.1 + 0.1;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cubeb[$i]
+= $header-&gt;VRML::putCylinder(<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'radius'
+=&gt; $width/2, 'height' =&gt; $ht , 'parts' =&gt;<BR>
+&nbsp;&nbsp; &Acirc;'ALL',<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'translation'
+=&gt; [$j,$ht/2,0],<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ambientColor'
+=&gt; [$i/10, $i/10,$i/10]<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);
+<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+35<BR>
+36 $header-&gt;VRML::stopSeparator;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+In Listing 21.7, the subroutine <TT><FONT FACE="Courier">getResults</FONT></TT>
+is used to generate the data required for display. The <TT><FONT FACE="Courier">getResults</FONT></TT>
+subroutine in this example is only doing what the <TT><FONT FACE="Courier">for</FONT></TT>
+loop did. However, there is nothing preventing you from replacing
+the <TT><FONT FACE="Courier">getResults</FONT></TT> code to access
+data, for example.
+<P>
+More than one column of data is also possible. Look at Listing
+21.8. The output from this run is not listed here but is shown
+in Figure 21.3.
+<P>
+<A HREF="f21-3.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f21-3.gif" ><B>Figure 21.3 : </B><I>Using boxes and cylinders to represent data.</I></A>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 21.8. Using multiple columns.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1&nbsp;#!/usr/bin/perl<BR>
+&nbsp;2<BR>
+&nbsp;3 use VRML;<BR>
+&nbsp;4 use VRML::Cube;<BR>
+&nbsp;5 use VRML::Cylinder;<BR>
+&nbsp;6<BR>
+&nbsp;7 sub getResults {<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+@answers;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$i;<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for
+($i = 0; $i &lt; 9; $i++) {<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$answers[$i]
+= $i;<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+(@answers);<BR>
+14 }<BR>
+15<BR>
+16 my $header = VRML::new();<BR>
+17 $header-&gt;VRML::startHeader;<BR>
+18<BR>
+19 $header-&gt;VRML::startSeparator;<BR>
+20 $width = 0.1;<BR>
+21 my @cyl;<BR>
+22<BR>
+23 @results = &amp;getResults();<BR>
+24<BR>
+25 foreach $i (@results) {<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$j
+= $width / 2 + $i * $width;<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ht
+= $i * 0.1 + 0.1;<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cyl[$i]
+= $header-&gt;VRML::putCylinder(<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'radius'
+=&gt; $width/2, 'height' =&gt; $ht , 'parts' =&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&Acirc;'ALL',
+<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'translation'
+=&gt; [$j,$ht/2,0],<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ambientColor'
+=&gt; [$i/10, $i/10,$i/10]<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);
+<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+34<BR>
+35 #<BR>
+36 # Start second column.<BR>
+37 #<BR>
+38 $width = 0.1;<BR>
+39 my @cub;<BR>
+40<BR>
+41 @results = &amp;getResults();<BR>
+42<BR>
+43 foreach $i (@results) {<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$j
+= $width / 2 + $i * $width;<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ht
+= $i * 0.1 + 0.1;<BR>
+46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$cub[$i]
+= $header-&gt;VRML::putCube(<BR>
+47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'width'
+=&gt; $width/2, 'height' =&gt; $ht , 'depth' =&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&Acirc;$width,
+<BR>
+48&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'translation'
+=&gt; [$j,$ht/2,$width],<BR>
+49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ambientColor'
+=&gt; [$i/10, $i/10,$i/10]<BR>
+50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);
+<BR>
+51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+52 $header-&gt;VRML::stopSeparator;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+In the code shown in Listing 21.8, two columns of data are created.
+Note the use of the Z offset in doing the translation of <TT><FONT FACE="Courier">Cylinder</FONT></TT>s.
+Also note that only one separator node is used for the entire
+image and one for each node.
+<H2><A NAME="HowtoViewYourWorld"><B><FONT SIZE=5 COLOR=#FF0000>How
+to View Your World</FONT></B></A></H2>
+<P>
+There are several VRML viewers available on the market today.
+Some are totally free of charge, some free of charge up to 30
+days, and the rest require a fee of anywhere from $50 to thousands
+of dollars. The following is a list of some of the vendors, their
+viewers, and what they have to offer. Most of the browsers are
+for Windows NT or Windows 95, but there are quite a few for UNIX
+workstations. A few of these are listed here. However, I would
+advise you to do a search on the Internet for a more comprehensive
+list. Here's the list:
+<UL>
+<LI>WorldView-A Windows 95, NT, and 3.1 product by InterVista,
+Inc.
+<LI>NavFlyer-Made by Micro Green, Inc. Requires Win32 if you are
+running under Windows NT. Also requires the WinG graphics library.
+<LI>WbFX-Runs with Mosaic and the 16-bit version of Netscape only.
+Made only for Windows 3.1 by Paper Software, Inc.
+</UL>
+<P>
+VRML editors also offer great tools with which you can create
+your own worlds. Several tools are available for UNIX and Windows
+NT systems. Most of them let you create these worlds with far
+more ease than manually edited scripts will. The following tools
+are available from the commercial sector:
+<UL>
+<LI>Ez3d 2.0 from Radiance Software, 1726 Francisco St., Berkeley,
+CA 94703. The Ez3d package lets you create VRML 1.0 worlds with
+an interactive editor. Support for VRML 2.0 is also listed at
+their Web site at <TT><A HREF="tppmsgs/msgs0.htm#28" tppabs="http://www.radiance.com/~radiance">http://www.radiance.com/~radiance</A></TT>.
+<LI>Paragraph home builder by Paragraph International. Their Web
+site is <TT><A HREF="tppmsgs/msgs0.htm#29" tppabs="http://www.paragraph.com/">http://www.paragraph.com</A></TT>.
+They offer two ways to create worlds: one using their proprietary
+Home Space environment editor and the other by using a VRML plug-in
+for Netscape.
+<LI><FONT COLOR=#000000>The </FONT>San Diego Supercomputing Center
+(SDSC) offers a set of tools (including source code) for VRML
+viewers and file creators. Check their web site at <TT><A HREF="tppmsgs/msgs0.htm#30" tppabs="http://www.sdsc.edu/EnablingTech/Visualization/vrml">http://www.sdsc.edu/EnablingTech/Visualization/vrml</A></TT>.
+<LI><FONT COLOR=#000000>The </FONT>Virtual World Factory from
+Aeral systems uses a form-based tool to build VRML worlds. Look
+at <TT><A HREF="tppmsgs/msgs0.htm#31" tppabs="http://www.aereal.com/">http://www.aereal.com/</A></TT>
+for more information.
+</UL>
+<H2><A NAME="InsidetheVRMLpmPackage"><B><FONT SIZE=5 COLOR=#FF0000>Inside
+the </FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">VRML.pm</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Package</FONT></B></A></H2>
+<P>
+Let's take a look at how the <TT><FONT FACE="Courier">VRML.pm</FONT></TT>
+library is structured. Part of the main file, <TT><FONT FACE="Courier">VRML.pm</FONT></TT>,
+is shown in Listing 21.8. Shape nodes are listed in separate files
+in the <TT><FONT FACE="Courier">VRML</FONT></TT> subdirectory.
+The listing for the <TT><FONT FACE="Courier">Cube.pm</FONT></TT>
+file is shown in Listing 21.9. Similar files exist for the <TT><FONT FACE="Courier">Cylinder</FONT></TT>,
+<TT><FONT FACE="Courier">Sphere</FONT></TT>, and <TT><FONT FACE="Courier">Cone</FONT></TT>
+shapes. The project is still in its infancy and has to be developed
+further; however, you have enough here to construct your module
+and customize it for your needs.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 21.8. The </B><TT><B><FONT FACE="Courier">VRML.pm</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;1 package VRML;<BR>
+&nbsp;&nbsp;2<BR>
+&nbsp;&nbsp;3 require Exporter;<BR>
+&nbsp;&nbsp;4 @ISA = (Exporter);<BR>
+&nbsp;&nbsp;5<BR>
+&nbsp;&nbsp;6 @EXPORT = qw(new,startHeader,<BR>
+&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;startSeparator,
+stopSeparator,<BR>
+&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defineMaterial,
+startMaterial, stopMaterial,<BR>
+&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defineTransform,
+startTransform, stopTransform,<BR>
+&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;diffuseColor,
+<BR>
+&nbsp;11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;definePerspectiveCamera,
+<BR>
+&nbsp;12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setPointLight,
+<BR>
+&nbsp;13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;putCube,
+putCone, putCylinder);<BR>
+&nbsp;14 # ----------------------------------------------------------------
+<BR>
+&nbsp;15 # Internal functions <BR>
+&nbsp;16 # ----------------------------------------------------------------
+<BR>
+&nbsp;17 sub makeNode {<BR>
+&nbsp;18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+($this,$name,$value) = @_;<BR>
+&nbsp;19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$j;<BR>
+&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n $name {&quot;;<BR>
+&nbsp;21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach
+$j (@$value) { print &quot; $j&quot;;&nbsp;&nbsp;}<BR>
+&nbsp;22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;} # End $name \n&quot;;<BR>
+&nbsp;23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+&nbsp;24<BR>
+&nbsp;25 # ----------------------------------------------------------------
+<BR>
+&nbsp;26 # Exported functions<BR>
+&nbsp;27 # ----------------------------------------------------------------
+<BR>
+&nbsp;28 sub new {<BR>
+&nbsp;29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$this = shift;<BR>
+&nbsp;30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$class = ref($this) || $this;<BR>
+&nbsp;31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$self = {};<BR>
+&nbsp;32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bless
+$self, $class;<BR>
+&nbsp;33 }<BR>
+&nbsp;34<BR>
+&nbsp;35 sub startHeader {<BR>
+&nbsp;36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$this = shift;<BR>
+&nbsp;37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;#VRML V1.0 ascii\n&quot;;<BR>
+&nbsp;38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;#\n# Created by VRML.pm flag\n#\n&quot;;<BR>
+&nbsp;39 }<BR>
+&nbsp;40<BR>
+&nbsp;41 sub startSeparator {<BR>
+&nbsp;42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n Separator {&quot;;<BR>
+&nbsp;43 }<BR>
+&nbsp;44<BR>
+&nbsp;45 sub stopSeparator {<BR>
+&nbsp;46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n } # End Separator \n&quot;;<BR>
+&nbsp;47 }<BR>
+&nbsp;48<BR>
+&nbsp;49 #<BR>
+&nbsp;50 # The delimiters for Material type.<BR>
+&nbsp;51 #<BR>
+&nbsp;52<BR>
+&nbsp;53 sub defineMaterial {<BR>
+&nbsp;54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$this = shift;<BR>
+&nbsp;55&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+%parm = @_;<BR>
+&nbsp;56&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$key, $value, $j;<BR>
+&nbsp;57&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n Material {&quot;;<BR>
+&nbsp;58&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while
+(($key,$value) = each(%parm)) {<BR>
+&nbsp;59&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(($key eq &quot;ambientColor&quot;) ||<BR>
+&nbsp;60 ($key eq &quot;diffuseColor&quot;) ||<BR>
+&nbsp;61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;specularColor&quot;) ||<BR>
+&nbsp;62&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;emmissiveColor&quot;) ||<BR>
+&nbsp;63&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;shininess&quot;) ||<BR>
+&nbsp;64&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;transparency&quot;)) {<BR>
+&nbsp;65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n $key&quot;;<BR>
+&nbsp;66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach
+$j (@$value) {print &quot; $j&quot;; }<BR>
+&nbsp;67&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+# end of if clause<BR>
+&nbsp;68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+# end of while loop<BR>
+&nbsp;69&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n} # End Material&quot;;<BR>
+&nbsp;70 }<BR>
+&nbsp;71<BR>
+&nbsp;72 sub startMaterial {<BR>
+&nbsp;73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n Material {&quot;;<BR>
+&nbsp;74 }<BR>
+&nbsp;75 sub stopMaterial {<BR>
+&nbsp;76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n } # End Material \n&quot;;<BR>
+&nbsp;77 }<BR>
+&nbsp;78<BR>
+&nbsp;79 #<BR>
+&nbsp;80 # Perspective Camera<BR>
+&nbsp;81 #<BR>
+&nbsp;82 sub definePerspectiveCamera {<BR>
+&nbsp;83&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$this = shift;<BR>
+&nbsp;84&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+%parm = @_;<BR>
+&nbsp;85&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$key, $value, $j;<BR>
+&nbsp;86&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n PerspectiveCamera {&quot;;<BR>
+&nbsp;87&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while
+(($key,$value) = each(%parm)) {<BR>
+&nbsp;88&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(($key eq &quot;position&quot;) ||<BR>
+&nbsp;89&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;orientation&quot;) ||<BR>
+&nbsp;90&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;focalDistance&quot;) ||<BR>
+&nbsp;91&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;heightAngle&quot;)) {<BR>
+&nbsp;92<BR>
+&nbsp;93&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n $key&quot;;<BR>
+&nbsp;94&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach
+$j (@$value) {print &quot; $j&quot;; }<BR>
+&nbsp;95<BR>
+&nbsp;96&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+&nbsp;97&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+&nbsp;98&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n } # End PerspectiveCamera&quot;;<BR>
+&nbsp;99 }<BR>
+100<BR>
+101 #<BR>
+102 # This subroutine prints out the values for the &quot;transform&quot;
+node.<BR>
+103 #<BR>
+104 sub stopTransform {<BR>
+105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n } # End Transform&quot;;<BR>
+106 }<BR>
+107 sub startTransform {<BR>
+108&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n Transform {&quot;;<BR>
+109 }<BR>
+110 sub defineTransform {<BR>
+111&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $this
+= shift;<BR>
+112&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+%parm = @_;<BR>
+113&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$key, $value, $j;<BR>
+114&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\nTransform {&quot;;<BR>
+115&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while
+(($key,$value) = each(%parm)) {<BR>
+116&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(($key eq &quot;translation&quot;) ||<BR>
+117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;rotation&quot;) ||<BR>
+118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;scaleFactor&quot;) ||<BR>
+119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;scaleOrientation&quot;) ||<BR>
+120&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;center&quot;)) {<BR>
+121&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n $key&quot;;<BR>
+122&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach
+$j (@$value) {print &quot; $j&quot;; }<BR>
+123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+124&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+125&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n } # End Transform&quot;;<BR>
+126&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+127<BR>
+128 sub setPointLight {<BR>
+129&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $this
+= shift;<BR>
+130&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+%parm = @_;<BR>
+131&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$key, $value, $j;<BR>
+132&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\nPointLight {&quot;;<BR>
+133&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while
+(($key,$value) = each(%parm)) {<BR>
+134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(($key eq &quot;intensity&quot;) ||<BR>
+135&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;on&quot;)) {<BR>
+136&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n $key $value&quot;;<BR>
+137&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+138&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(($key eq &quot;location&quot;) ||<BR>
+139&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($key
+eq &quot;color&quot;)) {<BR>
+140&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n $key&quot;;<BR>
+141&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach
+$j (@$value) {print &quot; $j&quot;; }<BR>
+142&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+144&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n } # End PointLight&quot;;<BR>
+145 }<BR>
+146<BR>
+146 #-------------------------------------------------------------------
+<BR>
+147 # For doing your own diffuseColor node.<BR>
+148 #-------------------------------------------------------------------
+<BR>
+149<BR>
+150 sub diffuseColor {<BR>
+151&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+($this,$value) = @_;<BR>
+152&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n diffuseColor&quot;;<BR>
+153&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach
+$j (@$value) { print &quot; $j&quot;; }<BR>
+154&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n&quot;;<BR>
+155 }<BR>
+156<BR>
+157 #---------------------------------------------------------------------
+<BR>
+158 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shape
+node assistant functions begin here.<BR>
+159 #---------------------------------------------------------------------
+<BR>
+160 sub putCube {<BR>
+161&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+($this,%parm) = @_;<BR>
+162&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::startSeparator;
+<BR>
+163&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::defineMaterial(@_);
+<BR>
+164&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::defineTransform(@_);
+<BR>
+165&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$cube = VRML::Cube::new(@_);<BR>
+166&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::stopSeparator;
+<BR>
+167&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+($cube);<BR>
+168&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+169<BR>
+170 sub putCone {<BR>
+171&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+($this,%parm) = @_;<BR>
+172&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::startSeparator;
+<BR>
+173&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::defineMaterial(@_);
+<BR>
+174&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::defineTransform(@_);
+<BR>
+175&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$cone = VRML::Cone::new(@_);<BR>
+176&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::stopSeparator;
+<BR>
+177&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+($cone);<BR>
+178&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+179<BR>
+180 sub putCylinder {<BR>
+181&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+($this,%parm) = @_;<BR>
+182&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::startSeparator;
+<BR>
+183&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::defineMaterial(@_);
+<BR>
+184&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::defineTransform(@_);
+<BR>
+185&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$cyl = VRML::Cylinder::new(@_);<BR>
+186&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VRML::stopSeparator;
+<BR>
+187&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+($cyl);<BR>
+188&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+189<BR>
+190 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 21.9. Part of the </B><TT><B><FONT FACE="Courier">VRML/Cube.pm</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1&nbsp;package VRML::Cube;<BR>
+&nbsp;2<BR>
+&nbsp;3&nbsp;require Exporter;<BR>
+&nbsp;4&nbsp;require VRML;<BR>
+&nbsp;5<BR>
+&nbsp;6 @ISA = (Exporter, VRML);<BR>
+&nbsp;7<BR>
+&nbsp;8 @EXPORT = qw(new);<BR>
+&nbsp;9<BR>
+10 sub new {<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $type
+= shift;<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $class
+= ref($type) || $type;<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $self
+= VRML-&gt;new;<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bless
+$self, $class;<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+%parm = @_;<BR>
+16<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$self-&gt;{'width'}
+= $parm{'width'};<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$self-&gt;{'height'}
+= $parm{'height'};<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$self-&gt;{'depth'}
+= $parm{'depth'};<BR>
+20<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+&quot;\n Cube {&quot;;<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n width $self-&gt;{'width'} &quot; if $self-&gt;{'width'};
+<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n height $self-&gt;{'height'} &quot; if $self-&gt;{'height'};
+<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n depth $self-&gt;{'depth'} &quot; if $self-&gt;{'depth'};
+<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+&quot;\n } \n&quot;;<BR>
+26<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+$self;<BR>
+28 }<BR>
+29 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<H2><B><FONT SIZE=5 COLOR=#FF0000><A NAME="Summary">Summary</A></FONT></B></H2>
+<P>
+This chapter has introduced you to VRML and a Perl package that
+helps you create VRML files. Using the powerful features of Perl,
+you can generate VRML output in an object-oriented fashion. The
+use of the <TT><FONT FACE="Courier">VRML.pm</FONT></TT> module
+is justified when you want to display the results of a calculation
+in three dimensions. Several VRML editors on UNIX and Windows
+are available on the Internet that allow you to create and view
+complex models.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch20.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch20.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch22.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch22.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,91 @@
+Windows Registry Editor Version 5.00
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\BreakoutManager]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\CarrierManager]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\CSVAdapter]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\DQAbout]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\DQAdmin]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\DQGateway]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\DQLogin]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\MainMenu]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\DQMaintenance]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\EModel]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\FileTransfer]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\ImportPTI]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\ListFiles]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\LiveGridService]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\ProbeManager]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\PTIBrowser]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\ReportConfigurator]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\TestPlanBrowser]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\TestPlanGenerator]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\TestPlanManager]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\ThresholdManager]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\ToneManager]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\TPGenerator]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\TrunkManager]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\VscMan]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\WEBDss20]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\WEBDssFax]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\WebScheduler]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\WebTraceViewer]
+"WebTrace"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\WEBUserManager]
+"WebTrace"=dword:00000001
+

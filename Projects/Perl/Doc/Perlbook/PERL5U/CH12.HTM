@@ -1,0 +1,1465 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 12 -- Using Sockets</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 12</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Using Sockets</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+<UL>
+<LI><A HREF="#AVeryBriefIntroductiontoSockets" >A Very Brief Introduction to Sockets</A>
+<LI><A HREF="#PerlFunctionsforWorkingwithProtocol" >Perl Functions for Working with Protocols</A>
+<LI><A HREF="#SocketPrimitives" >Socket Primitives</A>
+<UL>
+<LI><A HREF="#socket" >socket()</A>
+<LI><A HREF="#ThebindSystemCall" >The bind() System Call</A>
+<LI><A HREF="#ThelistenandacceptSystemCalls" >The listen() and accept() System Calls</A>
+<LI><A HREF="#TheconnectSystemCall" >The connect() System Call</A>
+</UL>
+<LI><A HREF="#ConnectionOrientedServersinPerl" >Connection-Oriented Servers in Perl</A>
+<LI><A HREF="#Theh2phScript" >The h2ph Script</A>
+<LI><A HREF="#UsingSocketpm" >Using Socket.pm</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+Perl offers a host of functions for accessing the socket-based
+interprocess communication facilities. The system facilities on
+UNIX systems are available to the Perl programmer and, thus, can
+be called directly from Perl scripts. Given the information in
+this chapter, you should be able to write your own client/server
+Perl applications using sockets.
+<H2><A NAME="AVeryBriefIntroductiontoSockets"><FONT SIZE=5 COLOR=#FF0000>A
+Very Brief Introduction to Sockets</FONT></A></H2>
+<P>
+Perl offers a host of functions for accessing the socket functions
+on a UNIX-based system. It's essential to cover some of the important
+features of interprocess communications in order to understand
+how the model fits in with Perl. Given the limited amount of space
+in a chapter, I cannot hope to possibly cover all the bases for
+socket programming. However, I will cover the basics, and you
+should have enough information from this chapter to develop your
+own client/server model using Perl.
+<P>
+The absolutely best reference to doing <I>anything</I> with network
+programming is<I> UNIX Network Programming</I> by W. Richard Stevens
+(Prentice Hall, ISBN 0-13-949876-1). The book provides programs
+and C code samples in excruciating detail that cover all aspects
+of network programming. BSD UNIX gives many ways to open, use,
+and close sockets, and this book covers them all. The examples
+presented in this chapter are derived from the C code in this
+book. Perl is great in that often you can do a line-by-line mapping
+of cookbook socket and network function calls in C to equivalent
+calls in Perl. (Someone ought to write an interpreter!) Please
+refer to Stevens's book for a more detailed discussion on internetworking
+with sockets.
+<P>
+In general, socket programming is based on the client/server model.
+A <I>client</I> is a program that makes requests to the server
+to get responses. A <I>server</I> is simply another program that
+responds to these requests. The server either can reside on the
+same computer as the client or can be a computer somewhere on
+a connecting network. Sending requests and receiving replies to
+transfer the data between clients and servers is the <I>protocol</I>
+with which they communicate.
+<P>
+A common protocol in the UNIX world is the TCP/IP protocol. The
+Internet Protocol (IP) handles the transfer of data from one computer
+to another over a network. The Transport Control Protocol (TCP)
+offers a set of reliability and connection functions that IP does
+not offer. Messages sent via TCP/IP from one computer are acknowledged
+by the other computer. The acknowledgment of sent messages increases
+reliability, but at the cost of efficiency. The User Datagram
+Protocol (UDP) is like TCP in sending messages, but has no acknowledge
+feature as such. This makes UDP faster when receiving acknowledgments
+is not as high of a priority as sending acknowledgments back.
+UDP tends to be less reliable than TCP because the sender UDP
+does not have a guarantee that the sent message even made it to
+the remote site. Think of UDP as the regular U.S. Mail service
+and TCP/IP as a registered letter service. Although the U.S. Mail
+is generally very reliable, a sender does not really know if the
+recipient did indeed receive the letter. As far as you are concerned,
+the letter got to its destination, and if it didn't the recipient
+will request another. This is similar to UDP. Send a message,
+and if it doesn't make it over to the destination-no problem-the
+recipient will ask again. When sending important documents though,
+you would most likely want to get a confirmation from the recipient.
+In this case, you'd normally use a registered letter service,
+which will return a signed receipt. The signed receipt is your
+&quot;acknowledgment&quot; in TCP/IP.
+<P>
+Most applications using TCP or UDP have a port number that they
+talk on to get the service they want. A machine assigns one unique
+port number to an application. Port numbers are standardized enough
+to identify the type of service being used. On UNIX systems, the
+file <TT><FONT FACE="Courier">/etc/services</FONT></TT> maintains
+a list of services offered on each port. Port numbers between
+1 and 255 are reserved for standard, well-known applications.
+There are well-known port numbers that everyone recognizes: for
+example, port 80 for the World Wide Web's server daemons, the
+<TT><FONT FACE="Courier">nameserver</FONT></TT> on port 42, <TT><FONT FACE="Courier">sendmail</FONT></TT>
+at port 25, and so on. In all cases, avoid using socket 0, since
+it's interpreted differently on different systems.
+<P>
+Two computers talk to each other via a network <I>circuit</I>.
+Each circuit is uniquely identified by a combination of two numbers
+called a <I>socket</I>. Basically a socket is the IP address of
+the machine plus the port number used by the TCP software.
+<P>
+There are two ways of defining the address: If two processes talking
+to each other are on the same machine, the &quot;family&quot;
+of protocols is referred to as <TT><FONT FACE="Courier">AF_UNIX</FONT></TT>.
+If the communicators are on different machines, this is referred
+to as the <TT><FONT FACE="Courier">AF_INET</FONT></TT> family.
+In the <TT><FONT FACE="Courier">AF_UNIX</FONT></TT> family, sockets
+are assigned a pathname in the directory tree. In the <TT><FONT FACE="Courier">AF_INET</FONT></TT>
+family, they are assigned a port number and application number.
+Using <TT><FONT FACE="Courier">AF_INET</FONT></TT>, you can talk
+to processes on the same machine, but <TT><FONT FACE="Courier">AF_UNIX</FONT></TT>
+is reserved for the same machine.
+<P>
+There are two types of sockets about which you should know:
+<UL>
+<LI><TT><FONT FACE="Courier">SOCK_STREAM</FONT></TT>. This type
+of socket utilizes TCP and provides a reliable way of transferring
+data across a network. The <TT><FONT FACE="Courier">SOCK_STREAM</FONT></TT>
+process requires the establishment of a connection before the
+transfer of data and the disestablishment of the connection after
+all transfers are complete. While connected, the client and server
+can send data to and receive data from each other. Thus, <TT><FONT FACE="Courier">SOCK_STREAM</FONT></TT>
+is a connection-oriented protocol.
+<LI><TT><FONT FACE="Courier">SOCK_DGRAM</FONT></TT>. This type
+of socket utilizes UDP and provides a faster way of transmitting
+than TCP, but does not require the establishment of a connection
+for it to be able to transfer data. The destination socket may
+not even exist. The <TT><FONT FACE="Courier">SOCK_DGRAM</FONT></TT>
+is referred to as a connectionless protocol.
+</UL>
+<P>
+There is a socket on both the sending and receiving machine. Clients
+send on their sockets, and servers listen on their sockets and
+accept connections when necessary. The IP address of each machine
+is guaranteed to be unique by design, and the port numbers are
+unique to each machine. This implies the socket numbers, which
+are a combination of these two unique numbers, will also be unique
+across the network. This allows two applications to communicate
+using unique socket numbers.
+<P>
+With Perl, it's possible to get access to these socket and network
+functions. Most of this chapter has a UNIX slant to it. On NT
+machines, you'll be dealing with the Remote Access Server and
+WinSock under Windows. Please refer to the technical notes from
+Microsoft for more information on WinSock programming.
+<H2><A NAME="PerlFunctionsforWorkingwithProtocol"><FONT SIZE=5 COLOR=#FF0000>Perl
+Functions for Working with Protocols</FONT></A></H2>
+<P>
+The protocols available on your UNIX system are located in the
+<TT><FONT FACE="Courier">/etc/protocols</FONT></TT> file. You
+have to use three functions to read this file. The function <TT><FONT FACE="Courier">setprotoent()</FONT></TT>
+starts the listing process. The Perl function <TT><FONT FACE="Courier">getprotoent()</FONT></TT>
+reads one line from the <TT><FONT FACE="Courier">/etc/protocols</FONT></TT>
+file and lists it for you. Successive calls to the function read
+successive lines. Finally, a call to <TT><FONT FACE="Courier">endprotoent()</FONT></TT>
+stops the listening process. A simple way to have all the protocols
+available to your Perl script is to use the script shown in Listing
+12.1.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 12.1. Showing available protocols.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!/usr/bin/perl<BR>
+2 #<BR>
+3 # List all the protocols in this machine<BR>
+4 #<BR>
+5 setprotoent(1);<BR>
+6 while (($name, $aliases, $protonum) = getprotoent) {<BR>
+7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot; Name=$name,
+Aliases=$aliases, Protocol=$protonum \n&quot;;<BR>
+8 }<BR>
+9 endprotoent;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The output should be similar to what is shown here:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Name=ip, Aliases=IP, Protocol=0<BR>
+Name=icmp, Aliases=ICMP, Protocol=1<BR>
+Name=igmp, Aliases=IGMP, Protocol=2<BR>
+Name=ggp, Aliases=GGP, Protocol=3<BR>
+Name=tcp, Aliases=TCP, Protocol=6<BR>
+Name=pup, Aliases=PUP, Protocol=12<BR>
+Name=udp, Aliases=UDP, Protocol=17<BR>
+Name=idp, Aliases=IDP, Protocol=22<BR>
+Name=raw, Aliases=RAW, Protocol=255</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To keep the file open between successive calls to the <TT><FONT FACE="Courier">getprotoent()</FONT></TT>
+call, you should call the <TT><FONT FACE="Courier">setprotoent()</FONT></TT>
+function with a nonzero parameter. To stop querying the file,
+use the <TT><FONT FACE="Courier">endprotoent()</FONT></TT> call.
+<P>
+To determine whether you have a specific protocol present, you
+can use the system call <TT><FONT FACE="Courier">getprotobyname</FONT></TT>
+or <TT><FONT FACE="Courier">getprotobynumber</FONT></TT>. A return
+value of <TT><FONT FACE="Courier">NULL</FONT></TT> indicates that
+the protocol is not there. The name passed to the function is
+not case-sensitive. Therefore, to list the names, aliases, and
+the protocol number for TCP, you can use this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">if&nbsp;&nbsp;(($name, $aliases, $protonum)
+= getprotobyname('tcp')) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; print &quot;\n Name=$name, Aliases=$aliases,
+Protocol=$protonum&quot;;<BR>
+}<BR>
+print &quot;\n&quot;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+A comparable set of calls is available for determining what services
+are available for your machine. This call queries the <TT><FONT FACE="Courier">/etc/services</FONT></TT>
+file. Listing 12.2 illustrates how to use these calls. The <TT><FONT FACE="Courier">setservent</FONT></TT>
+call with a nonzero file rewinds the index into the services file
+for you, the <TT><FONT FACE="Courier">getservent</FONT></TT> gets
+the four items in the service entry, and the <TT><FONT FACE="Courier">endservent</FONT></TT>
+call terminates the lookup. The output from this file can be a
+bit lengthy and is shown in Listing 12.2 starting at line 15.
+<P>
+In Listing 12.2, lines 1 and 2 clear the screen and show the output
+of the <TT><FONT FACE="Courier">showme.pl</FONT></TT> file with
+the script in it. At line 13, we execute this script. Your output
+may be different than the one shown in Listing 12.2 depending
+on what services you have installed on your system.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 12.2. Listing server services.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;1 $ <B>clear<BR>
+</B>&nbsp;&nbsp;2 $ <B>cat showme.pl<BR>
+</B>&nbsp;&nbsp;3 #!/usr/bin/perl<BR>
+&nbsp;&nbsp;4 setservent(1);<BR>
+&nbsp;&nbsp;5 printf &quot;%15s %15s %4s %15s\n&quot;,<BR>
+&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp; &quot;Name&quot;,&quot;Aliases&quot;,&quot;Port&quot;,&quot;Protocol&quot;;
+<BR>
+&nbsp;&nbsp;7 while(($nm,$al,$pt,$pr) = getservent) {<BR>
+&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp; # print &quot;Name=$nm,
+Aliases=$al, Port=$pt, $Protocol=$pr\n&quot;;<BR>
+&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp; printf &quot;%15s %15s %4d
+%15s\n&quot;, $nm,$al,$pt,$pr;<BR>
+&nbsp;10 }<BR>
+&nbsp;11 endservent;<BR>
+&nbsp;12 $<BR>
+&nbsp;13 $<BR>
+&nbsp;14 $ showme.pl<BR>
+&nbsp;15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Aliases&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Port&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+;Protocol
+<BR>
+&nbsp;16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tcpmux&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;discard&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+sink null&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;discard&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+sink null&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;systat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;daytime&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13&nbsp;&nbsp;&nbsp
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;daytime&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13&nbsp;&nbsp;&nbsp
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;netstat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;&nbsp;&nbsp
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qotd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+quote&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+msp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+msp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chargen&nbsp;&nbsp;&nbsp;ttytst
+source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chargen&nbsp;&nbsp;&nbsp;ttytst
+source&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ftp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;telnet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smtp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+timserver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+timserver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+rlp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nameserver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+whois&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nicname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;domain&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nameserver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n
+bsp;&nbsp;
+tcp<BR>
+&nbsp;39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;domain&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nameserver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n
+bsp;&nbsp;
+udp<BR>
+&nbsp;40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+mtp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;57&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootps&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootps&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootpc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;68&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bootpc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;68&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tftp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;69&n
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gopher&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;70&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gopher&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;70&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;48&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+rje&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;netrjs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;77&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finger&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;79&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+www&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;http&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+www&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;52&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;link&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ttylink&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;87&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kerberos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;krb5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;88&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kerberos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;88&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;55&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;supdup&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;95&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;56&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hostnames&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hostname&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;57&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iso-tsap&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tsap&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;58&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;csnet-ns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cso-ns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;59&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;csnet-ns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cso-ns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rtelnet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;107&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rtelnet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;107&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;62&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;postoffice&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;63&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;109&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;64&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;110&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pop3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;110&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sunrpc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;111&nbsp;&nbsp;&nbsp
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;67&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sunrpc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;111&nbsp;&nbsp;&nbsp
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;auth
+tap ident authentication&nbsp;&nbsp;113&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;69&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sftp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;115&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+uucp-path&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;71&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nntp&nbsp;&nbsp;&nbsp;readnews
+untp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;72&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ntp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ntp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;netbios-ns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;137&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;75&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;netbios-ns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;137&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;76&nbsp;&nbsp;&nbsp;&nbsp; 
+netbios-dgm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;138&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;77&nbsp;&nbsp;&nbsp;&nbsp; 
+netbios-dgm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;138&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;78&nbsp;&nbsp;&nbsp;&nbsp; 
+netbios-ssn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;139&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;79&nbsp;&nbsp;&nbsp;&nbsp; 
+netbios-ssn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;139&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+imap2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+imap2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;82&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;snmp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;161&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;83&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; snmp-trap&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;snmptrap&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+162&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;84&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmip-man&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;163&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;85&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmip-man&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;163&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;86&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmip-agent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;164&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;87&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmip-agent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;164&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;88&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+xdmcp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;177&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;89&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+xdmcp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;177&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;90&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nextstep
+NeXTStep NextStep&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;178&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;91&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nextstep
+NeXTStep NextStep&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;178&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;92&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bgp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;179&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;93&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bgp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;179&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;94&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prospero&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;191&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;95&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prospero&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;191&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;96&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+irc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;194&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;97&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+irc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;194&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+&nbsp;98&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smux&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+&nbsp;99&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smux&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;199&nbsp;&
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at-rtmp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;201&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at-rtmp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;201&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at-nbp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;202&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at-nbp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;202&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at-echo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;204&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at-echo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;204&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at-zis&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;206&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+107&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at-zis&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;206&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+108&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+z3950&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+210&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+z3950&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+210&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ipx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;213&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+111&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ipx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;213&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+112&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+imap3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;220&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+113&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+imap3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;220&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+114&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ulistserv&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;372&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+115&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ulistserv&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;372&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+116&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exec&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;512&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+117&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;biff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comsat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+512&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+118&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;513&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+119&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+who&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;whod&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+513&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+120&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+shell&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cmd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+514&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+121&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;syslog&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;514&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+122&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spooler&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+515&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+123&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;talk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;517&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+124&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ntalk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;518&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+125&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+route&nbsp;&nbsp;&nbsp;router routed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+520&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+126&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+timed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timeserver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+525&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+127&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tempo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newdate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+526&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+128&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;courier&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+rpc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+530&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+129&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conference&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+531&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+130&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;netnews&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readnews&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+532&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+131&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;netwall&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;533&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+132&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uucp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+uucpd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+540&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+133&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remotefs&nbsp;&nbsp;rfs_server
+rfs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+556&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+134&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;klogin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;543&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+135&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kshell&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;544&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+136&nbsp;&nbsp;&nbsp;&nbsp;kerberos-adm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;749&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+137&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;webster&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;765&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+138&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;webster&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;765&nbsp;&nbsp;&nbsp;&nbsp;&nb
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+139&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ingreslock&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1524&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+140&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ingreslock&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1524&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+141&nbsp;&nbsp;&nbsp;&nbsp; 
+prospero-np&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1525&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+142&nbsp;&nbsp;&nbsp;&nbsp; 
+prospero-np&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1525&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+143&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+rfe&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5002&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+144&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+rfe&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5002&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+udp<BR>
+145&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; krbupdate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kreg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+760&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+146&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kpasswd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kpwd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+761&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+147&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eklogin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+148&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;supfilesrv&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;871&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+149&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;supfiledbg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1127&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+;&nbsp;&nbsp;&nbsp;&nbsp;
+tcp<BR>
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Tip</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">gethostent</FONT></TT> function was not implemented as of Perl 5.002.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Perl also lets you look at the host name by address in your <TT><FONT FACE="Courier">/etc/hosts</FONT></TT>
+file with the <TT><FONT FACE="Courier">gethostbyaddr</FONT></TT>
+call. This function takes two parameters, the address to look
+up and the value of <TT><FONT FACE="Courier">AF_INET</FONT></TT>.
+On most systems, this value is set to <TT><FONT FACE="Courier">2</FONT></TT>
+but can be looked up in the <TT><FONT FACE="Courier">/usr/include/sys/socket.h</FONT></TT>
+file. The <TT><FONT FACE="Courier">gethostbyname(&quot;hostname&quot;)</FONT></TT>
+function returns the same values as the <TT><FONT FACE="Courier">gethostbyaddr()</FONT></TT>
+call. The parameter passed into the function is the name of the
+host being looked up. Listing 12.3 illustrates how to do this.
+<P>
+In the program shown in Listing 12.3, the code in Line 4 gets
+the host name and alias given the address <TT><FONT FACE="Courier">204.251.103.2</FONT></TT>.
+You would use a different address, of course, because the address
+shown here is specific to my machine. Lines 6 through 10 print
+the components of the information you get back from the <TT><FONT FACE="Courier">gethostbyaddr</FONT></TT>
+function call. Also, in lines 12 and 13, you can get the same
+information back using the node name instead of an IP address.
+Lines 14 through 19 print these values.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 12.3. Sample listing to show usage of </B><TT><B><FONT FACE="Courier">gethostbyname</FONT></B></TT><B>
+and </B><TT><B><FONT FACE="Courier">gethostbyaddr</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2<BR>
+&nbsp;3 $addr = pack('C4',204,251,103,2);<BR>
+&nbsp;4 ($name,$alias,$atype,$len,@addrs) = gethostbyaddr($addr,2);
+<BR>
+&nbsp;5 ($a,$b,$c,$d) = unpack('C4',$addrs[0]);<BR>
+&nbsp;6 print &quot;Name :&nbsp;&nbsp;$name \n&quot;;<BR>
+&nbsp;7 print &quot;Alias:&nbsp;&nbsp;$alias \n&quot;;<BR>
+&nbsp;8 print &quot;Type :&nbsp;&nbsp;$atype \n&quot;;<BR>
+&nbsp;9 print &quot;Len&nbsp;&nbsp;:&nbsp;&nbsp;$len \n&quot;;
+<BR>
+10 print &quot;Node :&nbsp;&nbsp;$a.$b.$c.$d \n&quot;;<BR>
+11<BR>
+12 $name = &quot;www.ikra.com&quot;;<BR>
+13 ($name,$alias,$atype,$len,@addrs) = gethostbyname($name);<BR>
+14 ($a,$b,$c,$d) = unpack('C4',$addrs[0]);<BR>
+15 print &quot;Name :&nbsp;&nbsp;$name \n&quot;;<BR>
+16 print &quot;Alias:&nbsp;&nbsp;$alias \n&quot;;<BR>
+17 print &quot;Type :&nbsp;&nbsp;$atype \n&quot;;<BR>
+18 print &quot;Len&nbsp;&nbsp;:&nbsp;&nbsp;$len \n&quot;;<BR>
+19 print &quot;Node :&nbsp;&nbsp;$a.$b.$c.$d \n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Note the use of the number <TT><FONT FACE="Courier">2</FONT></TT> in the call to <TT><FONT FACE="Courier">gethostbyaddr</FONT></TT> in Listing 12.3. This should be the constant <TT><FONT FACE="Courier">$AF_INET</FONT></TT>.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H2><A NAME="SocketPrimitives"><FONT SIZE=5 COLOR=#FF0000>Socket
+Primitives</FONT></A></H2>
+<P>
+Enough already about getting information on your system. Let's
+see what socket functions are available to you. Depending on your
+site and what extensions you have for Perl, you may have more
+functions available. Check the <TT><FONT FACE="Courier">man</FONT></TT>
+pages for <TT><FONT FACE="Courier">socket</FONT></TT> for more
+information. Here are the most common ones you'll use:
+<UL>
+<LI><TT><FONT FACE="Courier">socket()</FONT></TT>-Creates a socket
+<LI><TT><FONT FACE="Courier">bind()</FONT></TT>-Binds a process
+to a socket
+<LI><TT><FONT FACE="Courier">accept()</FONT></TT>-Accepts an incoming
+request for connection
+<LI><TT><FONT FACE="Courier">listen()</FONT></TT>-Use for servers
+to begin listening for connections to a <TT><FONT FACE="Courier">socket</FONT></TT>
+<LI><TT><FONT FACE="Courier">connect()</FONT></TT>-Use for clients
+to connect to a server
+<LI><TT><FONT FACE="Courier">read()</FONT></TT>-Reads binary data
+from a socket
+<LI><TT><FONT FACE="Courier">write()</FONT></TT>-Writes binary
+data to a socket
+</UL>
+<P>
+I cover these functions in the following sections. However, there
+are some constants that must be defined before I continue. These
+constants are used in all function calls and scripts in this chapter.
+Feel free to change them to reflect your own system's peculiarities.
+Here's a list of the constants:
+<UL>
+<LI><TT><FONT FACE="Courier">$AF_UNIX = 1</FONT></TT>. You'll
+be working with the <TT><FONT FACE="Courier">AF_UNIX</FONT></TT>
+family of protocols.
+<LI><TT><FONT FACE="Courier">$SOCK_STR = 1</FONT></TT>. When you
+work with UDP, set this variable to <TT><FONT FACE="Courier">2</FONT></TT>.
+If you will work with TCP/IP only, set it to <TT><FONT FACE="Courier">1</FONT></TT>.
+<LI><TT><FONT FACE="Courier">$PROTOCOL = 0</FONT></TT>. The default
+protocol for all our examples is the one you will most probably
+wind up using anyway-IP. See <TT><FONT FACE="Courier">man</FONT></TT>
+pages for protocols for more information about what other types
+are available.
+</UL>
+<H3><A NAME="socket"><TT><FONT SIZE=4 FACE="Courier">socket()</FONT></TT></A>
+</H3>
+<P>
+The <TT><FONT FACE="Courier">socket()</FONT></TT> system call
+creates a socket for the client or the server. The socket function
+is defined as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">socket(SOCKET_HANDLE,  $FAMILY, $TYPE,
+$PROTOCOL);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The return value from this function is <TT><FONT FACE="Courier">NULL</FONT></TT>,
+and if there was an error, you should check the <TT><FONT FACE="Courier">$!</FONT></TT>
+for the type of error message. The call to open a socket looks
+like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">socket(MY_HANDLE,&nbsp;&nbsp;$AF_UNIX,
+$STREAMS, $PROTOCOL) ||<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; die &quot;\nCannot open socket: $!\n&quot;;
+<BR>
+print &quot;\nSocket successfully opened\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+It's a good idea to unlink any existing file names for previously
+opened sockets with the <TT><FONT FACE="Courier">unlink</FONT></TT>
+call:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">unlink &quot;$my_tst_srvr&quot; || die
+&quot;\n$O: No permissions&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+You'll use the socket descriptor <TT><FONT FACE="Courier">MY_HANDLE</FONT></TT>
+to refer to this socket in all subsequent network function calls
+in your program. Sockets are created without a name. Clients use
+the name of the socket in order to read or write to it. This is
+where the <TT><FONT FACE="Courier">bind</FONT></TT> function comes
+in.
+<H3><A NAME="ThebindSystemCall">The <TT><FONT SIZE=4 FACE="Courier">bind()</FONT></TT><FONT SIZE=4>
+System Call</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">bind()</FONT></TT> system call assigns
+a name to an unnamed socket:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">bind(SOCKET_HANDLE, $nameAsAString);
+<BR>
+bind(SOCKET_HANDLE, $sockaddr);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first item is the socket descriptor you just created. The
+second parameter is the name that refers to this socket if you
+are using <TT><FONT FACE="Courier">AF_UNIX</FONT></TT> or its
+address if you are using <TT><FONT FACE="Courier">AF_INET</FONT></TT>.
+<P>
+The call to bind using <TT><FONT FACE="Courier">AF_UNIX</FONT></TT>
+looks like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">bind(MY_HANDLE,&quot;./mysocket&quot;)
+|| die &quot;Cannot bind $!\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In <TT><FONT FACE="Courier">AF_INET</FONT></TT>, it looks like
+this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$port = 6666<BR>
+$AF_INET=2;&nbsp;&nbsp;&nbsp;&nbsp; # Use AF_INET instead of AF_UNIX
+<BR>
+($name,$alias,$atype,$len,$addr)=gethostbyname(`uname -n`);<BR>
+$my_ip_addr = pack(S n C4 x8,$AF_INET,$STREAMS,$port,$addr);<BR>
+bind(MY_HANDLE,$my_ip_addr) || die &quot;Cannot bind $!\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The parameters' <TT><FONT FACE="Courier">pack()</FONT></TT> function
+probably needs some explanation. The <TT><FONT FACE="Courier">pack()</FONT></TT>
+function takes two parameters: a list of formats to use and a
+list of values to pack into one continuous stream of bytes. In
+our case, the <TT><FONT FACE="Courier">bind()</FONT></TT> call
+expects a <TT><FONT FACE="Courier">sockaddr</FONT></TT> structure
+of the following form in a C structure:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">{<BR>
+unsigned short family;<BR>
+int network;<BR>
+long&nbsp;&nbsp;&nbsp;&nbsp; address;<BR>
+char nullbytes[8];<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; }</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first parameter to the <TT><FONT FACE="Courier">pack</FONT></TT>
+instruction can take the values listed in Table 12.1. Check the
+<TT><FONT FACE="Courier">man</FONT></TT> pages for the <TT><FONT FACE="Courier">pack</FONT></TT>
+instruction for more details. You had the <TT><FONT FACE="Courier">pack</FONT></TT>
+instruction create the socket address structure for you. Therefore,
+the script uses <TT><FONT FACE="Courier">S n C4 x8</FONT></TT>
+to pack a signed <TT><FONT FACE="Courier">short</FONT></TT>, followed
+by an integer in network order, four unsigned characters, and
+eight <TT><FONT FACE="Courier">NULL</FONT></TT> characters to
+get this call:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">pack(S n C4 x8,$AF_INET,$STREAMS,$port,$addr);
+<BR>
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<CENTER><B>Table 12.1. The types of packing supported by </B><TT><B><FONT FACE="Courier">pack()</FONT></B></TT><B>.</B></CENTER>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><I>Character</I></CENTER></TD><TD WIDTH=307><I>Type of Packing</I>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">@</FONT></TT></CENTER>
+</TD><TD WIDTH=307>Null fill to absolute position</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">a</FONT></TT></CENTER>
+</TD><TD WIDTH=307>An ASCII string, padded with <TT><FONT FACE="Courier">NULL</FONT></TT>s
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">A</FONT></TT></CENTER>
+</TD><TD WIDTH=307>An ASCII string, padded with spaces</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">b</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A bit string in ascending bit order</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">B</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A bit string in descending bit order</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">c</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A signed <TT><FONT FACE="Courier">char</FONT></TT> value
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">C</FONT></TT></CENTER>
+</TD><TD WIDTH=307>An unsigned <TT><FONT FACE="Courier">char</FONT></TT> value
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">d</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A double-precision float in the native format
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">f</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A single-precision float in the native format
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">H</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A hex string, high nibble first</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">h</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A hex string, low nibble first</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">i</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A signed <TT><FONT FACE="Courier">integer</FONT></TT> value
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">I</FONT></TT></CENTER>
+</TD><TD WIDTH=307>An unsigned <TT><FONT FACE="Courier">integer</FONT></TT> value
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">l</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A signed <TT><FONT FACE="Courier">long</FONT></TT> value
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">L</FONT></TT></CENTER>
+</TD><TD WIDTH=307>An unsigned <TT><FONT FACE="Courier">long</FONT></TT> value
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">N</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A <TT><FONT FACE="Courier">long</FONT></TT> in network order
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">n</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A <TT><FONT FACE="Courier">short</FONT></TT> in network order
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">p</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A pointer to a null-terminated string</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">P</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A pointer to a structure (fixed-length string)
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">s</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A signed <TT><FONT FACE="Courier">short</FONT></TT> value
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">S</FONT></TT></CENTER>
+</TD><TD WIDTH=307>An unsigned <TT><FONT FACE="Courier">short</FONT></TT> value
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">u</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A uuencoded string</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">V</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A <TT><FONT FACE="Courier">long</FONT></TT> in little-endian order
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">v</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A <TT><FONT FACE="Courier">short</FONT></TT> in little-endian order
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">x</FONT></TT></CENTER>
+</TD><TD WIDTH=307>A null byte</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=83><CENTER><TT><FONT FACE="Courier">X</FONT></TT></CENTER>
+</TD><TD WIDTH=307>Back up a byte</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Now that you have bound an address for your server or client,
+you can connect to it or listen for connections with it. If your
+program is a server, it will set itself up to listen and accept
+connections.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Tip</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Do not use <TT><FONT FACE="Courier">S n A4 x8</FONT></TT> instead of <TT><FONT FACE="Courier">S n C4 x8</FONT></TT> for packing into the <TT><FONT FACE="Courier">sockaddr</FONT></TT> structure. The <TT><FONT FACE="Courier">C4</FONT></TT> specifies four 
+unsigned <TT><FONT FACE="Courier">char</FONT></TT> data values and is safe to use. The <TT><FONT FACE="Courier">A4</FONT></TT> implies a string, which may confuse the <TT><FONT FACE="Courier">pack()</FONT></TT> function if there are nulls (zeroes) in the 
+address.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Now let's look at the functions available for use in a server.
+<H3><A NAME="ThelistenandacceptSystemCalls">The <TT><FONT SIZE=4 FACE="Courier">listen()</FONT></TT><FONT SIZE=4>
+and </FONT><TT><FONT SIZE=4 FACE="Courier">accept()</FONT></TT><FONT SIZE=4>
+System Calls</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">listen()</FONT></TT> system call
+is used by the server to listen for connections. Once it is ready
+to listen, the server is able to honor any requests for connections
+with the <TT><FONT FACE="Courier">accept</FONT></TT> system call.
+The <TT><FONT FACE="Courier">listen</FONT></TT> call is defined
+as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">listen(SOCKET_HANDLE, $queueSize);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">SOCKET_HANDLE</FONT></TT> is the
+descriptor of the socket you created. The <TT><FONT FACE="Courier">queueSize</FONT></TT>
+is the number of waiting connections allowed at one time before
+any are rejected. Use the standard value of <TT><FONT FACE="Courier">5</FONT></TT>
+for queue size. A returned value of <TT><FONT FACE="Courier">NULL</FONT></TT>
+indicates an error. The call to <TT><FONT FACE="Courier">listen</FONT></TT>
+normally looks like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">listen(MY_HANDLE,5) || die &quot;Cannot
+listen $!\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If this call is successful, you can accept connections with the
+<TT><FONT FACE="Courier">accept</FONT></TT> function, which looks
+like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">accept(NEWSOCKET, ORIGINAL_SOCKET);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">accept()</FONT></TT> system call
+is used by the server to accept any incoming messages from a client's
+<TT><FONT FACE="Courier">connect()</FONT></TT> calls. Be aware
+that this function will not return if no connections are received.
+As requests come off the queue and set up in the <TT><FONT FACE="Courier">listen()</FONT></TT>
+call, the <TT><FONT FACE="Courier">accept</FONT></TT> function
+handles them by assigning them to a new socket. <TT><FONT FACE="Courier">NEWSOCKET</FONT></TT>
+is created by the <TT><FONT FACE="Courier">accept</FONT></TT>
+function as <TT><FONT FACE="Courier">ORIGINAL_SOCKET</FONT></TT>,
+but now <TT><FONT FACE="Courier">NEWSOCKET</FONT></TT> is going
+to be used to communicate with the client. At this point, most
+servers fork off (<TT><FONT FACE="Courier">fork()</FONT></TT>)
+a child process to handle the client and go back to wait for more
+connections. Before I get into that, let's see how connections
+are originated.
+<P>
+Let's look at the <TT><FONT FACE="Courier">connect()</FONT></TT>
+call that you'll use to connect to a server.
+<H3><A NAME="TheconnectSystemCall">The <TT><FONT SIZE=4 FACE="Courier">connect()</FONT></TT><FONT SIZE=4>
+System Call</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">connect()</FONT></TT> system call
+is used by clients to connect to a server in a connection-oriented
+system. This <TT><FONT FACE="Courier">connect()</FONT></TT> call
+should be made after the <TT><FONT FACE="Courier">bind()</FONT></TT>
+call. There are two ways you can call the <TT><FONT FACE="Courier">connect()</FONT></TT>
+call: one for <TT><FONT FACE="Courier">AF_UNIX</FONT></TT> using
+the pathname of the socket and the other using an address as the
+<TT><FONT FACE="Courier">AF_INET</FONT></TT> requirement for a
+socket handle.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">connect(SOCKET_HANDLE,&quot;pathname&quot;
+);  # for AF_UNIX<BR>
+connect(SOCKET_HANDLE,$Address);  # for AF_INET</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="ConnectionOrientedServersinPerl"><FONT SIZE=5 COLOR=#FF0000>Connection-Oriented
+Servers in Perl</FONT></A></H2>
+<P>
+Given this background information about socket information gathering,
+creation, and so on, you are now ready to write your own server
+using Perl. Listing 12.4 presents a sample server.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 12.4. Server side for connection-oriented protocol.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 #<BR>
+&nbsp;3 # Sample connection oriented server using Perl<BR>
+&nbsp;4 #<BR>
+&nbsp;5 $AF_UNIX = 1;<BR>
+&nbsp;6 $AF_INET=2;&nbsp;&nbsp;&nbsp;&nbsp; # Use AF_INET instead
+of AF_UNIX.<BR>
+&nbsp;7 $SOCK_STR = 1;&nbsp;&nbsp;# Use STREAMS.<BR>
+&nbsp;8 $PROTOCOL = 0;&nbsp;&nbsp;# stick to the default protocols
+(IP).<BR>
+&nbsp;9<BR>
+10 $port = 6668 unless $port;<BR>
+11<BR>
+12 #<BR>
+13 # The pattern for packing into a sockaddr structure<BR>
+14 #<BR>
+15 $PACKIT='S n C4 x8';<BR>
+16<BR>
+17 #<BR>
+18 # Disable any buffering on any newly created sockets.<BR>
+19 #<BR>
+20 select(NEWSOCKET);<BR>
+21 $| = 1;<BR>
+22 select(stdout);<BR>
+23<BR>
+24 #<BR>
+25 # Create the socket.<BR>
+26 #<BR>
+27 socket(MY_SOCKET, $AF_INET, $SOCK_STR, $PROTOCOL) ||<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die
+&quot;\n $0: Cannot open socket: $!&quot;;<BR>
+29 print &quot;Socket successfully opened\n&quot;;<BR>
+30<BR>
+31 #<BR>
+32 # Get the host address for this node<BR>
+33 #<BR>
+34<BR>
+35 ($name, $aliases, $addrtype, $len, @addrs) = gethostbyname(&quot;www.ikra.com&quot;);
+<BR>
+36 ($a,$b,$c,$d) = unpack('C4',$addrs[0]);<BR>
+37 print &quot;Server Name=$name, Server Address= $a.$b.$c.$d\n&quot;;
+<BR>
+38 $my_ip_addr = pack($PACKIT,$AF_INET,$port,$addrs[0]);<BR>
+39<BR>
+40 #<BR>
+41 # If you just want to test with the localhost, try this line
+<BR>
+42 # instead of the above.<BR>
+43 # $my_ip_addr = pack($PACKIT,$AF_INET,$port,127,0,0,1);<BR>
+44<BR>
+45 #<BR>
+46 # Bind to the socket and listen on this port<BR>
+47 #<BR>
+48 bind(MY_SOCKET, $my_ip_addr) || die &quot;$0: Cannot bind ..
+$!\n&quot;;<BR>
+49 print&nbsp;&nbsp;&quot;\n Bound to socket&quot;;<BR>
+50 listen(MY_SOCKET,5)&nbsp;&nbsp;|| die &quot;$0: Cannot listen:
+$!\n&quot;;<BR>
+51 print&nbsp;&nbsp;&quot;\n Listening \n&quot;;<BR>
+52<BR>
+53 while(1) {<BR>
+54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$remote = accept(NEWSOCKET,
+MY_SOCKET) || die &quot;$0: Unacceptable: $!\n&quot;;<BR>
+55<BR>
+56 #<BR>
+57 # In case you have to display incoming connection<BR>
+58 # information, you can uncomment the next three lines of code:
+<BR>
+59<BR>
+60 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@remoteInfo
+= unpack($PACKIT,$remote);<BR>
+61 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$, =
+' ';<BR>
+62 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+@remoteInfo; print &quot;\n&quot;;<BR>
+63<BR>
+64&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# $pid = fork || &amp;cleanup;
+<BR>
+65<BR>
+66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if ($pid == fork)&nbsp;&nbsp;{&nbsp;&nbsp;# child<BR>
+67&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+sleep 3;<BR>
+68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print NEWSOCKET &quot;Welcome to this server\n&quot;;<BR>
+69&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# in child,.. you can do other stuff here.<BR>
+70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+close NEWSOCKET;<BR>
+71&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# I chose to just print this message and terminate<BR>
+72&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+close MY_SOCKET;<BR>
+73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+exit;<BR>
+74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+75&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {&nbsp;&nbsp;# parent
+<BR>
+76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+sleep 10;<BR>
+77&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+close MY_SOCKET;<BR>
+78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+close NEWSOCKET;&nbsp;&nbsp;# in parent<BR>
+79&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+exit;<BR>
+80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+81<BR>
+82 }<BR>
+83 sub cleanup { close NEWSOCKET; close(MY_SOCKET); die &quot;$0:
+Cannot fork : $!\n&quot;; }<BR>
+</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Of course, instead of the IP addresses shown above in Listing 12.4, you would have to modify the Perl script to use your own machine name and IP address. Do not use the addresses shown in this example because they are coded to work with a specific machine 
+with a specific name.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+In the case of connection-oriented protocols, the server does
+the following functions:
+<UL>
+<LI><FONT COLOR=#000000>Creates a socket with a call to the </FONT><TT><FONT FACE="Courier">socket()</FONT></TT>
+function.
+<LI><FONT COLOR=#000000>Binds itself to an address with the </FONT><TT><FONT FACE="Courier">bind()</FONT></TT>
+function call.
+<LI><FONT COLOR=#000000>Listens for connections with the </FONT><TT><FONT FACE="Courier">listen()</FONT></TT>
+function call.
+<LI><FONT COLOR=#000000>Accepts any incoming requests with the
+</FONT><TT><FONT FACE="Courier">accept()</FONT></TT> function
+call.
+</UL>
+<P>
+Once a connection to the server has been accepted, the client
+and server can exchange data with the <TT><FONT FACE="Courier">read()</FONT></TT>
+and <TT><FONT FACE="Courier">write()</FONT></TT> function calls.
+To read from the socket, use the function call
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">read(MY_SOCKET, $buffer, $length);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+where <TT><FONT FACE="Courier">SOCKET_HANDLE</FONT></TT> is the
+socket you are reading from and <TT><FONT FACE="Courier">$buffer</FONT></TT>
+is where you will be putting in data of size <TT><FONT FACE="Courier">$length</FONT></TT>.
+To write to the socket, you can use the function call
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">write(MY_SOCKET, $buffer, $length);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+For sending just text data, you can use the <TT><FONT FACE="Courier">print</FONT></TT>
+call instead. For example, the following code will write text
+to the socket:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">print MY_SOCKET, &quot;Hello, ..&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Once a connection has served its time, it has to be closed so
+that other clients are able to use the system resources. To close
+the socket, your server and clients should call the <TT><FONT FACE="Courier">close()</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">close(MY_SOCKET);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">shutdown()</FONT></TT> function allows
+you to selectively shut down sends and receives on a socket. Here's
+the function call:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">shutdown(MY_SOCKET,HOW);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+When the <TT><FONT FACE="Courier">HOW</FONT></TT> parameter is
+<TT><FONT FACE="Courier">0</FONT></TT>, no more data is received
+on this socket. If <TT><FONT FACE="Courier">HOW</FONT></TT> is
+set to <TT><FONT FACE="Courier">1</FONT></TT>, no more data will
+be sent out on this socket. If set to <TT><FONT FACE="Courier">2</FONT></TT>,
+no data is received or sent on this socket. (You still have to
+close the socket, even if you shut it down for sending and receiving.)
+<P>
+Listing 12.5 presents a sample of the client side of things.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 12.5. The client side.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 #<BR>
+&nbsp;3 # define constants for talking to server<BR>
+&nbsp;4 #<BR>
+&nbsp;5 $PACKIT = 'S n C4 x8';<BR>
+&nbsp;6 $AF_INET = 2;<BR>
+&nbsp;7 $SOCK_STR = 1;&nbsp;&nbsp;&nbsp;&nbsp; # STREAMS<BR>
+&nbsp;8 $DEF_PROTO = 0;&nbsp;&nbsp;&nbsp;&nbsp;#default protocol
+of IP<BR>
+&nbsp;9 $port = 6668 unless $port;<BR>
+10<BR>
+11 #<BR>
+12 # Get the name of the server<BR>
+13 #<BR>
+14 ($name, $aliases, $addrtype, $len, @addrs) = gethostbyname(&quot;www.ikra.com&quot;);
+<BR>
+15 ($a,$b,$c,$d) = unpack('C4',$addrs[0]);<BR>
+16 print &quot;Server Name=$name, Server Address= $a.$b.$c.$d\n&quot;;
+<BR>
+17 $that = pack($PACKIT,$AF_INET,$port,$addrs[0]);<BR>
+18<BR>
+19 #<BR>
+20 # Confine yourself to the local host machine address of 127.0.0.1
+<BR>
+21 #<BR>
+22 $this = pack($PACKIT,$AF_INET,$port,127,0,0,1);<BR>
+23<BR>
+24 #<BR>
+25 # Disable buffering on this socket.<BR>
+26 #<BR>
+27 select(CLIENT_SOCKET);<BR>
+28 $| = 1;<BR>
+29 select(stdout);<BR>
+30<BR>
+31<BR>
+32 socket(CLIENT_SOCKET,$AF_INET,$SOCK_STR,$DEF_PROTO) ||<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die &quot;$0: Cannot open
+socket\n&quot;;<BR>
+34 print &quot;Created socket\n&quot;;<BR>
+35<BR>
+36 #<BR>
+37 # Attempt to connect to server.<BR>
+38 #<BR>
+39 do<BR>
+40 {<BR>
+41&nbsp;&nbsp;sleep(1);<BR>
+42&nbsp;&nbsp;$result = connect(CLIENT_SOCKET,$that);<BR>
+43&nbsp;&nbsp;if (result != 1) {<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;Sleeping\n&quot;;
+<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+46<BR>
+47 } while ($result != 1);<BR>
+48<BR>
+49 sleep(5);<BR>
+50 print &quot;After connection\n&quot;;<BR>
+51<BR>
+52 #<BR>
+53 # send data to server<BR>
+54 #<BR>
+55 # write(CLIENT_SOCKET,&quot;hello&quot;,5);<BR>
+56<BR>
+57 read(CLIENT_SOCKET,$buf,100);<BR>
+58<BR>
+59 print &quot;[&quot; . $buf . &quot;]\n&quot;;<BR>
+60 close(CLIENT_SOCKET);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The client for connection-oriented communication also takes the
+following steps:
+<UL>
+<LI><FONT COLOR=#000000>Creates a socket with a call to the </FONT><TT><FONT FACE="Courier">socket()</FONT></TT>
+function.
+<LI><FONT COLOR=#000000>Gets the packed structures for identifying
+itself and the server to which it will connect.</FONT>
+<LI><FONT COLOR=#000000>Attempts to connect to the server with
+a </FONT><TT><FONT FACE="Courier">connect()</FONT></TT> call.
+<LI><FONT COLOR=#000000>If a connection was made, requests for
+data with the </FONT><TT><FONT FACE="Courier">write()</FONT></TT>
+call and reads incoming replies with the <TT><FONT FACE="Courier">read()</FONT></TT>
+function.
+</UL>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Tip</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+After the connection is used up by the client, it's a good idea to close the socket so that others may use the system resources.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+That's about it for a client program. Any processing that has
+to be done is done while the connection is open. Client programs
+can be written to keep a connection open for a long time while
+large amounts of data are transferred. If there is too long of
+a delay between successive messages, clients would then open a
+socket connection, send the message or messages, and close the
+connection immediately after the acknowledgment, if any, arrives.
+This way, all sockets are opened only on an as needed basis and
+do not use up socket services when both the server and client
+are idle.
+<H2><A NAME="Theh2phScript"><FONT SIZE=5 COLOR=#FF0000>The </FONT><TT><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">h2ph</FONT></TT><FONT SIZE=5 COLOR=#FF0000>
+Script</FONT></A></H2>
+<P>
+If you read more documentation on Perl and sockets, you'll see
+references to the <TT><FONT FACE="Courier">socket.ph</FONT></TT>
+file. If you cannot find this file anywhere on your system, it's
+because you have not run the <TT><FONT FACE="Courier">h2ph</FONT></TT>
+file on your <TT><FONT FACE="Courier">include</FONT></TT> directories.
+This <TT><FONT FACE="Courier">h2ph</FONT></TT> program converts
+C header files to Perl header files. The safest way to ensure
+that you have all the files converted to Perl headers is to issue
+the following statements while logged in as <TT><FONT FACE="Courier">root</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ cd /usr/include<BR>
+$ h2ph *<BR>
+$ h2ph sys/*</FONT></TT>
+</BLOCKQUOTE>
+<P>
+You may run into some problems while running this script. For
+instance, it will say that it's creating a <TT><FONT FACE="Courier">.ph</FONT></TT>
+file from a <TT><FONT FACE="Courier">.h</FONT></TT> file, but
+after execution, the <TT><FONT FACE="Courier">*.ph</FONT></TT>
+file may not exist! Check the script in the <TT><FONT FACE="Courier">h2ph</FONT></TT>
+file to see where <TT><FONT FACE="Courier">$perlincl</FONT></TT>
+is pointing and if you have read/write permissions there. A common
+repository is the <TT><FONT FACE="Courier">/usr/local/lib/perl5</FONT></TT>
+or the <TT><FONT FACE="Courier">/usr/lib/perl5</FONT></TT> directory.
+Another thing to remember is that the <TT><FONT FACE="Courier">@Inc</FONT></TT>
+variable in your Perl scripts should point to the same location
+where the <TT><FONT FACE="Courier">*.ph</FONT></TT> files are
+placed.
+<H2><A NAME="UsingSocketpm"><FONT SIZE=5 COLOR=#FF0000>Using Socket.pm</FONT></A>
+</H2>
+<P>
+The standard Perl 5 distribution comes with the <TT><FONT FACE="Courier">Socket.pm</FONT></TT>
+module, which greatly speeds up Perl code development work. Look
+at the documentation in the <TT><FONT FACE="Courier">/usr/lib/Perl5/Socket.pm</FONT></TT>
+file for more information. This module requires dynamic loading,
+so ensure that your system supports it.
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+Perl offers very powerful features for using sockets on UNIX machines.
+The system calls available offer enough power and flexibility
+to create client/server applications in Perl without having to
+write code in a compiled language.
+<P>
+The functions available in Perl include those for querying available
+system services and protocols, IP addresses, and other host name
+information. Here are a few key points to remember when working
+with Perl and sockets:
+<UL>
+<LI><FONT COLOR=#000000>Perl uses the existing system calls for
+using sockets. These system calls expect structures to be packed
+in a </FONT><TT><FONT FACE="Courier">sockaddr</FONT></TT> structure.
+This packing and unpacking is done with the <TT><FONT FACE="Courier">pack()</FONT></TT>
+and <TT><FONT FACE="Courier">unpack()</FONT></TT> functions prior
+to use with system calls.
+<LI><FONT COLOR=#000000>You use </FONT><TT><FONT FACE="Courier">read()</FONT></TT>
+and <TT><FONT FACE="Courier">write()</FONT></TT> functions to
+do direct data transfer. You can use <TT><FONT FACE="Courier">print
+SOCKET, &#133;</FONT></TT> if you plan on writing directly to
+the port.
+<LI><FONT COLOR=#000000>Disable buffering on the socket with the
+</FONT><TT><FONT FACE="Courier">$|=1</FONT></TT> assignment on
+a socket. This forwards any reads or writes immediately instead
+of being buffered internally, preventing unnecessary timeouts
+in case of long operations.
+<LI><FONT COLOR=#000000>Always call the </FONT><TT><FONT FACE="Courier">close()</FONT></TT>
+function of the socket when your application is done with communication.
+<LI><FONT COLOR=#000000>Servers generally fork off copies of themselves
+to handle individual connections. Be prepared to write code this
+way.</FONT>
+</UL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch11.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch11.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch13.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch13.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

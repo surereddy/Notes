@@ -1,0 +1,70 @@
+Me, Cao Xianzhi, Mei Yongkang, Carlos.Gonzalez_De_Requena_Farre@alcatel.com.sg; Mark.Chen@alcatel.com.sg; Atsushi.Uchida@alcatel.co.jp; fcg gai yongming
+Optional viewer:
+Kimiaki.Fukutome@alcatel.co.jp; FCG Zhu Qian,xiu mingfeng
+
+|- report type
+  infomation report: only tell you the info
+  recommendation report: persuade, analysis, conclusion
+|- report format
+ - short report (Memo)
+   To:  Ms. CHEN Ping, Project Manager ; P M capital, Ms. can for all ladies, Miss is not good.
+				or Ms. Chen, Ping ; no Chen Ping or Ping Chen for Chinese
+				Mr. Grace Lee ;for foreigner, Family name last   
+   From:
+   Date:
+   Subject:
+   -------------------------
+   asdasdf
+   
+   Note: No Dear ,no Yours,etc. Only content.
+   
+   
+|- Letter
+ - Your address in the top middle
+ - Date before receipant's address in the left top
+ - receiptor's address in the left top.
+ 
+ - 称呼
+   Dear Sir/Madam
+   Dear Sirs
+   Gentelmen: No dear, must men.
+   
+ - after 称呼, subject is mandatory
+   Subject: 
+   
+   Content ....
+ - Yours sincerely/ faithfully for customer
+   Yours truly for tutor
+   Best Wishes/Regards for friendly
+   
+ - for ASB ; 代表公司,谁
+   PP Mr. ZHANG Zhiji;代表老板
+ - Signiture ;留签名空间
+ - XIE Jiping
+   Test Engineer ;有称呼写上
+   
+ - In the End
+   Enclosures are ...
+   cc: SU Jie
+
+|-Big report
+ - title
+ - author infomation
+ - Abstract /summary /executive summary
+   Abstract: 深,短
+   executive summary: 长,浅,大家都能懂
+   summary:两者之间
+  - table of contents
+  - introduction
+  - findings
+  - conclusions
+  - recommendations
+  - bibliography : You refer to
+  - reference: You take original words from
+  - Appendix
+
+||-Title
+ - 冠词在标题可省
+||-summary
+ - no explanation for abbreviation in summary
+ 

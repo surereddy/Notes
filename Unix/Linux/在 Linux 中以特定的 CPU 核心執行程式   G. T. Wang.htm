@@ -1,0 +1,2281 @@
+<!DOCTYPE html>
+<!-- saved from url=(0079)http://www.gtwang.org/2013/11/run-program-process-specific-cpu-cores-linux.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script id="twitter-wjs" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/widgets.js"></script><script type="text/javascript" async="" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/platform.js" gapi_processed="true"></script><script id="facebook-jssdk" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/sdk.js"></script><script src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/cb=gapi.loaded_3" async=""></script><script src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/cb=gapi.loaded_2" async=""></script><script src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/cb=gapi.loaded_1" async=""></script><script src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/cb=gapi.loaded_0" async=""></script><script async="" type="text/javascript" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/ca-pub-7794009487786811.js"></script><script async="" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/analytics.js"></script><script type="text/javascript">(function() { var b=window,f="chrome",g="tick",k="jstiming";(function(){function d(a){this.t={};this.tick=function(a,d,c){var e=void 0!=c?c:(new Date).getTime();this.t[a]=[e,d];if(void 0==c)try{b.console.timeStamp("CSI/"+a)}catch(h){}};this[g]("start",null,a)}var a;b.performance&&(a=b.performance.timing);var n=a?new d(a.responseStart):new d;b.jstiming={Timer:d,load:n};if(a){var c=a.navigationStart,h=a.responseStart;0<c&&h>=c&&(b[k].srt=h-c)}if(a){var e=b[k].load;0<c&&h>=c&&(e[g]("_wtsrt",void 0,c),e[g]("wtsrt_","_wtsrt",h),e[g]("tbsd_","wtsrt_"))}try{a=null,
+b[f]&&b[f].csi&&(a=Math.floor(b[f].csi().pageT),e&&0<c&&(e[g]("_tbnd",void 0,b[f].csi().startE),e[g]("tbnd_","_tbnd",c))),null==a&&b.gtbExternal&&(a=b.gtbExternal.pageT()),null==a&&b.external&&(a=b.external.pageT,e&&0<c&&(e[g]("_tbnd",void 0,b.external.startE),e[g]("tbnd_","_tbnd",c))),a&&(b[k].pt=a)}catch(p){}})();b.tickAboveFold=function(d){var a=0;if(d.offsetParent){do a+=d.offsetTop;while(d=d.offsetParent)}d=a;750>=d&&b[k].load[g]("aft")};var l=!1;function m(){l||(l=!0,b[k].load[g]("firstScrollTime"))}b.addEventListener?b.addEventListener("scroll",m,!1):b.attachEvent("onscroll",m);
+ })();</script>
+<meta content="blogger" name="generator">
+<link href="http://www.gtwang.org/favicon.ico" rel="icon" type="image/x-icon">
+<link href="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang.htm" rel="canonical">
+<link rel="alternate" type="application/atom+xml" title="G. T. Wang - Atom" href="http://www.gtwang.org/feeds/posts/default">
+<link rel="alternate" type="application/rss+xml" title="G. T. Wang - RSS" href="http://www.gtwang.org/feeds/posts/default?alt=rss">
+<link rel="service.post" type="application/atom+xml" title="G. T. Wang - Atom" href="http://www.blogger.com/feeds/5628310816558079036/posts/default">
+
+<link rel="alternate" type="application/atom+xml" title="G. T. Wang - Atom" href="http://www.gtwang.org/feeds/2384086832604866823/comments/default">
+<link href="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/abstract-grid-cube.jpg" rel="image_src">
+<link href="https://plus.google.com/116064369839910382084" rel="publisher">
+<!--[if IE]> <script> (function() { var html5 = ("abbr,article,aside,audio,canvas,datalist,details," + "figure,footer,header,hgroup,mark,menu,meter,nav,output," + "progress,section,time,video").split(','); for (var i = 0; i < html5.length; i++) { document.createElement(html5[i]); } try { document.execCommand('BackgroundImageCache', false, true); } catch(e) {} })(); </script> <![endif]-->
+<title>
+在 Linux 中以特定的 CPU 核心執行程式 | G. T. Wang
+</title>
+<!-- Meta Tags ~ www.blogtipsntricks.com -->
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+<!-- /Meta Tags ~ www.blogtipsntricks.com -->
+<!-- Begin: Add by Seal -->
+<meta content="http://2.bp.blogspot.com/-OFzA-zmZBbE/Un47tAwFozI/AAAAAAAAPbc/yRh0JiBoe4c/s72-c/abstract-grid-cube.jpg" property="og:image">
+<meta content="http://2.bp.blogspot.com/-OFzA-zmZBbE/Un47tAwFozI/AAAAAAAAPbc/yRh0JiBoe4c/s72-c/abstract-grid-cube.jpg" itemprop="image">
+<!-- End: Add by Seal -->
+<link type="text/css" rel="stylesheet" href="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/3841957138-widget_css_bundle.css">
+<link type="text/css" rel="stylesheet" href="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/authorization.css">
+<style id="page-skin-1" type="text/css"><!--
+/*****************************************
+reset.css
+******************************************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td, figure {    margin: 0;    padding: 0;}
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section {     display:block;}
+table {    border-collapse: separate;    border-spacing: 0;}
+caption, th, td {    text-align: left;    font-weight: normal;}
+blockquote:before, blockquote:after,
+q:before, q:after {    content: "";}
+blockquote, q {    quotes: "" "";}
+sup{    vertical-align: super;    font-size:smaller;}
+a img{	border: none;}
+ol, ul { padding: 10px 0 20px;  margin: 0 0 0 35px; }
+ol li { list-style-type: decimal;  padding:0 0 5px; }
+ul li { list-style-type: square;  padding: 0 0 5px; }
+ul ul, ol ol { padding: 0; }
+h1, h2, h3, h4, h5, h6 {  font-family: arial, sans-serif;  font-weight: bold; line-height: 1.25;  margin: 0 0 10px;  }
+h1, h2 {  font-size: 26px;  }
+h3 {  font-size: 24px;  }
+h4 {  font-size: 20px;  }
+h5 {  font-size: 18px;  }
+h6 {  font-size: 16px;  }
+/*****************************************
+Global Links CSS
+******************************************/
+::-moz-selection { background: #ED702B; color: #fff; text-shadow: none; }
+::selection { background: #ED702B; color: #fff; text-shadow: none; }
+a {  color: #ED702B;  text-decoration: none;  transition: color .15s linear;  -webkit-transition: color .15s linear;  -moz-transition: color .15s linear;  }
+a:hover {  color: #3e3e3e;  text-decoration:none; }
+body{  background: #FFF;  color: #3e3e3e;  font-family: arial, sans-serif;  font-size: 18px;  line-height: 1.5;  }
+.clr { clear:both; float:none; }
+/*****************************************
+Wrappers
+******************************************/
+.blogouter-wrapper { overflow: hidden;  position: relative;  width: 100%;  }
+.header-wrapper {
+position: relative;
+margin: 0;
+background-color: #444;
+}
+.header-ct-wrapper { padding: 0; position:relative; max-width: 1100px; margin: 0 auto;  }
+.subheader-wrapper {
+position: relative;
+margin: 0;
+background-color: #444444;
+margin-bottom: 20px;
+}
+.ct-wrapper { padding: 0 20px; position:relative; max-width: 1100px; margin: 0 auto;  }
+.titlewrapper { padding: 0; position:relative; max-width: 1100px; margin: 0 auto;  }
+.outer-wrapper{  position: relative; }
+.main-wrapper { width:auto;  margin-right:360px; }
+#content { float: left;  position: relative;  width: 100%; }
+.sidebar-wrapper { width: 320px; float: right; display: block; padding: 40px 0 0 0; }
+/*****************************************
+Header CSS
+******************************************/
+#header{  display: block;  margin:0;  min-width: 260px;  overflow: hidden;  padding: 0;  width: auto;  /* z-index: 999; */  float: left;  }
+#header-inner{  padding: 7px 20px;  }
+#header h1 {
+background-image: url(http://1.bp.blogspot.com/-xq5x_XSSjY0/UoqgAYP6IJI/AAAAAAAAPyE/Rsoxo-ADVsI/s1600/logo_37-min.png);
+background-repeat: no-repeat;
+padding: 5px 0 5px 50px;
+}
+#header h1, #header h1 a {
+color: #ffffff;
+font-family: Righteous, serif;
+font-size: 50px;
+margin: 0;
+font-weight: normal;
+line-height: 0.9;
+text-align: left;
+display: inline-block;
+}
+#header .highlight {
+color: #c00;
+}
+#header .red-tag {
+font-size: 18px;
+vertical-align: top;
+color: #c00;
+text-transform: none;
+font-family: sans-serif;
+display:inline-block;
+margin-left: -0.5em;
+}
+#header p.description{  display: none;  color: #fff;  font-family: Georgia, Times, 'Times New Roman', serif;  font-size: 14px;  font-style: italic;  }
+#header img{ border:0 none; background:none; width:auto; height:50px; margin:0 auto; }
+/*****************************************
+Blog Post CSS
+******************************************/
+.post {
+padding: 40px 20px;
+display: inline-block;
+width: 100%;
+border-bottom: 1px solid #DDDDDD;
+box-sizing: border-box;
+}
+.blog-posts {
+padding-top: 10px;
+}
+.status-msg-wrap {
+width: 100%;
+margin: 40px auto 10px;
+background-color: #f3f3f3;
+}
+.status-msg-body {
+padding: 1em;
+box-sizing: border-box;
+position: relative;
+}
+.status-msg-border {
+border: none;
+}
+h1.post-title, h2.post-title {
+color: #000000;
+font-family: arial, sans-serif;
+line-height: 1.3em;
+margin-bottom: 5px;
+}
+h1.post-title {
+font-size: 34px;
+}
+h2.post-title {
+font-size: 32px;
+}
+h1.post-title, h1.post-title a:link, h1.post-title a:visited,
+h2.post-title, h2.post-title a:link, h2.post-title a:visited {  color: #333;  text-decoration:none;  }
+h1.post-title a:hover, h2.post-title a:hover {  color: #ED702B;  text-decoration:none;  }
+.post-body {  font-size: 18px;  line-height: 1.5;  font-weight: normal;  padding: 0;  margin: 0;  text-transform:auto;  word-wrap:break-word; color: #3e3e3e;  }
+.post-body img{  position:relative;  }
+.post-meta, .post-header {  margin-bottom: 10px;  width: 100%;  color: #999999;  font-family: arial, sans-serif;  font-size: 12px;  text-transform: uppercase;  }
+.post-meta a, .post-header a {  color: #999999;  }
+.post-meta a:hover, .post-header a:hover {  color: #3E3E3E;  }
+.post-meta {  padding: 10px 0 0;  }
+.rmlink a {  float: right;  font-weight: bold;  }
+.post-body h2 {
+font-family: arial, sans-serif;
+margin: 1.5em 0 0.8em 0;
+text-transform: none;
+font-size: 24px;
+}
+.post-body h3 {
+font-family: arial, sans-serif;
+text-transform: none;
+font-size: 20px;
+margin: 1.2em 0 0.7em 0;
+}
+/******************************************
+Misc
+******************************************/
+/***** Page Nav CSS *****/
+#blog-pager {  margin: 4em 0 3em;  overflow: visible;  text-align: left;  font-weight: bold;  font-size: 14px;  padding: 0 2%;  }
+.showpageOf {  display:none;  }
+.showpagePoint {  background: #ED702B;  color: #FFFFFF;  margin: 0 5px;  padding: 10px 20px;  text-decoration: none;  border-radius: 5px;  -moz-border-radius: 5px;  -o-border-radius: 5px;  -webkit-border-radius: 5px;  }
+.showpage a, .showpageNum a {  background: #3E3E3E;  color: #fff;  margin: 0 5px;  padding: 10px 20px;  text-decoration: none;  border-radius: 5px;  -moz-border-radius: 5px;  -o-border-radius: 5px;  -webkit-border-radius: 5px;  	-moz-transition: all 0.2s ease-in-out;  -webkit-transition: all 0.2s ease-in-out;  -webkit-border-radius: 5px;  transition: all 0.2s ease-in-out;  }
+.showpage a:hover, .showpageNum a:hover {  background: #ED702B;  color: #fff;  text-decoration: none;  }
+.home-link, #blog-pager-newer-link a, #blog-pager-older-link a {  background: #ED702B;  color: #fff;  display: inline-block;  padding: 10px 20px;  }
+.home-link {  margin: 0 10px;  }
+.home-link:hover, #blog-pager-newer-link a:hover, #blog-pager-older-link a:hover {   background: #3E3E3E;  color: #FFFFFF;  text-decoration: none;  }
+/***** Post Highlighter CSS *****/
+code {
+font-family: 'Droid Sans Mono', Menlo, Monaco, 'Andale Mono', 'lucida console', 'Courier New', monospace;
+font-size: 14px;
+background: #333;
+-webkit-border-radius: 0.3em;
+-moz-border-radius: 0.3em;
+-ms-border-radius: 0.3em;
+-o-border-radius: 0.3em;
+border-radius: 0.3em;
+border: 1px solid #333;
+margin: 1em 0;
+padding: .8em 1em;
+color: #EEEEEE;
+overflow: auto;
+display: block;
+clear: both;
+white-space: no-wrap;
+}
+pre.code {
+font-family: 'Droid Sans Mono', Menlo, Monaco, 'Andale Mono', 'lucida console', 'Courier New', monospace;
+font-size: 16px;
+background: #333;
+-webkit-border-radius: 0.3em;
+-moz-border-radius: 0.3em;
+-ms-border-radius: 0.3em;
+-o-border-radius: 0.3em;
+border-radius: 0.3em;
+border: 1px solid #333;
+margin: 1em 0;
+padding: .8em;
+color: #EEEEEE;
+overflow: auto;
+display: block;
+clear: both;
+white-space: pre-wrap;
+}
+.pseudo-code {
+font-family: 'Droid Sans Mono', Menlo, Monaco, 'Andale Mono', 'lucida console', 'Courier New', monospace;
+white-space: no-wrap;
+padding: .8em 1em;
+background: #EEEEEE;
+display: block;
+clear: both;
+margin-top: 15px;
+margin-bottom: 15px;
+}
+.caution, .notes {
+display: block;
+padding: 0.8em 1em;
+font-style: italic;
+}
+.notes {
+background-color: #EEF2EE;
+}
+.caution {
+background-color: #F2EEEE;
+}
+.post .credit {
+color: #aaa;
+font-style: italic;
+}
+.post blockquote {
+font-family: 'Droid Sans Mono', Menlo, Monaco, 'Andale Mono', 'lucida console', 'Courier New', monospace;
+background-color: #f5f5f5;
+border: medium none;
+margin: 1em 0;
+padding: 5px 0px 5px 15px;
+font-style: italic;
+border-left: 5px solid #7caf3c;
+}
+.inline-code {
+font-family: 'Droid Sans Mono', Menlo, Monaco, 'Andale Mono', 'lucida console', 'Courier New', monospace;
+color: #007000;
+white-space: no-wrap;
+}
+.post-body hr {
+border: none;
+border-top: dashed 1px #BBBBBB;
+color: #ffffff;
+background-color: #ffffff;
+width: 95%;
+}
+.post-body .timestamp {
+font-weight: bold;
+}
+.post-body .step, .post-body .tip {
+font-family: 'Oswald', arial, serif;
+font-weight: bold;
+background-color: #EFEFEF;
+padding: 10px 30px;
+display: inline-block;
+margin: 20px 0;
+}
+/*****************************************
+custom widget CSS
+******************************************/
+/***** Page Header CSS *****/
+.page-header .inner {  background-color: #F5F5F5;  border-bottom: 1px solid #E4E4E4;  border-top: 1px solid #E4E4E4;  clear: both;  margin: 0 auto;  overflow: hidden;  padding: 30px 0;  }
+.page-header p {  font-size: 48px;  text-transform: capitalize;  font-weight: 700;  display: inline-block;  }
+/***** Form CSS *****/
+input, textarea, select {  padding: 10px;  font-size: 16px; }
+textarea {
+min-height: 150px;
+padding: 10px;
+resize: both;
+width: 100%;
+}
+select, option {  cursor: pointer;  padding: 5px 7px;  }
+form {  max-width: 100%;  }
+form input, form textarea {  -moz-box-sizing: border-box;  -webkit-box-sizing: border-box;  }
+form input[type="text"] {   width: auto;  border: 1px solid #ccc;  -moz-box-shadow: 0 1px 1px #ddd inset, 0 1px 0 #fff;  -webkit-box-shadow: 0 1px 1px #ddd inset, 0 1px 0 #fff;  box-shadow: 0 1px 1px #ddd inset, 0 1px 0 #fff;  }
+form input[type="text"]:focus {  outline: 0;  border-color: #aaa;  -moz-box-shadow: 0 1px 1px #bbb inset;  -webkit-box-shadow: 0 1px 1px #bbb inset;  box-shadow: 0 1px 1px #bbb inset;  }
+form input[type="text"]::-webkit-input-placeholder, form input[type="text"]:-moz-placeholder, form input[type="text"]:-ms-input-placeholder {  color: #999;  font-weight: normal;  }
+form input[type="submit"] {  width: auto;  }
+/***** Button CSS *****/
+input[type="submit"], button, .button {
+-moz-transition: all 0.2s ease-in-out;
+-webkit-transition: all 0.2s ease-in-out;
+background-color: #3e3e3e;
+border: none;
+color: #fff;
+cursor: pointer;
+font-weight: 700;
+text-decoration: none;
+transition: all 0.2s ease-in-out;
+display: inline-block;
+}
+input[type="submit"]:hover, button:hover, .button:hover {  background-color: #ed702b;  color: #fff;  border: none;  text-decoration: none;  }
+input.small[type="submit"], button.small, .button.small {  font-size: 14px;  line-height: normal;  padding: 5px 10px;  }
+input.medium[type="submit"], button.medium, .button.medium {  font-size: 16px;  line-height: normal;  padding: 10px 20px;  }
+input.large[type="submit"], button.large, .button.large {  font-size: 18px;  line-height: normal;  padding: 12px 24px;  }
+/***** Table CSS *****/
+table.post-table {
+min-width: 50%;
+background-color: #f9f9f9;
+border-collapse: collapse;
+border: 1px solid #AAAAAA;
+font-family: arial, sans-serif;
+font-size: 15px;
+line-height: 1.5;
+margin: 1em auto;
+}
+table.post-table td.header {
+background-color: #EEEEEE;
+border: 1px solid #AAAAAA;
+padding: 0.2em;
+text-align: center;
+}
+table.post-table td {
+background-color: #f9f9f9;
+border: 1px solid #AAAAAA;
+padding: 0.2em;
+}
+/*****************************************
+Sidebar CSS
+******************************************/
+.sidebar { margin: 0; padding: 0 0 30px 10px; display:block;  font-size: 16px;  }
+.sidebar h2, .sidebar h5 {  font-size: 16px;  font-weight: bold;  color: #3e3e3e;  text-transform: uppercase;  padding: 5px 10px 5px 0;  letter-spacing: 2px;  }
+.sidebar .widget {  margin-bottom: 10px;  }
+.sidebar a { color: #ED702B;  text-decoration:none;  }
+.sidebar a:hover {	 color: #3e3e3e;  text-decoration:none;  }
+.sidebar ul {  clear: both;  margin: 0;  padding: 0;  }
+.sidebar ul li {
+border-bottom: 1px dashed #DDDDDD;
+list-style-type: none;
+margin: 0 0 5px 2px
+padding: 1px 0 5px 0 !important;
+}
+/*****************************************
+Footer CSS
+******************************************/
+#footer {  background-color: #444;  margin: 0;  padding: 60px 0 30px;  width: 100%;  font-size: 14px;}
+.footer-bottom {  bottom: 0;  padding: 0;  z-index: 100;  margin: 20px 20px 0 20px; }
+.footer-bottom a {  /* color: #999; */  }
+.footer-bottom a:hover {  text-decoration: none;  color: #fff;  }
+.footer-bottom p {   color: #999;   padding: 9px 0;  }
+.footer-bottom .attribution{  margin: 0 0 25px;  }
+/***** Footer Nav CSS *****/
+.footer-nav {  position: relative;  width: 100%;  z-index: 1000;  }
+.footer-nav ul {  width: 100%;  padding: 0;  margin: 0 0 20px;  }
+.footer-nav li {  list-style-type: none;  display: inline-block;  padding: 0;  margin: 0 30px;  }
+.footer-nav li a {  color: #fff;  font-weight: bold;  letter-spacing: 2px;  }
+.footer-nav ul li a:hover, .footer-nav ul li a:active {  text-decoration: none;  color: #999;  }
+.footer-1 { background-color: #eee; margin-top: 20px;  padding: 60px 0;  width: 100%;}
+/*****************************************
+Responsive styles
+******************************************/
+@media screen and (max-width: 1140px) {
+.main-wrapper { margin-right: 260px; }
+.sidebar-wrapper { width: 220px; }
+}
+@media screen and (max-width: 1020px) {
+.main-wrapper{  margin: 0 !important;  width:100%; }
+.sidebar-wrapper{
+float: none;
+clear:both;
+padding: 40px 0 0 0;
+width:auto;
+}
+.sidebar-wrapper .widget {  border: none;  margin: 0px auto 10px auto;  padding: 10px 20px;  }
+#content {  clear: both;  }
+}
+@media screen and (max-width: 640px){
+/* header */
+#header {  float:none;  max-width:none;  text-align:center;  }
+#header-inner {  margin-bottom:0px;  }
+#header h1 {  margin-right:0px;  }
+#header p.description {  margin:0;  }
+.post { padding: 40px 5px 30px 5px; }
+.post-outer {  width: 100% !important;  }
+#header {  text-align: center;  width: 100%;  max-width: none;  }
+.outer-wrapper {  padding: 0;  }
+}
+@media screen and (max-width: 500px){
+#header h1, #header h1 a {  font-size: 50px;  }
+#header img { height:36px; }
+.page-header .inner .ct-wrapper {  padding: 0 10px; }
+.titlewrapper { padding: 0 5px; }
+.footer-bottom {  text-align: center; margin: 10px 0;  }
+}
+#Attribution1 {display: none;}
+.post .postFooterAdSense {
+text-align: center;
+margin: 30px auto;
+}
+.post .postFooterAdSenseLink {
+margin-top: 20px;
+}
+.socialMediaPageFooter {
+display: inline-block;
+margin: 20px;
+}
+.socialMediaFooter {
+margin-top: 20px;
+margin-bottom: 20px;
+}
+#footerAdSenseBar {
+padding: 60px 0 20px 0; position:relative; max-width: 1020px; margin: 0 auto; text-align: center;
+}
+.thumbnail-inner {
+display: inline-block;
+position: relative;
+right: -50%;
+}
+.thumbnail-outer {
+float: left;
+position: relative;
+width: 200px;
+height: 200px;
+margin-right: 20px;
+margin-bottom: 10px;
+overflow: hidden;
+}
+.thumbnail-inner img {
+position: relative;
+left: -50%;
+height: 200px;
+}
+/* code */
+.Constant { color: #ffa0a0; }
+.Statement { color: #ffff00; }
+.Comment { color: #80a0ff; }
+.Type { color: #60ff60; }
+.Special { color: #ffa500; }
+.Identifier { color: #40ffff; }
+.PreProc { color: #ff80ff; }
+/* Homepage Inline Google AdSense */
+#homeInlineAd {
+width: 100%;
+text-align: center;
+}
+.homeInlineAdslot {
+width:250px;
+height:250px;
+}
+@media (min-width:415px) { .homeInlineAdslot {
+width:320px;
+height:100px;
+}}
+@media (min-width:500px) { .homeInlineAdslot {
+width:200px;
+height:200px;
+}}
+@media (min-width:620px) { .homeInlineAdslot {
+width:250px;
+height:250px;
+}}
+@media (min-width:710px) { .homeInlineAdslot {
+width:300px;
+height:280px;
+}}
+@media (min-width:800px) { .homeInlineAdslot {
+width:336px;
+height:280px;
+}}
+/* Sidebar AdSense AdSlot*/
+.sidebarTopAdslot, .sidebarBottomAdslot {
+width:336px;
+height:280px;
+}
+@media (min-width:1020px) {
+.sidebarTopAdslot { width:160px; height:600px; }
+.sidebarBottomAdslot { width:160px; height:600px; }
+}
+@media (min-width:1140px) {
+.sidebarTopAdslot { width:300px; height:600px; }
+.sidebarBottomAdslot { width:300px; height:250px; }
+}
+#sidebarTopAdSense {
+padding: 10px 0 45px 0;
+text-align: center;
+}
+#sidebarBottomAdSense {
+padding: 20px 0;
+text-align: center;
+}
+#sidebarBottomAdSenseLink {
+padding: 20px 0 20px 10px;
+}
+#sidebarBottomMetaphysicsLink {
+padding: 40px 0 20px 10px;
+}
+#scrollUp {
+bottom: 15px;
+right: 15px;
+width: 24px;
+height: 24px;
+background-color: #555;
+line-height: 1em;
+padding: 10px;
+color: #aaa;
+font-size: 24px;
+}
+#scrollUp:hover {
+color: #fff;
+}
+#scrollUp:before {
+font-family: FontAwesome;
+content: "\f077";
+}
+.post dd {
+margin-bottom: 1em;
+padding-left: 20px;
+}
+.post dl {
+margin-top: 1em;
+}
+.togglesnbtdiv {
+float: right;
+margin: 0;
+text-align: right;
+}
+@media screen and (max-width: 640px) {
+.togglesnbtdiv {
+clear: both;
+float: none;
+width: 100%;
+text-align: center;
+padding-bottom: 8px;
+}
+}
+.togglesnbtdiv .togglenbtclass {
+cursor: pointer;
+display: inline-block;
+}
+.togglesnbtdiv .togglenbtclass.active:before {
+color: white;
+}
+.togglesnbtdiv .togglenbtclass:hover:before {
+-webkit-transition: all 0.3s ease-in-out;
+-moz-transition: all 0.3s ease-in-out;
+-o-transition: all 0.3s ease-in-out;
+transition: all 0.3s ease-in-out;
+color: white;
+}
+.togglesnbtdiv .togglenbtclass:before {
+vertical-align: middle;
+font-size: 1.8em;
+-webkit-transition: all 0.3s ease-in-out;
+-moz-transition: all 0.3s ease-in-out;
+-o-transition: all 0.3s ease-in-out;
+transition: all 0.3s ease-in-out;
+color: rgba(255, 255, 255, 0.6);
+cursor: pointer;
+display: block;
+margin-left: 0;
+position: relative;
+text-align: center;
+line-height: 69px;
+width: 69px;
+height: 69px;
+margin-left: -5px;
+}
+@media screen and (max-width: 640px) {
+.togglesnbtdiv .togglenbtclass:before {
+margin: 0 3.375px;
+font-size: 1.7em;
+line-height: 50px;
+width: 50px;
+height: 50px;
+}
+}
+.togglesnbtdiv #menu-toggle:before {
+content: "\f0c9";
+font-family: FontAwesome;
+}
+.togglesnbtdiv #social-links-toggle:before {
+content: "\f004";
+font-family: FontAwesome;
+}
+.togglesnbtdiv #search-toggle:before {
+content: "\f002";
+font-family: FontAwesome;
+}
+/* ab-testing */
+.menu-toggle:before {background-color: #f45145;}
+.social-links-toggle:before{background-color: #c5d237;}
+.search-toggle:before {background-color: #b1e8e6;}
+/*
+.menu-toggle-test-var:before, .social-links-toggle-test-var:before, .search-toggle-test-var:before {
+background-color: #222;
+}
+.menu-toggle-test-var:hover:before {background-color: #f45145;}
+.social-links-toggle-test-var:hover:before {background-color: #c5d237;}
+.search-toggle-test-var:hover:before {background-color: #b1e8e6;}
+*/
+.panel .bwrapwidget-area:before,
+.panel .bwrapwidget-area:after {
+content: "";
+display: table;
+}
+.panel .bwrapwidget-area:after {
+clear: both;
+}
+.panel {
+display: none;
+margin: 0;
+position: relative;
+width: 100%;
+z-index: 3;
+}
+.panel#social-links-toggle-nav {
+background-color: #c5d237;
+}
+.panel#search-toggle-nav {
+background-color: #b1e8e6;
+}
+.panel#menu-toggle-nav {
+background-color: #f45145;
+}
+.panel#sidebar-toggle-nav {
+background-color: #f77e75;
+}
+.panel .bwrapwidget-areas:before,
+.panel .bwrapwidget-areas:after {
+content: "";
+display: table;
+}
+.panel .bwrapwidget-areas:after {
+clear: both;
+}
+.panel .bwrapwidget-areas {
+margin: 0 auto;
+max-width: 55.556em;
+padding: 13.5px 0 0;
+}
+@media screen and (max-width: 59.306em) {
+.panel .bwrapwidget-areas {
+padding: 27px;
+}
+}
+.panel .bwrapwidget-area {
+color: white;
+float: left;
+margin-right: 5%;
+width: 30%;
+}
+.panel .bwrapwidget-area .widget {
+line-height: 1.8em;
+}
+.panel .bwrapwidget-area .widget a {
+color: white;
+}
+.panel .bwrapwidget-area .widget .widget-title {
+color: white;
+}
+.panel .bwrapwidget-area .widget .widget h2 {
+color: white;
+}
+@media screen and (max-width: 640px) {
+.panel .bwrapwidget-area {
+clear: both;
+float: none;
+width: 100%;
+}
+}
+.panel .bwrapwidget-area:nth-of-type(3n) {
+margin-right: 0;
+}
+.panel .search-wrapper {
+margin: 0 auto;
+max-width: 48em;
+padding: 13px 0;
+}
+.panel .search-wrapper input[type="search"] {
+font-size: 1.27778em;
+line-height: 1.17391em;
+border: 0;
+border-radius: 0;
+margin: 0;
+padding: 13.5px 27px;
+width: 70%;
+}
+@media screen and (max-width: 640px) {
+.panel .search-wrapper input[type="search"] {
+padding: 13.5px;
+}
+}
+.panel .search-wrapper input[type="submit"] {
+font-size: 1.27778em;
+line-height: 1.17391em;
+float: right;
+margin: 0;
+width: 25%;
+padding: 14px 0;
+}
+@media screen and (max-width: 640px) {
+.panel .search-wrapper input[type="submit"] {
+padding: 13.5px 6.75px;
+width: 28%;
+}
+}
+@media screen and (max-width: 59.306em) {
+.panel .search-wrapper {
+max-width: 41.667em;
+}
+}
+@media screen and (max-width: 640px) {
+.panel .search-wrapper {
+padding-left: 27px;
+padding-right: 27px;
+}
+}
+/* =Menu */
+.main-navigation {
+font-size: 22px;
+line-height: 1.9em;
+color: #f77e75;
+display: block;
+margin: 0 auto;
+padding: 14px 0;
+position: relative;
+max-width: 55.556em;
+text-align: center;
+width: 100%;
+}
+.main-navigation ul {
+list-style: none;
+margin: 0;
+padding-left: 0;
+position: relative;
+}
+.main-navigation ul li:hover > ul {
+-webkit-transition: all 0.2s ease-in-out;
+-moz-transition: all 0.2s ease-in-out;
+-o-transition: all 0.2s ease-in-out;
+transition: all 0.2s ease-in-out;
+opacity: 1;
+visibility: visible;
+}
+.main-navigation ul ul {
+display: block;
+float: left;
+left: -6.75px;
+position: absolute;
+top: 27px;
+text-align: left;
+opacity: 0;
+visibility: hidden;
+z-index: 999;
+}
+.main-navigation ul ul a {
+line-height: 1.19118em;
+width: 216px;
+padding: 13.5px;
+}
+.main-navigation ul ul a:hover {
+color: #f0f1f3;
+}
+.main-navigation ul ul:before {
+border-top: 0;
+border-left: 13.5px solid transparent;
+border-right: 13.5px solid transparent;
+border-bottom: 13.5px solid #242d36;
+content: "";
+display: block;
+position: relative;
+top: 0;
+left: 27px;
+width: 0;
+height: 13.5px;
+}
+.main-navigation ul ul ul {
+left: 100%;
+top: 0;
+}
+.main-navigation ul ul ul:before {
+display: none;
+}
+.main-navigation li {
+display: inline-block;
+margin: 3.375px 13.5px;
+position: relative;
+}
+@media screen and (max-width: 47.2226em) {
+.main-navigation li {
+margin: 0;
+}
+}
+.main-navigation li li {
+background: #242d36;
+border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+margin: 0;
+}
+.main-navigation a {
+color: rgba(255, 255, 255, 0.6);
+display: inline-block;
+text-decoration: none;
+}
+.main-navigation a:hover {
+color: white;
+}
+.main-navigation .current_page_item > a,
+.main-navigation .current-menu-item > a {
+color: white;
+}
+@media screen and (max-width: 640px) {
+.main-navigation {
+padding: 0;
+}
+.main-navigation ul {
+list-style: none;
+margin: 0;
+padding: 0;
+text-align: left;
+}
+.main-navigation ul ul {
+display: block;
+float: none;
+opacity: 1;
+position: relative;
+visibility: visible;
+top: auto;
+}
+.main-navigation ul ul:before {
+display: none;
+}
+.main-navigation ul ul li {
+background: transparent;
+border-bottom: 0;
+}
+.main-navigation ul ul a {
+padding: 13.5px 13.5px 13.5px 27px;
+width: auto;
+}
+.main-navigation ul ul ul {
+left: auto;
+top: auto;
+}
+.main-navigation ul ul ul a {
+padding-left: 54px;
+}
+.main-navigation ul li:hover > ul {
+display: block;
+}
+.main-navigation li {
+display: block;
+position: relative;
+}
+.main-navigation a {
+border-top: 1px solid rgba(255, 255, 255, 0.25);
+color: white;
+display: block;
+padding: 13.5px 25px;
+text-decoration: none;
+}
+.main-navigation ul:first-child > li:first-child > a {
+border-top: 0;
+}
+}
+/* =Social Links */
+.bwrapsocial-links {
+margin: 0 auto;
+max-width: 55.556em;
+padding: 4px 0 0;
+text-align: center;
+}
+.bwrapsocial-links ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+.bwrapsocial-links ul li {
+display: inline-block;
+list-style: none;
+margin: 0;
+}
+.bwrapsocial-links ul a {
+display: inline-block;
+margin-right: 4.5px;
+text-decoration: none;
+}
+.bwrapsocial-links ul a:before {
+font-size: 1.77778em;
+line-height: 1.6875em;
+background: rgba(255, 255, 255, 0.5);
+border-radius: 50%;
+color: #cdd851;
+display: block;
+line-height: 1.2;
+margin-top: 7.75px;
+margin-bottom: 7.75px;
+padding: 9px;
+text-align: center;
+-webkit-transition: all 0.1s ease-in-out;
+-moz-transition: all 0.1s ease-in-out;
+-o-transition: all 0.1s ease-in-out;
+transition: all 0.1s ease-in-out;
+width: 1.2em;
+}
+.bwrapsocial-links ul a:hover {
+text-decoration: none;
+}
+.bwrapsocial-links ul a:hover:before {
+background: white;
+text-decoration: none;
+-webkit-transition: all 0.1s ease-in-out;
+-moz-transition: all 0.1s ease-in-out;
+-o-transition: all 0.1s ease-in-out;
+transition: all 0.1s ease-in-out;
+}
+.bwrapsocial-links ul:last-of-type {
+margin-right: 0;
+}
+.bwrapsocial-links ul a[href*="plus.google.com"]:before {
+content: "\f0d5";
+font-family: FontAwesome;
+}
+.bwrapsocial-links ul a[href*="facebook.com"]:before {
+content: "\f09a";
+font-family: FontAwesome;
+}
+.bwrapsocial-links ul a[href*="twitter.com"]:before {
+content: "\f099";
+font-family: FontAwesome;
+}
+.bwrapsocial-links ul a[href*="/feeds/posts/default"]:before {
+content: "\f09e";
+font-family: FontAwesome;
+}
+.bwrapsocial-links ul a:before {
+content: "\f064";
+font-family: FontAwesome;
+}
+/* Text meant only for screen readers */
+.screen-reader-text {
+clip: rect(1px, 1px, 1px, 1px);
+position: absolute !important;
+}
+.screen-reader-text:hover,
+.screen-reader-text:active,
+.screen-reader-text:focus {
+background-color: #fff;
+border: 1px solid #000;
+-webkit-box-shadow: rgba(0, 0, 0, 0.6) 2px 2px 10px;
+-moz-box-shadow: rgba(0, 0, 0, 0.6) 2px 2px 10px;
+box-shadow: rgba(0, 0, 0, 0.6) 2px 2px 10px;
+clip: auto !important;
+display: inline-block;
+font-weight: 600;
+line-height: 24px;
+padding: 24px;
+z-index: 100000;
+position: absolute !important;
+top: 24px;
+left: 24px;
+}
+.bwraptopmenu ul {
+padding: 0;
+}
+.post-body div.separator a {
+margin:0 !important;
+}
+div.multicolumns {
+-webkit-column-count: 2;
+-webkit-column-gap:   0px;
+-moz-column-count:    2;
+-moz-column-gap:      0px;
+column-count:         2;
+column-gap:           0px;
+-webkit-column-rule: 1px dashed #ddd;
+-moz-column-rule: 1px dashed #ddd;
+column-rule: 1px dashed #ddd;
+}
+.multicolumns .cellblock {
+margin: 0;
+padding: 1em 2em;
+font-size: 16px;
+display: inline-block;
+}
+.multicolumns .cellblock .cellblock-inner {
+}
+.multicolumns .cellblock h2 {
+font-size: 16px;
+font-weight: bold;
+color: #3e3e3e;
+text-transform: uppercase;
+padding: 5px 10px 5px 0;
+letter-spacing: 2px;
+}
+@media screen and (max-width: 960px) {
+div.multicolumns {
+-webkit-column-count: 1;
+-moz-column-count:    1;
+column-count:         1;
+}
+}
+
+--></style>
+<!--[if !IE]><!--><style type="text/css">.post-body img{  height:auto;  max-width: 100%;  margin: 0;  }</style>
+<!--<![endif]-->
+<link href="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/css" rel="stylesheet" type="text/css">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<script src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/jquery.min.js"></script>
+<!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!--[if (gte IE 6)&(lte IE 8)]><script type="text/javascript" src="http://blogtipsntricks.googlecode.com/files/selectivizr-min.js"></script><![endif]-->
+<!--[if lt IE 9]><script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script><![endif]-->
+<!--<script src='http://apis.google.com/js/plusone.js' type='text/javascript'/>-->
+<!-- Begin: Google AdSense -->
+<script async="" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/adsbygoogle.js"></script>
+<!-- End: Google AdSense -->
+<!-- scrollUp jQuery plugin -->
+<script src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/0B9VQk49XGpnvQ2JETTNtZHJTVFk" type="text/javascript"></script>
+<!-- Begin: Content Experiment -->
+<!-- <script src='//www.google-analytics.com/cx/api.js?experiment=2I1xBVcjQSKIYcZ0VMLEUQ'/> <script>/*<![CDATA[*/ var variation = cxApi.chooseVariation(); $(function() { if (variation == 1) { $('.header-wrapper').css('background-color', '#222'); $('#footer').css('background-color', '#222'); $('#menu-toggle') .removeClass('menu-toggle-test-ori') .addClass('menu-toggle-test-var'); $('#social-links-toggle') .removeClass('social-links-toggle-test-ori') .addClass('social-links-toggle-test-var'); $('#search-toggle') .removeClass('search-toggle-test-ori') .addClass('search-toggle-test-var'); } }); /*]]>*/</script> -->
+<!-- End: Content Experiment -->
+<!-- Begin: Google Analytics -->
+<script>/*<![CDATA[*/
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-50330039-1', 'auto');
+  ga('send', 'pageview');
+/*]]>*/</script>
+<!-- End: Google Analytics -->
+<!-- Begin: scrollUp jQuery plugin -->
+<script>/*<![CDATA[*/
+$(function () {
+	$.scrollUp({
+		scrollImg: true
+	});
+});
+/*]]>*/</script>
+<!-- End: scrollUp jQuery plugin -->
+<script type="text/javascript">
+if (window.jstiming) window.jstiming.load.tick('headEnd');
+</script><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_close_icon:active{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_loader{background-color:#f2f2f2;border:1px solid #606060;font-size:25px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #3b5998;color:#fff;font-size:15px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{max-height:590px;min-height:590px;max-width:500px;min-width:500px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;left:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:13px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:13px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #29447e;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:17px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f2f2f2;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}
+.fb_connect_bar_container div,.fb_connect_bar_container span,.fb_connect_bar_container a,.fb_connect_bar_container img,.fb_connect_bar_container strong{background:none;border-spacing:0;border:0;direction:ltr;font-style:normal;font-variant:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal;vertical-align:baseline}.fb_connect_bar_container{position:fixed;left:0 !important;right:0 !important;height:42px !important;padding:0 25px !important;margin:0 !important;vertical-align:middle !important;border-bottom:1px solid #333 !important;background:#3b5998 !important;z-index:99999999 !important;overflow:hidden !important}.fb_connect_bar_container_ie6{position:absolute;top:expression(document.compatMode=="CSS1Compat"? document.documentElement.scrollTop+"px":body.scrollTop+"px")}.fb_connect_bar{position:relative;margin:auto;height:100%;width:100%;padding:6px 0 0 0 !important;background:none;color:#fff !important;font-family:"lucida grande", tahoma, verdana, arial, sans-serif !important;font-size:14px !important;font-style:normal !important;font-variant:normal !important;font-weight:normal !important;letter-spacing:normal !important;line-height:1 !important;text-decoration:none !important;text-indent:0 !important;text-shadow:none !important;text-transform:none !important;white-space:normal !important;word-spacing:normal !important}.fb_connect_bar a:hover{color:#fff}.fb_connect_bar .fb_profile img{height:30px;width:30px;vertical-align:middle;margin:0 6px 5px 0}.fb_connect_bar div a,.fb_connect_bar span,.fb_connect_bar span a{color:#bac6da;font-size:12px;text-decoration:none}.fb_connect_bar .fb_buttons{float:right;margin-top:7px}
+.fbpluginrecommendationsbarleft,.fbpluginrecommendationsbarright{position:fixed !important;bottom:0;z-index:999}.fbpluginrecommendationsbarleft{left:10px}.fbpluginrecommendationsbarright{right:10px}</style></head>
+<body data-twttr-rendered="true">
+<div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fb_xdm_frame_http" frameborder="0" allowtransparency="true" scrolling="no" id="fb_xdm_frame_http" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/DhmkJ2TR0QN.htm" style="border: none;"></iframe><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" scrolling="no" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/DhmkJ2TR0QN(1).htm" style="border: none;"></iframe></div></div></div>
+<div class="blogouter-wrapper">
+<header class="header-wrapper">
+<div class="header-ct-wrapper">
+<div class="header section" id="header"><div class="widget Header" id="Header1">
+<div id="header-inner">
+<div class="titlewrapper">
+<h1 class="title">
+<a href="http://www.gtwang.org/">G. T. Wang</a>
+<sup class="red-tag">beta</sup>
+</h1>
+</div>
+<div class="descriptionwrapper">
+<p class="description"><span>G. T. Wang 部落格，分享 GNU/Linux 與 Open Source 技術、教學文件、程式設計技巧、統計研究與生活點滴記錄</span></p>
+</div>
+</div>
+</div></div>
+<!-- Begin: Site Link Menu -->
+<div class="togglesnbtdiv">
+<div class="togglenbtclass menu-toggle" id="menu-toggle" title="Menu"><span class="screen-reader-text">Menu</span></div>
+<div class="togglenbtclass social-links-toggle" id="social-links-toggle" title="Social Links"><span class="screen-reader-text">Social Links</span></div>
+<div class="togglenbtclass search-toggle" id="search-toggle" title="Search"><span class="screen-reader-text">Search</span></div>
+</div>
+<!-- End: Site Link Menu -->
+<div class="navigation section" id="navigation"></div>
+<div class="clr"></div>
+</div><!-- /ct-wrapper -->
+<!-- Begin: Main Menu Panel -->
+<div class="panel" id="menu-toggle-nav">
+<div class="main-navigation" id="site-navigation" role="navigation">
+<a class="skip-link screen-reader-text" href="http://www.gtwang.org/2013/11/run-program-process-specific-cpu-cores-linux.html#content">Skip to content</a>
+<div class="bwraptopmenu">
+<ul>
+<!--<li><a href='/p/curriculum-vitae.html'>個人簡歷</a></li>-->
+<li><a href="http://www.gtwang.org/p/statistics.html">統計</a></li>
+<li><a href="http://www.gtwang.org/p/services.html">服務</a></li>
+</ul>
+</div>
+</div><!-- #site-navigation -->
+</div>
+<!-- End: Main Menu Panel -->
+<!-- Begin: Soicial Panel -->
+<div class="panel" id="social-links-toggle-nav">
+<div class="bwrapsocial-links">
+<ul class="socialbmenu" id="menu-social-links">
+<li><a href="https://plus.google.com/+SealmemoryBlogspotTwMain" rel="publisher" target="_blank"><span class="screen-reader-text">Google Plus</span></a></li>
+<li><a href="https://www.facebook.com/pages/%E6%B5%B7%E8%B1%B9%E9%9B%9C%E8%A8%98/489529864441673" target="_blank"><span class="screen-reader-text">Facebook</span></a></li>
+<li><a href="http://www.gtwang.org/feeds/posts/default" rel="nofollow" target="_blank"><span class="screen-reader-text">RSS Feed</span></a></li>
+</ul>
+</div>
+</div>
+<!-- End: Soicial Panel -->
+<!-- Begin: Search Panel -->
+<div class="panel" id="search-toggle-nav">
+<div class="search-wrapper">
+<form action="http://www.gtwang.org/search" class="search-form" id="searchform" method="get" role="search">
+<label>
+<span class="screen-reader-text">Search for:</span>
+<input class="search-field" name="q" placeholder="Search" type="search" value="">
+</label>
+<input class="search-submit" type="submit" value="Search">
+</form>
+</div>
+</div>
+<!-- End: Search Panel -->
+<div class="clr"></div>
+</header><!-- /header-wrapper -->
+<div class="page-header section" id="page-header">
+<div class="widget Attribution" id="Attribution1">
+<div class="widget-content" style="text-align: center;">
+由 <a href="http://www.blogger.com/" target="_blank">Blogger</a> 技術提供.
+</div>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=5628310816558079036&widgetType=Attribution&widgetId=Attribution1&action=editWidget&sectionId=page-header" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;Attribution1&quot;));" target="configAttribution1" title="編輯">
+<img alt="" height="18" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div></div>
+<div class="ct-wrapper">
+<div class="outer-wrapper">
+<div class="main-wrapper">
+<div class="content section" id="content"><div class="widget Blog" id="Blog1">
+<div class="blog-posts hfeed masonry">
+<!-- google_ad_section_start(name=default) -->
+
+          <div class="date-outer">
+        
+
+          <div class="date-posts">
+        
+<div class="post-outer">
+<div class="post hentry" itemscope="itemscope" itemtype="http://schema.org/Article">
+<h1 class="post-title entry-title" itemprop="name">
+在 Linux 中以特定的 CPU 核心執行程式
+</h1>
+<div class="post-header">
+<div class="post-header-line-1"></div>
+<span style="display: none;"><span class="post-author vcard">
+
+          By <span class="fn">王國肇</span>
+</span></span>
+<span>Posted On <span content="2013-11-10" itemprop="datePublished">2013-11-10</span></span>
+</div>
+<div class="post-body entry-content" id="post-body-2384086832604866823">
+這裡介紹如何在 Linux 中以特定的 CPU 核心執行程式，不要讓系統自動排程。<br>
+<br>
+<div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-OFzA-zmZBbE/Un47tAwFozI/AAAAAAAAPbc/yRh0JiBoe4c/s1600/abstract-grid-cube.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="358" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/abstract-grid-cube.jpg" width="640"></a></div><br>
+現在不管是伺服器或是一般個人電腦的 CPU 大部分都是多核心的架構，而各種應用軟體、編譯器與作業系統也受到這個趨勢的影響，也都會有針對多核心處理器做的最佳化設計。<br>
+<br>
+通常在多核心的作業系統中常使用處理器的親和性（processor affinity，亦稱 CPU pinning）來處理需要高效能計算的應用，這個技術是屬於作業系統的一個特殊功能，它可以讓行程在特定的 CPU 核心中持續執行，不受作業系統排程的干擾。<br>
+<br>
+將行程綁定在特定的 CPU 核心上有許多優點，例如一個 cache bound 的程式跟其他比較耗費 CPU 計算的程式一起執行時，將程式綁定在特定的 CPU 核心可以減少 cache miss 的狀況。另外在兩個行程頻繁的藉由 shared memory 進行溝通時，將兩個行程都綁定在同一個 <a href="http://en.wikipedia.org/wiki/Non-uniform_memory_access" target="_blank">NUMA</a> 節點中也可以增進執行效率。<br>
+<br>
+這裡我們會以 Linux 系統為例，介紹如何在 Linux 系統中將一般的程式綁定在一個選定的處理器核心中執行。<br>
+<a name="more"></a><br>
+在 Linux 系統中若要將特定的處理器核心指定給一個程式或行程使用，可以使用 <span class="inline-code">taskset</span>，透過這個指令使用者就可以設定或取得行程的處理器親和性。<br>
+<br>
+<h2>安裝 <span class="inline-code">taskset</span></h2>在 Linux 中 <span class="inline-code">taskset</span> 是屬於 <span class="inline-code">util-linux</span> 套件中的一部分，但是大部分的 Linux 發行版預設都會安裝，所以通常不需要自己動手裝。如果你的系統沒有安裝這個套件，可以按照下面的方式安裝。<br>
+<br>
+Debian 系列的 Linux（Ubuntu、Linux Mint 等）可用 apt 安裝：<br>
+<pre class="code">sudo apt-get install util-linux</pre><br>
+Red Hat 系列的 Linux（Fedora、CentOS 等），則可使用 yum：<br>
+<pre class="code">sudo yum install util-linux</pre><br>
+<h2>查看行程（Process）的處理器親和性（CPU affinity）</h2>若要查看指定行程的處理器親和性，可以使用 <span class="inline-code">taskset</span> 加上 <span class="inline-code">-p</span> 參數再加上行程的 ID（process ID）：<br>
+<pre class="code">taskset -p PID</pre>其中 <span class="inline-code">PID</span> 就是行程的 ID，例如：<br>
+<pre class="code">taskset -p 2915</pre>輸出為：<br>
+<blockquote class="tr_bq">pid 2915's current affinity mask: ff</blockquote>輸出的 affinity mask 是一個十六進位的 bitmask，將其轉換為二進位格式之後，若位元值為 1 則代表該行程可以在這個位元對應的 CPU 核心中執行，若位元值為 0 則代表該行程不允許在這個位元對應的 CPU 核心中執行。<br>
+<br>
+在上面這個例子中十六進位的 <span class="inline-code">ff</span> 轉成二進位的格式會是 <span class="inline-code">11111111</span>，這八個 <span class="inline-code">1</span> 分別代表該行程可以在第 0 到第 7 個 CPU 核心中執行，最低（最右邊）的位元代表第 0 個 CPU 核心，次低的代表第 1 個，以次類推。<br>
+<br>
+如果 affinity mask 是一個 <span class="inline-code">0x11</span>，則代表可在第 0 個與第 4 個 CPU 核心執行。<br>
+<br>
+如果感覺以 bitmask 表示法不容易理解，可以加上 <span class="inline-code">-c</span> 參數，讓 <span class="inline-code">taskset</span> 直接輸出 CPU 的核心列表：<br>
+<pre class="code">taskset -cp 2915</pre>輸出為：<br>
+<blockquote class="tr_bq">pid 2915's current affinity list: 0-7</blockquote><br>
+<h2>將行程固定在特定的 CPU 核心中執行</h2><span class="inline-code">taskset</span> 亦可設定行程的 core mask，將指定的行程固定在特定的 CPU 核心中執行： <br>
+<pre class="code">taskset -p COREMASK PID</pre>其中 <span class="inline-code">COREMASK</span> 就是指定的十六進位 core mask，<span class="inline-code">PID</span> 則為行程的 ID。除此之外，亦可使用 <span class="inline-code">-c</span> 參數以 CPU 的核心列表來指定：<br>
+<pre class="code">taskset -cp CORELIST PID</pre>其中 <span class="inline-code">CORELIST</span> 為 CPU 核心列表，以逗點分個各個核心的編號或是使用連字號指定連續的區間，例如：<span class="inline-code">0,2,5,7-10</span>。<br>
+<br>
+例如若要將一個行程固定在第 0 個與第 4 個 CPU 核心，則使用：<br>
+<pre class="code">taskset -p 0x11 9030</pre>輸出為：<br>
+<blockquote class="tr_bq">pid 9030's current affinity mask: ff<br>
+pid 9030's new affinity mask: 11</blockquote>亦可使用 CPU 核心列表的方式：<br>
+<pre class="code">taskset -cp 0,4 9030</pre>兩種方式都是一樣的。<br>
+<br>
+在 Linux 中的使用者必須有開啟 CAP_SYS_NICE 這個權限，才能更動行程的處理器親和性，而若只是要查看處理器親和性的設定，則沒有限制（任何使用者皆可查詢）。<br>
+<br>
+<h2>以特定的 CPU 核心執行程式</h2>除了更改現有行程的處理器親和性，使用者也可以使用 <span class="inline-code">taskset</span> 指定 CPU 核心來執行一個新的程式：<br>
+<pre class="code">taskset COREMASK EXECUTABLE</pre>其中 <span class="inline-code">EXECUTABLE</span> 是要執行的程式。<br>
+例如若要以第 0 個 CPU 核心執行 <span class="inline-code">vlc</span> 則使用：<br>
+<pre class="code">taskset 0x1 vlc</pre><br>
+<h2>將 CPU 核心限定給特定的程式使用</h2><span class="inline-code">taskset</span> 可以指定行程所使用的 CPU 核心，但是不代表其他的行程不會使用這些被指定的 CPU 核心，如果你想讓其他的行程干擾你要執行的程式，讓指定的核心只能被自己設定的行程使用，可以使用 <span class="inline-code">isolcpus</span> 這個 Linux 核心（kernel）參數，這個參數可以讓特定的 CPU 核心在開機時就被保留下來。<br>
+<br>
+設定的方式有兩種，一個是在開機時使用 boot loader 所提供的自訂開機參數功能，手動加入 <span class="inline-code">isolcpus=cpu_id</span> 參數，或是直接加在 GRUB 的設定檔中，這樣 Linux 的排程器（scheduler）在預設的狀況下就不會將任何一般行程放在這個被保留的 CPU 核心中執行，只有那些被 <span class="inline-code">taskset</span> 特別指定的行程可以使用這些 CPU 核心。<br>
+<br>
+舉例來說，如果想讓第 0 個與第 1 個 CPU 核心都被保留下來，則在開機時加入<br>
+<pre class="code">isolcpus=0,1</pre>這個 Linux 核心參數，然後再使用 <span class="inline-code">taskset</span> 指令將這兩個 CPU 核心指定給要執行的程式使用即可。<br>
+<br>
+參考資料：<a href="http://xmodulo.com/2013/10/run-program-process-specific-cpu-cores-linux.html" target="_blank">Xmodulo</a>
+<div style="clear: both;"></div>
+</div>
+<div class="socialMediaFooter">
+<div class="fb-like fb_iframe_widget" data-action="like" data-href="http://www.gtwang.org/2013/11/run-program-process-specific-cpu-cores-linux.html" data-layout="button_count" data-share="false" data-show-faces="false" style="top: -7px;margin-right:15px" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=338766312900008&amp;href=http%3A%2F%2Fwww.gtwang.org%2F2013%2F11%2Frun-program-process-specific-cpu-cores-linux.html&amp;layout=button_count&amp;locale=zh_TW&amp;sdk=joey&amp;share=false&amp;show_faces=false"><span style="vertical-align: bottom; width: 67px; height: 20px;"><iframe name="f32f37455" width="1000px" height="1000px" frameborder="0" allowtransparency="true" scrolling="no" title="fb:like Facebook Social Plugin" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/like.htm" style="border: none; visibility: visible; width: 67px; height: 20px;" class=""></iframe></span></div>
+<span><div id="___plusone_0" style="text-indent: 0px; margin: 0px; padding: 0px; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 90px; height: 20px; background: transparent;"><iframe frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position: static; top: 0px; width: 90px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 20px;" tabindex="0" vspace="0" width="100%" id="I0_1403586521682" name="I0_1403586521682" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/fastbutton.htm" data-gapiattached="true" title="+1"></iframe></div></span>
+<iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/tweet_button.1403226798.htm" class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-horizontal" title="Twitter Tweet Button" data-twttr-rendered="true" style="width: 103px; height: 20px;"></iframe>
+</div>
+<div class="postFooterAdSense">
+<ins class="adsbygoogle" data-ad-client="ca-pub-7794009487786811" data-ad-slot="5062723734" style="display:inline-block;width:336px;height:280px" data-adsbygoogle-status="done"><ins style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px;background-color:transparent"><iframe width="336" height="280" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div id="postFooterAdSenseLink">
+<ins class="adsbygoogle" data-ad-client="ca-pub-7794009487786811" style="display:inline-block;width:200px;height:90px" data-adsbygoogle-status="done"><ins style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:200px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:200px;background-color:transparent"><iframe width="200" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+<script type="text/javascript">/*<![CDATA[*/
+if (Math.random() < .5) {
+  // GTWang 文章底部連結200x90（A）
+  mySlotId = '1309325334';
+} else {
+  // GTWang 文章底部連結200x90（B）
+  mySlotId = '8093018933';
+}
+(adsbygoogle = window.adsbygoogle || []).push({
+  params: { google_ad_slot: mySlotId }
+});
+/*]]>*/</script>
+</div>
+<div style="clear: both;"></div>
+<div class="post-footer">
+<div class="post-footer-line post-footer-line-1"></div>
+<div class="post-footer-line post-footer-line-2"></div>
+<div class="post-footer-line post-footer-line-3"><span class="post-location">
+</span></div>
+</div>
+</div>
+<div class="post-meta">
+      Labels: <span class="post-labels">
+<a href="http://www.gtwang.org/search/label/HPC" rel="tag">HPC</a>,
+<a href="http://www.gtwang.org/search/label/Linux" rel="tag">Linux</a>
+</span>
+</div>
+<script src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/plusone.js" type="text/javascript" gapi_processed="true"></script>
+<div class="cmt_iframe_holder" data-href="http://www.gtwang.org/2013/11/run-program-process-specific-cpu-cores-linux.html" data-viewtype="FILTERED_POSTMOD" id="gpluscomments" style="text-indent: 0px; margin: 0px; padding: 0px; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 741px; height: 600px; background: transparent;"><iframe frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position: static; top: 0px; width: 740px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 600px;" tabindex="0" vspace="0" width="100%" id="I1_1403586522614" name="I1_1403586522614" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/comments.htm" data-gapiattached="true" title="評論這個項目"></iframe></div>
+</div>
+
+        </div></div>
+      
+<!-- google_ad_section_end -->
+</div>
+<div class="clr"></div>
+<div class="blog-pager" id="blog-pager">
+<span id="blog-pager-newer-link">
+<a class="blog-pager-newer-link" href="http://www.gtwang.org/2013/11/facebook-presto-open-source.html" id="Blog1_blog-pager-newer-link" title="較新的文章">較新的文章</a>
+</span>
+<span id="blog-pager-older-link">
+<a class="blog-pager-older-link" href="http://www.gtwang.org/2013/11/face-your-manga.html" id="Blog1_blog-pager-older-link" title="較舊的文章">較舊的文章</a>
+</span>
+<a class="home-link" href="http://www.gtwang.org/">首頁</a>
+</div>
+<div class="clear"></div>
+<script type="text/javascript">window.___gcfg = {'lang': 'zh_TW'};</script>
+</div></div>
+</div><!-- /main-wrapper -->
+<aside class="sidebar-wrapper">
+<!-- Begin: Add By Seal -->
+<div id="sidebarTopAdSense">
+<!-- GTWang 側邊欄300x600 -->
+<ins class="adsbygoogle sidebarTopAdslot" data-ad-client="ca-pub-7794009487786811" data-ad-slot="5080045731" style="display: inline-block; width: 300px; height: 600px;" data-adsbygoogle-status="done"><ins style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent"><ins id="aswift_2_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent"><iframe width="300" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<!-- End: Add By Seal -->
+<div class="sidebar section" id="sidebar"><div class="widget PopularPosts" id="PopularPosts1">
+<h2>熱門文章</h2>
+<div class="widget-content popular-posts">
+<ul>
+<li>
+<a href="http://www.gtwang.org/2012/10/usb-mac-os-x-windows.html">格式化 USB 隨身碟或硬碟給 Mac OS X 與 Windows 使用</a>
+</li>
+<li>
+<a href="http://www.gtwang.org/2013/04/ethernet-cables-and-network-speed.html">各種網路線的差異：不同的網路線會影響上網速度嗎？</a>
+</li>
+<li>
+<a href="http://www.gtwang.org/2013/01/linux-mount.html">Linux 檔案系統掛載（mount）使用教學與範例</a>
+</li>
+<li>
+<a href="http://www.gtwang.org/2012/04/blog-post.html">機車托運原來很簡單</a>
+</li>
+<li>
+<a href="http://www.gtwang.org/2013/09/how-to-boost-your-wi-fi-signal.html">如何加強 Wi-Fi 無線網路的訊號</a>
+</li>
+<li>
+<a href="http://www.gtwang.org/2014/02/print-coloring-book-for-kids.html">免費卡通著色圖案整理，自己列印製作小朋友的塗鴉畫本（著色本）</a>
+</li>
+<li>
+<a href="http://www.gtwang.org/2013/02/mac-os-x_6.html">使用 Mac OS X 磁碟工具程式分割硬碟與格式化</a>
+</li>
+<li>
+<a href="http://www.gtwang.org/2013/03/mac-os-x-dicttionary-add-chinese.html">讓 Mac OS X 的字典加入英文翻譯中文功能：加入 StarDict 星際譯王的字典檔</a>
+</li>
+<li>
+<a href="http://www.gtwang.org/2013/07/standford-machine-learning-1.html">史丹佛大學機器學習（Machine Learning）上課筆記（一）</a>
+</li>
+<li>
+<a href="http://www.gtwang.org/2013/11/face-your-manga.html">Face Your Manga -- 製作卡通大頭貼（漫畫風個人頭像）的線上工具</a>
+</li>
+</ul>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=5628310816558079036&widgetType=PopularPosts&widgetId=PopularPosts1&action=editWidget&sectionId=sidebar" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;PopularPosts1&quot;));" target="configPopularPosts1" title="編輯">
+<img alt="" height="18" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div>
+</div></div>
+<!-- Begin: AdSense -->
+<div id="sidebarBottomAdSense">
+<ins class="adsbygoogle sidebarBottomAdslot" data-ad-client="ca-pub-7794009487786811" style="display: inline-block; width: 300px; height: 250px;" data-adsbygoogle-status="done"><ins style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent"><ins id="aswift_3_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent"><iframe width="300" height="250" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_3" name="aswift_3" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+<script type="text/javascript">/*<![CDATA[*/
+if (Math.random() < .5) {
+  // GTWang 側邊欄300x250&#65288;A&#65289;
+  mySlotId = '8257292931';
+} else {
+  // GTWang 側邊欄300x250&#65288;B&#65289;
+  mySlotId = '2048425736';
+}
+(adsbygoogle = window.adsbygoogle || []).push({
+  params: { google_ad_slot: mySlotId }
+});
+/*]]>*/</script>
+</div>
+<div id="sidebarBottomAdSenseLink">
+<!-- GTWang 側邊底部連結200x90 -->
+<ins class="adsbygoogle" data-ad-client="ca-pub-7794009487786811" data-ad-slot="3372337736" style="display:inline-block;width:200px;height:90px" data-adsbygoogle-status="done"><ins style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:200px;background-color:transparent"><ins id="aswift_4_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:200px;background-color:transparent"><iframe width="200" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_4" name="aswift_4" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<!-- End: AdSense -->
+</aside><!-- /sidebar-wrapper -->
+<div class="clr"></div>
+</div><!-- /outer-wrapper -->
+</div><!-- /ct-wrapper -->
+<!-- Begin: AdSense -->
+<!-- End: AdSense -->
+<!-- Begin: Footer 1 -->
+<div class="footer-1">
+<div class="ct-wrapper">
+<div class="multicolumns">
+<div class="cellblock"><div class="cellblock-inner">
+<!-- Place this tag where you want the widget to render. -->
+<!--<div class='g-person' data-href='//plus.google.com/u/0/116064369839910382084' data-rel='author'/>-->
+<div id="___page_0" style="text-indent: 0px; margin: 0px; padding: 0px; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 300px; height: 379px; background: transparent;"><iframe frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position: static; top: 0px; width: 300px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 379px;" tabindex="0" vspace="0" width="100%" id="I0_1403586521788" name="I0_1403586521788" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/page.htm" data-gapiattached="true" title="+Badge"></iframe></div>
+</div></div>
+<div style="clear: both;"></div>
+<div class="cellblock section" id="footer-sections"><div class="widget BlogArchive" id="BlogArchive1">
+<h2>網誌存檔</h2>
+<div class="widget-content">
+<div id="ArchiveList">
+<div id="BlogArchive1_ArchiveList">
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/search?updated-min=2014-01-01T00:00:00%2B08:00&updated-max=2015-01-01T00:00:00%2B08:00&max-results=50">2014</a>
+<span class="post-count" dir="ltr">(80)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2014_05_01_archive.html">五月</a>
+<span class="post-count" dir="ltr">(24)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2014_04_01_archive.html">四月</a>
+<span class="post-count" dir="ltr">(21)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2014_03_01_archive.html">三月</a>
+<span class="post-count" dir="ltr">(6)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2014_02_01_archive.html">二月</a>
+<span class="post-count" dir="ltr">(12)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2014_01_01_archive.html">一月</a>
+<span class="post-count" dir="ltr">(17)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate expanded">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy toggle-open">▼&nbsp;</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/search?updated-min=2013-01-01T00:00:00%2B08:00&updated-max=2014-01-01T00:00:00%2B08:00&max-results=50">2013</a>
+<span class="post-count" dir="ltr">(315)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_12_01_archive.html">十二月</a>
+<span class="post-count" dir="ltr">(44)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate expanded">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy toggle-open">▼&nbsp;</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_11_01_archive.html">十一月</a>
+<span class="post-count" dir="ltr">(49)</span>
+<ul class="posts">
+<li><a href="http://www.gtwang.org/2013/11/seven-myths-of-email-marketing.html">Email 行銷的實際情況可能跟你想像中不同</a></li>
+<li><a href="http://www.gtwang.org/2013/11/simple-cheap-creative-meet-paper-prototyping.html">紙上談兵：既簡單又便宜的創意設計方式</a></li>
+<li><a href="http://www.gtwang.org/2013/11/pocket-user-experience-design.html">Pocket 如何改善使用者經驗（User Experience），讓效益增加 58%？</a></li>
+<li><a href="http://www.gtwang.org/2013/11/google-chromium.html">Google 在最新的 Chromium 開發版本中加入書籤的目錄搜尋功能。</a></li>
+<li><a href="http://www.gtwang.org/2013/11/customize-google-chrome-devtools-theme.html">自定 Google Chrome 網頁開發人員工具（DevTools）佈景主題教學</a></li>
+<li><a href="http://www.gtwang.org/2013/11/google-maps-preview-international-travel-with-images-of-airports-railsubway-stations.html">Google 地圖新增了全世界主要交通轉運站的室內街景服務</a></li>
+<li><a href="http://www.gtwang.org/2013/11/how-does-google-make-money.html">Google 的服務都是免費的，為什麼它可以賺錢？</a></li>
+<li><a href="http://www.gtwang.org/2013/11/advanced-javascript-debugging-with-consoletable.html">在 Google Chrome 中使用 console.table() 函數進行 JavaScrip...</a></li>
+<li><a href="http://www.gtwang.org/2013/11/codacy.html">Codacy：幫助程式設計師測試程式問題的服務平台</a></li>
+<li><a href="http://www.gtwang.org/2013/11/google-adsense-in-responsive-web.html">讓 Google AdSense 廣告配合瀏覽器版面動態變更大小（回應式網頁設計）</a></li>
+<li><a href="http://www.gtwang.org/2013/11/the-future-of-the-database.html">資料庫簡略發展史與未來發展的方向</a></li>
+<li><a href="http://www.gtwang.org/2013/11/google-building-chrome-app-based-development-environment-using-dart-polymer.html">Spark：一個以 Chrome App 為基礎的開發環境（IDE）</a></li>
+<li><a href="http://www.gtwang.org/2013/11/google-shopping.html">Google Shopping 購物網站現在提供相似商品建議與 360 度旋轉預覽等功能</a></li>
+<li><a href="http://www.gtwang.org/2013/11/new-chrome-experiment-journey-middle-earth-brings-hobbit-laptop-phone-tablet.html">Google Chrome 最新測試功能 -- 在手機瀏覽器上看哈比人：荒谷惡龍（中土大陸冒險之旅）...</a></li>
+<li><a href="http://www.gtwang.org/2013/11/google-major-services-faster-spdy-https.html">Google 的主要服務使用 SPDY 協定後比 HTTPS 快很多</a></li>
+<li><a href="http://www.gtwang.org/2013/11/apple-spaceship-campus.html">蘋果現在確定要打造最新的未來飛船總部了！</a></li>
+<li><a href="http://www.gtwang.org/2013/11/adsense-ab-testing.html">更改 Google AdSense 廣告程式碼進行 A/B 測試（A/B Testing）</a></li>
+<li><a href="http://www.gtwang.org/2013/11/awesome-programming-jokes.html">關於程式設計的幾個有趣的笑話</a></li>
+<li><a href="http://www.gtwang.org/2013/11/these-animals-unbelievably-made-from-tissue-are-so-fun.html">用衛生紙做成的動畫 -- 很有創意的廣告</a></li>
+<li><a href="http://www.gtwang.org/2013/11/google-shopping-express-costco.html">從舊金山 Google Shopping Express 買 Costco 的東西，商品當日送達！</a></li>
+<li><a href="http://www.gtwang.org/2013/11/python-popular-programming-language-year.html">2013 年最熱門的程式語言 -- Python 排名第一</a></li>
+<li><a href="http://www.gtwang.org/2013/11/ssh-keygen-randomart.html">ssh-keygen 在建立金鑰時所產生的 randomart 是做什麼用的？</a></li>
+<li><a href="http://www.gtwang.org/2013/11/screen-command-examples-to-manage-linux-terminals.html">使用 Screen 指令操控 UNIX/Linux 終端機的教學與範例</a></li>
+<li><a href="http://www.gtwang.org/2013/11/programming-code-deck-of-cards.html">code:deck -- 專門設計給電腦迷（Geek）的撲克牌</a></li>
+<li><a href="http://www.gtwang.org/2013/11/microsoft-opens-stunning-cybercrime-center-redmond-tackle-botnets-malware-ip-theft.html">微軟新的網路犯罪中心（Cybercrime Center）</a></li>
+<li><a href="http://www.gtwang.org/2013/11/street-view-floats-into-venice.html">Google 街景服務 -- 水都威尼斯（Venice）</a></li>
+<li><a href="http://www.gtwang.org/2013/11/how-long-do-hard-drives-actually-live-for.html">硬碟的壽命有多長？（損壞率分析）</a></li>
+<li><a href="http://www.gtwang.org/2013/11/google-adsense-async-script.html">Google Adsense 非同步廣告程式碼，省略重複的 Async Script，加速網頁載入</a></li>
+<li><a href="http://www.gtwang.org/2013/11/mac-os-x-security-problem.html">Mac OS X 解決「無法打開...，因為它來自未識別的開發者」安裝軟體問題</a></li>
+<li><a href="http://www.gtwang.org/2013/11/macports-mac-os-x-open-source.html">使用 MacPorts 安裝與管理 Mac OS X 中的開放原始碼（Open Source）軟體</a></li>
+<li><a href="http://www.gtwang.org/2013/11/facebook-presto-open-source.html">Presto -- Facebook 開放原始碼、互動式資料查詢系統，支援 petabyte 等級的...</a></li>
+<li><a href="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang.htm">在 Linux 中以特定的 CPU 核心執行程式</a></li>
+<li><a href="http://www.gtwang.org/2013/11/face-your-manga.html">Face Your Manga -- 製作卡通大頭貼（漫畫風個人頭像）的線上工具</a></li>
+<li><a href="http://www.gtwang.org/2013/11/c-interview-questions.html">C 程式語言相關的面試問題與解答</a></li>
+<li><a href="http://www.gtwang.org/2013/11/ebook-format-online-converter.html">線上電子書轉檔工具（支援 EPUB、MOBI、PDF 等）</a></li>
+<li><a href="http://www.gtwang.org/2013/11/interview-mistakes.html">程式設計師面試時會碰到的十種常見問題</a></li>
+<li><a href="http://www.gtwang.org/2013/11/the-jobs-of-the-future-belong-to-data-scientists-and-user-experience-designers.html">在未來資料科學家與使用者經驗設計師將會是兩大熱門的工作職缺</a></li>
+<li><a href="http://www.gtwang.org/2013/11/swap-two-numbers-without-third-temp-variable.html">如何在程式中不使用暫存變數交換兩個變數（適用於 Java 與 C/C++ 等語言）</a></li>
+<li><a href="http://www.gtwang.org/2013/11/google-helpouts.html">Google 推出全新 Helpouts 線上專業諮詢服務</a></li>
+<li><a href="http://www.gtwang.org/2013/11/upgrade-to-mac-os-x-mavericks.html">將 Mac OS X 免費更新成最新版的 Mavericks（10.9）</a></li>
+<li><a href="http://www.gtwang.org/2013/11/mac-os-x-screen-capture.html">在 Mac OS X 中擷取螢幕畫面（螢幕快照）</a></li>
+<li><a href="http://www.gtwang.org/2013/11/facebook-video-download-using-google-chrome.html">使用 Google Chrome 下載 Facebook 影片 -- 不需要安裝任何擴充功能</a></li>
+<li><a href="http://www.gtwang.org/2013/11/beauty-of-mathematics.html">數學家的眼睛看世界是什麼樣子？</a></li>
+<li><a href="http://www.gtwang.org/2013/11/digital-attack-map.html">Digital Attack Map：全球即時 DDoS 網路攻擊監控地圖</a></li>
+<li><a href="http://www.gtwang.org/2013/11/google-london-office.html">Google 倫敦辦公室：佔地一百萬平方英尺、高級豪華的工作環境</a></li>
+<li><a href="http://www.gtwang.org/2013/11/parole.html">Parole -- 輕巧的多媒體播放器</a></li>
+<li><a href="http://www.gtwang.org/2013/11/blog-post.html">各種作業系統與應用程式的程式碼規模比較</a></li>
+<li><a href="http://www.gtwang.org/2013/11/xfce-theme-manager-xubuntu.html">使用 Xfce Theme Manager 調整 XUbuntu 桌面佈景主題</a></li>
+<li><a href="http://www.gtwang.org/2013/11/lucidpress.html">Lucidpress -- 免費且專業的線上排版軟體</a></li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_10_01_archive.html">十月</a>
+<span class="post-count" dir="ltr">(26)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_09_01_archive.html">九月</a>
+<span class="post-count" dir="ltr">(14)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_08_01_archive.html">八月</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_07_01_archive.html">七月</a>
+<span class="post-count" dir="ltr">(25)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_06_01_archive.html">六月</a>
+<span class="post-count" dir="ltr">(26)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_05_01_archive.html">五月</a>
+<span class="post-count" dir="ltr">(23)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_04_01_archive.html">四月</a>
+<span class="post-count" dir="ltr">(40)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_03_01_archive.html">三月</a>
+<span class="post-count" dir="ltr">(37)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_02_01_archive.html">二月</a>
+<span class="post-count" dir="ltr">(24)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2013_01_01_archive.html">一月</a>
+<span class="post-count" dir="ltr">(6)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/search?updated-min=2012-01-01T00:00:00%2B08:00&updated-max=2013-01-01T00:00:00%2B08:00&max-results=50">2012</a>
+<span class="post-count" dir="ltr">(63)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_12_01_archive.html">十二月</a>
+<span class="post-count" dir="ltr">(11)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_11_01_archive.html">十一月</a>
+<span class="post-count" dir="ltr">(9)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_10_01_archive.html">十月</a>
+<span class="post-count" dir="ltr">(8)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_09_01_archive.html">九月</a>
+<span class="post-count" dir="ltr">(5)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_08_01_archive.html">八月</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_07_01_archive.html">七月</a>
+<span class="post-count" dir="ltr">(3)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_05_01_archive.html">五月</a>
+<span class="post-count" dir="ltr">(4)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_04_01_archive.html">四月</a>
+<span class="post-count" dir="ltr">(11)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_03_01_archive.html">三月</a>
+<span class="post-count" dir="ltr">(3)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_02_01_archive.html">二月</a>
+<span class="post-count" dir="ltr">(3)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2012_01_01_archive.html">一月</a>
+<span class="post-count" dir="ltr">(4)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/search?updated-min=2011-01-01T00:00:00%2B08:00&updated-max=2012-01-01T00:00:00%2B08:00&max-results=45">2011</a>
+<span class="post-count" dir="ltr">(45)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2011_11_01_archive.html">十一月</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2011_10_01_archive.html">十月</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2011_09_01_archive.html">九月</a>
+<span class="post-count" dir="ltr">(8)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2011_08_01_archive.html">八月</a>
+<span class="post-count" dir="ltr">(12)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2011_07_01_archive.html">七月</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2011_06_01_archive.html">六月</a>
+<span class="post-count" dir="ltr">(4)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2011_05_01_archive.html">五月</a>
+<span class="post-count" dir="ltr">(12)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2011_04_01_archive.html">四月</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2011_03_01_archive.html">三月</a>
+<span class="post-count" dir="ltr">(2)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/search?updated-min=2010-01-01T00:00:00%2B08:00&updated-max=2011-01-01T00:00:00%2B08:00&max-results=15">2010</a>
+<span class="post-count" dir="ltr">(15)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2010_12_01_archive.html">十二月</a>
+<span class="post-count" dir="ltr">(6)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2010_11_01_archive.html">十一月</a>
+<span class="post-count" dir="ltr">(7)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2010_10_01_archive.html">十月</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2010_09_01_archive.html">九月</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/search?updated-min=2009-01-01T00:00:00%2B08:00&updated-max=2010-01-01T00:00:00%2B08:00&max-results=1">2009</a>
+<span class="post-count" dir="ltr">(1)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2009_04_01_archive.html">四月</a>
+<span class="post-count" dir="ltr">(1)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/search?updated-min=2008-01-01T00:00:00%2B08:00&updated-max=2009-01-01T00:00:00%2B08:00&max-results=16">2008</a>
+<span class="post-count" dir="ltr">(16)</span>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2008_11_01_archive.html">十一月</a>
+<span class="post-count" dir="ltr">(5)</span>
+</li>
+</ul>
+<ul class="hierarchy">
+<li class="archivedate collapsed">
+<a class="toggle" href="javascript:void(0)">
+<span class="zippy">
+
+          ►&nbsp;
+        
+</span>
+</a>
+<a class="post-count-link" href="http://www.gtwang.org/2008_10_01_archive.html">十月</a>
+<span class="post-count" dir="ltr">(11)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="clear"></div>
+<span class="widget-item-control">
+<span class="item-control blog-admin">
+<a class="quickedit" href="http://www.blogger.com/rearrange?blogID=5628310816558079036&widgetType=BlogArchive&widgetId=BlogArchive1&action=editWidget&sectionId=footer-sections" onclick="return _WidgetManager._PopupConfig(document.getElementById(&quot;BlogArchive1&quot;));" target="configBlogArchive1" title="編輯">
+<img alt="" height="18" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/icon18_wrench_allbkg.png" width="18">
+</a>
+</span>
+</span>
+<div class="clear"></div>
+</div>
+</div></div>
+<div style="clear: both;"></div>
+<div class="cellblock"><div class="cellblock-inner">
+<img src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/Guan-Yin.jpg" style="max-width:100%;margin-bottom:30px;">
+<h2>佛樂</h2>
+<ul>
+<li><a href="http://www.youtube.com/watch?v=ud5CL8Y3V2c" target="_blank">觀世音菩薩普門品甘露譜</a></li>
+<li><a href="http://www.youtube.com/watch?v=d8V6kPlVUFs" target="_blank">大悲咒(2009版)-天籟梵音</a></li>
+<li><a href="http://www.youtube.com/watch?v=QgcEQ5UMY8Q" target="_blank">觀音菩薩讚</a></li>
+<li><a href="http://www.youtube.com/watch?v=s4ERL88D6w8" target="_blank">南無觀世音菩薩聖號 (華樂版)</a></li>
+<li><a href="http://www.youtube.com/watch?v=5DuKY3F6zBE" target="_blank">南無觀世音菩薩聖號</a></li>
+<li><a href="http://www.youtube.com/watch?v=spHIECuCAv0" target="_blank">懺悔歌</a></li>
+</ul>
+</div></div>
+<div style="clear: both;"></div>
+</div>
+</div>
+</div>
+<!-- End: Footer 1 -->
+<footer id="footer">
+<div class="footer-nav">
+<div class="ct-wrapper">
+<!-- Footer menu -->
+</div><!-- /ct-wrapper -->
+</div><!-- /footer-nav -->
+<div class="footer-bottom">
+<!--Begin: Footer Social Media -->
+<div class="ct-wrapper">
+<p class="attribution">Copyright © 2013-2014 <a href="http://www.gtwang.org/">G. T. Wang</a>. All Rights Reserved.<br>Author: <a href="https://plus.google.com/+GuoZhaoWang?rel=author" target="_blank">王國肇</a></p>
+</div><!-- ct-wrapper -->
+</div><!-- /footer-bottom -->
+</footer><!-- footer -->
+</div><!-- /blogouter-wrapper -->
+<script type="text/javascript">/*<![CDATA[*/
+(function(){
+	var menuToggle = $('#menu-toggle');
+	var socialLinksToggle = $('#social-links-toggle');
+	var searchToggle = $('#search-toggle');
+
+	var socialLinksNav = $('#social-links-toggle-nav');
+	var searchNav = $('#search-toggle-nav');
+	var menuNav = $('#menu-toggle-nav');
+
+	function myToggleClass( $myvar ) {
+		if ( $myvar.hasClass( 'active' ) ) {
+			$myvar.removeClass( 'active' );
+		} else {
+			$myvar.addClass('active');
+		}
+	}
+
+	// Display/hide social links
+	socialLinksToggle.on('click', function() {
+		socialLinksNav.slideToggle();
+		myToggleClass($(this));
+
+		menuNav.hide();
+		searchNav.hide();
+
+		searchToggle.removeClass('active');
+		menuToggle.removeClass('active');
+	});
+	// Display/hide menu
+	menuToggle.on('click', function() {
+		menuNav.slideToggle();
+		myToggleClass($(this));
+
+		searchNav.hide();
+		socialLinksNav.hide();
+
+		searchToggle.removeClass('active');
+		socialLinksToggle.removeClass('active');
+	});
+	// Display/hide search
+	searchToggle.on('click', function() {
+		searchNav.slideToggle();
+		myToggleClass($(this));
+
+		socialLinksNav.hide();
+		menuNav.hide();
+
+		menuToggle.removeClass('active');
+		socialLinksToggle.removeClass('active');
+	});
+})();
+
+
+
+$(window).load(function() {
+  // Check Image Loading
+  function isLoaded (img) {
+    if (!img.complete) { return false; }
+    if (typeof img.naturalWidth != "undefined" && img.naturalWidth == 0) {
+      return false;
+    }
+    return true;
+  }
+  $('img').each( function() {
+    function imgLoadLog(category, action, label) {
+      console.log(category + "(" + action +  "): " + label);
+      ga('send', 'event', category, action, label);
+    }
+    var img = $(this).get(0);
+    if ( !isLoaded(img) ) {
+      var imageSrc = img.src;
+      if ( imageSrc.match(/^http:\/\/[^/]+\.blogspot\./) ) {
+        var rn = Math.floor(Math.random()*4) + 3;
+        var host = "http://lh" + rn + ".googleusercontent.com";
+        var newImageSrc = imageSrc.replace(/^http:\/\/[^/]+\.blogspot\.[^/]+/, host);
+        var msg = imageSrc + " -> " + newImageSrc;
+        $(this)
+          .load(function() {
+            imgLoadLog('Alternative Image', 'OK', msg);
+          })
+          .error(function() {
+            imgLoadLog('Alternative Image', 'Fail', msg);
+          })
+          .attr('src', newImageSrc);
+      } else {
+        imgLoadLog('Image Load', 'Fail', imageSrc);
+      }
+    }
+  });
+
+  // facebook
+  (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&appId=338766312900008&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Google Plus
+  window.___gcfg = {lang: 'zh-TW'};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+
+  // Twitter
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+
+});
+
+/*]]>*/</script>
+<script type="text/javascript">
+if (window.jstiming) window.jstiming.load.tick('widgetJsBefore');
+</script><script type="text/javascript" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/3401484092-widgets.js"></script>
+<script type="text/javascript" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/plusone.js" gapi_processed="true"></script>
+<script type="text/javascript">
+if (typeof(BLOG_attachCsiOnload) != 'undefined' && BLOG_attachCsiOnload != null) { window['blogger_templates_experiment_id'] = "templatesV1";window['blogger_blog_id'] = '5628310816558079036';BLOG_attachCsiOnload('item_'); }_WidgetManager._Init('//www.blogger.com/rearrange?blogID\x3d5628310816558079036','//www.gtwang.org/2013/11/run-program-process-specific-cpu-cores-linux.html','5628310816558079036');
+_WidgetManager._SetDataContext([{'name': 'blog', 'data': {'blogId': '5628310816558079036', 'bloggerUrl': 'http://www.blogger.com', 'title': 'G. T. Wang', 'pageType': 'item', 'postId': '2384086832604866823', 'url': 'http://www.gtwang.org/2013/11/run-program-process-specific-cpu-cores-linux.html', 'canonicalUrl': 'http://www.gtwang.org/2013/11/run-program-process-specific-cpu-cores-linux.html', 'canonicalHomepageUrl': 'http://www.gtwang.org/', 'homepageUrl': 'http://www.gtwang.org/', 'blogspotFaviconUrl': 'http://www.gtwang.org/favicon.ico', 'enabledCommentProfileImages': true, 'adultContent': false, 'disableAdSenseWidget': false, 'analyticsAccountNumber': '', 'searchLabel': '', 'searchQuery': '', 'pageName': '在 Linux 中以特定的 CPU 核心執行程式', 'pageTitle': 'G. T. Wang: 在 Linux 中以特定的 CPU 核心執行程式', 'metaDescription': '', 'encoding': 'UTF-8', 'locale': 'zh_TW', 'localeUnderscoreDelimited': 'zh_tw', 'isPrivate': false, 'isMobile': false, 'isMobileRequest': false, 'mobileClass': '', 'isPrivateBlog': false, 'languageDirection': 'ltr', 'feedLinks': '\74link rel\75\42alternate\42 type\75\42application/atom+xml\42 title\75\42G. T. Wang - Atom\42 href\75\42http://www.gtwang.org/feeds/posts/default\42 /\76\n\74link rel\75\42alternate\42 type\75\42application/rss+xml\42 title\75\42G. T. Wang - RSS\42 href\75\42http://www.gtwang.org/feeds/posts/default?alt\75rss\42 /\76\n\74link rel\75\42service.post\42 type\75\42application/atom+xml\42 title\75\42G. T. Wang - Atom\42 href\75\42http://www.blogger.com/feeds/5628310816558079036/posts/default\42 /\76\n\n\74link rel\75\42alternate\42 type\75\42application/atom+xml\42 title\75\42G. T. Wang - Atom\42 href\75\42http://www.gtwang.org/feeds/2384086832604866823/comments/default\42 /\76\n', 'meTag': '', 'openIdOpTag': '', 'googleProfileUrl': 'https://plus.google.com/116064369839910382084', 'postImageThumbnailUrl': 'http://2.bp.blogspot.com/-OFzA-zmZBbE/Un47tAwFozI/AAAAAAAAPbc/yRh0JiBoe4c/s72-c/abstract-grid-cube.jpg', 'postImageUrl': 'http://2.bp.blogspot.com/-OFzA-zmZBbE/Un47tAwFozI/AAAAAAAAPbc/yRh0JiBoe4c/s640/abstract-grid-cube.jpg', 'latencyHeadScript': '\74script type\75\42text/javascript\42\76(function() { var b\75window,f\75\42chrome\42,g\75\42tick\42,k\75\42jstiming\42;(function(){function d(a){this.t\75{};this.tick\75function(a,d,c){var e\75void 0!\75c?c:(new Date).getTime();this.t[a]\75[e,d];if(void 0\75\75c)try{b.console.timeStamp(\42CSI/\42+a)}catch(h){}};this[g](\42start\42,null,a)}var a;b.performance\46\46(a\75b.performance.timing);var n\75a?new d(a.responseStart):new d;b.jstiming\75{Timer:d,load:n};if(a){var c\75a.navigationStart,h\75a.responseStart;0\74c\46\46h\76\75c\46\46(b[k].srt\75h-c)}if(a){var e\75b[k].load;0\74c\46\46h\76\75c\46\46(e[g](\42_wtsrt\42,void 0,c),e[g](\42wtsrt_\42,\42_wtsrt\42,h),e[g](\42tbsd_\42,\42wtsrt_\42))}try{a\75null,\nb[f]\46\46b[f].csi\46\46(a\75Math.floor(b[f].csi().pageT),e\46\0460\74c\46\46(e[g](\42_tbnd\42,void 0,b[f].csi().startE),e[g](\42tbnd_\42,\42_tbnd\42,c))),null\75\75a\46\46b.gtbExternal\46\46(a\75b.gtbExternal.pageT()),null\75\75a\46\46b.external\46\46(a\75b.external.pageT,e\46\0460\74c\46\46(e[g](\42_tbnd\42,void 0,b.external.startE),e[g](\42tbnd_\42,\42_tbnd\42,c))),a\46\46(b[k].pt\75a)}catch(p){}})();b.tickAboveFold\75function(d){var a\0750;if(d.offsetParent){do a+\75d.offsetTop;while(d\75d.offsetParent)}d\75a;750\76\75d\46\46b[k].load[g](\42aft\42)};var l\75!1;function m(){l||(l\75!0,b[k].load[g](\42firstScrollTime\42))}b.addEventListener?b.addEventListener(\42scroll\42,m,!1):b.attachEvent(\42onscroll\42,m);\n })();\74/script\076', 'mobileHeadScript': '', 'view': '', 'dynamicViewsCommentsSrc': '//www.blogblog.com/dynamicviews/4224c15c4e7c9321/js/comments.js', 'dynamicViewsScriptSrc': '//www.blogblog.com/dynamicviews/76f25a6f2e06af76', 'plusOneApiSrc': 'https://apis.google.com/js/plusone.js', 'sf': 'n', 'tf': ''}}, {'name': 'skin', 'data': {'vars': {}, 'override': ''}}, {'name': 'view', 'data': {'classic': {'name': 'classic', 'url': '?view\75classic'}, 'flipcard': {'name': 'flipcard', 'url': '?view\75flipcard'}, 'magazine': {'name': 'magazine', 'url': '?view\75magazine'}, 'mosaic': {'name': 'mosaic', 'url': '?view\75mosaic'}, 'sidebar': {'name': 'sidebar', 'url': '?view\75sidebar'}, 'snapshot': {'name': 'snapshot', 'url': '?view\75snapshot'}, 'timeslide': {'name': 'timeslide', 'url': '?view\75timeslide'}}}]);
+_WidgetManager._RegisterWidget('_BlogView', new _WidgetInfo('Blog1', 'content', null, document.getElementById('Blog1'), {'cmtInteractionsEnabled': false, 'legacyCommentModerationUrl': 'https://www.blogger.com/moderate-legacy-comment.g?blogID\0755628310816558079036', 'iframeCommentsId': 'gpluscomments', 'viewType': 'FILTERED_POSTMOD'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_AttributionView', new _WidgetInfo('Attribution1', 'page-header', null, document.getElementById('Attribution1'), {'attribution': '由 \74a href\75\47http://www.blogger.com\47 target\75\47_blank\47\76Blogger\74/a\76 技術提供.'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_PopularPostsView', new _WidgetInfo('PopularPosts1', 'sidebar', null, document.getElementById('PopularPosts1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogArchiveView', new _WidgetInfo('BlogArchive1', 'footer-sections', null, document.getElementById('BlogArchive1'), {'languageDirection': 'ltr'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HeaderView', new _WidgetInfo('Header1', 'header', null, document.getElementById('Header1'), {}, 'displayModeFull'));
+</script>
+
+<a id="scrollUp" href="http://www.gtwang.org/2013/11/run-program-process-specific-cpu-cores-linux.html#top" title="Scroll to top" style="position: fixed; z-index: 2147483647; display: block;"></a><iframe name="oauth2relay707426251" id="oauth2relay707426251" src="./在 Linux 中以特定的 CPU 核心執行程式   G. T. Wang_files/postmessageRelay.htm" tabindex="-1" style="width: 1px; height: 1px; position: absolute; top: -100px;"></iframe></body></html>

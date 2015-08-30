@@ -1,0 +1,2704 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Chapter 13 -- Special Variables</TITLE>
+
+
+
+<META>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Chapter&nbsp;13</FONT></H1>
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Special Variables</FONT></H1>
+
+<P>
+
+<I><B>by M&iacute;che&aacute;l &Oacute; Foghl&uacute;</B></I>
+
+<HR>
+
+<P>
+
+<CENTER><B><FONT SIZE=5><A NAME="CONTENTS">CONTENTS</A></FONT></B></CENTER>
+
+<UL>
+
+<LI><A HREF="#digit"><I>$&lt;I&lt;digit&gt;&gt;</I></A>
+
+<LI><A HREF="#braket"><I>$[</I></A>
+
+<LI><A HREF="#ACCUMULATOR"><I>$ACCUMULATOR</I></A>
+
+<LI><A HREF="#ARG"><I>$ARG</I></A>
+
+<LI><A HREF="#ARGV"><I>$ARGV</I></A>
+
+<LI><A HREF="#BASETIME"><I>$BASETIME</I></A>
+
+<LI><A HREF="#CHILD_ERROR"><I>$CHILD_ERROR</I></A>
+
+<LI><A HREF="#DEBUGGING"><I>$DEBUGGING</I></A>
+
+<LI><A HREF="#EFFECTIVE_GROUP_ID"><I>$EFFECTIVE_GROUP_ID</I></A>
+
+<LI><A HREF="#EFFECTIVE_USER_ID"><I>$EFFECTIVE_USER_ID</I></A>
+
+<LI><A HREF="#EVAL_ERROR"><I>$EVAL_ERROR</I></A>
+
+<LI><A HREF="#EXECUTABLE_NAME"><I>$EXECUTABLE_NAME</I></A>
+
+<LI><A HREF="#FORMAT_FORMFEED"><I>$FORMAT_FORMFEED</I></A>
+
+<LI><A HREF="#FORMAT_LINES_LEFT"><I>$FORMAT_LINES_LEFT</I></A>
+
+<LI><A HREF="#FORMAT_LINES_PER_PAGE"><I>$FORMAT_LINES_PER_PAGE</I></A>
+
+<LI><A HREF="#FORMAT_LINE_BREAK_CHARACTERS"><I>$FORMAT_LINE_BREAK_CHARACTERS</I></A>
+
+<LI><A HREF="#FORMAT_NAME"><I>$FORMAT_NAME</I></A>
+
+<LI><A HREF="#FORMAT_PAGE_NUMBER"><I>$FORMAT_PAGE_NUMBER</I></A>
+
+<LI><A HREF="#FORMAT_TOP_NAME"><I>$FORMAT_TOP_NAME</I></A>
+
+<LI><A HREF="#INPLACE_EDIT"><I>$INPLACE_EDIT</I></A>
+
+<LI><A HREF="#INPUT_LINE_NUMBER"><I>$INPUT_LINE_NUMBER</I></A>
+
+<LI><A HREF="#INPUT_RECORD_SEPARATOR"><I>$INPUT_RECORD_SEPARATOR</I></A>
+
+<LI><A HREF="#LAST_PAREN_MATCH"><I>$LAST_PAREN_MATCH</I></A>
+
+<LI><A HREF="#LIST_SEPARATOR"><I>$LIST_SEPARATOR</I></A>
+
+<LI><A HREF="#MATCH"><I>$MATCH</I></A>
+
+<LI><A HREF="#MULTILINE_MATCHING"><I>$MULTILINE_MATCHING</I></A>
+
+<LI><A HREF="#OFMT"><I>$OFMT</I></A>
+
+<LI><A HREF="#OS_ERROR"><I>$OS_ERROR</I></A>
+
+<LI><A HREF="#OUTPUT_AUTOFLUSH"><I>$OUTPUT_AUTOFLUSH</I></A>
+
+<LI><A HREF="#OUTPUT_FIELD_SEPARATOR"><I>$OUTPUT_FIELD_SEPARATOR</I></A>
+
+<LI><A HREF="#OUTPUT_RECORD_SEPARATOR"><I>$OUTPUT_RECORD_SEPARATOR</I></A>]
+
+<LI><A HREF="#PERLDB"><I>$PERLDB</I></A>
+
+<LI><A HREF="#PERL_VERSION"><I>$PERL_VERSION</I></A>
+
+<LI><A HREF="#POSTMATCH"><I>$POSTMATCH</I></A>
+
+<LI><A HREF="#PREMATCH"><I>$PREMATCH</I></A>
+
+<LI><A HREF="#PROCESS_ID"><I>$PROCESS_ID</I></A>
+
+<LI><A HREF="#PROGRAM_NAME"><I>$PROGRAM_NAME</I></A>
+
+<LI><A HREF="#REAL_GROUP_ID"><I>$REAL_GROUP_ID</I></A>
+
+<LI><A HREF="#REAL_USER_ID"><I>$REAL_USER_ID</I></A>
+
+<LI><A HREF="#SUBSCRIPT_SEPARATOR"><I>$SUBSCRIPT_SEPARATOR</I></A>
+
+<LI><A HREF="#SYSTEM_FD_MAX"><I>$SYSTEM_FD_MAX</I></A>
+
+<LI><A HREF="#WARNING"><I>$WARNING</I></A>
+
+<LI><A HREF="#ENVvariable_namevariable_value"><I>%ENV&lt;variable_name&gt;</I>,<I>&lt;variable_value&gt;</I></A>
+
+<LI><A HREF="#INCfilenamefileloadstatus"><I>%INC&lt;file-name&gt;</I>,<I>&lt;file-load-status&gt;</I></A>
+
+<LI><A HREF="#SIGsignalnamesignalvalue"><I>%SIG&lt;signal-name&gt;</I>,<I>&lt;signal-value&gt;</I></A>
+
+<LI><A HREF="#RGV"><I>@ARGV</I></A>
+
+<LI><A HREF="#NC"><I>@INC</I></A>
+
+<LI><A HREF="#FromHere">From Here...</A>
+
+</UL>
+
+<HR>
+
+<P>
+
+This chapter looks in detail at the special variables used in
+
+Perl. Understanding these variables is crucial to programming
+
+effectively in Perl. Some of the variables are essential for nearly
+
+all Perl programs. Other variables are merely useful shortcuts
+
+that eliminate the need to run external programs that extract
+
+information from the system.
+
+<P>
+
+Each variable might have three possible names:
+
+<UL>
+
+<LI>Long name (or English name)
+
+<LI>Intermediate name
+
+<LI>Short name
+
+</UL>
+
+<P>
+
+Most existing Perl programs use only the short name form.  This
+
+fact is unfortunate, because the short name usually is a cryptic
+
+symbol. The use of these symbols in Perl programs may be daunting
+
+at first, especially in complex expressions that comprise multiple
+
+variables. With the aid of this chapter, however, you soon will
+
+be able to identify their meanings, and thus understand the programs.
+
+<P>
+
+The long name was introduced in Perl 5. This chapter lists all
+
+the special variables of this English name in alphabetical order.
+
+In Perl 4, you must use the short name. In Perl 5, you can use
+
+any of the name forms, but if you want to use the long English
+
+name, you must include the following command:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Use English;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This command enables the long names in the Perl 5 program.
+
+<P>
+
+This chapter categorizes special variables in several ways to
+
+make it easier for you to use the list as a reference source.
+
+The most important of these categories is <TT>Scope</TT>, which
+
+can have the following values:
+
+<UL>
+
+<LI><TT>always global</TT>. These variables are global but have
+
+an unambiguous context (they need not be made local in a subroutine).
+
+<LI><TT>localize</TT><I>.</I> These variables are global and may
+
+need to be made local in subroutines if the value is being changed
+
+(especially to prevent unplanned subroutine side effects).
+
+<LI><TT>local</TT>. These variables are always local and do not
+
+need to be made local explicitly.
+
+</UL>
+
+<P>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+You should pay special attention to variables that can be localized. A well-known principle of programming is that any subroutine or function should not produce unexpected side effects. A subroutine to print a line on a printer, for example, should not 
+alter the <TT>$; ($SUBSCRIPT_SEPARATOR)</TT> variable for the rest of the program. If, for some reason, the subroutine does need to change the value, it should do so merely locally within the subroutine itself by localizing the variable. If global changes 
+are required in the global variables, they should be made very explicit so that anyone who reads the program can see clearly what is going on.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+The other important special-variable category used in this chapter
+
+is <TT>File Handle Call</TT>. Special variables that implicitly
+
+refer to the current active file handle can be explicitly bound
+
+to any existing file handle. This facility must be activated by
+
+the following call:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+use FileHandle;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This call enables calls of these forms:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+FILEHANDLE-&gt;method(EXPR)
+
+method FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The relevant <TT>method</TT> name usually is the full long name
+
+of the special variable. The optional <TT>EXPR</TT> is an expression
+
+for changing the current value of the file handle, as well as
+
+referring to another file handle for purposes of the special-variable
+
+reference. This syntax might be confusing at first, but when used
+
+consistently, it can make Perl programs with formatting much more
+
+readable.
+
+<P>
+
+Both the English long names and the use of file handles in references
+
+to formats are new features in Perl 5. If you are using Perl 4,
+
+you must use the short names and allow format operations to take
+
+place in relation to the current active file handle (which you
+
+can change by using the <TT>select()</TT> function).
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="digit"><I>$&lt;I&lt;digit&gt;&gt;</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $1, $2, ... $&lt;N&gt;
+
+Scope:               local (read-only)
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+These variables are used to refer back to pattern matches. In
+
+any pattern to be matched, sets of parentheses are used to mark
+
+subpatterns. These subpatterns are numbered from left to right.
+
+After a match has been made, each subpattern match is referenced
+
+by these variables, up to and including the number of subpatterns
+
+that are actually specified. <TT>$1</TT> is the first subpattern;
+
+<TT>$2</TT> is the second; and so on, up to and including <TT>$&lt;N&gt;</TT>,
+
+the Nth subpattern specified.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$_ = &quot;AlphaBetaGamma&quot;;
+
+/^(Alpha)(.*)(Gamma)$/;
+
+print &quot;$1 then $2 then $3\n&quot;;<BR>
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+If you have alternative patterns and do not know which one may have matched, try using <TT>$LAST_PAREN_MATCH</TT> instead.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="braket"><I>$[</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $[
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable, which is usually set to a value of zero, represents
+
+the index of the first element in any array. Programmers who are
+
+used to using 1 as the index of the first element of an array
+
+could change the value of this variable to suit their preference.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$[ = 1;
+
+$_ = &quot;AlphaBetaGamma&quot;;
+
+$tmp = index($_,&quot;Beta&quot;);
+
+print &quot;Beta located at: $tmp\n&quot;;
+
+$[ = 0;
+
+$_ = &quot;AlphaBetaGamma&quot;;
+
+$tmp = index($_,&quot;Beta&quot;);
+
+print &quot;Beta located at: $tmp\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="ACCUMULATOR"><I>$ACCUMULATOR</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $^A
+
+Scope:               always global
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable allows direct access to the line of output built
+
+up with the Perl formatting commands. Normally, this access is
+
+not necessary, but it is possible.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$tmp = formline&lt;&lt;'FINISH', Alpha, Beta, Gamma;
+
+@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;  @|||||||||||| @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+
+FINISH
+
+print &quot;Accumulator now contains:\n $^A\n&quot;;
+
+$^A = &quot;&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable is not available in Perl 4.
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="ARG"><I>$ARG</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $_
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable is the default pattern space. When reading a file,
+
+<TT>$ARG</TT> usually takes on the value of each line in turn.
+
+You can assign a value to <TT>$ARG</TT> directly. Many functions
+
+and operators take this variable as the default upon which to
+
+operate, so you can make the code more concise by using <TT>$ARG</TT>.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$_ = &quot;\$\_ is the default for many operations including print().\n&quot;;
+
+print;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="ARGV"><I>$ARGV</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $ARGV
+
+Scope:               always global
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+When processing an input file, this variable provides access to
+
+the name of this file.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;Assuming this script has been called with an argument as an i/p file:_
+
+ while (&lt;&gt;){
+
+      print &quot;$ARGV\n&quot;;
+
+      };
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="BASETIME"><I>$BASETIME</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $^T
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable is the time when the Perl program was started, as
+
+measured in the basic time units (seconds since the start of 1970).
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$nicetime = localtime($^T);
+
+print &quot;This program started at $^T (i.e. $nicetime).\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="CHILD_ERROR"><I>$CHILD_ERROR</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $?
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+If a Perl script spawns child processes, you can examine their
+
+error codes by using this variable.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+'ls -lgd /vir';
+
+print &quot;Child Process error was: $?\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+See the section on the <TT>$OS_ERROR</TT> variable for system
+
+error messages.
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="DEBUGGING"><I>$DEBUGGING</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $^D
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Perl can be run in debugging mode. This variable allows the value
+
+of this flag to be accessed and altered.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;The debug flags are: $^D\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="EFFECTIVE_GROUP_ID"><I>$EFFECTIVE_GROUP_ID</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $)
+
+Intermediate Name:   $EGID
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+In systems that support users and groups, as well as setting new
+
+users and groups within a process, Perl can access both the original
+
+and the effective user and group information. The effective group
+
+variable provides access to a list of numbers that represents
+
+the effective group identifiers (<I>GIDs</I>).
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;Effective Group ID is a list of GIDs: $)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="EFFECTIVE_USER_ID"><I>$EFFECTIVE_USER_ID</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $&gt;
+
+Intermediate Name:   $EUID
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+In systems that support users and groups, as well as setting new
+
+users and groups within a process, Perl can access both the original
+
+and the effective user and group information. The effective user
+
+variable provides access to a single number that represents the
+
+effective user identifier (<I>UID</I>).
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;Effective User ID is one UID: $&gt;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="EVAL_ERROR"><I>$EVAL_ERROR</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $@
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Perl allows explicit calls to the <TT>eval()</TT> function to
+
+evaluate Perl syntax with a Perl script. This variable allows
+
+access to the returned error after such an operation. The error
+
+is a string that contains the relevant error message.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;Passing eval a malformed Perl expression:\n&quot;;
+
+eval 'print &quot;Hello';
+
+print &quot;Error: $@\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="EXECUTABLE_NAME"><I>$EXECUTABLE_NAME</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $^X
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable provides access to the name of the Perl executable
+
+used by the script.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;Executable name of Perl is: $^X\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="FORMAT_FORMFEED"><I>$FORMAT_FORMFEED</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $^L
+
+Scope:               global to a global file handle
+
+File Handle Call:    format_formfeed FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+When you use the Perl formatting commands, you can specify formats
+
+to manipulate centering and other formatting of the text. One
+
+additional option is to specify the exact code to be inserted
+
+between pages of output in the file. The default value is a form-feed
+
+character (<TT>\f</TT>), but this value can be changed.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+if ($^L = '\f')
+
+{
+
+  print &quot;The formfeed character is the default break between pages.\n&quot;;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The <TT>$^L</TT> variable is not available in Perl 4.
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="FORMAT_LINES_LEFT"><I>$FORMAT_LINES_LEFT</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $-
+
+Scope:               local
+
+File Handle Call:    format_lines_left FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+When you use the Perl formatting commands, this counter (which
+
+exists for each file handle with an associated format) is decremented
+
+every time a line is output until it reaches zero, when a new
+
+page is generated. You can manually set this variable to zero
+
+to force a page break in the output.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+format EG_FORMAT =
+
+@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;  @|||||||||||| @&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; ^||||||||||
+
+$one,	     $two,         $three     $fitme
+
+.
+
+open(EG_FORMAT,&quot;&gt;-&quot;);
+
+select(EG_FORMAT);
+
+$one = 'Left';
+
+$two = 'Center';
+
+$three = 'Right';
+
+$fitme= &quot;&quot;;
+
+write;
+
+$one = $-;
+
+$two = $-;
+
+$three = $-;
+
+write;
+
+$one = $-;
+
+$two = $-;
+
+$three = $-;
+
+write;
+
+select(STDOUT);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="FORMAT_LINES_PER_PAGE"><I>$FORMAT_LINES_PER_PAGE</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $=
+
+Scope:               local
+
+File Handle Call:    format_lines_per_page FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Each format file handle has an associated number of lines per
+
+page, which you can access and change by using this variable.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+select(EG_FORMAT);
+
+$one = 'Left';
+
+$two = 'Center';
+
+$three = 'Right';
+
+$fitme= &quot;&quot;;
+
+write;
+
+$one = $=;
+
+$two = $=;
+
+$three = $=;
+
+write;
+
+select(STDOUT);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="FORMAT_LINE_BREAK_CHARACTERS"><I>$FORMAT_LINE_BREAK_CHARACTERS</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $:
+
+Scope:               localize
+
+File Handle Call:    format_line_break_characters FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+When you are outputting a value to a formatted area by using the
+
+format code
+
+<BLOCKQUOTE>
+
+<PRE>
+
+^||||||||||||||
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+(or the other multiple-line formats), the line-break character
+
+determines how strings are split into lines to fit into the formatted
+
+space. By default, the legal break characters are space, hyphen,
+
+and new line.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+select(EG_FORMAT);
+
+$: = ' \n-';
+
+$one = 1;
+
+$two = 2;
+
+$three = 3;
+
+$fitme= &quot;One-One-One-One-One-One&quot;;
+
+write;
+
+write;
+
+write;
+
+select(STDOUT);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="FORMAT_NAME"><I>$FORMAT_NAME</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $~
+
+Scope:               local
+
+File Handle Call:    format_name FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Each format has a name, which may also be the name of the file
+
+handle. You can access the name directly through this variable.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+select(EG_FORMAT);
+
+$one = $~;
+
+$two = $~;
+
+$three = $~;
+
+write;
+
+select(STDOUT);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="FORMAT_PAGE_NUMBER"><I>$FORMAT_PAGE_NUMBER</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $%
+
+Scope:               always global
+
+File Handle Call:    format_page_number FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Because each format can produce multiple pages of output, this
+
+counter simply counts them.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+select(EG_FORMAT);
+
+$one = $%;
+
+$two = $%;
+
+$three = $%;
+
+write;
+
+select(STDOUT);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="FORMAT_TOP_NAME"><I>$FORMAT_TOP_NAME</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $^
+
+Scope:               always global
+
+File Handle Call:    format_top_name FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Each format can have an associated format that is reproduced every
+
+time a new page is generated. (No equivalent automatic page footer
+
+exists.) By default, these are given the same name as the base
+
+format with a <TT>_TOP</TT> suffix, although any name can be set.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+format EG_TOP =
+
+           [Sample Page Header]
+
+To the left  In the center To the right
+
+-----------  ------------- ------------
+
+.
+
+open(EG_FORMAT,&quot;&gt;-&quot;);
+
+select(EG_FORMAT);
+
+$- = 0;
+
+$^ = EG_TOP;
+
+$one = '111';
+
+$two = '222';
+
+$three = '333';
+
+$fitme= &quot;&quot;;
+
+write;
+
+write;
+
+write;
+
+select(STDOUT);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="INPLACE_EDIT"><I>$INPLACE_EDIT</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $^I
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Perl often is used to edit files and sometimes, the input file
+
+is also the output file (the result replaces the original). In
+
+this case, you can specify (with command-line options) the suffix
+
+to be used for the temporary file created while the edits are
+
+in progress. You can set or simply access this value from within
+
+the script itself by using this variable.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$^I=bak;
+
+print &quot;Tmp file extension when editing in place... $^I\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="INPUT_LINE_NUMBER"><I>$INPUT_LINE_NUMBER</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $.
+
+Intermediate Name:   $NR
+
+Scope:               localize (read-only)
+
+File Handle Call:    input_line_number FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable counts the number of lines of input from a file
+
+and is reset when the file is closed. The variable counts lines
+
+cumulatively across all input files read with the <TT>&lt;&gt;</TT>
+
+construct (because these are not closed explicitly).
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;The last file read had $. lines\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="INPUT_RECORD_SEPARATOR"><I>$INPUT_RECORD_SEPARATOR</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $/
+
+Intermediate Name:   $RS
+
+Scope:               localize
+
+File Handle Call:    input_record_separator FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+By default, an input file is split into records, each of which
+
+comprises one line. The input-record separator is a new-line character.
+
+This variable can be set to have no value (in which case entire
+
+input files are read in at the same time) or to have other values,
+
+as required.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+undef $/;
+
+ open(INFILE,&quot;infile.tst&quot;);
+
+ $buffer = &lt;INFILE&gt;;
+
+ print &quot;$buffer\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="LAST_PAREN_MATCH"><I>$LAST_PAREN_MATCH</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $+
+
+Scope:               local
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable returns the value of the last pattern marked with
+
+parentheses. In most contexts, you could simply use <TT>$1</TT>,
+
+<TT>$2</TT>, and so on rather than <TT>$+</TT>. When the pattern
+
+has a series of sets of parentheses as alternatives to be matched,
+
+using <TT>$+</TT> is useful.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$_ = &quot;AlphaBetaDeltaGamma&quot;;
+
+/Alpha(.*)Delta(.*)/;
+
+print &quot;The last match was $+\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="LIST_SEPARATOR"><I>$LIST_SEPARATOR</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $&quot;
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+When arrays are converted to strings, the elements are separated
+
+by spaces by default (which is what happens when arrays are printed,
+
+for example). This variable allows you to specify any string as
+
+the list separator, which may be useful for output formatting
+
+or for other reasons.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$&quot; = ' ! ';
+
+@thisarray = (Alpha, Beta, Gamma);
+
+print &quot;@thisarray.\n&quot;;
+
+$&quot; = ' ';
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="MATCH"><I>$MATCH</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $&amp;
+
+Scope:               local (read-only)
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable references the entire pattern that matched the most
+
+recent pattern-matching operation.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$_ = &quot;AlphaBetaGamma&quot;;
+
+/B[aet]*/;
+
+print &quot;Matched: $&amp;\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="MULTILINE_MATCHING"><I>$MULTILINE_MATCHING</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $*
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+By default, Perl optimizes pattern matching on the assumption
+
+that each pattern does not contain embedded new lines-that is,
+
+it is optimized for single-line matching. If you are using a pattern
+
+that has embedded new lines, you should set this variable to a
+
+value of 1 so that this optimization is disabled and the correct
+
+result is obtained.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;\nTest 26 Perl Version ($])\n&quot;);
+
+$_ = &quot;Alpha\nBeta\nGamma\n&quot;;
+
+$* = 0; # Assume string comprises a single line
+
+/^.*$/;
+
+print &quot;a) Assuming single line: $&amp; (which is wrong - the assumption was wrong).\n&quot;;
+
+$* = 1; # Do not assume string comprises a single line
+
+/^.*$/;
+
+print &quot;a) Not assuming single line: $&amp; (which is correct).\n&quot;;
+
+$* = 0;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="OFMT"><I>$OFMT</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $#
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable mimics the UNIX awk utility variable of the same
+
+name, which permits numeric formatting. The default value is:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+%.2g
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+See the UNIX awk documentation for information about the possible
+
+values.
+
+<P>
+
+$# = &quot;%.6g&quot;;
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print 5467.4567, &quot;\n&quot;;
+
+$# = &quot;%.8g&quot;;
+
+print 5467.4567, &quot;\n&quot;;<BR>
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Use of the <TT>$OFMT</TT> variable is discouraged. You can format values by using the <TT>print()</TT> function directly.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="OS_ERROR"><I>$OS_ERROR</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $!
+
+Intermediate Name:   $ERRNO
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+If an operating-system-error condition exists, this variable is
+
+set to the error number (and, if it is evaluated in a string context,
+
+to the equivalent error message). You can manually set the error
+
+number and then access the relevant error message in a string
+
+context.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+ls -lgd /vir';
+
+print &quot;OS Error was $!\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+See the section on the <TT>$CHILD_ERROR</TT> variable for subprocess
+
+errors, which are not necessarily system errors.
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="OUTPUT_AUTOFLUSH"><I>$OUTPUT_AUTOFLUSH</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $|
+
+Scope:               always global
+
+File Handle Call:    autoflush FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+If this Boolean variable (which is associated with a file handle)
+
+has a nonzero value, that file is autoflushed (the output is written
+
+after each print or write operation) rather than being buffered.
+
+<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+When the output file is a pipe, it is best to set autoflush on so that other programs can access the pipe immediately after each write or print operation.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+select(STDERR);
+
+$| = 1;
+
+select(STDOUT);
+
+print &quot;Autoflush setting for STDOUT is $|\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="OUTPUT_FIELD_SEPARATOR"><I>$OUTPUT_FIELD_SEPARATOR</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $,
+
+Intermediate Name:   $OFS
+
+Scope:               localize
+
+File Handle Call:    output_field_separator FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable can alter the behavior of the <TT>print()</TT> function.
+
+The default behavior of <TT>print()</TT>, when it is given a comma-separated
+
+list of arguments, is to print each argument with no output separator.
+
+You can use this variable to specify any string as a separator.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$, = &quot;=&quot;;
+
+print STDOUT a, b, c, &quot;\n&quot;;
+
+$, = &quot;&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="OUTPUT_RECORD_SEPARATOR"><I>$OUTPUT_RECORD_SEPARATOR</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $\
+
+Intermediate Name:   $ORS
+
+Scope:               localize
+
+File Handle Call:    output_record_separator FILEHANDLE EXPR
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable can alter the behavior of the <TT>print()</TT> function.
+
+The default behavior of <TT>print()</TT>, when it is given a comma-separated
+
+list of arguments, is to print each argument. If a new line is
+
+required at the end, you must add it explicitly. You can use this
+
+record-separator variable to specify any string as the end-of-record
+
+string, and you most commonly would set it to the new-line character
+
+to avert the need for explicit new lines.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$\ = &quot;\n&quot;;
+
+print &quot;No need for an explicit newline now.&quot;;
+
+$\ = &quot;&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="PERLDB"><I>$PERLDB</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $^P
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This flag represents the debug level of the Perl script. Normally,
+
+<TT>$PERLDB</TT> is used internally by the debugger to disable
+
+debugging of the debugger script itself.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;Value of internal Boolean debug flag: $^P\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="PERL_VERSION"><I>$PERL_VERSION</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $]
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable represents the version string that identifies the
+
+Perl version that is being run. You can assign a value to the
+
+variable, if necessary. In a numeric context, the variable evaluates
+
+to a number made up of the version plus the <TT>(patch level/1000)</TT>.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ver = $]+0;
+
+print &quot;So every test has tested the version $] (numeric $ver).\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="POSTMATCH"><I>$POSTMATCH</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $'
+
+Scope:               local (read-only)
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+When a string is matched by pattern, the pattern is actually split
+
+into three parts: the part of the string before the match, the
+
+part of the string that matched, and the part of the string after
+
+the match. Any of these parts could be empty, of course. This
+
+variable refers to the part of the string after the match.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$_ = &quot;AlphaBetaGamma&quot;;
+
+/Beta/;
+
+print &quot;Postmatch = $'\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="PREMATCH"><I>$PREMATCH</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $'
+
+Scope:               local (read-only)
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+When a string is matched by pattern, the pattern is actually split
+
+into three parts: the part of the string before the match, the
+
+part of the string that matched, and the part of the string after
+
+the match. Any of these parts could be empty, of course. This
+
+variable refers to the part of the string before the match.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$_ = &quot;AlphaBetaGamma&quot;;
+
+/Beta/;
+
+print &quot;Prematch = $`\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="PROCESS_ID"><I>$PROCESS_ID</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $$
+
+Intermediate Name:   $PID
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+In systems that support multiple processes, Perl can identify
+
+the process number of the Perl script process itself via this
+
+variable.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;The process ID (PID) is: $$\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="PROGRAM_NAME"><I>$PROGRAM_NAME</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $0
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable contains the name of the Perl script that is being
+
+executed. You can alter this variable if you want the script to
+
+identify itself to the operating system as having a particular
+
+name.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;The program name is: $0\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="REAL_GROUP_ID"><I>$REAL_GROUP_ID</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $(
+
+Intermediate Name:   $GID
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+In systems that support users and groups, as well as setting new
+
+users and groups within a process, Perl can access both the original
+
+and the effective user and group information. The real group variable
+
+provides access to a list of numbers that represents the real
+
+group identifiers (GIDs). Effective group identifiers may be set
+
+using flags in the script or explicit calls to functions. This
+
+will not alter the real GIDs.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;The Real Group ID is a list of GIDs: $(\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="REAL_USER_ID"><I>$REAL_USER_ID</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $&lt;
+
+Intermediate Name:   $UID
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+In systems that support users and groups, as well as setting new
+
+users and groups within a process, Perl can access both the original
+
+and the effective user and group information. The real user variable
+
+provides access to a list of numbers that represents the real
+
+user identifiers (UID). Effective user ID may be set by flags
+
+on the script or explicit calls to functions. This does not alter
+
+the real user ID.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;The Real User ID is a list of UID: $&lt;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="SUBSCRIPT_SEPARATOR"><I>$SUBSCRIPT_SEPARATOR</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $;
+
+Intermediate Name:   $SUBSEP
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable is used in emulating multidimensional arrays. The
+
+value must be one that is not used by any element in the array.
+
+The default value is <TT>\034</TT>.
+
+<P>
+
+Perl 5 supports multidimensional arrays directly, so the use of
+
+<TT>$SUBSCRIPT_SEPARATOR ($;)</TT> should not be necessary.
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="SYSTEM_FD_MAX"><I>$SYSTEM_FD_MAX</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $^F
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+By default, Perl treats three files as system files 0, 1, and
+
+2-normally, <TT>STDIN</TT>,<TT> STDOUT</TT>, and <TT>STDERR</TT>.
+
+The value of <TT>$^F</TT> is 2 by default. System files are treated
+
+specially; in particular, the file descriptors are passed to <TT>exec()</TT>
+
+processes.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;The default maximum file descriptors is $^F\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="WARNING"><I>$WARNING</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          $^W
+
+Scope:               localize
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable is a Boolean warning flag that you normally set
+
+to <TT>true</TT> by using the command-line <TT>-w</TT> switch,
+
+although you can set it within the script, if necessary. When
+
+this variable is on, the Perl program reports more verbose warnings.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;Boolean warning flag is set to: $^W\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="ENVvariable_namevariable_value"><I>%ENV&lt;variable_name&gt;</I>,<I>&lt;variable_value&gt;</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          %ENV{&lt;variable_name&gt;,&lt;variable_value&gt;}
+
+Scope:               always global
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable is an associative array that links the names of
+
+the environment variables to their values. This variable makes
+
+it easy to look up a value with the appropriate name.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$tmp = $ENV{SHELL};
+
+ print &quot;The current SHELL is set to $tmp\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="INCfilenamefileloadstatus"><I>%INC&lt;file-name&gt;</I>,<I>&lt;file-load-status&gt;</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          %INC{&lt;file-name&gt;,&lt;file-load-status&gt;}
+
+Scope:               always global
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable is an associate array that links the names of the
+
+required files to a status (whether they were successfully loaded).
+
+Normally, the Perl script itself uses this array to determine
+
+whether files have already been loaded so as to minimize the number
+
+of file loads that are carried out.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+require 'another.pl';
+
+ $tmp = $INC{'another.pl'};
+
+ print &quot;The required file did exist: $tmp\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="SIGsignalnamesignalvalue"><I>%SIG&lt;signal-name&gt;</I>,<I>&lt;signal-value&gt;</I></A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          %SIG{&lt;signal-name&gt;,&lt;signal-value&gt;}
+
+Scope:               always global
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable is an associative array that links the standard
+
+signals to values. These values dictate the way that the script
+
+processes those signals. You can assign signal-handling subroutines
+
+to certain signals or set the script to ignore certain signals.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$SIG{'HUP'} = 'IGNORE';
+
+print &quot;This process now ignores hangup signals.\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="RGV"><I>@ARGV</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          @ARGV
+
+Scope:               always global
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable is an array of the arguments passed to the script.
+
+Unlike the situation in the C language, the first element of this
+
+array is the first argument (not the program name). As the arguments
+
+are processed, the value of this variable can alter.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$Example46String = &quot;There were $#ARGV arguments, first argument was @ARGV[0]\n&quot;;
+
+print $Example46String;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="NC"><I>@INC</I></A></FONT></A></H2>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Short Name:          @INC
+
+Scope:               always global
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This variable is an array of the directories to search for included
+
+files. These directories are normally specified either on the
+
+command line of the Perl invocation or in an environment variable.
+
+<P>
+
+Example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;The possible include script directories are: @INC\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="FromHere">From Here...</A></FONT></A></H2>
+
+<P>
+
+This chapter lists only Perl special variables; you should consult
+
+other reference chapters for Perl functions and Perl operators.
+
+(You may easily confuse some variables with some operators, so
+
+check the list of operators if the symbol that you require is
+
+not covered in this chapter.)
+
+<P>
+
+For details on the other elements in the Perl reference, see the
+
+following chapters:
+
+<UL>
+
+<LI><A HREF="ch14.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch14.htm" >Chapter 14</A>, &quot;Operators,&quot; provides detailed descriptions
+
+of the Perl operators.
+
+<LI><A HREF="ch15.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch15.htm" >Chapter 15</A>, &quot;Function List,&quot; provides detailed descriptions
+
+of the Perl functions.
+
+</UL>
+
+<HR>
+
+
+
+<CENTER><P><A HREF="ch12.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch12.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch14.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch14.htm"><IMG SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<HR WIDTH="100%"></P></CENTER>
+
+</BODY>
+
+</HTML>
+

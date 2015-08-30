@@ -1,0 +1,37 @@
+see_prstat.sh:
+1. If RSS column is at unit M, and the script is defined to use unit G, it will not measure properly.
+   If it is strange, the average and summary is correct when spit unit is not set correctly. Maybe unrecognized 'M' is discarded automatically for calculation.
+
+script lines:
+echo "$raw_data" | awk 'BEGIN{FS="M"}
+
+Script uses G unit.
+$ ./see_prstat.sh temp.txt
+ RSS:
+First one: 707M
+ max:707.0
+ avg:5635.5
+ min:3926.0
+ sum:3150224.0
+
+Correct to use M unit.
+$ ./see_prstat.sh temp.txt
+First one: 0.2
+ max:7.6%
+ avg:2.3%
+ min:0.2%
+ sum:1271.0%
+ RSS:
+First one: 707
+ max:6448.0
+ avg:5635.5
+ min:707.0
+ sum:3150224.0
+ 
+2014/03/09.20:58:12    PID USERNAME  SIZE   RSS STATE  PRI NICE      TIME  CPU PROCESS/NLWP 
+2014/03/09.21:07:08  15901 iris     2285M  701M sleep   59    0   0:00:54 0.5% java/197
+2014/03/09.21:07:29  15901 iris     2285M  707M sleep   59    0   0:00:54 0.2% java/197
+2014/03/09.21:07:49  15901 iris     4283M 3926M sleep   59    0   0:02:10 7.6% java/207
+2014/03/09.21:08:10  15901 iris     4283M 3926M sleep   59    0   0:02:13 3.1% java/207
+2014/03/09.21:08:30  15901 iris     4367M 3947M cpu24   39    0   0:02:24 1.9% java/207
+... 

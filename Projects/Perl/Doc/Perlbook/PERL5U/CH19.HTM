@@ -1,0 +1,1759 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 19 -- Generating Reports</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 19</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Generating Reports</FONT></B></H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#FormattedOutput" >Formatted Output</A>
+<LI><A HREF="#DefiningaFormat" >Defining a Format</A>
+<LI><A HREF="#UsingtheformatStatement" >Using the format Statement</A>
+<LI><A HREF="#UsingMoreThanOneFormat" >Using More Than One Format</A>
+<LI><A HREF="#ControllingtheFormat" >Controlling the Format</A>
+<LI><A HREF="#CreatingMultipleLineswiththeCaret" >Creating Multiple Lines with the Caret</A>
+<LI><A HREF="#UsingformatinModules" >Using format in Modules</A>
+<LI><A HREF="#AnotherExampleofReportGeneration" >Another Example of Report Generation</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter presents techniques for generating reports with Perl
+using the built-in format specifiers. Perl stands for Practical
+Extraction Report Language; this chapter covers how to extract
+information in the form of reports using Perl. (The name of Perl
+is also quoted as &quot;Pathologically Eclectic Rubbish Lister,&quot;
+in Larry Wall's book, <I>Programming Perl</I>.)
+<H2><A NAME="FormattedOutput"><FONT SIZE=5 COLOR=#FF0000>Formatted
+Output</FONT></A></H2>
+<P>
+Perl has excellent report-generation capabilities. You have already
+used the <TT><FONT FACE="Courier">print</FONT></TT> and <TT><FONT FACE="Courier">printf</FONT></TT>
+statements to write out text. Perl also has the capability to
+print out reports using formats. By using formats, you can actually
+visualize how your output will look because the definition of
+a format in Perl is very similar to what you see on the output.
+<P>
+There are three steps that you must take to use formats with Perl:
+<OL>
+<LI>Define the format and the variables that apply to the format.
+<LI>Initialize the variables used in the format.
+<LI>Output to the file handle of the format with the <TT><FONT FACE="Courier">write()</FONT></TT>
+function.
+</OL>
+<P>
+We cover these steps in detail throughout the rest of the chapter.
+Let's start off with a quick example of how generating reports
+works with a sample letter writing application. This example will
+give you a quick overview of what's entailed in using formats.
+After this example, we will cover specific details of how to use
+the format specification.
+<P>
+Up to now, we have covered printing only with the use of <TT><FONT FACE="Courier">printf</FONT></TT>
+or <TT><FONT FACE="Courier">print</FONT></TT> statements. It's
+a bit difficult to see what you are actually printing out when
+you read <TT><FONT FACE="Courier">print</FONT></TT> statements
+and the ensuing double quotes around the variables being printed.
+What would be nice is if you could lay out the approximate structure
+of a page and basically insert placeholders for where you want
+the output to go.
+<P>
+For example, let's say that you want to create a simple letter
+that you want to mail to your customers whose names and addresses
+are stored in a text file. You would first type in a generic letter
+like the one shown here:
+<BLOCKQUOTE>
+<TT><I><FONT FACE="Courier">FIRSTNAME LASTNAME<BR>
+ADDRESS<BR>
+<BR>
+</FONT></I><FONT FACE="Courier">Dear <I>FIRSTNAME:<BR>
+</I>I am pleased to announce the new whizbang needle sharpening
+tool.<BR>
+Give me a call if you are interested.<BR>
+<BR>
+<BR>
+Sincerely,<BR>
+Ipik Freely.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In the letter above, the fields <TT><I><FONT FACE="Courier">FIRSTNAME</FONT></I></TT>,
+<TT><I><FONT FACE="Courier">LASTNAME</FONT></I></TT>, and <TT><I><FONT FACE="Courier">ADDRESS</FONT></I></TT>
+are placeholders for the actual first name, last name, and complete
+address of each individual who will receive the letter. Now that
+you have your letter defined, you would write code, in Perl naturally,
+to print one letter for each record in your database. Each printed
+letter would have the <TT><I><FONT FACE="Courier">FIRSTNAME</FONT></I></TT>,
+<TT><I><FONT FACE="Courier">LASTNAME</FONT></I></TT>, and <TT><I><FONT FACE="Courier">ADDRESS</FONT></I></TT>
+placeholders replaced with what is in an input record.
+<P>
+Listing 19.1 is a sample application which generates a listing
+from the letter shown above.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.1. A simple report generator without using formats.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 open (NAMES,&quot;names&quot;) || die &quot;Cannot open
+names $!&quot;;<BR>
+&nbsp;3 while (&lt;NAMES&gt;) {<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;($fname,$lname,@address) = split(':',$_);
+<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n\n&quot;;<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;print &quot;$fname $lname \n&quot;;
+<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;print &quot;$address \n\n&quot;;
+<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;print &quot;I am very pleased to
+announce the new TOOTHPX3000 now with a\n&quot;;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;print &quot;rechargeable battery
+and direct 110-220 Volt adapter. Give me\n&quot;;<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;print &quot;a call for a demo.\n&quot;
+;<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n&quot;;<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;print &quot;Sincerely, \n&quot;;<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;print &quot;Ipik Freely,\n&quot;;<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp; print &quot;Prezdet.\n\f&quot;;<BR>
+15}<BR>
+16 close NAMES;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The data file for this is simple and is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Big:Wolf:1 Tree Lane<BR>
+Wise:Pig :333 Brick house<BR>
+NotSoWise:Pig:666 Straw House</FONT></TT>
+</BLOCKQUOTE>
+<P>
+There is one record per line in the file. Each field in every
+record is delimited by a colon (:) just like fields in the <TT><FONT FACE="Courier">/etc/passwd</FONT></TT><I>
+</I>file. The first field in the line is the first name; the second
+field is the last name; and the rest of the line is the address
+of the individual. This is a contrived example for this chapter,
+so your own database would be different. For example, the address
+could be split into street address, city, and state. Or you could
+have a phone number as the third field. For this example, let's
+take the first name, last name, and address values into three
+variables, <TT><FONT FACE="Courier">$fname</FONT></TT>, <TT><FONT FACE="Courier">$lname</FONT></TT>,
+and <TT><FONT FACE="Courier">$address</FONT></TT> at line 4 in
+Listing 19.1. Then you will print out these lines. The output
+is as follows (with the page breaks called out as such):
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Big Wolf<BR>
+1 Tree Lane<BR>
+<BR>
+<BR>
+I am very pleased to announce the new TOOTHPX3000 now with a<BR>
+rechargeable battery and direct 110-220 Volt adapter. Give me
+<BR>
+a call for a demo.<BR>
+<BR>
+Sincerely,<BR>
+Ipik Freely,<BR>
+Prezdet.<BR>
+--page break--<BR>
+<BR>
+<BR>
+Wise Pig<BR>
+333 Brick house<BR>
+<BR>
+<BR>
+I am very pleased to announce the new TOOTHPX3000 now with a rechargeable
+battery and direct 110-220 Volt adapter. Give me a call for a
+demo.<BR>
+<BR>
+Sincerely,<BR>
+Ipik Freely,<BR>
+Prezdet.<BR>
+--page break--<BR>
+<BR>
+<BR>
+NotSoWise Pig<BR>
+666 Straw house<BR>
+<BR>
+<BR>
+I am very pleased to announce the new TOOTHPX3000 now with a rechargeable
+battery and direct 110-220 Volt adapter. Give me a call for a
+demo.<BR>
+<BR>
+Sincerely,<BR>
+Ipik Freely,<BR>
+Prezdet.<BR>
+--page break--</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In Listing 19.1, the lines of code to print the output are cumbersome
+to look at. Note how the final form of the letter to print out
+is not immediately apparent from examining the code in all the
+print statements. Also, typing the print statements is prone to
+error while typing. Let's see how the three steps to define and
+use a format could be applied here to print a more human-readable
+Perl program, as shown in Listing 19.2.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.2. A simple report generator using formats.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2<BR>
+&nbsp;3 open (NAMES,&quot;names&quot;) || die &quot;Cannot open
+names $!&quot;;<BR>
+&nbsp;4<BR>
+&nbsp;5 $~ = NAME_FORMAT;<BR>
+&nbsp;6 while (&lt;NAMES&gt;) {<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp; ($fname,$lname,$address) = split('
+',$_);<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp; $name = $fname . &quot; &quot;
+. $lname;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp; write;<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+11 close NAMES;<BR>
+12<BR>
+13 format NAME_FORMAT =<BR>
+14 @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<BR>
+15 $name<BR>
+16 @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<BR>
+17 $address<BR>
+18<BR>
+19 I am very pleased to announce the new TOOTHPX3000 now with
+a<BR>
+20 rechargeable battery and direct 110-220 Volt adapter. Give
+me<BR>
+21 a call for a demo.<BR>
+22<BR>
+23 Sincerely,<BR>
+24 Ipik Freely,<BR>
+25 Prezdet.<BR>
+26 .</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The input file is opened in line 3. Each record is split into
+the first name, last name, and the address fields in line 7. A
+full name is created in line 8. The entry is written to <TT><FONT FACE="Courier">STDOUT</FONT></TT>
+in line 9. The input file is closed in line 11. Lines 13 to 26
+define the format with the placeholders for the variables.
+<H2><A NAME="DefiningaFormat"><FONT SIZE=5 COLOR=#FF0000>Defining
+a Format</FONT></A></H2>
+<P>
+Formats can be defined anywhere in the code for a program. Here's
+the syntax for a format specification:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">format FORMAT_NAME =<BR>
+Presentation Line&nbsp;&nbsp;#1<BR>
+Values for&nbsp;&nbsp;Presentation Line&nbsp;&nbsp;#1<BR>
+Presentation Line&nbsp;&nbsp;#2<BR>
+Values for&nbsp;&nbsp;Presentation Line&nbsp;&nbsp;#2<BR>
+Presentation Line&nbsp;&nbsp;#3<BR>
+Values for&nbsp;&nbsp;Presentation Line&nbsp;&nbsp;#3<BR>
+...</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The<TT><FONT FACE="Courier"> FORMAT_NAME</FONT></TT><I> </I>is
+the name of the format to use. Any Perl variable name can be used
+here to name a format, but the convention is to use all capital
+letters in the name. The period at the end is required to signify
+the end of a format specification. Formats work with file handles.
+Each file handle in a Perl program can have a format defined for
+it. The name of a format is the same as that of its associated
+file handle. The default output file handle for a Perl script
+is <TT><FONT FACE="Courier">STDOUT</FONT></TT>; therefore, the
+format name for standard output is also <TT><FONT FACE="Courier">STDOUT</FONT></TT>.
+For <TT><FONT FACE="Courier">stderr</FONT></TT>, the error output,
+the format is <TT><FONT FACE="Courier">STDERR</FONT></TT>. In
+the program shown in Listing 19.2 it is defined in lines 13 through
+26.
+<P>
+Within the format definition, two lines of code are used for each
+line that is printed as output. The first line of code indicates
+how fields are to be displayed using placeholders, the second
+describes the variables whose values are used to display in the
+placeholders. The program in Listing 19.2 used two variables,
+<TT><FONT FACE="Courier">$name</FONT></TT> and <TT><FONT FACE="Courier">$address</FONT></TT>,
+to be printed out in two lines. See lines 14 through 17 in the
+source code. Line 14 defines where to put the value of the next
+variable, and line 15 defines <TT><FONT FACE="Courier">$name</FONT></TT>
+to be the name of the variable whose value is used with the format
+definition in line 13. Line 16 defines another placeholder, and
+line 17 defines the variable to use to fill the placeholder specified
+in line 16.
+<P>
+By using the placeholders in a format statement, you can carefully
+place values of variables in specific locations in a series of
+lines in an output. Placeholders can left, center, or right justify
+the text, clip the output text, and so on to further beautify
+the text.
+<H2><A NAME="UsingtheformatStatement"><FONT SIZE=5 COLOR=#FF0000>Using
+the </FONT><TT><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">format</FONT></TT><FONT SIZE=5 COLOR=#FF0000>
+Statement</FONT></A></H2>
+<P>
+Let's look at another sample use of this format for printing out
+data. The data is on chemicals and is in a text file. The file
+contains a list of chemicals in common household products. The
+first script is for printing out this data in a nice, presentable
+fashion.
+<P>
+Here is the sample data file:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Acetic Acid: Vinegar<BR>
+Ammonium Hydroxide: Ammonia Cleaners<BR>
+Ammonium Nitrate: Salt Peter<BR>
+Ammonium Oleate: Ammonia Soap<BR>
+Barium Sulfide: Black Ash<BR>
+Carbon Carbinate: Chalk<BR>
+Carbontetrachloride: Cleaning Fluid<BR>
+Calcium Oxide: Lime<BR>
+Ferric Oxide: Rust<BR>
+Glucose: Corn Syrup<BR>
+Graphite: Pencil Lead<BR>
+Hydrogen Peroxide: Peroxide<BR>
+Naphthalene: Mothballs<BR>
+Silver Nitrate:&nbsp;&nbsp;Photographer's Hypo<BR>
+Sodium Bicarbonate: Baking Soda<BR>
+Sodium Borate: Borax<BR>
+Sodium Carbonate: Washing Liquids<BR>
+Sodium Chloride: Salt<BR>
+Sodium Silicate: Glass<BR>
+Sulfuric Acid: Battery Acid<BR>
+Sucrose: Cane Sugar</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To print this file in a clean fashion, the obvious choice is to
+use <TT><FONT FACE="Courier">printf</FONT></TT> statements with
+a header and one <TT><FONT FACE="Courier">printf</FONT></TT> statement
+per line in the file, as shown in the following fragment of code.
+The output from this run is too garbled to print in a book.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">print &quot;\n %20s | %20s \n&quot; ,
+&quot;Chemical&quot;, &quot; Product &quot;;<BR>
+while(&lt;&gt;) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;my ($chemical, $found) = split(':');<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;printf &quot; %20s | %20s \n&quot;, $chemical,
+$found;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Also note that you don't know what the data looks like. What if
+you wanted to get an idea what the output should look like using
+<TT><FONT FACE="Courier">format</FONT></TT> statements? The code
+in Listing 19.3 illustrates how to print the file to get the following
+output:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Chemical&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product
+<BR>
+=====================================================<BR>
+Acetic Acid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vinegar
+<BR>
+Ammonium Hydroxide&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ammonia
+Cleaners<BR>
+Ammonium Nitrate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salt
+Peter<BR>
+Ammonium Oleate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ammonia
+Soap<BR>
+Barium Sulfide&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Black
+Ash<BR>
+Carbon Carbinate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chalk
+<BR>
+Carbontetrachloride&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cleaning
+Fluid<BR>
+Calcium Oxide&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lime
+<BR>
+Ferric Oxide&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rust
+<BR>
+Glucose&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Corn
+Syrup<BR>
+Graphite&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pencil
+Lead<BR>
+Hydrogen Peroxide&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Peroxide
+<BR>
+Naphthalene&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mothballs
+<BR>
+Silver Nitrate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Photographer's
+Hypo<BR>
+Sodium Bicarbonate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Baking
+Soda<BR>
+Sodium Borate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Borax
+<BR>
+Sodium Carbonate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Washing
+Liquids<BR>
+Sodium Chloride&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Salt
+<BR>
+Sodium Silicate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Glass
+<BR>
+Sulfuric Acid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Battery
+Acid<BR>
+Sucrose&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cane
+Sugar</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.3. A simple report generator.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 while(&lt;&gt;) {<BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp; ($chemical, $found) = split(':');
+<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp; write;<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+&nbsp;6 format STDOUT_TOP =<BR>
+&nbsp;7 Chemical&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product
+<BR>
+&nbsp;8 =====================================================
+<BR>
+&nbsp;9 .<BR>
+10 format STDOUT =<BR>
+11 @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;
+@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<BR>
+12 $chemical, $found<BR>
+13 .</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Line 4 is where each record is printed out with the use of the
+<TT><FONT FACE="Courier">write()</FONT></TT> function. The <TT><FONT FACE="Courier">write()</FONT></TT>
+function can take a <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+parameter. Therefore, the following two lines are equivalent because
+the default file handle is <TT><FONT FACE="Courier">STDOUT</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">write;write STDOUT;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+There is no guarantee, however, that you'll be writing to <TT><FONT FACE="Courier">STDOUT</FONT></TT>.
+You should check to see which file handle you are writing to in
+order to make sure you are using the correct format. I cover selection
+of formats shortly.
+<P>
+In the format specifications on lines 6 through 9, the name of
+the format is <TT><FONT FACE="Courier">STDOUT_TOP</FONT></TT>.
+<TT><FONT FACE="Courier">STDOUT</FONT></TT> is the name that corresponds
+to the file handle you happen to be writing to, which in this
+case is the standard output: <TT><FONT FACE="Courier">STDOUT</FONT></TT>.
+The <TT><FONT FACE="Courier">_TOP</FONT></TT> appendage is for
+the <TT><FONT FACE="Courier">write()</FONT></TT> statement to
+print this header every time it starts a new page. The format
+specification is terminated with the solitary period on line 9.
+<P>
+Perl actually makes the assumption that most output from reports
+will be sent to a printer. Therefore, when the line count goes
+to zero, Perl prints out the value in the<TT><FONT FACE="Courier">
+$^</FONT></TT> variable for the top of page. If you want your
+output to go to a screen, you might not want the top of page format
+to be printed out. In such a case, set <TT><FONT FACE="Courier">$^
+</FONT></TT>to <TT><FONT FACE="Courier">NULL</FONT></TT>, and
+you will get continuous output. The default number of lines per
+page is set to 60. The <TT><FONT FACE="Courier">$^</FONT></TT>
+variable is set to a default format with a value of a form feed
+to start a new page on a printer.
+<P>
+There are two points that should be mentioned here. One, the format
+specification for the header or the record is not specified in
+the <TT><FONT FACE="Courier">write()</FONT></TT> call. Two, the
+header is printed only once automatically before the first record
+is printed.
+<P>
+Lines 10 through 13 contain the format specifications to be used
+for each record printed with the <TT><FONT FACE="Courier">write()</FONT></TT>
+function in line 4. The format is specified in two lines for each
+line of output. The first line specifies how to print the information,
+and the second line specifies what variables are used to print
+the information. As with the header, the format specification
+is terminated with a solitary period (see line 13).
+<P>
+The format specifiers in Perl have an at symbol (<TT><FONT FACE="Courier">@</FONT></TT>)
+followed by these symbols:
+<UL>
+<LI><FONT COLOR=#000000>The less than symbol </FONT>(<TT><FONT FACE="Courier">&lt;</FONT></TT>)
+for left-justified text.
+<LI><FONT COLOR=#000000>The </FONT>greater than symbol (<TT><FONT FACE="Courier">&gt;</FONT></TT>)
+for right-justified text.
+<LI><FONT COLOR=#000000>The </FONT>pipe symbol (<TT><FONT FACE="Courier">|</FONT></TT>)
+for centered text.
+<LI><FONT COLOR=#000000>The</FONT> asterisk (<TT><FONT FACE="Courier">*</FONT></TT>)
+for an unlimited line of text.
+<LI><FONT COLOR=#000000>The </FONT>hash mark (<TT><FONT FACE="Courier">#</FONT></TT>)
+for a digit in numeric values.
+<LI><FONT COLOR=#000000>The </FONT>period (<TT><FONT FACE="Courier">.</FONT></TT>)
+between hash marks for a decimal point.
+<LI><FONT COLOR=#000000>The </FONT>caret (<TT><FONT FACE="Courier">^</FONT></TT>)
+instead of the at symbol (<TT><FONT FACE="Courier">@</FONT></TT>)
+for splitting the contents of a text variable on multiple lines
+through the use of padded lines. The value of the <TT><FONT FACE="Courier">@^</FONT></TT>
+is modified.
+<LI><FONT COLOR=#000000>The </FONT>tilde (<TT><FONT FACE="Courier">~</FONT></TT>)
+for suppressing lines that are empty. The double tilde (<TT><FONT FACE="Courier">~~</FONT></TT>)
+signifies a <TT><FONT FACE="Courier">^</FONT></TT> format that
+is repeated on several lines to allow the contents of a variable
+to be printed on several lines. When using the <TT><FONT FACE="Courier">~~</FONT></TT>,
+the output pads fields into a format until there are no more characters
+to print out.
+</UL>
+<P>
+The symbols after <TT><FONT FACE="Courier">@</FONT></TT> are repeated
+to signify the number of columns to take up on the output. For
+example, to create a left-justified field that is 10 characters
+long, you use <TT><FONT FACE="Courier">@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</FONT></TT>
+as the format specifier. Listing 19.4 centers the text in the
+middle of the page.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.4. Right- and left-justifying code.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 while(&lt;&gt;) {<BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp; ($chemical, $found) = split(':');
+<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp; write;<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+&nbsp;6 format STDOUT_TOP =<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chemical
+Product<BR>
+&nbsp;8 ===================================================<BR>
+&nbsp;9 .<BR>
+10 format STDOUT =<BR>
+11 @&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<BR>
+12 $chemical, $found<BR>
+13 .</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here is the right- and left-justified text output.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Chemical Product<BR>
+===================================================<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Acetic
+Acid&nbsp;&nbsp;Vinegar<BR>
+&nbsp;&nbsp;&nbsp;Ammonium Hydroxide&nbsp;&nbsp;Ammonia Cleaners
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; Ammonium Nitrate&nbsp;&nbsp;Salt Peter
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ammonium Oleate&nbsp;&nbsp;Ammonia
+Soap<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Barium Sulfide&nbsp;&nbsp;Black
+Ash<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; Carbon Carbinate&nbsp;&nbsp;Chalk<BR>
+&nbsp;&nbsp;Carbontetrachloride&nbsp;&nbsp;Cleaning Fluid<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calcium Oxide&nbsp;&nbsp;Lime
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ferric Oxide&nbsp;&nbsp;Rust
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Glucose&nbsp;&nbsp;Corn
+Syrup<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Graphite&nbsp;&nbsp;Pencil Lead<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Hydrogen Peroxide&nbsp;&nbsp;Peroxide
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Naphthalene&nbsp;&nbsp;Mothballs
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Silver Nitrate&nbsp;&nbsp;Photographer's
+Hypo<BR>
+&nbsp;&nbsp;&nbsp;Sodium Bicarbonate&nbsp;&nbsp;Baking Soda<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sodium Borate&nbsp;&nbsp;Borax
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; Sodium Carbonate&nbsp;&nbsp;Washing Liquids
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sodium Chloride&nbsp;&nbsp;Salt
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sodium Silicate&nbsp;&nbsp;Glass
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sulfuric Acid&nbsp;&nbsp;Battery
+Acid<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sucrose&nbsp;&nbsp;Cane
+Sugar</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Look at line 11 in Listing 19.4 and compare it with line 11 in
+Listing 19.3. Then, compare the output of each of those programs.
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Caution</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+You can create the best-looking reports in your Perl script and have them present beautifully on your xterm. However, unless you ensure that your terminal and printing device both use fixed-width fonts, lining up the text columns will be a nightmare. When 
+in doubt, use fonts like Courier (on printers) or Fixed (on X Window System terminals). Avoid fonts like Helvetica or New Century Schoolbook because these are variable-width fonts, and you'll never really be able to align the characters and columns as you 
+would be able to with fixed-width fonts.</BLOCKQUOTE>
+<BLOCKQUOTE>
+This type of inconsistency in outputs is fairly obvious when you try to print your Perl- formatted reports on Web browsers that are set on variable-width fonts. Do not expect a Web browser to be set on fixed-width fonts. If you must print such reports, 
+consider using an HTML page table instead. See Part IV, &quot;Working with the Web,&quot; for more information.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Numbers in the format field are specified with the hash mark (<TT><FONT FACE="Courier">#</FONT></TT>).
+Let's try a different example with a new data file containing
+both numeric and text data. The idea is to print out the values
+in this data file in a nice report.
+<P>
+Here is the sample data file with text and numeric fields.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">UK , 44 , Pound , 1.85 , 100<BR>
+BELGIUM , 32 , Franc , 32.0 , 200<BR>
+DENMARK , 45 , Krone , 6.0 , 2000<BR>
+FINLAND , 358 , Markka , 4.69, 1000<BR>
+FRAncE , 33 , Franc , 5.28, 50<BR>
+ELSALVADOR , 503 , Colon , 8.74, 340<BR>
+PHILIPPINES , 63 , Peso , 24.8, 1000<BR>
+PAKISTAN , 92 , Rupee , 38.0, 1200<BR>
+BAHRAIN , 973 , Dinar , 0.38 , 45<BR>
+IRAQ , 964 , Dinar , 0.60, 10<BR>
+JORDAN , 962 , Dinar , 0.70, 100<BR>
+SAUDIARABIA , 966 , Riyal , 3.75, 1000</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This file contains the names of countries, their international
+dialing codes, their currencies, and the value of the currencies
+with respect to the dollar. (Keep in mind that I made up these
+numbers.) The fifth value is the number of currency bills on hand.
+<P>
+The value of the fourth item in each row is where numbers have
+different numbers of digits to the right of the decimal point.
+This output is a fragment from a spreadsheet comma-delimited file
+that did print unequal numbers of decimal digits.
+<P>
+Listing 19.5 takes this file as input and generates a nice, clean
+report. (I am deliberately not using the amount field in this
+program.)
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.5. Printing numeric and text fields.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 $count = 0;<BR>
+&nbsp;3 while(&lt;&gt;) {<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp; ($country, $code, $currency, $value)
+= split(',');<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp; $count++;<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp; write;<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+&nbsp;8 format STDOUT_TOP =<BR>
+&nbsp;9 Id&nbsp;&nbsp;Country&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Code&nbsp;&nbsp;Currency&nbsp;&nbsp;&nbsp;&nbsp;Rate<BR>
+10 =============================================<BR>
+11 .<BR>
+12 format STDOUT =<BR>
+13 @## @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;@####@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;@#####.##
+<BR>
+14 $count, $country, $code, $currency, $value<BR>
+15 .</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Notice how in line 13 the <TT><FONT FACE="Courier">$counter</FONT></TT>
+variable is printed in two digits using the <TT><FONT FACE="Courier">@##</FONT></TT>
+format. The name of the country is left-justified with the <TT><FONT FACE="Courier">@&lt;&lt;</FONT></TT>
+symbol, followed immediately by the area code number. If the country's
+name is too long to fit in the specified area, it is truncated
+to fit with no spaces between the country's name and code.
+<P>
+The <TT><FONT FACE="Courier">$value</FONT></TT> is shown with
+two digits to the right of the decimal point. Even though the
+input did not have the same number of digits to the right of the
+decimal point, the output will be formatted with two digits to
+the right of the decimal point. In fact, the output will be cleanly
+aligned on the decimal point, as shown here:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Id&nbsp;&nbsp;Country&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Code&nbsp;&nbsp;Currency&nbsp;&nbsp;&nbsp;&nbsp;Rate<BR>
+=============================================<BR>
+&nbsp;&nbsp;1 UK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+44 Pound&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.85<BR>
+&nbsp;&nbsp;2 BELGIUM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;32
+Franc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 32.00<BR>
+&nbsp;&nbsp;3 DENMARK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45
+Krone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.00<BR>
+&nbsp;&nbsp;4 FINLAND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+358 Markka&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.69<BR>
+&nbsp;&nbsp;5 FRAncE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;33
+Franc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.28<BR>
+&nbsp;&nbsp;6 ELSALVADOR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;503
+Colon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.74<BR>
+&nbsp;&nbsp;7 PHILIPPINES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;63
+Peso&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24.80<BR>
+&nbsp;&nbsp;8 PAKISTAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+92 Rupee&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 38.00<BR>
+&nbsp;&nbsp;9 BAHRAIN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+973 Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.38
+<BR>
+&nbsp;10 IRAQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;964
+Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.60<BR>
+&nbsp;11 JORDAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;962
+Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.70<BR>
+&nbsp;12 SAUDIARABIA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;966
+Riyal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.75</FONT></TT>
+</BLOCKQUOTE>
+<P>
+You are not limited to printing only variables in the formatted
+statement. Because the variables in the format specification are
+evaluated by Perl, you can place statements in there as well.
+Consider the program in Listing 19.6, which prints the result
+of a calculation.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.6. Calculations in the format statement.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 $count = 0;<BR>
+&nbsp;3 while(&lt;&gt;) {<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp; ($country, $code, $currency, $value,
+$amount)<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+split(',');<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp; $count++;<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp; write;<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+&nbsp;9 format STDOUT_TOP =<BR>
+10 Id&nbsp;&nbsp;Country&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currency&nbsp;&nbsp;Rate&nbsp;&nbsp;&nbsp;Amount&nbsp;&nbsp;Value
+in $<BR>
+11 =====================================================<BR>
+12 .<BR>
+13 format STDOUT =<BR>
+14 @## @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;@&lt;&lt;&lt;&lt;&lt;&lt;
+@#####.##&nbsp;&nbsp;&nbsp;@####.##&nbsp;&nbsp;$ @######.##<BR>
+15 $count, $country,&nbsp;&nbsp;$currency, $value, $amount, ($amount/$value)
+<BR>
+16 .</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here's the output of the run on the data file.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Id&nbsp;&nbsp;Country&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currency&nbsp;&nbsp;Rate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount&nbsp;&nbsp;&nbsp;&nbsp;
+Value in $<BR>
+==============================================================
+<BR>
+&nbsp;&nbsp;1 UK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pound&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1.85&nbsp;&nbsp;&nbsp;&nbsp; 100.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;54.05
+<BR>
+&nbsp;&nbsp;2 BELGIUM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Franc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;32.00&nbsp;&nbsp;&nbsp;&nbsp;
+200.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6.25<BR>
+&nbsp;&nbsp;3 DENMARK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Krone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+6.00&nbsp;&nbsp;&nbsp;&nbsp;2000.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;
+333.33<BR>
+&nbsp;&nbsp;4 FINLAND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Markka&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.69&nbsp;&nbsp;&nbsp;&nbsp;1000.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;
+213.22<BR>
+&nbsp;&nbsp;5 FRAncE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Franc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5.28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+9.47<BR>
+&nbsp;&nbsp;6 ELSALVADOR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+8.74&nbsp;&nbsp;&nbsp;&nbsp; 340.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38.90
+<BR>
+&nbsp;&nbsp;7 PHILIPPINES&nbsp;&nbsp;&nbsp;&nbsp; Peso&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+24.80&nbsp;&nbsp;&nbsp;&nbsp;1000.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40.32
+<BR>
+&nbsp;&nbsp;8 PAKISTAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rupee&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38.00&nbsp;&nbsp;&nbsp;&nbsp;1200.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;31.58
+<BR>
+&nbsp;&nbsp;9 BAHRAIN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;
+118.42<BR>
+&nbsp;10 IRAQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16.67
+<BR>
+&nbsp;11 JORDAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.70&nbsp;&nbsp;&nbsp;&nbsp; 100.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;
+142.86<BR>
+&nbsp;12 SAUDIARABIA&nbsp;&nbsp;&nbsp;&nbsp; Riyal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3.75&nbsp;&nbsp;&nbsp;&nbsp;1000.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;
+266.67<BR>
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Notice how the value of the investment is calculated in the format
+specification itself. Look at line 15 in Listing 19.6 to see how
+the output fields are set up for use with the format specifiers.
+Note also that in line 14 the dollar sign is printed verbatim
+in the output. You can print anything you want as long as it's
+not misinterpreted as a specifier.
+<P>
+You can even call subroutines that return values in place of variables
+in the format specification. Listing 19.7 defines a function that
+tells you if your funds are running too high. The function returns
+a message indicating that your investment in a foreign currency
+is too low or too high based on a certain criteria. The value
+returned from the function is a string and therefore will be printed
+as left-justified output using <TT><FONT FACE="Courier">@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.7. Using subroutines in formats.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 while(&lt;&gt;) {<BR>
+&nbsp;3&nbsp;&nbsp;($country, $code, $currency, $value, $amount)
+= split(',');<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp; write;<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+&nbsp;6 format STDOUT_TOP =<BR>
+&nbsp;7 Id&nbsp;&nbsp;Country&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currency&nbsp;&nbsp;Rate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount&nbsp;&nbsp;&nbsp;&nbsp;
+Value in $<BR>
+&nbsp;8 ============================================================
+<BR>
+&nbsp;9 .<BR>
+10 format STDOUT =<BR>
+11 @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;@&lt;&lt;&lt;&lt;&lt;&lt;
+@#####.##&nbsp;&nbsp;&nbsp;@####.##&nbsp;&nbsp;$ @&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+<BR>
+12 $country,$currency,$value,$amount,&amp;checkAmount($amount,$value)
+<BR>
+13 .<BR>
+14 sub checkAmount {<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp; my ($num, $val) = @_;<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp; my $dollars;<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp; my $ret;<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp; $dollars = $num / $val;<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp; $ret = sprintf &quot;%6.2f&nbsp;&nbsp;&nbsp;&nbsp;
+&quot;, $dollars;<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp; if ($dollars &lt; 10)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ $ret =
+sprintf &quot;%6.2f low &quot;, $dollars; }<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp; if ($dollars &gt; 200)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ $ret =
+sprintf &quot;%6.2f high&quot;, $dollars; }<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp; $ret;<BR>
+23 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Note the format string to the <TT><FONT FACE="Courier">sprintf</FONT></TT>
+function call in line numbers 19, 20, and 21 in the code shown
+in Listing 19.7. The <TT><FONT FACE="Courier">sprintf</FONT></TT>
+statement is designed to return the same number of characters
+regardless of the value of <TT><FONT FACE="Courier">$dollar</FONT></TT>.
+The length of the <TT><FONT FACE="Courier">$ret</FONT></TT> variable
+in the <TT><FONT FACE="Courier">checkAmount</FONT></TT> subroutine
+is a constant. If you leave the length of <TT><FONT FACE="Courier">$ret</FONT></TT>
+dependent on <TT><FONT FACE="Courier">sprintf</FONT></TT>, there
+is no guarantee that the output will be assigned on a decimal
+point. It's important that you return a string back from the <TT><FONT FACE="Courier">checkAmount</FONT></TT>
+function and not an integer. If you return an integer value, it
+won't be printed.
+<P>
+Here's the output from Listing 19.7.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Id&nbsp;&nbsp;Country&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currency&nbsp;&nbsp;Rate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount&nbsp;&nbsp;&nbsp;&nbsp;
+Value in $<BR>
+============================================================<BR>
+UK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pound&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1.85&nbsp;&nbsp;&nbsp;&nbsp; 100.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;54.05
+<BR>
+BELGIUM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Franc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;32.00&nbsp;&nbsp;&nbsp;&nbsp;
+200.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6.25 low
+<BR>
+DENMARK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Krone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+6.00&nbsp;&nbsp;&nbsp;&nbsp;2000.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;
+333.33 high<BR>
+FINLAND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Markka&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.69&nbsp;&nbsp;&nbsp;&nbsp;1000.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;
+213.22 high<BR>
+FRAncE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Franc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5.28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+9.47 low<BR>
+ELSALVADOR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+8.74&nbsp;&nbsp;&nbsp;&nbsp; 340.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38.90
+<BR>
+PHILIPPINES&nbsp;&nbsp;&nbsp;&nbsp; Peso&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+24.80&nbsp;&nbsp;&nbsp;&nbsp;1000.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40.32
+<BR>
+PAKISTAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rupee&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38.00&nbsp;&nbsp;&nbsp;&nbsp;1200.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;31.58
+<BR>
+BAHRAIN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;
+118.42<BR>
+IRAQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16.67
+<BR>
+JORDAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.70&nbsp;&nbsp;&nbsp;&nbsp; 100.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;
+142.86<BR>
+SAUDIARABIA&nbsp;&nbsp;&nbsp;&nbsp; Riyal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3.75&nbsp;&nbsp;&nbsp;&nbsp;1000.00&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;
+266.67 high</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="UsingMoreThanOneFormat"><FONT SIZE=5 COLOR=#FF0000>Using
+More Than One Format</FONT></A></H2>
+<P>
+There is a standard header that uses the <TT><FONT FACE="Courier">_TOP</FONT></TT>
+suffix; however, there is no <TT><FONT FACE="Courier">_END</FONT></TT>
+or <TT><FONT FACE="Courier">_BOTTOM</FONT></TT> suffix to print
+out when you are done. This is obvious because Perl does not know
+when you want to stop. All is not lost, though, because you can
+specify a different format to print out results at the end.
+<P>
+Listing 19.8 defines a new format name, called <TT><FONT FACE="Courier">ENDING</FONT></TT>.
+First, it selects the format by setting the internal Perl variable
+<TT><FONT FACE="Courier">$~</FONT></TT> to the name. Next, it
+uses the format <TT><FONT FACE="Courier">ENDING</FONT></TT> to
+print out the total value of the foreign currency portfolio.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.8. Using a different format.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 while(&lt;&gt;) {<BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp; ($country, $code, $currency, $rate,
+$amount)<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+split(',');<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp; $sum += ($amount/$rate) ;<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp; write;<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+&nbsp;8 $~ = &quot;ENDING&quot;;<BR>
+&nbsp;9 write;<BR>
+10 format STDOUT_TOP =<BR>
+11 Id&nbsp;&nbsp;Country&nbsp;&nbsp;&nbsp;&nbsp; Currency&nbsp;&nbsp;&nbsp;Rate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount&nbsp;&nbsp;&nbsp;&nbsp;
+Value<BR>
+12 ============================================================
+<BR>
+13 .<BR>
+14 format STDOUT =<BR>
+15 @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;@&lt;&lt;&lt;&lt;&lt;&lt;
+@#####.##&nbsp;&nbsp;&nbsp;@####.##&nbsp;&nbsp;&nbsp;&nbsp;@#####.##
+<BR>
+16 $country,$currency,$rate,$amount,$amount/$rate<BR>
+17 .<BR>
+18 format ENDING =<BR>
+19 ========================================================<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total
+Value =&nbsp;&nbsp;&nbsp;&nbsp;$@#######.###<BR>
+21 $sum<BR>
+22 ========================================================<BR>
+23 .</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here is the output of Listing 19.8.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Id&nbsp;&nbsp;Country&nbsp;&nbsp;&nbsp;&nbsp;
+Currency&nbsp;&nbsp;&nbsp;Rate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amount&nbsp;&nbsp;&nbsp;&nbsp;
+Value<BR>
+========================================================<BR>
+UK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pound&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1.85&nbsp;&nbsp;&nbsp;&nbsp; 100.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;54.05
+<BR>
+BELGIUM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Franc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;32.00&nbsp;&nbsp;&nbsp;&nbsp;
+200.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.25
+<BR>
+DENMARK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Krone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+6.00&nbsp;&nbsp;&nbsp;&nbsp;2000.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+333.33<BR>
+FINLAND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Markka&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.69&nbsp;&nbsp;&nbsp;&nbsp;1000.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+213.22<BR>
+FRAncE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Franc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5.28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.47
+<BR>
+ELSALVADOR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+8.74&nbsp;&nbsp;&nbsp;&nbsp; 340.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38.90
+<BR>
+PHILIPPINES&nbsp;&nbsp;&nbsp;&nbsp; Peso&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+24.80&nbsp;&nbsp;&nbsp;&nbsp;1000.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40.32
+<BR>
+PAKISTAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rupee&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38.00&nbsp;&nbsp;&nbsp;&nbsp;1200.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;31.58
+<BR>
+BAHRAIN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+118.42<BR>
+IRAQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16.67
+<BR>
+JORDAN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dinar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.70&nbsp;&nbsp;&nbsp;&nbsp; 100.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+142.86<BR>
+SAUDIARABIA&nbsp;&nbsp;&nbsp;&nbsp; Riyal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3.75&nbsp;&nbsp;&nbsp;&nbsp;1000.00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+266.67<BR>
+========================================================<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total
+Value =&nbsp;&nbsp;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;1271.741
+<BR>
+========================================================</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="ControllingtheFormat"><FONT SIZE=5 COLOR=#FF0000>Controlling
+the Format</FONT></A></H2>
+<P>
+There are some very important internal Perl variables you must
+be aware of when working with formats. By setting the values in
+the following variables in a Perl script, you can control the
+output of where to write to, the number of lines per page, what
+to write on top of every new page and how to write every entry
+and so on:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=100><CENTER><I>Variable</I></CENTER></TD><TD WIDTH=513><CENTER><I>Description</I></CENTER>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><CENTER><TT><FONT FACE="Courier">$~</FONT></TT></CENTER>
+</TD><TD WIDTH=513>This variable contains the name of the default format to use. The default is <TT><FONT FACE="Courier">STDOUT</FONT></TT> if you are writing to <TT><FONT FACE="Courier">STDOUT</FONT></TT>. This is used in Listing 19.8.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><CENTER><TT><FONT FACE="Courier">$^</FONT></TT></CENTER>
+</TD><TD WIDTH=513>This variable contains the default top-of-page format. Just like the <TT><FONT FACE="Courier">$~</FONT></TT> variable, you can set <TT><FONT FACE="Courier">$^</FONT></TT> to a different top-of-page format than the default. Set this value 
+to <TT><FONT FACE="Courier">NULL</FONT></TT> if you don't want a header printed every <TT><FONT FACE="Courier">$=</FONT></TT> lines.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><CENTER><TT><FONT FACE="Courier">$=</FONT></TT></CENTER>
+</TD><TD WIDTH=513>This variable contains the number of lines to write before writing the top-of-page header. The default value is 60 lines per page.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><CENTER><TT><FONT FACE="Courier">$-</FONT></TT></CENTER>
+</TD><TD WIDTH=513>This variable contains the number of lines left on the page. When <TT><FONT FACE="Courier">$-</FONT></TT> is equal to 0, it is set to <TT><FONT FACE="Courier">$=</FONT></TT>, and the next line output triggers the top-of-page format. The 
+value in <TT><FONT FACE="Courier">$-</FONT></TT> is incremented every time you write to the file handle associated with the current format.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><CENTER><TT><FONT FACE="Courier">$%</FONT></TT></CENTER>
+</TD><TD WIDTH=513>This variable contains the current page number. You can refer to the value in this variable to print page numbers in your output.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Listing 19.9 is a simple program that provides a clean listing
+of a lengthy source file. There are two options to this program:
+<TT><FONT FACE="Courier">-file</FONT></TT> to specify the filename
+and <TT><FONT FACE="Courier">-line</FONT></TT> to specify the
+number of lines per page.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.9. A sample program to list files.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 use Getopt::Long;<BR>
+&nbsp;3 $result = GetOptions('file=s','lines:i');<BR>
+&nbsp;4 if !defined($opt_file)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ print
+&quot;Usage: $0 filename\n &quot;;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exit 0;
+}<BR>
+&nbsp;5 open(SFILE,$opt_file) || die &quot;Cannot open $opt_file
+\!\n&quot;;<BR>
+&nbsp;6 $= = $opt_lines ? $opt_lines : 50;<BR>
+&nbsp;7 $date = `date +%D`;<BR>
+&nbsp;8 chop($date);<BR>
+&nbsp;9 $i = 0;<BR>
+10 while (&lt;SFILE&gt;) {<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp; write;<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp; $i++;<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+14 close(SFILE);<BR>
+15 format STDOUT_TOP =<BR>
+16 Filename @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;&nbsp;Date
+@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;Page: @#####<BR>
+17 $opt_file, $date, $%<BR>
+18 =======================================================<BR>
+19 .<BR>
+20 format STDOUT =<BR>
+21 @#### @*<BR>
+22 $i,$_<BR>
+23 .</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The code in Listing 19.9 uses the <TT><FONT FACE="Courier">Getopts</FONT></TT>
+module to collect the filename and the number of lines per page.
+If you are not familiar with the use of the <TT><FONT FACE="Courier">Getopts</FONT></TT>
+module, please refer to <A HREF="ch16.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch16.htm" >Chapter 16</A>, &quot;Command-line
+Interface with Perl,&quot; for more details. The variable <TT><FONT FACE="Courier">$opt_file</FONT></TT>
+contains the filename, and <TT><FONT FACE="Courier">$opt_lines</FONT></TT>
+(if defined) contains the number of lines per page.
+<P>
+In line 6 the variable <TT><FONT FACE="Courier">$=</FONT></TT>
+is set to the number of lines per page requested by the user.
+The default value is set to 55 lines per page. A date value is
+generated and stored in <TT><FONT FACE="Courier">$date</FONT></TT>
+on lines 7 and 8. The <TT><FONT FACE="Courier">$i</FONT></TT>
+counter is used to print out the line number in the source file.
+<P>
+Because the script is writing to <TT><FONT FACE="Courier">STDOUT</FONT></TT>
+with the <TT><FONT FACE="Courier">write()</FONT></TT> command,
+it uses the formats <TT><FONT FACE="Courier">STDOUT</FONT></TT>
+and <TT><FONT FACE="Courier">STDOUT_TOP</FONT></TT> for the records
+and page headers, respectively. In line 17 the script uses <TT><FONT FACE="Courier">$%</FONT></TT>
+to print the current page count along with the filename and the
+current date.
+<P>
+<TT><FONT FACE="Courier">@*</FONT></TT> in the field specifier
+is used in line 18 to indicate that the entire value of the <TT><FONT FACE="Courier">$_</FONT></TT>
+variable should be printed as a string. The <TT><FONT FACE="Courier">$_</FONT></TT>
+variable is not truncated as it would be if the other string specifiers
+such as <TT><FONT FACE="Courier">@&lt;&lt;&lt;&lt;</FONT></TT>,
+<TT><FONT FACE="Courier">@&gt;&gt;&gt;&gt;</FONT></TT>, or <TT><FONT FACE="Courier">@||||||</FONT></TT>
+had been used.
+<P>
+In fact, <TT><FONT FACE="Courier">@*</FONT></TT> even allows multiline
+fields. Had there been any carriage returns in the string, they
+would also be printed out. Therefore, if the string <TT><FONT FACE="Courier">$_</FONT></TT>
+is equal to <TT><FONT FACE="Courier">&quot;One\nTwo\nThree\nFour&quot;</FONT></TT>,
+it is printed as follows when used in a <TT><FONT FACE="Courier">write()</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">One<BR>
+Two<BR>
+Three<BR>
+Four</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To suppress the printing of a format top, you should define the
+format top specification. To delay the printing, you can keep
+resetting the value of <TT><FONT FACE="Courier">$-</FONT></TT>
+to a non-zero value less than the value in <TT><FONT FACE="Courier">$=</FONT></TT>
+as you print out text. When you are ready to print the top of
+the header, set the value of <TT><FONT FACE="Courier">$- = 0</FONT></TT>
+to signify the start of a new page.
+<H2><A NAME="CreatingMultipleLineswiththeCaret"><FONT SIZE=5 COLOR=#FF0000>Creating
+Multiple Lines with the Caret</FONT></A></H2>
+<P>
+There is more than one way to print long descriptive text in a
+field. For instance, you could have multiple lines and use the
+<TT><FONT FACE="Courier">@*</FONT></TT> specifier. The problem
+is that you are not able to control the number of columns in the
+output at all. To fill in multiple lines, you have to use the
+caret (<TT><FONT FACE="Courier">^</FONT></TT>) operator instead
+of the at (<TT><FONT FACE="Courier">@</FONT></TT>) operator. Using
+the <TT><FONT FACE="Courier">^</FONT></TT> operator enables you
+to specify the same text on multiple lines. Perl chops up the
+variable for you and presents as much as it can per line.
+<P>
+The <TT><FONT FACE="Courier">^</FONT></TT> operator behaves the
+same way as the <TT><FONT FACE="Courier">@</FONT></TT> operator
+with one major difference: You can only use scalars with the <TT><FONT FACE="Courier">^</FONT></TT>
+symbol. The reason for this is that the scalar value being mapped
+to the <TT><FONT FACE="Courier">^</FONT></TT> format is chopped
+up into manageable pieces for printing. It's nearly impossible
+to do the chopping on an evaluated expression.
+<P>
+There are two ways that you can use the <TT><FONT FACE="Courier">^</FONT></TT>
+operator: to output only a fixed number of lines or output only
+as much as necessary. To output up to a fixed number of lines,
+you use the tilde (<TT><FONT FACE="Courier">~</FONT></TT>) operator.
+Here's the syntax to print the contents of the <TT><FONT FACE="Courier">$desc</FONT></TT>
+variable using up to three lines:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<BR>
+$hours,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$desc
+<BR>
+~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$desc
+<BR>
+~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$desc</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If you omit the tildes, you will get exactly three lines of output.
+The tildes suppress blank lines from being output, so therefore
+you get up to three lines of output.
+<P>
+The tilde operator is required at the front of the line. You must
+specify the <TT><FONT FACE="Courier">$desc</FONT></TT> variable
+on every line that you want it divided on using the <TT><FONT FACE="Courier">^</FONT></TT>
+operator. If you are not sure of how many lines you'll be printing,
+you can use two tildes (<TT><FONT FACE="Courier">~~</FONT></TT>)
+together. Listing 19.10 presents a sample invoice-printing program
+using the padding field with two tildes.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.10. Using the tilde to print on multiple lines.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 use Getopt::Long;<BR>
+&nbsp;3 $result = GetOptions('file=s','invoice=i');<BR>
+&nbsp;4 if($opt_file eq undef) { print &quot;Usage: $_[0] filename\n
+&quot;; exit 0; }<BR>
+&nbsp;5 open(SFILE,$opt_file) || die &quot;Cannot open $opt_file
+\!\n&quot;;<BR>
+&nbsp;6 $date = `date +%D`;<BR>
+&nbsp;7 chop($date);<BR>
+&nbsp;8 $i = $opt_invoice ? $opt_invoice : 200;<BR>
+&nbsp;9 $rate = 55;<BR>
+10 while (&lt;SFILE&gt;) {<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($name,$addr,$hours,$desc)=
+split(':');<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp; $i++;<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp; write;<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+15 close(SFILE);<BR>
+16 format STDOUT =<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INVOICE#@#######
+<BR>
+18 $i,<BR>
+19 To:<BR>
+20 @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My
+Company<BR>
+21 $name<BR>
+22 @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Any
+town, USA 99999<BR>
+23 $addr<BR>
+24 ==================================================================
+<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESCRIPTION
+<BR>
+26 ==================================================================
+<BR>
+27 
+@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<BR>
+28 $name, $desc<BR>
+29 ~~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+^&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<BR>
+30 $desc<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Total Hours @######<BR>
+32 $hours<BR>
+33 ==================================================================
+<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Total Due $ @######<BR>
+35 $hours * $rate<BR>
+36 ==================================================================
+<BR>
+37 Have a nice day!<BR>
+38 .</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The important lines in Listing 19.10 are lines 27 through 35.
+Lines 27 through 30 are used to specify the format for the client
+name and description fields. Note the use of the two tildes (<TT><FONT FACE="Courier">~~</FONT></TT>)
+in the line to format the <TT><FONT FACE="Courier">$desc</FONT></TT>
+variable. Line 30 allows Perl to expand the output to multiple
+lines. Lines 31 through 35 print out the totals in their own lines.
+<P>
+Here is the output of Listing 19.10. The input file is not shown.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+INVOICE#&nbsp;&nbsp;&nbsp;&nbsp; 201<BR>
+<BR>
+To:<BR>
+El Dictator Corp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;My
+Company<BR>
+South of Here&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Any
+town, USA 99999<BR>
+<BR>
+==================================================================
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESCRIPTION
+<BR>
+==================================================================
+<BR>
+El Dictator Corp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revolutions
+quelled,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+uprisings started, lions<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tamed, sanity restored<BR>
+<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tota
+l
+Hours&nbsp;&nbsp;&nbsp;&nbsp; 105<BR>
+==================================================================
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tota
+l
+Due $&nbsp;&nbsp;&nbsp;&nbsp;5775<BR>
+<BR>
+==================================================================
+<BR>
+Have a nice day!<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+INVOICE#&nbsp;&nbsp;&nbsp;&nbsp; 202<BR>
+<BR>
+To:<BR>
+ABC Corp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+My Company<BR>
+2 Main St, USA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Any town, USA 99999<BR>
+<BR>
+==================================================================
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESCRIPTION
+<BR>
+==================================================================
+<BR>
+ABC Corp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Cratered project, killed<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+hopes, destroyed goals,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+blinded visions and ejected<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+compentancy<BR>
+<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tota
+l
+Hours&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21<BR>
+==================================================================
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tota
+l
+Due $&nbsp;&nbsp;&nbsp;&nbsp;1155<BR>
+<BR>
+==================================================================
+<BR>
+Have a nice day!</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="UsingformatinModules"><FONT SIZE=5 COLOR=#FF0000>Using
+</FONT><TT><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">format</FONT></TT><FONT SIZE=5 COLOR=#FF0000>
+in Modules</FONT></A></H2>
+<P>
+The <TT><FONT FACE="Courier">Invest.pm</FONT></TT> module (from
+<A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch4.htm" >Chapter 4</A>, &quot;Introduction to Perl Modules&quot;)
+that we've been working is in need of a face lift, as well. It
+needs a function to print a formatted report called <TT><FONT FACE="Courier">reportPortfolio()</FONT></TT>
+in the <TT><FONT FACE="Courier">Invest.pm</FONT></TT> file. The
+code for the function is shown in Listing 19.11.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.11. The </B><TT><B><FONT FACE="Courier">reportPortfolio()</FONT></B></TT><B>
+function.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 sub Invest::reportPortfolio {
+<BR>
+&nbsp;2 #<BR>
+&nbsp;3 #&nbsp;&nbsp;Save the values to the format parameters
+<BR>
+&nbsp;4 #&nbsp;&nbsp;before proceeding with the call<BR>
+&nbsp;5 #<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp; my $hdrfmt = $~;<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp; my $topfmt = $^;<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp; my $pageCt = $=;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp; my $lineCt = $-;<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp; my $sym;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# symbol<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp; my $shr;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# no. of shares<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp; my ($key, $i);&nbsp;&nbsp;&nbsp;&nbsp;
+# for looping<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp; $= = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+for header to print<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp; $- = 0;<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp; $~ = &quot;PORT_RPT&quot;;<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp; $^ = &quot;PORT_RPT_TOP&quot;;<BR>
+17 format PORT_RPT_TOP =<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp; Report<BR>
+19 STOCK&nbsp;&nbsp;&nbsp;&nbsp; SHARES<BR>
+20 =====&nbsp;&nbsp;&nbsp;======<BR>
+21 .<BR>
+22 format PORT_RPT =<BR>
+23 @&lt;&lt;&lt;&lt;&nbsp;&nbsp;&nbsp;@&lt;&lt;&lt;&lt;<BR>
+24 $sym, $shr<BR>
+25 .<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp; while (($key,$i) = each(%portfolio))
+{<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$shr =
+$i-&gt;{'shares'};<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sym =
+$i-&gt;{'symbol'};<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write
+;<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+31 #<BR>
+32 #&nbsp;&nbsp;Restore the values to the format parameters<BR>
+33 #&nbsp;&nbsp;before the call<BR>
+34 #<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp; $= = $pageCt;<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp; $- = $lineCt;<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp; $~ = $hdrfmt;<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp; $^ = $topfmt;<BR>
+39 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The first thing the report function does in this module is to
+save the current status of the four important variables for report
+generation. The four global variables that affect any report generation
+(<TT><FONT FACE="Courier">$-</FONT></TT>,<TT><FONT FACE="Courier">$=</FONT></TT>,<TT><FONT FACE="Courier">$%</FONT></TT>
+and <TT><FONT FACE="Courier">$^</FONT></TT>) are first saved in
+lines 6 through 9. The values for the format variables are then
+set in lines 13 through 16.
+<P>
+It is important that you set the format defaults (<TT><FONT FACE="Courier">$~</FONT></TT>,
+<TT><FONT FACE="Courier">$^</FONT></TT>, <TT><FONT FACE="Courier">$=,</FONT></TT>
+and <TT><FONT FACE="Courier">$-</FONT></TT>) here because you
+might be in the middle of a report when this function is called
+and you do not want to use those values. Rather, you have to reset
+the values to start a new report.
+<P>
+The original values are saved for restoration later in lines 35
+through 38. Using this methodology of preserving the state of
+each report format, you can embed reports within reports.
+<P>
+Lines 17 through 25 define the format specification in the same
+block of code as the <TT><FONT FACE="Courier">reportPortfolio()</FONT></TT>
+function. It's important that you declare the format in the same
+block of code in which the <TT><FONT FACE="Courier">my</FONT></TT>
+variables are declared. The scope of a variable declared as <TT><FONT FACE="Courier">my</FONT></TT>
+is limited to the curly braces in which it is declared. The format
+specification needs access to the <TT><FONT FACE="Courier">my</FONT></TT>
+variables; therefore, it has to be declared in the curly braces
+as well. If you declare the format outside the curly braces in
+which the variables are declared, the format statement is not
+able to see them and therefore prints nothing.
+<P>
+Also, notice how each format specification is left-justified in
+the code. All white spaces in the format specification are important
+and are not removed from the output.
+<P>
+Now let's look at the code in Listing 19.12 to see how a report
+is generated.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.12. Testing the </B><TT><B><FONT FACE="Courier">reportPortfolio()</FONT></B></TT><B>
+function.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 push(@Inc,`pwd`);<BR>
+&nbsp;3 use Invest;<BR>
+&nbsp;4 use Invest::Fund;<BR>
+&nbsp;5 use Invest::Stock;<BR>
+&nbsp;6<BR>
+&nbsp;7 $port = new Invest;<BR>
+&nbsp;8 @stocks = ( 'INTC','MSFT','XLNX','TSX','SERT');<BR>
+&nbsp;9 $n = 50;<BR>
+10 foreach $x (@stocks) {<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp; $n += 50;<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp; $i = new Invest::Stock('symbol' =&gt;
+&quot;$x&quot;, 'shares' =&gt; &quot;$n&quot;);<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp; $port-&gt;Invest::AddItem($i);<BR>
+14 }<BR>
+15 # Print the report.<BR>
+16 $port-&gt;reportPortfolio();</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+In lines 3 through 5, you define the modules that the program
+is going to be using. At line 7 you create an <TT><FONT FACE="Courier">Invest</FONT></TT>
+object. In line 8, you define the stock symbols to use. The <TT><FONT FACE="Courier">$n</FONT></TT>
+variable in line 9 is set to a dummy value. The loop in lines
+10 through 14 creates new stock objects to add to the <TT><FONT FACE="Courier">Invest</FONT></TT>
+object. The dummy value in <TT><FONT FACE="Courier">$n</FONT></TT>
+is incremented by 50 on every iteration in the loop. The <TT><FONT FACE="Courier">reportPortfolio()</FONT></TT>
+function is then called on the <TT><FONT FACE="Courier">Invest</FONT></TT>
+object, <TT><FONT FACE="Courier">$port</FONT></TT>, to print out
+a report.
+<P>
+The Perl function to create this output with a call to the <TT><FONT FACE="Courier">reportPortfolio()</FONT></TT>
+function is shown in Listing 19.12. The call to the <TT><FONT FACE="Courier">reportPortfolio()</FONT></TT>
+function is made at line 16. Here's the output from the <TT><FONT FACE="Courier">reportPortfolio()</FONT></TT>
+function in the <TT><FONT FACE="Courier">Invest.pm</FONT></TT>
+file:<P>
+
+<CENTER>
+<TABLE BORDER=1>
+<TR VALIGN=TOP><TD WIDTH=139><BLOCKQUOTE>
+<CENTER><TT><FONT FACE="Courier">Report STOCK</FONT></TT></CENTER>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=100><CENTER>
+<FONT FACE="Courier">SHARES</FONT>
+</CENTER>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=139><BLOCKQUOTE>
+<CENTER><TT><FONT FACE="Courier">INTC</FONT></TT></CENTER>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=100><BLOCKQUOTE>
+<CENTER><FONT FACE="Courier">100</FONT></CENTER>
+</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=139><BLOCKQUOTE>
+<CENTER><TT><FONT FACE="Courier">MSFT</FONT></TT></CENTER>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=100><BLOCKQUOTE>
+<CENTER><FONT FACE="Courier">150</FONT></CENTER>
+</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=139><BLOCKQUOTE>
+<CENTER><TT><FONT FACE="Courier">XLNX</FONT></TT></CENTER>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=100><BLOCKQUOTE>
+<CENTER><FONT FACE="Courier">200</FONT></CENTER>
+</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=139><BLOCKQUOTE>
+<CENTER><TT><FONT FACE="Courier">TSX</FONT></TT></CENTER>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=100><BLOCKQUOTE>
+<CENTER><FONT FACE="Courier">250</FONT></CENTER>
+</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=139><BLOCKQUOTE>
+<CENTER><TT><FONT FACE="Courier">SERT</FONT></TT></CENTER>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=100><BLOCKQUOTE>
+<CENTER><FONT FACE="Courier">300</FONT></CENTER>
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<BLOCKQUOTE>
+</BLOCKQUOTE>
+<H2><A NAME="AnotherExampleofReportGeneration"><FONT SIZE=5 COLOR=#FF0000>Another
+Example of Report Generation</FONT></A></H2>
+<P>
+Here is another example of how to use formats. The code shown
+in Listing 19.13 will print out a list of all the files that are
+greater than 150KB long in a directory tree. It's often necessary
+to see which files in a directory tree are using up the most space
+on a disk, especially if you are running out of disk space.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.13. Creating a list of files.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;&nbsp;2 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Print disk usage information<BR>
+&nbsp;&nbsp;3 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Copy and modify freely<BR>
+&nbsp;&nbsp;4 # ----------------------------------------------------
+<BR>
+&nbsp;&nbsp;5 # The following entry will be printed out on new
+pages<BR>
+&nbsp;&nbsp;6 # ----------------------------------------------------
+<BR>
+&nbsp;&nbsp;7 format LargeFilesTop =<BR>
+&nbsp;&nbsp;8 Large files in @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;@&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&nbsp;&nbsp;Page
+@&gt;<BR>
+&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$itemName,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$today,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+++$page<BR>
+&nbsp;10<BR>
+&nbsp;11 Owner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Block&nbsp;&nbsp;&nbsp;mtime&nbsp;&nbsp;&nbsp;&nbsp;
+file<BR>
+&nbsp;12 ---------------------------------------------------------------------
+<BR>
+&nbsp;13 .<BR>
+&nbsp;14 # -----------------------------------------<BR>
+&nbsp;15 # The format for the top of page ends here.<BR>
+&nbsp;16 # -----------------------------------------<BR>
+&nbsp;17<BR>
+&nbsp;18 # ------------------------------------------------------
+<BR>
+&nbsp;19 # The following entry will be printed out for every time
+<BR>
+&nbsp;20 # ------------------------------------------------------
+<BR>
+&nbsp;21 format LargeFilesEntry =<BR>
+&nbsp;22 @&gt;&gt;&gt;&gt;&gt;&gt;&gt; @&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+@&lt;&lt;&lt;/@&gt;/@&gt;&gt;&gt;&gt; @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<BR>
+&nbsp;23 $size,&nbsp;&nbsp;&nbsp;$owner,&nbsp;&nbsp;$mon, $day,
+$year, $fileName<BR>
+&nbsp;24 .<BR>
+&nbsp;25<BR>
+&nbsp;26 # -----------------------------------------------<BR>
+&nbsp;27 # The main program begins here<BR>
+&nbsp;28 # -----------------------------------------------<BR>
+&nbsp;29 $page = 0;&nbsp;&nbsp;&nbsp;#<BR>
+&nbsp;30 select(STDOUT);<BR>
+&nbsp;31 foreach $itemName (@ARGV) {<BR>
+&nbsp;32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+&nbsp;33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Do look in subdirectories
+but not in links<BR>
+&nbsp;34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+&nbsp;35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (-d $itemName &amp;&amp;
+!-l $itemName) {<BR>
+&nbsp;36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# $- = 0;&nbsp;&nbsp;#
+start new page per directory<BR>
+&nbsp;37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; open(FIND, &quot;find
+$itemName -size +150&nbsp;&nbsp;-ls |&quot;);<BR>
+&nbsp;38 #<BR>
+&nbsp;39 # LOOK how the format is used here .<BR>
+&nbsp;40 #<BR>
+&nbsp;41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$^ = &quot;LargeFilesTop&quot;;
+<BR>
+&nbsp;42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$~ = &quot;LargeFilesEntry&quot;;
+<BR>
+&nbsp;43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# $page = 0;&nbsp;&nbsp;&nbsp;#
+if new page per directory.<BR>
+&nbsp;44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while ($line = &lt;FIND&gt;)
+{<BR>
+&nbsp;45&nbsp;&nbsp;&nbsp;&nbsp; #<BR>
+&nbsp;46&nbsp;&nbsp;&nbsp;&nbsp; # Extract all information<BR>
+&nbsp;47&nbsp;&nbsp;&nbsp;&nbsp; #<BR>
+&nbsp;48&nbsp;&nbsp;&nbsp;&nbsp; ($ino, $blks, $mod, $lnks, $owner,
+<BR>
+&nbsp;49&nbsp;&nbsp;&nbsp;&nbsp; $grp, $size, $mon, $day,<BR>
+&nbsp;50&nbsp;&nbsp;&nbsp;&nbsp; $year, $fileName) = split(' ',
+$line);<BR>
+&nbsp;51 #<BR>
+&nbsp;52 # use only what you need.<BR>
+&nbsp;53 #<BR>
+&nbsp;54&nbsp;&nbsp;&nbsp;&nbsp; write;<BR>
+&nbsp;55&nbsp;&nbsp;&nbsp;&nbsp; } # end of while loop.<BR>
+&nbsp;56&nbsp;&nbsp;&nbsp;} # end of if-statement<BR>
+&nbsp;57 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Two formats are defined in Listing 19.13. The first format is
+defined in lines 7 through 13, and the second format is defined
+in lines 21 through 24. Note that the names of the format are
+not defined using only capital letters. You can use any variable
+name for a format if you wish. Usually, a format name for the
+top of a page ends in the letters &quot;TOP&quot; and the format
+for every entry does not need a &quot;TOP&quot; string.
+<P>
+Both formats use a <TT><FONT FACE="Courier">$page</FONT></TT>
+variable to track the page number. The <TT><FONT FACE="Courier">$page</FONT></TT>
+number variable is set to <TT><FONT FACE="Courier">0</FONT></TT>
+in line 29. Actually, the value of <TT><FONT FACE="Courier">$page</FONT></TT>
+will be set to <TT><FONT FACE="Courier">0</FONT></TT> automatically
+by the Perl interpreter when <TT><FONT FACE="Courier">$page</FONT></TT>
+is first accessed, so line 29 is not really required. However,
+explicitly initializing key variables, such as page numbers or
+loop counters, makes the code easier to read and understand. Look
+at the code in line 30 as another example of putting in code for
+the sake of making code easier to follow. The code in line 30
+explicitly selects the standard output handle <TT><FONT FACE="Courier">STDOUT</FONT></TT>
+to write default output to. Actually, the <TT><FONT FACE="Courier">write()</FONT></TT>
+statement will default to <TT><FONT FACE="Courier">STDOUT</FONT></TT>
+unless a file handle is specified as the the first argument to
+it. Therefore, lines 29 and 30 are not necessary but are placed
+in the code only to make the code more readable.
+<P>
+The <TT><FONT FACE="Courier">for</FONT></TT> loop in line 31 parses
+the directory names passed in on the command line. Each filename
+is used if it's a directory name, but not a link, as shown in
+the conditional block in line 35.
+<P>
+We can modify the program to report the results from searching
+each directory on a separate page by uncommenting the code at
+line 36, which forces a new page on every directory by setting
+the counter of number of lines left on a page (in the <TT><FONT FACE="Courier">$-</FONT></TT>
+register) to <TT><FONT FACE="Courier">0</FONT></TT>. When the
+<TT><FONT FACE="Courier">$-</FONT></TT> register is<TT><FONT FACE="Courier">
+0</FONT></TT>, the top header format is also used by the next
+<TT><FONT FACE="Courier">write()</FONT></TT> command to be executed.
+<P>
+The <TT><FONT FACE="Courier">find</FONT></TT> command in line
+37 returns the result of searching for all files with a size greater
+than 150 blocks. Block sizes vary from 512 to 4096 bytes depending
+on the system you run this script on. For a typical UNIX system,
+the block size could be 1024 bytes; therefore, the <TT><FONT FACE="Courier">find</FONT></TT>
+command in line 37 will find files that are 150KB or more. The
+option <TT><FONT FACE="Courier">-ls</FONT></TT> is used to list
+a verbose listing from the <TT><FONT FACE="Courier">find</FONT></TT>
+command.
+<P>
+The type of format for the header and each entry in the report
+is set in lines 41 and 42. Line 43 can be uncommented to reset
+the page count to <TT><FONT FACE="Courier">0 </FONT></TT>every
+time a new directory report is printed. By commenting line 43,
+you print a page count that enumerates all the pages in the report.
+<P>
+The verbose listing from the <TT><FONT FACE="Courier">find</FONT></TT>
+command is set in lines 48 to 50. Only a few of the variables
+in the list from the split function call are used in the program
+when the <TT><FONT FACE="Courier">write()</FONT></TT> function
+is called. Here's a sample run of this program. (The program shown
+in Listing 19.13 is called <TT><FONT FACE="Courier">dirUsage.pl</FONT></TT>):
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>dirUsage.pl /home/khusain/a3<BR>
+&nbsp;</B>Large files in /home/khusain/a3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Page&nbsp;&nbsp;1<BR>
+<BR>
+Owner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Block&nbsp;&nbsp;&nbsp;mtime&nbsp;&nbsp;&nbsp;&nbsp;
+file<BR>
+---------------------------------------------------------------------
+<BR>
+&nbsp;5611520 khusain&nbsp;&nbsp;Jul / 4/12:45 /home/khusain/a3/n3b5.tar
+<BR>
+&nbsp;4414116 khusain&nbsp;&nbsp;Jul / 1/21:31 /home/khusain/a3/netscape
+<BR>
+&nbsp;&nbsp;197472 khusain&nbsp;&nbsp;Jul / 1/21:22 /home/khusain/a3/Netscape.ad
+<BR>
+&nbsp;&nbsp;921497 khusain&nbsp;&nbsp;Jul / 1/21:30 /home/khusain/a3/moz3_0.zip
+<BR>
+&nbsp;2194589 khusain&nbsp;&nbsp;Jul /17/11:00 /home/khusain/a3/pcninstl.exe</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Listing 19.13 currently shows only those files whose sizes are
+greater than 150KB each because 1 block on my machine is set to
+1024 bytes, and the <TT><FONT FACE="Courier">find</FONT></TT>
+command is set to search all files with 150 or more blocks. You
+can always modify the program shown to set a different block size
+argument to the <TT><FONT FACE="Courier">find</FONT></TT> command.
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+This chapter introduced you to using formats to get reports from
+data on disk. Using formats requires setting up one specification
+for the top of the output and one for each record printed with
+the<B> </B><TT><FONT FACE="Courier">write()</FONT></TT> statement.
+The record format being used is specified in the <TT><FONT FACE="Courier">$~</FONT></TT>
+variable, and the format for the top is specified in <TT><FONT FACE="Courier">$^</FONT></TT>.
+The number of lines of text per page are specified in the <TT><FONT FACE="Courier">$=</FONT></TT>
+variable with <TT><FONT FACE="Courier">$-</FONT></TT> as the number
+of lines left on the current page. Page numbers are kept in the
+<TT><FONT FACE="Courier">$%</FONT></TT> variable. Use <TT><FONT FACE="Courier">&lt;</FONT></TT>
+to left justify, <TT><FONT FACE="Courier">&gt;</FONT></TT> to
+right justify, and <TT><FONT FACE="Courier">|</FONT></TT> to center
+text. To suppress printing of blank lines in a field, use a tilde
+(<TT><FONT FACE="Courier">~</FONT></TT>) in front of a format
+specification. Use double tildes (<TT><FONT FACE="Courier">~~</FONT></TT>)
+instead of a tilde to use as much space as possible. The hash
+mark (<TT><FONT FACE="Courier">#</FONT></TT>) is used to specify
+locations of digits in numeric values. The default format is the
+name of the file handle being written to. When using a module,
+be careful to save the state of these variables before using a
+format so that you can restore the state when returning execution
+back to the caller.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch18.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch18.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch20.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch20.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

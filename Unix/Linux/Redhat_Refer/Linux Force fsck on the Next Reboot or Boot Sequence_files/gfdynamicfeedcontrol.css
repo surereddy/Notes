@@ -1,0 +1,102 @@
+.gfg-root {
+	BORDER-RIGHT: #bccdf0 1px solid; BORDER-TOP: #bccdf0 1px solid; FONT-SIZE: 12px; OVERFLOW: hidden; BORDER-LEFT: #bccdf0 1px solid; WIDTH: 100%; BORDER-BOTTOM: #bccdf0 1px solid; FONT-FAMILY: "Arial", sans-serif; POSITION: relative; HEIGHT: auto; TEXT-ALIGN: center
+}
+.gfg-title {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; OVERFLOW: hidden; COLOR: #3366cc; LINE-HEIGHT: 1.4em; WHITE-SPACE: nowrap; BACKGROUND-COLOR: #e5ecf9
+}
+.gfg-title A {
+	COLOR: #3366cc
+}
+.gfg-subtitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; MARGIN-BOTTOM: 5px; OVERFLOW: hidden; COLOR: #3366cc; LINE-HEIGHT: 1.4em; WHITE-SPACE: nowrap; BACKGROUND-COLOR: #e5ecf9
+}
+.gfg-subtitle A {
+	COLOR: #3366cc
+}
+.gfg-entry {
+	MARGIN-TOP: 3px; OVERFLOW: hidden; WIDTH: 100%; POSITION: relative; HEIGHT: 6.9em; BACKGROUND-COLOR: white; TEXT-ALIGN: left
+}
+.gfg-root .gfg-entry .gf-result {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 20px; WIDTH: auto; POSITION: relative; HEIGHT: 100%; BACKGROUND-COLOR: white
+}
+.gfg-list {
+	MARGIN-BOTTOM: 5px; OVERFLOW: hidden; POSITION: relative; TEXT-ALIGN: left
+}
+.gfg-listentry {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 15px; MARGIN-LEFT: 5px; OVERFLOW: hidden; LINE-HEIGHT: 1.5em; MARGIN-RIGHT: 5px; WHITE-SPACE: nowrap; TEXT-OVERFLOW: ellipsis; o-text-overflow: ellipsis
+}
+.gfg-listentry-odd {
+	BACKGROUND-COLOR: #f6f6f6
+}
+.gfg-listentry-even {
+	
+}
+.gfg-listentry-highlight {
+	BACKGROUND-POSITION: left center; BACKGROUND-IMAGE: url(garrow.gif); BACKGROUND-REPEAT: no-repeat
+}
+.gfg-root .gfg-entry .gf-result .gf-title {
+	FONT-SIZE: 14px; MARGIN-BOTTOM: 2px; OVERFLOW: hidden; LINE-HEIGHT: 1.2em; WHITE-SPACE: nowrap; TEXT-OVERFLOW: ellipsis; o-text-overflow: ellipsis
+}
+.gfg-root .gfg-entry .gf-result .gf-snippet {
+	MARGIN-TOP: 3px; COLOR: #000000; HEIGHT: 3.8em
+}
+.gfg-horizontal-container {
+	POSITION: relative
+}
+.gfg-horizontal-root {
+	BORDER-RIGHT: #aaaaaa 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #aaaaaa 1px solid; PADDING-LEFT: 5px; FONT-SIZE: 13px; PADDING-BOTTOM: 5px; OVERFLOW: hidden; BORDER-LEFT: #aaaaaa 1px solid; MARGIN-RIGHT: 80px; PADDING-TOP: 5px; BORDER-BOTTOM: #aaaaaa 1px solid; FONT-FAMILY: "Arial", sans-serif; WHITE-SPACE: nowrap; POSITION: relative; HEIGHT: 100%; TEXT-ALIGN: center
+}
+.gfg-horizontal-root .gfg-title {
+	BORDER-RIGHT: #aaaaaa 1px solid; PADDING-RIGHT: 12px; PADDING-LEFT: 10px; FONT-WEIGHT: bold; FLOAT: left; OVERFLOW: hidden; LINE-HEIGHT: 1.5em; WHITE-SPACE: nowrap; BACKGROUND-COLOR: #ffffff
+}
+.gfg-horizontal-root .gfg-title A {
+	COLOR: #444444; TEXT-DECORATION: none
+}
+.gfg-horizontal-root .gfg-entry {
+	MARGIN-TOP: 0px; PADDING-LEFT: 10px; MARGIN-LEFT: 0px; OVERFLOW: hidden; WIDTH: auto; POSITION: relative; HEIGHT: 1.5em; TEXT-ALIGN: left
+}
+.gfg-horizontal-root .gfg-entry .gf-result {
+	OVERFLOW: hidden; WIDTH: 100%; LINE-HEIGHT: 1.5em; WHITE-SPACE: nowrap; POSITION: relative; HEIGHT: 100%; BACKGROUND-COLOR: white
+}
+.gfg-horizontal-root .gfg-list {
+	DISPLAY: none
+}
+.gfg-horizontal-root .gfg-entry .gf-result .gf-snippet {
+	DISPLAY: none
+}
+.gfg-horizontal-root .gfg-entry .gf-result .gf-author {
+	DISPLAY: none
+}
+.gfg-horizontal-root .gfg-entry .gf-result .gf-title {
+	FLOAT: left; COLOR: #0000cc; MARGIN-RIGHT: 3px
+}
+.gfg-horizontal-root .gfg-entry .gf-result .gf-spacer {
+	FLOAT: left
+}
+.gfg-horizontal-root .gfg-entry .gf-result .gf-spacer {
+	DISPLAY: block; COLOR: #aaaaaa
+}
+.gfg-horizontal-root .gfg-entry .gf-result .gf-relativePublishedDate {
+	DISPLAY: block; COLOR: #aaaaaa
+}
+.gfg-branding {
+	RIGHT: 0px; OVERFLOW: hidden; WIDTH: 80px; WHITE-SPACE: nowrap; POSITION: absolute; TOP: 0px; TEXT-ALIGN: left
+}
+.gfg-collapse-open {
+	BACKGROUND-POSITION: center 50%; FLOAT: right; WIDTH: 17px; CURSOR: pointer; BACKGROUND-REPEAT: no-repeat; HEIGHT: 20px
+}
+.gfg-collapse-closed {
+	BACKGROUND-POSITION: center 50%; FLOAT: right; WIDTH: 17px; CURSOR: pointer; BACKGROUND-REPEAT: no-repeat; HEIGHT: 20px
+}
+.gfg-collapse-open {
+	BACKGROUND-IMAGE: url(arrow_open.gif)
+}
+.gfg-collapse-closed {
+	BACKGROUND-IMAGE: url(arrow_close.gif)
+}
+.gfg-collapse-href {
+	FLOAT: left
+}
+.clearFloat {
+	CLEAR: both
+}

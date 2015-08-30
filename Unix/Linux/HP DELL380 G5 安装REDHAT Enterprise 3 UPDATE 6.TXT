@@ -1,0 +1,13 @@
+HP DELL380 G5 安装REDHAT Enterprise 3 UPDATE 6
+1. 使用Li Jianfeng的安装盘。第四张盘有问题但用不上的。
+   Wang Yongqiang的盘有问题。
+2. 常规安装。或custom把system tools选上。
+3. 安装好之后找不到网卡，需要安装驱动。
+   问Li Jianfeng要驱动盘，并按照安装盘上附的一张说明书做。注意以下几点：
+   a. 驱动盘插进去如果没有自动mount到/mnt/cdrom,采用以下措施：
+      接上显示器，在system tools之类的地方找到disk management，
+      选中cdrom，点mount。
+   b. 如果找不到rpmbuild命令。
+      插入第一张安装盘，mount, 点/mnt/cdrom/autorun->add/remove packages:
+      选上system tools，选其默认的packages就行，finish。
+      安装好之后就用rpmbuild了。 

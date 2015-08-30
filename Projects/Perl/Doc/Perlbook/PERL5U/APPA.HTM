@@ -1,0 +1,1617 @@
+<HTML>
+
+<HEAD>
+   <TITLE>appendix A-- Perl 5 Function and Variable Reference</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>appendix A</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Perl 5 Function and Variable Reference</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+This appendix presents a brief alphabetic synopsis of all available
+Perl functions to enable you to quickly look up the functions'
+syntax. This appendix is not intended to provide a complete, exhaustive
+reference. For a complete documentation set on Perl 5, you can
+visit the CPAN site described in the following note.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=573><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD WIDTH=573>
+<BLOCKQUOTE>
+You can obtain the complete reference manual for Perl from the CPAN Web sites. The most comprehensive set is the 950KB zipped file available at the following URL:</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">www.perl.com/CPAN/doc/manual/text/PerlDoc-5.002b1g-txt.tar.gz</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+Once unzipped and untarred, the archive expands to several reference documents. These online documents will provide a far more comprehensive, up-to-date reference material on Perl than is provided in this appendix.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Here are a few points to note when using this appendix:
+<UL>
+<LI><FONT COLOR=#000000>Parameters to functions can be specified
+either with or without parentheses. For example, the following
+two statements are equivalent:<BR>
+</FONT><TT><FONT FACE="Courier">alarm 3;<BR>
+alarm (3);<BR>
+</FONT></TT><FONT COLOR=#000000>The placeholders for variables
+are shown in italics or all uppercase. A placeholder is a generic
+term for which you are to substitute specific information. Where
+all uppercase characters are used, the placeholder implies a handle
+to a system resource such as a file, directory, pipe, or socket.
+For example, when the context is relevant, the word SOCKET implies
+a handle to a socket.</FONT>
+<LI><FONT COLOR=#000000>All optional parameters (and related semicolons)
+are listed in square brackets. Do not include the square brackets
+in your code for this syntax. For example, the </FONT><TT><FONT FACE="Courier">bless</FONT></TT>
+function can take one or two parameters, so it's listed as follows:
+<BR>
+<TT><FONT FACE="Courier">bless REFEREncE[,CLASS]<BR>
+</FONT></TT>which means that you can make these two calls:<BR>
+<TT><FONT FACE="Courier">bless $this,<BR>
+bless $this,myClass<BR>
+</FONT></TT>but not this call:<BR>
+<TT><FONT FACE="Courier">bless $this,[myClass]</FONT></TT>
+<LI><FONT COLOR=#000000>When there is more than one type of parameter
+as an argument or a list of arguments to a function, all such
+types of syntax are listed.</FONT>
+<LI><FONT COLOR=#000000>A code block refers to a set of Perl statements
+within a pair of curly braces. The code block includes the surrounding
+curly braces if there is more than one statement in it. For example,
+the </FONT><TT><FONT FACE="Courier">do</FONT></TT> command is
+really written as follows:<BR>
+<BR>
+<TT><FONT FACE="Courier">do {<BR>
+<I>something here<BR>
+something there<BR>
+more code<BR>
+statement...<BR>
+</I>}</FONT></TT>
+<LI>The code block above is shown in italics for the <TT><FONT FACE="Courier">do</FONT></TT>
+loop.
+</UL>
+<H4><TT><FONT FACE="Courier">-X [FILEHANDLE or Expression]</FONT></TT>
+</H4>
+<P>
+The <TT><FONT FACE="Courier">-X</FONT></TT> command is a unary
+file test operator. <TT><FONT FACE="Courier">X</FONT></TT> can
+take one of the following values:<P>
+<CENTER>
+<TABLE BORDER=1>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-A</FONT></TT></CENTER>
+</TD><TD WIDTH=264>Same for access time.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-B</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is a binary file (opposite of <TT><FONT FACE="Courier">-T</FONT></TT>).
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-b</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is a block special file.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-c</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is a character special file.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-C</FONT></TT></CENTER>
+</TD><TD WIDTH=264>Same for <TT><FONT FACE="Courier">inode</FONT></TT> change time.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-d</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is a directory.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-e</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File exists.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-f</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is a plain file.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-g</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File has <TT><FONT FACE="Courier">setgid</FONT></TT> bit set.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-k</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File has <TT><FONT FACE="Courier">sticky</FONT></TT> bit set.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-l</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is a symbolic link.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-M</FONT></TT></CENTER>
+</TD><TD WIDTH=264>Age of file in days when script started.</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-o</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is owned by effective <TT><FONT FACE="Courier">uid</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-O</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is owned by real <TT><FONT FACE="Courier">uid</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-p</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is a named pipe (FIFO).</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-r</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is readable by effective <TT><FONT FACE="Courier">uid</FONT></TT>/<TT><FONT FACE="Courier">gid</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-R</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is readable by real <TT><FONT FACE="Courier">uid</FONT></TT>/<TT><FONT FACE="Courier">gid</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-s</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File has non-zero size (returns size).</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-S</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is a socket.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-t</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File handle is opened to a <TT><FONT FACE="Courier">tty</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-T</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is a text file.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-u</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File has <TT><FONT FACE="Courier">setuid</FONT></TT> bit set.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-w</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is writable by effective <TT><FONT FACE="Courier">uid</FONT></TT>/<TT><FONT FACE="Courier">gid</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-W</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is writable by real <TT><FONT FACE="Courier">uid</FONT></TT>/<TT><FONT FACE="Courier">gid</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-x</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is executable by effective <TT><FONT FACE="Courier">uid</FONT></TT>/<TT><FONT FACE="Courier">gid</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-X</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File is executable by real <TT><FONT FACE="Courier">uid</FONT></TT>/<TT><FONT FACE="Courier">gid</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=79><CENTER><TT><FONT FACE="Courier">-z</FONT></TT></CENTER>
+</TD><TD WIDTH=264>File has zero byte size.</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">-X</FONT></TT> operator takes one
+argument: a filename or a file handle. Then it applies a test
+with the associated file for what's requested. It uses <TT><FONT FACE="Courier">$_</FONT></TT>
+if no argument is given. The exception to this rule is the <TT><FONT FACE="Courier">-t</FONT></TT>
+test, which defaults to using <TT><FONT FACE="Courier">STDIN</FONT></TT>.
+The function returns <TT><FONT FACE="Courier">1</FONT></TT> if
+the tested condition is <TT><FONT FACE="Courier">true</FONT></TT>;
+otherwise, it returns <TT><FONT FACE="Courier">false</FONT></TT>.
+The precedence for this operator is the same as any other named
+unary operator. The arguments into this function may be parenthesized
+like any other unary operator.
+<P>
+The permission operators (<TT><FONT FACE="Courier">-r</FONT></TT>,
+<TT><FONT FACE="Courier">-R</FONT></TT>, <TT><FONT FACE="Courier">-w</FONT></TT>
+, <TT><FONT FACE="Courier">-W</FONT></TT>, <TT><FONT FACE="Courier">-x</FONT></TT>,
+and <TT><FONT FACE="Courier">-X</FONT></TT> ) test the <TT><FONT FACE="Courier">umask</FONT></TT>
+file permissions and those of the calling program's <TT><FONT FACE="Courier">uid</FONT></TT>s
+and <TT><FONT FACE="Courier">gid</FONT></TT>s. Other reasons why
+you can't actually read, write, or execute the file are ignored.
+When tested while a program is running as <TT><FONT FACE="Courier">root</FONT></TT>,
+the read/write flags will always return <TT><FONT FACE="Courier">1</FONT></TT>
+as the test. The values from the <TT><FONT FACE="Courier">-x</FONT></TT>
+and <TT><FONT FACE="Courier">-X</FONT></TT> return <TT><FONT FACE="Courier">1</FONT></TT>
+only if any execute bit is set. It's probably better to use the
+<TT><FONT FACE="Courier">stat()</FONT></TT> function instead to
+figure out the mode of the file.
+<P>
+The <TT><FONT FACE="Courier">-T</FONT></TT> and <TT><FONT FACE="Courier">-B</FONT></TT>
+switches determine the type of file by looking at the first few
+blocks of the file. If there are non-ASCII characters in there,
+the file is assumed to be binary. Control codes generally have
+the highest bit set, which is what Perl looks for. Also, any file
+containing <TT><FONT FACE="Courier">null</FONT></TT> in the first
+block is considered a binary file.
+<P>
+If <TT><FONT FACE="Courier">-T</FONT></TT> or <TT><FONT FACE="Courier">-B</FONT></TT>
+is used on a file handle, the current input buffer is examined
+rather than the first block. Both <TT><FONT FACE="Courier">-T</FONT></TT>
+and <TT><FONT FACE="Courier">-B</FONT></TT> return <TT><FONT FACE="Courier">TRUE</FONT></TT>
+on a <TT><FONT FACE="Courier">null</FONT></TT> file or from a
+file pointer at EOF when testing a file handle. To be able to
+perform a <TT><FONT FACE="Courier">-T</FONT></TT> or <TT><FONT FACE="Courier">-B</FONT></TT>
+test on a file, you have to be able to read it. To test for readability,
+use the <TT><FONT FACE="Courier">-f</FONT></TT> option along with
+the <TT><FONT FACE="Courier">-T</FONT></TT> or <TT><FONT FACE="Courier">-B</FONT></TT>
+flag: <TT><FONT FACE="Courier">-f $file &amp;&amp; -T $file</FONT></TT>.
+Like the <TT><FONT FACE="Courier">stat()</FONT></TT> operator,
+the special handle referred by the underscore (<TT><FONT FACE="Courier">_</FONT></TT>)
+is the last file handle used. This shortcut does not work with
+<TT><FONT FACE="Courier">-t</FONT></TT>.
+<H4><TT><FONT FACE="Courier">abs value</FONT></TT></H4>
+<P>
+The absolute value of its argument. Non-numeric arguments return
+a value of <TT><FONT FACE="Courier">0</FONT></TT>.
+<H4><TT><FONT FACE="Courier">accept newSocket, oldSocket</FONT></TT>
+</H4>
+<P>
+This call is used to accept an incoming packet. The return value
+is the packed address if successful, or <TT><FONT FACE="Courier">FALSE</FONT></TT>
+if not successful. The underlying call is the same as the <TT><FONT FACE="Courier">accept()</FONT></TT>
+system call in UNIX. <A HREF="ch12.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch12.htm" >See Chapter 12</A>, &quot;Using
+Sockets.&quot;
+<H4><TT><FONT FACE="Courier">alarm seconds</FONT></TT></H4>
+<P>
+Sets up a timer to send the <TT><FONT FACE="Courier">SIGALRM</FONT></TT>
+signal to a process after the approximate number of seconds in
+the argument have passed. Each call to <TT><FONT FACE="Courier">alarm</FONT></TT>
+resets any previous timer. A value of <TT><FONT FACE="Courier">0</FONT></TT>
+for the timer disables any previous timer. The returned value
+is the number of seconds on the previous timer. Don't use the
+<TT><FONT FACE="Courier">sleep()</FONT></TT> call with the <TT><FONT FACE="Courier">alarm</FONT></TT>
+call in the same code block because they share the same internal
+Perl variables in two different ways.
+<H4><TT><FONT FACE="Courier">atan2 Y,X</FONT></TT></H4>
+<P>
+Returns the arctangent of <TT><FONT FACE="Courier">Y/X</FONT></TT>.
+The returned value is guaranteed to be in the range <TT><FONT FACE="Courier">[-PI
+, PI]</FONT></TT>.
+<H4><TT><FONT FACE="Courier">bind socket,name</FONT></TT></H4>
+<P>
+Used to bind a network address to a socket. Returns <TT><FONT FACE="Courier">TRUE</FONT></TT>
+on success or <TT><FONT FACE="Courier">FALSE</FONT></TT> on any
+failure. The name must be a packed address of the appropriate
+type for the socket. <A HREF="ch12.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch12.htm" >See Chapter 12</A>.
+<H4><TT><FONT FACE="Courier">binmode FILEHANDLE</FONT></TT></H4>
+<P>
+Forces binary mode on the file specified by the <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+handle. Those files not in binary mode will have the <TT><FONT FACE="Courier">CR</FONT></TT>,
+<TT><FONT FACE="Courier">LF</FONT></TT> line termination translated
+to <TT><FONT FACE="Courier">LF</FONT></TT> on input, and <TT><FONT FACE="Courier">LF</FONT></TT>
+to <TT><FONT FACE="Courier">CR</FONT></TT>,<TT><FONT FACE="Courier">LF</FONT></TT>
+on output, in non-UNIX systems. The <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+may be the value of an expression.
+<H4><TT><FONT FACE="Courier">bless REFEREncE[,CLASS]</FONT></TT>
+</H4>
+<P>
+The <TT><FONT FACE="Courier">bless</FONT></TT> function forces
+the <TT><FONT FACE="Courier">REFEREncE</FONT></TT> referenced
+object to be an object of the type <TT><FONT FACE="Courier">ClassName</FONT></TT>.
+If no <TT><FONT FACE="Courier">ClassName</FONT></TT> is specified,
+the current class name is used. The <TT><FONT FACE="Courier">REFEREncE</FONT></TT>
+value is returned by this function. The <TT><FONT FACE="Courier">bless</FONT></TT>
+function is usually the last item called in a constructor for
+an object.
+<P>
+Note that the two-argument version is the preferred way of calling
+the <TT><FONT FACE="Courier">bless</FONT></TT> function. The one-argument
+function might cause the wrong class to be <TT><FONT FACE="Courier">bless</FONT></TT>-ed
+if the class is inherited by a derived class.
+<H4><TT><FONT FACE="Courier">chdir newDir</FONT></TT></H4>
+<P>
+Sets the current working directory to the value in <TT><FONT FACE="Courier">newDir</FONT></TT>.
+The function returns <TT><FONT FACE="Courier">TRUE</FONT></TT>
+if the change was okay, <TT><FONT FACE="Courier">FALSE</FONT></TT>
+if not.
+<H4><TT><FONT FACE="Courier">chmod mode listOfFileNames</FONT></TT>
+</H4>
+<P>
+Works like the <TT><FONT FACE="Courier">chmod</FONT></TT> command
+in UNIX. The first argument is an octal number of the bits or
+the UNIX <TT><FONT FACE="Courier">mode</FONT></TT> (for example
+<TT><FONT FACE="Courier">+w</FONT></TT>) to set in the list of
+filenames that follow. Returns the number of files whose mode
+was successfully changed.
+<H4><TT><FONT FACE="Courier">chomp variable<BR>
+chomp list<BR>
+chomp</FONT></TT></H4>
+<P>
+The <TT><FONT FACE="Courier">chomp</FONT></TT> function removes
+the ending part of a line if the terminating characters are of
+the same value as the <TT><FONT FACE="Courier">$/</FONT></TT>
+variable. The function returns the number of characters removed.
+If <TT><FONT FACE="Courier">variable</FONT></TT> is omitted, the
+<TT><FONT FACE="Courier">$_</FONT></TT> variable is <TT><FONT FACE="Courier">chomp</FONT></TT>-ed.
+If you set <TT><FONT FACE="Courier">$/</FONT></TT> to <TT><FONT FACE="Courier">&quot;&quot;</FONT></TT>,
+all blank lines are removed. If you <TT><FONT FACE="Courier">chomp</FONT></TT>
+a list, each element is <TT><FONT FACE="Courier">chomp</FONT></TT>-ed,
+and the total number of characters removed is returned. Like <TT><FONT FACE="Courier">chop</FONT></TT>,
+the <TT><FONT FACE="Courier">chomp</FONT></TT> function can be
+used on the results of expressions:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">chomp($users = `who`);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+chomp($answer = &lt;STDIN&gt;);</FONT></TT>
+</BLOCKQUOTE>
+<H4><TT><FONT FACE="Courier">chop variable<BR>
+chop list<BR>
+chop</FONT></TT></H4>
+<P>
+Removes the last character from a string. If no variable or list
+is specified, <TT><FONT FACE="Courier">chop</FONT></TT> uses the
+<TT><FONT FACE="Courier">$_</FONT></TT> variable. If the input
+to <TT><FONT FACE="Courier">chop</FONT></TT> is a list, it removes
+the last item in the list. If the input to <TT><FONT FACE="Courier">chop</FONT></TT>
+is a string, it removes the last character in the string. The
+last item <TT><FONT FACE="Courier">chop</FONT></TT>-ed is the
+return value.
+<H4><TT><FONT FACE="Courier">chown uid gid listOfiles</FONT></TT>
+</H4>
+<P>
+Change the owner with <TT><FONT FACE="Courier">uid</FONT></TT>
+and group with <TT><FONT FACE="Courier">gid</FONT></TT> of a list
+of files. The function returns the number of files successfully
+changed. <TT><FONT FACE="Courier">Caller</FONT></TT> must have
+permissions to write on the files you are modifying. Both <TT><FONT FACE="Courier">uid</FONT></TT>
+and <TT><FONT FACE="Courier">gid</FONT></TT> must be numbers or
+evaluate to numbers.
+<H4><TT><FONT FACE="Courier">chr number</FONT></TT></H4>
+<P>
+Returns the character for the underlying operating system given
+its index in a character set.
+<H4><TT><FONT FACE="Courier">chroot rootDir</FONT></TT></H4>
+<P>
+Makes the value in <TT><FONT FACE="Courier">rootDir</FONT></TT>
+the root directory for all relative pathnames used in the application.
+The current working directory is not changed. <TT><FONT FACE="Courier">chroot</FONT></TT>
+uses <TT><FONT FACE="Courier">$_</FONT></TT> if no argument is
+specified. This only works if you are running this script as <TT><FONT FACE="Courier">superuser</FONT></TT>.
+<H4><TT><FONT FACE="Courier">close</FONT></TT></H4>
+<P>
+Closes the file, socket, or pipe associated with the file handle.
+Returns <TT><FONT FACE="Courier">TRUE</FONT></TT> if all the buffers
+are flushed and the system call to close the file, pipe, or socket
+succeeds. Re-opening a file with the <TT><FONT FACE="Courier">open()</FONT></TT>
+file closes the file automatically. The <TT><FONT FACE="Courier">$.</FONT></TT>
+variable for line counts is reset to zero when a file is closed,
+but not when the file is re-opened. Closing a pipe causes the
+calling process to wait for the process executing on the pipe
+to complete. Closing a pipe explicitly also puts the status value
+of the current command in a pipe into <TT><FONT FACE="Courier">$?</FONT></TT>.
+<H4><TT><FONT FACE="Courier">closedir</FONT></TT></H4>
+<P>
+This function closes a directory opened by <TT><FONT FACE="Courier">opendir()</FONT></TT>.
+<H4><TT><FONT FACE="Courier">connect SOCKET,name</FONT></TT></H4>
+<P>
+Connects using sockets to a remote socket. Returns <TT><FONT FACE="Courier">TRUE</FONT></TT>
+if it succeeded, <TT><FONT FACE="Courier">FALSE</FONT></TT> otherwise.
+The name should be a packed address of the appropriate type for
+the socket. <A HREF="ch12.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch12.htm" >See Chapter 12</A>.
+<H4><TT><FONT FACE="Courier">continue code block continue</FONT></TT>
+</H4>
+<P>
+Processes the next item in a loop. Execute the <TT><FONT FACE="Courier">code
+block</FONT></TT> before proceeding to the top of the loop.
+<H4><TT><FONT FACE="Courier">cos Expression</FONT></TT></H4>
+<P>
+Returns the cosine of <TT><FONT FACE="Courier">Expression</FONT></TT>
+whose value must be expressed in radians. Use the <TT><FONT FACE="Courier">$_</FONT></TT>
+if no variable is specified.
+<H4><TT><FONT FACE="Courier">crypt</FONT></TT></H4>
+<P>
+Uses a function similar to the UNIX <TT><FONT FACE="Courier">crypt()</FONT></TT>
+function to encrypt the passed text using the value in <TT><FONT FACE="Courier">salt</FONT></TT>.
+<H4><TT><FONT FACE="Courier">dbmclose hash</FONT></TT></H4>
+<P>
+Breaks the binding between a DBM file and an associative array.
+<H4><TT><FONT FACE="Courier">dbmopen hashName,DBname,mode</FONT></TT>
+</H4>
+<P>
+This call binds a Perl supported DB file to an associative array.
+<TT><FONT FACE="Courier">DBname</FONT></TT> is the name of the
+database without any extensions. The <TT><FONT FACE="Courier">mode</FONT></TT>
+is the permissions with which to open the database. The default
+database is <TT><FONT FACE="Courier">sdbm</FONT></TT>. If you
+don't have write access to the DB file, all your assignments will
+not be written to disk and instead will trigger a trap instruction.
+<H4><TT><FONT FACE="Courier">defined Expression</FONT></TT></H4>
+<P>
+Returns <TT><FONT FACE="Courier">true</FONT></TT> if the <TT><FONT FACE="Courier">Expression</FONT></TT>
+is assigned a value and returns <TT><FONT FACE="Courier">false</FONT></TT>
+if the value of <TT><FONT FACE="Courier">Expression</FONT></TT>
+is not defined (<TT><FONT FACE="Courier">undef</FONT></TT>). If
+applied to a hash array element, it tells you whether the key
+exists for the hash.
+<H4><TT><FONT FACE="Courier">delete Expression</FONT></TT></H4>
+<P>
+Deletes the specified <TT><FONT FACE="Courier">Expression</FONT></TT>
+from a hash. The deleted value is returned. Note that any deletions
+on the <TT><FONT FACE="Courier">%ENV</FONT></TT> array modify
+the environment variables for a program. Deleting a hash entry
+that's mapped to a disk file with <TT><FONT FACE="Courier">tie()</FONT></TT>
+will delete the entry from the disk file. Deleting from a tied
+hash always returns <TT><FONT FACE="Courier">undef</FONT></TT>.
+<H4><TT><FONT FACE="Courier">die Message</FONT></TT></H4>
+<P>
+The <TT><FONT FACE="Courier">die()</FONT></TT> function is the
+de facto bailout function for a Perl script. The most common use
+is to include the <TT><FONT FACE="Courier">$!</FONT></TT> variable
+to provide some error message of why it died. In a script, <TT><FONT FACE="Courier">die()</FONT></TT>
+prints the <TT><FONT FACE="Courier">Message</FONT></TT> to the
+standard error and exits with the value in <TT><FONT FACE="Courier">$!</FONT></TT>.
+If <TT><FONT FACE="Courier">$!</FONT></TT> is zero, the value
+of (<TT><FONT FACE="Courier">$?&gt;&gt;8</FONT></TT>) is returned.
+If the value of <TT><FONT FACE="Courier">$?</FONT></TT> is zero,
+a value of 255 is returned. Inside an <TT><FONT FACE="Courier">eval()</FONT></TT>
+block, the <TT><FONT FACE="Courier">Message</FONT></TT> is placed
+into the <TT><FONT FACE="Courier">$@</FONT></TT> variable and
+the <TT><FONT FACE="Courier">eval()</FONT></TT> block is terminated
+with <TT><FONT FACE="Courier">'undef'</FONT></TT>.
+<P>
+If the message does not end in a newline, the line number of the
+script and the line number of the input is also printed along
+with a newline.
+<H4><TT><FONT FACE="Courier">do code block</FONT></TT></H4>
+<P>
+Returns the value of the last command in the sequence of commands
+in the code block. The <TT><FONT FACE="Courier">do</FONT></TT>
+command executes the code block at least once.
+<H4><TT><FONT FACE="Courier">do Expression</FONT></TT></H4>
+<P>
+Uses the value of <TT><FONT FACE="Courier">Expression</FONT></TT>
+as a filename and executes the contents of the file as a Perl
+script. Its use is the same as <TT><FONT FACE="Courier">eval `cat
+filename.pl`;</FONT></TT>.
+<H4><TT><FONT FACE="Courier">dump Label</FONT></TT></H4>
+<P>
+Forces a core dump for later use with the <TT><FONT FACE="Courier">undump</FONT></TT>
+command. When the core is <TT><FONT FACE="Courier">undump</FONT></TT>-ed,
+the new code jumps to the location at <TT><FONT FACE="Courier">Label</FONT></TT>
+with the environment restored as much as possible.
+<H4><TT><FONT FACE="Courier">each HASH</FONT></TT></H4>
+<P>
+This function returns a two-item list-the first item is the key
+and the second is the value at the key in a hash. The <TT><FONT FACE="Courier">each</FONT></TT>
+function can be used in an iterative loop because it returns <TT><FONT FACE="Courier">null</FONT></TT>
+at the end of the array. Calling <TT><FONT FACE="Courier">each()</FONT></TT>
+after getting a <TT><FONT FACE="Courier">null</FONT></TT> value
+causes it to start over from the first <TT><FONT FACE="Courier">{key,
+value}</FONT></TT> pair in the hash. Do not add elements to an
+array while you're iterating over it. There is a single iterator
+for each associative array that is shared by all <TT><FONT FACE="Courier">each()</FONT></TT>,
+<TT><FONT FACE="Courier">keys()</FONT></TT>, and <TT><FONT FACE="Courier">values()</FONT></TT>
+function calls in a program.
+<H4><TT><FONT FACE="Courier">endpwent<BR>
+endgrent<BR>
+endhostent<BR>
+endnetent<BR>
+endprotoent<BR>
+endservent</FONT></TT></H4>
+<P>
+These functions perform the same function as the underlying system
+call.
+<H4><TT><FONT FACE="Courier">eof FILEHANDLE<BR>
+eof ()<BR>
+eof</FONT></TT></H4>
+<P>
+This function returns <TT><FONT FACE="Courier">true</FONT></TT>
+if the next read on <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+returns end of file or if <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+is not open. If no <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+is specified, the last file handle used in a statement is assumed.
+The <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT> may be an
+expression whose value gives the real file handle. This function
+should not be used for reading from the console. If used in a
+<TT><FONT FACE="Courier">while (&lt;&gt;)</FONT></TT> loop, the
+<TT><FONT FACE="Courier">eof()</FONT></TT> call is valid for each
+file being read.
+<H4><TT><FONT FACE="Courier">eval <BR>
+eval Expression<BR>
+eval code block</FONT></TT></H4>
+<P>
+Evaluates the expression passed to it just like a Perl program
+and returns the value of the last expression evaluated. A return
+statement may be used in an <TT><FONT FACE="Courier">eval()</FONT></TT>
+statement. The call returns an undefined value if there is a runtime
+error or if the <TT><FONT FACE="Courier">die()</FONT></TT> call
+is made. The <TT><FONT FACE="Courier">$@</FONT></TT> variable
+is set to the error message. If there was no error, <TT><FONT FACE="Courier">$@</FONT></TT>
+is set to <TT><FONT FACE="Courier">null</FONT></TT>. The <TT><FONT FACE="Courier">eval()</FONT></TT>
+call uses <TT><FONT FACE="Courier">$_</FONT></TT> if no expression
+is given. The final semicolon in a code block is not necessary.
+<H4><TT><FONT FACE="Courier">exec command [args ... ]</FONT></TT>
+</H4>
+<P>
+The <TT><FONT FACE="Courier">exec()</FONT></TT> function executes
+a system command and does not return. This call is generally made
+after a <TT><FONT FACE="Courier">fork()</FONT></TT> call. The
+arguments to the <TT><FONT FACE="Courier">exec</FONT></TT> command
+include the command to execute in the first argument, followed
+by any arguments to that command.
+<H4><TT><FONT FACE="Courier">exists Expression</FONT></TT></H4>
+<P>
+Checks if a key exists in a hash. Returns <TT><FONT FACE="Courier">true</FONT></TT>
+if the key does exist, and <TT><FONT FACE="Courier">null</FONT></TT>
+if it does not.
+<H4><TT><FONT FACE="Courier">exit Expression</FONT></TT></H4>
+<P>
+Exits with the value from the <TT><FONT FACE="Courier">Expression</FONT></TT>
+evaluation. If no <TT><FONT FACE="Courier">Expression</FONT></TT>
+is given, it exits with a value of <TT><FONT FACE="Courier">0</FONT></TT>.
+<H4><TT><FONT FACE="Courier">exp Expression</FONT></TT></H4>
+<P>
+Returns the natural logarithm base to the power of <TT><FONT FACE="Courier">Expression</FONT></TT>.
+Uses <TT><FONT FACE="Courier">$_</FONT></TT> if no <TT><FONT FACE="Courier">Expression</FONT></TT>
+is given.
+<H4><TT><FONT FACE="Courier">fcntl FILEHANDLE,function,scalar</FONT></TT>
+</H4>
+<P>
+Implements the <TT><FONT FACE="Courier">fcntl(2)</FONT></TT> function
+and requires the <TT><FONT FACE="Courier">Fcntl</FONT></TT> module.
+<H4><TT><FONT FACE="Courier">fileno FILEHANDLE</FONT></TT></H4>
+<P>
+Returns the file descriptor <TT><FONT FACE="Courier">id</FONT></TT>
+for a file handle and is used with the <TT><FONT FACE="Courier">select()</FONT></TT>
+call. The <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT> may
+be an expression whose value would be used as the name of the
+file handle.
+<H4><TT><FONT FACE="Courier">flock FILEHANDLE,operation</FONT></TT>
+</H4>
+<P>
+Calls the system function <TT><FONT FACE="Courier">flock(2)</FONT></TT>
+on <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>. Returns <TT><FONT FACE="Courier">true</FONT></TT>
+on success and <TT><FONT FACE="Courier">false</FONT></TT> on failure.
+The <TT><FONT FACE="Courier">flock</FONT></TT> function locks
+files, not records within files-but it's portable across platforms,
+especially if the locked files exist across the network.
+<H4><TT><FONT FACE="Courier">fork</FONT></TT></H4>
+<P>
+This is a <TT><FONT FACE="Courier">fork(2)</FONT></TT> system
+call. Upon return, the parent process gets the child <TT><FONT FACE="Courier">pid</FONT></TT>,
+and the child process gets a <TT><FONT FACE="Courier">0</FONT></TT>.
+The parent process gets <TT><FONT FACE="Courier">undef</FONT></TT>
+in case of errors. It's a good idea to set <TT><FONT FACE="Courier">$|</FONT></TT>
+to <TT><FONT FACE="Courier">1</FONT></TT> before a <TT><FONT FACE="Courier">fork</FONT></TT>
+or to call the <TT><FONT FACE="Courier">autoflush(FILEHANDLE)</FONT></TT>
+function to flush any pending output before the <TT><FONT FACE="Courier">fork</FONT></TT>
+call because buffers are not automatically flushed by <TT><FONT FACE="Courier">fork()</FONT></TT>.
+<H4><TT><FONT FACE="Courier">format</FONT></TT></H4>
+<P>
+The <TT><FONT FACE="Courier">format</FONT></TT> command. <A HREF="ch19.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch19.htm" >See Chapter 19</A>,
+&quot;Generating Reports.&quot;
+<H4><TT><FONT FACE="Courier">getc<BR>
+getc FILEHANDLE</FONT></TT></H4>
+<P>
+Does a <TT><FONT FACE="Courier">getc()</FONT></TT> I/O call to
+get the next character from the input file specified in <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>.
+It returns <TT><FONT FACE="Courier">null</FONT></TT> if at end
+of file. If no <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+is specified, <TT><FONT FACE="Courier">getc</FONT></TT> uses <TT><FONT FACE="Courier">STDIN</FONT></TT>
+for input.
+<H4><TT><FONT FACE="Courier">getgrgid GID<BR>
+getpwuid UID</FONT></TT></H4>
+<P>
+Gets the password or group file entry from the user or group ID.
+Each function performs the same function as the underlying system
+call.
+<H4><TT><FONT FACE="Courier">gethostbyname name<BR>
+getnetbyname name<BR>
+getprotobyname name<BR>
+getservbyname name,protocol<BR>
+gethostbyaddr addr,addressType<BR>
+getnetbyaddr addr,addressType</FONT></TT></H4>
+<P>
+These functions perform the same function as the underlying system
+call to return the net structure. See networks(5) in the UNIX
+manuals.
+<H4><TT><FONT FACE="Courier">getlogin</FONT></TT></H4>
+<P>
+Gets the current login name from <TT><FONT FACE="Courier">/etc/utmp</FONT></TT>,
+if any. It's better to use <TT><FONT FACE="Courier">getpwuid($&lt;)</FONT></TT>.
+<H4><TT><FONT FACE="Courier">getpeernam socket</FONT></TT></H4>
+<P>
+Gets the packed <TT><FONT FACE="Courier">sockaddr</FONT></TT>
+structure with the socket address of the remote computer at the
+end of a socket connection.
+<H4><TT><FONT FACE="Courier">getpgrp pid</FONT></TT></H4>
+<P>
+Gets the current process group for the specified <TT><FONT FACE="Courier">pid</FONT></TT>.
+You can use <TT><FONT FACE="Courier">0</FONT></TT> or <TT><FONT FACE="Courier">null</FONT></TT>
+for specifying the current process.
+<P>
+This function may raise a fatal exception if the underlying system
+call is not supported.
+<H4><TT><FONT FACE="Courier">getppid</FONT></TT></H4>
+<P>
+Gets the process ID of the parent process.
+<H4><TT><FONT FACE="Courier">getpriority processID<BR>
+getpriority UID</FONT></TT></H4>
+<P>
+Gets the current priority for a process, a process group, or a
+user using the <TT><FONT FACE="Courier">getpriority(2)</FONT></TT>
+system call. This function may raise a fatal exception if the
+underlying system call is not supported.
+<H4><TT><FONT FACE="Courier">getprotobynumber number</FONT></TT>
+</H4>
+<P>
+Returns the protocol by number.
+<H4><TT><FONT FACE="Courier">getpwent<BR>
+getgrent<BR>
+gethostent<BR>
+getnetent<BR>
+getprotoent<BR>
+getservent</FONT></TT></H4>
+<P>
+These functions perform the same function as the underlying system
+call.
+<H4><TT><FONT FACE="Courier">getpwnam name<BR>
+getgrnam name</FONT></TT></H4>
+<P>
+Gets the password or group file entry given a <TT><FONT FACE="Courier">name</FONT></TT>.
+This function performs the same function as the underlying system
+call.
+<H4><TT><FONT FACE="Courier">getservbyport port, proto</FONT></TT>
+</H4>
+<P>
+This function performs the same function as the underlying system
+call. The <TT><FONT FACE="Courier">port</FONT></TT> is the port
+number to use for the given protocol in <TT><FONT FACE="Courier">proto</FONT></TT>.
+Check out the file <TT><FONT FACE="Courier">/usr/include/net.h</FONT></TT>
+for these values.
+<H4><TT><FONT FACE="Courier">getsockname SOCKETHANDLE</FONT></TT>
+</H4>
+<P>
+Gets the packed <TT><FONT FACE="Courier">sockaddr</FONT></TT>
+structure with the address of the local end of a socket connection.
+<H4><TT><FONT FACE="Courier">getsockopt SOCKETHANDLE,level,optname</FONT></TT>
+</H4>
+<P>
+Gets the socket option requested, or is undefined if there is
+an error. This function performs the same function as the underlying
+system call.
+<H4><TT><FONT FACE="Courier">glob Expression</FONT></TT></H4>
+<P>
+Expands the value of <TT><FONT FACE="Courier">Expression</FONT></TT>
+to filenames just like a shell operation.
+<H4><TT><FONT FACE="Courier">gmtime Expression</FONT></TT></H4>
+<P>
+Converts the time value returned by the <TT><FONT FACE="Courier">time()</FONT></TT>
+function to a nine-element array adjusted for the standard Greenwich
+time zone. All returned array elements are numeric and come straight
+out of a struct <TT><FONT FACE="Courier">tm</FONT></TT> defined
+in <TT><FONT FACE="Courier">/usr/include/time.h</FONT></TT>.
+<H4><TT><FONT FACE="Courier">goto LABEL<BR>
+goto Expression<BR>
+goto &amp;name</FONT></TT></H4>
+<P>
+The <TT><FONT FACE="Courier">goto LABEL</FONT></TT> form jumps
+to the statement labeled with <TT><FONT FACE="Courier">LABEL</FONT></TT>.
+You cannot jump into a subroutine or within a loop. The <TT><FONT FACE="Courier">Expression</FONT></TT>
+is used for computed <TT><FONT FACE="Courier">GOTO</FONT></TT>s.
+<TT><FONT FACE="Courier">GOTO &amp;name</FONT></TT> substitutes
+a call to the named subroutine for the currently running subroutine.
+The code returns back from the newly referenced subroutine.
+<H4><TT><FONT FACE="Courier">grep Codeblock @list<BR>
+grep Expression, @list</FONT></TT></H4>
+<P>
+Runs <TT><FONT FACE="Courier">grep</FONT></TT> on the <TT><FONT FACE="Courier">Codeblock</FONT></TT>
+or <TT><FONT FACE="Courier">Expression</FONT></TT> for each element
+of <TT><FONT FACE="Courier">@list</FONT></TT> by setting <TT><FONT FACE="Courier">$_</FONT></TT>
+to each element in the <TT><FONT FACE="Courier">@list</FONT></TT>.
+The return value is a list of all the elements that matched the
+<TT><FONT FACE="Courier">grep</FONT></TT> expression. For example,
+<TT><FONT FACE="Courier">@freds = grep(/fred/, @users);</FONT></TT>
+gets all the strings with the word <TT><FONT FACE="Courier">fred</FONT></TT>
+in <TT><FONT FACE="Courier">@users</FONT></TT>.
+<H4><TT><FONT FACE="Courier">hex Expression</FONT></TT></H4>
+<P>
+Evaluates <TT><FONT FACE="Courier">Expression</FONT></TT> as a
+hex string and returns the corresponding decimal number.
+<H4><TT><FONT FACE="Courier">import moduleName</FONT></TT></H4>
+<P>
+Used to import other modules into a program.
+<H4><TT><FONT FACE="Courier">index string,substr,[position]</FONT></TT>
+</H4>
+<P>
+Gets the position of the first occurrence of <TT><FONT FACE="Courier">substr</FONT></TT>
+in <TT><FONT FACE="Courier">str</FONT></TT> at or after the optional
+parameter, <TT><FONT FACE="Courier">position</FONT></TT>. If <TT><FONT FACE="Courier">position</FONT></TT>
+is omitted, a search is started from the beginning of the string.
+The return value is indexed from <TT><FONT FACE="Courier">0</FONT></TT>
+or <TT><FONT FACE="Courier">h</FONT></TT>, the value in the <TT><FONT FACE="Courier">$[</FONT></TT>
+variable. Returns <TT><FONT FACE="Courier">-1</FONT></TT> or (<TT><FONT FACE="Courier">$[
+- 1</FONT></TT>) if no <TT><FONT FACE="Courier">substr</FONT></TT>
+was found.
+<H4><TT><FONT FACE="Courier">int Expression</FONT></TT></H4>
+<P>
+Parses the <TT><FONT FACE="Courier">Expression</FONT></TT> to
+return the integer portion. If <TT><FONT FACE="Courier">Expression</FONT></TT>
+is omitted, <TT><FONT FACE="Courier">$_</FONT></TT> is used to
+parse for integer.
+<H4><TT><FONT FACE="Courier">ioctl FILEHANDLE,function,scalar</FONT></TT>
+</H4>
+<P>
+Implements the <TT><FONT FACE="Courier">ioctl(2)</FONT></TT> function.
+<A HREF="ch15.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch15.htm" >See Chapter 15</A>, &quot;Direct Access to
+System Facilities.&quot;
+<H4><TT><FONT FACE="Courier">join Expression,list<BR>
+join Expression,@array</FONT></TT></H4>
+<P>
+Creates a string from elements of a list or array. Uses the value
+of <TT><FONT FACE="Courier">Expression</FONT></TT> as the separator
+of items in the string.
+<H4><TT><FONT FACE="Courier">keys %hash</FONT></TT></H4>
+<P>
+Returns an array whose members are all the keys of the named hash.
+For example, you can get the environment variables with <TT><FONT FACE="Courier">@keys
+= keys %ENV;</FONT></TT>.
+<H4><TT><FONT FACE="Courier">kill Signal @List-of-PIDs</FONT></TT>
+</H4>
+<P>
+Sends a signal to the list of processes whose process IDs (PID)
+are listed in the <TT><FONT FACE="Courier">@List-of-PIDs</FONT></TT>.
+The first element is the signal to send. The function returns
+the number of processes successfully signaled.
+<H4><TT><FONT FACE="Courier">last [LABEL]</FONT></TT></H4>
+<P>
+This function breaks out of a loop in which it's used. Usually,
+it only breaks out of the inner-most loop. If a <TT><FONT FACE="Courier">LABEL</FONT></TT>
+is specified, the code jumps to the statement after the end of
+the current loop.
+<H4><TT><FONT FACE="Courier">lc String</FONT></TT></H4>
+<P>
+Returns a lowercase version of <TT><FONT FACE="Courier">String</FONT></TT>.
+<H4><TT><FONT FACE="Courier">lcfirst String</FONT></TT></H4>
+<P>
+Returns the value of <TT><FONT FACE="Courier">String</FONT></TT>
+with the first character lowercased.
+<H4><TT><FONT FACE="Courier">length [String]</FONT></TT></H4>
+<P>
+Returns the length in characters of the <TT><FONT FACE="Courier">String</FONT></TT>.
+If <TT><FONT FACE="Courier">String</FONT></TT> is not provided,
+<TT><FONT FACE="Courier">$_</FONT></TT> is used.
+<H4><TT><FONT FACE="Courier">link Oldfile,Newfile</FONT></TT>
+</H4>
+<P>
+Creates a link from old file to a new filename; returns <TT><FONT FACE="Courier">true</FONT></TT>
+on success and <TT><FONT FACE="Courier">false</FONT></TT> on failure.
+<H4><TT><FONT FACE="Courier">listen Socket,Queuesize</FONT></TT>
+</H4>
+<P>
+Works like the <TT><FONT FACE="Courier">listen</FONT></TT> system
+call. Returns <TT><FONT FACE="Courier">true</FONT></TT> on success,
+<TT><FONT FACE="Courier">false</FONT></TT> otherwise.
+<H4><TT><FONT FACE="Courier">local variable[,variable[,variable
+... ]]</FONT></TT></H4>
+<P>
+Creates local variables in a subroutine or other code block. A
+local variable is visible to other code blocks nested within the
+scope of where a local variable is declared. More than one variable
+may be declared <TT><FONT FACE="Courier">local</FONT></TT> on
+one line. See the <TT><FONT FACE="Courier">my()</FONT></TT> function.
+Use parentheses when specifying more than one variable.
+<H4><TT><FONT FACE="Courier">localtime Expression</FONT></TT>
+</H4>
+<P>
+Converts a time value returned by the <TT><FONT FACE="Courier">time()</FONT></TT>
+function to a nine-element array with values for the local time
+zone. The values returned correspond to the <TT><FONT FACE="Courier">tm</FONT></TT>
+structure in the file <TT><FONT FACE="Courier">/usr/include/time.h</FONT></TT>.
+<H4><TT><FONT FACE="Courier">log Expression</FONT></TT></H4>
+<P>
+Returns natural log of <TT><FONT FACE="Courier">Expression</FONT></TT>.
+If the <TT><FONT FACE="Courier">Expression</FONT></TT> is not
+provided, it returns natural log of <TT><FONT FACE="Courier">$_</FONT></TT>.
+<H4><TT><FONT FACE="Courier">lstat FILEHANDLE<BR>
+lstat Expression</FONT></TT></H4>
+<P>
+Works just like the <TT><FONT FACE="Courier">stat()</FONT></TT>
+system call. Works on links instead of on a linked file.
+<H4><TT><FONT FACE="Courier">map CodeBlock, @list<BR>
+map Expression, @list</FONT></TT></H4>
+<P>
+Evaluates the code block or <TT><FONT FACE="Courier">Expression</FONT></TT>
+for each element of <TT><FONT FACE="Courier">@ilist</FONT></TT>
+by setting <TT><FONT FACE="Courier">$_</FONT></TT> to each element
+in <TT><FONT FACE="Courier">@list</FONT></TT>. Returns a list
+of element <TT><FONT FACE="Courier">$_</FONT></TT> to each element
+and returns the list value composed of the results of applying
+the code block or <TT><FONT FACE="Courier">Expression</FONT></TT>
+to <TT><FONT FACE="Courier">@list</FONT></TT>. For example, the
+following function returns a list of <TT><FONT FACE="Courier">@names</FONT></TT>
+with all lowercase strings:
+<P>
+<TT><FONT FACE="Courier">@allLower = map(lc, @names);</FONT></TT>
+<H4><TT><FONT FACE="Courier">mkdir dirName,permissions</FONT></TT>
+</H4>
+<P>
+Makes a directory specified by <TT><FONT FACE="Courier">dirName</FONT></TT>
+with the permissions specified in the argument. Upon success,
+it returns <TT><FONT FACE="Courier">1</FONT></TT>; otherwise it
+returns <TT><FONT FACE="Courier">0</FONT></TT>.
+<H4><TT><FONT FACE="Courier">msgctl QueueID,Action,Arguement</FONT></TT>
+</H4>
+<P>
+The System V Ipc function <TT><FONT FACE="Courier">msgctl(2)</FONT></TT>
+is called here. <A HREF="ch13.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch13.htm" >See Chapter 13</A>, &quot;Message
+Facilities: The System V Ipc Functions.&quot;
+<H4><TT><FONT FACE="Courier">msgget KEY,flags</FONT></TT></H4>
+<P>
+The System V Ipc function <TT><FONT FACE="Courier">msgget(2)</FONT></TT>
+is called here. <A HREF="ch13.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch13.htm" >See Chapter 13</A>.
+<H4><TT><FONT FACE="Courier">msgrcv QueueID,Var,Sz,Type,flags</FONT></TT>
+</H4>
+<P>
+The System V Ipc function <TT><FONT FACE="Courier">msgrcv</FONT></TT>
+is called here.
+<H4><TT><FONT FACE="Courier">msgsnd QueueID,Message,flags</FONT></TT>
+</H4>
+<P>
+Calls the System V Ipc function <TT><FONT FACE="Courier">msgsnd(2)</FONT></TT>
+to send the <TT><FONT FACE="Courier">Message</FONT></TT> to the
+message <TT><FONT FACE="Courier">QueueID</FONT></TT>. The <TT><FONT FACE="Courier">Message</FONT></TT>
+must begin with a long integer message type. Returns <TT><FONT FACE="Courier">true</FONT></TT>
+if successful and <TT><FONT FACE="Courier">false</FONT></TT> on
+error.
+<H4><TT><FONT FACE="Courier">my Expression</FONT></TT></H4>
+<P>
+The <TT><FONT FACE="Courier">my</FONT></TT> function declares
+the listed variables to be local to the enclosing block, subroutine,
+<TT><FONT FACE="Courier">eval</FONT></TT>, or <TT><FONT FACE="Courier">do</FONT></TT>/<TT><FONT FACE="Courier">require</FONT></TT>/<TT><FONT FACE="Courier">use</FONT></TT>
+file. Use parentheses when specifying more than one variable.
+Variables declared as <TT><FONT FACE="Courier">my</FONT></TT>
+are not seen by code blocks within the scope of the current block.
+<H4><TT><FONT FACE="Courier">next LABEL<BR>
+next</FONT></TT></H4>
+<P>
+The <TT><FONT FACE="Courier">next</FONT></TT> command starts the
+next iteration of a loop or jump to <TT><FONT FACE="Courier">LABEL</FONT></TT>.
+For nested loops, it jumps to the innermost enclosing loop.
+<H4><TT><FONT FACE="Courier">no Module[,Module[,Module...]]</FONT></TT>
+</H4>
+<P>
+The opposite of the <TT><FONT FACE="Courier">use</FONT></TT> function.
+<H4><TT><FONT FACE="Courier">oct Expression</FONT></TT></H4>
+<P>
+Returns an octal number after parsing <TT><FONT FACE="Courier">Expression</FONT></TT>.
+Returns a hex number if the <TT><FONT FACE="Courier">Expression</FONT></TT>
+begins with <TT><FONT FACE="Courier">0x</FONT></TT>.
+<H4><TT><FONT FACE="Courier">open FILEHANDLE[,filename]</FONT></TT>
+</H4>
+<P>
+Opens the file whose filename is given by <TT><FONT FACE="Courier">filename</FONT></TT>
+and associates it with <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>.
+If <TT><FONT FACE="Courier">filename</FONT></TT> is not specified,
+the scalar variable of the same name as the <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+contains the filename. If the <TT><FONT FACE="Courier">filename
+</FONT></TT>begins with <TT><FONT FACE="Courier">&gt;</FONT></TT>,
+the file is opened for writing. If the <TT><FONT FACE="Courier">filename</FONT></TT>
+begins with <TT><FONT FACE="Courier">&gt;&gt;</FONT></TT>, the
+file is opened for appending. If the <TT><FONT FACE="Courier">filename</FONT></TT>
+begins with nothing or <TT><FONT FACE="Courier">&lt;</FONT></TT>,
+the file is opened for reading. Put <TT><FONT FACE="Courier">+</FONT></TT>
+in front of <TT><FONT FACE="Courier">&gt;</FONT></TT> or <TT><FONT FACE="Courier">&lt;</FONT></TT>
+to indicate that you want both read and write access to the file.
+The <TT><FONT FACE="Courier">+&lt;</FONT></TT> is for read/write
+updates, whereas the <TT><FONT FACE="Courier">+&gt;</FONT></TT>
+mode overwrites files. If the <TT><FONT FACE="Courier">filename</FONT></TT>
+begins with <TT><FONT FACE="Courier">|</FONT></TT>, the <TT><FONT FACE="Courier">filename</FONT></TT>
+is used as a command to which all output to the <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+will be piped. If the filename ends with <TT><FONT FACE="Courier">|</FONT></TT>,
+the <TT><FONT FACE="Courier">filename</FONT></TT> is used as a
+command from which to read input. The <TT><FONT FACE="Courier">-</FONT></TT>
+is a synonym for <TT><FONT FACE="Courier">STDIN</FONT></TT>, and
+<TT><FONT FACE="Courier">&gt;-</FONT></TT> is a synonym for <TT><FONT FACE="Courier">STDOUT</FONT></TT>.
+Prepending a <TT><FONT FACE="Courier">filename</FONT></TT> with
+<TT><FONT FACE="Courier">&gt;&amp;</FONT></TT> duplicates and
+opens a new file handle.
+<P>
+<TT><FONT FACE="Courier">Open</FONT></TT> returns non-zero upon
+success or the undefined value on error. To do an implicit <TT><FONT FACE="Courier">fork()</FONT></TT>,
+use <TT><FONT FACE="Courier">|-</FONT></TT> or <TT><FONT FACE="Courier">-|</FONT></TT>.
+The return value is <TT><FONT FACE="Courier">0</FONT></TT> in
+the child and the <TT><FONT FACE="Courier">pid</FONT></TT> of
+the child in the parent. The <TT><FONT FACE="Courier">STDIN</FONT></TT>
+and <TT><FONT FACE="Courier">STDOUT</FONT></TT> of the child is
+initially tied to the file handle in the parent.
+<P>
+When working on a pipe, the return value happens to be the <TT><FONT FACE="Courier">pid</FONT></TT>
+of the subprocess. Closing any piped file handle causes the parent
+process to wait for the child to finish and returns the status
+value in <TT><FONT FACE="Courier">$?</FONT></TT>.
+<H4><TT><FONT FACE="Courier">opendir DIRHANDLE,dirname</FONT></TT>
+</H4>
+<P>
+Opens a directory named <TT><FONT FACE="Courier">dirname</FONT></TT>
+for processing by <TT><FONT FACE="Courier">readdir()</FONT></TT>,
+<TT><FONT FACE="Courier">telldir()</FONT></TT>, <TT><FONT FACE="Courier">seekdir()</FONT></TT>,
+<TT><FONT FACE="Courier">rewinddir()</FONT></TT>, and <TT><FONT FACE="Courier">closedir()</FONT></TT>.
+Returns <TT><FONT FACE="Courier">TRUE</FONT></TT> if successful.
+<TT><FONT FACE="Courier">DIRHANDLE</FONT></TT>s have their own
+name space separate from <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>s.
+<H4><TT><FONT FACE="Courier">ord [String]</FONT></TT></H4>
+<P>
+Gets the numeric ASCII value of the first character in <TT><FONT FACE="Courier">String</FONT></TT>.
+Uses value of <TT><FONT FACE="Courier">$_</FONT></TT> no string
+is specified.
+<H4><TT><FONT FACE="Courier">pack template,@list</FONT></TT></H4>
+<P>
+Packs a list into a binary structure and returns a string with
+the structure. The <TT><FONT FACE="Courier">template</FONT></TT>
+is a sequence of characters that give the order and type of values.
+<P>
+<CENTER>
+<TABLE BORDER=1>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">a</FONT></TT></CENTER>
+</TD><TD WIDTH=324>An ASCII string (will be <TT><FONT FACE="Courier">null</FONT></TT> padded).
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">A</FONT></TT></CENTER>
+</TD><TD WIDTH=324>An ASCII string (will be space padded).</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">b</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A bit string (ascending bit order, like <TT><FONT FACE="Courier">vec()</FONT></TT>).
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">B</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A bit string (descending bit order).</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">c</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A signed char value.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">C</FONT></TT></CENTER>
+</TD><TD WIDTH=324>An unsigned char value.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">d</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A double-precision float in the native format.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">f</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A single-precision float in the native format.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">H</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A hex string (high <TT><FONT FACE="Courier">nybble</FONT></TT> first).
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">h</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A hex string (low <TT><FONT FACE="Courier">nybble</FONT></TT> first).
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">i</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A signed integer value.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">I</FONT></TT></CENTER>
+</TD><TD WIDTH=324>An unsigned integer value.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">l</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A signed long value.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">L</FONT></TT></CENTER>
+</TD><TD WIDTH=324>An unsigned long value.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">N</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A long in &quot;network&quot; order.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">n</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A short in &quot;network&quot; order.</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">p</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A pointer to a <TT><FONT FACE="Courier">null</FONT></TT>-terminated string.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">P</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A pointer to a structure (fixed-length string).
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">s</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A signed short value.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">S</FONT></TT></CENTER>
+</TD><TD WIDTH=324>An unsigned short value.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">u</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A uuencoded string.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">V</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A long in &quot;VAX&quot; (little-endian) order.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">v</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A short in &quot;VAX&quot; (little-endian) order.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">x</FONT></TT></CENTER>
+</TD><TD WIDTH=324>A <TT><FONT FACE="Courier">null</FONT></TT> byte.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=85><CENTER><TT><FONT FACE="Courier">X</FONT></TT></CENTER>
+</TD><TD WIDTH=324>Backs up a byte.</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Each letter may optionally be prepended by a number to allow it
+to be repeated. Use a <TT><FONT FACE="Courier">*</FONT></TT> for
+the repeat count to all remaining items in a list. The <TT><FONT FACE="Courier">pack</FONT></TT>
+function will use as many values as needed but requires specifications
+for <TT><FONT FACE="Courier">a</FONT></TT>, <TT><FONT FACE="Courier">A</FONT></TT>,
+<TT><FONT FACE="Courier">b</FONT></TT>, <TT><FONT FACE="Courier">B</FONT></TT>,
+<TT><FONT FACE="Courier">h</FONT></TT> <TT><FONT FACE="Courier">H</FONT></TT>,
+and <TT><FONT FACE="Courier">`P</FONT></TT>.
+<H4><TT><FONT FACE="Courier">package nameSPACE</FONT></TT></H4>
+<P>
+Used for declaring packages. <A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch4.htm" >See Chapter 4</A>,
+&quot;Introduction to Perl Modules.&quot;
+<H4><TT><FONT FACE="Courier">pipe readhandle,writehandle</FONT></TT>
+</H4>
+<P>
+Creates a pair of connected pipes, like the corresponding system
+call. <A HREF="ch14.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch14.htm" >See Chapter 14</A>, &quot;Signals, Pipes,
+FIFOs, and Perl.&quot;
+<H4><TT><FONT FACE="Courier">pop @array</FONT></TT></H4>
+<P>
+Removes and returns the last value of an array. The array is shortened
+by one element. Returns <TT><FONT FACE="Courier">undef</FONT></TT>
+if <TT><FONT FACE="Courier">@array</FONT></TT> is empty. Uses
+the <TT><FONT FACE="Courier">@ARGV</FONT></TT> array in the main
+program or the <TT><FONT FACE="Courier">@_</FONT></TT> array in
+subroutines if the <TT><FONT FACE="Courier">@array</FONT></TT>
+is not specified.
+<H4><TT><FONT FACE="Courier">pos ScalarVariable</FONT></TT></H4>
+<P>
+Returns the offset of where the last matched search left off for
+the <TT><FONT FACE="Courier">scalarVariable</FONT></TT>.
+<H4><TT><FONT FACE="Courier">print [FILEHANDLE] LIST</FONT></TT>
+</H4>
+<P>
+Prints a string or a comma-separated list of strings. Returns
+<TT><FONT FACE="Courier">true</FONT></TT> if successful. Writes
+to <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT> when specified
+or uses <TT><FONT FACE="Courier">STDOUT</FONT></TT> as the default
+if no other output has been selected.
+<H4><TT><FONT FACE="Courier">printf [FILEHANDLE] LIST</FONT></TT>
+</H4>
+<P>
+Just like the C call to <TT><FONT FACE="Courier">printf</FONT></TT>.
+<H4><TT><FONT FACE="Courier">push @array,@list</FONT></TT></H4>
+<P>
+Stacks the items in <TT><FONT FACE="Courier">@list</FONT></TT>
+onto the end of <TT><FONT FACE="Courier">@array</FONT></TT>.
+<H4><TT><FONT FACE="Courier">q/STRING/<BR>
+qq/STRING/<BR>
+qx/STRING/<BR>
+qw/STRING/</FONT></TT></H4>
+<P>
+Generalized quotes for strings.
+<H4><TT><FONT FACE="Courier">quotemeta String</FONT></TT></H4>
+<P>
+Returns a copy of <TT><FONT FACE="Courier">String</FONT></TT>
+with all the regular expression metacharacters backslashed. <A HREF="ch7.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch7.htm" >See Chapter 7</A>,
+&quot;Strings and Patterns.&quot;
+<H4><TT><FONT FACE="Courier">rand [Number]</FONT></TT></H4>
+<P>
+Returns a random fractional number between 0 and the value of
+<TT><FONT FACE="Courier">Number</FONT></TT>.<TT><FONT FACE="Courier">
+Number</FONT></TT> must be positive. If <TT><FONT FACE="Courier">Number</FONT></TT>
+is not provided, a value between 0 and 1 is returned. Use <TT><FONT FACE="Courier">srand()</FONT></TT>
+to seed this function.
+<H4><TT><FONT FACE="Courier">read FILEHANDLE,scalar,length[,offset]</FONT></TT>
+</H4>
+<P>
+Reads <TT><FONT FACE="Courier">length</FONT></TT> bytes of data
+into variable <TT><FONT FACE="Courier">scalar</FONT></TT> from
+the <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>. Returns the
+number of bytes actually read, or <TT><FONT FACE="Courier">undef</FONT></TT>
+in the case of an error. The <TT><FONT FACE="Courier">scalar</FONT></TT>
+will be grown or shrunk to the length actually read. The <TT><FONT FACE="Courier">offset</FONT></TT>
+to write input in the string to is defaulted to 0 if no <TT><FONT FACE="Courier">offset</FONT></TT>
+is explicitly passed as the fourth parameter.
+<H4><TT><FONT FACE="Courier">readdir DIRHANDLE</FONT></TT></H4>
+<P>
+Returns the next directory entry for a directory opened by <TT><FONT FACE="Courier">opendir()</FONT></TT>.
+If used in a list context, it returns all the rest of the entries
+in the directory. For no more entries, it returns an <TT><FONT FACE="Courier">undef</FONT></TT>
+value or an empty list if used in list context.
+<H4><TT><FONT FACE="Courier">readlink [Expression]</FONT></TT>
+</H4>
+<P>
+Returns the value of a symbolic link. Crashes the program if symbolic
+links are not implemented. Upon error, it returns the undefined
+value and sets <TT><FONT FACE="Courier">$!</FONT></TT>. Uses <TT><FONT FACE="Courier">$_</FONT></TT>
+for input if <TT><FONT FACE="Courier">Expression</FONT></TT> is
+not provided.
+<H4><TT><FONT FACE="Courier">recv SOCKET,scalar,len,flags</FONT></TT>
+</H4>
+<P>
+Receives a message on a socket. <A HREF="ch12.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch12.htm" >See Chapter 12</A>.
+The data is read into the <TT><FONT FACE="Courier">scalar</FONT></TT>
+variable from the specified <TT><FONT FACE="Courier">SOCKET</FONT></TT>
+file handle up to <TT><FONT FACE="Courier">len</FONT></TT> bytes.
+The <TT><FONT FACE="Courier">flags</FONT></TT> are as defined
+in the <TT><FONT FACE="Courier">recvfrom(2)</FONT></TT> system
+call.
+<H4><TT><FONT FACE="Courier">redo [LABEL]</FONT></TT></H4>
+<P>
+The <TT><FONT FACE="Courier">redo</FONT></TT> command restarts
+a loop block without evaluating the conditional again. The <TT><FONT FACE="Courier">continue</FONT></TT>
+block, if any, is not executed. If the <TT><FONT FACE="Courier">LABEL</FONT></TT>
+is omitted, the command refers to the innermost enclosing loop.
+<H4><TT><FONT FACE="Courier">ref Expression</FONT></TT></H4>
+<P>
+Returns <TT><FONT FACE="Courier">true</FONT></TT> if <TT><FONT FACE="Courier">Expression</FONT></TT>
+is a reference, or <TT><FONT FACE="Courier">false</FONT></TT>
+if it is not. The function returns the name of the package if
+<TT><FONT FACE="Courier">Expression</FONT></TT> is a pointer to
+an object.
+<H4><TT><FONT FACE="Courier">rename oldName,newName</FONT></TT>
+</H4>
+<P>
+Changes the name of the file <TT><FONT FACE="Courier">oldName</FONT></TT>
+to <TT><FONT FACE="Courier">newName</FONT></TT>. Returns <TT><FONT FACE="Courier">1</FONT></TT>
+for success, 0 otherwise. This function does not work across file
+system boundaries.
+<H4><TT><FONT FACE="Courier">require [Expression]</FONT></TT>
+</H4>
+<P>
+Uses either <TT><FONT FACE="Courier">Expression</FONT></TT> or,
+if no <TT><FONT FACE="Courier">Expression</FONT></TT> is provided,
+<TT><FONT FACE="Courier">$_</FONT></TT> to determine if some semantics
+are present. If <TT><FONT FACE="Courier">Expression</FONT></TT>
+evaluates to a number, it demands that the current version of
+Perl (<TT><FONT FACE="Courier">$]</FONT></TT>) be at least that
+number. If <TT><FONT FACE="Courier">Expression</FONT></TT> evaluates
+to a string, the string is used as the name of the library file
+to load. Prevents a file from being loaded in twice if the file
+being loaded in has a <TT><FONT FACE="Courier">1;</FONT></TT>
+statement terminating it. (<TT><FONT FACE="Courier">1;</FONT></TT>
+indicates that the file loaded and initialized itself correctly.)
+<P>
+If <TT><FONT FACE="Courier">Expression</FONT></TT> is a bare word,
+<TT><FONT FACE="Courier">require</FONT></TT> assumes a <TT><FONT FACE="Courier">.pm</FONT></TT>
+extension for you, to make it easy to load standard modules. This
+form of loading of modules does not risk altering your name space.
+<H4><TT><FONT FACE="Courier">reset [Expression]</FONT></TT></H4>
+<P>
+Clears values of variables whose names begin with letters in the
+<TT><FONT FACE="Courier">Expression</FONT></TT>. More than one
+letter can be specified using ranges. Uses the <TT><FONT FACE="Courier">??</FONT></TT>
+special variable if <TT><FONT FACE="Courier">Expression</FONT></TT>
+is not specified. The <TT><FONT FACE="Courier">reset</FONT></TT>
+function always returns a <TT><FONT FACE="Courier">true</FONT></TT>
+value. Here are some examples:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">reset 'M';&nbsp;&nbsp;&nbsp;# reset all
+M* named variables<BR>
+reset 'a-z'; # reset lower case variables<BR>
+reset;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # just reset those
+listed in ?? searches</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<I>Do</I> <I>not</I> use <TT><FONT FACE="Courier">reset 'A-Z';</FONT></TT>
+because this will blow away your environment variables <TT><FONT FACE="Courier">ENV</FONT></TT>
+and <TT><FONT FACE="Courier">ARGV</FONT></TT>!
+<H4><TT><FONT FACE="Courier">return arguments</FONT></TT></H4>
+<P>
+Used to return the list of arguments at the end of a subroutine.
+A subroutine always returns the result of the last expression
+in it if no <TT><FONT FACE="Courier">return</FONT></TT> statement
+is found.
+<H4><TT><FONT FACE="Courier">reverse @list<BR>
+reverse String</FONT></TT></H4>
+<P>
+Reverses the order of items in <TT><FONT FACE="Courier">@list</FONT></TT>.
+Reverses the order of characters in <TT><FONT FACE="Courier">String</FONT></TT>.
+<H4><TT><FONT FACE="Courier">rewinddir DIRHANDLE</FONT></TT></H4>
+<P>
+Resets the current position to the start of the directory for
+use with the <TT><FONT FACE="Courier">readdir()</FONT></TT> routine
+on <TT><FONT FACE="Courier">DIRHANDLE</FONT></TT>.
+<H4><TT><FONT FACE="Courier">rindex str,substr[,position]</FONT></TT>
+</H4>
+<P>
+Gets the position of the last occurrence of <TT><FONT FACE="Courier">substr</FONT></TT>
+in <TT><FONT FACE="Courier">str</FONT></TT>. Starts the search
+from the end of string unless a position has been specified. If
+a position is specified, starts the search at the position from
+the end of the string.
+<H4><TT><FONT FACE="Courier">rmdir [DirName]</FONT></TT></H4>
+<P>
+Removes the directory specified by <TT><FONT FACE="Courier">DirName</FONT></TT>,
+but only if the directory is empty. Uses <TT><FONT FACE="Courier">$_</FONT></TT>
+if no <TT><FONT FACE="Courier">DirName</FONT></TT> is given. Returns
+<TT><FONT FACE="Courier">1</FONT></TT> on success and <TT><FONT FACE="Courier">0</FONT></TT>
+otherwise with the error code in <TT><FONT FACE="Courier">$!</FONT></TT>.
+<H4><TT><FONT FACE="Courier">scalar Expression</FONT></TT></H4>
+<P>
+This operator forces the <TT><FONT FACE="Courier">Expression</FONT></TT>
+to be interpreted in a scalar context and returns the value of
+<TT><FONT FACE="Courier">Expression</FONT></TT>.
+<H4><TT><FONT FACE="Courier">seek FILEHANDLE,position,startingPoint</FONT></TT>
+</H4>
+<P>
+Set the file pointer for <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+just like <TT><FONT FACE="Courier">seek()</FONT></TT> or <TT><FONT FACE="Courier">fseek()</FONT></TT>
+calls in UNIX. The values for <TT><FONT FACE="Courier">startingPoint</FONT></TT>
+are <TT><FONT FACE="Courier">0</FONT></TT> to set position from
+the start of file, <TT><FONT FACE="Courier">1</FONT></TT> to set
+position relative to the current location in the file, and <TT><FONT FACE="Courier">2</FONT></TT>
+to set it relative to the end of file. Returns <TT><FONT FACE="Courier">1</FONT></TT>
+upon success; <TT><FONT FACE="Courier">0</FONT></TT> otherwise.
+<H4><TT><FONT FACE="Courier">seekdir DIRHANDLE,position</FONT></TT>
+</H4>
+<P>
+Moves the current position for the <TT><FONT FACE="Courier">readdir()</FONT></TT>
+routine on <TT><FONT FACE="Courier">DIRHANDLE</FONT></TT> to <TT><FONT FACE="Courier">position</FONT></TT>,
+which must be a value returned by <TT><FONT FACE="Courier">telldir()</FONT></TT>.
+<H4><TT><FONT FACE="Courier">select [FILEHANDLE]</FONT></TT></H4>
+<P>
+Sets the default file handle to <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>,
+the currently selected file handle. Returns the current default
+file handle. All writes and references to output that do not specify
+a file handle will refer to the <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>.
+<H4><TT><FONT FACE="Courier">select rbit,wbit,ebit,timeout</FONT></TT>
+</H4>
+<P>
+The interface to the UNIX <TT><FONT FACE="Courier">select(2)</FONT></TT>
+system call. <TT><FONT FACE="Courier">rbit</FONT></TT>, <TT><FONT FACE="Courier">wbit</FONT></TT>,
+and <TT><FONT FACE="Courier">ebit</FONT></TT> are bitmasks for
+the <TT><FONT FACE="Courier">select</FONT></TT> call. The <TT><FONT FACE="Courier">timeout</FONT></TT>
+may be <TT><FONT FACE="Courier">0</FONT></TT> if the program wants
+to wait forever; otherwise, it should be a numeric value in milliseconds.
+<A HREF="ch15.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch15.htm" >See Chapter 15</A>.
+<H4><TT><FONT FACE="Courier">semctl semaphoreID,number,command,argument-list</FONT></TT>
+</H4>
+<P>
+Works just like the System V Ipc function <TT><FONT FACE="Courier">semctl(2)</FONT></TT>.
+<A HREF="ch13.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch13.htm" >See Chapter 13</A> for a complete description.
+<H4><TT><FONT FACE="Courier">semget key,nsems,flags</FONT></TT>
+</H4>
+<P>
+Works just like the System V Ipc function <TT><FONT FACE="Courier">semget(2)</FONT></TT>.
+<A HREF="ch13.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch13.htm" >See Chapter 13</A> for a complete description.
+<H4><TT><FONT FACE="Courier">semop key,opstring</FONT></TT></H4>
+<P>
+Works just like the System V Ipc function <TT><FONT FACE="Courier">semop(2)</FONT></TT>.
+<A HREF="ch13.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch13.htm" >See Chapter 13</A> for a complete description.
+The <TT><FONT FACE="Courier">opstring</FONT></TT> must be a packed
+array of <TT><FONT FACE="Courier">semop</FONT></TT> structures.
+Each <TT><FONT FACE="Courier">semop</FONT></TT> structure is generated
+with the instruction <TT><FONT FACE="Courier">pack(&quot;sss&quot;,
+$semnum, $semop, $semflag)</FONT></TT>. The number of semaphore
+operations is implied by the length of <TT><FONT FACE="Courier">opstring</FONT></TT>.
+Returns <TT><FONT FACE="Courier">true</FONT></TT> on success or
+<TT><FONT FACE="Courier">false</FONT></TT> otherwise.
+<H4><TT><FONT FACE="Courier">send socket,msg,flags[,to]</FONT></TT>
+</H4>
+<P>
+Sends a message on a socket using the <TT><FONT FACE="Courier">socket(2)</FONT></TT>
+system call. <A HREF="ch12.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch12.htm" >See Chapter 12</A>.
+<H4><TT><FONT FACE="Courier">sethostent stayopen<BR>
+setnetent stayopen<BR>
+setprotoent stayopen<BR>
+setservent stayopen</FONT></TT></H4>
+<P>
+These functions perform the same function as the underlying system
+call. The <TT><FONT FACE="Courier">stayopen</FONT></TT> value
+is set to <TT><FONT FACE="Courier">TRUE</FONT></TT> if the file
+being read should be kept open, and <TT><FONT FACE="Courier">FALSE</FONT></TT>
+otherwise.
+<H4><TT><FONT FACE="Courier">setpgrp PID,PGRPID</FONT></TT></H4>
+<P>
+Sets the current process group for the specified <TT><FONT FACE="Courier">PID</FONT></TT>.
+Use a <TT><FONT FACE="Courier">PID</FONT></TT> of <TT><FONT FACE="Courier">0</FONT></TT>
+to imply the current process. Works only if the underlying system
+supports it.
+<H4><TT><FONT FACE="Courier">setpriority process,group,user</FONT></TT>
+</H4>
+<P>
+Sets the current priority for a process, a process group, or a
+user like the system call to <TT><FONT FACE="Courier">setpriority(2)</FONT></TT>.
+Works only if the underlying system supports it.
+<H4><TT><FONT FACE="Courier">setpwent<BR>
+setgrent</FONT></TT></H4>
+<P>
+These functions perform the same function as the underlying system
+call.
+<H4><TT><FONT FACE="Courier">setsockopt socket,level,optionName,optionValue</FONT></TT>
+</H4>
+<P>
+Sets the socket option named to the value in <TT><FONT FACE="Courier">optionValue</FONT></TT>.
+Like the system call to <TT><FONT FACE="Courier">setsocketopt(2)</FONT></TT>.
+Works only if the underlying system supports it.
+<H4><TT><FONT FACE="Courier">shift [@array]shift</FONT></TT></H4>
+<P>
+Shifts the first value of the <TT><FONT FACE="Courier">@array</FONT></TT>
+off and returns it. The size of the <TT><FONT FACE="Courier">@array</FONT></TT>
+is reduced by <TT><FONT FACE="Courier">1</FONT></TT>. If the <TT><FONT FACE="Courier">@array</FONT></TT>
+is empty, it returns <TT><FONT FACE="Courier">undef</FONT></TT>.
+Uses <TT><FONT FACE="Courier">@_</FONT></TT> in subroutines if
+<TT><FONT FACE="Courier">@array</FONT></TT> is not specified.
+<H4><TT><FONT FACE="Courier">shmctl shmID,command,argument</FONT></TT>
+</H4>
+<P>
+Works like the System V Ipc function <TT><FONT FACE="Courier">shmctl(2)</FONT></TT>.
+If <TT><FONT FACE="Courier">CMD</FONT></TT> is <TT><FONT FACE="Courier">&amp;Ipc_STAT</FONT></TT>,
+the argument must be a variable big enough to hold the returned
+<TT><FONT FACE="Courier">shmid_ds</FONT></TT> structure.
+<H4><TT><FONT FACE="Courier">shmget shmKey,size,flags</FONT></TT>
+</H4>
+<P>
+Works just like the System V Ipc function <TT><FONT FACE="Courier">shmget(2)</FONT></TT>.
+Returns the shared memory segment ID or <TT><FONT FACE="Courier">undef</FONT></TT>
+if there is an error.
+<H4><TT><FONT FACE="Courier">shmread shmID,VAR,POS,SIZE<BR>
+shmwrite shmID,STRING,POS,SIZE</FONT></TT></H4>
+<P>
+Reads or writes the System V shared memory segment <TT><FONT FACE="Courier">shmID</FONT></TT>
+by operating at the position <TT><FONT FACE="Courier">POS</FONT></TT>
+for <TT><FONT FACE="Courier">SIZE</FONT></TT> bytes by attaching
+to the segment, reading or writing to it, and then detaching from
+the segment. When reading, <TT><FONT FACE="Courier">VAR</FONT></TT>
+holds the data read. When writing, up to <TT><FONT FACE="Courier">SIZE</FONT></TT>
+bytes in <TT><FONT FACE="Courier">STRING</FONT></TT> are written.
+If the length of the string is too short (that is, less than the
+value in <TT><FONT FACE="Courier">SIZE</FONT></TT>), null bytes
+are written to make up the difference. Returns <TT><FONT FACE="Courier">true</FONT></TT>
+on success or <TT><FONT FACE="Courier">false</FONT></TT> otherwise.
+<H4><TT><FONT FACE="Courier">shutdown SOCKETHANDLE,how</FONT></TT>
+</H4>
+<P>
+Shuts down a socket connection by making a system call to <TT><FONT FACE="Courier">shutdown(2)</FONT></TT>.
+<H4><TT><FONT FACE="Courier">sin Radians</FONT></TT></H4>
+<P>
+Returns a double with the sine of the value of <TT><FONT FACE="Courier">Radians</FONT></TT>.
+If <TT><FONT FACE="Courier">Radians</FONT></TT> is omitted, returns
+sine of <TT><FONT FACE="Courier">$_</FONT></TT>.
+<H4><TT><FONT FACE="Courier">sleep [Seconds]</FONT></TT></H4>
+<P>
+Makes the program sleep for passed number of seconds. If no arguments
+are given or if <TT><FONT FACE="Courier">Seconds</FONT></TT> evaluates
+to <TT><FONT FACE="Courier">null</FONT></TT>, the program sleeps
+forever. Do not mix <TT><FONT FACE="Courier">alarm()</FONT></TT>
+and <TT><FONT FACE="Courier">sleep</FONT></TT> calls in the same
+program.
+<H4><TT><FONT FACE="Courier">socket SOCKETHANDLE,DOMAIN,TYPE,PROTOCOL</FONT></TT>
+</H4>
+<P>
+Makes a call to open a socket of the specified <TT><FONT FACE="Courier">TYPE</FONT></TT>
+in the <TT><FONT FACE="Courier">DOMAIN</FONT></TT> and uses <TT><FONT FACE="Courier">PROTOCOL</FONT></TT>.
+Works like the <TT><FONT FACE="Courier">socket(2)</FONT></TT>
+system call.
+<H4><TT><FONT FACE="Courier">socketpair SOCKET1,SOCKET2,DOMAIN,TYPE,PROTOCOL</FONT></TT>
+</H4>
+<P>
+Creates two unnamed sockets in the specified <TT><FONT FACE="Courier">DOMAIN</FONT></TT>
+of the specified type. Otherwise, works like the <TT><FONT FACE="Courier">socket(2)</FONT></TT>
+system call.
+<H4><TT><FONT FACE="Courier">sort subroutine @list<BR>
+sort Code Block @list<BR>
+sort @list</FONT></TT></H4>
+<P>
+Sorts the <TT><FONT FACE="Courier">@list</FONT></TT> and returns
+the sorted list value. Empty values in arrays are removed. The
+<TT><FONT FACE="Courier">subroutine</FONT></TT> or code block
+are pointers to user-defined functions that take two arguments
+and return an integer value of <TT><FONT FACE="Courier">1</FONT></TT>,
+<TT><FONT FACE="Courier">0</FONT></TT>, or <TT><FONT FACE="Courier">-1</FONT></TT>.
+A <TT><FONT FACE="Courier">1</FONT></TT> indicates that the first
+argument is greater than the second. A <TT><FONT FACE="Courier">0</FONT></TT>
+indicates that the arguments are equal, and a <TT><FONT FACE="Courier">-1</FONT></TT>
+indicates that the second argument is greater than the first.
+<H4><TT><FONT FACE="Courier">splice @array,Offset[,Length[,@list]]</FONT></TT>
+</H4>
+<P>
+Removes the elements at the <TT><FONT FACE="Courier">Offset</FONT></TT>
+and of <TT><FONT FACE="Courier">Length</FONT></TT> items from
+the <TT><FONT FACE="Courier">@array</FONT></TT> and replaces them
+with the contents of <TT><FONT FACE="Courier">@list</FONT></TT>.
+Returns the list of items removed from <TT><FONT FACE="Courier">@array</FONT></TT>.
+The <TT><FONT FACE="Courier">@array</FONT></TT> grows or shrinks
+as needed. If <TT><FONT FACE="Courier">@list</FONT></TT> is not
+provided, nothing is inserted. If <TT><FONT FACE="Courier">Length</FONT></TT>
+is not provided, all elements from <TT><FONT FACE="Courier">Offset</FONT></TT>
+onward are removed.
+<H4><TT><FONT FACE="Courier">split [/Pattern/[,String[,Limit]]]</FONT></TT>
+</H4>
+<P>
+Returns an array derived from splitting a <TT><FONT FACE="Courier">String</FONT></TT>
+into an array of strings of items equal to a number of elements
+in <TT><FONT FACE="Courier">Limit</FONT></TT>. If <TT><FONT FACE="Courier">String</FONT></TT>
+is not provided, the <TT><FONT FACE="Courier">$_</FONT></TT> string
+is used. The <TT><FONT FACE="Courier">Pattern</FONT></TT> may
+be more than one character long. If <TT><FONT FACE="Courier">Pattern</FONT></TT>
+is not specified, the function splits on white spaces after removing
+any leading white spaces. It returns the number of items up to
+the limit specified and leaves the remainder as one long list.
+By default, Perl assumes <TT><FONT FACE="Courier">Limit</FONT></TT>
+to be one larger than the number of items in the list. A call
+to <TT><FONT FACE="Courier">split()</FONT></TT> with no arguments
+is equivalent to a <TT><FONT FACE="Courier">split(' ', $_ )</FONT></TT>
+call. The <TT><FONT FACE="Courier">Pattern</FONT></TT> to a <TT><FONT FACE="Courier">split</FONT></TT>
+command can be a regular expression or a variable with a regular
+expression.
+<H4><TT><FONT FACE="Courier">sprintf FORMAT,LIST</FONT></TT></H4>
+<P>
+Returns a string formatted using the <TT><FONT FACE="Courier">printf()</FONT></TT>
+syntax.
+<H4><TT><FONT FACE="Courier">sqrt Expression</FONT></TT></H4>
+<P>
+Returns the square root of <TT><FONT FACE="Courier">Expression</FONT></TT>.
+Uses <TT><FONT FACE="Courier">$_</FONT></TT> if <TT><FONT FACE="Courier">Expression</FONT></TT>
+is left out.
+<H4><TT><FONT FACE="Courier">srand Expression</FONT></TT></H4>
+<P>
+Seeds the random number generator for <TT><FONT FACE="Courier">rand()</FONT></TT>
+using the <TT><FONT FACE="Courier">Expression</FONT></TT> as a
+number.
+<H4><TT><FONT FACE="Courier">stat FILEHANDLE<BR>
+stat FileName</FONT></TT></H4>
+<P>
+Returns a 13-element array that gives the status information for
+a file using either the handle <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+or the name in <TT><FONT FACE="Courier">FileName</FONT></TT>.
+The items in the array are listed in this order: <TT><FONT FACE="Courier">($device,
+$inode, $protection, $numberOfhardLinks,$uidOwner, $gidOwner,
+$deviceType, $totalSize, $blockSize, $blocksUsed, $lastAccessTime,
+$lastModificationTime, $lastChangeTime)</FONT></TT>. Returns a
+<TT><FONT FACE="Courier">null</FONT></TT> list if <TT><FONT FACE="Courier">stat</FONT></TT>
+fails. Use <TT><FONT FACE="Courier">stat(_)</FONT></TT> to return
+the value from the last <TT><FONT FACE="Courier">stat(FILEHANDLE)</FONT></TT>
+call.
+<H4><TT><FONT FACE="Courier">sub name</FONT></TT></H4>
+<P>
+Defines a subroutine for forward referencing.
+<H4><TT><FONT FACE="Courier">substr String,Offset,Length<BR>
+substr String,Offset</FONT></TT></H4>
+<P>
+Gets a substring from <TT><FONT FACE="Courier">String</FONT></TT>
+of up to <TT><FONT FACE="Courier">Length</FONT></TT> characters
+and returns it. The first character to extract from is <TT><FONT FACE="Courier">0</FONT></TT>.
+If <TT><FONT FACE="Courier">Length</FONT></TT> is not provided,
+everything up to the end of string is returned. If the <TT><FONT FACE="Courier">Offset</FONT></TT>
+is negative, the offset starts from the end of the string. If
+the <TT><FONT FACE="Courier">Length</FONT></TT> is negative, it
+leaves that many characters off from the end of the string. The
+<TT><FONT FACE="Courier">substr()</FONT></TT> function can be
+used as an <TT><FONT FACE="Courier">lvalue</FONT></TT> to patch
+substrings into <TT><FONT FACE="Courier">String</FONT></TT>. <A HREF="ch7.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch7.htm" >See Chapter 7</A>
+for examples.
+<H4><TT><FONT FACE="Courier">symlink oldFile,newFile</FONT></TT>
+</H4>
+<P>
+Creates a new filename symbolically linked to the old filename.
+Returns <TT><FONT FACE="Courier">1</FONT></TT> for success or
+<TT><FONT FACE="Courier">0</FONT></TT> otherwise.
+<H4><TT><FONT FACE="Courier">syscall systemCallNumber Arguments</FONT></TT>
+</H4>
+<P>
+Makes the system call, passing the remaining elements as arguments.
+Unimplemented system calls, if referenced, produce a fatal error.
+Strings are passed by reference and numbers as integers.
+<H4><TT><FONT FACE="Courier">sysread FILEHANDLE,scalar,length,offset
+<BR>
+sysread FILEHANDLE,scalar,length</FONT></TT></H4>
+<P>
+Reads <TT><FONT FACE="Courier">length</FONT></TT> bytes of data
+into variable <TT><FONT FACE="Courier">scalar</FONT></TT> from
+the specified <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+using the <TT><FONT FACE="Courier">read(2)</FONT></TT> system
+call. Returns the number of bytes actually read, or <TT><FONT FACE="Courier">undef</FONT></TT>
+in case of an error. The <TT><FONT FACE="Courier">scalar</FONT></TT>
+is grown or shrunk to the length actually read. The <TT><FONT FACE="Courier">offset</FONT></TT>
+is used to the read data at some other place than at the first
+byte in <TT><FONT FACE="Courier">scalar</FONT></TT>.
+<H4><TT><FONT FACE="Courier">system program arguments...</FONT></TT>
+</H4>
+<P>
+Does a <TT><FONT FACE="Courier">fork()</FONT></TT> to do exactly
+the same thing as <TT><FONT FACE="Courier">exec</FONT></TT> but
+returns to the parent when it's finished. The return value is
+the exit status of the <TT><FONT FACE="Courier">wait</FONT></TT>
+call. To get the actual exit value of the program specified in
+the system call, divide it by 256.
+<H4><TT><FONT FACE="Courier">syswrite FILEHANDLE,scalar,length,offset
+<BR>
+syswrite FILEHANDLE,scalar,length</FONT></TT></H4>
+<P>
+Attempts to write <TT><FONT FACE="Courier">length</FONT></TT>
+bytes of data from variable <TT><FONT FACE="Courier">scalar</FONT></TT>
+to the specified <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+using the system call <TT><FONT FACE="Courier">write(2)</FONT></TT>.
+Returns the number of bytes actually written, or <TT><FONT FACE="Courier">undef</FONT></TT>
+in case of an error. An offset is used to place the read data
+at the number of <TT><FONT FACE="Courier">offset</FONT></TT> bytes
+at the beginning of the string in the <TT><FONT FACE="Courier">scalar</FONT></TT>.
+<H4><TT><FONT FACE="Courier">tell FILEHANDLE<BR>
+tell</FONT></TT></H4>
+<P>
+Gets the current file position for <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>.
+If no <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT> is specified,
+it uses the file last read.
+<H4><TT><FONT FACE="Courier">telldir DIRHANDLE</FONT></TT></H4>
+<P>
+Returns the current position of the <TT><FONT FACE="Courier">readdir()</FONT></TT>
+routines on <TT><FONT FACE="Courier">DIRHANDLE</FONT></TT>. A
+value can be used with <TT><FONT FACE="Courier">seekdir()</FONT></TT>
+to access a particular location in a directory.
+<H4><TT><FONT FACE="Courier">tie variable,classname,LIST</FONT></TT>
+</H4>
+<P>
+Binds a variable to a class. See the section titled &quot;Using
+the <TT><FONT FACE="Courier">tie()</FONT></TT> Operator&quot;
+in <A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch6.htm" >Chapter 6</A>, &quot;Binding Variables to
+Objects.&quot;
+<H4><TT><FONT FACE="Courier">time</FONT></TT></H4>
+<P>
+Returns the number of non-leap seconds since 00:00:00 UTC, January
+1, 1970. Used with <TT><FONT FACE="Courier">gmtime()</FONT></TT>
+and <TT><FONT FACE="Courier">localtime()</FONT></TT>.
+<H4><TT><FONT FACE="Courier">times</FONT></TT></H4>
+<P>
+Returns a four-item array with the user and system times, in seconds,
+for this process and the children (if any) of this process.
+<H4><TT><FONT FACE="Courier">tr///</FONT></TT></H4>
+<P>
+The translation operator. <A HREF="ch7.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch7.htm" >See Chapter 7</A>.
+<H4><TT><FONT FACE="Courier">truncate FILEHANDLE,LENGTH</FONT></TT>
+</H4>
+<P>
+Truncates the file opened on <TT><FONT FACE="Courier">FILEHANDLE</FONT></TT>
+to the specified length.
+<H4><TT><FONT FACE="Courier">uc String</FONT></TT></H4>
+<P>
+Returns an uppercased copy of <TT><FONT FACE="Courier">String</FONT></TT>.
+<H4><TT><FONT FACE="Courier">ucfirst String</FONT></TT></H4>
+<P>
+Returns the value of <TT><FONT FACE="Courier">String</FONT></TT>
+with the first character uppercased.
+<H4><TT><FONT FACE="Courier">umask Expression<BR>
+umask</FONT></TT></H4>
+<P>
+Sets the <TT><FONT FACE="Courier">umask</FONT></TT> for the process
+and returns the old one. If <TT><FONT FACE="Courier">Expression</FONT></TT>
+is not provided, the current <TT><FONT FACE="Courier">umask</FONT></TT>
+is returned.
+<H4><TT><FONT FACE="Courier">undef Scalar<BR>
+undef Array<BR>
+undef Hash<BR>
+undef Subroutine</FONT></TT></H4>
+<P>
+Removes any definition of the value of <TT><FONT FACE="Courier">Scalar</FONT></TT>,
+hash, array or subroutine by name. This function always returns
+the <TT><FONT FACE="Courier">undef</FONT></TT> value.
+<H4><TT><FONT FACE="Courier">unlink namedFiles</FONT></TT></H4>
+<P>
+Deletes the named files. Returns the number of files successfully
+deleted. The <TT><FONT FACE="Courier">unlink()</FONT></TT> will
+not delete directories unless you are <TT><FONT FACE="Courier">superuser</FONT></TT>
+and the <TT><FONT FACE="Courier">-U</FONT></TT> flag is supplied
+to Perl. Use <TT><FONT FACE="Courier">rmdir</FONT></TT> instead.
+<H4><TT><FONT FACE="Courier">unpack TEMPLATE,Expression</FONT></TT>
+</H4>
+<P>
+<TT><FONT FACE="Courier">Unpack</FONT></TT> does the reverse of
+<TT><FONT FACE="Courier">pack</FONT></TT>. It takes a structure
+and expands it into a list of items. <TT><FONT FACE="Courier">TEMPLATE</FONT></TT>
+has the same format as in the <TT><FONT FACE="Courier">pack</FONT></TT>
+function.
+<H4><TT><FONT FACE="Courier">unshift @array,@list</FONT></TT>
+</H4>
+<P>
+Works the opposite way of <TT><FONT FACE="Courier">shift()</FONT></TT>.
+Attaches <TT><FONT FACE="Courier">@list</FONT></TT> to the front
+of <TT><FONT FACE="Courier">@array</FONT></TT>. Returns the new
+number of elements in the <TT><FONT FACE="Courier">@array</FONT></TT>.
+<H4><TT><FONT FACE="Courier">untie variable</FONT></TT></H4>
+<P>
+Breaks binding between a variable and a package.
+<H4><TT><FONT FACE="Courier">use Module[,Module[,Module ... ]]</FONT></TT>
+</H4>
+<P>
+Imports all named modules into a program. <A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch4.htm" >See Chapter 4</A>
+for more information on Perl modules.
+<H4><TT><FONT FACE="Courier">utime accessTime Modification Filenames</FONT></TT>
+</H4>
+<P>
+Modifies the access and modification times on each file in a list
+of files. Returns the number of files successfully changed.
+<H4><TT><FONT FACE="Courier">values %Hash</FONT></TT></H4>
+<P>
+Returns an array with just the values in random of the named hash.
+Works like the <TT><FONT FACE="Courier">keys()</FONT></TT> function
+except that it returns values.
+<H4><TT><FONT FACE="Courier">vec string,offset,bitsToSet</FONT></TT>
+</H4>
+<P>
+Sets the bits from the values of 0s and 1s in a string. Starts
+setting bits at the <TT><FONT FACE="Courier">offset</FONT></TT>.
+Returns the value of the bitfield specified. The <TT><FONT FACE="Courier">bitsToSet</FONT></TT>
+to set must be a power of 2 from 1 to 32. It's an easier way of
+setting bits than using logical operators.
+<H4><TT><FONT FACE="Courier">Wait</FONT></TT></H4>
+<P>
+Waits for a child process to terminate and returns the <TT><FONT FACE="Courier">pid</FONT></TT>
+of the deceased process, or <TT><FONT FACE="Courier">-1</FONT></TT>
+if there are no child processes. The status is returned in <TT><FONT FACE="Courier">$?</FONT></TT>.
+<H4><TT><FONT FACE="Courier">waitpid PID,flags</FONT></TT></H4>
+<P>
+Waits for a particular child process to die and returns the <TT><FONT FACE="Courier">PID</FONT></TT>
+of the dead process. It returns <TT><FONT FACE="Courier">-1</FONT></TT>
+if there is no such child process. The status is returned in <TT><FONT FACE="Courier">$?</FONT></TT>.
+<H4><TT><FONT FACE="Courier">wantarray</FONT></TT></H4>
+<P>
+Returns <TT><FONT FACE="Courier">true</FONT></TT> if the currently
+executing subroutine is looking for list value. Returns <TT><FONT FACE="Courier">false</FONT></TT>
+if the subroutine is looking for a scalar.
+<H4><TT><FONT FACE="Courier">warn Message</FONT></TT></H4>
+<P>
+Prints an error message on <TT><FONT FACE="Courier">STDERR</FONT></TT>
+just like <TT><FONT FACE="Courier">die()</FONT></TT> but doesn't
+exit.
+<H4><TT><FONT FACE="Courier">write FILEHANDLE<BR>
+write Expression<BR>
+write</FONT></TT></H4>
+<P>
+Writes a formatted record to the specified file using the format
+associated with that file. <A HREF="ch19.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch19.htm" >See Chapter 19</A>.
+<H4><TT><FONT FACE="Courier">y///</FONT></TT></H4>
+<P>
+The translation operator (just like the <TT><FONT FACE="Courier">tr</FONT></TT>
+operator).
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch33.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch33.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="appb.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/appb.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

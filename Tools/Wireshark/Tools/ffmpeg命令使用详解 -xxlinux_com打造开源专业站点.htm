@@ -1,0 +1,502 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0075)http://www.xxlinux.com/linux/article/accidence/technique/20070129/7255.html -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>ffmpeg命令使用详解 -xxlinux.com打造开源专业站点</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META content=ffmpeg name=keywords>
+<META 
+content="ffmpeg真得太棒了，刚接触就感受到了它的强大，轻松几条命令就可以完成你的工作。把darkdoor.[001-100].jpg序列帧和001.mp3音频文件利用mpeg4编码方式合成视频文件darkdoor.avi：$ ffmpeg -i 001.mp3 -i darkdoor.%3" 
+name=description><LINK href="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/style.css" 
+type=text/css rel=stylesheet>
+<SCRIPT src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/tabs.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/ajax.js" 
+type=text/javascript></SCRIPT>
+
+<META content="MSHTML 6.00.2900.5764" name=GENERATOR></HEAD>
+<BODY class="showpage news"><!-- 页头 -->
+<TABLE class=top cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD width="70%">
+            <FORM id=loginform name=login 
+            action=http://www.xxlinux.com/bbs/logging.php?action=login&amp;loginsubmit=true 
+            method=post><INPUT type=hidden value=3a7e3c6a name=formhash> <INPUT 
+            type=hidden value=2592000 name=cookietime> <INPUT type=hidden 
+            value=username name=loginfield> <IMG 
+            src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/zhanghao.gif" border=0> 
+            <INPUT id=username tabIndex=1 maxLength=40 size=10 value=请输入用户名 
+            name=username> <IMG 
+            src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/mima.gif" 
+            border=0><INPUT id=password tabIndex=2 type=password size=12 
+            name=password><BUTTON name=userlogin type=submit 
+            value="true">登陆论坛</BUTTON> <A 
+            href="http://www.xxlinux.com/bbs/register.php"></A></FORM></TD>
+          <TD align=right>| <A 
+            href="http://www.xxlinux.com/bbs/register.php">论坛注册</A>| <A 
+            onclick=window.external.addFavorite(location.href,document.title) 
+            href="http://www.xxlinux.com/linux/article/accidence/technique/20070129/7255.html#ecms">加入收藏</A> 
+            | <A 
+            onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.xxlinux.com/linux/')" 
+            href="http://www.xxlinux.com/linux/article/accidence/technique/20070129/7255.html#ecms">设为首页</A>| 
+            <A 
+            href="http://www.xxlinux.com/linux/e/web/?type=rss2&amp;classid=5" 
+            target=_blank>RSS<IMG hspace=2 
+            src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/rss.gif"></A></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=10 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR vAlign=center>
+    <TD align=middle width=240><A href="http://www.xxlinux.com/linux/"><IMG 
+      height=65 src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/logo.gif" width=175 
+      border=0></A></TD>
+    <TD align=middle>
+      <SCRIPT src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/thea14.js"></SCRIPT>
+    </TD></TR></TBODY></TABLE><!-- 导航tab选项卡 -->
+<TABLE class=nav cellSpacing=0 cellPadding=0 width=920 align=center border=0>
+  <TBODY>
+  <TR>
+    <TD class=nav_global>
+      <UL>
+        <LI><A href="http://www.xxlinux.com/linux/">首页</A></LI>
+        <LI id=tabnav_btn_1 onmouseover=tabit(this)><A 
+        href="http://www.xxlinux.com/linux/article/">Linux频道</A></LI>
+        <LI id=tabnav_btn_2 onmouseover=tabit(this)><A 
+        href="http://www.xxlinux.com/linux/download/">软件下载</A></LI>
+        <LI id=tabnav_btn_3 onmouseover=tabit(this)><A 
+        href="http://www.xxlinux.com/linux/dev/">开发语言</A></LI>
+        <LI id=tabnav_btn_4 onmouseover=tabit(this)><A 
+        href="http://bbs.xxlinux.com/">技术论坛</A></LI>
+        <LI id=tabnav_btn_5 onmouseover=tabit(this)><A 
+        href="http://www.xxlinux.com/linux/embed/">嵌入式频道</A></LI></UL></TD></TR>
+  <TR>
+    <TD class=nav_sub><!-- 子栏目导航 -->
+      <DIV>| <A 
+      href="http://www.xxlinux.com/linux/article/accidence/install/">安装与配置</A> | 
+      <A 
+      href="http://www.xxlinux.com/linux/article/accidence/internet/">上网与多媒体</A> 
+      | <A 
+      href="http://www.xxlinux.com/linux/article/accidence/technique/">使用与技巧</A> 
+      | <A 
+      href="http://www.xxlinux.com/linux/article/accidence/com/">linux命令</A> | 
+      </DIV></TD></TR>
+  <TR>
+    <TD align=middle>
+      <SCRIPT src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/thea17.js"></SCRIPT>
+    </TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=10 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR vAlign=top>
+    <TD class=main>
+      <TABLE class=position1 cellSpacing=0 cellPadding=0 width="100%" 
+        border=0><TBODY>
+        <TR>
+          <TD><!-- Search Google -->
+            <CENTER>
+            <FORM action=http://www.google.cn/custom method=get 
+            target=google_window>
+            <TABLE bgColor=#ffffff>
+              <TBODY>
+              <TR>
+                <TD vAlign=top noWrap align=left height=32><A 
+                  href="http://www.google.com/"><IMG alt=Google 
+                  src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/Logo_25wht.gif" 
+                  align=middle border=0></IMG></A> <LABEL style="DISPLAY: none" 
+                  for=sbi>输入您的搜索字词</LABEL> <INPUT id=sbi maxLength=255 size=51 
+                  name=q></INPUT> <LABEL style="DISPLAY: none" 
+                  for=sbb>提交搜索表单</LABEL> <INPUT id=sbb type=submit value=搜索 name=sa></INPUT> <INPUT 
+                  type=hidden value=pub-3701573918329010 name=client></INPUT> 
+                  <INPUT type=hidden value=1 name=forid></INPUT> <INPUT 
+                  type=hidden value=1971295259 name=channel></INPUT> <INPUT 
+                  type=hidden value=GB2312 name=ie></INPUT> <INPUT type=hidden 
+                  value=GB2312 name=oe></INPUT> <INPUT type=hidden value=active 
+                  name=safe></INPUT> <INPUT type=hidden 
+                  value=GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;FORID:1 
+                  name=cof></INPUT> <INPUT type=hidden value=zh-CN 
+                  name=hl></INPUT> </TD></TR></TBODY></TABLE></FORM></CENTER><!-- Search Google --></TD></TR></TBODY></TABLE>
+      <TABLE class=position cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>您当前的位置：<!--empire.url--><A 
+            href="http://www.xxlinux.com/linux/">首页</A>&nbsp;&gt;&nbsp;<A 
+            href="http://www.xxlinux.com/linux/article/">Linux频道</A>&nbsp;&gt;&nbsp;<A 
+            href="http://www.xxlinux.com/linux/article/accidence/">Linux入门与提高</A>&nbsp;&gt;&nbsp;<A 
+            href="http://www.xxlinux.com/linux/article/accidence/technique/">使用与技巧</A><!--empire.url--></TD></TR></TBODY></TABLE>
+      <TABLE class=box cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE class=title_info cellSpacing=0 cellPadding=0 width="100%" 
+            border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <H1>ffmpeg命令使用详解</H1></TD></TR>
+              <TR>
+                <TD class=info_text>时间：2007-01-29 11:21:48&nbsp;&nbsp;来源：<A 
+                  href="http://www.chinaunix.net/" 
+                  target=_blank>chinaunix</A>&nbsp;&nbsp;作者：无花无酒</TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD id=text>
+                  <DIV style="FLOAT: right; WIDTH: 300px; HEIGHT: 250px">
+                  <SCRIPT type=text/javascript><!--
+google_ad_client = "pub-3701573918329010";
+/* 300x250, 创建于 08-9-9 */
+google_ad_slot = "1645276672";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</SCRIPT>
+
+                  <SCRIPT 
+                  src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/show_ads.js" 
+                  type=text/javascript>
+</SCRIPT>
+                  </DIV>
+                  <DIV id=art 
+                  style="MARGIN: 15px">ffmpeg真得太棒了，刚接触就感受到了它的强大，轻松几条命令就可以完成你的工作。<BR><BR>把darkdoor.[001-100].jpg序列帧和001.mp3音频文件利用mpeg4编码方式合成视频文件darkdoor.avi：<BR><SPAN 
+                  style="FONT-WEIGHT: bold">$ ffmpeg -i 001.mp3 -i 
+                  darkdoor.%3d.jpg -s 1024x768 -author skypp -vcodec mpeg4 
+                  darkdoor.avi</SPAN><BR><BR>ffmpeg还支持mov格式：<BR><SPAN 
+                  style="FONT-WEIGHT: bold">$ ffmpeg&nbsp; -i darkdoor.%3d.jpg 
+                  darkdoor.mov</SPAN><BR><BR>要查看你的ffmpeg支持哪些格式，可以用如下命令：<BR><SPAN 
+                  style="FONT-WEIGHT: bold">$ ffmpeg -formats | 
+                  less</SPAN><BR><BR>还可以把视频文件导出成jpg序列帧：<BR><SPAN 
+                  style="FONT-WEIGHT: bold">$ ffmpeg -i bc-cinematic-en.avi 
+                  example.%d.jpg</SPAN><BR><BR>debian下安装ffmpeg很简单：<BR><SPAN 
+                  style="FONT-WEIGHT: bold">＃apt-get install 
+                  ffmpeg</SPAN><BR><SPAN 
+                  style="FONT-WEIGHT: bold"><BR>###################################</SPAN><SPAN 
+                  style="FONT-WEIGHT: bold">###</SPAN><BR 
+                  style="FONT-WEIGHT: bold"><SPAN 
+                  style="FONT-WEIGHT: bold">下面是转来的使用说明，慢慢研究吧，嘿嘿</SPAN><BR 
+                  style="FONT-WEIGHT: bold"><SPAN 
+                  style="FONT-WEIGHT: bold">################################</SPAN><SPAN 
+                  style="FONT-WEIGHT: bold">###</SPAN><SPAN 
+                  style="FONT-WEIGHT: bold">###</SPAN><BR><SPAN 
+                  style="FONT-WEIGHT: bold"><BR></SPAN>
+                  <H3>ffmpeg使用语法</H3>
+                  <P>ffmpeg使用语法：</P>
+                  <P>ffmpeg [[options][`-i' input_file]]... {[options] 
+                  output_file}...</P>
+                  <P>如果没有输入文件，那么视音频捕捉就会起作用。</P>
+                  <P>作为通用的规则，选项一般用于下一个特定的文件。如果你给 –b 
+                  64选项，改选会设置下一个视频速率。对于原始输入文件，格式选项可能是需要的。</P>
+                  <P>缺省情况下，ffmpeg试图尽可能的无损转换，采用与输入同样的音频视频参数来输出。</P>
+                  <P>3．选项</P>
+                  <P>a) 通用选项</P>
+                  <P>-L license</P>
+                  <P>-h 帮助</P>
+                  <P>-fromats 显示可用的格式，编解码的，协议的。。。</P>
+                  <P>-f fmt 强迫采用格式fmt</P>
+                  <P>-I filename 输入文件</P>
+                  <P>-y 覆盖输出文件</P>
+                  <P>-t duration 设置纪录时间 hh:mm:ss[.xxx]格式的记录时间也支持</P>
+                  <P>-ss position 搜索到指定的时间 [-]hh:mm:ss[.xxx]的格式也支持</P>
+                  <P>-title string 设置标题</P>
+                  <P>-author string 设置作者</P>
+                  <P>-copyright string 设置版权</P>
+                  <P>-comment string 设置评论</P>
+                  <P>-target type 设置目标文件类型(vcd,svcd,dvd) 
+                  所有的格式选项（比特率，编解码以及缓冲区大小）自动设置 ，只需要输入如下的就可以了：<BR>ffmpeg -i 
+                  myfile.avi -target vcd /tmp/vcd.mpg</P>
+                  <P>-hq 激活高质量设置</P>
+                  <P>-itsoffset offset 
+                  设置以秒为基准的时间偏移，该选项影响所有后面的输入文件。该偏移被加到输入文件的时戳，定义一个正偏移意味着相应的流被延迟了 
+                  offset秒。 [-]hh:mm:ss[.xxx]的格式也支持</P>
+                  <P>b) 视频选项</P>
+                  <P>-b bitrate 设置比特率，缺省200kb/s</P>
+                  <P>-r fps 设置帧频 缺省25</P>
+                  <P>-s size 设置帧大小 格式为WXH 缺省160X128.下面的简写也可以直接使用：<BR>Sqcif 
+                  128X96 qcif 176X144 cif 252X288 4cif 704X576</P>
+                  <P>-aspect aspect 设置横纵比 4:3 16:9 或 1.3333 1.7777</P>
+                  <P>-croptop size 设置顶部切除带大小 像素单位</P>
+                  <P>-cropbottom size –cropleft size –cropright size</P>
+                  <P>-padtop size 设置顶部补齐的大小 像素单位</P>
+                  <P>-padbottom size –padleft size –padright size –padcolor 
+                  color 设置补齐条颜色(hex,6个16进制的数，红:绿:兰排列，比如 000000代表黑色)</P>
+                  <P>-vn 不做视频记录</P>
+                  <P>-bt tolerance 设置视频码率容忍度kbit/s</P>
+                  <P>-maxrate bitrate设置最大视频码率容忍度</P>
+                  <P>-minrate bitreate 设置最小视频码率容忍度</P>
+                  <P>-bufsize size 设置码率控制缓冲区大小</P>
+                  <P>-vcodec codec 强制使用codec编解码方式。 如果用copy表示原始编解码数据必须被拷贝。</P>
+                  <P>-sameq 使用同样视频质量作为源（VBR）</P>
+                  <P>-pass n 选择处理遍数（1或者2）。两遍编码非常有用。第一遍生成统计信息，第二遍生成精确的请求的码率</P>
+                  <P>-passlogfile file 选择两遍的纪录文件名为file</P>
+                  <P><BR>c)高级视频选项</P>
+                  <P>-g gop_size 设置图像组大小</P>
+                  <P>-intra 仅适用帧内编码</P>
+                  <P>-qscale q 使用固定的视频量化标度(VBR)</P>
+                  <P>-qmin q 最小视频量化标度(VBR)</P>
+                  <P>-qmax q 最大视频量化标度(VBR)</P>
+                  <P>-qdiff q 量化标度间最大偏差 (VBR)</P>
+                  <P>-qblur blur 视频量化标度柔化(VBR)</P>
+                  <P>-qcomp compression 视频量化标度压缩(VBR)</P>
+                  <P>-rc_init_cplx complexity 一遍编码的初始复杂度</P>
+                  <P>-b_qfactor factor 在p和b帧间的qp因子</P>
+                  <P>-i_qfactor factor 在p和i帧间的qp因子</P>
+                  <P>-b_qoffset offset 在p和b帧间的qp偏差</P>
+                  <P>-i_qoffset offset 在p和i帧间的qp偏差</P>
+                  <P>-rc_eq equation 设置码率控制方程 默认tex^qComp</P>
+                  <P>-rc_override override 特定间隔下的速率控制重载</P>
+                  <P>-me method 设置运动估计的方法 可用方法有 zero phods log x1 epzs(缺省) 
+                  full</P>
+                  <P>-dct_algo algo 设置dct的算法 可用的有 0 FF_DCT_AUTO 缺省的DCT 1 
+                  FF_DCT_FASTINT 2 FF_DCT_INT 3 FF_DCT_MMX 4 FF_DCT_MLIB 5 
+                  FF_DCT_ALTIVEC</P>
+                  <P>-idct_algo algo 设置idct算法。可用的有 0 FF_IDCT_AUTO 缺省的IDCT 1 
+                  FF_IDCT_INT 2 FF_IDCT_SIMPLE 3 FF_IDCT_SIMPLEMMX 4 
+                  FF_IDCT_LIBMPEG2MMX 5 FF_IDCT_PS2 6 FF_IDCT_MLIB 7 FF_IDCT_ARM 
+                  8 FF_IDCT_ALTIVEC 9 FF_IDCT_SH4 10 FF_IDCT_SIMPLEARM</P>
+                  <P>-er n 设置错误残留为n 1 FF_ER_CAREFULL 缺省 2 FF_ER_COMPLIANT 3 
+                  FF_ER_AGGRESSIVE 4 FF_ER_VERY_AGGRESSIVE</P>
+                  <P>-ec bit_mask 设置错误掩蔽为bit_mask,该值为如下值的位掩码 1 FF_EC_GUESS_MVS 
+                  (default=enabled) 2 FF_EC_DEBLOCK (default=enabled) </P>
+                  <P>-bf frames 使用frames B 帧，支持mpeg1,mpeg2,mpeg4</P>
+                  <P>-mbd mode 宏块决策 0 FF_MB_DECISION_SIMPLE 使用mb_cmp 1 
+                  FF_MB_DECISION_BITS 2 FF_MB_DECISION_RD</P>
+                  <P>-4mv 使用4个运动矢量 仅用于mpeg4</P>
+                  <P>-part 使用数据划分 仅用于mpeg4</P>
+                  <P>-bug param 绕过没有被自动监测到编码器的问题</P>
+                  <P>-strict strictness 跟标准的严格性</P>
+                  <P>-aic 使能高级帧内编码 h263+</P>
+                  <P>-umv 使能无限运动矢量 h263+</P>
+                  <P>-deinterlace 不采用交织方法</P>
+                  <P>-interlace 强迫交织法编码 
+                  仅对mpeg2和mpeg4有效。当你的输入是交织的并且你想要保持交织以最小图像损失的时候采用该选项。可选的方法是不交织，但是损失更大</P>
+                  <P>-psnr 计算压缩帧的psnr</P>
+                  <P>-vstats 输出视频编码统计到vstats_hhmmss.log</P>
+                  <P>-vhook module 插入视频处理模块 module 包括了模块名和参数，用空格分开</P>
+                  <P>D)音频选项</P>
+                  <P>-ab bitrate 设置音频码率</P>
+                  <P>-ar freq 设置音频采样率</P>
+                  <P>-ac channels 设置通道 缺省为1</P>
+                  <P>-an 不使能音频纪录</P>
+                  <P>-acodec codec 使用codec编解码</P>
+                  <P>E)音频/视频捕获选项</P>
+                  <P>-vd device 设置视频捕获设备。比如/dev/video0</P>
+                  <P>-vc channel 设置视频捕获通道 DV1394专用</P>
+                  <P>-tvstd standard 设置电视标准 NTSC PAL(SECAM)</P>
+                  <P>-dv1394 设置DV1394捕获</P>
+                  <P>-av device 设置音频设备 比如/dev/dsp</P>
+                  <P><BR>F)高级选项</P>
+                  <P>-map file:stream 设置输入流映射</P>
+                  <P>-debug 打印特定调试信息</P>
+                  <P>-benchmark 为基准测试加入时间</P>
+                  <P>-hex 倾倒每一个输入包</P>
+                  <P>-bitexact 仅使用位精确算法 用于编解码测试</P>
+                  <P>-ps size 设置包大小，以bits为单位</P>
+                  <P>-re 以本地帧频读数据，主要用于模拟捕获设备</P>-loop 
+                  循环输入流。只工作于图像流，用于ffserver测试</DIV>
+                  <DIV 
+                  style="MARGIN: 15px">原文:http://blog.chinaunix.net/u/16166/showart_239248.html</DIV>
+                  <P class=pageLink align=center></P></TD></TR>
+              <TR>
+                <TD id=text>
+                  <SCRIPT 
+                  src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/baidu580.js"></SCRIPT>
+                </TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=8 cellPadding=0 align=center border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE class=digg cellSpacing=0 cellPadding=0 align=center 
+                  border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=diggnum id=diggnum><STRONG>
+                        <SCRIPT 
+                        src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/ViewClick.htm" 
+                        type=text/javascript></SCRIPT>
+                        </STRONG></TD></TR>
+                    <TR>
+                      <TD class=diggit><A 
+                        href="javascript:makeRequest('http://www.xxlinux.com/linux/e/public/digg?classid=5&amp;id=7255&amp;dotop=1&amp;doajax=1&amp;ajaxarea=diggnum','EchoReturnedText','GET','');">来顶一下</A></TD></TR></TBODY></TABLE></TD>
+                <TD>
+                  <TABLE class=digg cellSpacing=0 cellPadding=0 align=center 
+                  border=0>
+                    <TBODY>
+                    <TR>
+                      <TD class=diggnum vAlign=center><STRONG><A 
+                        href="http://www.xxlinux.com/linux/"><IMG height=13 
+                        alt=近回首页 
+                        src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/back.gif" 
+                        width=12 align=absMiddle border=0></A></STRONG></TD></TR>
+                    <TR>
+                      <TD class=diggit><A 
+                        href="http://www.xxlinux.com/linux/">返回首页</A></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+      <SCRIPT>
+		  function CheckPl(obj)
+		  {
+		  if(obj.saytext.value=="")
+		  {
+		  alert("您没什么话要说吗？");
+		  obj.saytext.focus();
+		  return false;
+		  }
+		  return true;
+		  }
+		  </SCRIPT>
+
+      <FORM id=saypl name=saypl onsubmit="return CheckPl(document.saypl)" 
+      action=http://www.xxlinux.com/linux/e/enews/index.php method=post>
+      <TABLE id=plpost cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <TABLE class=title cellSpacing=0 cellPadding=0 width="100%" 
+border=0>
+              <TBODY>
+              <TR>
+                <TD><STRONG>发表评论</STRONG></TD>
+                <TD align=right><A 
+                  href="http://www.xxlinux.com/linux/e/pl?classid=5&amp;id=7255">共有<SPAN>
+                  <SCRIPT 
+                  src="D:\Notes\TestTools\Ethereal\Tools\ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files\ViewClick(1).htm" 
+                  type=text/javascript></SCRIPT>
+                  </SPAN>条评论</A></TD></TR></TBODY></TABLE>
+            <TABLE cellSpacing=10 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=2 cellPadding=0 width="100%" border=0>
+                    <TBODY>
+                    <TR>
+                      <TD align=left width="56%">用户名: <INPUT class=inputText 
+                        id=username size=16 name=username></TD>
+                      <TD align=left width="44%">密码: <INPUT class=inputText 
+                        id=password type=password size=16 name=password></TD></TR>
+                    <TR>
+                      <TD align=left>验证码: <INPUT class=inputText size=10 
+                        name=key> <IMG height=20 
+                        src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/ShowKey.jpg" 
+                        width=69 align=absMiddle> </TD>
+                      <TD align=left><INPUT id=nomember type=checkbox CHECKED 
+                        value=1 name=nomember> 匿名发表</TD></TR></TBODY></TABLE><TEXTAREA id=saytext name=saytext rows=6></TEXTAREA><INPUT 
+                  type=image 
+                  src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/postpl.gif" 
+                  name=imageField> <INPUT id=id type=hidden value=7255 name=id> 
+                  <INPUT id=classid type=hidden value=5 name=classid> <INPUT 
+                  id=enews type=hidden value=AddPl name=enews> <INPUT id=repid 
+                  type=hidden value=0 name=repid> <INPUT type=hidden 
+                  value=http://www.xxlinux.com/linux/article/accidence/technique/20070129/7255.html 
+                  name=ecmsfrom></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FORM></TD>
+    <TD class=sider>
+      <TABLE class=position1 cellSpacing=8 cellPadding=0 width="100%" 
+        border=0><TBODY>
+        <TR>
+          <TD align=middle>
+            <SCRIPT 
+            src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/thea19.js"></SCRIPT>
+          </TD></TR></TBODY></TABLE>
+      <TABLE class="title margin_top" cellSpacing=0 cellPadding=0 width="100%" 
+      border=0>
+        <TBODY>
+        <TR>
+          <TD><STRONG>相关文章</STRONG></TD></TR></TBODY></TABLE>
+      <TABLE class=box cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <UL>无相关信息 </UL></TD></TR></TBODY></TABLE>
+      <TABLE class="title margin_top" cellSpacing=0 cellPadding=0 width="100%" 
+      border=0>
+        <TBODY>
+        <TR>
+          <TD><STRONG>栏目更新</STRONG></TD></TR></TBODY></TABLE>
+      <TABLE class=box cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <UL>
+              <SCRIPT 
+              src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/class5_newnews.js"></SCRIPT>
+            </UL></TD></TR></TBODY></TABLE>
+      <TABLE class="title margin_top" cellSpacing=0 cellPadding=0 width="100%" 
+      border=0>
+        <TBODY>
+        <TR>
+          <TD><STRONG>栏目热门</STRONG></TD></TR></TBODY></TABLE>
+      <TABLE class=box cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <UL>
+              <SCRIPT 
+              src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/class5_hotnews.js"></SCRIPT>
+            </UL></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><!-- 页脚 -->
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=search align=middle>
+      <FORM id=searchform name=searchform 
+      action=http://www.xxlinux.com/linux/e/search/index.php method=post>
+      <TABLE cellSpacing=6 cellPadding=0 border=0>
+        <TBODY>
+        <TR>
+          <TD><STRONG>站内搜索：</STRONG> <INPUT class=inputText id=keyboard 
+            size=32 name=keyboard> <INPUT type=hidden value=title name=show> 
+            <INPUT type=hidden value=1 name=tempid> <SELECT name=tbname> 
+              <OPTION value=news selected>Linux频道</OPTION> <OPTION 
+              value=download>下载频道</OPTION> <OPTION value=photo>图库</OPTION> 
+              <OPTION value=shop>商品</OPTION> <OPTION 
+            value=article>嵌入式频道</OPTION></SELECT></TD>
+          <TD><INPUT class=inputSub type=image 
+            src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/search.gif"> </TD>
+          <TD><A href="http://www.xxlinux.com/linux/search/" 
+            target=_blank>高级搜索</A></TD></TR></TBODY></TABLE></FORM></TD></TR>
+  <TR>
+    <TD>
+      <TABLE class=copyright cellSpacing=4 cellPadding=0 width="100%" 
+        border=0><TBODY>
+        <TR>
+          <TD align=middle><A href="http://www.xxlinux.com/linux/">网站首页</A> | 
+            <A 
+            href="http://www.xxlinux.com/linux/article/news/dt/2009-01-06/14778.html">栏目导航</A> 
+            | <A 
+            href="http://www.xxlinux.com/linux/article/accidence/technique/20070129/7255.html#">服务条款</A> 
+            | <A 
+            href="http://www.xxlinux.com/linux/article/accidence/technique/20070129/7255.html#">广告服务</A> 
+            | <A 
+            href="http://www.xxlinux.com/linux/article/accidence/technique/20070129/7255.html#">联系我们</A> 
+            | <A 
+            href="http://www.xxlinux.com/linux/article/news/dt/2006-05-31/1076.html">网站大全</A> 
+            | <A 
+            href="http://www.xxlinux.com/linux/article/accidence/technique/20070129/7255.html#">免责声明</A> 
+            | <A 
+            href="http://www.xxlinux.com/linux/article/accidence/technique/20070129/7255.html#">返回顶部</A></TD></TR>
+        <TR>
+          <TD align=middle>Copyright &copy; 2007-2008 xxlinux.com, All rights 
+            reserved.</TD></TR>
+        <TR>
+          <TD align=middle>Powered by linux联盟 <A 
+            href="http://www.miibeian.gov.cn/" 
+            target=_blank>京ICP备05012402号</A><BR><FONT 
+          color=#ff9900>&nbsp;</FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<SCRIPT>var tixa_bad_mm_flag=true;</SCRIPT>
+
+<SCRIPT>var tixa_bad_mm_pos=1;</SCRIPT>
+
+<SCRIPT>var tixa_bad_mm_style='style_1-1';</SCRIPT>
+
+<SCRIPT>var tixa_bad_mm_info=0;</SCRIPT>
+
+<SCRIPT src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/bhvad.htm"></SCRIPT>
+
+<SCRIPT src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/urchin.js" 
+type=text/javascript>
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+_uacct = "UA-244517-1";
+urchinTracker();
+</SCRIPT>
+
+<SCRIPT src="ffmpeg命令使用详解 -xxlinux_com打造开源专业站点.files/onclick.htm"></SCRIPT>
+</BODY></HTML>

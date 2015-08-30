@@ -1,0 +1,1622 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 20 -- Introduction to Web Pages and CGI</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 20</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Introduction to Web Pages and CGI</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#HTMLCGIandMIME" >HTML, CGI, and MIME</A>
+<LI><A HREF="#ASimpleHTMLDocument" >A Simple HTML Document</A>
+<LI><A HREF="#FormattingLists" >Formatting Lists </A>
+<LI><A HREF="#UsingHTMLTags" >Using HTML Tags</A>
+<LI><A HREF="#PreformattedText" >Preformatted Text</A>
+<LI><A HREF="#SpecialCharactersinHTMLDocuments" >Special Characters in HTML Documents</A>
+<LI><A HREF="#WhatIsaURL" >What Is a URL?</A>
+<LI><A HREF="#CGIScripts" >CGI Scripts</A>
+<UL>
+<LI><A HREF="#CONTENT_LENGTH" >CONTENT_LENGTH</A>
+<LI><A HREF="#CONTENT_TYPE" >CONTENT_TYPE</A>
+<LI><A HREF="#GATEWAY_INTERFACE" >GATEWAY_INTERFACE</A>
+<LI><A HREF="#PATH_INFO" >PATH_INFO</A>
+<LI><A HREF="#QUERY_STRING" >QUERY_STRING</A>
+</UL>
+<LI><A HREF="#InputandOutputtoCGIScripts" >Input and Output to CGI Scripts</A>
+<LI><A HREF="#ATestCGIScript" >A Test CGI Script</A>
+<LI><A HREF="#UsingFrames" >Using Frames</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter offers a brief introduction to the HyperText Markup
+Language (HTML) and the Common Gateway Interface (CGI). The information
+in this chapter provides the basis for the rest of the chapters
+about Web pages in this book, especially for the topic of writing
+CGI scripts in Perl. This chapter assumes that you have a cursory
+knowledge of what the World Wide Web (WWW) is about and how to
+use a browser. 
+<P>
+I also assume you're somewhat familiar with HTML code. Going into
+more detail about HTML programming would cause us to move too
+far away from the scope of the book: Perl programming. Therefore,
+I stick to the very basic HTML elements for text formatting and
+listing items rather than covering a lot of HTML programming issues.
+<P>
+Reading this one chapter won't make you a Webmaster, but you'll
+learn enough to create Web pages you can subsequently use in conjunction
+with Perl scripts. With these basics, you'll be able to easily
+incorporate other HTML page-layout elements in your documents.
+<P>
+If you are not familiar with HTML or would like more information,
+don't worry. There are several documents on the Internet that
+describe how to write HTML pages. For up-to-date documentation
+on HTML, conduct a search on the keywords <I>HTMLPrimer</I> and
+<I>html-primer</I> in the Internet search areas. 
+<P>
+For more information via printed text books, you might want to
+consult these titles:
+<UL>
+<LI><I>Teach Yourself Web Publishing with HTML 3.0 in a Week</I>,
+Laura Lemay, Sams.net Publishing, 1-57521-064-9, 1996.
+<LI><I>HTML &amp; CGI Unleashed</I>, John December and Mark Ginsberg,
+Sams.net Publishing, 0-672-30745-6, 1995. 
+<LI><I>Using HTML</I>, Neil Randall, Que, 0-7897-0622-9, 1995.
+</UL>
+<H2><A NAME="HTMLCGIandMIME"><FONT SIZE=5 COLOR=#FF0000>HTML,
+CGI, and MIME</FONT></A></H2>
+<P>
+HTML is the de facto standard language for writing Web pages on
+the Internet. HTML documents are written as text files and are
+meant to be interpreted by a Web browser. A Web browser displays
+the data in HTML pages by reading in the tags around the data.
+Web browsers reside on client machines, and Web server daemons
+run on Web servers. The protocol used by Web servers and clients
+to talk to each other is called the HyperText Transfer Protocol
+(HTTP).
+<P>
+An HTML page contains uniform resource locators (URLs) in addition
+to the tags. A URL tells the browser where to get certain data.
+URLs can point to other Web documents, FTP sites, Gopher sites,
+and even executable programs on the server side. The Common Gateway
+Interface (CGI) is the standard used to run programs for a client
+on the server.
+<P>
+A Web server gets a request for action from the browser when the
+user selects the URL. The request is processed by the server by
+running a program. The program is often referred to as a CGI script
+because a lot of programs for handling CGI requests are Perl scripts.
+The results of the CGI script are sent back to the browser making
+the request. The browser displays the results back to the user.
+Results can be in plain text, binary data, or HTML documents.
+<P>
+The browser reading the output from the CGI script has to know
+the type of input it is receiving. The type of information is
+sent back as a multipurpose Internet mail-extension (MIME) header.
+For example, to send back plain text, you use <TT><FONT FACE="Courier">&quot;Content-Type:
+text/plain\n\n&quot;</FONT></TT> at the start of the document.
+To send back HTML data, you use <TT><FONT FACE="Courier">&quot;Content-type:
+text/html\n\n&quot;</FONT></TT>. <P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Using two carriage returns after the type of data is very important. The HTML standard requires a blank line after the <TT><FONT FACE="Courier">Content-type</FONT></TT> string. This is why we have <TT><FONT FACE="Courier">&quot;\n\n&quot;</FONT></TT> 
+appended to <TT><FONT FACE="Courier">Content-type</FONT></TT>. In most cases, the <TT><FONT FACE="Courier">&quot;\n\n&quot;</FONT></TT> will work as intended to produce a blank line for a browser. Sometimes this will not work, and the data being sent back 
+to the browser will not be shown because the server will be handling carriage-returns/line-feeds using the <TT><FONT FACE="Courier">&quot;\r\n&quot;</FONT></TT> string instead of <TT><FONT FACE="Courier">&quot;\n&quot;</FONT></TT>. To allow for 
+inconsistencies in the way operating systems handle carriage-return/line-feed pairs, you should use the string <TT><FONT FACE="Courier">&quot;\r\n\r\n&quot;</FONT></TT>. 
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<H2><A NAME="ASimpleHTMLDocument"><FONT SIZE=5 COLOR=#FF0000>A
+Simple HTML Document</FONT></A></H2>
+<P>
+An HTML document uses markup tags to specify special areas of
+the text. The format of an HTML document is as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;HTML&gt;<BR>
+&lt;HEAD&gt;<BR>
+&lt;TITLE&gt;Title of the page&lt;/TITLE&gt;<BR>
+&lt;/HEAD&gt;<BR>
+&lt;BODY&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The
+body of the document.<BR>
+&lt;/BODY&gt;<BR>
+&lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+All text for the HTML document is shown between the <TT><FONT FACE="Courier">&lt;HTML&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/HTML&gt;</FONT></TT> tags. There
+can be only two pairs of elements, one pair of <TT><FONT FACE="Courier">&lt;BODY&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/BODY&gt;</FONT></TT> tags to
+store the text matter for the HTML document, and the other pair
+of <TT><FONT FACE="Courier">&lt;HEAD&gt;</FONT></TT> and <TT><FONT FACE="Courier">&lt;/HEAD&gt;</FONT></TT>
+tags. The <TT><FONT FACE="Courier">&lt;HEAD&gt;</FONT></TT> and
+<TT><FONT FACE="Courier">&lt;/HEAD&gt;</FONT></TT> tags show the
+document title in the heading section of a viewer. The <TT><FONT FACE="Courier">&lt;TITLE&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/TITLE&gt;</FONT></TT> tags hold
+the string for text in the title bar for your browser and are
+the only required element within the <TT><FONT FACE="Courier">&lt;HEAD&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/HEAD&gt;</FONT></TT> tags.
+<P>
+Both the <TT><FONT FACE="Courier">&lt;HEAD&gt;</FONT></TT> and
+<TT><FONT FACE="Courier">&lt;TITLE&gt;</FONT></TT> tags are optional.
+However, for compatibility with some browsers, you should include
+them. The &lt;<TT><FONT FACE="Courier">BODY&gt;</FONT></TT> and
+<TT><FONT FACE="Courier">&lt;/BODY&gt;</FONT></TT> tags are required
+in all cases. Most HTML tags are paired. So if you have <TT><FONT FACE="Courier">&lt;HEAD&gt;</FONT></TT>,
+then you should have <TT><FONT FACE="Courier">&lt;/HEAD&gt;</FONT></TT>.
+There are exceptions to this rule. For example, the paragraph
+tag <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT> and the line
+break <TT><FONT FACE="Courier">&lt;BR&gt;</FONT></TT> tag are
+used by themselves and do not require any accompanying <TT><FONT FACE="Courier">&lt;/P&gt;</FONT></TT>
+or <TT><FONT FACE="Courier">&lt;/BR&gt;</FONT></TT> tags. (The
+<TT><FONT FACE="Courier">&lt;/P&gt;</FONT></TT> tag is sometimes
+used to terminate a paragraph, but the <TT><FONT FACE="Courier">&lt;/BR&gt;</FONT></TT>
+tag does not exist.)
+<P>
+Tags are not case sensitive, and any formatting in between the
+tags is almost always ignored. Therefore, the tag <TT><FONT FACE="Courier">&lt;html&gt;</FONT></TT>
+is the same as <TT><FONT FACE="Courier">&lt;HtMl&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;HTML&gt;</FONT></TT>.
+<P>
+It's the presence of <TT><FONT FACE="Courier">&lt;HTML&gt;</FONT></TT>,
+<TT><FONT FACE="Courier">&lt;HEAD&gt;</FONT></TT>, and <TT><FONT FACE="Courier">&lt;BODY&gt;</FONT></TT>
+tags in the page that distinguishes an HTML page from a simple
+text page. Figure 20.1 presents a sample text page which does
+not have any formatting on it whatsoever being loaded into an
+HTML browser.
+<P>
+<A HREF="f20-1.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f20-1.gif" ><B>Figure 20.1: </B><I>An unformatted document.</I></A>
+<P>
+All the text shown in Figure 20.1 is aligned in the way that the
+original text document was set up. In some cases, the text would
+have been clumped in one long paragraph. Here is the text for
+the document shown in Figure 20.1: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Futures Contracts in Sugar<BR>
+<BR>
+Test Test HTML Test HTML<BR>
+<BR>
+Summary of Contracts available.<BR>
+<BR>
+[Image] Sugar Contracts<BR>
+[Image] Sugar Options<BR>
+[Image] Combination<BR>
+----------------------------------------------------------------------------
+<BR>
+<BR>
+Ordered list of particulars<BR>
+<BR>
+* Price per cent move of Sugar prices: $1120.00<BR>
+* Appox min. deposit for contract required by broker: $5000 to
+$10000.<BR>
+* Appox min. deposit for option required by broker: $1500 to $3000.
+<BR>
+* Appox commissions cost: $35 to $75<BR>
+<BR>
+----------------------------------------------------------------------------
+<BR>
+<BR>
+Some Detailed Information in Description Lists.<BR>
+<BR>
+[Image] Risks with open contracts<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; One cent move equals $1120 in your profits.
+Therefore a 4 cent move can<BR>
+</FONT></TT>&nbsp;&nbsp;&nbsp;&nbsp;<TT><FONT FACE="Courier">
+either make you a handsome profit or break your bank. A flood
+in sugar<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; growing area may cause prices to drop
+sharply. If you are holding a<BR>
+</FONT></TT>&nbsp;&nbsp;&nbsp;&nbsp;<TT><FONT FACE="Courier">
+long contract, this drop in price will have to be covered at the
+end of<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; the trading day or your position will
+be liquidated.<BR>
+[Image] Sugar<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; Options cost a fixed amount of money.
+However, the money spent on an<BR>
+</FONT></TT>&nbsp;&nbsp;&nbsp;&nbsp;<TT><FONT FACE="Courier">
+option should be treated like insurance. No matter where the price
+goes<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; your loss will be limited to the price
+of the option. Of course, with<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; limiting risk you are also limiting profits.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To make the text more presentable, you can add some HTML tags
+to the document, as shown in Listing 20.1. First, we'll delimit
+the paragraphs with a <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT>
+tag and then add some headings to it. HTML provides six levels
+of headings, numbered <TT><FONT FACE="Courier">H1</FONT></TT>
+through <TT><FONT FACE="Courier">H6</FONT></TT>. <TT><FONT FACE="Courier">H1</FONT></TT>
+is the top-level heading in a document's hierarchy and <TT><FONT FACE="Courier">H6</FONT></TT>
+is the bottom. Generally, you use <TT><FONT FACE="Courier">H2</FONT></TT>
+headers inside <TT><FONT FACE="Courier">H1</FONT></TT> headers,
+<TT><FONT FACE="Courier">H3</FONT></TT> headers inside <TT><FONT FACE="Courier">H2</FONT></TT>
+headers, and so on. Do not skip heading levels unless you have
+a compelling reason to switch heading styles. Use the tags <TT><FONT FACE="Courier">&lt;H1&gt;Text
+for heading&lt;/H1&gt;</FONT></TT> for defining a heading. 
+<P>
+A sample HTML page is shown in Listing 20.1. See the output in
+Figure 20.2.
+<P>
+<A HREF="f20-2.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f20-2.gif" ><B>Figure 20.2:</B><I>Using tags to enhance the appearance of HTML documents.</I></A>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.1. Formatted text.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;HTML&gt;<BR>
+&nbsp;2 &lt;HEAD&gt;&lt;TITLE&gt;Using Lists&lt;/TITLE&gt;<BR>
+&nbsp;3 &lt;/HEAD&gt;<BR>
+&nbsp;4 &lt;BODY&gt;&lt;P&gt;<BR>
+&nbsp;5 &lt;P&gt;<BR>
+&nbsp;6 &lt;H1&gt;Futures Contracts in Sugar&lt;/H1&gt;<BR>
+&nbsp;7 &lt;P&gt;<BR>
+&nbsp;8 &lt;A HREF=&quot;../cgi-bin/testing.pl&quot;&gt; Test&lt;/A&gt;
+<BR>
+&nbsp;9 &lt;A HREF=&quot;query.pl&quot;&gt; Test HTML&lt;/A&gt;
+<BR>
+10 &lt;A HREF=&quot;../cgi-bin/query.pl&quot;&gt; Test HTML&lt;/A&gt;
+<BR>
+11 &lt;H2&gt;Summary of Contracts available.&lt;/H2&gt;<BR>
+12 &lt;IMG SRC=&quot;red-ball-small.gif&quot;&gt; &lt;B&gt;Sugar
+Contracts&lt;/B&gt;&lt;BR&gt; <BR>
+13 &lt;IMG SRC=&quot;red-ball-small.gif&quot;&gt; &lt;B&gt;Sugar
+Options&lt;/B&gt;&lt;BR&gt;<BR>
+14 &lt;IMG SRC=&quot;red-ball-small.gif&quot;&gt; &lt;B&gt;Combination&lt;/B&gt;&lt;BR&gt;
+<BR>
+15 &lt;HR&gt;<BR>
+16 &lt;H2&gt; Ordered list of particulars &lt;/H2&gt;<BR>
+17 &lt;UL&gt;&nbsp;&nbsp;<BR>
+18 &lt;LI&gt; Price per cent move of Sugar&nbsp;&nbsp;prices:
+$1120.00<BR>
+19 &lt;LI&gt; Appox min. deposit for contract required by broker:
+$5000 to $10000.<BR>
+20 &lt;LI&gt; Appox min. deposit for option required by broker:
+$1500 to $3000.<BR>
+21 &lt;LI&gt; Appox commissions cost: $35 to $75<BR>
+22&lt;/UL&gt;<BR>
+23 &lt;P&gt; <BR>
+24 &lt;H2&gt; Some Detailed Information in Description Lists.&nbsp;&nbsp;&lt;/H2&gt;
+<BR>
+25 &lt;P&gt;<BR>
+26 &lt;DL&gt;<BR>
+27 &lt;DT&gt;&lt;IMG SRC=&quot;yellow-ball.gif&quot;&gt; &lt;B&gt;Risks
+with open contracts &lt;/B&gt;<BR>
+28 &lt;DD&gt; One cent move equals $1120 in your profits. Therefore
+a 4 cent move<BR>
+29 can either make you a handsome profit or break your bank. A
+flood in sugar<BR>
+30 growing area may cause prices to drop sharply. If you are holding
+a long<BR>
+31 contract, this drop in price will have to be covered at the
+end of the<BR>
+32 trading day or your position will be liquidated.<BR>
+33 &lt;DT&gt;&lt;IMG SRC=&quot;yellow-ball.gif&quot;&gt; &lt;B&gt;
+Sugar &lt;/B&gt;<BR>
+34 &lt;DD&gt; Options cost a fixed amount of money. However, the
+money spent on<BR>
+35 an option should be treated like insurance. No matter where
+the price<BR>
+36 goes your loss will be limited to the price of the option.
+Of course,<BR>
+37 with limiting risk you are also limiting profits.<BR>
+38 &lt;DT&gt;&lt;IMG SRC=&quot;yellow-ball.gif&quot;&gt; &lt;B&gt;
+Combination of both &lt;B&gt;<BR>
+39 &lt;/BODY&gt;&lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Your browser will show a different font for each header style.
+In this listing, we used two heading levels, <TT><FONT FACE="Courier">&lt;H1&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;H2&gt;</FONT></TT>, lines 5 and
+8. The required <TT><FONT FACE="Courier">&lt;TITLE&gt;</FONT></TT>
+is also shown and terminated with the <TT><FONT FACE="Courier">&lt;/TITLE&gt;</FONT></TT>
+keyword in line 1. The <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT>
+tag is used to start a new paragraph in lines 4, 5, and 7, for
+example. If the <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT>
+tags were not used, the text would follow in one big clump unless
+you were beginning a new header or a horizontal line with the
+<TT><FONT FACE="Courier">&lt;HR&gt;</FONT></TT> tag. See Line
+15 where the <TT><FONT FACE="Courier">&lt;HR&gt;</FONT></TT> tag
+is used to draw a horizontal line.
+<P>
+Look at lines 12 through 14. Using <TT><FONT FACE="Courier">&lt;BR&gt;</FONT></TT>
+tags, I have created the list of three items using IMG tags. 
+<P>
+Note how images are stored and displayed within the document with
+the <TT><FONT FACE="Courier">&lt;IMG&gt;</FONT></TT> tag. Basically,
+the IMG tag specifies where an image will be displayed in the
+HTML document. The SRC attribute of the IMG tag specifies the
+URL for the contents of the image. The URL can be a complete (absolute)
+pathname or a relative pathname. An absolute path would describe
+the entire URL: <TT>http://www.ikra.com/mydirectory/red-ball-small.gif</TT>,
+whereas the relative pathname will assume the default directory
+for images on the server and pick the image called <TT><FONT FACE="Courier">red-ball-small.gif</FONT></TT>
+from that directory. By using image files, you can enhance the
+appearance of items in a list and provide your own bullets. Consider
+this reference in line 12:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;IMG SRC=&quot;red-ball-small.gif&quot;&gt;
+&lt;B&gt;Sugar Contracts&lt;/B&gt;&lt;BR&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The file <TT><FONT FACE="Courier">red-ball-small.gif</FONT></TT>
+is shown next to the text <TT><FONT FACE="Courier">Sugar Contracts</FONT></TT>
+using the relative URL scheme. 
+<P>
+There are several more attributes to an IMG tag allowing you to
+align text around the image, size the image, provide a mapping
+of URLs to go to if the user clicks on a section of the image,
+and so on. Be sure to check the references provided in the &quot;HTML,
+CGI, and MIME&quot; section for more information on how to use
+IMG tags.
+<H2><A NAME="FormattingLists"><FONT SIZE=5 COLOR=#FF0000>Formatting
+Lists </FONT></A></H2>
+<P>
+HTML supports the following types of list formats with which you
+can show information:
+<UL>
+<LI><FONT COLOR=#000000>Unnumbered lists (items in </FONT><TT><FONT FACE="Courier">&lt;UL&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/UL&gt;</FONT></TT> tags) where
+the items in a list are not numbered.
+<LI><FONT COLOR=#000000>Numbered lists (items in </FONT><TT><FONT FACE="Courier">&lt;OL&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/OL&gt;</FONT></TT> tags) where
+each item in a list is numbered.
+<LI><FONT COLOR=#000000>Definition lists (items in </FONT><TT><FONT FACE="Courier">&lt;DT&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;DD&gt;</FONT></TT> tags) where
+each item in the list is a term followed by a descriptive paragraph
+that applies to that term.
+</UL>
+<P>
+Items in a list are separated by <TT><FONT FACE="Courier">&lt;LI&gt;</FONT></TT>
+tags. The <TT><FONT FACE="Courier">&lt;/LI&gt;</FONT></TT> tag
+is not needed to stop one item and start another. In Listing 20.1,
+lines 17 to 22 provide an unnumbered list with the use of <TT><FONT FACE="Courier">&lt;UL&gt;</FONT></TT>
+and <BR>
+<TT><FONT FACE="Courier">&lt;/UL&gt;</FONT></TT> tags. To make
+this a numbered list, simply change the <TT><FONT FACE="Courier">&lt;UL&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/UL&gt;</FONT></TT> pair to an
+<TT><FONT FACE="Courier">&lt;OL&gt;</FONT></TT> and <TT><FONT FACE="Courier">&lt;/OL&gt;</FONT></TT>
+tag, respectively, and all the items in the list will be numbered.
+<P>
+A definition list has two items: a <TT><FONT FACE="Courier">&lt;DT&gt;
+</FONT></TT>tag with a term and the definition of the term with
+<TT><FONT FACE="Courier">&lt;DD&gt;</FONT></TT>. The <TT><FONT FACE="Courier">&lt;LI&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;DD&gt;</FONT></TT> items can
+contain multiple paragraphs with the use of the <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT>
+tag. Lines 27 through 38 in Listing 20.1 show how to create a
+simple definitions list. 
+<P>
+You can even nest lists within lists. Just remember to end each
+list completely within the list item of the parent list. See the
+sample HTML code in Listing 20.2. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.2. Nested lists.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;Another
+Lists Example&lt;/TITLE&gt;&lt;/HEAD&gt;<BR>
+&nbsp;2 &lt;BODY&gt;<BR>
+&nbsp;3 &lt;P&gt;&lt;H1&gt;This shows Numbered Lists&lt;/H1&gt;&lt;P&gt;
+<BR>
+&nbsp;4 Start of List here.<BR>
+&nbsp;5 &lt;OL&gt;<BR>
+&nbsp;6 &lt;LI&gt; Toulouse<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;UL&gt;<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Barritz
+<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Bordeaux
+<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Marseille
+<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Paris<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/UL&gt;<BR>
+13 &lt;LI&gt; Paris<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;UL&gt;<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Dijon<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Rennes<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Toulouse<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/UL&gt;<BR>
+19 &lt;LI&gt; Rennes<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;UL&gt;<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Paris<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Cherbourg
+<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/UL&gt;<BR>
+24 &lt;LI&gt; Nice<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;UL&gt;<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Digne<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LI&gt; To Menton<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/UL&gt;<BR>
+29 &lt;/OL&gt;<BR>
+30 &lt;/BODY&gt;<BR>
+31 &lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The top level numbered list is started at line 5 and ends in line
+29. Each item of the numbered list is inserted in lines 6, 13,
+19, and 24. Nested lists are shown as unnumbered lists enclosed
+in <TT><FONT FACE="Courier">&lt;UL&gt;</FONT></TT> and <TT><FONT FACE="Courier">&lt;/UL&gt;</FONT></TT>
+tags in lines 8 to 12, 14 to 18, 20 to 23, and 25 to 28. Each
+<TT><FONT FACE="Courier">&lt;UL&gt;</FONT></TT> and <TT><FONT FACE="Courier">&lt;/UL&gt;</FONT></TT>
+pair is terminated in the space for each item in the top level
+numbered list. 
+<H2><A NAME="UsingHTMLTags"><FONT SIZE=5 COLOR=#FF0000>Using HTML
+Tags</FONT></A></H2>
+<P>
+The basic set of HTML tags such as the <TT><FONT FACE="Courier">&lt;HEAD&gt;</FONT></TT>,
+<TT><FONT FACE="Courier">&lt;BODY&gt;</FONT></TT>, and <TT><FONT FACE="Courier">&lt;TITLE&gt;</FONT></TT>
+are almost always supported by all browsers. However, you should
+keep in mind that not all tags are supported by all Web browsers.
+If a browser does not support a tag, it just ignores it. 
+<P>
+You can emphasize text in the document so that it stands out when
+displayed by a browser. For example, to underline text, use <TT><FONT FACE="Courier">&lt;U&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/U&gt;</FONT></TT> to enclose
+the text. For bold text, enclose the text in <TT><FONT FACE="Courier">&lt;B&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/B&gt;</FONT></TT> tags. For
+italics, use <TT><FONT FACE="Courier">&lt;I&gt;</FONT></TT> and
+<TT><FONT FACE="Courier">&lt;/I&gt;</FONT></TT>. See the sample
+HTML code in Listing 20.3. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.3. Using HTML tags to change font style.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;HTML&gt;<BR>
+&nbsp;2 &lt;HEAD&gt;<BR>
+&nbsp;3 &lt;TITLE&gt; IISTV.htmL &lt;/TITLE&gt;<BR>
+&nbsp;4 &lt;/HEAD&gt;<BR>
+&nbsp;5 &lt;BODY&gt;<BR>
+&nbsp;6 &lt;Center&gt;&lt;H1&gt;Time Change for Islam TV Program&lt;/H1&gt;&lt;/Center&gt;
+<BR>
+&nbsp;7 &lt;HR&gt;<BR>
+&nbsp;8 &lt;P&gt;<BR>
+&nbsp;9 From January 1996, the Islamic Information Service TV
+(IISTV)<BR>
+10 Program, will be broadcast &lt;b&gt;every Sunday at 9.00 A.M.
+<BR>
+11 on Channel 67 (KHSH TV)&lt;/b&gt; in the &lt;U&gt;Houston Metropolitan
+Area&lt;/U&gt;.<BR>
+12 Islam TV is regularly watched in 5000 homes and is a totally
+<BR>
+13 viewer supported program and we need your support.&lt;P&gt;
+<BR>
+14 The program is also carried on the &lt;EM&gt;International
+Cable channel&lt;/EM&gt;<BR>
+15 &lt;STRONG&gt;every Saturday at 9:30 AM.&lt;/STRONG&gt;<BR>
+16 &lt;P&gt;<BR>
+17 For more information or to send contributions, please contact&lt;P&gt;
+<BR>
+18 &lt;hr&gt;<BR>
+19 &lt;CENTER&gt;<BR>
+20 &lt;STRONG&gt;<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ISGH/IIS-TV
+&lt;BR&gt;<BR>
+22 &lt;/STRONG&gt;<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9336-B
+Katy Freeway Suite 314&lt;BR&gt;<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Houston, Texas 77024. &lt;BR&gt;<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;713
+827 1827&lt;BR&gt;<BR>
+26 &lt;/CENTER&gt;<BR>
+27 &lt;hr&gt;<BR>
+28 &lt;/BODY&gt;<BR>
+29 &lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Line 6 defines a centered line of text with the <TT><FONT FACE="Courier">&lt;Center&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/Center&gt;</FONT></TT> tags.
+Note how the <TT><FONT FACE="Courier">&lt;H1&gt;</FONT></TT> and
+<TT><FONT FACE="Courier">&lt;/H1&gt;</FONT></TT> tags are enclosed
+along with the text being centered. Line 7 draws a horizontal
+line. (Remember that HR stands for Horizontal Rule.) The <TT><FONT FACE="Courier">&lt;b&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/b&gt;</FONT></TT> tags are used
+in lines 10 and 11 to embolden some text. Since HTML is case insensitive,
+we could have used the tags <TT><FONT FACE="Courier">&lt;B&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/B&gt;</FONT></TT> with no loss
+of functionality. Use of the <TT><FONT FACE="Courier">&lt;EM&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;STRONG&gt;</FONT></TT> tags is
+shown in lines 14 and 15, respectively. 
+<P>
+Note that the effect of <TT><FONT FACE="Courier">&lt;B&gt;</FONT></TT>
+remains in effect until the <TT><FONT FACE="Courier">&lt;/B&gt;</FONT></TT>
+is seen. So the text being set to a style can be typed in across
+several lines. In lines 19 through 26, center several lines. 
+<P>
+In HTML documents you should use <TT><FONT FACE="Courier">&lt;STRONG&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;EM&gt;</FONT></TT> tags instead
+of  <TT><FONT FACE="Courier">&lt;B&gt;</FONT></TT> and <TT><FONT FACE="Courier">&lt;I&gt;</FONT></TT>
+tags, respectively. There are occasions where using even seemingly
+innocent tags such as <TT><FONT FACE="Courier">&lt;B&gt;</FONT></TT>
+for bolding text or <TT><FONT FACE="Courier">&lt;I&gt;</FONT></TT>
+for italicizing text may not work. For example, if a browser is
+using a font that does not have an italics character set, the
+<TT><FONT FACE="Courier">&lt;I&gt;<I>text</I>&lt;/I&gt; </FONT></TT>will
+be printed with its codes; that is, it will be  as <TT><FONT FACE="Courier">&lt;I&gt;<I>text</I>&lt;/I&gt;</FONT></TT>
+and not as <TT><I><FONT FACE="Courier">text</FONT></I></TT>. To
+take care of some of these issues, should they arise, HTML authors
+prefer to use the <TT><FONT FACE="Courier">&lt;EM&gt;&lt;/EM&gt;</FONT></TT>
+emphasis tags in place of the <TT><FONT FACE="Courier">&lt;I&gt;&lt;/I&gt;</FONT></TT>
+tags and the <TT><FONT FACE="Courier">&lt;STRONG&gt;&lt;/STRONG&gt;</FONT></TT>
+tags in place of the <TT><FONT FACE="Courier">&lt;B&gt;&lt;/B&gt;</FONT></TT>.
+<P>
+An HTML document defines only the display style with the use of
+markup tags. How a Web browser chooses to display the information
+is left to the implementation at the Web browser. So the client's
+browser is responsible for rendering this text and may have a
+completely different font than what you are using to create the
+page. Therefore, what you see on your screen will be different
+from what someone else using a different font may see. For best
+results, try viewing your HTML page with different browsers. The
+font on someone else's browser might be completely different.
+For one thing, users can choose whatever font they desire for
+their browser. Even if users don't explicitly choose a font, the
+browser may default to a font that is different from the one you
+use. For example, one user may use the Internet Explorer from
+Microsoft with a 10-point font, and another user may use Netscape
+Navigator with a 12-point font. Each user will  see different
+lengths of paragraphs and text layout. 
+<P>
+Simple text formatting with the use of carriage returns in HTML
+documents does not work. The client browser will implement word
+wrapping when it sees text. You can force paragraph and line breaks
+with the use of <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT>
+or <TT><FONT FACE="Courier">&lt;BR&gt;</FONT></TT> tags. The <TT><FONT FACE="Courier">&lt;BR&gt;</FONT></TT>
+tag creates a line break, and does not  start a new paragraph
+like the <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT> tag. A
+<TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT> tag may be used
+to lay out text differently using formats and text alignment on
+different types of browsers. A <TT><FONT FACE="Courier">&lt;BR&gt;</FONT></TT>
+tag simply starts a new line without changing the current paragraph
+format. Not using these tags causes all white space (including
+spaces, tabs, and blank lines) to be collapsed into one white
+space. Listings 20.4 and 20.5 provide samples of two HTML files
+that produce the same output.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.4. Headings in HTML files.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;HTML&gt;&lt;HEAD&gt; <BR>
+&nbsp;2 &lt;TITLE&gt;A simple HTML file&lt;/TITLE&gt;<BR>
+&nbsp;3 &lt;/HEAD&gt;<BR>
+&nbsp;4 &lt;BODY&gt;<BR>
+&nbsp;5 &lt;H1&gt;This is Header Level 1&lt;/H1&gt;<BR>
+&nbsp;6 &lt;H2&gt;This is Header Level 2&lt;/H2&gt;<BR>
+&nbsp;7 &lt;H3&gt;This is Header Level 3&lt;/H3&gt;<BR>
+&nbsp;8 &lt;H4&gt;This is Header Level 4&lt;/H4&gt;<BR>
+&nbsp;9 &lt;H5&gt;This is Header Level 5&lt;/H5&gt;<BR>
+10 &lt;H6&gt;This is Header Level 6&lt;/H6&gt;<BR>
+11 This is line 1<BR>
+12 This is line 2&lt;P&gt;<BR>
+13 This is line 3&lt;P&gt;<BR>
+14 This is a broken line with an &amp;ltBR&amp;gt&lt;BR&gt; sign.
+<BR>
+15 &lt;P&gt;<BR>
+16 End of File Here.<BR>
+17 &lt;/BODY&gt;<BR>
+18 &lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.5. The second version of the HTML file shown in
+Listing 20.4.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;A
+simple HTML file&lt;/TITLE&gt;<BR>
+&nbsp;2 &lt;HEAD&gt;<BR>
+&nbsp;3 &lt;BODY&gt;<BR>
+&nbsp;4 &lt;H1&gt;This is Header Level 1&lt;/H1&gt; &lt;H2&gt;This
+is Header Level 2&lt;/H2&gt;<BR>
+&nbsp;5 &lt;H3&gt;This is Header Level 3&lt;/H3&gt; &lt;H4&gt;This
+is Header Level 4&lt;/H4&gt;<BR>
+&nbsp;6 &lt;H5&gt;This is Header Level 5&lt;/H5&gt; &lt;H6&gt;This
+is Header Level 6&lt;/H6&gt;<BR>
+&nbsp;7 This is line 1 This is line 2&lt;P&gt; This is line 3&lt;P&gt;
+<BR>
+&nbsp;8 This is a broken line with an &amp;ltoBR&amp;gt&lt;BR&gt;
+sign. &lt;P&gt; End of File Here.<BR>
+&nbsp;9 &lt;/BODY&gt;&lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Figure 20.3 shows the output from both listings. Note how heading-level
+1 and heading-level 2 are shown in the same font style in this
+figure. The example shown here uses Netscape as the browser. The
+results on your browser might be different because each browser
+displays HTML in the way it chooses. It's a bit like the contents
+of a box shifting during transport but the weight of the contents
+has not changed.
+<P>
+<A HREF="f20-3.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f20-3.gif" ><B>Figure 20.3: </B><I>Using different heading levels.</I></A>
+<P>
+For the sake of readability, it's best to place headings and paragraphs
+on separate blank lines along with <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT>
+tags.  You can also specify formatting options for paragraph alignment
+in the <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT> tag, as
+illustrated in Listing 20.5. The format specified for <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT>
+will continue until the next <TT><FONT FACE="Courier">&lt;P&gt;</FONT></TT>
+tag. To terminate a particular format you can use the <TT><FONT FACE="Courier">&lt;/P&gt;</FONT></TT>
+tag.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.6. Aligning paragraphs.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;html&gt;<BR>
+&nbsp;2 &lt;body&gt;<BR>
+&nbsp;3 &lt;TITLE&gt;Aligned Paragraphs&lt;/TITLE&gt;<BR>
+&nbsp;4 &lt;H1&gt;This shows aligned paragraphs&lt;/H1&gt;<BR>
+&nbsp;5 &lt;P ALIGN=CENTER&gt;
+<BR>
+&nbsp;6 This line is centered<BR>
+&nbsp;7 &lt;P ALIGN=LEFT&gt;<BR>
+&nbsp;8 This is aligned off the left margin<BR>
+&nbsp;9 &lt;P ALIGN=RIGHT&gt;<BR>
+10 This is line aligned off the right margin<BR>
+11 &lt;P&gt;<BR>
+12 End of File Here.<BR>
+13 &lt;/body&gt;<BR>
+14 &lt;/html&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The output from this listing is shown in Figure 20.4.
+<P>
+<A HREF="f20-4.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f20-4.gif" ><B>Figure 20.4:</B> <I>Using aligned paragraphs.</I></A>
+<H2><A NAME="PreformattedText"><FONT SIZE=5 COLOR=#FF0000>Preformatted
+Text</FONT></A></H2>
+<P>
+Having the browser format text for you does keep you from a lot
+of the hassle of tracking line breaks, paragraph formatting, and
+so on. However, when displaying text that is already laid out
+(such as source code), the default formatting can wreak havoc
+on your source listings. For this reason, HTML documents have
+the preformatted (<TT><FONT FACE="Courier">&lt;PRE&gt;</FONT></TT>)
+tag. Using the <TT><FONT FACE="Courier">&lt;PRE&gt;</FONT></TT>
+tag turns off the HTML formatting at the browser. Listing 20.8
+contains an HTML file that illustrates using this tag. The output
+is shown in Figure 20.5.
+<P>
+<A HREF="f20-5.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f20-5.gif" ><B>Figure 20.5:</B> <I>Preformatted text</I></A><I>.</I>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.7. Preformatted text.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;html&gt;<BR>
+&nbsp;2 &lt;body&gt;<BR>
+&nbsp;3 &lt;TITLE&gt;Yet Another Example&lt;/TITLE&gt;<BR>
+&nbsp;4 &lt;H1&gt;This shows Raw vs. Preformatted Text&lt;/H1&gt;
+<BR>
+&nbsp;5 &lt;H3&gt;Unformatted with the PRE tags &lt;/H3&gt;<BR>
+&nbsp;6 &lt;PRE&gt;<BR>
+&nbsp;7 main(int argc, char *argv[])<BR>
+&nbsp;8 {<BR>
+&nbsp;9 int command;<BR>
+10 <BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;command = get_response();
+<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (command != C_QUIT)
+<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+process_command(command);<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+command = get_response();<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+17 <BR>
+18 }<BR>
+19 &lt;/PRE&gt;<BR>
+20 &lt;HR&gt;<BR>
+21 &lt;H3&gt; Without the PRE tags &lt;/H3&gt;<BR>
+22 &lt;P&gt;<BR>
+23 main(int argc, char *argv[])<BR>
+24 {<BR>
+25 int command;<BR>
+26 <BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;command = get_response();
+<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (command != C_QUIT)
+<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+process_command(command);<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+command = get_response();<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+33 <BR>
+34 }<BR>
+35 <BR>
+36 &lt;/body&gt;<BR>
+37 &lt;/html&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<H2><FONT SIZE=5 COLOR=#FF0000><A NAME="SpecialCharactersinHTMLDocuments">Special Characters in HTML Documents</A></FONT>
+</H2>
+<P>
+By now you have seen that the greater than symbol and the less
+than symbol are used to encode documents. What if you wanted to
+include them in text that was not in preformatted tags? There
+are several special characters to encode these special symbols
+in HTML. In order to include them in a file, you have to enter
+their codes in the HTML file. Four of the most common special
+characters in HTML and their codes are
+<UL>
+<LI><TT><FONT FACE="Courier">&amp;lt;</FONT></TT> as the escape
+sequence for <TT><FONT FACE="Courier">&lt;</FONT></TT>.
+<LI><TT><FONT FACE="Courier">&amp;gt;</FONT></TT> as the escape
+sequence for <TT><FONT FACE="Courier">&gt;</FONT></TT>.
+<LI><TT><FONT FACE="Courier">&amp;amp;</FONT></TT> as the escape
+sequence for the ampersand (<TT><FONT FACE="Courier">&amp;</FONT></TT>).
+<LI><TT><FONT FACE="Courier">&amp;quot;</FONT></TT> the escape
+sequence for the double quote (<TT><FONT FACE="Courier">&quot;</FONT></TT>).
+</UL>
+<P>
+So, to show this string in an HTML page, <TT><FONT FACE="Courier">&lt;HELLO&gt;</FONT></TT>,
+you would use the text statement <TT><FONT FACE="Courier">&amp;lt;HELLO&amp;gt;</FONT></TT>
+in your code. Note that the semicolon is required in each code.
+<H2><A NAME="WhatIsaURL"><FONT SIZE=5 COLOR=#FF0000>What Is a
+URL?</FONT></A></H2>
+<P>
+URL stands for <I>uniform resource locator</I>. Basically, it's
+an extension of a file name to include the network address of
+a &quot;thing&quot; file and where that &quot;thing&quot; may
+be found. The &quot;thing&quot; your URL is pointing to may be
+a file, directory, database, image, newsgroup, archive, and so
+on, on a machine that is residing anywhere on the Internet. It's
+up to the browser to show that data to you.
+<P>
+A URL consists of three parts:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">service://sitename[:port]/path/filename</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">service</FONT></TT> part tells you
+which service you are trying to access. The <TT><FONT FACE="Courier">sitename</FONT></TT><B>
+</B>is the Internet address of the machine where the service is
+being sought. The<B> </B><TT><FONT FACE="Courier">port</FONT></TT>
+number is optional, because the default is port 80. The <TT><FONT FACE="Courier">path/filename</FONT></TT>
+is the location of the file relative to the root directory for
+the server.
+<P>
+The services your browser can offer will vary. Here are the most
+common types of service you can use with a Web browser:
+<UL>
+<LI><TT><FONT FACE="Courier">Http</FONT></TT> for perusing an
+HTML document
+<LI><TT><FONT FACE="Courier">Gopher</FONT></TT> for starting a
+gopher session
+<LI><TT><FONT FACE="Courier">Ftp</FONT></TT> for starting an ftp
+session
+<LI><TT><FONT FACE="Courier">Telnet</FONT></TT> for starting a
+telnet session
+<LI><TT><FONT FACE="Courier">File</FONT></TT> for getting a local
+file
+<LI><TT><FONT FACE="Courier">News</FONT></TT> for a Usenet newsgroup
+</UL>
+<P>
+Here are some examples of URLs:
+<UL>
+<LI><TT><FONT FACE="Courier">ftp://pop.ikra.com/pub/perl5/VRML.pm</FONT></TT>&nbsp;&nbsp;This
+URL specifies a file to get via <TT><FONT FACE="Courier">ftp</FONT></TT>
+from the <TT><FONT FACE="Courier">/pub/perl5</FONT></TT> directory.
+<LI><TT>http://www.ikra.com/iistv.html</TT>&nbsp;&nbsp;This
+URL specifies an HTML document on the node <TT><FONT FACE="Courier">www.ikra.com</FONT></TT>.
+<LI><TT><FONT FACE="Courier">news://ikra.com/newsgroups/comp.dcom.telecom</FONT></TT>&nbsp;&nbsp;This
+URL specifies a newsgroup to get on <TT><FONT FACE="Courier">ikra.com</FONT></TT>.
+</UL>
+<P>
+To specify URL links to other documents, use the anchor tags,
+<TT><FONT FACE="Courier">&lt;A&gt;</FONT></TT> and <TT><FONT FACE="Courier">&lt;/A&gt;</FONT></TT>.
+Anchor tags are used to provide links to other documents as well
+as provide a location in a document that another HTML document
+can refer to. Please check the references in this chapter if you
+are not familiar with using HTML anchors. Here's the format for
+using anchors for creating links to other documents:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;A HREF=&quot;URL&quot;&gt;Text describing
+where the URL points to&lt;/A&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">HREF</FONT></TT> token specifies
+the URL to use. The text between the first ending <TT><FONT FACE="Courier">&gt;</FONT></TT>
+and the start of <TT><FONT FACE="Courier">&lt;/A&gt;</FONT></TT>
+is shown by the browser in a different color. The space between
+<TT><FONT FACE="Courier">&lt;A</FONT></TT> and <TT><FONT FACE="Courier">HREF</FONT></TT>
+is required.
+<P>
+Here is a sample hypertext reference in an HTML document. For
+clarity, I refer to the document that specifies the hyperlink
+as the first document, and the location to which the URL points
+as the second document. Let's look at the URL:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;A HREF=&quot;http://pop.ikra.com/iistv.html&quot;&gt;IISTV&lt;/A&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The browser showing this link will make the word <TT><FONT FACE="Courier">IISTV</FONT></TT>
+show up in a different color than regular text and the link is
+underlined. Clicking on the word <TT><FONT FACE="Courier">IISTV</FONT></TT>
+will cause the browser to get the file <TT><FONT FACE="Courier">iistv.html</FONT></TT>
+from <TT><FONT FACE="Courier">www.ikra.com</FONT></TT>.
+<P>
+You normally use the absolute pathname of the file in a URL. Pathnames
+always use the standard UNIX syntax (<TT><FONT FACE="Courier">/</FONT></TT>),
+not the DOS syntax (<TT><FONT FACE="Courier">\</FONT></TT>), for
+delimiting directory names in a path. Relative pathnames are also
+possible if the anchor being specified happens to reside in the
+same directory tree on the same machine as the original document.
+<P>
+Use relative links if you are likely to move directories around.
+Moving the top-level file's location will move the entire tree
+with it. On the other hand, a full pathname makes an explicit
+link to the file regardless of where other files are moved to.
+<P>
+Anchors can also be used to move to a particular part within the
+same document. Suppose you want to set a link from one document
+(<TT><FONT FACE="Courier">index.html</FONT></TT>) to a section
+in another document (<TT><FONT FACE="Courier">text.html</FONT></TT>).
+Therefore, in the <TT><FONT FACE="Courier">index.html</FONT></TT>
+file, define a tag for the topic in the <TT><FONT FACE="Courier">text.html</FONT></TT>
+file like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;A NAME = &quot;Daumesnil&quot;&gt;Daumesnil
+Station&lt;/A&gt;&lt;P&gt;<BR>
+The station to go to the Zoo from....</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In the <TT><FONT FACE="Courier">index.html</FONT></TT> file, you
+create the anchor to the <TT><FONT FACE="Courier">text.html</FONT></TT>
+file with a named anchor. A named anchor uses the name of the
+file, followed by the hash mark (<TT><FONT FACE="Courier">#</FONT></TT>)
+and the location in the file:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Get off on &lt;A HREF = &quot;text.html#Daumesnil&quot;&gt;the
+Daumesnil stop&lt;/A&gt;<BR>
+and go two stations west to Port Doree.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Now when the user clicks on the words <TT><FONT FACE="Courier">the
+Daumesnil stop</FONT></TT>, the browser  loads <TT><FONT FACE="Courier">index.html</FONT></TT>
+and goes to the place where the tag is placed for <TT><FONT FACE="Courier">Daumesnil</FONT></TT>.
+To go to a location within the same file, skip the filename portion
+and use only the hash mark with the anchor name.
+<H2><A NAME="CGIScripts"><FONT SIZE=5 COLOR=#FF0000>CGI Scripts</FONT></A>
+</H2>
+<P>
+A request from a client browser at the Web server is handled by
+the <TT><FONT FACE="Courier">httpd</FONT></TT> daemon. If the
+request is to run a CGI program, the server will run the program
+for you and return the results of the program back to the client
+browser. Input to the CGI program being run is sent either via
+the command line or through environment variables. The CGI program
+can be in any language, but it has to be able to process input
+in this way. The output from the program is generally to standard
+output. Therefore, a CGI program can be a compiled executable,
+or a Perl, shell, or awk script, and so on. Naturally, because
+this book is about Perl, the CGI scripts I discuss here will be
+in Perl.
+<P>
+CGI scripts are similar to the scripts you would write to handle
+the command-line interface but with one glaring exception: You
+cannot send command-line options to CGI scripts. CGI uses the
+command line for other purposes, so it's impossible to send arguments
+to the script via the command line.
+<P>
+CGI uses environment variables to send your CGI program its parameters.
+Environment variables are useful in CGI scripts in that any child
+processes created by a CGI script also inherit the values of the
+parent's environment variables. Some of the main environment variables
+used by CGI scripts are listed in Table 20.1. The dagger (&#134;)
+indicates that the variable might not be supported on all servers,
+so use it with caution.<BR>
+<P>
+<CENTER><B>Table 20.1. CGI environment variables.</B></CENTER>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=186><I>Variable</I></TD><TD WIDTH=404><I>Description</I>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">AUTH_TYPE</FONT></TT>
+</TD><TD WIDTH=404>The authorization type</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">CONTENT_LENGTH</FONT></TT>
+</TD><TD WIDTH=404>The size in a decimal number of octets (8-bit bytes) of any attached entity
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">CONTENT_TYPE</FONT></TT>
+</TD><TD WIDTH=404>The MIME type of an attached entity</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">DOCUMENT_ROOT</FONT></TT>
+</TD><TD WIDTH=404>The root directory for your server's documents&#134;
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">DOCUMENT_URL</FONT></TT>
+</TD><TD WIDTH=404>The URL for your client's document&#134;</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">DOCUMENT_NAME</FONT></TT>
+</TD><TD WIDTH=404>*The name of your client's document&#134;</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">DATE_LOCAL</FONT></TT>
+</TD><TD WIDTH=404>Local to server</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">DATE_GMT</FONT></TT>
+</TD><TD WIDTH=404>Local to server</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">GATEWAY_INTERFACE</FONT></TT>
+</TD><TD WIDTH=404>The server's CGI specification version</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">HTTP_(string)</FONT></TT>
+</TD><TD WIDTH=404>The client's header data</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">PATH_INFO</FONT></TT>
+</TD><TD WIDTH=404>The path to be interpreted by the CGI script
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">PATH_TRANSLATED</FONT></TT>
+</TD><TD WIDTH=404>The virtual to physical mapping of the path
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">QUERY_STRING</FONT></TT>
+</TD><TD WIDTH=404>The URL-encoded search string</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">REMOTE_ADDR</FONT></TT>
+</TD><TD WIDTH=404>The IP address of the client</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">REMOTE_HOST</FONT></TT>
+</TD><TD WIDTH=404>The full qualified domain name of client</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">REMOTE_IDENT</FONT></TT>
+</TD><TD WIDTH=404>The identity data of the client</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">REMOTE_USER</FONT></TT>
+</TD><TD WIDTH=404>The user ID sent by the client</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">REQUEST_METHOD</FONT></TT>
+</TD><TD WIDTH=404>The request method sent by the client</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">SCRIPT_NAME</FONT></TT>
+</TD><TD WIDTH=404>The URL path identifying the CGI script</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">SERVER_NAME</FONT></TT>
+</TD><TD WIDTH=404>The server name (the host name of a DNS entry)
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">SERVER_PORT</FONT></TT>
+</TD><TD WIDTH=404>The port at which the request was received
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">SERVER_ROOT</FONT></TT>
+</TD><TD WIDTH=404>*The root directory for CGI binaries at the server
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">SERVER_PROTOCOL</FONT></TT>
+</TD><TD WIDTH=404>A request for protocol name and version number
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=186><TT><FONT FACE="Courier">SERVER_SOFTWARE</FONT></TT>
+</TD><TD WIDTH=404>A request for server software name and version number
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Let's briefly cover some of these environment variables and how
+your CGI script uses them. Keep in mind that only a few of these
+variables are guaranteed to be set at any one invocation. Not
+all of these variables are even set by all servers, so check your
+documentation (usually a <TT><FONT FACE="Courier">README</FONT></TT>
+file of sorts) if you do not have the ncSA server. This book deals
+with the ncSA server, which pretty much covers most of these variables.
+<P>
+To make things easier, you probably will not even use most of
+the environment variables all the time. The most often used ones
+tend to be <TT><FONT FACE="Courier">QUERY_STRING</FONT></TT>,
+<TT><FONT FACE="Courier">REQUEST_METHOD</FONT></TT>, and <TT><FONT FACE="Courier">PATH_INFO</FONT></TT>.
+However, I cover some of the others just so you are aware of them
+and what they do.
+<H3><A NAME="CONTENT_LENGTH"><TT><FONT SIZE=4 FACE="Courier">CONTENT_LENGTH</FONT></TT></A>
+</H3>
+<P>
+This variable is set to the number of bytes for the attached data
+to a file. If there is no attached data, this is set to <TT><FONT FACE="Courier">NULL</FONT></TT>.
+In Perl, this is interpreted as zero. For example, for a string
+of <TT><FONT FACE="Courier">&quot;x=10&amp;y=10&quot;</FONT></TT>,
+the variable is set as <TT><FONT FACE="Courier">CONTENT_LENGTH=9</FONT></TT>.
+<H3><A NAME="CONTENT_TYPE"><TT><FONT SIZE=4 FACE="Courier">CONTENT_TYPE</FONT></TT></A>
+</H3>
+<P>
+The <TT><FONT FACE="Courier">CONTENT_TYPE</FONT></TT> variable
+is set to the type of MIME entity (data) being sent to the CGI
+script. If there is no data, this variable is set to <TT><FONT FACE="Courier">NULL</FONT></TT>,
+as well. The MIME types are defined in HTTP 1.0 (and later versions).
+With MIME types you can represent different types of data: video,
+audio, images, or just plain text. Each type of data has its own
+format: for example, GIF files are in the GIF format, text files
+are in ASCII, and so on. For a GIF file, the <TT><FONT FACE="Courier">CONTENT_TYPE</FONT></TT>
+variable is set as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">CONTENT_TYPE = image/gif</FONT></TT>
+</BLOCKQUOTE>
+<P>
+A client may specify a list of the types of acceptable media in
+its request header. This allows the server some flexibility in
+how it returns data. Most types of data are registered with the
+Internet Assigned Numbers Authority (IANA). The most common registered
+types and subtypes are listed in Table 20.2. Subtypes and types
+are not case sensitive-so GIF is equivalent to gif.<BR>
+<P>
+<CENTER><B>Table 20.2. MIME registered content types used by HTTP.</B></CENTER>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=129><I>Type</I></TD><TD WIDTH=189><I>Subtypes</I>
+</TD><TD WIDTH=272><I>Description</I></TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">text</FONT></TT></TD>
+<TD WIDTH=189><TT><FONT FACE="Courier">plain</FONT></TT></TD>
+<TD WIDTH=272>ASCII text information</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">image</FONT></TT></TD>
+<TD WIDTH=189><TT><FONT FACE="Courier">jpeg</FONT></TT>, <TT><FONT FACE="Courier">gif</FONT></TT>
+</TD><TD WIDTH=272>Supported formats</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">audio</FONT></TT></TD>
+<TD WIDTH=189><TT><FONT FACE="Courier">basic</FONT></TT></TD>
+<TD WIDTH=272>Audio information (includes <TT><FONT FACE="Courier">.au</FONT></TT> format)
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">video</FONT></TT></TD>
+<TD WIDTH=189><TT><FONT FACE="Courier">mpeg</FONT></TT></TD><TD WIDTH=272>Video data
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">application</FONT></TT>
+</TD><TD WIDTH=189><TT><FONT FACE="Courier">octet-stream</FONT></TT>
+</TD><TD WIDTH=272>Application-specific data</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">message</FONT></TT>
+</TD><TD WIDTH=189><TT><FONT FACE="Courier">rfc822</FONT></TT>, <TT><FONT FACE="Courier">partial</FONT></TT>,
+<BR>
+<TT><FONT FACE="Courier">external-body</FONT></TT>
+</TD><TD WIDTH=272>An encapsulated message</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">multipart</FONT></TT>
+</TD><TD WIDTH=189><TT><FONT FACE="Courier">mixed</FONT></TT>, <TT><FONT FACE="Courier">alternative</FONT></TT>,
+<BR>
+<TT><FONT FACE="Courier">digest</FONT></TT>, <TT><FONT FACE="Courier">parallel</FONT></TT>
+</TD><TD WIDTH=272>Multiple parts of individual data 
+<BR>
+types
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The types shown in Table 20.2 are by no means complete. Servers
+may support more types and subtypes. The application type describes
+transmitted application-specific data. This is generally binary
+data that is not interpreted by the server. Here is the usual
+setting for such data:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">CONTENT_TYPE=application/octet-stream
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The text type describes textual data. The primary and default
+subtype is <TT><FONT FACE="Courier">plain</FONT></TT>. Here is
+the general setting for this variable:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">CONTENT_TYPE=text/plain. </FONT></TT>
+</BLOCKQUOTE>
+<P>
+With the introduction of &quot;rich text&quot; as specified by
+RFC 1521 it may be necessary to specify the character set being
+used. RFC 1521 is the Internet standard for defining internet
+MIME formats. For more information on RFC 1521, check out the
+HTML page on <TT><A HREF="tppmsgs/msgs0.htm#23" tppabs="http://www.cis.ohio-state.edu/htbin/rfc/rfc1521.html">http://www.cis.ohio-state.edu/htbin/rfc/rfc1521.html</A></TT>.
+<P>
+Therefore, the setting for sending a plain text file via CGI would
+be the following:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">CONTENT_TYPE=text/plain; charset=us-ascii
+<BR>
+A blank like here is manadatory per standard</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Note that each content type must be followed by a mandatory blank
+line as required by HTML/CGI specifications. The image <TT><FONT FACE="Courier">Content-Type</FONT></TT>
+can also be used to describe image data. The two well-known image
+types are JPEG and GIF. The type of format for a GIF would be
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">CONTENT_TYPE=image/gif<BR>
+A blank like here is manadatory per standard</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The video <TT><FONT FACE="Courier">Content-Type</FONT></TT> describes
+video data in the MPEG format. For audio, the <TT><FONT FACE="Courier">Content-Type</FONT></TT>
+would be in the basic format. In extended subtypes, you'll see
+an <TT><I><FONT FACE="Courier">x</FONT></I></TT> in front of the
+subtype.
+<H3><A NAME="GATEWAY_INTERFACE"><TT><FONT SIZE=4 FACE="Courier">GATEWAY_INTERFACE</FONT></TT></A>
+</H3>
+<P>
+This represents the version of the CGI specification to which
+the server complies. This variable is set for all HTTP requests.
+<H3><A NAME="PATH_INFO"><TT><FONT SIZE=4 FACE="Courier">PATH_INFO</FONT></TT></A>
+</H3>
+<P>
+This variable represents additional path information. It describes
+a resource to be returned by the CGI application once it has completed
+its execution. The value of the <TT><FONT FACE="Courier">PATH_INFO</FONT></TT>
+variable can be a URL, a string provided to the CGI script, or
+some other client information. It is up to the handling CGI script
+as to how to use this information (if the information is needed).
+If this information is a valid URL, the server may interpret the
+URL before passing it to the CGI application.
+<H3><A NAME="QUERY_STRING"><TT><FONT SIZE=4 FACE="Courier">QUERY_STRING</FONT></TT></A>
+</H3>
+<P>
+The <TT><FONT FACE="Courier">QUERY_STRING</FONT></TT> variable
+is defined as anything that follows the first question mark (<TT><FONT FACE="Courier">?</FONT></TT>)
+in a URL. This information can be added either by an <TT><FONT FACE="Courier">ISINDEX</FONT></TT>
+document or an HTML form (with the <TT><FONT FACE="Courier">GET</FONT></TT>
+action). This string is encoded in the standard URL format of
+changing spaces to <TT><FONT FACE="Courier">+</FONT></TT>, individual
+assignments separated by ampersands and encoding special characters
+with <TT><FONT FACE="Courier">%XX</FONT></TT> hexadecimal encoding.
+You will need to decode the value of <TT><FONT FACE="Courier">QUERY_STRING</FONT></TT>
+before you can use it.
+<P>
+Assignments to values in an HTML <TT><FONT FACE="Courier">FORM</FONT></TT>
+are done in the form <TT><FONT FACE="Courier">x=value</FONT></TT>.
+Spaces are converted into plus (<TT><FONT FACE="Courier">+</FONT></TT>)
+signs. So an assignment of the form <TT><FONT FACE="Courier">x=hello
+world</FONT></TT>, will be converted to <TT><FONT FACE="Courier">x=hello+world</FONT></TT>.
+<P>
+Individual assignments are separated by ampersands (<TT><FONT FACE="Courier">&amp;</FONT></TT>).
+The equal (<TT><FONT FACE="Courier">=</FONT></TT>) sign, the plus
+(<TT><FONT FACE="Courier">+</FONT></TT>) sign, and the ampersand
+(<TT><FONT FACE="Courier">&amp;</FONT></TT>) may only be included
+as encoded values (by using the <TT><FONT FACE="Courier">#</FONT></TT>
+operator, for example). Therefore, these assignments, <TT><FONT FACE="Courier">x=&quot;hello
+world&quot;</FONT></TT>, <TT><FONT FACE="Courier">&quot;a=2&quot;</FONT></TT>
+and <TT><FONT FACE="Courier">&quot;y=I am here&quot;</FONT></TT>,
+are encoded as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">x=hello+world&amp;a=2&amp;y=I+am+here</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="InputandOutputtoCGIScripts"><FONT SIZE=5 COLOR=#FF0000>Input
+and Output to CGI Scripts</FONT></A></H2>
+<P>
+The server is responsible for packing the data and setting the
+environment variables before running the CGI script. Information
+being passed to the CGI script can be passed in one of two ways:
+as part of <TT><FONT FACE="Courier">STDIN</FONT></TT> (the Perl
+handle for <TT><FONT FACE="Courier">standard input</FONT></TT>)
+or by setting the value in <TT><FONT FACE="Courier">QUERY_STRING</FONT></TT>.
+The results from the execution are sent back from the CGI script
+to <TT><FONT FACE="Courier">STDOUT</FONT></TT> (the default output
+file handle for Perl).
+<P>
+When data is passed in via <TT><FONT FACE="Courier">STDIN</FONT></TT>,
+the <TT><FONT FACE="Courier">CONTENT_LENGTH</FONT></TT> and <TT><FONT FACE="Courier">CONTENT_TYPE</FONT></TT>
+variables are set to reflect the length and type of data, respectively.
+This kind of input is the result of the <TT><FONT FACE="Courier">POST</FONT></TT>
+method at the client. For the <TT><FONT FACE="Courier">GET</FONT></TT>
+method of requesting data, the variable <TT><FONT FACE="Courier">QUERY_STRING</FONT></TT>
+is set to the values.
+<P>
+Incoming strings take the form of an input string. Assignments
+to values are done in the form <TT><FONT FACE="Courier">x=value</FONT></TT>.
+Spaces are converted into plus (<TT><FONT FACE="Courier">+</FONT></TT>)
+signs. Individual assignments are separated by ampersands (<TT><FONT FACE="Courier">&amp;</FONT></TT>).
+The equal (<TT><FONT FACE="Courier">=</FONT></TT>) sign, the plus
+(<TT><FONT FACE="Courier">+</FONT></TT>) sign, and the ampersand
+(<TT><FONT FACE="Courier">&amp;</FONT></TT>) may only be included
+as encoded values (by using the <TT><FONT FACE="Courier">#</FONT></TT>
+operator, for example). Therefore, two assignments, <TT><FONT FACE="Courier">x=1</FONT></TT>
+and <TT><FONT FACE="Courier">&quot;y=42 and 32&quot;</FONT></TT>,
+are encoded as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">x=1&amp;y=42+and+32</FONT></TT>
+</BLOCKQUOTE>
+<P>
+There is a method to send data to a CGI script with the command
+line, provided you have the support in the server and your data
+traffic is not large. Command-line interfaces tend to be restricted
+by the number of bytes available for the interface. The method
+of passing data via the environment variables is considered safer
+and is the preferred way of passing data.
+<P>
+A CGI script must always return something back to the client.
+This is a requirement; otherwise, the client at the other end
+might hang for a long time. The standard output from the CGI program
+is the output that the script writes to <TT><FONT FACE="Courier">STDOUT</FONT></TT>.
+Output is returned in one of two ways: a nonparsed header output
+or a parsed header output. In the nonparsed header output, a complete
+HTTP message is sent back. In the parsed header output, an HTML
+header and the body of a message is sent with another URL. The
+latter method is the preferred way of sending data back from a
+server to a browser.
+<P>
+CGI programs can return a number of document types back to the
+client. The CGI standard specifies what format of data to expect
+at the server via the MIME header. The most common MIME types
+are <TT><FONT FACE="Courier">text</FONT></TT>/<TT><FONT FACE="Courier">html</FONT></TT>
+for HTML, and <TT><FONT FACE="Courier">text</FONT></TT>/<TT><FONT FACE="Courier">plain</FONT></TT>
+for straight ASCII text.
+<P>
+For example, to send back HTML to the client, your output should
+look like the example shown here:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;&nbsp;Content-type: text/html
+<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&lt;HTML&gt;&lt;HEAD&gt;<BR>
+&nbsp;&nbsp;&nbsp;&lt;TITLE&gt;HTML Output from test CGI script&lt;/TITLE&gt;
+<BR>
+&nbsp;&nbsp;&nbsp;&lt;/HEAD&gt;&lt;BODY&gt;<BR>
+&nbsp;&nbsp;&nbsp;&lt;H1&gt;Test output&lt;/H1&gt;<BR>
+&lt;P&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp; Body of text<BR>
+&lt;P&gt;<BR>
+&nbsp;&nbsp;&nbsp;&lt;/BODY&gt;&lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Let's look a test script to see how an HTML file can be sent back.
+<H2><A NAME="ATestCGIScript"><FONT SIZE=5 COLOR=#FF0000>A Test
+CGI Script</FONT></A></H2>
+<P>
+The CGI script in Listing 20.8 shows how to display information
+about the environment variables in use. The best way to learn
+is by example-and this sample script will show you how to write
+a very basic CGI script in Perl.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.8. A sample test script.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 #&nbsp;&nbsp;A very common echo script on just about every
+server<BR>
+&nbsp;3 $| = 1;<BR>
+&nbsp;4 print &quot;Content-type: text/plain\n\n&quot;;<BR>
+&nbsp;5 print &quot;CGI/1.0 test script report\n\n&quot;;<BR>
+&nbsp;6 if ($ENV{'REQUEST_METHOD'} eq &quot;POST&quot;) {<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$form = &lt;STDIN&gt;;
+<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;$form \n&quot;;
+<BR>
+&nbsp;9 } else {<BR>
+10 print &quot;argc is $#ARGV \nargv is &quot;;<BR>
+11 while (@ARGV) {<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ARGV=shift;<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;$ARGV &quot;;
+<BR>
+14 }<BR>
+15 }<BR>
+16 print &quot;\n&quot;;<BR>
+17 #<BR>
+18 print &quot;SERVER_SOFTWARE = $ENV{'SERVER_SOFTWARE'}\n&quot;;
+<BR>
+19 print &quot;SERVER_NAME = $ENV{'SERVER_NAME'}\n&quot;;<BR>
+20 print &quot;GATEWAY_INTERFACE = $ENV{'GATEWAY_INTERFACE'}\n&quot;;
+<BR>
+21 print &quot;SERVER_PROTOCOL = $ENV{'SERVER_PROTOCOL'}\n&quot;;
+<BR>
+22 print &quot;SERVER_PORT = $ENV{'SERVER_PORT'}\n&quot;;<BR>
+23 print &quot;SERVER_ROOT = $ENV{'SERVER_ROOT'}\n&quot;;<BR>
+24 print &quot;REQUEST_METHOD = $ENV{'REQUEST_METHOD'}\n&quot;;
+<BR>
+25 print &quot;HTTP_AccEPT = $ENV{'HTTP_AccEPT'}\n&quot;;<BR>
+26 print &quot;PATH_INFO = $ENV{'PATH_INFO'}\n&quot;;<BR>
+27 print &quot;PATH = $ENV{'PATH'}\n&quot;;<BR>
+28 print &quot;PATH_TRANSLATED = $ENV{'PATH_TRANSLATED'}\n&quot;;
+<BR>
+29 print &quot;SCRIPT_NAME = $ENV{'SCRIPT_NAME'}\n&quot;;<BR>
+30 print &quot;QUERY_STRING = $ENV{'QUERY_STRING'}\n&quot;;<BR>
+31 print &quot;QUERY_STRING_UNESCAPED = $ENV{'QUERY_STRING_UNESCAPED'}\n&quot;;
+<BR>
+32 print &quot;REMOTE_HOST = $ENV{'REMOTE_HOST'}\n&quot;;<BR>
+33 print &quot;REMOTE_IDENT = $ENV{'REMOTE_IDENT'}\n&quot;;<BR>
+34 print &quot;REMOTE_ADDR = $ENV{'REMOTE_ADDR'}\n&quot;;<BR>
+35 print &quot;REMOTE_USER = $ENV{'REMOTE_USER'}\n&quot;;<BR>
+36 print &quot;AUTH_TYPE = $ENV{'AUTH_TYPE'}\n&quot;;<BR>
+37 print &quot;CONTENT_TYPE = $ENV{'CONTENT_TYPE'}\n&quot;;<BR>
+38 print &quot;CONTENT_LENGTH = $ENV{'CONTENT_LENGTH'}\n&quot;;
+<BR>
+39 print &quot;DOCUMENT_ROOT = $ENV{'DOCUMENT_ROOT'}\n&quot;;
+<BR>
+40 print &quot;DOCUMENT_URI = $ENV{'DOCUMENT_URI'}\n&quot;;<BR>
+41 print &quot;DOCUMENT_NAME = $ENV{'DOCUMENT_NAME'}\n&quot;;
+<BR>
+42 print &quot;DATE_LOCAL = $ENV{'DATE_LOCAL'}\n&quot;;<BR>
+43 print &quot;DATE_GMT = $ENV{'DATE_GMT'}\n&quot;;<BR>
+44 print &quot;LAST_MODIFIED = $ENV{'LAST_MODIFIED'}\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Line 3 forces the data written to <TT><FONT FACE="Courier">STDOUT</FONT></TT>
+(the default) to be sent back to the client immediately. Make
+it a habit to do this is for all your CGI scripts. Flushing the
+output is necessary when processing large amounts of data, because
+the inherent caching on the output buffer may delay the transfer
+of text from the one shown.
+<P>
+Line 4 returns the MIME type of document back to the client. Note
+the two carriage returns at the end of the <TT><FONT FACE="Courier">print</FONT></TT>
+statement. The client expects an extra blank line.
+<P>
+Line 5 simply prints an output header for the text output. Line
+6 checks if the input is coming from the standard input (<TT><FONT FACE="Courier">STDIN</FONT></TT>)
+or if it should be gathered from the command line. The command-line
+parsing is shown only for use in this example. In <A HREF="ch22.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch22.htm" >Chapter 22</A>,
+&quot;Using HTML <TT><FONT FACE="Courier">FORM</FONT></TT>s,&quot;
+and <A HREF="ch23.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch23.htm" >Chapter 23</A>, &quot;HTML with Perl Modules,&quot;
+I develop a Perl subroutine to handle this input via the HTML
+<TT><FONT FACE="Courier">FORMS</FONT></TT>. Keep in mind that
+the command-line interface is restrictive when large amounts of
+data are being passed through. For the moment, this example shows
+how the input is set in <TT><FONT FACE="Courier">$ARGC</FONT></TT>
+and the <TT><FONT FACE="Courier">@ARGV</FONT></TT> array.
+<P>
+Lines 7 and 8 extract the input stream from <TT><FONT FACE="Courier">&lt;STDIN&gt;</FONT></TT>,
+whereas lines 11 through 14 extract incoming arguments from the
+command-line interface. The rest of the script echoes the values
+of the environment variables set at the time the shell script
+is executed. Let's look at the variables in the output shown in
+Figure 20.6. Note that the output is in text.
+<P>
+<A HREF="f20-6.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f20-6.gif" ><B>Figure 20.6:</B> <I>Environment variables from the test script</I></A><I>.</I>
+<P>
+The output in Figure 20.6 does not look very pretty does it? We
+can send back an HTML document, too. Look at Listing 20.9, where
+we send back an HTML document. In this listing, the content type
+is set to <TT><FONT FACE="Courier">&quot;text/HTML&quot;</FONT></TT>
+because we are sending back an HTML document. The rest of the
+script is basically echoing an HTML document back to the client.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.9. Echo environment variables with HTML output.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 print &quot;Content-type: text/html\n\n&quot;;<BR>
+&nbsp;3 print &lt;&lt;&quot;HTML&quot;;<BR>
+&nbsp;4 &lt;HTML&gt;<BR>
+&nbsp;5 &lt;BODY&gt; &lt;TITLE&gt;&nbsp;&nbsp;HTML output &lt;/TITLE&gt;
+<BR>
+&nbsp;6 &lt;p&gt;<BR>
+&nbsp;7 &lt;H1&gt; The environment variables &lt;/H1&gt;<BR>
+&nbsp;8 &lt;UL&gt;<BR>
+&nbsp;9 &lt;LI&gt;AUTH_TYPE = &lt;B&gt; $ENV{'AUTH_TYPE'}&lt;/B&gt;
+<BR>
+10 &lt;LI&gt;CONTENT_TYPE = &lt;B&gt; $ENV{'CONTENT_TYPE'}&lt;/B&gt;
+<BR>
+11 &lt;LI&gt;CONTENT_LENGTH = &lt;B&gt; $ENV{'CONTENT_LENGTH'}&lt;/B&gt;
+<BR>
+12 &lt;LI&gt;DATE_LOCAL = &lt;B&gt; $ENV{'DATE_LOCAL'}&lt;/B&gt;
+<BR>
+13 &lt;LI&gt;DATE_GMT = &lt;B&gt; $ENV{'DATE_GMT'}&lt;/B&gt;<BR>
+14 &lt;LI&gt;DOCUMENT_ROOT = &lt;B&gt; $ENV{'DOCUMENT_ROOT'}&lt;/B&gt;
+<BR>
+15 &lt;LI&gt;DOCUGMENT_URI = &lt;B&gt; $ENV{'DOCUMENT_URI'}&lt;/B&gt;
+<BR>
+16 &lt;LI&gt;DOCUMENT_NAME = &lt;B&gt; $ENV{'DOCUMENT_NAME'}&lt;/B&gt;
+<BR>
+17 &lt;LI&gt;GATEWAY_INTERFACE = &lt;B&gt; $ENV{'GATEWAY_INTERFACE'}&lt;/B&gt;
+<BR>
+18 &lt;LI&gt;HTTP_AccEPT = &lt;B&gt; $ENV{'HTTP_AccEPT'}&lt;/B&gt;
+<BR>
+19 &lt;LI&gt;LAST_MODIFIED = &lt;B&gt; $ENV{'LAST_MODIFIED'}&lt;/B&gt;
+<BR>
+20 &lt;LI&gt;PATH_INFO = &lt;B&gt; $ENV{'PATH_INFO'}&lt;/B&gt;
+<BR>
+21 &lt;LI&gt;PATH = &lt;B&gt; $ENV{'PATH'}&lt;/B&gt;<BR>
+22 &lt;LI&gt;PATH_TRANSLATED = &lt;B&gt; $ENV{'PATH_TRANSLATED'}&lt;/B&gt;
+<BR>
+23 &lt;LI&gt;QUERY_STRING = &lt;B&gt; $ENV{'QUERY_STRING'}&lt;/B&gt;
+<BR>
+24 &lt;LI&gt;QUERY_STRING_UNESCAPED = &lt;B&gt; $ENV{'QUERY_STRING_UNESCAPED'}&lt;/B&gt;
+<BR>
+25 &lt;LI&gt;REMOTE_HOST = &lt;B&gt; $ENV{'REMOTE_HOST'}&lt;/B&gt;
+<BR>
+26 &lt;LI&gt;REMOTE_IDENT = &lt;B&gt; $ENV{'REMOTE_IDENT'}&lt;/B&gt;
+<BR>
+27 &lt;LI&gt;REMOTE_ADDR = &lt;B&gt; $ENV{'REMOTE_ADDR'}&lt;/B&gt;
+<BR>
+28 &lt;LI&gt;REMOTE_USER = &lt;B&gt; $ENV{'REMOTE_USER'}&lt;/B&gt;
+<BR>
+29 &lt;LI&gt;REQUEST_METHOD = &lt;B&gt; $ENV{'REQUEST_METHOD'}&lt;/B&gt;
+<BR>
+30 &lt;LI&gt;SCRIPT_NAME = &lt;B&gt; $ENV{'SCRIPT_NAME'}&lt;/B&gt;
+<BR>
+31 &lt;LI&gt;SERVER_NAME = &lt;B&gt; $ENV{'SERVER_NAME'}&lt;/B&gt;
+<BR>
+32 &lt;LI&gt;SERVER_SOFTWARE = &lt;B&gt; $ENV{'SERVER_SOFTWARE'}&lt;/B&gt;
+<BR>
+33 &lt;LI&gt;SERVER_PORT = &lt;B&gt; $ENV{'SERVER_PORT'}&lt;/B&gt;
+<BR>
+34 &lt;LI&gt;SERVER_PROTOCOL = &lt;B&gt; $ENV{'SERVER_PROTOCOL'}&lt;/B&gt;
+<BR>
+35 &lt;LI&gt;SERVER_ROOT = &lt;B&gt; $ENV{'SERVER_ROOT'}&lt;/B&gt;
+<BR>
+36 &lt;/UL&gt;<BR>
+37 &lt;/BODY&gt;<BR>
+38 &lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The output is shown in Figure 20.7. I cover sending and receiving
+data using these environment variables using Perl in <A HREF="ch22.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch22.htm" >Chapters 22</A>
+and <A HREF="ch23.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch23.htm" >23</A> in greater detail.
+<P>
+<A HREF="f20-7.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f20-7.gif" ><B>Figure 20.7:</B> <I>HTML equivalent output from Listing 20.9</I></A><I>.</I>
+<H2><A NAME="UsingFrames"><FONT SIZE=5 COLOR=#FF0000>Using Frames</FONT></A>
+</H2>
+<P>
+The Netscape browser allows you to use frames to define scrollable
+portions on your screen, as illustrated in Figure 20.8. The main
+file for this page is shown in Listing 20.10. 
+<P>
+<A HREF="f20-8.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f20-8.gif" ><B>Figure 20.8:</B> <I>Using HTML FRAME tags.</I></A>
+<P>
+For more information on frames, look at the Web site for Netscape,
+the folks who came up with frames, at this address:
+<BLOCKQUOTE>
+<TT><A HREF="tppmsgs/msgs0.htm#27" tppabs="http://www.netscape.com/assist/net_sites/frames.html">http://www.netscape.com/assist/net_sites/frames.html</A></TT>
+</BLOCKQUOTE>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.10. Using </B><TT><B><FONT FACE="Courier">FRAME</FONT></B></TT><B>s.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;HTML&gt;&lt;HEAD&gt;&lt;TITLE&gt;Kamran's
+Home Page &lt;/TITLE&gt;<BR>
+&nbsp;2 &lt;/HEAD&gt;<BR>
+&nbsp;3 &lt;BODY&gt;<BR>
+&nbsp;4 &lt;FRAMESET ROWS=&quot;22%,78%&quot;&gt;<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;FRAME NAME=&quot;TOPICS&quot;
+SRC=&quot;topics.html&quot;&gt;<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;FRAME NAME=&quot;INDEX&quot;
+SRC=&quot;index.html&quot;&gt;<BR>
+&nbsp;7 &lt;/FRAMESET&gt;<BR>
+&nbsp;8 &lt;NOFRAME&gt;<BR>
+&nbsp;9 &lt;P&gt;<BR>
+10 For more information, please contact &lt;address&gt;Kamran
+Husain&lt;/address&gt;<BR>
+11 &lt;a href=&quot;mailto:khusain@ikra.com&quot;&gt;khusain@ikra.com&lt;/a&gt;
+&lt;/BODY&gt;&lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The names of the two <TT><FONT FACE="Courier">FRAME</FONT></TT>s
+in Listing 20.10 are set as <TT><FONT FACE="Courier">TOPICS</FONT></TT>
+and <TT><FONT FACE="Courier">INDEX</FONT></TT>. The area that
+these tags use up on the screen in specified in the <TT><FONT FACE="Courier">FRAMESET</FONT></TT>
+tags. The <TT><FONT FACE="Courier">ROWS</FONT></TT> attribute
+of the <TT><FONT FACE="Courier">FRAMESET</FONT></TT> specifies
+the percentage of screen space that is to be used when rendering
+each page. For example, the line
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;FRAMESET ROWS=&quot;22%,78%&quot;&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+sets aside <TT><FONT FACE="Courier">22%</FONT></TT> of the top
+of the screen for the first frame to be laid out and <TT><FONT FACE="Courier">78%</FONT></TT>
+for the other frame. Had we used <TT><FONT FACE="Courier">COLS</FONT></TT>
+instead of <TT><FONT FACE="Courier">ROWS</FONT></TT> in the specification,
+like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;FRAMESET COLS=&quot;22%,78%&quot;&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+we would be specifying <TT><FONT FACE="Courier">22%</FONT></TT>
+of the screen space for the first frame and <TT><FONT FACE="Courier">78%</FONT></TT>
+for the second frame. More than one frame can be specified as
+long as the sum of all the percentages assigned for spaces add
+up to 100. For example, to set aside three columnar spaces on
+a screen, you could use the following line: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;FRAMESET COLS=&quot;22%,22%,*&quot;&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first two frames would be given a column whose width is <TT><FONT FACE="Courier">22%</FONT></TT>
+each of the total space available. The asterisk in the third column's
+space indicates to the browser to use the rest of the available
+space for the third column.
+<P>
+Also, like lists, frames can be nested within other frames by
+nesting a <TT><FONT FACE="Courier">&lt;FRAMESET&gt;&lt;/FRAMESET&gt;</FONT></TT>
+tag pair in other <TT><FONT FACE="Courier">FRAMESET</FONT></TT>
+tags. For more information on using <TT><FONT FACE="Courier">FRAMES</FONT></TT>,
+check out the reference books listed earlier in this chapter.
+<P>
+In Listing 20.10, the <TT><FONT FACE="Courier">TOPICS</FONT></TT>
+frame occupies the <TT><FONT FACE="Courier">22%</FONT></TT> top
+area, and the <TT><FONT FACE="Courier">INDEX</FONT></TT> frame
+occupies the bottom <TT><FONT FACE="Courier">78%</FONT></TT>.
+The URLs in the <TT><FONT FACE="Courier">INDEX</FONT></TT> frame
+use the name <TT><FONT FACE="Courier">TOPICS</FONT></TT> of the
+window and the <TT><FONT FACE="Courier">TARGET</FONT></TT> option
+to display text in the <TT><FONT FACE="Courier">TOPICS</FONT></TT>
+window frame. See Listing 20.11.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.11. Using </B><TT><B><FONT FACE="Courier">TARGET</FONT></B></TT><B>
+in </B><TT><B><FONT FACE="Courier">FRAME</FONT></B></TT><B>s.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;HTML&gt;<BR>
+&nbsp;2 &lt;HEAD&gt;&lt;TITLE&gt;MPS Inc. Home Page &lt;/TITLE&gt;
+&lt;/HEAD&gt;<BR>
+&nbsp;3 &lt;P&gt;<BR>
+&nbsp;4 &lt;H1&gt;Topics to choose from&lt;/H1&gt;<BR>
+&nbsp;5 &lt;ul&gt;<BR>
+&nbsp;6 &lt;li&gt; &lt;A HREF=&quot;mpstrain.html&quot; TARGET=&quot;INDEX&quot;
+&gt;<BR>
+&nbsp;7&nbsp;&nbsp;Training Courses&lt;/A&gt;<BR>
+&nbsp;8 &lt;li&gt; &lt;A HREF=&quot;mpsgraph.html&quot; TARGET=&quot;INDEX&quot;&gt;
+<BR>
+&nbsp;9&nbsp;&nbsp;Graphics Applications with C/C++ &lt;/A&gt;
+<BR>
+10 &lt;li&gt; &lt;A HREF=&quot;mpsprog.html&quot;&nbsp;&nbsp;TARGET=&quot;INDEX&quot;&gt;
+<BR>
+11&nbsp;&nbsp;UNIX Programming&lt;/A&gt;<BR>
+12 &lt;li&gt; &lt;A HREF=&quot;mpsgraph.html#Seismic&quot;&nbsp;&nbsp;TARGET=&quot;INDEX&quot;&gt;
+<BR>
+13&nbsp;&nbsp;Seismic Exploration Applications&gt;&lt;/A&gt;<BR>
+14 &lt;/ul&gt;<BR>
+15 &lt;/B&gt;&lt;/BODY&gt;&lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">TARGET</FONT></TT> attribute sets
+the frame that will be used to lay out the contents of what the
+<TT><FONT FACE="Courier">HREF</FONT></TT> attribute points to.
+When you click on any of the links defined in the top row of the
+HTML page, the contents of the URL are laid out in the bottom
+frame. Therefore, the top serves as a table of contents, and the
+bottom serves as the viewing area for the HTML page. 
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+This chapter has been a whirlwind introduction to writing HTML
+pages and interfacing with CGI scripts. A book devoted to these
+topics would probably give you more detailed information. However,
+you now have enough information to start writing your own Web
+pages. In <A HREF="ch22.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch22.htm" >Chapters 22</A> and <A HREF="ch23.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch23.htm" >23</A>
+I cover how to use HTML tables and forms with Perl CGI scripts.
+<P>
+CGI scripts are the workhorse behind the HTML pages. Input is
+sent from a client via a server to a CGI script and replies are
+expected back even if commands are not successful. Replies can
+take the form of text, data, images, HTML pages, and so on. Output
+from the CGI script is sent to its standard output and is passed
+back to the client via the server. Arguments to CGI scripts are
+passed via environment variables because this is an easy way to
+pass values between child and parent processes. CGI scripts do
+not have to be written in Perl, but it's easier to manipulate
+strings in Perl than it is in C or other languages.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch19.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch19.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch21.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch21.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

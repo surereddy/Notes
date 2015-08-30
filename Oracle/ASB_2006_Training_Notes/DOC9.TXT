@@ -1,0 +1,257 @@
+计划
+
+ 用户管理的备份
+ 用户管理的完全恢复
+ 
+ 用户管理的非完全恢复
+ rman的组成和配置
+ 
+ rman的备份
+ rman的完全恢复
+ rman的非完全恢复
+ exp/imp
+ sql loader
+ 
+--------------------------------------------------------------------------
+数据库运行方式
+	归档方式
+	非归档方式
+	
+	从非归档方式 《-〉归档方式
+	
+当数据库从非归档方式变成归档方式以后，随着用户不断的向数据库添加数据，产生很多的归档日志文件。
+
+
+用户管理的备份
+ Oracle8i之前的数据库建议使用这种方式
+ 9i以后建议使用工具RMAN
+ 
+1 - 全备份 和 部分备份
+2 - 一致性备份 和 非一致性备份
+
+特点：
+  备份 backup 是通过操作系统的工具来完成  copy / cp
+  还原 restore 是通过操作系统的工具来完成
+  恢复 recover 是通过SQL语句来完成的。
+  
+备份的方式根据数据库的运行方式而定：
+ noarchive方式  -- 关闭数据库后的冷备份
+ archive方式    -- 打开数据库的在线备份 / 关闭数据库后的冷备份
+
+一致性的全备份
+ 1 - 关闭数据库
+     SHUTDOWN IMMEDIATE；
+ 2 - 将所有的需要备份的文件备份/拷贝到指定的设备上
+     所有的数据文件
+     控制文件
+     在线日志文件
+     参数文件
+     口令文件
+ 3 - 启动数据库
+     startup
+     
+假设口令文件没有备份，而需要恢复
+1 - 通过本地特权用户进入操作系统 ORA_DBA组的用户/windows   dba组/linux or unix
+2 - 通过orapwd.exe 创建一个空的口令文件，里面只包含sys用户的信息。
+     orapwd file=orapwdORCL.ora password=oracle entries=30
+3 - 文件的位置： %ORACLE_HOME%/database    $ORACLE_HOME/dbs
+4 - 文件的名称：orapwd<SID>.ora      orapwd<SID>
+5 - 利用grant sysdba to [user],将其他用户补充进来。
+
+
+当你的数据库运行时间很长，使用shutdown immediate需要很长的时间才能关闭的时候，可以运行：
+ALTER SYSTEM CHECKPOINT；
+
+
+打开数据库的在线备份：
+要求：
+ 1 归档方式
+ 2 归档进程启动
+ 
+作在线备份的时候，是按照一个一个表空间进行的，以表空间为备份单元的。
+备份之前，必须把表空间置于 [备份状态]
+ALTER TABLESPACE <TSNAME> BEGIN BACKUP;
+ 当表空间处于备份状态后，表空间下面的所有的数据文件的SCN [CHECKPOINT_CHANGE#]号不会改变。
+
+接下来使用操作系统的工具拷贝文件。
+
+ALTER TABLESPACE [TSNAME] END BACKUP；
+使表空脱离 备份状态， 表空间下面的所有的文件恢复正常状态，scn会随着用户的改变而改变。
+
+SQL> select tablespace_name,file_name from dba_data_files order by 1
+
+TABLESPACE_NAME                FILE_NAME
+------------------------------ --------------------------------------------------
+CWMLITE                        D:\ORACLE\ORADATA\ORCL\CWMLITE01.DBF
+DATA01                         D:\ORACLE\ORADATA\ORCL\DATA01.DBF
+DATA02                         D:\ORACLE\ORADATA\ORCL\DATA02.DBF
+DATA03                         D:\ORACLE\ORADATA\ORCL\DATA03.DBF
+DATA04                         D:\ORACLE\ORADATA\ORCL\DATA04.DBF
+DATA05                         D:\ORACLE\ORADATA\ORCL\DATA05.DBF
+DRSYS                          D:\ORACLE\ORADATA\ORCL\DRSYS01.DBF
+EXAMPLE                        D:\ORACLE\ORADATA\ORCL\EXAMPLE01.DBF
+HTMLDB                         D:\ORACLE\ORADATA\ORCL\HTMLDB01.DBF
+INDX                           D:\ORACLE\ORADATA\ORCL\INDX01.DBF
+ODM                            D:\ORACLE\ORADATA\ORCL\ODM01.DBF
+SAMPLE                         D:\ORACLE\ORADATA\ORCL\SAMPLE01.DBF
+SYSTEM                         D:\ORACLE\ORADATA\ORCL\SYSTEM01.DBF
+TOOLS                          D:\ORACLE\ORADATA\ORCL\TOOLS01.DBF
+UNDO1                          D:\ORACLE\ORADATA\ORCL\UNDO1.ORA
+UNDO1                          D:\ORACLE\ORADATA\ORCL\UNDO1_2.DBF
+USERS                          D:\ORACLE\ORADATA\USERS\USERS01.DBF
+USERS                          D:\ORACLE\ORADATA\USERS\USERS02.DBF
+XDB                            D:\ORACLE\ORADATA\ORCL\XDB01.DBF
+
+SQL> alter tablespace users begin backup;
+
+SQL> select * from v$backup;
+
+     FILE# STATUS                CHANGE# TIME
+---------- ------------------ ---------- ----------
+         1 NOT ACTIVE           54631294 08-7月 -06
+         3 NOT ACTIVE           54630902 08-7月 -06
+         4 NOT ACTIVE           54631045 08-7月 -06
+         5 NOT ACTIVE           54631052 08-7月 -06
+         6 NOT ACTIVE           54631264 08-7月 -06
+         7 NOT ACTIVE           54631272 08-7月 -06
+         8 NOT ACTIVE           54631487 08-7月 -06
+         9 ACTIVE               57173277 02-8月 -06
+        10 NOT ACTIVE           54631600 08-7月 -06
+        11 NOT ACTIVE           54631279 08-7月 -06
+        12 NOT ACTIVE           54631154 08-7月 -06
+        13 ACTIVE               57173277 02-8月 -06
+        14 NOT ACTIVE           54630910 08-7月 -06
+        15 NOT ACTIVE           54630918 08-7月 -06
+        16 NOT ACTIVE           54630926 08-7月 -06
+        17 NOT ACTIVE           54631024 08-7月 -06
+        18 NOT ACTIVE           54631037 08-7月 -06
+        19 NOT ACTIVE           54631495 08-7月 -06
+        20 NOT ACTIVE           54631495 08-7月 -06
+
+已选择19行。
+
+SQL> host copy D:\ORACLE\ORADATA\USERS\USERS01.DBF D:\oracle\backup\users
+
+SQL> host copy D:\ORACLE\ORADATA\USERS\USERS02.DBF D:\oracle\backup\users
+
+SQL> alter tablespace users end backup;
+
+SQL> select * from v$backup;
+
+--------------------------------
+SQL> alter tablespace users begin backup;
+
+???????
+
+SQL> shutdown abort;
+ORACLE ???????
+SQL>
+SQL>
+SQL> exit
+?Oracle9i Enterprise Edition Release 9.2.0.7.0 - Production
+With the Partitioning, OLAP and Oracle Data Mining options
+JServer Release 9.2.0.7.0 - Production???
+
+
+C:\Documents and Settings\maha007>sqlplus /nolog
+
+SQL*Plus: Release 9.2.0.7.0 - Production on ??? 8? 2 19:24:18 2006
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+SQL> connect / as sysdba
+?????????
+SQL> startup
+ORACLE ???????
+
+Total System Global Area  126951228 bytes
+Fixed Size                   454460 bytes
+Variable Size             109051904 bytes
+Database Buffers           16777216 bytes
+Redo Buffers                 667648 bytes
+????????
+ORA-01113: ?? 9 ??????
+ORA-01110: ???? 9: 'D:\ORACLE\ORADATA\USERS\USERS01.DBF'
+
+
+SQL> alter database end backup;
+
+???????
+
+SQL> alter database open;
+
+
+表空间和表的LOGING和NOLOGING
+影响数据库的备份和恢复。
+
+
+
+数据库开始与归档方式运行 [归档设置点]
+最近的备份时间点 [备份点]
+数据库故障时间点 [故障点]
+
+当你的数据库运行于非归档方式，
+你的数据库只能做关闭数据库的完全备份。
+当数据库出现故障的时候，
+你将丢失 [最近备份点] 到 [故障点]之间的数据，需要人工补充数据。
+
+当你的数据库运行于归档方式
+你可以做关闭数据库的完全备份 或 打开数据库的在线备份。
+当你的数据库出现故障的时候。
+你将最近的备份恢复到指定位置， 使用[最近备份点] 到 [故障点]之间的归档日志文件来RECOVER，你可以完全恢复数据库。
+
+另外，你的数据库可以恢复到[最近备份点] 到当前时间 之间的任何时间点。
+
+
+恢复 = 最近的备份 + [最近备份点]到[故障点]之间的归档日志
+========================================================
+
+如果没有备份，在[归档设置点]之前已经有的文件无法恢复，在[归档设置点]之后新添加的文件可以恢复。
+
+
+完全恢复：
+前提：
+  1 - 控制文件没有丢失
+  2 - 在线日志文件没有丢失
+  
+ 不管是你的数据库部分损坏还是所有的数据文件损坏，都可以完全恢复。
+
+
+ 把整个数据库恢复到出现故障的时间点。
+    关闭数据库的恢复；
+    打开的数据库的恢复；
+
+
+非完全恢复：
+  把整个数据库恢复到出现故障之前的一个时间点。
+  
+  1 - 用户意外的删除了一张表。
+
+  这种方式一定先关闭数据库，从备份还原整个数据库到你要恢复的时间点之前
+  然后利用备份点到恢复点之间的归档来重构所有的数据文件。
+
+  导致你的数据库有部分数据丢失，丢失的数据包括你的恢复点 到 故障点这段时间产生的数据。
+
+  建议: 非完全恢复在测试数据库上进行，恢复完成后将挽救回来的数据 转移 exp/imp 到生产数据库。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+   	 
+ 
+ 
+ 
+
+

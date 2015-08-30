@@ -1,0 +1,19 @@
+cmd
+cygwin
+bash
+for i in `/cygdrive/d/cygwin/bin/find.exe /cygdrive/d -name *bak`
+do 
+echo "Removing $i"
+rm -f $i 
+done
+
+#Risk: 带空格的文件,如果有文件同第一个字符串会被误删,但由于没有文件后缀windows下可能下很小.
+#但是目录不会被误删
+#D:\tmp>dir *bak
+#2007-10-26  16:21                 0 新建 文本文档.bak
+#2007-10-26  16:21    <DIR>          新建文件夹.bak
+#bash-2.05b$ for i in `./find.exe /cygdrive/d/tmp -name *bak`; do echo Removing $i; rm -f $i; done
+#Removing /cygdrive/d/tmp/新建
+#Removing 文本文档.bak
+#Removing /cygdrive/d/tmp/新建文件夹.bak
+#rm: `/cygdrive/d/tmp/新建文件夹.bak' is a directory

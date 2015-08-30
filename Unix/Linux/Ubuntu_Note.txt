@@ -1,0 +1,6 @@
+By default, 
+no firewall deny like Redhat IpTable.
+no root user, use 'sudo su -' with created user during installation.
+
+
+apt-get to install new packages from internet. 

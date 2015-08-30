@@ -1,0 +1,2822 @@
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="----=_NextPart_01C9296C.FC31AAD0"
+
+This document is a Web archive file.  If you are seeing this message, this means your browser or editor doesn't support Web archive files.  For more information on the Web archive format, go to http://officeupdate.microsoft.com/office/webarchive.htm
+
+------=_NextPart_01C9296C.FC31AAD0
+Content-Location: file:///C:/2619A2AC/file4252.htm
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="us-ascii"
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=3D(0041)http://dev.21tx.com/2006/10/27/12734.html -->
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml"
+xmlns:o=3D"urn:schemas-microsoft-com:office:office"
+xmlns:w=3D"urn:schemas-microsoft-com:office:word"
+xmlns=3D"http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=3DContent-Type content=3D"text/html; charset=3Dus-ascii">
+<meta name=3DProgId content=3DWord.Document>
+<meta name=3DGenerator content=3D"Microsoft Word 10">
+<meta name=3DOriginator content=3D"Microsoft Word 10">
+<link rel=3DFile-List href=3D"file4252_files/filelist.xml">
+<link rel=3DEdit-Time-Data href=3D"file4252_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Perl
+&#24120;&#29992;&#20989;&#25968;_Perl&#24320;&#21457;_Web&#24320;&#21457;_&=
+#36719;&#20214;&#24320;&#21457;_&#22825;&#26032;&#32593;</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>XIE Jiping</o:Author>
+  <o:LastAuthor>XIE Jiping</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>0</o:TotalTime>
+  <o:Created>2008-10-08T09:40:00Z</o:Created>
+  <o:LastSaved>2008-10-08T09:40:00Z</o:LastSaved>
+  <o:Pages>6</o:Pages>
+  <o:Words>3288</o:Words>
+  <o:Characters>18743</o:Characters>
+  <o:Company>ASB</o:Company>
+  <o:Lines>156</o:Lines>
+  <o:Paragraphs>43</o:Paragraphs>
+  <o:CharactersWithSpaces>21988</o:CharactersWithSpaces>
+  <o:Version>10.6845</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Compatibility>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]-->
+<style>
+<!--
+A:hover {
+	COLOR: #ff4400; TEXT-DECORATION: none
+}
+A.whitehref:hover {
+	COLOR: #ff4400; TEXT-DECORATION: none
+}
+A.blackhref:hover {
+	COLOR: #ff4400
+}
+A.menuhref:hover {
+	FONT-SIZE: 12px; COLOR: red; TEXT-DECORATION: underline
+}
+
+ /* Font Definitions */
+ @font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-alt:SimSun;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:3 135135232 16 0 262145 0;}
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:536871559 0 0 0 415 0;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:3 135135232 16 0 262145 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+a:link, span.MsoHyperlink
+	{font-family:SimSun;
+	mso-ascii-font-family:SimSun;
+	mso-fareast-font-family:SimSun;
+	mso-hansi-font-family:SimSun;
+	color:#3366CC;
+	mso-text-animation:none;
+	text-decoration:none;
+	text-underline:none;
+	text-decoration:none;
+	text-line-through:none;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:#3366CC;
+	mso-text-animation:none;
+	text-decoration:none;
+	text-underline:none;
+	text-decoration:none;
+	text-line-through:none;}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+pre
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 41=
+2.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+	background:#EEEEEE;
+	border:none;
+	mso-border-alt:solid #999999 .75pt;
+	padding:0cm;
+	mso-padding-alt:8.0pt 8.0pt 8.0pt 8.0pt;
+	font-size:9.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.sfont, li.sfont, div.sfont
+	{mso-style-name:sfont;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	line-height:15.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.btd, li.btd, div.btd
+	{mso-style-name:btd;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.mainbgcolor, li.mainbgcolor, div.mainbgcolor
+	{mso-style-name:mainbgcolor;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	background:#FFA200;
+	font-size:12.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.bodybgcolor, li.bodybgcolor, div.bodybgcolor
+	{mso-style-name:bodybgcolor;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	background:#303880;
+	font-size:12.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.btfont, li.btfont, div.btfont
+	{mso-style-name:btfont;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;
+	color:white;}
+p.pstart, li.pstart, div.pstart
+	{mso-style-name:pstart;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	text-indent:21.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.f18, li.f18, div.f18
+	{mso-style-name:f18;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:15.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.f14, li.f14, div.f14
+	{mso-style-name:f14;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.f14a, li.f14a, div.f14a
+	{mso-style-name:f14a;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	line-height:150%;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.f14b, li.f14b, div.f14b
+	{mso-style-name:f14b;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	line-height:150%;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;
+	font-weight:bold;}
+p.txps, li.txps, div.txps
+	{mso-style-name:txps;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	text-indent:24.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.content, li.content, div.content
+	{mso-style-name:content;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	line-height:150%;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.txcode, li.txcode, div.txcode
+	{mso-style-name:txcode;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	background:#EEEEEE;
+	border:none;
+	mso-border-alt:solid #999999 .75pt;
+	padding:0cm;
+	mso-padding-alt:3.0pt 3.0pt 3.0pt 3.0pt;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:SimSun;
+	color:black;}
+span.btfont1
+	{mso-style-name:btfont1;
+	color:white;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;
+	mso-header-margin:42.55pt;
+	mso-footer-margin:49.6pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+</style>
+<![endif]-->
+<meta content=3D"Perl &#24120;&#29992;&#20989;&#25968;" name=3Dkeywords>
+<meta
+content=3D"&#25351;&#20196;&#65306;print&#35821;&#27861;&#65306;print Fileh=
+andle LIST&#35828;&#26126;&#65306;&#36825;&#20010;Filehandle&#21487;&#20197=
+;&#30475;&#20316;&#22312;I(INPUT)/O(OUTPUT)&#20043;&#38388;&#30340;&#19968;=
+&#20010;&#26725;&#26753; ..."
+name=3Ddescription>
+<meta http-equiv=3Dpragma content=3Dno-cache>
+<meta content=3Dall name=3Drobots>
+
+<script language=3D"JavaScript">
+var txsite_pagekey =3D 'TX-2-2-20061027-12734';
+var txsite_pageurl =3D 'http://dev.21tx.com/2006/10/27/12734.html';
+var txsite_pagetitle =3D 'Perl ????';
+var txsite_athcount =3D '0';
+</script>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body bgcolor=3D"#303880" lang=3DZH-CN link=3D"#3366CC" vlink=3D"#3366CC"
+style=3D'tab-interval:21.0pt' leftmargin=3D0 topmargin=3D0 marginwidth=3D0
+marginheight=3D0>
+
+<div class=3DSection1>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D760
+ style=3D'width:570.0pt;mso-cellspacing:0cm;background:#303880;mso-padding-=
+alt:
+ 0cm 0cm 0cm 0cm'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+  <td width=3D230 style=3D'width:172.5pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><a name=3Dpagetop></a><span lang=3DEN-US style=3D'fo=
+nt-size:
+  9.0pt;color:#333333'><span id=3D"txsite_mainmenu"><img width=3D217 height=
+=3D73
+  id=3D"_x0000_i1025"
+  src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#2999=
+2;&#20989;&#25968;_Perl.files\logo.gif"
+  boarder=3D0><o:p></o:p></span></p>
+  </td>
+  <td style=3D'padding:0cm 0cm 0cm 0cm'>
+  <div align=3Dright>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"100%"
+   style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0c=
+m'>
+   <tr style=3D'mso-yfti-irow:0;height:6.0pt'>
+    <td width=3D"100%" style=3D'width:100.0%;padding:0cm 0cm 0cm 0cm;height=
+:6.0pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:6.0pt;mso-bi=
+di-font-size:
+    9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;height:11.25pt'>
+    <td width=3D"100%" style=3D'width:100.0%;padding:0cm 0cm 0cm 0cm;height=
+:11.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#A5CBF8'><a
+    href=3D"http://www.21tx.com/"><span style=3D'color:#A5CBF8'>&#39318;&#1=
+2288;&#12288;&#39029;</span></a>
+    | <a href=3D"http://news.21tx.com/"><span style=3D'color:#A5CBF8'>&#361=
+64;&#35759;&#20013;&#24515;</span></a>
+    | <a href=3D"http://school.21tx.com/"><span style=3D'color:#A5CBF8'>&#3=
+2593;&#32476;&#23398;&#38498;</span></a>
+    | <a href=3D"http://auto.21tx.com/"><span style=3D'color:#A5CBF8'>&#228=
+25;&#26032;&#27773;&#36710;</span></a>
+    | <a href=3D"http://mobile.21tx.com/"><span style=3D'color:#A5CBF8'>&#2=
+2825;&#26032;&#25163;&#26426;</span></a>
+    | <a href=3D"http://games.21tx.com/"><span style=3D'color:#A5CBF8'>&#22=
+825;&#26032;&#28216;&#25103;</span></a>
+    | <a href=3D"http://dev.21tx.com/"><span style=3D'color:#A5CBF8'>&#3671=
+9;&#20214;&#24320;&#21457;</span></a>
+    | <a href=3D"http://exam.21tx.com/"><span style=3D'color:#A5CBF8'>&#327=
+71;&#35797;&#35748;&#35777;</span></a></span><span
+    lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span>=
+</p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:2;height:11.25pt'>
+    <td width=3D"100%" style=3D'width:100.0%;padding:0cm 0cm 0cm 0cm;height=
+:11.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#A5CBF8'><a
+    href=3D"http://www.21tx.com/deskpc/"><span style=3D'color:#A5CBF8'>&#21=
+697; &#29260;
+    &#26426;</span></a> | <a href=3D"http://www.21tx.com/notebook/"><span
+    style=3D'color:#A5CBF8'>&#31508; &#35760; &#26412;</span></a> | <a
+    href=3D"http://www.21tx.com/server/"><span style=3D'color:#A5CBF8'>&#26=
+381; &#21153;
+    &#22120;</span></a> | <a href=3D"http://digi.21tx.com/"><span
+    style=3D'color:#A5CBF8'>&#22825;&#26032;&#25968;&#30721;</span></a> - <a
+    href=3D"http://www.21tx.com/dc/"><span style=3D'color:#A5CBF8'>DC</span=
+></a> - <a
+    href=3D"http://www.21tx.com/dv/"><span style=3D'color:#A5CBF8'>DV</span=
+></a> - <a
+    href=3D"http://www.21tx.com/mp3/"><span style=3D'color:#A5CBF8'>MP3</sp=
+an></a>
+    - <a href=3D"http://digi.21tx.com/mp4/"><span style=3D'color:#A5CBF8'>M=
+P4</span></a>
+    - <a href=3D"http://digi.21tx.com/gps/"><span style=3D'color:#A5CBF8'>G=
+PS</span></a>
+    - <a href=3D"http://www.21tx.com/digihome/tv/"><span style=3D'color:#A5=
+CBF8'>TV</span></a>
+    | <a href=3D"http://www.21tx.com/digihome/"><span style=3D'color:#A5CBF=
+8'>&#25968;&#23383;&#23478;&#24237;</span></a></span><span
+    lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span>=
+</p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:3;height:11.25pt'>
+    <td width=3D"100%" style=3D'width:100.0%;padding:0cm 0cm 0cm 0cm;height=
+:11.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#A5CBF8'><a
+    href=3D"http://diy.21tx.com/"><span style=3D'color:#A5CBF8'>&#30828;&#2=
+0214;
+    DIY</span></a> - <a href=3D"http://diy.21tx.com/mainboard/"><span
+    style=3D'color:#A5CBF8'>&#20027;&#26495;</span></a> - <a
+    href=3D"http://diy.21tx.com/cpu/"><span style=3D'color:#A5CBF8'>CPU</sp=
+an></a>
+    - <a href=3D"http://diy.21tx.com/memory/"><span style=3D'color:#A5CBF8'=
+>&#20869;
+    &#23384;</span></a> - <a href=3D"http://diy.21tx.com/hdd/"><span
+    style=3D'color:#A5CBF8'>&#30828; &#30424;</span></a> - <a
+    href=3D"http://diy.21tx.com/vga/"><span style=3D'color:#A5CBF8'>&#26174=
+;&#31034;&#22120;</span></a>
+    - <a href=3D"http://diy.21tx.com/display/"><span style=3D'color:#A5CBF8=
+'>&#26174;&#21345;</span></a>
+    - <a href=3D"http://diy.21tx.com/dvd/"><span style=3D'color:#A5CBF8'>&#=
+20809;&#39537;</span></a>
+    - <a href=3D"http://diy.21tx.com/case/"><span style=3D'color:#A5CBF8'>&=
+#26426;&#31665;</span></a>
+    - <a href=3D"http://diy.21tx.com/mouse/"><span style=3D'color:#A5CBF8'>=
+&#38190;&#40736;</span></a>
+    - <a href=3D"http://diy.21tx.com/net/"><span style=3D'color:#A5CBF8'>&#=
+32593;&#32476;&#35774;&#22791;</span></a></span><span
+    lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span>=
+</p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:4;height:11.25pt'>
+    <td width=3D"100%" style=3D'width:100.0%;padding:0cm 0cm 0cm 0cm;height=
+:11.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#A5CBF8'><a
+    href=3D"http://www.21tx.com/oa/"><span style=3D'color:#A5CBF8'>&#21150;=
+&#20844;&#35774;&#22791;</span></a>
+    | <a href=3D"http://www.21tx.com/oa/print/"><span style=3D'color:#A5CBF=
+8'>&#25171;
+    &#21360; &#26426;</span></a> | <a href=3D"http://www.21tx.com/oa/scanne=
+r/"><span
+    style=3D'color:#A5CBF8'>&#25195; &#25551; &#20202;</span></a> | <a
+    href=3D"http://www.21tx.com/oa/projector/"><span style=3D'color:#A5CBF8=
+'>&#25237;
+    &#24433; &#20202;</span></a> | <a href=3D"http://www.21tx.com/oa/ytj/">=
+<span
+    style=3D'color:#A5CBF8'>&#19968; &#20307; &#26426;</span></a> | <a
+    href=3D"http://www.21tx.com/oa/fax/"><span style=3D'color:#A5CBF8'>&#20=
+256; &#30495;
+    &#26426;</span></a> | <a href=3D"http://diy.21tx.com/router/"><span
+    style=3D'color:#A5CBF8'>&#36335; &#30001; &#22120;</span></a> | <a
+    href=3D"http://diy.21tx.com/switchboard/"><span style=3D'color:#A5CBF8'=
+>&#20132;
+    &#25442; &#26426;</span></a></span><span lang=3DEN-US style=3D'font-siz=
+e:9.0pt;
+    color:#333333'><o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:5;height:11.25pt'>
+    <td width=3D"100%" style=3D'width:100.0%;padding:0cm 0cm 0cm 0cm;height=
+:11.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#A5CBF8'><a
+    href=3D"http://dl.21tx.com/"><span style=3D'color:#A5CBF8'>&#36719;&#20=
+214;&#19979;&#36733;</span></a>
+    | <a href=3D"http://drivers.21tx.com/"><span style=3D'color:#A5CBF8'>&#=
+39537;&#21160;&#19979;&#36733;</span></a>
+    | <a href=3D"http://dl.21tx.com/game/"><span style=3D'color:#A5CBF8'>&#=
+28216;&#25103;&#19979;&#36733;</span></a>
+    | <a href=3D"http://codes.21tx.com/"><span style=3D'color:#A5CBF8'>&#28=
+304;&#30721;&#19979;&#36733;</span></a>
+    | <a href=3D"http://zz.21tx.com/ebook/"><span style=3D'color:#A5CBF8'>&=
+#25945;&#31243;&#19979;&#36733;</span></a>
+    | <a href=3D"http://zz.21tx.com/"><span style=3D'color:#A5CBF8'>&#31449=
+;&#38271;&#22312;&#32447;</span></a>
+    | <a href=3D"http://prod.21tx.com/" target=3D"_blank"><span style=3D'co=
+lor:#A5CBF8'>&#20135;&#21697;&#20013;&#24515;</span></a>
+    | <a href=3D"http://prod.21tx.com/" target=3D"_blank"><span style=3D'co=
+lor:#A5CBF8'>&#25253;&#20215;&#20013;&#24515;</span></a></span><span
+    lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span>=
+</p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:6;mso-yfti-lastrow:yes;height:3.75pt'>
+    <td width=3D"100%" style=3D'width:100.0%;padding:0cm 0cm 0cm 0cm;height=
+:3.75pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:4.0pt;mso-bi=
+di-font-size:
+    9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k;
+display:none;mso-hide:all'></span><o:p>&nbsp;</o:p></span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D760
+ style=3D'width:570.0pt;mso-cellspacing:0cm;background:white;mso-padding-al=
+t:
+ 0cm 0cm 0cm 0cm'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+  <td style=3D'padding:0cm 0cm 0cm 0cm'>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D760
+   style=3D'width:570.0pt;mso-cellspacing:0cm;background:white;mso-padding-=
+alt:
+   0cm 0cm 0cm 0cm'>
+   <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333;
+    display:none;mso-hide:all'><script  type=3D"text/javascript">
+<!--
+google_ad_client =3D "pub-8537598168120506";
+google_alternate_color =3D "FFFFFF";
+google_ad_width =3D 728;
+google_ad_height =3D 90;
+google_ad_format =3D "728x90_as";
+google_ad_type =3D "image";
+//2007-11-18: ??????
+google_ad_channel =3D "0979501092";
+//-->
+    </script><script  src=3D"Perl ????_Perl.files/show_ads.js" type=3D"text=
+/javascript">
+    </script></span><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3333=
+33'><o:p></o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'><o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k;
+display:none;mso-hide:all'><o:p>&nbsp;</o:p></span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D760
+ style=3D'width:570.0pt;mso-cellspacing:0cm;background:#303880;mso-padding-=
+alt:
+ 0cm 0cm 0cm 0cm'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes;height:2.25pt'>
+  <td style=3D'padding:0cm 0cm 0cm 0cm;height:2.25pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:2.0pt;mso-bidi=
+-font-size:
+  9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k;
+display:none;mso-hide:all'><o:p>&nbsp;</o:p></span></p>
+
+<span id=3D"txsite_columnmenu">
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D760
+ style=3D'width:570.0pt;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm'
+ background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/main_bg.g=
+if">
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes;height:24.75pt'>
+  <td width=3D10 style=3D'width:7.2pt;padding:0cm 0cm 0cm 0cm;height:24.75p=
+t'>
+  <p class=3DMsoNormal style=3D'line-height:12.0pt'><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><img border=3D0 width=3D7 height=
+=3D38
+  id=3D"_x0000_i1028"
+  src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#2999=
+2;&#20989;&#25968;_Perl.files\main_l.gif"><o:p></o:p></span></p>
+  </td>
+  <td width=3D10 style=3D'width:7.2pt;padding:0cm 0cm 0cm 0cm;height:24.75p=
+t'>
+  <p class=3DMsoNormal style=3D'line-height:12.0pt'><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td style=3D'padding:0cm 0cm 0cm 0cm;height:24.75pt'>
+  <p class=3DMsoNormal style=3D'line-height:12.0pt'><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/">=
+<span
+  style=3D'color:white'>&#24320;&#21457;&#39318;&#39029;</span></a></span><=
+span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> | </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/la=
+nguage/"><span
+  style=3D'color:white'>&#24320;&#21457;&#35821;&#35328;</span></a></span><=
+span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> | </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/do=
+tnet/"><span
+  style=3D'color:white'>.Net&#24320;&#21457;</span></a></span><span lang=3D=
+EN-US
+  style=3D'font-size:9.0pt;color:white'> | </span><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/ja=
+va/"><span
+  style=3D'color:white'>Java&#24320;&#21457;</span></a></span><span lang=3D=
+EN-US
+  style=3D'font-size:9.0pt;color:white'> | </span><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/we=
+b/"><span
+  style=3D'color:#FFCC00'>Web&#24320;&#21457;</span></a></span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:white'> | </span><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/da=
+tabase/"><span
+  style=3D'color:white'>&#25968;&#25454;&#24211;&#24320;&#21457;</span></a>=
+</span><span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> | </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/mo=
+bile/"><span
+  style=3D'color:white'>&#31227;&#21160;&#24320;&#21457;</span></a></span><=
+span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> | </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/ga=
+me/"><span
+  style=3D'color:white'>&#28216;&#25103;&#24320;&#21457;</span></a></span><=
+span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> | </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/co=
+rp/"><span
+  style=3D'color:white'>&#20225;&#19994;&#24320;&#21457;</span></a></span><=
+span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> | </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/os=
+/"><span
+  style=3D'color:white'>&#25805;&#20316;&#31995;&#32479;</span></a></span><=
+span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> | </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a
+  href=3D"http://dev.21tx.com/softengine/"><span style=3D'color:white'>&#36=
+719;&#20214;&#24037;&#31243;</span></a>
+  <br>
+  <a href=3D"http://dev.21tx.com/language/vb/"><span style=3D'color:white'>=
+VB</span></a>
+  <a href=3D"http://dev.21tx.com/language/vc/"><span style=3D'color:white'>=
+VC</span></a>
+  <a href=3D"http://dev.21tx.com/language/delphi/"><span style=3D'color:whi=
+te'>Delphi</span></a>
+  <a href=3D"http://dev.21tx.com/language/pb/"><span style=3D'color:white'>=
+PB</span></a>
+  <a href=3D"http://dev.21tx.com/language/bcb/"><span style=3D'color:white'=
+>BCB</span></a>
+  <a href=3D"http://dev.21tx.com/language/c/"><span style=3D'color:white'>C=
+++</span></a></span><span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> - </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a
+  href=3D"http://dev.21tx.com/dotnet/aspnet/"><span style=3D'color:white'>A=
+SP.net</span></a>
+  <a href=3D"http://dev.21tx.com/dotnet/csharp/"><span style=3D'color:white=
+'>C#</span></a>
+  <a href=3D"http://dev.21tx.com/dotnet/vbnet/"><span style=3D'color:white'=
+>VB.net</span></a></span><span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> - </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/ja=
+va/j2ee/"><span
+  style=3D'color:white'>J2EE</span></a> <a href=3D"http://dev.21tx.com/java=
+/j2se/"><span
+  style=3D'color:white'>J2SE</span></a> <a href=3D"http://dev.21tx.com/java=
+/j2me/"><span
+  style=3D'color:white'>J2ME</span></a> <a href=3D"http://dev.21tx.com/java=
+/ejb/"><span
+  style=3D'color:white'>EJB</span></a></span><span lang=3DEN-US style=3D'fo=
+nt-size:
+  9.0pt;color:white'> - </span><span lang=3DEN-US style=3D'font-size:9.0pt;
+  color:#333333'><a href=3D"http://dev.21tx.com/web/asp/"><span style=3D'co=
+lor:
+  white'>ASP</span></a> <a href=3D"http://dev.21tx.com/web/php/"><span
+  style=3D'color:white'>PHP</span></a> <a href=3D"http://dev.21tx.com/java/=
+jsp/"><span
+  style=3D'color:white'>JSP</span></a> <a href=3D"http://dev.21tx.com/web/c=
+gi/"><span
+  style=3D'color:white'>CGI</span></a></span><span lang=3DEN-US style=3D'fo=
+nt-size:
+  9.0pt;color:white'> - </span><span lang=3DEN-US style=3D'font-size:9.0pt;
+  color:#333333'><a href=3D"http://dev.21tx.com/database/mssql/"><span
+  style=3D'color:white'>MSSQL</span></a> <a
+  href=3D"http://dev.21tx.com/database/oracle/"><span style=3D'color:white'=
+>Oracle</span></a>
+  <a href=3D"http://dev.21tx.com/database/db2/"><span style=3D'color:white'=
+>DB2</span></a>
+  <a href=3D"http://dev.21tx.com/database/mysql/"><span style=3D'color:whit=
+e'>MySQL</span></a></span><span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> - </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a
+  href=3D"http://dev.21tx.com/codinglife/"><span style=3D'color:white'>Codi=
+ngLife</span></a><o:p></o:p></span></p>
+  </td>
+  <td width=3D10 style=3D'width:7.2pt;padding:0cm 0cm 0cm 0cm;height:24.75p=
+t'>
+  <p class=3DMsoNormal style=3D'line-height:12.0pt'><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D10 style=3D'width:7.2pt;padding:0cm 0cm 0cm 0cm;height:24.75p=
+t'>
+  <p class=3DMsoNormal align=3Dright style=3D'text-align:right;line-height:=
+12.0pt'><span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><img border=3D0 widt=
+h=3D8
+  height=3D38 id=3D"_x0000_i1029"
+  src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#2999=
+2;&#20989;&#25968;_Perl.files\main_r.gif"><o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k;
+display:none;mso-hide:all'></span><o:p>&nbsp;</o:p></span></p>
+
+<span id=3D"txsite_search">
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D760
+ style=3D'width:570.0pt;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm=
+'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes;height:18.75pt'>
+  <td width=3D10 style=3D'width:7.5pt;padding:0cm 0cm 0cm 0cm;height:18.75p=
+t'
+  background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/menubg.g=
+if">
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D45 style=3D'width:33.75pt;padding:0cm 0cm 0cm 0cm;height:18.7=
+5pt'
+  background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/menubg.g=
+if">
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'><img
+  border=3D0 width=3D45 height=3D25 id=3D"_x0000_i1030"
+  src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#2999=
+2;&#20989;&#25968;_Perl.files\search4.gif"><o:p></o:p></span></p>
+  </td>
+  <td style=3D'padding:0cm 0cm 0cm 0cm;height:18.75pt'
+  background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/menubg.g=
+if">
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0
+   style=3D'mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm'>
+   <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes;height:18.75pt'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm;height:18.75pt'>
+    <form action=3D"http://txsite.21tx.com/script/TXSiteSearch.aspx" method=
+=3Dpost
+    enctype=3D"application/x-www-form-urlencoded" name=3D"txsite_searchform"
+    target=3D"_blank">
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><o:p></o:p></span></p>
+    </form>
+    </td>
+    <td width=3D40 valign=3Dbottom style=3D'width:30.0pt;padding:0cm 0cm 0c=
+m 0cm;
+    height:18.75pt' background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_P=
+erl.files/menubg.gif">
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><INPUT TYPE=3D"image" ACTION=3D"http://txsite.21tx.com/script/TXSi=
+teSearch.aspx" SRC=3D"file4252_files/image001.gif" METHOD=3D"post"
+    border=3D0></span><span lang=3DEN-US style=3D'font-size:9.0pt;color:bla=
+ck'><o:p></o:p></span></p>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+black'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'><o:p></o:p></span></p>
+  </td>
+  <td style=3D'padding:0cm 0cm 0cm 0cm;height:18.75pt'
+  background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/menubg.g=
+if">
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"100%"
+   style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0c=
+m'>
+   <tr style=3D'mso-yfti-irow:0;height:1.5pt'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm;height:1.5pt'>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:2.0pt;mso-bidi-font-size:9.0pt;color:#333333'><o:p>&=
+nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;mso-yfti-lastrow:yes'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'><span id=3D"ad_search_right"></sp=
+an>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'><o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k;
+display:none;mso-hide:all'></span><o:p>&nbsp;</o:p></span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D760
+ style=3D'width:570.0pt;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm=
+'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes;height:1.5pt'>
+  <td style=3D'background:#FFA200;padding:0cm 0cm 0cm 0cm;height:1.5pt'>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:2.0pt;mso-bidi-font-size:9.0pt;color:#333333'><o:p>&nb=
+sp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k;
+display:none;mso-hide:all'><o:p>&nbsp;</o:p></span></p>
+
+<span id=3D"txsite_smallcolumnmenu">
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D760
+ style=3D'width:570.0pt;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm=
+'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes;height:18.75pt'>
+  <td width=3D10 style=3D'width:7.2pt;background:#FFA200;padding:0cm 0cm 0c=
+m 0cm;
+  height:18.75pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td style=3D'border:solid #CCCCCC 1.0pt;mso-border-alt:solid #CCCCCC .75p=
+t;
+  background:#666666;padding:0cm 0cm 0cm 0cm;height:18.75pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'>&nbsp;
+  <a href=3D"http://dev.21tx.com/web/"><span style=3D'color:white'>Web&#243=
+20;&#21457;&#39318;&#39029;</span></a></span><span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> | </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/we=
+b/asp/"><span
+  style=3D'color:white'>ASP&#24320;&#21457;</span></a></span><span lang=3DE=
+N-US
+  style=3D'font-size:9.0pt;color:white'> | </span><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/we=
+b/php/"><span
+  style=3D'color:white'>PHP&#24320;&#21457;</span></a></span><span lang=3DE=
+N-US
+  style=3D'font-size:9.0pt;color:white'> | </span><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/we=
+b/cgi/"><span
+  style=3D'color:white'>CGI&#24320;&#21457;</span></a></span><span lang=3DE=
+N-US
+  style=3D'font-size:9.0pt;color:white'> | </span><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/we=
+b/perl/"><span
+  style=3D'color:#FFCC00'>Perl&#24320;&#21457;</span></a></span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:white'> | </span><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a href=3D"http://dev.21tx.com/we=
+b/xml/"><span
+  style=3D'color:white'>XML&#24320;&#21457;</span></a></span><span lang=3DE=
+N-US
+  style=3D'font-size:9.0pt;color:white'> | </span><span lang=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a
+  href=3D"http://dev.21tx.com/web/javascript/"><span style=3D'color:white'>=
+JavaScript</span></a></span><span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> | </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a
+  href=3D"http://dev.21tx.com/web/vbscript/"><span style=3D'color:white'>VB=
+Script</span></a></span><span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:white'> | </span><span lang=
+=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><a
+  href=3D"http://dev.21tx.com/web/webserver/"><span style=3D'color:white'>W=
+eb&#26381;&#21153;&#22120;</span></a>
+  <o:p></o:p></span></p>
+  </td>
+  <td width=3D10 style=3D'width:7.2pt;background:#FFA200;padding:0cm 0cm 0c=
+m 0cm;
+  height:18.75pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k;
+display:none;mso-hide:all'></span><o:p>&nbsp;</o:p></span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D760
+ style=3D'width:570.0pt;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm=
+'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+  <td width=3D10 style=3D'width:7.2pt;background:#FFA200;padding:0cm 0cm 0c=
+m 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td valign=3Dtop style=3D'border:none;border-left:solid #CCCCCC 1.0pt;mso=
+-border-left-alt:
+  solid #CCCCCC .75pt;background:white;padding:0cm 0cm 0cm 0cm'>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"100%"
+   style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0c=
+m'>
+   <tr style=3D'mso-yfti-irow:0;height:2.25pt'>
+    <td colspan=3D2 style=3D'padding:0cm 0cm 0cm 0cm;height:2.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:2.0pt;mso-bi=
+di-font-size:
+    9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;mso-yfti-lastrow:yes'>
+    <td width=3D"2%" style=3D'width:2.0%;padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><img
+    border=3D0 width=3D19 height=3D22 id=3D"_x0000_i1031"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\dline.gif"><o:p></o:p></span></p>
+    </td>
+    <td width=3D"98%" style=3D'width:98.0%;padding:0cm 0cm 0cm 0cm'
+    background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/dline0=
+2.gif">
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'>&nbsp;
+    &#24744;&#29616;&#22312;&#30340;&#20301;&#32622;&#65306;<a
+    href=3D"http://www.21tx.com/">&#22825;&#26032;&#32593;</a> &gt; <a
+    href=3D"http://dev.21tx.com/">&#36719;&#20214;&#24320;&#21457;</a> &gt;=
+ <a
+    href=3D"http://dev.21tx.com/web/">Web&#24320;&#21457;</a> &gt; <a
+    href=3D"http://dev.21tx.com/web/perl/">Perl&#24320;&#21457;</a> <o:p></=
+o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333;display:none;mso-hide:all'><o:p>&n=
+bsp;</o:p></span></p>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"98%"
+   style=3D'width:98.0%;mso-cellspacing:0cm;mso-padding-alt:4.5pt 4.5pt 4.5=
+pt 4.5pt'
+   background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/data_ti=
+tle_bg.gif">
+   <tr style=3D'mso-yfti-irow:0'>
+    <td style=3D'padding:4.5pt 4.5pt 4.5pt 4.5pt'>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span
+    lang=3DEN-US style=3D'font-size:15.0pt;color:#339900'>Perl &#24120;&#29=
+992;&#20989;&#25968;</span></b><span
+    lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span>=
+</p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;mso-yfti-lastrow:yes'>
+    <td style=3D'padding:4.5pt 4.5pt 4.5pt 4.5pt'>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'>http://dev.21tx.com 2006&#24180=
+;10&#26376;27&#26085;
+    </span><span style=3D'font-size:9.0pt;color:#A20010'>&#31528;&#31528;&#=
+30495;&#31528;</span><span
+    lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span>=
+</p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p align=3Dcenter style=3D'margin:0cm;margin-bottom:.0001pt;text-align:ce=
+nter'><span
+  id=3D"txsite_ad_cnt_top1"></span><span lang=3DEN-US style=3D'font-size:9.=
+0pt;
+  color:#333333;display:none;mso-hide:all'><o:p>&nbsp;</o:p></span></p>
+  <span id=3D"txsite_ad_cnt_top2">
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D468
+   style=3D'width:351.0pt;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0=
+cm'>
+   <tr style=3D'mso-yfti-irow:0;height:4.5pt'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm;height:4.5pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:5.0pt;mso-bi=
+di-font-size:
+    9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><script  type=3D"text/javascript">
+<!--
+google_ad_client =3D "pub-8537598168120506";
+google_ad_width =3D 468;
+google_ad_height =3D 60;
+google_ad_format =3D "468x60_as";
+google_ad_type =3D "text_image";
+//2007-11-15: ??????
+google_ad_channel =3D "8051432807";
+google_color_border =3D "336699";
+google_color_bg =3D "FFFFFF";
+google_color_link =3D "0000FF";
+google_color_text =3D "000000";
+google_color_url =3D "008000";
+google_ui_features =3D "rc:10";
+//-->
+    </script><script  src=3D"Perl ????_Perl.files/show_ads.js" type=3D"text=
+/javascript">
+    </script><o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:2;height:4.5pt'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm;height:4.5pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:5.0pt;mso-bi=
+di-font-size:
+    9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:3;mso-yfti-lastrow:yes'>
+    <td width=3D468 style=3D'width:351.0pt;padding:0cm 0cm 0cm 0cm'><span
+    id=3D"txsite_ad_cnt_top2b"></span>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span
+  id=3D"txsite_ad_cnt_top3"></span><span lang=3DEN-US style=3D'font-size:9.=
+0pt;
+  color:#333333;display:none;mso-hide:all'></span><o:p>&nbsp;</o:p></span><=
+/p>
+  <span id=3D"txsite_day_commend">
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D1 cellpadding=3D0 =
+width=3D540
+   style=3D'width:405.0pt;mso-cellspacing:.7pt;background:#1250AB;mso-paddi=
+ng-alt:
+   2.25pt 2.25pt 2.25pt 2.25pt'>
+   <tr style=3D'mso-yfti-irow:0'>
+    <td colspan=3D2 style=3D'background:#E3ECF9;padding:2.25pt 2.25pt 2.25p=
+t 2.25pt'>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><span
+    style=3D'font-size:9.0pt;color:#333333'>&#27599;&#26085;&#25991;&#31456=
+;&#31934;&#33795;</span></b><span
+    lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span>=
+</p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1'>
+    <td width=3D"50%" style=3D'width:50.0%;background:white;padding:2.25pt =
+2.25pt 2.25pt 2.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><a
+    href=3D"http://dev.21tx.com/dotnet/adonet/" target=3D"_blank"><b><span
+    style=3D'color:black'>.Net&#65306;</span></b></a><a
+    href=3D"http://dev.21tx.com/2003/06/03/10100.html" target=3D"_blank"
+    title=3D&#35774;&#35745;.NET&#24212;&#29992;&#31243;&#24207;&#25968;&#2=
+5454;&#35775;&#38382;&#23618;&#20116;&#22823;&#21407;&#21017;><b>&#35774;&#=
+35745;.NET&#24212;&#29992;&#31243;&#24207;&#25968;&#25454;&#35775;&#38382;&=
+#23618;&#20116;&#22823;&#21407;</b></a><o:p></o:p></span></p>
+    </td>
+    <td width=3D"50%" style=3D'width:50.0%;background:white;padding:2.25pt =
+2.25pt 2.25pt 2.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><a
+    href=3D"http://dev.21tx.com/java/adv/socket/" target=3D"_blank"><b><span
+    style=3D'color:black'>Java&#65306;</span></b></a><a
+    href=3D"http://dev.21tx.com/2001/11/27/10131.html" target=3D"_blank"
+    title=3D"&#21033;&#29992;UDP Sockets&#25216;&#26415;&#23454;&#29616;IP&=
+#22810;&#28857;&#20256;&#36865;"><b>&#21033;&#29992;UDP
+    Sockets&#25216;&#26415;&#23454;&#29616;IP&#22810;&#28857;&#20256;</b></=
+a><o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:2'>
+    <td width=3D"50%" style=3D'width:50.0%;background:white;padding:2.25pt =
+2.25pt 2.25pt 2.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><a
+    href=3D"http://dev.21tx.com/web/asp/" target=3D"_blank"><b><span
+    style=3D'color:black'>ASP&#65306;</span></b></a><a
+    href=3D"http://dev.21tx.com/2005/04/01/12675.html" target=3D"_blank"
+    title=3D&#24120;&#29992;Email&#32452;&#20214;&#21457;&#36865;&#20989;&#=
+25968;><b>&#24120;&#29992;Email&#32452;&#20214;&#21457;&#36865;&#20989;&#25=
+968;</b></a><o:p></o:p></span></p>
+    </td>
+    <td width=3D"50%" style=3D'width:50.0%;background:white;padding:2.25pt =
+2.25pt 2.25pt 2.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><a
+    href=3D"http://dev.21tx.com/web/php/" target=3D"_blank"><b><span
+    style=3D'color:black'>PHP&#65306;</span></b></a><a
+    href=3D"http://dev.21tx.com/2004/02/14/12723.html" target=3D"_blank"
+    title=3D"&#23454;&#20363;&#23398;&#20064;PHP&#20043;&#25237;&#31080;&#3=
+1243;&#24207;&#31687;(&#19968;&#65289;"><b>&#23454;&#20363;&#23398;&#20064;=
+PHP&#20043;&#25237;&#31080;&#31243;&#24207;&#31687;(&#19968;&#65289;</b></a=
+><o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:3'>
+    <td width=3D"50%" style=3D'width:50.0%;background:white;padding:2.25pt =
+2.25pt 2.25pt 2.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><a
+    href=3D"http://dev.21tx.com/java/jsp/" target=3D"_blank"><b><span
+    style=3D'color:black'>JSP&#65306;</span></b></a><a
+    href=3D"http://dev.21tx.com/2004/11/29/11836.html" target=3D"_blank"
+    title=3DJSP&#20837;&#38376;&#21021;&#32423;&#25945;&#31243;&#20043;Sess=
+ion&#30340;&#20351;&#29992;><b>JSP&#20837;&#38376;&#21021;&#32423;&#25945;&=
+#31243;&#20043;Session&#30340;&#20351;&#29992;</b></a><o:p></o:p></span></p>
+    </td>
+    <td width=3D"50%" style=3D'width:50.0%;background:white;padding:2.25pt =
+2.25pt 2.25pt 2.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><a
+    href=3D"http://dev.21tx.com/web/cgi/" target=3D"_blank"><b><span
+    style=3D'color:black'>CGI&#65306;</span></b></a><a
+    href=3D"http://dev.21tx.com/2005/04/17/12944.html" target=3D"_blank"
+    title=3D"&#21033;&#29992;Perl&#24320;&#21457;Internet/Intranet&#24212;&=
+#29992;&#20043;&#19968;"><b>&#21033;&#29992;Perl&#24320;&#21457;Internet/In=
+tranet&#24212;&#29992;</b></a><o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:4;mso-yfti-lastrow:yes'>
+    <td width=3D"50%" style=3D'width:50.0%;background:white;padding:2.25pt =
+2.25pt 2.25pt 2.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><a
+    href=3D"http://dev.21tx.com/language/vb/" target=3D"_blank"><b><span
+    style=3D'color:black'>VB&#65306;</span></b></a><a
+    href=3D"http://dev.21tx.com/2005/03/10/10175.html" target=3D"_blank"
+    title=3D&#29992;&#20195;&#30721;&#23454;&#29616;ListView&#25511;&#20214=
+;&#30340;&#34892;&#38388;&#38548;&#39068;&#33394;><b>&#29992;&#20195;&#3072=
+1;&#23454;&#29616;ListView&#25511;&#20214;&#30340;&#34892;&#38388;&#38548;&=
+#39068;&#33394;</b></a><o:p></o:p></span></p>
+    </td>
+    <td width=3D"50%" style=3D'width:50.0%;background:white;padding:2.25pt =
+2.25pt 2.25pt 2.25pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><a
+    href=3D"http://dev.21tx.com/language/vc/" target=3D"_blank"><b><span
+    style=3D'color:black'>VC&#65306;</span></b></a><a
+    href=3D"http://dev.21tx.com/2005/03/14/10558.html" target=3D"_blank"
+    title=3D"Visual C++&#23567;&#25216;&#24039;&#65306;&#23454;&#29616;&#36=
+879;&#26126;&#31383;&#20307;"><b>Visual
+    C++&#23567;&#25216;&#24039;&#65306;&#23454;&#29616;&#36879;&#26126;&#31=
+383;&#20307;</b></a><o:p></o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333;display:none;mso-hide:all'></span>=
+<o:p>&nbsp;</o:p></span></p>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"98%"
+   style=3D'width:98.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm'
+   id=3D"txsite_content">
+   <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'><span id=3D"txsite_ad_cnt_start">=
+</span>
+    <p class=3DMsoNormal style=3D'line-height:150%'><span style=3D'font-siz=
+e:10.5pt;
+    line-height:150%;color:#333333'>&#25351;&#20196;&#65306;<span lang=3DEN=
+-US>print<br>
+    &#35821;&#27861;&#65306;print Filehandle LIST<br>
+    &#35828;&#26126;&#65306;&#36825;&#20010;Filehandle&#21487;&#20197;&#304=
+75;&#20316;&#22312;I(INPUT)/O(OUTPUT)&#20043;&#38388;&#30340;&#19968;&#2001=
+0;&#26725;&#26753;,&#21487;&#20197;&#21033;&#29992;FILEHANDLE&#26469;&#2057=
+0;&#20986;&#25968;&#25454;&#35835;&#20837;&#20889;
+    &#20986;&#30340;&#21160;&#20316;.STDIN&#26159;&#20195;&#34920;&#20174;&=
+#21738;&#36830;&#36755;&#20837;&#25968;&#25454;,&#20363;&#22914;&#20174;&#3=
+0005;&#33041;&#30340;&#38190;&#30424;&#36755;&#20837;;STDOUT&#26159;&#20195=
+;&#34920;&#20174;&#21738;&#36830;&#36755;&#20986;&#25968;&#25454;;&#20363;&=
+#22914;&#20174;&#30005;&#33041;&#30340;&#23631;
+    &#24149;&#36755;&#20986;;STDERR&#26159;&#20195;&#34920;&#20174;&#21738;=
+&#36830;&#36755;&#20986;&#38169;&#35823;&#30340;&#25968;&#25454;,&#20363;&#=
+22914;&#20174;&#30005;&#33041;&#30340;&#23631;&#24149;&#36755;&#20986;.&#32=
+780;&#22312;<a
+    href=3D"http://dev.21tx.com/web/perl/" target=3D"_blank">Perl</a>&#3582=
+1;&#35328;&#20013;&#26377;&#19977;&#20010;&#26631;&#20934;FILEHANDLE&#65306;
+    1.STDIN(&#26631;&#20934;&#36755;&#20837;)&#65306;&#26159;&#20195;&#3492=
+0;STDIN&#30340;FILEHANDLE<br>
+    2.STDOUT(&#26631;&#20934;&#36755;&#20986;)&#65306;&#26159;&#20195;&#349=
+20;STDOUT&#30340;FILEHANDLE<br>
+    3.STDERR(&#26631;&#20934;&#38169;&#35823;&#36755;&#20986;)&#65306;&#261=
+59;&#20195;&#34920;STDERR&#30340;FILEHANDLE&#22914;&#26524;&#35201;&#20351;=
+&#29992;&#20854;&#20182;FILEHANDLE&#30340;&#26102;&#20505;,&#23601;&#35201;=
+&#29992;OPEN&#36825;&#20010;&#20989;&#25968;&#26469;&#25171;&#24320;&#19968=
+;&#20010;FILEHANDLE,&#25105;&#20204;&#21487;&#20197;&#29992;PRINT&#36825;&#=
+20010;&#20989;&#25968;LIST&#30340;&#25968;&#25454;&#36755;&#20986;&#32473;F=
+ILEHANDLE.<br>
+    &#22312;&#20026;&#22823;&#23478;&#20171;&#32461;PRINT&#36825;&#20010;&#=
+20989;&#25968;&#20043;&#21069;,&#20808;&#35753;&#25105;&#20204;&#26469;&#30=
+475;&#30475;PRINT&#20989;&#25968;&#20013;&#29305;&#27530;&#25171;&#21360;&#=
+23383;&#31526;&#65306;
+    <br>
+    <br>
+    &#25351;&#20196;&#65306;#<br>
+    &#35828;&#26126;&#65306;&#27880;&#37322;&#31526;&#21495;Remark&#23459;&=
+#21578;<br>
+    &#31034;&#20363;&#65306;#&#36825;&#26159;&#19968;&#20010;&#27880;&#3732=
+2;&#35828;&#26126;<br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;print<br>
+    &#35821;&#27861;&#65306;print Filehandle LIST<br>
+    &#35828;&#26126;&#65306;&#36825;&#20010;Filehandle&#21487;&#20197;&#304=
+75;&#20316;&#22312;I(INPUT)/O(OUTPUT)&#20043;&#38388;&#30340;&#19968;&#2001=
+0;&#26725;&#26753;,&#21487;&#20197;&#21033;&#29992;FILEHANDLE&#26469;&#2057=
+0;&#20986;&#25968;&#25454;&#35835;&#20837;&#20889;
+    &#20986;&#30340;&#21160;&#20316;.STDIN&#26159;&#20195;&#34920;&#20174;&=
+#21738;&#36830;&#36755;&#20837;&#25968;&#25454;,&#20363;&#22914;&#20174;&#3=
+0005;&#33041;&#30340;&#38190;&#30424;&#36755;&#20837;;STDOUT&#26159;&#20195=
+;&#34920;&#20174;&#21738;&#36830;&#36755;&#20986;&#25968;&#25454;;&#20363;&=
+#22914;&#20174;&#30005;&#33041;&#30340;&#23631;
+    &#24149;&#36755;&#20986;;STDERR&#26159;&#20195;&#34920;&#20174;&#21738;=
+&#36830;&#36755;&#20986;&#38169;&#35823;&#30340;&#25968;&#25454;,&#20363;&#=
+22914;&#20174;&#30005;&#33041;&#30340;&#23631;&#24149;&#36755;&#20986;.&#32=
+780;&#22312;PERL&#35821;&#35328;&#20013;&#26377;&#19977;&#20010;&#26631;&#2=
+0934;FILEHANDLE&#65306;
+    1.STDIN(&#26631;&#20934;&#36755;&#20837;)&#65306;&#26159;&#20195;&#3492=
+0;STDIN&#30340;FILEHANDLE<br>
+    2.STDOUT(&#26631;&#20934;&#36755;&#20986;)&#65306;&#26159;&#20195;&#349=
+20;STDOUT&#30340;FILEHANDLE<br>
+    3.STDERR(&#26631;&#20934;&#38169;&#35823;&#36755;&#20986;)&#65306;&#261=
+59;&#20195;&#34920;STDERR&#30340;FILEHANDLE&#22914;&#26524;&#35201;&#20351;=
+&#29992;&#20854;&#20182;FILEHANDLE&#30340;&#26102;&#20505;,&#23601;&#35201;=
+&#29992;OPEN&#36825;&#20010;&#20989;&#25968;&#26469;&#25171;&#24320;&#19968=
+;&#20010;FILEHANDLE,&#25105;&#20204;&#21487;&#20197;&#29992;PRINT&#36825;&#=
+20010;&#20989;&#25968;LIST&#30340;&#25968;&#25454;&#36755;&#20986;&#32473;F=
+ILEHANDLE.<br>
+    &#22312;&#20026;&#22823;&#23478;&#20171;&#32461;PRINT&#36825;&#20010;&#=
+20989;&#25968;&#20043;&#21069;,&#20808;&#35753;&#25105;&#20204;&#26469;&#30=
+475;&#30475;PRINT&#20989;&#25968;&#20013;&#29305;&#27530;&#25171;&#21360;&#=
+23383;&#31526;&#65306;
+    <br>
+    <br>
+    &#31526;&#21495; &#20854;&#20316;&#29992;<br>
+    \n &#25442;&#34892; new line<br>
+    \r &#20809;&#26631;&#25442;&#34892; return<br>
+    \t tab&#38190;<br>
+    \f &#25442;&#39029; form feed<br>
+    \b &#36864;&#22238;&#19968;&#26684;<br>
+    \v &#22402;&#30452;tab&#38190;<br>
+    \a &#21709;&#38083;Bell<br>
+    \e escape&#38190;<br>
+    \007 &#21313;&#36827;&#21046;ASC II&#30721;<br>
+    \xff &#21313;&#20845;&#36827;&#21046;&#30721;<br>
+    \c[ &#25511;&#21046;&#23383;&#31526;<br>
+    &#31034;&#20363;&#65306; print STDOUT &quot;&#32593;&#19978;&#23398;&#2=
+2253;\n&quot;;
+    &#23558;&quot;&#32593;&#19978;&#23398;&#22253;&quot;&#21152;&#19978;&#2=
+5442;&#34892;&#26174;&#31034;&#22312;&#23631;&#24149;&#19978;.<br>
+    <br>
+    &#35821;&#27861;&#65306; print LIST <br>
+    &#35828;&#26126;&#65306; &#22914;&#26524;&#30465;&#30053;Filehandle&#30=
+340;&#35805;,&#23601;&#20250;&#25226;Filehandle&#20869;&#23450;&#20026;STDO=
+UT.&#20063;&#23601;&#26159;&#20250;&#23558;LIST&#30340;&#25968;&#25454;&#20=
+869;&#23481;&#26174;&#31034;&#22312;&#23631;&#24149;&#19978;.<br>
+    &#31034;&#20363;&#65306; $url=3D&quot;www<a href=3D"http://dev.21tx.com=
+/dotnet/"
+    target=3D"_blank">.net</a>ease.net/~zmd&quot;;<br>
+    print &quot;&#32593;&#19978;&#23398;&#22253;$url\n&quot;;<br>
+    &#22312;&#23631;&#24149;&#19978;&#23558;&#20250;&#20986;&#29616;&quot;&=
+#32593;&#19978;&#23398;&#22253;www.netease.net/~zmd&quot;,&#22914;&#26524;&=
+#24819;&#35201;&#35753;&#21452;&#24341;&#21495;&#20869;&#30340;&#21464;&#37=
+327;&#22833;&#25928;,&#21487;&#20197;&#22312;&#21464;&#37327;&#30340;&#2106=
+9;&#38754;&#21152;&#19978;&quot;\&quot;&#31526;&#21495;.&#20363;&#22914;&#6=
+5306;
+    print&quot;&#32593;&#19978;&#23398;&#22253;\$url&quot;; &#36825;&#26679=
+;&#23427;&#23601;&#26174;&#31034;&#65306;&quot;&#32593;&#19978;&#23398;&#22=
+253;$url&quot;<br>
+    <br>
+    &#35821;&#27861;&#65306; print<br>
+    &#35828;&#26126;&#65306; &#21516;&#30465;&#30053;Filehandle&#21644;LIST=
+&#30340;&#35805;,&#23601;&#20250;&#20197;STDOUT&#20026;Filehandle,&#24182;&=
+#20250;&#36755;&#20986;$_&#36825;&#20010;&#20869;&#23450;&#36755;&#20986;&#=
+21464;&#37327;&#30340;&#25968;&#25454;&#20869;&#23481;.
+    &#22914;&#26524;$_&#21464;&#37327;&#26159;&#19968;&#20010;&#31354;&#233=
+83;&#31526;&#20018;&#30340;&#35805;,&#23601;&#20250;&#26174;&#31034;&#20986=
+;&#19968;&#20010;&#31354;&#23383;&#31526;&#20018;.<br>
+    &#31034;&#20363;&#65306; $_=3D&quot;&#32593;&#19978;&#23398;&#22253;\n&=
+quot;;
+    print; &#23601;&#20250;&#23558;&quot;&#32593;&#19978;&#23398;&#22253;&q=
+uot;&#21152;&#19978;&#25442;&#34892;&#26174;&#31034;&#22312;&#23631;&#24149=
+;&#19978;
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306; printf<br>
+    &#35821;&#27861;&#65306; printf Filehandle LIST<br>
+    &#35828;&#26126;&#65306; &#22312;perl&#35821;&#35328;&#20013;&#20063;&#=
+25552;&#20195;C&#35821;&#35328;&#20013;printf&#30340;&#35821;&#27861;,&#299=
+92;&#27861;&#21644;C&#35821;&#35328;&#20013;&#30340;&#29992;&#27861;&#19968=
+;&#27169;&#19968;&#26679;.&#22914;&#26524;&#25226;Filehandle&#30465;&#30053=
+;&#30340;&#35805;
+    ,&#20063;&#19968;&#26679;&#20250;&#25226;STDOUT&#24403;&#25104;&#26159;=
+&#20869;&#23450;&#30340;Filehandle.&#22312;&#20026;&#22823;&#23478;&#20171;=
+&#32461;printf&#20989;&#25968;&#20043;&#21069;,&#20808;&#35753;&#25105;&#20=
+204;&#26469;&#30475;&#30475;printf&#20989;&#25968;&#20013;&#21464;&#25442;&=
+#31526;&#21495;&#30340;&#23383;&#31526;.<br>
+    <br>
+    &#31526;&#21495; &#20854;&#20316;&#29992;<br>
+    %c &#23383;&#31526;<br>
+    %s &#23383;&#31526;&#20018;<br>
+    %d &#25972;&#25968;<br>
+    %f &#28014;&#25972;&#25968;<br>
+    %h &#21313;&#20845;&#36827;&#21046;&#30721;<br>
+    %o &#20843;&#36827;&#21046;&#30721;<br>
+    &#31034;&#20363;&#65306;printf(&quot;chomod%d%s\n&quot;,&quot;711&quot;=
+&quot;<a
+    href=3D"http://dev.21tx.com/web/cgi/" target=3D"_blank">CGI</a>&quot;);=
+ &#20250;&#23558;chmod
+    711 cgi&#21152;&#19978;&#25442;&#34892;&#26174;&#31034;&#20110;&#23631;=
+&#24149;&#19978;&#12290;
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;chop &#35821;&#27861;&#65306;chop($url)<br>
+    &#35828;&#26126;&#65306;&#25226;&#26368;&#21518;&#19968;&#20010;&#23383=
+;&#31526;&#21024;&#38500;&#12290;<br>
+    &#31034;&#20363;&#65306;$url=3D&quot;www.nease.net/~zmd/&quot;;<br>
+    chop($url); &#36825;&#26102;$url=3D&quot;www.nease.net/~zmd&quot; &#327=
+80;&#36825;&#20004;&#34892;&#20063;&#21487;&#20197;&#20889;&#25104;chop($ur=
+l=3D&quot;www.nease.net/~zmd/&quot;);
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;split<br>
+    &#35821;&#27861;&#65306;split(/pattern/,$text,limit) &#20854;&#20013;/p=
+attern/&#26159;&#25991;&#23383;&#22788;&#29702;&#30340;&#27169;&#24335;&#65=
+292;&#32780;limit&#26159;&#20195;&#34920;&#35201;&#20998;&#21106;&#30340;&#=
+20010;&#25968;&#65292;&#19968;&#33324;&#21487;&#20197;&#30465;&#30053;&#122=
+90;<br>
+    &#35828;&#26126;&#65306;&#29992;&#19968;&#20010;&#25351;&#23450;&#30340=
+;&#25991;&#23383;&#22788;&#29702;&#27169;&#24335;&#26469;&#20998;&#21106;$t=
+ext&#23383;&#31526;&#20018;&#12290;<br>
+    &#31034;&#20363;&#65306;<br>
+    $text=3D&quot;Michael,Gevin,Mike&quot;; @name=3Dsplit(/,/,$text); #&#36=
+825;&#26102;@name=3D(&quot;Michael&quot;,&quot;Gevin&quot;,&quot;Mike&quot;=
+);
+    <br>
+    ($a,$b,$c)=3Dsplit(/,/,$text); #&#36825;&#26102;$a=3D&quot;Michael&quot=
+;;$b=3D&quot;Gevin&quot;;$c=3D&quot;Mike&quot;;
+    <br>
+    @name=3Dsplit(/,/,$string,2); #&#36825;&#26102;@name=3D(&quot;Michael&q=
+uot;,&quot;Gevin&quot;);<br>
+    &#22312;&#20256;&#36865;CGI&#24212;&#29992;&#31243;&#24207;&#25968;&#25=
+454;&#30340;&#26102;&#20505;&#20250;&#20808;&#23558;&#25968;&#25454;&#32534=
+;&#30721;&#65292;&#20854;&#20013;&#20250;&#23558;FORM&#20013;&#31532;&#2001=
+0;&#25968;&#25454;&#23383;&#27573;
+    &#30340;&#25968;&#25454;&#20869;&#23481;&#29992;&amp;&#36825;&#20010;&#=
+31526;&#21495;&#38548;&#24320;&#65292;&#25152;&#20197;&#22312;&#35299;&#307=
+21;&#30340;&#26102;&#20505;&#23601;&#35201;&#20197;&amp;&#36825;&#20010;&#3=
+1526;&#21495;&#20026;&#20998;&#21106;&#30340;&#23383;&#31526;&#65292;&#2355=
+8;&#27599;&#20010;&#25968;&#25454;&#23383;&#27573;&#20998;&#21106;&#20986;&=
+#12290;&#20363;&#22914;&#65306;
+    $text=3D&quot;Mike=3DA&amp;Michael=3DB&quot;;<br>
+    @name=3Dsplit(/&amp;/,$text); #&#36825;&#26102;@name=3D(&quot;Mike=3DA&=
+quot;,&quot;Michael=3DB&quot;);
+    &#32780;&#25968;&#25454;&#23383;&#27573;&#30340;&#21517;&#31216;&#21644=
+;&#36825;&#20010;&#25968;&#25454;&#23383;&#27573;&#30340;&#20540;&#26159;&#=
+29992;=3D&#36825;&#20010;&#31526;&#21495;&#26469;&#38548;&#24320;&#65292;&#=
+22914;&#26524;&#24819;&#21462;&#24471;&#25968;&#25454;
+    &#23383;&#27573;&#30340;&#21517;&#31216;&#21644;&#25152;&#23545;&#24212=
+;&#30340;&#20540;&#30340;&#35805;&#65292;&#23601;&#29992;&#35201;=3D&#36825=
+;&#20010;&#31526;&#21495;&#26469;&#20998;&#21106;&#25968;&#25454;&#23383;&#=
+27573;&#65292;&#20363;&#22914;&#65306;
+    $name=3D&quot;&quot;Mike=3DMichael&quot;&quot;&#65307; <br>
+    ($name1,$name2)=3Dsplit(/=3D/,$list); #&#36825;&#26102;$name1=3D&quot;M=
+ike&quot;;$name2=3D&quot;Michael&quot;;
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;keys<br>
+    &#35821;&#27861;&#65306;keys(%array)<br>
+    &#35828;&#26126;&#65306;&#21462;&#20986;&#20851;&#32852;&#25968;&#32452=
+;%ARRAY&#20013;&#20840;&#37096;&#30340;key&#12290;<br>
+    &#31034;&#20363;&#65306;%NAME=3D(1,&quot;mike&quot;,2,&quot;michael&quo=
+t;);
+    @readkey=3Dkeys(%NAMES); #&#36825;&#26102;@readkey=3D(1,2); <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;values<br>
+    &#35821;&#27861;&#65306;values(%array)<br>
+    &#35828;&#26126;&#65306;&#21462;&#20986;&#20851;&#32852;&#25968;&#32452=
+;%ARRAY&#20013;&#20840;&#37096;&#30340;value&#12290;<br>
+    &#31034;&#20363;&#65306;%NAMES=3D(1,&quot;mike&quot;,2,&quot;michael&qu=
+ot;);
+    @readval=3Dvalues(%NAMES); #&#36825;&#26102;@readval=3D(&quot;mike&quot=
+;,&quot;michael&quot;);
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;reverse<br>
+    &#35821;&#27861;&#65306;reverse(@array)<br>
+    &#35828;&#26126;&#65306;&#23558;&#25968;&#32452;@array&#20013;&#30340;&=
+#20803;&#32032;&#30001;&#21518;&#21040;&#21069;&#37325;&#26032;&#25490;&#21=
+015;&#12290;<br>
+    &#31034;&#20363;&#65306;@back=3D(&quot;A&quot;,&quot;B&quot;,&quot;C&qu=
+ot;,&quot;D&quot;,&quot;E&quot;);
+    @back=3Dreverse(@back); #&#36825;&#26102;@back=3D(&quot;E&quot;,&quot;D=
+&quot;,&quot;C&quot;,&quot;B&quot;,&quot;A&quot;);
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;sort<br>
+    &#35821;&#27861;&#65306;sort(@array)<br>
+    &#35828;&#26126;&#65306;&#23558;&#25968;&#32452;&#20013;&#30340;&#20803=
+;&#32032;&#30001;&#23567;&#21040;&#22823;&#25490;&#24207;&#65292;&#22914;&#=
+26524;&#35201;&#30001;&#22823;&#21040;&#23567;&#25490;&#24207;&#30340;&#358=
+05;&#65292;&#35201;&#21152;&#19978;reverse&#36825;&#20010;&#20989;&#25968;&=
+#12290;<br>
+    &#31034;&#20363;&#65306;<br>
+    @abc=3D(&quot;d&quot;,&quot;b&quot;,&quot;c&quot;,&quot;a&quot;);
+    @abc=3Dsort(@abc); #&#36825;&#26102;@abc=3D(&quot;a&quot;,&quot;b&quot;=
+,&quot;c&quot;,&quot;d&quot;);<br>
+    @abc=3D(reverse sort@abc); #&#36825;&#26102;@abc=3D(&quot;d&quot;,&quot=
+;c&quot;,&quot;b&quot;,&quot;a&quot;);
+    &#36825;&#20010;&#35821;&#27861;&#20063;&#21487;&#20197;&#20889;&#25104=
+;@abc=3D(reverse
+    sort(@abc));<br>
+    @number=3D(5,2,10); @number=3Dsort(@number); &#19978;&#38754;&#31034;&#=
+20363;&#29992;sort&#20989;&#25968;&#26469;&#25490;&#24207;&#25968;&#20540;&=
+#30340;&#26102;&#65292;&#20250;&#20986;&#24046;&#38169;&#65292;&#22240;&#27=
+492;&#35201;&#29992;&#19979;&#38754;&#21040;&#19979;&#38754;&#36825;&#19968=
+;&#21477;&#12290;
+    @number=3D(sort{$a&lt;=3D&gt;$b}@number); #&#36825;&#26102;@number=3D(2=
+,5,10); <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;length<br>
+    &#35821;&#27861;&#65306;length($string)<br>
+    &#35828;&#26126;&#65306;&#27714;&#20986;&#23383;&#31526;&#20018;$string=
+&#30340;&#23383;&#33410;(bytes)&#20540;&#12290;<br>
+    &#31034;&#20363;&#65306;$string=3D&quot;Perl5&quot;; $size=3Dlength($st=
+ring); #&#36825;&#26102;$size=3D5;
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;substr<br>
+    &#35821;&#27861;&#65306;substr($string,offset,length) offset&#20195;&#3=
+4920;&#36215;&#22987;&#23383;&#31526;&#30340;&#20301;&#32622;,length&#20195=
+;&#34920;&#24341;&#29992;&#30340;&#23383;&#31526;&#20018;&#38271;&#24230;&#=
+65292;&#22914;&#26524;&#30465;&#30053;length&#21017;&#20195;&#34920;&#20174=
+;&#36215;&#22987;&#20540;&#21040;&#23383;&#31526;&#20018;&#30340;&#26368;&#=
+21518;&#19968;&#20010;&#23383;&#31526;&#38271;&#24230;&#12290;&#32780;offse=
+t&#22914;&#26524;&#26159;&#36127;&#20540;&#30340;&#35805;&#65292;&#23601;&#=
+20250;&#20174;&#23383;&#31526;&#20018;&#21491;&#36793;&#24320;&#22987;&#253=
+51;&#23450;&#23383;&#31526;&#12290;<br>
+    &#31034;&#20363;&#65306;<br>
+    $s=3Dsubstr(&quot;perl5&quot;,2,2); #&#36825;&#26102;$s=3D&quot;rl&quot=
+;;<br>
+    $s=3Dsubstr(&quot;perl5&quot;,2); #&#36825;&#26102;$s=3D&quot;rl5&quot;=
+;<br>
+    $s=3Dsubstr(&quot;perl5&quot;,-2,2); #&#36825;&#26102;$s=3D&quot;er&quo=
+t;; <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;index<br>
+    &#35821;&#27861;&#65306;index($string,$substring,position) $substring&#=
+26159;&#35201;&#23547;&#25214;&#30340;&#23383;&#31526;&#65307;position&#201=
+95;&#34920;&#20174;&#21738;&#19968;&#20010;&#20301;&#32622;&#24320;&#22987;=
+&#23547;&#25214;&#65292;&#20551;&#22914;&#30465;&#30053;position&#23601;&#2=
+0174;&#22836;&#24320;&#22987;&#25214;&#36215;&#12290;<br>
+    &#35828;&#26126;&#65306;&#36820;&#22238;&#25152;&#35201;&#25214;&#23547=
+;&#30340;&#23383;&#31526;&#22312;&#19968;&#23383;&#31526;&#20018;$string&#2=
+0013;&#30340;&#20301;&#32622;&#65292;&#22914;&#26524;&#22312;&#23383;&#3152=
+6;&#20018;&#20013;&#25214;&#19981;&#21040;&#23383;&#31526;&#30340;&#35805;&=
+#65292;&#21017;&#20250;&#36820;&#22238;-1&#36825;&#20010;
+    &#20540;&#12290;<br>
+    &#31034;&#20363;&#65306;<br>
+    $s=3Dindex(&quot;perl5&quot;,&quot;p&quot;); #&#36825;&#26102;$s=3D0<br>
+    $s=3Dindex(&quot;perl5&quot;,&quot;l&quot;,2); #&#36825;&#26102;$s=3D3<=
+br>
+    $s=3Dindex(&quot;perl5&quot;,&quot;perl&quot;); #&#36825;&#26102;$s=3D-=
+1 <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;push<br>
+    &#35821;&#27861;&#65306;push(@array,$string)<br>
+    &#35828;&#26126;&#65306;&#22312;&#25968;&#32452;@array&#30340;&#26368;&=
+#21518;&#38468;&#21152;&#26032;&#30340;&#20803;&#32032;
+    ($string)&#21040;&#25968;&#32452;@array&#20013;&#12290;<br>
+    &#31034;&#20363;&#65306;@array=3D(&quot;one&quot;,&quot;two&quot;);
+    push(@array,&quot;three&quot;); #&#36825;&#26102;$@array=3D(&quot;one&q=
+uot;,&quot;two&quot;,&quot;three&quot;)
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;pop<br>
+    &#35821;&#27861;&#65306;pop(@array)<br>
+    &#35828;&#26126;&#65306;&#23558;&#25968;&#32452;(@array)&#30340;&#26368=
+;&#21518;&#19968;&#20010;&#20803;&#32032;&#21024;&#38500;&#65292;&#24182;&#=
+23558;&#21024;&#38500;&#30340;&#20803;&#32032;&#36820;&#22238;&#12290;<br>
+    &#31034;&#20363;&#65306;@array=3D(&quot;one&quot;,&quot;two&quot;);
+    $rm=3Dpop(@array); #&#36825;&#26102;@array=3D(&quot;one&quot;);&#32780;=
+$rm=3D&quot;two&quot;;
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;unshift<br>
+    &#35821;&#27861;&#65306;unshift(@array,$string) &#35828;&#26126;&#65306=
+;&#22312;&#25968;&#32452;@array&#30340;&#31532;&#19968;&#20010;&#20803;&#32=
+032;&#21069;&#38468;&#21152;&#26032;&#30340;&#20803;&#32032;$string&#21040;=
+&#25968;&#32452;@array&#20013;&#12290;
+    &#31034;&#20363;&#65306; @array=3D(&quot;one&quot;,&quot;two&quot;);
+    unshift(@array,&quot;three&quot;); #&#36825;&#26102;@array=3D(&quot;thr=
+ee&quot;,&quot;one&quot;,&quot;two&quot;)
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;shift<br>
+    &#35821;&#27861;&#65306;shift(@array)<br>
+    &#35828;&#26126;&#65306;&#23558;&#25968;&#32452;@array&#30340;&#31532;&=
+#19968;&#20010;&#20803;&#32032;&#21024;&#38500;&#65292;&#24182;&#23558;&#21=
+024;&#38500;&#30340;&#20803;&#32032;&#36820;&#22238;&#12290;<br>
+    &#31034;&#20363;&#65306;@array=3D(&quot;one&quot;,&quot;two&quot;);
+    @rm=3Dshift(@array); #&#36825;&#26102;@array=3D(&quot;two&quot;);&#3278=
+0;$rm=3D&quot;one&quot;;
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;join<br>
+    &#35821;&#27861;&#65306;join($string,@array)<br>
+    &#35828;&#26126;&#65306;&#22312;&#19968;&#25968;&#32452;@array&#30340;&=
+#20803;&#32032;&#20043;&#38388;&#21152;&#19978;&#19968;&#25351;&#23450;&#30=
+340;&#23383;&#31526;$string,&#24182;&#23558;&#32467;&#26524;&#36820;&#22238=
+;&#12290;<br>
+    &#31034;&#20363;&#65306;<br>
+    @array=3D(&quot;one&quot;,&quot;two&quot;,&quot;three&quot;);<br>
+    $total=3Djoin(&quot;&#65306;&quot;,@array); &#36825;&#26102;$total=3D&q=
+uot;one&#65306;two&#65306;three&quot;;
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;grep<br>
+    &#35821;&#27861;&#65306;grep(/pattern/,@array)<br>
+    &#35828;&#26126;&#65306;&#23558;&#21512;&#25991;&#23383;&#22788;&#29702=
+;&#27169;&#24335;(regular
+    expression)&#30340;&#25968;&#32452;&#20803;&#32032;&#25214;&#20986;&#26=
+469;&#12290;<br>
+    &#31034;&#20363;&#65306;<br>
+    @array=3D(&quot;one&quot;,&quot;on&quot;,&quot;in&quot;);<br>
+    $count=3Dgrep(/on/,@array); #&#36825;&#26102;$count=3D2<br>
+    @result=3Dgrep(/on/,@array);#&#36825;&#26102;@result=3D(&quot;one&quot;=
+,&quot;on&quot;);
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;hex<br>
+    &#35821;&#27861;&#65306;hex($string)<br>
+    &#35828;&#26126;&#65306;&#23558;&#21313;&#20845;&#36827;&#21046;&#30340=
+;&#25968;&#20540;&#36716;&#25104;&#21313;&#36827;&#21046;&#12290;<br>
+    &#31034;&#20363;&#65306; $decimal=3Dhex(&quot;ff&quot;); &#36825;&#2610=
+2;$decimal=3D255;
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;rand<br>
+    &#35821;&#27861;&#65306;rand($interger)<br>
+    &#35828;&#26126;&#65306;&#24120;&#21644;&#20989;&#25968;srand&#25645;&#=
+37197;&#26469;&#21462;&#24471;&#19968;&#38543;&#26426;&#25968;&#65292;&#229=
+14;&#26524;&#27809;&#26377;&#20808;&#23459;&#21578;stand&#20989;&#25968;&#3=
+0340;&#35805;&#65292;&#21017;&#21462;&#20986;&#30340;&#24120;&#25968;&#2054=
+0;&#26159;&#19968;&#20010;&#22266;&#23450;&#20540;&#12290;&#36825;&#20010;&=
+#35821;&#27861;&#20250;&#36820;&#22238;&#19968;&#20010;&#20171;&#20110;0&#2=
+1644;$interger&#20043;&#38388;&#30340;&#25968;&#20540;&#65292;&#22914;&#265=
+24;$interger&#30465;&#30053;&#30340;&#35805;&#65292;&#21017;&#20250;&#36820=
+;&#22238;&#19968;&#20010;&#20171;&#20110;0&#21644;1
+    &#30340;&#25968;&#20540;&#12290;<br>
+    &#31034;&#20363;&#65306;<br>
+    srand; #&#35201;&#20808;&#23459;&#21578;srand&#20989;&#25968;&#65292;&#=
+25165;&#33021;&#20135;&#29983;&#38543;&#26426;&#25968;&#30340;&#25928;&#265=
+24;<br>
+    $int=3Drand(10); #$int&#30340;&#20540;&#20250;&#22823;&#20110;0&#32780;=
+&#19988;&#23567;&#20110;10&#22914;&#26524;&#24076;&#26395;&#20135;&#29983;&=
+#30340;&#20081;&#25968;&#26159;&#25972;&#25968;&#30340;&#35805;&#65292;&#23=
+601;&#35201;&#20877;&#21152;&#19978;int
+    #&#36825;&#20010;&#20989;&#25968;<br>
+    $int=3Dint(rand(10)); #$int&#30340;&#20540;&#26159;&#19968;&#20010;&#25=
+972;&#25968;&#65292;&#19988;&#20540;&#22312;0&#21644;9&#20043;&#38388;
+    <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;localtime<br>
+    &#35821;&#27861;&#65306;localtime(time)<br>
+    &#35828;&#26126;&#65306;&#21487;&#36820;&#22238;&#20061;&#20010;&#26377=
+;&#20851;&#26102;&#38388;&#30340;&#20803;&#32032;&#65292;&#22312;&#20889;CG=
+I&#24212;&#29992;&#31243;&#24207;&#30340;&#26102;&#20505;&#24120;&#20250;&#=
+29992;&#21040;&#31995;&#32479;&#30340;&#26102;&#38388;&#65292;&#25152;&#201=
+97;&#22312;&#27492;&#20250;&#35814;&#32454;&#20171;&#32461;&#36825;&#20010;=
+&#20989;
+    &#25968;&#30340;&#29992;&#27861;&#12290;<br>
+    &#31034;&#20363;&#65306; <br>
+    ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst)=3Dlocaltime(time)=
+; <br>
+    &#20854;&#20013;&#65306; $sec&#20195;&#34920;&#31186;&#25968;[0,59] $mi=
+n&#20195;&#34920;&#20998;&#25968;[0,59]
+    $hour&#20195;&#34920;&#23567;&#26102;&#25968;[0,23] $mday&#20195;&#3492=
+0;&#26159;&#22312;&#36825;&#20010;&#26376;&#30340;&#31532;&#20960;&#22825;[=
+1,31]
+    $mon&#20195;&#34920;&#26376;&#25968;[0,11],&#35201;&#23558;$mon&#21152;=
+1&#20043;&#21518;&#65292;&#25165;&#33021;&#31526;&#21512;&#23454;&#38469;&#=
+24773;&#20917;&#12290;$year&#20174;1990&#24180;&#31639;&#36215;&#30340;&#24=
+180;&#25968;
+    $wday&#20174;&#26143;&#26399;&#20845;&#31639;&#36215;&#65292;&#20195;&#=
+34920;&#26159;&#22312;&#36825;&#21608;&#20013;&#30340;&#31532;&#20960;&#228=
+25;[0-6]
+    $yday&#20174;&#19968;&#26376;&#19968;&#26085;&#31639;&#36215;&#65292;&#=
+20195;&#34920;&#26159;&#22312;&#36825;&#24180;&#20013;&#30340;&#31532;&#209=
+60;&#22825;[0,365]
+    $isdst&#21482;&#26159;&#19968;&#20010;flag &#30693;&#36947;&#36825;&#20=
+123;&#21464;&#37327;&#20043;&#21518;&#65292;&#23601;&#21487;&#20197;&#22312=
+;CGI&#24212;&#29992;&#31243;&#24207;&#20013;&#25343;&#26469;&#24212;&#29992=
+;&#20102;&#12290;&#27492;&#22806;&#65292;&#20063;&#21487;&#20197;&#29992;&#=
+19979;&#38754;&#36825;&#19968;&#34892;&#25351;&#20196;&#22312;UNIX&#31995;&=
+#32479;&#19979;&#21462;&#24471;&#31995;&#32479;&#30340;&#26102;&#38388;&#12=
+290;&#20026;&#20102;&#36991;&#20813;&#38169;&#35823;&#21457;&#29983;&#65292=
+;&#26368;&#22909;&#29992;&#32477;&#23545;&#36335;&#24452;&#30340;&#26041;&#=
+27861;&#26469;&#21462;&#24471;&#31995;&#32479;&#26102;&#38388;&#65292;&#229=
+14;&#26524;&#32477;&#23545;&#36335;&#24452;&#19981;&#28165;&#26970;&#30340;=
+&#35805;&#21487;&#20197;&#29992;&quot;which
+    data&quot;&#36825;&#20010;&#25351;&#20196;&#26469;&#24471;&#30693;&#122=
+90;&#26368;&#21518;&#35201;&#25552;&#23383;&#31526;&#30340;&#35805;&#65292;=
+&#23601;&#19981;&#33021;&#27491;&#30830;&#25191;&#34892;&#31995;&#32479;&#3=
+0340;&#31243;&#24207;&#20102;&#12290;
+    $data=3D'/usr/bin/data'; &#32780;&#22312;perl5&#29256;&#26412;&#20013;&=
+#65292;&#20063;&#21487;&#20197;&#29992;&#19979;&#38754;&#36825;&#19968;&#34=
+892;&#25351;&#20196;&#26469;&#21462;&#24471;&#31995;&#32479;&#26102;&#38388=
+;&#12290;
+    $data=3Dlocaltime(time); <br>
+    <br>
+    <br>
+    -----------------------------------------------------------------------=
+---------<br>
+    <br>
+    &#25351;&#20196;&#65306;die<br>
+    &#35821;&#27861;&#65306;die LIST<br>
+    &#35828;&#26126;&#65306;&#20250;&#25226;LIST&#23383;&#31526;&#20018;&#2=
+6174;&#31034;&#20986;&#26469;&#65292;&#24182;&#36864;&#20986;&#31243;&#2420=
+7;&#12290;&#24120;&#24120;&#21644;$!&#36825;&#20010;&#20195;&#34920;&#38169=
+;&#35823;&#20449;&#24687;&#21464;&#37327;&#19968;&#36215;&#20351;&#29992;&#=
+12290;<br>
+    &#31034;&#20363;&#65306;open(FILE,&quot;$filename&quot;)||die &quot;&#1=
+9981;&#33021;&#25171;&#24320;&#25991;&#20214;$!\n;
+    &#22914;&#26524;&#25171;&#24320;&#25991;&#20214;&#22833;&#36133;&#30340=
+;&#35805;&#65292;&#23601;&#20250;&#26174;&#31034;&#20986;&#38169;&#35823;&#=
+30340;&#20449;&#24687;&#65292;&#20043;&#21518;&#20877;&#36864;&#20986;&#312=
+43;&#24207;&#12290;&nbsp;
+    <o:p></o:p></span></span></p>
+    <p style=3D'line-height:150%'><span lang=3DEN-US style=3D'font-size:10.=
+5pt;
+    line-height:150%;color:#333333'><a
+    href=3D"http://dev.21tx.com/2004/04/28/10588.html">&#19978;&#19968;&#31=
+687;&#65306;
+    &#21560;&#24341;WEB&#31243;&#24207;&#21592;&#30446;&#20809;&#30340;Maso=
+n</a><br>
+    <a href=3D"http://dev.21tx.com/2004/02/11/10457.html">&#19979;&#19968;&=
+#31687;&#65306;
+    perl&#19982;mp3</a><o:p></o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <span id=3D"txsite_comment"></span>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span
+  id=3D"txsite_ad_cnt_btm_txt"></span><span lang=3DEN-US style=3D'font-size=
+:9.0pt;
+  color:#333333'><script  type=3D"text/javascript">
+=20
+cpro_client=3D'txadcpr';
+cpro_cbd=3D'#trans';=20
+cpro_cbg=3D'#trans';=20
+cpro_ctitle=3D'#0000ff';=20
+cpro_cdesc=3D'#444444';=20
+cpro_curl=3D'#008000';=20
+cpro_cflush=3D'#e10900';=20
+cpro_at=3D'text_image';=20
+cpro_161=3D4;=20
+cpro_flush=3D2;=20
+cpro_uap=3D1;=20
+cpro_w=3D500;=20
+cpro_h=3D200;=20
+cpro_template=3D'text_default_500_200';=20
+cpro_channel=3D919;
+  </script><script language=3D"JavaScript"  src=3D"Perl ????_Perl.files/cp.=
+js" type=3D"text/javascript">
+  </script><span style=3D'display:none;mso-hide:all'></span><o:p>&nbsp;</o:=
+p></span></span></p>
+  <span id=3D"txsite_cp">
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"98%"
+   style=3D'width:98.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm'
+   height=3D30>
+   <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes;height:18.0pt'>
+    <td width=3D"9%" style=3D'width:9.0%;padding:0cm 0cm 0cm 0cm;height:18.=
+0pt'>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333;display:none;mso-hide:all'><scri=
+pt language=3D"JavaScript">
+document.write(" <TD noWrap width=3D18%><IMG height=3D17 src=3D'http://www.=
+21tx.com/images/data_cmd2.gif' width=3D17 align=3DabsMiddle nowrap> ");
+document.write(" <A href=3D'http://txsite.21tx.com/script/contact.aspx?subj=
+ect=3D????:" + txsite_pagetitle + "(" + txsite_pagekey + ")' target=3D'_bla=
+nk'>????</A></TD> ");
+document.write(" <TD noWrap width=3D'19%'><IMG height=3D17 src=3D'http://ww=
+w.21tx.com/images/data_cmd3.gif' width=3D17 align=3DabsMiddle nowrap> ");
+document.write(" <A href=3D'http://txsite.21tx.com/script/contact.aspx?subj=
+ect=3D????' target=3D'_blank'>????</A></TD> ");
+document.write(" <TD noWrap width=3D'14%'><IMG height=3D17 src=3D'http://ww=
+w.21tx.com/images/data_cmd4.gif' width=3D17 align=3DabsMiddle nowrap> ");
+document.write(" <A href=3D\"javascript:window.external.AddFavorite('" + tx=
+site_pageurl + "', '" +  txsite_pagetitle + "')\">????</A></TD> ");
+document.write(" <TD width=3D'14%' height=3D24><IMG height=3D17 src=3D'http=
+://www.21tx.com/images/data_cmd5.gif' width=3D17 align=3DabsMiddle> ");
+document.write(" <A href=3D'#pagetop'>????</A></TD> ");
+    </script></span><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3333=
+33'><o:p></o:p></span></p>
+    </td>
+    <td width=3D"11%" style=3D'width:11.0%;padding:0cm 0cm 0cm 0cm;height:1=
+8.0pt'>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'></span><script language=3D"JavaSc=
+ript">
+if (typeof(txsite_cp) !=3D 'undefined') {
+  txsite_cp.innerHTML =3D " <table border=3D0 cellspacing=3D0 cellpadding=
+=3D0 width=3D98%> " +=20
+    " <tr><td height=3D20></td></tr> " +=20
+    " <tr><td class=3Dcontent> " +=20
+    " <P><B>???????</B>????????????????????????????????????????????????????=
+???<A href=3D'http://txsite.21tx.com/script/contact.aspx?subject=3D??????:"=
+ + txsite_pagetitle + "(" + txsite_pagekey + ")' target=3D'_blank'>????</A>=
+?</P> " +=20
+    " </td></tr> " +=20
+    " </table> <p></p>";
+}
+  </script><span id=3D"txsite_artbottom_top10_1"><span style=3D'display:non=
+e;
+  mso-hide:all'><o:p>&nbsp;</o:p></span></span></p>
+  <span id=3D"txsite_artbottom_top10">
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"98%"
+   style=3D'width:98.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm'
+   background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/list_ti=
+tle_bg1.gif">
+   <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+    <td width=3D40 style=3D'width:30.0pt;padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><img
+    border=3D0 width=3D40 height=3D23 id=3D"_x0000_i1038"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\list_title1.gif"><o:p></o:p></span></p>
+    </td>
+    <td width=3D251 style=3D'width:188.25pt;padding:0cm 0cm 0cm 0cm'>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0
+     width=3D"100%" style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-a=
+lt:0cm 0cm 0cm 0cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td style=3D'padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal><strong><span style=3D'font-size:9.0pt;font-fami=
+ly:SimSun;
+      mso-bidi-font-family:SimSun;color:#333333'>&#32534;&#36753;&#25512;&#=
+33616;</span></strong><span
+      lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></spa=
+n></p>
+      </td>
+     </tr>
+    </table>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><o:p></o:p></span></p>
+    </td>
+    <td width=3D40 style=3D'width:30.0pt;border:none;border-left:solid blac=
+k 1.0pt;
+    mso-border-left-alt:solid black .75pt;padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><img
+    border=3D0 width=3D40 height=3D23 id=3D"_x0000_i1039"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\list_title1.gif"><o:p></o:p></span></p>
+    </td>
+    <td width=3D250 style=3D'width:187.5pt;padding:0cm 0cm 0cm 0cm'>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0
+     width=3D"100%" style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-a=
+lt:0cm 0cm 0cm 0cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td style=3D'padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal><strong><span style=3D'font-size:9.0pt;font-fami=
+ly:SimSun;
+      mso-bidi-font-family:SimSun;color:#333333'>&#30456;&#20851;&#20869;&#=
+23481;</span></strong><span
+      lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></spa=
+n></p>
+      </td>
+     </tr>
+    </table>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><o:p></o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333;display:none;mso-hide:all'><o:p>&n=
+bsp;</o:p></span></p>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"100%"
+   style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0c=
+m'>
+   <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+    <td width=3D291 valign=3Dtop style=3D'width:218.25pt;background:#F7F8F9;
+    padding:0cm 0cm 0cm 0cm'>
+    <div align=3Dcenter>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D=
+0 width=3D"95%"
+     style=3D'width:95.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0=
+cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td style=3D'padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal style=3D'line-height:15.0pt'><span style=3D'font=
+-size:
+      9.0pt;color:#333333'>&middot;<span lang=3DEN-US><a
+      href=3D"http://dev.21tx.com/2004/04/28/10588.html" target=3D"_blank">=
+&#21560;&#24341;WEB&#31243;&#24207;&#21592;&#30446;&#20809;&#30340;Mason</a=
+><br>
+      &middot;<a href=3D"http://dev.21tx.com/2004/02/11/10457.html"
+      target=3D"_blank">perl&#19982;mp3</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/12/22/10074.html"
+      target=3D"_blank">&#20013;&#33521;&#25991;&#28151;&#21512;&#23383;&#3=
+1526;&#25130;&#21462;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/11/19/10086.html"
+      target=3D"_blank">Cultured Perl: &#21560;&#24341; C &#21644; Java &#3=
+1243;&#24207;&#21592;&#30446;&#20809;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/02/13/10060.html"
+      target=3D"_blank">mod_perl &#32534;&#31243;&#20171;&#32461;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/01/04/10123.html"
+      target=3D"_blank">Win32::ODBC Object Document</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/12/31/10108.html"
+      target=3D"_blank">Perl&#30340;&#25991;&#20214;&#25805;&#20316;(2)(&#3=
+6866;&#21512;&#21021;&#23398;&#32773;)</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/12/30/10153.html"
+      target=3D"_blank">Perl&#30340;&#25991;&#20214;&#25805;&#20316;&#65288=
+;1&#65289;&#65288;&#36866;&#21512;&#21021;&#23398;&#32773;&#65289;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/08/17/10136.html"
+      target=3D"_blank">PERL5 &#8212;&#8212; &#38754;&#21521;&#20108;&#2131=
+3;&#19968;&#19990;&#32426;&#30340;&#35821;&#35328;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/07/27/10165.html"
+      target=3D"_blank">&#24590;&#26679;&#20174;perl&#20013;&#35843;&#29992=
+;c&#24211;&#37324;&#30340;&#20989;&#25968;</a><o:p></o:p></span></span></p>
+      </td>
+     </tr>
+    </table>
+    </div>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span></p>
+    </td>
+    <td width=3D291 valign=3Dtop style=3D'width:218.25pt;border:none;border=
+-left:
+    solid white 1.0pt;mso-border-left-alt:solid white .75pt;background:#F7F=
+8F9;
+    padding:0cm 0cm 0cm 0cm'>
+    <div align=3Dcenter>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D=
+0 width=3D"95%"
+     style=3D'width:95.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0=
+cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td style=3D'padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal style=3D'line-height:15.0pt'><span style=3D'font=
+-size:
+      9.0pt;color:#333333'>&middot;<span lang=3DEN-US><a
+      href=3D"http://dev.21tx.com/2006/10/27/12734.html" target=3D"_blank">=
+Perl &#24120;&#29992;&#20989;&#25968;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2003/09/28/10165.html"
+      target=3D"_blank">Bioperl&#30340;&#31616;&#20171;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2003/09/26/10176.html"
+      target=3D"_blank">&#20256;&#22855;&#31243;&#24207;&#21592;Larry Wall&=
+#65306;Perl&#30340;&#20048;&#36259;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2003/04/20/10095.html"
+      target=3D"_blank">&#20174;&#19968;&#20010;&#23433;&#35013;&#25991;&#2=
+0214;&#30475;CGI&#30340;&#23433;&#20840;&#24615;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/02/13/10060.html"
+      target=3D"_blank">mod_perl &#32534;&#31243;&#20171;&#32461;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/12/29/10252.html"
+      target=3D"_blank">perl&#24120;&#29992;&#20989;&#25968;&#65288;&#36866=
+;&#21512;&#21021;&#23398;&#32773;&#65289;&#65281;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/09/03/10085.html"
+      target=3D"_blank">2D&#28216;&#25103;&#20013;DirectDraw&#30340;&#20248=
+;&#21270;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/05/15/10075.html"
+      target=3D"_blank">&#35841;&#30693;&#36947;&#24590;&#26679;&#20351;&#2=
+3458;&#25143;&#31471;&#30340;ActiveX&#19981;&#20986;&#23433;&#20840;&#25552=
+;&#31034;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/03/20/10149.html"
+      target=3D"_blank">Perl &#22914;&#20309;&#25327;&#25937;&#20102;&#2015=
+4;&#31867;&#22522;&#22240;&#35745;&#21010;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2000/08/28/10055.html"
+      target=3D"_blank">&#22312; linux &#31995;&#32479;&#19979;&#23433;&#35=
+013;
+      perl</a><o:p></o:p></span></span></p>
+      </td>
+     </tr>
+    </table>
+    </div>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333;display:none;mso-hide:all'><o:p>&n=
+bsp;</o:p></span></p>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"98%"
+   style=3D'width:98.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm'
+   background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/list_ti=
+tle_bg1.gif">
+   <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+    <td width=3D40 style=3D'width:30.0pt;padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><img
+    border=3D0 width=3D40 height=3D23 id=3D"_x0000_i1040"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\list_title1.gif"><o:p></o:p></span></p>
+    </td>
+    <td width=3D251 style=3D'width:188.25pt;padding:0cm 0cm 0cm 0cm'>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0
+     width=3D"100%" style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-a=
+lt:0cm 0cm 0cm 0cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td style=3D'padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal><strong><span style=3D'font-size:9.0pt;font-fami=
+ly:SimSun;
+      mso-bidi-font-family:SimSun;color:#333333'>&#26368;&#36817;&#26356;&#=
+26032;</span></strong><span
+      lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></spa=
+n></p>
+      </td>
+     </tr>
+    </table>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><o:p></o:p></span></p>
+    </td>
+    <td width=3D40 style=3D'width:30.0pt;border:none;border-left:solid blac=
+k 1.0pt;
+    mso-border-left-alt:solid black .75pt;padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><img
+    border=3D0 width=3D40 height=3D23 id=3D"_x0000_i1041"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\list_title1.gif"><o:p></o:p></span></p>
+    </td>
+    <td width=3D250 style=3D'width:187.5pt;padding:0cm 0cm 0cm 0cm'>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0
+     width=3D"100%" style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-a=
+lt:0cm 0cm 0cm 0cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td style=3D'padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal><strong><span style=3D'font-size:9.0pt;font-fami=
+ly:SimSun;
+      mso-bidi-font-family:SimSun;color:#333333'>&#20154;&#27668;&#26368;&#=
+28909;</span></strong><span
+      lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></spa=
+n></p>
+      </td>
+     </tr>
+    </table>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><o:p></o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333;display:none;mso-hide:all'><o:p>&n=
+bsp;</o:p></span></p>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"100%"
+   style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0c=
+m'>
+   <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+    <td width=3D291 valign=3Dtop style=3D'width:218.25pt;background:#F7F8F9;
+    padding:0cm 0cm 0cm 0cm'>
+    <div align=3Dcenter>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D=
+0 width=3D"95%"
+     style=3D'width:95.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0=
+cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td style=3D'padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal style=3D'line-height:15.0pt'><span style=3D'font=
+-size:
+      9.0pt;color:#333333'>&middot;<span lang=3DEN-US><a
+      href=3D"http://dev.21tx.com/2004/04/28/10588.html" target=3D"_blank">=
+&#21560;&#24341;WEB&#31243;&#24207;&#21592;&#30446;&#20809;&#30340;Mason</a=
+><br>
+      &middot;<a href=3D"http://dev.21tx.com/2004/02/11/10457.html"
+      target=3D"_blank">perl&#19982;mp3</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2003/09/28/10165.html"
+      target=3D"_blank">Bioperl&#30340;&#31616;&#20171;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2003/09/26/10176.html"
+      target=3D"_blank">&#20256;&#22855;&#31243;&#24207;&#21592;Larry Wall&=
+#65306;Perl&#30340;&#20048;&#36259;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2003/04/20/10095.html"
+      target=3D"_blank">&#20174;&#19968;&#20010;&#23433;&#35013;&#25991;&#2=
+0214;&#30475;CGI&#30340;&#23433;&#20840;&#24615;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/12/22/10074.html"
+      target=3D"_blank">&#20013;&#33521;&#25991;&#28151;&#21512;&#23383;&#3=
+1526;&#25130;&#21462;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/11/19/10086.html"
+      target=3D"_blank">Cultured Perl: &#21560;&#24341; C &#21644; Java &#3=
+1243;&#24207;&#21592;&#30446;&#20809;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/02/13/10060.html"
+      target=3D"_blank">mod_perl &#32534;&#31243;&#20171;&#32461;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/01/04/10123.html"
+      target=3D"_blank">Win32::ODBC Object Document</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/12/31/10108.html"
+      target=3D"_blank">Perl&#30340;&#25991;&#20214;&#25805;&#20316;(2)(&#3=
+6866;&#21512;&#21021;&#23398;&#32773;)</a><o:p></o:p></span></span></p>
+      </td>
+     </tr>
+    </table>
+    </div>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span></p>
+    </td>
+    <td width=3D291 valign=3Dtop style=3D'width:218.25pt;border:none;border=
+-left:
+    solid white 1.0pt;mso-border-left-alt:solid white .75pt;background:#F7F=
+8F9;
+    padding:0cm 0cm 0cm 0cm'>
+    <div align=3Dcenter>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D=
+0 width=3D"95%"
+     style=3D'width:95.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0=
+cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td style=3D'padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal style=3D'line-height:15.0pt'><span style=3D'font=
+-size:
+      9.0pt;color:#333333'>&middot;<span lang=3DEN-US><a
+      href=3D"http://dev.21tx.com/2001/12/29/10252.html" target=3D"_blank">=
+perl&#24120;&#29992;&#20989;&#25968;&#65288;&#36866;&#21512;&#21021;&#23398=
+;&#32773;&#65289;&#65281;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/12/30/10153.html"
+      target=3D"_blank">Perl&#30340;&#25991;&#20214;&#25805;&#20316;&#65288=
+;1&#65289;&#65288;&#36866;&#21512;&#21021;&#23398;&#32773;&#65289;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/12/31/10108.html"
+      target=3D"_blank">Perl&#30340;&#25991;&#20214;&#25805;&#20316;(2)(&#3=
+6866;&#21512;&#21021;&#23398;&#32773;)</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2004/02/11/10457.html"
+      target=3D"_blank">perl&#19982;mp3</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2003/09/26/10176.html"
+      target=3D"_blank">&#20256;&#22855;&#31243;&#24207;&#21592;Larry Wall&=
+#65306;Perl&#30340;&#20048;&#36259;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/11/19/10086.html"
+      target=3D"_blank">Cultured Perl: &#21560;&#24341; C &#21644; Java &#3=
+1243;&#24207;&#21592;&#30446;&#20809;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2002/02/13/10060.html"
+      target=3D"_blank">mod_perl &#32534;&#31243;&#20171;&#32461;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2003/09/28/10165.html"
+      target=3D"_blank">Bioperl&#30340;&#31616;&#20171;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/08/17/10136.html"
+      target=3D"_blank">PERL5 &#8212;&#8212; &#38754;&#21521;&#20108;&#2131=
+3;&#19968;&#19990;&#32426;&#30340;&#35821;&#35328;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2001/07/27/10165.html"
+      target=3D"_blank">&#24590;&#26679;&#20174;perl&#20013;&#35843;&#29992=
+;c&#24211;&#37324;&#30340;&#20989;&#25968;</a><o:p></o:p></span></span></p>
+      </td>
+     </tr>
+    </table>
+    </div>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333;display:none;mso-hide:all'></span>=
+<o:p>&nbsp;</o:p></span></p>
+  <span id=3D"txsite_site_commend_top"></span><span id=3D"txsite_site_comme=
+nd">
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"98%"
+   style=3D'width:98.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm=
+'>
+   <tr style=3D'mso-yfti-irow:0'>
+    <td width=3D16 style=3D'width:12.0pt;padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><img
+    border=3D0 width=3D16 height=3D20 id=3D"_x0000_i1042"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\list_title2_top_left.gif"><o:p></o:p></span=
+></p>
+    </td>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'
+    background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/list_t=
+itle2_top_bg.gif">
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'>&nbsp;<o:p></o:p></span></p>
+    </td>
+    <td width=3D16 style=3D'width:12.0pt;padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span lan=
+g=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><img border=3D0 width=3D16 heig=
+ht=3D20
+    id=3D"_x0000_i1043"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\list_title2_top_right.gif"><o:p></o:p></spa=
+n></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;height:37.5pt'>
+    <td width=3D16 style=3D'width:12.0pt;padding:0cm 0cm 0cm 0cm;height:37.=
+5pt'
+    background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/list_t=
+itle2_center_left.gif">
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><img
+    border=3D0 width=3D16 height=3D20 id=3D"_x0000_i1044"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\list_title2_center_left.gif"><o:p></o:p></s=
+pan></p>
+    </td>
+    <td style=3D'background:white;padding:0cm 0cm 0cm 0cm;height:37.5pt'>
+    <div align=3Dcenter>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0
+     width=3D"100%" style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-a=
+lt:0cm 0cm 0cm 0cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td width=3D270 style=3D'width:202.5pt;padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal style=3D'line-height:15.0pt'><span style=3D'font=
+-size:
+      9.0pt;color:#333333'>&middot;<span lang=3DEN-US><a
+      href=3D"http://diy.21tx.com/2004/05/12/10629.html" target=3D"_blank">=
+[&#30828;&#20214;]&#22914;&#20309;&#37322;&#25918;YAMAHA-744B&#22768;&#2134=
+5;&#30340;&#29615;&#32469;&#22768;&#36947;</a><br>
+      &middot;<a href=3D"http://www.21tx.com/mp3/2006/03/21/10960.html"
+      target=3D"_blank">[&#25968;&#30721;]&#24039;&#29992;USB Host &#30636;=
+&#38388;&#25552;&#21319;&#34013;&#39764;V10&#23481;&#37327;</a><br>
+      &middot;<a href=3D"http://auto.21tx.com/2006/08/10/12434.html"
+      target=3D"_blank">[&#27773;&#36710;]&#27426;&#21916;&#20900;&#23478; =
+&#23545;&#27604;&#24191;&#20016;&#20975;&#32654;&#29790;VS&#24191;&#26412;&=
+#38597;&#38401;</a><br>
+      &middot;<a href=3D"http://dev.21tx.com/2004/08/29/10396.html"
+      target=3D"_blank">[&#24320;&#21457;]&#25216;&#26415;&#20154;&#21592;&=
+#30340;&#24066;&#22330;&#24847;&#35782;&#19982;&#24066;&#22330;&#20154;&#21=
+592;&#30340;&#25216;&#26415;&#21151;</a><br>
+      &middot;<a href=3D"http://news.21tx.com/2005/06/10/14576.html"
+      target=3D"_blank">[&#36164;&#35759;]&#21704;&#20315;&#25945;&#25480;&=
+#31216;Linux&#19982;&#24494;&#36719;&#20043;&#20105;&#38590;&#35265;&#36755=
+;&#36194;</a><br>
+      &middot;<a href=3D"http://games.21tx.com/2004/09/21/11583.html"
+      target=3D"_blank">[&#28216;&#25103;]&#24040;&#26143;&#38504;&#33853;&=
+#27874;&#20848;&#33879;&#21517;&#25112;&#38431;Zero&#35299;&#25955;</a><o:p=
+></o:p></span></span></p>
+      </td>
+      <td width=3D270 style=3D'width:202.5pt;padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal style=3D'line-height:15.0pt'><span style=3D'font=
+-size:
+      9.0pt;color:#333333'>&middot;<span lang=3DEN-US><a
+      href=3D"http://www.21tx.com/notebook/2005/08/17/11628.html" target=3D=
+"_blank">[&#26412;&#26412;]&#36208;&#20986;&#39640;&#20998;&#23631;&#30340;=
+&#35823;&#21306;
+      &#39640;&#20998;&#23631;&#31508;&#35760;&#26412;&#36873;&#36141;&#214=
+50;</a><br>
+      &middot;<a
+      href=3D"http://www.21tx.com/oa/projector/product/1680759/index.html"
+      target=3D"_blank">[&#21150;&#20844;]&#25237;&#24433;&#20202;&#21697;&=
+#29260;&#22823;&#20840;
+      - &#32034;&#23612;</a><br>
+      &middot;<a href=3D"http://mobile.21tx.com/2006/09/01/12192.html"
+      target=3D"_blank">[&#25163;&#26426;]&#23454;&#29992;&#23601;&#22909; =
+&#32034;&#29233;&#20302;&#31471;&#30452;&#26495;&#26426;J200c&#21482;&#3520=
+1;480</a><br>
+      &middot;<a href=3D"http://exam.21tx.com/2006/07/03/10250.html"
+      target=3D"_blank">[&#32771;&#35797;]&#39640;&#32771;&#32467;&#26463;&=
+#30041;&#23398;&#24708;&#28982;&#21319;&#28201;&#65306;&#22269;&#22806;&#38=
+208;&#37329;&#20026;&#39034;&#21033;</a><br>
+      &middot;<a href=3D"http://school.21tx.com/2005/11/22/11994.html"
+      target=3D"_blank">[&#23398;&#38498;]&#26032;&#21457;&#29616;&#65306;&=
+#20462;&#25913;Win
+      XP&#24320;&#26426;&#30011;&#38754;&#26368;&#31616;&#21333;&#21150;&#2=
+7861;</a><br>
+      &middot;<a href=3D"http://flash.21tx.com/flashmtv/10307.html"
+      target=3D"_blank">[&#23089;&#20048;]&#19968;&#24819;&#21040;&#20320;&=
+#21834;</a><o:p></o:p></span></span></p>
+      </td>
+     </tr>
+    </table>
+    </div>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><o:p></o:p></span></p>
+    </td>
+    <td width=3D16 style=3D'width:12.0pt;padding:0cm 0cm 0cm 0cm;height:37.=
+5pt'
+    background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/list_t=
+itle2_center_right.gif">
+    <p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span lan=
+g=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><img border=3D0 width=3D16 heig=
+ht=3D7
+    id=3D"_x0000_i1045"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\list_title2_center_right.gif"><o:p></o:p></=
+span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:2;mso-yfti-lastrow:yes'>
+    <td width=3D16 style=3D'width:12.0pt;padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><img
+    border=3D0 width=3D16 height=3D20 id=3D"_x0000_i1046"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\list_title2_bottom_left.gif"><o:p></o:p></s=
+pan></p>
+    </td>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'
+    background=3D"Perl%20&#24120;&#29992;&#20989;&#25968;_Perl.files/list_t=
+itle2_bottom_bg.gif">
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'>&nbsp;<o:p></o:p></span></p>
+    </td>
+    <td width=3D16 style=3D'width:12.0pt;padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span lan=
+g=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><img border=3D0 width=3D16 heig=
+ht=3D20
+    id=3D"_x0000_i1047"
+    src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl%20&#24120;&#29=
+992;&#20989;&#25968;_Perl.files\list_title2_bottom_right.gif"><o:p></o:p></=
+span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <span lang=3DEN-US style=3D'font-size:9.0pt;font-family:SimSun;mso-bidi-f=
+ont-family:
+  SimSun;color:#333333;mso-ansi-language:EN-US;mso-fareast-language:ZH-CN;
+  mso-bidi-language:AR-SA'></span></span>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'></span><o:p></o:p></span></p>
+  </td>
+  <span id=3D"txsite_site_commend_bottom">
+  <td width=3D172 valign=3Dtop style=3D'width:129.0pt;border-top:none;borde=
+r-left:
+  solid #CCCCCC 1.0pt;border-bottom:none;border-right:solid #CCCCCC 1.0pt;
+  mso-border-left-alt:solid #CCCCCC .75pt;mso-border-right-alt:solid #CCCCC=
+C .75pt;
+  background:#F7F9FD;padding:0cm 0cm 0cm 0cm'><span id=3D"txsite_left_nav">=
+</span>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"100%"
+   style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0c=
+m'>
+   <tr style=3D'mso-yfti-irow:0;height:3.75pt'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm;height:3.75pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:4.0pt;mso-bi=
+di-font-size:
+    9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'><span id=3D"txsite_left_toppicad"=
+></span>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333'><script  type=3D"text/javascrip=
+t">
+<!--
+google_ad_client =3D "pub-8537598168120506";
+google_alternate_ad_url =3D "http://www.21tx.com/images/ad/default160x600.h=
+tml";
+google_ad_width =3D 160;
+google_ad_height =3D 600;
+google_ad_format =3D "160x600_as";
+google_ad_type =3D "image";
+//2007-07-06: ??????
+google_ad_channel =3D "1331642576";
+//-->
+    </script><script  src=3D"Perl ????_Perl.files/show_ads.js" type=3D"text=
+/javascript">
+    </script><o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:2;mso-yfti-lastrow:yes'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333;display:none;mso-hide:all'><o:p>&n=
+bsp;</o:p></span></p>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"100%"
+   style=3D'width:100.0%;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0c=
+m'>
+   <tr style=3D'mso-yfti-irow:0'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;color:#333333;display:none;mso-hide:all'><scri=
+pt  type=3D"text/javascript">
+=20
+cpro_client=3D'txadcpr';
+cpro_cbd=3D'#trans';=20
+cpro_cbg=3D'#trans';=20
+cpro_ctitle=3D'#0000ff';=20
+cpro_cdesc=3D'#444444';=20
+cpro_curl=3D'#008000';=20
+cpro_cflush=3D'#e10900';=20
+cpro_at=3D'text_image';=20
+cpro_161=3D4;=20
+cpro_flush=3D2;=20
+cpro_uap=3D1;=20
+cpro_w=3D160;=20
+cpro_h=3D600;=20
+cpro_template=3D'text_newest_160_600';=20
+cpro_channel=3D913;
+    </script><script language=3D"JavaScript"  src=3D"Perl ????_Perl.files/c=
+p.js" type=3D"text/javascript">
+    </script></span><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3333=
+33'><o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;height:4.5pt'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm;height:4.5pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:5.0pt;mso-bi=
+di-font-size:
+    9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:2'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'><span id=3D"txsite_left_textad"><=
+/span>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:=
+#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:3;mso-yfti-lastrow:yes;height:6.0pt'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm;height:6.0pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:6.0pt;mso-bi=
+di-font-size:
+    9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <span lang=3DEN-US style=3D'font-size:9.0pt;font-family:SimSun;mso-bidi-f=
+ont-family:
+  SimSun;color:#333333;mso-ansi-language:EN-US;mso-fareast-language:ZH-CN;
+  mso-bidi-language:AR-SA'></span></span>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span></p>
+  </td>
+  <span id=3D"txsite_left_hot_article">
+  <td width=3D10 style=3D'width:7.2pt;background:#FFA200;padding:0cm 0cm 0c=
+m 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k;
+display:none;mso-hide:all'><o:p>&nbsp;</o:p></span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D760
+ style=3D'width:570.0pt;mso-cellspacing:0cm;background:#FFA200;mso-padding-=
+alt:
+ 0cm 0cm 0cm 0cm'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes;height:6.0pt'>
+  <td style=3D'padding:0cm 0cm 0cm 0cm;height:6.0pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:6.0pt;mso-bidi=
+-font-size:
+  9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k;
+display:none;mso-hide:all'><o:p>&nbsp;</o:p></span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D"100%"
+ style=3D'width:100.0%;mso-cellspacing:0cm;background:#303880;mso-padding-a=
+lt:
+ 0cm 0cm 0cm 0cm'>
+ <tr style=3D'mso-yfti-irow:0;height:30.0pt'>
+  <td valign=3Dbottom style=3D'padding:0cm 0cm 0cm 0cm;height:30.0pt'>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span
+  class=3Dbtfont1><span lang=3DEN-US style=3D'font-size:9.0pt'><a
+  href=3D"http://www.21tx.com/about/aboutus.html" target=3D"_blank"><span
+  style=3D'color:white'>&#20851;&#20110;&#25105;&#20204;</span></a> | <a
+  href=3D"http://txsite.21tx.com/script/contact.aspx" target=3D"_blank"><sp=
+an
+  style=3D'color:white'>&#32852;&#31995;&#25105;&#20204;</span></a> | <a
+  href=3D"http://www.21tx.com/ad/" target=3D"_blank"><span style=3D'color:w=
+hite'>&#24191;&#21578;&#26381;&#21153;</span></a>
+  | <a href=3D"http://www.21tx.com/about/job.html" target=3D"_blank"><span
+  style=3D'color:white'>&#24037;&#20316;&#26426;&#20250;</span></a> | <a
+  href=3D"http://www.21tx.com/about/copyright.html" target=3D"_blank"><span
+  style=3D'color:white'>&#29256;&#26435;&#22768;&#26126;</span></a> | <a
+  href=3D"http://txsite.21tx.com/script/contact.aspx?subject=3D&#25237;&#31=
+295;:"
+  target=3D"_blank"><span style=3D'color:white'>&#27426;&#36814;&#25237;&#3=
+1295;</span></a>
+  | <a href=3D"http://www.21tx.com/about/sitemap.html" target=3D"_blank"
+  id=3D"txsite_count_text"><span style=3D'color:white'>&#32593;&#31449;&#22=
+320;&#22270;</span></a>
+  </span></span><span lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'>=
+<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:1;height:18.75pt'>
+  <td style=3D'padding:0cm 0cm 0cm 0cm;height:18.75pt'>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span
+  class=3Dbtfont1><span lang=3DEN-US style=3D'font-size:7.5pt;font-family:V=
+erdana'>Copyright
+  &copy; 2000-2008 , </span></span><span class=3Dbtfont1><b><span lang=3DEN=
+-US
+  style=3D'font-size:7.5pt;font-family:Verdana;color:#CC0000'>www.21tx.com<=
+/span></b></span><span
+  class=3Dbtfont1><span lang=3DEN-US style=3D'font-size:7.5pt;font-family:V=
+erdana'> ,
+  All Rights Reserved .</span></span><span lang=3DEN-US style=3D'font-size:=
+9.0pt;
+  color:#333333'> <o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:2;height:18.75pt'>
+  <td valign=3Dtop style=3D'padding:0cm 0cm 0cm 0cm;height:18.75pt'>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span
+  class=3Dbtfont1><span lang=3DEN-US style=3D'font-size:9.0pt'>&copy; &#262=
+16;&#26032;&#31185;&#25216;
+  &#29256;&#26435;&#25152;&#26377; Created by TXSite.net</span></span><span
+  lang=3DEN-US style=3D'font-size:9.0pt;color:#333333'><o:p></o:p></span></=
+p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:3;mso-yfti-lastrow:yes;height:37.5pt'>
+  <td valign=3Dtop style=3D'padding:0cm 0cm 0cm 0cm;height:37.5pt'>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<span id=3D"txsite_ad_hzh_a">
+
+<div style=3D'margin-left:2.25pt;margin-top:2.25pt;margin-right:2.25pt;
+margin-bottom:2.25pt;float:left' id=3D"txsite_ad_hzh_a1">
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k;
+display:none;mso-hide:all'><o:p>&nbsp;</o:p></span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D310
+ style=3D'width:232.5pt;mso-cellspacing:0cm;mso-padding-alt:0cm 0cm 0cm 0cm=
+'>
+ <tr style=3D'mso-yfti-irow:0'>
+  <td width=3D300 style=3D'width:225.0pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;color:#333333;display:none;mso-hide:all'><script=
+  type=3D"text/javascript">
+=20
+cpro_client=3D'txadcpr';
+cpro_cbd=3D'#trans';=20
+cpro_cbg=3D'#trans';=20
+cpro_ctitle=3D'#0000ff';=20
+cpro_cdesc=3D'#444444';=20
+cpro_curl=3D'#008000';=20
+cpro_cflush=3D'#e10900';=20
+cpro_at=3D'text_image';=20
+cpro_161=3D9;=20
+cpro_flush=3D2;=20
+cpro_81=3D0;=20
+cpro_uap=3D1;=20
+cpro_w=3D300;=20
+cpro_h=3D250;=20
+cpro_template=3D'text_pages_300_250';=20
+cpro_channel=3D915;
+  </script><script language=3D"JavaScript"  src=3D"Perl ????_Perl.files/cp.=
+js" type=3D"text/javascript">
+  </script></span><span lang=3DEN-US style=3D'font-size:9.0pt;color:#333333=
+'><o:p></o:p></span></p>
+  </td>
+  <td width=3D10 style=3D'width:7.5pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:#3=
+33333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:1;mso-yfti-lastrow:yes;height:7.5pt'>
+  <td colspan=3D2 style=3D'padding:0cm 0cm 0cm 0cm;height:7.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:8.0pt;mso-bidi=
+-font-size:
+  9.0pt;color:#333333'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;color:blac=
+k'></span><script language=3D"JavaScript">
+if (typeof(txsite_ad_hzh) !=3D 'undefined' && typeof(txsite_ad_hzh_a) !=3D =
+'undefined') {
+  if (typeof(document.all("txsite_ad_hzh").length) !=3D 'undefined') {
+    document.all("txsite_ad_hzh")[0].innerHTML =3D txsite_ad_hzh_a.innerHTM=
+L;
+  } else {
+    if (typeof(txsite_ad_hzh_a1) !=3D 'undefined') {
+      txsite_ad_hzh.innerHTML =3D txsite_ad_hzh_a1.innerHTML;
+    } else {
+      txsite_ad_hzh.innerHTML =3D txsite_ad_hzh_a.innerHTML;
+    }
+  }
+}
+else if (typeof(txsite_ad_cnt_start) !=3D 'undefined') {
+  txsite_ad_cnt_start.innerHTML =3D txsite_ad_hzh_a.innerHTML;
+}
+</script><script language=3D"JavaScript">
+if (typeof(txsite_left_top10) !=3D 'undefined') {
+txsite_left_top10.style.display =3D "none";
+}
+
+if (typeof(txsite_site_commend_bottom) !=3D 'undefined') {
+  if (txsite_site_commend_bottom.innerHTML =3D=3D '') {
+    txsite_site_commend_bottom.innerHTML =3D txsite_ad_sitecommend_bottom.i=
+nnerHTML;
+  }
+} else {  //??????,???
+if (typeof(txsite_artbottom_top10) !=3D 'undefined' && typeof(txsite_artbot=
+tom_top10_1) !=3D 'undefined') {
+  //txsite_artbottom_top10.style.display =3D "none";
+  txsite_artbottom_top10_1.innerHTML =3D txsite_artbottom_top10.innerHTML;
+  txsite_artbottom_top10.innerHTML =3D txsite_ad_sitecommend_bottom.innerHT=
+ML;
+}
+}
+</script><span id=3D"txsite_ad_sitecommend_bottom"></span><script  type=3D"=
+text/javascript">
+<!--
+google_ad_client =3D "pub-8537598168120506";
+google_ad_output =3D "textlink";
+google_ad_format =3D "ref_text";
+google_cpa_choice =3D "CAAQscq1_wEaCBNqZAOURbkgKOm84YcBMAA";
+google_ad_channel =3D "";
+//-->
+</script><span id=3D"txsite_ad_search_right_a"><script  src=3D"Perl ????_Pe=
+rl.files/show_ads.js" type=3D"text/javascript">
+</script><script language=3D"JavaScript">
+if (typeof(ad_search_right) !=3D 'undefined') {
+  if (ad_search_right.innerHTML =3D=3D '') {
+    ad_search_right.innerHTML =3D txsite_ad_search_right_a.innerHTML;
+  }
+}
+</script></span><script  type=3D"text/javascript">
+<!--
+tx_page_key =3D txsite_pagekey;
+tx_page_location =3D escape(document.location);
+tx_page_referrer =3D escape(document.referrer);
+//-->
+</script><script  src=3D"Perl ????_Perl.files/Count.js" type=3D"text/javasc=
+ript">
+</script><script  src=3D"Perl ????_Perl.files/clickeye.js">
+</script></span><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p>
+
+<!-- TXSiteTag:sb/C4PUCFc0HlJbuT1KtvlEgTbYF448lfyf9Wz5Yarf8OoNZSixsLZsaiAB+=
+vuUf3F0Yk/G9iaTa0XtqB1dg4qCwSl9NHBEa133/kxVm1+ZsvRR7BSoew/JQKOJjpX2KFV71mA5=
+GKe8cnI+IeRcg3cuGy7yafY4p --></div>
+
+</body>
+
+</html>
+
+------=_NextPart_01C9296C.FC31AAD0
+Content-Location: file:///C:/2619A2AC/file4252_files/image001.gif
+Content-Transfer-Encoding: base64
+Content-Type: image/gif
+
+R0lGODlhGwATANUAAPn5+VxbXOHh4e3q7VlYWdTV1NTU1P+NMv97FODh4FdWV8rHysXGxWJhYlta
+W/+WHV5dXubj5lNSU/+PEVdaV+Dg4Ozs7MXFxWBfYFZVVsDBwN/g383NzVJRUsbHxsTExObn5lJV
+Ul9eX8bExlteW+Xi5dTR1PPz89/f3+De4NHO0cC9wP/8/2JlYlhbWFRTVOXl5cfHx2FgYVpZWv/N
+of+DI/+va/+xXv+XIAAAAP////n2+QAAAAAAAAAAAAAAACwAAAAAGwATAAAGtsDDoUEKQCAimXLJ
+bGIowkdDR61ar1hWhPJoYb9gKiDicgCou7R6zWYPDAQzuk1vvwmBs67OV79neXN9dX+Bezs5iYlp
+ijlqizsDBYB6iI5rkJmXkpRoi4qWjJeQnIahoZp2Bp2HjaOgommllYOEk6a1dLOCuWsgtxY7J712
+HAQhKiUwKBsVFQLQ0QnT0dEpJhoEEx0LCx8XDAwx4+Qe5OcxIyvaCAgSEi8ZCgoz9fYEBPb6+O1B
+ADt=
+
+------=_NextPart_01C9296C.FC31AAD0
+Content-Location: file:///C:/2619A2AC/file4252_files/filelist.xml
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/xml; charset="utf-8"
+
+<xml xmlns:o=3D"urn:schemas-microsoft-com:office:office">
+ <o:MainFile HRef=3D"../file4252.htm"/>
+ <o:File HRef=3D"image001.gif"/>
+ <o:File HRef=3D"filelist.xml"/>
+</xml>
+------=_NextPart_01C9296C.FC31AAD0--

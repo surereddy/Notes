@@ -1,0 +1,1836 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 3 -- References</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 3</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>References</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#IntroductiontoReferences" >Introduction to References</A>
+<LI><A HREF="#UsingReferences" >Using References</A>
+<LI><A HREF="#TheBackslashOperator" >The Backslash Operator</A>
+<LI><A HREF="#ReferencesandArrays" >References and Arrays</A>
+<LI><A HREF="#UsingMultidimensionalArrays" >Using Multidimensional Arrays</A>
+<LI><A HREF="#ReferencestoSubroutines" >References to Subroutines</A>
+<UL>
+<LI><A HREF="#UsingSubroutineTemplates" >Using Subroutine Templates</A>
+</UL>
+<LI><A HREF="#ImplementingStateMachines" >Implementing State Machines</A>
+<LI><A HREF="#PassingMoreThanOneArrayintoaSubro" >Passing More Than One Array into a Subroutine</A>
+<UL>
+<LI><A HREF="#PassbyValueorbyReference" >Pass by Value or by Reference?</A>
+</UL>
+<LI><A HREF="#ReferencestoFileHandles" >References to File Handles</A>
+<UL>
+<LI><A HREF="#WhatDoesthevariableOperatorDo" >What Does the <I>*variable</I> Operator Do?</A>
+</UL>
+<LI><A HREF="#UsingSymbolicReferences" >Using Symbolic References</A>
+<UL>
+<LI><A HREF="#DeclaringwithCurlyBraces" >Declaring with Curly Braces</A>
+<LI><A HREF="#MultidimensionalAssociativeArrays" >Multidimensional Associative Arrays</A>
+</UL>
+<LI><A HREF="#StrictReferences" >Strict References</A>
+<LI><A HREF="#ForMoreInformation" >For More Information</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter describes the use of Perl references and the concept
+of pointers. It also shows you how to use references to create
+fairly complex data structures and pass pointers, as well as how
+to use pointers to subroutines and to pass parameters.
+<H2><A NAME="IntroductiontoReferences"><FONT SIZE=5 COLOR=#FF0000>Introduction
+to References</FONT></A></H2>
+<P>
+A <I>reference</I> is simply a pointer to <I>something</I>; it
+is very similar to the concept of a <I>pointer</I> in C or PASCAL.
+That <I>something</I> could be a Perl variable, array, hash, or
+even a subroutine. A reference in your program is simply an address
+to a value. How you use the value of that reference is really
+up to you as the programmer and what the language lets you get
+away with. In Perl, you can use the terms pointer and reference
+interchangeably without any loss of meaning.
+<P>
+There are two types of references in Perl 5 with which you can
+work: <I>symbolic </I>and <I>hard</I>.
+<P>
+A symbolic reference simply contains the name of a variable. Symbolic
+references are useful for creating variable names and addressing
+them at runtime. Basically, a symbolic reference is like the name
+of a file or a soft link on a UNIX system. Hard references are
+more like hard links in the file system; that is, a hard link
+is merely another path to the same file. In Perl, a hard reference
+is another name for a data item.
+<P>
+Hard references in Perl also keep track of the number of references
+to items in an application. When the reference count becomes zero,
+Perl automatically frees the item being referenced. If that item
+happens to be a Perl object, the object is &quot;destructed,&quot;
+that is, freed to the memory pool. Perl is object-oriented in
+itself because everything in a Perl application is an object,
+including the main package. When the main package terminates,
+all other objects within the main object are also terminated.
+Packages and modules in Perl further the ease of use of objects
+in Perl. Perl modules are covered in <A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch4.htm" >Chapter 4</A>,
+&quot;Introduction to Perl Modules.&quot;
+<P>
+When you use a symbolic reference that does not exist, Perl creates
+the variable for you and uses it. For variables that already exist,
+the value of the variable is substituted instead of the <TT><FONT FACE="Courier">$variable
+</FONT></TT>token. This substitution lets you construct variable
+names from variable names.
+<P>
+Consider the following example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$lang = &quot;java&quot;;<BR>
+$java = &quot;coffee&quot;;<BR>
+<BR>
+print &quot;${lang}\n&quot;;<BR>
+print &quot;hot${lang}\n&quot;;<BR>
+print &quot;$$lang \n&quot;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The third <TT><FONT FACE="Courier">print</FONT></TT> line is important.
+<TT><FONT FACE="Courier">$$lang</FONT></TT> is first reduced to
+<TT><FONT FACE="Courier">$java</FONT></TT>, then the Perl interpreter
+will recognize that <TT><FONT FACE="Courier">$java</FONT></TT>
+can also be reparsed, and the value of <TT><FONT FACE="Courier">$java</FONT></TT>,
+<TT><FONT FACE="Courier">&quot;coffee&quot;</FONT></TT>, is used.
+<P>
+Symbolic references are created via the <TT><FONT FACE="Courier">${}</FONT></TT>
+construct, so <TT><FONT FACE="Courier">${lang}</FONT></TT> translates
+to <TT><FONT FACE="Courier">java</FONT></TT>, and <TT><FONT FACE="Courier">hot${java}</FONT></TT>
+translates to <TT><FONT FACE="Courier">hotjava</FONT></TT>. If
+you want to address a variable name <TT><FONT FACE="Courier">hotjava</FONT></TT>,
+you could use the statement: <TT><FONT FACE="Courier">${hot${lang}}</FONT></TT>.
+This would be interpreted as, &quot;take the value in <TT><FONT FACE="Courier">$lang</FONT></TT>,
+and append it to the word hot. Now take the constructed string
+(<TT><FONT FACE="Courier">hotjava</FONT></TT>) and use it as a
+name because there is a <TT><FONT FACE="Courier">${}</FONT></TT>
+around it.&quot; 
+<P>
+In other words, the value of the scalar produced by <TT><FONT FACE="Courier">$$lang</FONT></TT>
+is taken to be the name of a new variable, and the variable at
+<TT><FONT FACE="Courier">$java</FONT></TT> is used. Here's the
+output from this example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">java<BR>
+hotjava<BR>
+coffee</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Thus, the difference between a hard reference (<TT><FONT FACE="Courier">$lang</FONT></TT>)
+and a symbolic reference (<TT><FONT FACE="Courier">$$lang</FONT></TT>)
+is how the variable name is derived. In a hard reference, you
+are referring to a variable's value directly. With a symbolic
+reference, you are using another level of indirection by constructing
+or deriving a symbol name from an existing variable.
+<P>
+References are easy to use in Perl as long as they are used as
+scalars. To use hard references as anything but scalars, you have
+to explicitly dereference the variable and tell it how to be used.
+<H2><A NAME="UsingReferences"><FONT SIZE=5 COLOR=#FF0000>Using
+References</FONT></A></H2>
+<P>
+A <I>scalar value</I> in this chapter refers to a variable, such
+as <TT><FONT FACE="Courier">$pointer</FONT></TT>, that contains
+one data item. This item is a scalar and any scalar may hold a
+hard reference. Arrays and hashes contain scalars; therefore,
+they can hold many references. Thus, with judicious use of arrays
+and hashes, you can easily build complex data structures of different
+combinations of arrays of arrays, arrays of hashes, hashes of
+functions, and so on.
+<P>
+There are several ways to construct references, and you can have
+references to just about anything-arrays, scalar variables, subroutines,
+file handles, and, yes (to the delight of C programmers), even
+to other references.
+<P>
+To use the value of <TT><FONT FACE="Courier">$pointer</FONT></TT>
+as the pointer to an array, you reference the items in the array
+as <TT><FONT FACE="Courier">@$pointer</FONT></TT>. The notation
+<TT><FONT FACE="Courier">@$pointer</FONT></TT> roughly translates
+to &quot;take the value in <TT><FONT FACE="Courier">$pointer</FONT></TT>,
+and then use this value as the address to an array.&quot; Similarly,
+you use <TT><FONT FACE="Courier">%$pointer</FONT></TT> for hashes.
+That is, &quot;take the value of <TT><FONT FACE="Courier">$pointer</FONT></TT>
+and interpret is as an address to a hash.&quot; 
+<H2><A NAME="TheBackslashOperator"><FONT SIZE=5 COLOR=#FF0000>The
+Backslash Operator</FONT></A></H2>
+<P>
+Using the backslash operator is analogous to using the ampersand
+(<TT><FONT FACE="Courier">&amp;</FONT></TT>) operator in C to
+pass the address of an operator. This method is usually used to
+create a second, new reference to the variable in question. Here's
+how to create a reference to a scalar variable:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$variable = 22;<BR>
+$pointer = \$variable;<BR>
+<BR>
+$ice = &quot;jello&quot;<BR>
+$iceptr = \$ice;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Now <TT><FONT FACE="Courier">$pointer</FONT></TT> points to the
+location containing the value of <TT><FONT FACE="Courier">$variable</FONT></TT>.
+The pointer <TT><FONT FACE="Courier">$iceptr</FONT></TT> points
+to <TT><FONT FACE="Courier">jello</FONT></TT>. Even if the original
+reference (<TT><FONT FACE="Courier">$variable</FONT></TT>) goes
+away, you can still access the value from the <TT><FONT FACE="Courier">$pointer</FONT></TT>
+reference. It's a hard reference at work here, so you have to
+get rid of both <TT><FONT FACE="Courier">$pointer</FONT></TT>
+and <TT><FONT FACE="Courier">$variable</FONT></TT> to free up
+the space in which the value of <TT><FONT FACE="Courier">jello</FONT></TT>
+is allocated. Similarly, <TT><FONT FACE="Courier">$variable</FONT></TT>
+contains the number <TT><FONT FACE="Courier">22</FONT></TT> and
+because <TT><FONT FACE="Courier">$pointer</FONT></TT> refers to
+<TT><FONT FACE="Courier">$variable</FONT></TT>, dereferencing
+the <TT><FONT FACE="Courier">$pointer</FONT></TT> with the statement
+<TT><FONT FACE="Courier">$$pointer</FONT></TT> returns a value
+of <TT><FONT FACE="Courier">22</FONT></TT>. In a subroutine, both
+<TT><FONT FACE="Courier">$variable</FONT></TT> and <TT><FONT FACE="Courier">$pointer</FONT></TT>
+have to be declared as &quot;local&quot; or &quot;my&quot; variables.
+If they are both not declared as such, at least one of these variables
+will persist as a global variable long after the subroutine in
+which they are declared returns. As long as either of these variables
+exists, the space for storing the numbers will also exist.
+<P>
+The variable <TT><FONT FACE="Courier">$pointer</FONT></TT> contains
+the address of the <TT><FONT FACE="Courier">$variable</FONT></TT>,
+not the value itself. To get the value, you have to dereference
+<TT><FONT FACE="Courier">$pointer</FONT></TT> with <I>two </I>dollar
+signs,<I> </I><TT><FONT FACE="Courier">$$</FONT></TT>. Listing
+3.1 illustrates how this works.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.1. References to scalars.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!/usr/bin/perl<BR>
+2 <BR>
+3 $value = 10;<BR>
+4 <BR>
+5 $pointer = \$value;<BR>
+6 <BR>
+7 printf &quot;\n Pointer Address $pointer of&nbsp;&nbsp;$value
+\n&quot;;<BR>
+8 <BR>
+9 printf &quot;\n What Pointer *($pointer) points to $$pointer\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+<TT><FONT FACE="Courier">$value</FONT></TT> in this script is
+set to <TT><FONT FACE="Courier">10</FONT></TT>. <TT><FONT FACE="Courier">$pointer</FONT></TT>
+is set to point to the address of <TT><FONT FACE="Courier">$value</FONT></TT>.
+The two <TT><FONT FACE="Courier">printf</FONT></TT> statements
+show how the value of the variable is being referenced. If you
+run this script, you'll see something very close to this output:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Pointer Address SCALAR(0x806c520) of
+ 10<BR>
+<BR>
+What Pointer *(SCALAR(0x806c520)) points to 10</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The address shown in the output from your script definitely will
+be different from the one shown here. However, you can see that
+<TT><FONT FACE="Courier">$pointer</FONT></TT> gave the address,
+and <TT><FONT FACE="Courier">$$pointer</FONT></TT> gave the value
+of the scalar pointed to by <TT><FONT FACE="Courier">$variable</FONT></TT>.
+<P>
+The word <TT><FONT FACE="Courier">SCALAR</FONT></TT> followed
+by a long hexadecimal number in the address value tells you that
+the address points to a scalar variable. The number following
+<TT><FONT FACE="Courier">SCALAR</FONT></TT> is the address where
+the information of the scalar variable is being kept.
+<H2><A NAME="ReferencesandArrays"><FONT SIZE=5 COLOR=#FF0000>References
+and Arrays</FONT></A></H2>
+<P>
+This is perhaps the most important thing you must remember about
+Perl: all Perl <TT><FONT FACE="Courier">@ARRAY</FONT></TT>s and
+<TT><FONT FACE="Courier">%HASH</FONT></TT>es are always one-dimensional.
+As such, the arrays and hashes hold only scalar values and do
+not directly contain other arrays or complex data structures.
+If it's a member of an array, it's either a data item or a reference
+to a data item.
+<P>
+You can also use the backslash operator on arrays and hashes,
+just as you would for scalar variables. For arrays, you use something
+like the Perl script in Listing 3.2. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.2. Using array references.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 #<BR>
+&nbsp;3 # Using Array references
+<BR>
+&nbsp;4 #<BR>
+&nbsp;5 $pointer = \@ARGV;
+<BR>
+&nbsp;6 printf &quot;\n Pointer Address of ARGV = $pointer\n&quot;;
+<BR>
+&nbsp;7 $i = scalar(@$pointer);
+<BR>
+&nbsp;8 printf &quot;\n Number of arguments : $i \n&quot;;<BR>
+&nbsp;9 $i = 0;<BR>
+10 foreach (@$pointer) { # Access the entire array.<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+&quot;$i : $$pointer[$i++]; \n&quot;;<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Let's examine the lines that pertain to references in this shell
+script, which prints out the contents of the input argument array
+<TT><FONT FACE="Courier">@ARGV</FONT></TT>. Line 5 is where the
+reference <TT><FONT FACE="Courier">$pointer</FONT></TT> is set
+to point to the array <TT><FONT FACE="Courier">@ARGV</FONT></TT>.
+Line 6 simply prints the address of <TT><FONT FACE="Courier">ARGV</FONT></TT>
+out for you. You probably will never have to use the address of
+<TT><FONT FACE="Courier">ARGV</FONT></TT>, but had you been using
+another array, this would be a quick way to get to the address
+of the first element of the array.
+<P>
+Now <TT><FONT FACE="Courier">$pointer</FONT></TT> will return
+the address of the first element of the array. This reference
+to an array should sound familiar to C programmers, where a reference
+to a one-dimensional array is really just a pointer to the first
+element of the array.
+<P>
+In line 7, the function <TT><FONT FACE="Courier">scalar()</FONT></TT>
+(not to be confused with the type of variable <TT><FONT FACE="Courier">scalar</FONT></TT>)
+is called to get the count of the elements in an array. The parameter
+passed in could be <TT><FONT FACE="Courier">@ARGV</FONT></TT>,
+but in the case of the reference in <TT><FONT FACE="Courier">$pointer</FONT></TT>,
+you have to specify the type of parameter expected by the<TT><FONT FACE="Courier">
+scalar()</FONT></TT> function. Are you confused yet? There is
+a <TT><FONT FACE="Courier">scalar()</FONT></TT> function; a <TT><FONT FACE="Courier">scalar</FONT></TT>
+variable holds one value; and a hard reference is a <TT><FONT FACE="Courier">scalar</FONT></TT>
+unless it's dereferenced to behave like a non-scalar.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Remember that a reference to something will always be used as <TT><FONT FACE="Courier">scalar</FONT></TT>. There is no implicit dereferencing in Perl. You specify how you want the <TT><FONT FACE="Courier">scalar</FONT></TT> value of a reference to be used. 
+Once you have a <TT><FONT FACE="Courier">scalar</FONT></TT> reference, you can dereference it to be used as a pointer to an array, hash, function, or whatever structure you want. 
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The type of <TT><FONT FACE="Courier">$pointer</FONT></TT> in this
+case is a pointer to the array whose number of elements you have
+to return. The call is made to the function with <TT><FONT FACE="Courier">@$pointer</FONT></TT>
+as the passed parameter. <TT><FONT FACE="Courier">$pointer</FONT></TT>
+really gives the address of the first entry in the array, and
+<TT><FONT FACE="Courier">@</FONT></TT> forces the passing of the
+address of the first element for use as an array reference.
+<P>
+The same reference to the array in line 10 is the same as in line
+7. In line 11 all the elements of the array are listed out using
+the <TT><FONT FACE="Courier">$$pointer[$i]</FONT></TT> item. How
+would the Perl compiler interpret the same statement to dereference
+<TT><FONT FACE="Courier">$pointer</FONT></TT> to get an item in
+an array? Well, <TT><FONT FACE="Courier">$pointer</FONT></TT>
+points to the first element in the array. Then you go to the <I>(</I><TT><I><FONT FACE="Courier">$i
+- 1</FONT></I></TT><I>)th</I> item in the array (via the use of
+<TT><FONT FACE="Courier">$pointer[$i++]</FONT></TT>) and also
+increment the value of <TT><FONT FACE="Courier">$i</FONT></TT>.
+Finally, the value at <TT><FONT FACE="Courier">$$pointer[$i]</FONT></TT>
+is returned as a scalar. Because the autoincrement operator is
+low on the priority list, <TT><FONT FACE="Courier">$i</FONT></TT>
+is incremented last of all.
+<P>
+The program is appropriately called <TT><FONT FACE="Courier">testmeout</FONT></TT>.
+Here is sample input and output for the code in Listing 3.2.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$<B> testmeout 1 2 3 4<BR>
+<BR>
+</B>&nbsp;Pointer Address
+of ARGV = ARRAY(0x806c378)<BR>
+<BR>
+&nbsp;Number of arguments
+: 4<BR>
+0 : 1;<BR>
+1 : 2;<BR>
+2 : 3;<BR>
+3 : 4;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The number following <TT><FONT FACE="Courier">ARRAY</FONT></TT>
+in the pointer address of <TT><FONT FACE="Courier">ARGV</FONT></TT>
+in this example is the address of <TT><FONT FACE="Courier">ARGV</FONT></TT>.
+Not that that address does you any good, but just realize that
+references to arrays and scalars are displayed with the type to
+which they happen to be pointing.
+<P>
+The backslash operator can be used with associative arrays too.
+The idea is the same: you are substituting the <TT><FONT FACE="Courier">$pointer</FONT></TT>
+for all references to the name of the associative array. You use
+<TT><FONT FACE="Courier">%$pointer</FONT></TT> instead of <TT><FONT FACE="Courier">@$pointer</FONT></TT>
+to refer to an array. By specifying the percent sign (<TT><FONT FACE="Courier">%</FONT></TT>)
+you are forcing Perl to use the value of <TT><FONT FACE="Courier">$pointer</FONT></TT>
+as a pointer to a hash. 
+<P>
+For pointers to functions, the address is printed with the word
+<TT><FONT FACE="Courier">CODE</FONT></TT>. For a hash, it is printed
+as <TT><FONT FACE="Courier">HASH</FONT></TT>. Listing 3.3 provides
+an example of using hashes.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.3. Using references to associative arrays.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 #<BR>
+&nbsp;4 # Using References to Associative Arrays<BR>
+&nbsp;5 #<BR>
+&nbsp;6 <BR>
+&nbsp;7 %month = (<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'01', 'Jan',<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'02', 'Feb',<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'03', 'Mar',<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'04', 'Apr',<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'05', 'May',<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'06', 'Jun',<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'07', 'Jul',<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'08', 'Aug',<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'09', 'Sep',<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'10', 'Oct',<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'11', 'Nov',<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'12', 'Dec',<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+);<BR>
+21 <BR>
+22 $pointer = \%month;<BR>
+23 <BR>
+24 printf &quot;\n Address of hash = $pointer\n &quot;;<BR>
+25 <BR>
+26 #<BR>
+27 # The following lines would be used to print out the<BR>
+28 # contents of the associative array if %month was used.<BR>
+29 #<BR>
+30 # foreach $i (sort keys %month) {<BR>
+31 # printf &quot;\n $i $$pointer{$i} &quot;;<BR>
+32 # }<BR>
+33 <BR>
+34 #<BR>
+35 # The reference to the associative array via $pointer<BR>
+36 #<BR>
+37 foreach $i (sort keys %$pointer) {<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+&quot;$i is $$pointer{$i} \n&quot;;<BR>
+39 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The associative array is referenced via the code in line 22 that
+contains <TT><FONT FACE="Courier">$pointer = \%month;</FONT></TT>.
+This will create a hard reference, <TT><FONT FACE="Courier">$pointer</FONT></TT>,
+to the hash called <TT><FONT FACE="Courier">%month</FONT></TT>.
+Now you can also refer to the <TT><FONT FACE="Courier">%month</FONT></TT>
+associative array by using the value in the <TT><FONT FACE="Courier">$pointer</FONT></TT>
+variable. Using the <TT><FONT FACE="Courier">%month</FONT></TT>
+variable, you would refer to an element in the hash using the
+syntax <TT><FONT FACE="Courier">$month{$index}</FONT></TT>. In
+order to use the <TT><FONT FACE="Courier">$pointer</FONT></TT>
+value, you would simply replace the <TT><FONT FACE="Courier">month</FONT></TT>
+with <TT><FONT FACE="Courier">$pointer</FONT></TT> in the name
+of the variable. This is very similar to the procedure used with
+pointers to ordinary arrays. The elements of the <TT><FONT FACE="Courier">%month</FONT></TT>
+associative array are referenced with the <TT><FONT FACE="Courier">$$pointer{$index}</FONT></TT>
+construct. Of course, because the array is really a hash, the
+<TT><FONT FACE="Courier">$index</FONT></TT> is the key into the
+hash and not a number. 
+<P>
+Here is the output from running this test script.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>mth<BR>
+<BR>
+</B>&nbsp;Address of hash
+= HASH(0x806c52c)<BR>
+<BR>
+&nbsp;01 is Jan<BR>
+&nbsp;02 is Feb<BR>
+&nbsp;03 is Mar<BR>
+&nbsp;04 is Apr<BR>
+&nbsp;05 is May<BR>
+&nbsp;06 is Jun<BR>
+&nbsp;07 is Jul<BR>
+&nbsp;08 is Aug<BR>
+&nbsp;09 is Sep<BR>
+&nbsp;10 is Oct<BR>
+&nbsp;11 is Nov<BR>
+&nbsp;12 is Dec</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Associative arrays do not have to be constructed using the comma
+operator. You can use the <TT><FONT FACE="Courier">=&gt;</FONT></TT>
+operator instead. In later Perl modules and sample code, you'll
+see the use of the <TT><FONT FACE="Courier">=&gt;</FONT></TT>
+operator, which is the same as the comma operator. Using the <TT><FONT FACE="Courier">=&gt;</FONT></TT>
+operator makes the code a bit easier to read aloud. Examine the
+output of Listing 3.3 with the print statements in the program
+to see how the output was generated.
+<P>
+Now let's look at how pointers to arrays and hashes can be dereferenced
+to get individual items. See the code in Listing 3.4 to see how
+you can use the<TT><FONT FACE="Courier"> =&gt;</FONT></TT> operator.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.4. Alternative use of the </B><TT><B><FONT FACE="Courier">=&gt;</FONT></B></TT><B>
+operator.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 #<BR>
+&nbsp;4 # Using Array references<BR>
+&nbsp;5 #<BR>
+&nbsp;6 <BR>
+&nbsp;7 %weekday = (<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'01' =&gt; 'Mon',<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'02' =&gt; 'Tue',<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'03' =&gt; 'Wed',<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'04' =&gt; 'Thu',<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'05' =&gt; 'Fri',<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'06' =&gt; 'Sat',<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'07' =&gt; 'Sun',<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+);<BR>
+16 <BR>
+17 $pointer = \%weekday;<BR>
+18 <BR>
+19 $i = '05';<BR>
+20 <BR>
+21 printf &quot;\n ================== start test =================
+\n&quot;;<BR>
+22 #<BR>
+23 # These next two lines should show an output<BR>
+24 #<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf '$$pointer{$i} is ';<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;$$pointer{$i} \n&quot;;<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf '${$pointer}{$i} is ';<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;${$pointer}{$i} \n&quot;;<BR>
+29 <BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf '$pointer-&gt;{$i} is ';<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;$pointer-&gt;{$i}\n&quot;;<BR>
+32 <BR>
+33 #<BR>
+34 # These next two lines should not show anything<BR>
+35 #<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf '${$pointer{$i}} is ';<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;${$pointer{$i}} \n&quot;;<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf '${$pointer-&gt;{$i}} is ';<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;${$pointer-&gt;{$i}}&quot;;<BR>
+40 <BR>
+41 printf &quot;\n ================== end of test =================
+\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here is the output from the Perl script shown in listing 3.4.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;================== start test =================
+<BR>
+$$pointer{$i} is Fri<BR>
+${$pointer}{$i} is Fri<BR>
+$pointer-&gt;{$i} is Fri<BR>
+${$pointer{$i}} is<BR>
+${$pointer-&gt;{$i}} is<BR>
+&nbsp;================== end of test =================</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In this output, you can see that the first two lines gave you
+the expected output. The first reference is used in the same way
+as regular arrays. The second line uses <TT><FONT FACE="Courier">${pointer}</FONT></TT>
+and indexes using <TT><FONT FACE="Courier">{$i}</FONT></TT>, and
+the leftmost <TT><FONT FACE="Courier">$</FONT></TT> dereferences
+(gets) the value at the location reached after the indexing.
+<P>
+Then there are the two lines that did not work. In the third line
+of the output, <TT><FONT FACE="Courier">$pointer{$i}</FONT></TT>
+tries to reference an array using the first element instead of
+its address. The fourth line, <TT><FONT FACE="Courier">${$pointer-&gt;{$i}}</FONT></TT>,
+has an extra level of indirection leading to a scalar being used
+as a pointer and therefore prints nothing.
+<P>
+The <TT><FONT FACE="Courier">-&gt;</FONT></TT> operator should
+be very familiar to C++ or C programmers. Using a reference like
+<TT><FONT FACE="Courier">$variable-&gt;{$k}</FONT></TT> is synonymous
+with the use of <TT><FONT FACE="Courier">$$variable{$k}</FONT></TT>.
+The <TT><FONT FACE="Courier">-&gt;</FONT></TT> simply means &quot;use
+the value of the left side of <TT><FONT FACE="Courier">-&gt;</FONT></TT>
+as an address and dereference it as a pointer to an array.&quot;
+So, in line 30, you use <TT><FONT FACE="Courier">$pointer-&gt;</FONT></TT>
+in place of <TT><FONT FACE="Courier">$pointer</FONT></TT> to refer
+to an array. The <TT><FONT FACE="Courier">{$i}</FONT></TT> is
+used to index into the array directly, because the <TT><FONT FACE="Courier">$pointer-&gt;</FONT></TT>
+is already defined as pointing to an array. In the case of <TT><FONT FACE="Courier">$$pointer{$i}</FONT></TT>,
+two preceding dollar signs (<TT><FONT FACE="Courier">$$</FONT></TT>)
+are required: one to dereference the value in <TT><FONT FACE="Courier">$pointer</FONT></TT>,
+and the other to use the value at the <TT><FONT FACE="Courier">i-th</FONT></TT>
+index in the array as a scalar. 
+<P>
+We will cover the use of the <TT><FONT FACE="Courier">-&gt;</FONT></TT>
+operator in a moment when we use it to index into elements of
+arrays. Let's first look at how we can use simple array concepts
+to construct multidimensional arrays. 
+<H2><A NAME="UsingMultidimensionalArrays"><FONT SIZE=5 COLOR=#FF0000>Using
+Multidimensional Arrays</FONT></A></H2>
+<P>
+The way to create a reference to an array is with the statement
+<TT><FONT FACE="Courier">@array = list</FONT></TT>. You can create
+a reference to a complex anonymous array by using square brackets.
+Consider the following statement, which sets the parameters for
+a three-dimensional drawing program:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$line = ['solid', 'black', ['1','2','3']
+, ['4', '5', '6']];</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This statement constructs an array of four elements. The array
+is referred to by the scalar <TT><FONT FACE="Courier">$line</FONT></TT>.
+The first two elements are scalars indicating the type and color
+of the line to draw. The next two elements of the array referred
+to by <TT><FONT FACE="Courier">$line</FONT></TT> are references
+to anonymous arrays; they contain the starting and ending points
+of the line.
+<P>
+To get to the elements of the inner array elements, you can use
+the following multidimensional syntax:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$arrayReference-&gt;[$index] for a single
+dimensional array, and<BR>
+$arrayReference-&gt;[$index1][$index2] for a two dimensional array,
+and<BR>
+$arrayReference-&gt;[$index1][$index2][$index3]  for a three dimensional
+array.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Let's see how creating arrays within arrays works in practice.
+Refer to Listing 3.5 to print out the information pointed to by
+the <TT><FONT FACE="Courier">$list</FONT></TT> reference.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.5. Using multidimensional array references.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 #<BR>
+&nbsp;4 # Using Multidimensional Array references<BR>
+&nbsp;5 #<BR>
+&nbsp;6 <BR>
+&nbsp;7 $line = ['solid',
+'black', ['1','2','3'] , ['4', '5', '6']];<BR>
+&nbsp;8 <BR>
+&nbsp;9 print &quot;\$line-&gt;[0]
+= $line-&gt;[0] \n&quot;;<BR>
+10 print &quot;\$line-&gt;[1] = $line-&gt;[1] \n&quot;;<BR>
+11 print &quot;\$line-&gt;[2][0] = $line-&gt;[2][0] \n&quot;;
+<BR>
+12 print &quot;\$line-&gt;[2][1] = $line-&gt;[2][1] \n&quot;;
+<BR>
+13 print &quot;\$line-&gt;[2][2] = $line-&gt;[2][2] \n&quot;;
+<BR>
+14 print &quot;\$line-&gt;[3][0] = $line-&gt;[3][0] \n&quot;;
+<BR>
+15 print &quot;\$line-&gt;[3][1] = $line-&gt;[3][1] \n&quot;;
+<BR>
+16 print &quot;\$line-&gt;[3][2] = $line-&gt;[3][2] \n&quot;;
+<BR>
+17 <BR>
+18 print &quot;\n&quot;; # The obligatory output beautifier.</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here is the output of the program that shows how to use two-dimensional
+arrays.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$line-&gt;[0] = solid<BR>
+$line-&gt;[1] = black<BR>
+$line-&gt;[2][0] = 1<BR>
+$line-&gt;[2][1] = 2<BR>
+$line-&gt;[2][2] = 3<BR>
+$line-&gt;[3][0] = 4<BR>
+$line-&gt;[3][1] = 5<BR>
+$line-&gt;[3][2] = 6</FONT></TT>
+</BLOCKQUOTE>
+<P>
+You can modify the script in Listing 3.5 to work with three-dimensional
+(or even <I>n</I>-dimensional) arrays, as shown in Listing 3.6.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.6. Extending to multiple dimensions.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 #<BR>
+&nbsp;4 # Using Multidimensional Array references again<BR>
+&nbsp;5 #<BR>
+&nbsp;6 <BR>
+&nbsp;7 $line = ['solid',
+'black', ['1','2','3', ['4', '5', '6']]];<BR>
+&nbsp;8 <BR>
+&nbsp;9 print &quot;\$line-&gt;[0]
+= $line-&gt;[0] \n&quot;;<BR>
+10 print &quot;\$line-&gt;[1] = $line-&gt;[1] \n&quot;;<BR>
+11 print &quot;\$line-&gt;[2][0] = $line-&gt;[2][0] \n&quot;;
+<BR>
+12 print &quot;\$line-&gt;[2][1] = $line-&gt;[2][1] \n&quot;;
+<BR>
+13 print &quot;\$line-&gt;[2][2] = $line-&gt;[2][2] \n&quot;;
+<BR>
+14 <BR>
+15 print &quot;\$line-&gt;[2][3][0] = $line-&gt;[2][3][0] \n&quot;;
+<BR>
+16 print &quot;\$line-&gt;[2][3][1] = $line-&gt;[2][3][1] \n&quot;;
+<BR>
+17 print &quot;\$line-&gt;[2][3][2] = $line-&gt;[2][3][2] \n&quot;;
+<BR>
+18<BR>
+19 print &quot;\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+In this example, the array is three deep; therefore, a reference
+like <TT><FONT FACE="Courier">$line-&gt;[2][3][0]</FONT></TT>
+has to be used. For a C programmer, this is akin to the statement
+<TT><FONT FACE="Courier">Array_pointer[2][3][0]</FONT></TT>, where
+<TT><FONT FACE="Courier">pointer</FONT></TT> is pointing to what's
+declared as an array with three indexes.
+<P>
+In the previous examples, only hard-coded numbers were used as
+the indexes. There is nothing preventing you from using variables
+instead. As with array constructors, you can mix and match hashes
+and arrays to create as complex a structure as you want.
+<P>
+Creating complex structures is the next step. Listing 3.7 illustrates
+how these two types of arrays can be combined. It uses the point
+numbers and coordinates to define a cube.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.7. Using multidimensional arrays.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 #<BR>
+&nbsp;4 # Using Multidimensional Array and Hash references<BR>
+&nbsp;5 #<BR>
+&nbsp;6 <BR>
+&nbsp;7 %cube = (<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'0',
+['0', '0', '0'],<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'1',
+['0', '0', '1'],<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'2',
+['0', '1', '0'],<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'3',
+['0', '1', '1'],<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'4',
+['1', '0', '0'],<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'5',
+['1', '0', '1'],<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'6',
+['1', '1', '0'],<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'7',
+['1', '1', '1']<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);
+<BR>
+17 <BR>
+18 $pointer = \%cube;<BR>
+19 <BR>
+20 print &quot;\n Da Cube \n&quot;;<BR>
+21 foreach $i (sort keys %$pointer) {<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$list
+= $$pointer{$i};<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$x
+= $list-&gt;[0];<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$y
+= $list-&gt;[1];<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$z
+= $list-&gt;[2];<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+&quot; Point $i =&nbsp;&nbsp;$x,$y,$z \n&quot;;<BR>
+27<BR>
+28 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+In this listing, <TT><FONT FACE="Courier">%cube</FONT></TT> contains
+point numbers and coordinates in a hash. Each coordinate itself
+is an array of three numbers. The <TT><FONT FACE="Courier">$list</FONT></TT>
+variable is used to get a reference to each coordinate definition
+with the following statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$list = $$pointer{$i};</FONT></TT>
+</BLOCKQUOTE>
+<P>
+After you get the list, you can reference off of it to get to
+each element in the list with this statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$x = $list-&gt;[0];<BR>
+$y = $list-&gt;[1];</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Note that the same result of assigning values to <TT><FONT FACE="Courier">$x</FONT></TT>,
+<TT><FONT FACE="Courier">$y</FONT></TT>, and <TT><FONT FACE="Courier">$z</FONT></TT>
+could be achieved by these two lines of code:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($x,$y,$z) = @$list;<BR>
+$x = $list-&gt;[0];</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This works because you are dereferencing what <TT><FONT FACE="Courier">$list</FONT></TT>
+points to and using it as an array, which in turn is assigned
+to the list <TT><FONT FACE="Courier">($x,$y,$z)</FONT></TT>. <TT><FONT FACE="Courier">$x</FONT></TT>
+is still assigned with the <TT><FONT FACE="Courier">-&gt;</FONT></TT>
+operator.
+<P>
+When working with hashes or arrays, dereferencing by <TT><FONT FACE="Courier">-&gt;</FONT></TT>
+is like a dollar-sign (<TT><FONT FACE="Courier">$</FONT></TT>)
+dereference. When accessing individual array elements, you are
+often faced with writing statements like these two:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$$names[0] = &quot;Kamran&quot;;<BR>
+$names-&gt;[0] = &quot;Kamran&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Both lines are equivalent. The substring <TT><FONT FACE="Courier">&quot;$names&quot;</FONT></TT>
+in the first line has been replaced with the <BR>
+<TT><FONT FACE="Courier">-&gt;</FONT></TT> operator to create
+the second line. The same procedure can be applied for hash operations:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$$lastnames{&quot;Kamran&quot;} = &quot;Husain&quot;;
+<BR>
+$lastnames-&gt;{&quot;Kamran&quot;} = &quot;Husain&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Arrays in Perl can be created with a fixed size set to the value
+of the highest index that is used. They do not have to remain
+at this size, though, and can grow on demand. Referencing them
+for the first time creates the array and space for the item that
+is being indexed in the array. Referencing the array again at
+different indexes creates those elements at the indexed references
+if they do not already exist. Array references can be created
+automatically when first referenced in the left side of an equation.
+Using a reference such as <TT><FONT FACE="Courier">$array[$i]</FONT></TT>
+creates an array into which you can index with <TT><FONT FACE="Courier">$i</FONT></TT>.
+Such is the case with scalars and even multidimensional arrays.
+<H2><A NAME="ReferencestoSubroutines"><FONT SIZE=5 COLOR=#FF0000>References
+to Subroutines</FONT></A></H2>
+<P>
+Just as you can reference individual items such as arrays and
+scalar variables, you can also point to subroutines. In C, this
+would be akin to pointing to a function. To construct such a reference,
+you use a statement like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$pointer_to_sub = sub { ... <I>declaration
+of sub</I> ... } ;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Note the use of the semicolon at the end of the <TT><FONT FACE="Courier">sub()</FONT></TT>
+declaration. The subroutine pointed to by <TT><FONT FACE="Courier">$pointer_to_sub</FONT></TT>
+points to the same function reference even if the statement is
+placed in a loop. This feature in Perl lets you declare several
+anonymous <TT><FONT FACE="Courier">sub()</FONT></TT> functions
+in a loop without worrying about the fact that you are chewing
+up memory by declaring the same function over and over as you
+go about in a loop. As you come around the loop and reassign a
+scalar to the <TT><FONT FACE="Courier">sub</FONT></TT>, Perl simply
+assigns to the same subroutine declared with the first use of
+the <TT><FONT FACE="Courier">sub()</FONT></TT> statement.
+<P>
+To call a referenced subroutine, use this syntax:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&amp;$pointer_to_sub( parameters );</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This code works because you are dereferencing the <TT><FONT FACE="Courier">$pointer_to_sub</FONT></TT>
+and using it with the ampersand (<TT><FONT FACE="Courier">&amp;</FONT></TT>)
+as a pointer to a function. The parameters portion may or may
+not be empty, depending on how your function is defined. The code
+within a sub is simply a declaration created with this statement.
+The code within the sub is not executed immediately; however,
+it is compiled and set for each use. Consider the script shown
+in Listing 3.8.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.8. Using references to subroutines.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 sub print_coor{<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my ($x,$y,$z) = @_;<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;$x $y $z \n&quot;;<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return $x;};<BR>
+&nbsp;7 <BR>
+&nbsp;8 $k = 1;<BR>
+&nbsp;9 $j = 2;<BR>
+10 $m = 4;<BR>
+11 $this&nbsp;&nbsp;= print_coor($k,$j,$m);<BR>
+12 <BR>
+13 $that&nbsp;&nbsp;= print_coor(4,5,6);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+When you execute this listing, you get the following output:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>test<BR>
+</B>1 2 4<BR>
+4 5 6</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This output tells you that assignments of <TT><FONT FACE="Courier">$x</FONT></TT>,
+<TT><FONT FACE="Courier">$y</FONT></TT>, and <TT><FONT FACE="Courier">$z</FONT></TT>
+were done when the first declaration of <TT><FONT FACE="Courier">print_coor</FONT></TT>
+was encountered as a call. Each reference to <TT><FONT FACE="Courier">$this</FONT></TT>
+and <TT><FONT FACE="Courier">$that</FONT></TT> now points to a
+completely different subroutine, the arguments to which were passed
+at runtime.
+<H3><A NAME="UsingSubroutineTemplates">Using Subroutine Templates</A>
+</H3>
+<P>
+Subroutines are not limited to returning only data types. They
+can return references to other subroutines, too. The returned
+subroutines run in the context of the calling routine but are
+set up in the original routine that created them. This type of
+behavior is caused by the way closure is handled in Perl. Closure
+means that if you define a function in one context, it runs in
+that particular context in which it was first defined. (A book
+on object-oriented programming would provide more information
+on closure.)
+<P>
+To see how closure works, look at Listing 3.9, which you can use
+to set up different types of error messages. Such subroutines
+are useful in creating templates of all error messages.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.9. Using closure.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 sub errorMsg {<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my
+$lvl = shift;<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# define the subroutine to run when called.<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+sub {<BR>
+&nbsp;9 <BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my $msg = shift;&nbsp;&nbsp;# Define the error type now.<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;Err Level $lvl:$msg\n&quot;; }; # print later.<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+13 <BR>
+14 $severe&nbsp;&nbsp;= errorMsg(&quot;Severe&quot;);<BR>
+15 $fatal = errorMsg(&quot;Fatal&quot;);<BR>
+16 $annoy = errorMsg(&quot;Annoying&quot;);<BR>
+17 <BR>
+18 &amp;$severe(&quot;Divide by zero&quot;);<BR>
+19 &amp;$fatal(&quot;Did you forget to use a semi-colon?&quot;);
+<BR>
+20 &amp;$annoy(&quot;Uninitialized variable in use&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The subroutine <TT><FONT FACE="Courier">errorMsg</FONT></TT> declared
+here uses a local variable called <TT><FONT FACE="Courier">lvl</FONT></TT>.
+After this declaration, <TT><FONT FACE="Courier">errorMsg</FONT></TT>
+uses <TT><FONT FACE="Courier">$lvl</FONT></TT> in the subroutine
+it returns back to the caller. Therefore, the value of <TT><FONT FACE="Courier">$lvl</FONT></TT>
+is set in the context when the subroutine <TT><FONT FACE="Courier">errorMsg</FONT></TT>
+is first called, even though the keyword <TT><FONT FACE="Courier">my</FONT></TT>
+is used. Therefore, the following three calls set up three different
+<TT><FONT FACE="Courier">$lvl</FONT></TT> variable values, each
+in their own context:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$severe&nbsp;&nbsp;= errorMsg(&quot;Severe&quot;);
+<BR>
+$fatal&nbsp;&nbsp;&nbsp;= errorMsg(&quot;Fatal&quot;);<BR>
+$annoy&nbsp;&nbsp;&nbsp;= errorMsg(&quot;Annoying&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Now, when the reference to a subroutine is returned by the call
+to the <TT><FONT FACE="Courier">errorMsg</FONT></TT> function
+in each of the lines above, the value of <TT><FONT FACE="Courier">$lvl</FONT></TT>
+within the <TT><FONT FACE="Courier">errorMsg</FONT></TT> function
+is retained for each context in which <TT><FONT FACE="Courier">$lvl</FONT></TT>
+was declared. Thus, the <TT><FONT FACE="Courier">$msg</FONT></TT>
+value from the referenced call is used, but the value of <TT><FONT FACE="Courier">$lvl</FONT></TT>
+is the value that was first set in the actual creation of the
+function.
+<P>
+Sound confusing? It is. This is primarily the reason why you do
+not see this type of code in most Perl programs.
+<H2><A NAME="ImplementingStateMachines"><FONT SIZE=5 COLOR=#FF0000>Implementing
+State Machines</FONT></A></H2>
+<P>
+Using arrays and pointers to subroutines, you can come up with
+some nifty applications. Consider using an array of pointers to
+subroutines to implement a state machine. Listing 3.10 provides
+an example of a simple, asynchronous state machine.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.10. A simple, asynchronous state machine.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 # --------------------------------------------------------------
+<BR>
+&nbsp;3 # Define each state
+as subroutine. Then create a<BR>
+&nbsp;4 # reference to each subroutine. We have four states here.
+<BR>
+&nbsp;5 # --------------------------------------------------------------
+<BR>
+&nbsp;6 $s0 = sub {<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;local
+$a = $_[0];<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;State 0 processing $a \n&quot;;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '0')&nbsp;&nbsp;{ return(0); }<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '1')&nbsp;&nbsp;{ return(1); }<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '2')&nbsp;&nbsp;{ return(2); }<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '3')&nbsp;&nbsp;{ return(3); }<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+0;<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+<BR>
+15 # --------------------------------------------------------------
+<BR>
+16 $s1 = sub {<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;local
+$a = shift @_;<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;State 1 processing $a \n&quot;;<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '0')&nbsp;&nbsp;{ return(0); }<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '1')&nbsp;&nbsp;{ return(1); }<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '2')&nbsp;&nbsp;{ return(2); }<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '3')&nbsp;&nbsp;{ return(3); }<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+1;<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+<BR>
+25 # --------------------------------------------------------------
+<BR>
+26 $s2 = sub {<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;local
+$a = $_[0];<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;State 2 processing $a \n&quot;;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '0')&nbsp;&nbsp;{ return(0); }<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '1')&nbsp;&nbsp;{ return(1); }<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '2')&nbsp;&nbsp;{ return(2); }<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '3')&nbsp;&nbsp;{ return(3); }<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+2;<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+<BR>
+35 # --------------------------------------------------------------
+<BR>
+36 $s3 = sub {<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my&nbsp;&nbsp;$a
+= shift @_;<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;State 3 processing $a \n&quot;;<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '0')&nbsp;&nbsp;{ return(0); }<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '1')&nbsp;&nbsp;{ return(1); }<BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '2')&nbsp;&nbsp;{ return(2); }<BR>
+42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($a eq '3')&nbsp;&nbsp;{ return(3); }<BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+3;<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+<BR>
+45 # --------------------------------------------------------------
+<BR>
+46 # Create an array of pointers to subroutines. The index<BR>
+47 # into this array is the current state.<BR>
+48 # --------------------------------------------------------------
+<BR>
+49 @stateTable = ($s0, $s1, $s2, $s3);<BR>
+50 # --------------------------------------------------------------
+<BR>
+51 # Initialize the state to 0.<BR>
+52 # --------------------------------------------------------------
+<BR>
+53 $this = 0;<BR>
+54 # --------------------------------------------------------------
+<BR>
+55 # Implement the state machine.<BR>
+56 #&nbsp;&nbsp;&nbsp;set current state to 0<BR>
+57 #&nbsp;&nbsp;&nbsp;forever<BR>
+58 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get response
+<BR>
+59 #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set current
+state to next state based on response.<BR>
+60 # --------------------------------------------------------------
+<BR>
+61 while (1)<BR>
+62&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+63&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n This state is : $this -&gt; what next? &quot;;<BR>
+64&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$reply
+= &lt;STDIN&gt;;<BR>
+65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chop($reply);
+<BR>
+66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+67&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Stop the machine here<BR>
+68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+69&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($reply eq 'q') { exit(0); }<BR>
+70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot; Reply = $reply \n&quot;;<BR>
+71&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+72&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Get the present state function.<BR>
+73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$state
+= $stateTable[$this];<BR>
+75&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Get the next state from this state.<BR>
+77&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$next
+= &amp;$state($reply);<BR>
+79&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+&quot;Next state = $next from this state $this\n&quot;;<BR>
+80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Now advance present state to next state<BR>
+82&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+83&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$this
+= $next;<BR>
+84&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Let's see how each function implements the state transitions.
+All input into each state consists of removing the initial state
+as the first parameter into the subroutine. In Perl, the <TT><FONT FACE="Courier">@_
+</FONT></TT>variable is the array of input parameters into a subroutine
+and is always defined in each subroutine. In line 37, the <TT><FONT FACE="Courier">shift</FONT></TT>
+command forces the first item from the list of input parameters
+into <TT><FONT FACE="Courier">$a</FONT></TT>. The value of <TT><FONT FACE="Courier">$a</FONT></TT>
+is then used as the current state of the program.
+<P>
+There are four states in this state machine: <TT><FONT FACE="Courier">S0</FONT></TT>,
+<TT><FONT FACE="Courier">S1</FONT></TT>, <TT><FONT FACE="Courier">S2</FONT></TT>,
+and <TT><FONT FACE="Courier">S3</FONT></TT>. Each state accepts
+input in the form of a number. Each number is used to get the
+next state to go to. Note how <TT><FONT FACE="Courier">$a</FONT></TT>
+is declared in each state function using the <TT><FONT FACE="Courier">my</FONT></TT>
+and <TT><FONT FACE="Courier">local</FONT></TT> types. So if <TT><FONT FACE="Courier">$a</FONT></TT>
+has a value of <TT><FONT FACE="Courier">2 </FONT></TT>and receives
+an input of <TT><FONT FACE="Courier">3</FONT></TT>, the current
+state is <TT><FONT FACE="Courier">2</FONT></TT>, and the program
+will do a state transition from <TT><FONT FACE="Courier">2</FONT></TT>
+to <TT><FONT FACE="Courier">3</FONT></TT>. After the function
+returns, the current state will be <TT><FONT FACE="Courier">3</FONT></TT>.
+<P>
+Lines 6 through 14 define a subroutine that defines the functionality
+of a state. State <TT><FONT FACE="Courier">S0</FONT></TT> transitions
+to states <TT><FONT FACE="Courier">S1</FONT></TT> on receiving
+a <TT><FONT FACE="Courier">1</FONT></TT>, <TT><FONT FACE="Courier">S2</FONT></TT>
+on receiving a <TT><FONT FACE="Courier">2</FONT></TT>, and <TT><FONT FACE="Courier">S3</FONT></TT>
+on receiving a <TT><FONT FACE="Courier">3</FONT></TT>. All other
+input will not cause a state transition. The other states, <TT><FONT FACE="Courier">{S1,S2,S3}</FONT></TT>,
+behave in an analogous way.
+<P>
+The <TT><FONT FACE="Courier">stateTable</FONT></TT> array is used
+to store pointers to each of the functions of the state machine.
+The four entries are set in line 49. The initial state is set
+to <TT><FONT FACE="Courier">0</FONT></TT>.
+<P>
+Lines 61 through 84 implement the code for transitioning through
+the state machine by accepting input from <TT><FONT FACE="Courier">&lt;STDIN&gt;</FONT></TT>
+and calling the present state function to handle the input. Line
+74 is where you get the pointer to the function handling all input
+for each state in the state machine, and line 78 is where the
+state-handling function is called. The next state value returned
+by the function is set to the present state (<TT><FONT FACE="Courier">$this</FONT></TT>)
+in line 83.
+<H2><A NAME="PassingMoreThanOneArrayintoaSubro"><FONT SIZE=5 COLOR=#FF0000>Passing
+More Than One Array into a Subroutine</FONT></A></H2>
+<P>
+Having arrays is great for collecting relevant information. Now
+you'll see how to work with multiple arrays via subroutines. Passing
+one or more arrays into Perl subroutines is done by reference.
+However, you have to keep in mind a few subtle things about using
+the <TT><FONT FACE="Courier">@_</FONT></TT> symbol when processing
+these arrays in the subroutine. 
+<P>
+The <TT><FONT FACE="Courier">@_</FONT></TT> symbol is an array
+of all the items in a subroutine. So, if you have a call to a
+subroutine as follows: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$a = 2;<BR>
+@b = (&quot;x&quot;,&quot;y&quot;,&quot;z&quot;); <BR>
+@c = (&quot;cat&quot;,&quot;mouse&quot;,&quot;chase&quot;); <BR>
+&amp;simpleSub($a,@b,@c); </FONT></TT>
+</BLOCKQUOTE>
+<P>
+the <TT><FONT FACE="Courier">@_</FONT></TT> array within the subroutine
+will be (<TT><FONT FACE="Courier">2</FONT></TT>, <TT><FONT FACE="Courier">&quot;x&quot;</FONT></TT>,
+<TT><FONT FACE="Courier">&quot;y&quot;</FONT></TT>, <TT><FONT FACE="Courier">&quot;z&quot;</FONT></TT>,
+ <TT><FONT FACE="Courier">&quot;cat&quot;</FONT></TT>, <TT><FONT FACE="Courier">&quot;mouse&quot;</FONT></TT>,
+<TT><FONT FACE="Courier">&quot;chase&quot;</FONT></TT>). That
+is, the contents of all the elements will be glued together to
+form one long array. 
+<P>
+Obviously, this ability to glue together arrays will be a problem
+to deal with if you want to do operations on two distinct arrays
+sequentially. For example, if you have a list of names and a list
+of phone numbers, you would want to take the first item from the
+names array and the first item from the number array and print
+an item. Then take the next name and the next number and print
+a combination, and so on. If you pass in the contents of the arrays
+to a function that simply uses <TT><FONT FACE="Courier">@_</FONT></TT>,
+the subroutine will see one long array, the first half of which
+will be a list of strings (names) and the second half of which
+will be a list of numbers. 
+<P>
+The subroutine would have to split the <TT><FONT FACE="Courier">@_</FONT></TT>
+in half into two distinct arrays before it can start processing.
+The problem gets more complicated if you were to pass three or
+four arrays such as those containing items like address and ZIP
+code. Now the subroutine will have to manipulate <TT><FONT FACE="Courier">@_
+</FONT></TT>even more to get the required number of arrays.
+<P>
+The simplest way to handle the passing of multiple arrays into
+a subroutine is to use references to arrays in the argument list
+to the subroutine. That is, you pass in a reference to each array
+that the subroutine will be using. The references will be ordered
+in the <TT><FONT FACE="Courier">@_</FONT></TT> array within the
+subroutine. The code in the subroutine can dereference each item
+in the <TT><FONT FACE="Courier">@_</FONT></TT> to the type of
+array being referenced. This procedure is known as <I>passing
+by reference</I>. The value of what is being referenced can be
+changed by the subroutine. When an explicit value is sent to a
+subroutine, (that is, you are <I>passing by value</I>), only the
+copy of what is sent on the stack is changed, not the actual value.
+In Perl, values are passed by reference unless you send in a constant
+number. For example, from the following code:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sub doit {<BR>
+$_[0] *= 3.141; <BR>
+}<BR>
+$\=&quot;\n&quot;; <BR>
+$x = 3; <BR>
+print $x;<BR>
+doit ($x); <BR>
+print $x;<BR>
+# The following line will cause an error since you will attempt
+to <BR>
+# modify a read-only value:<BR>
+# doit(3);<BR>
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+you will see the following values being printed: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">3<BR>
+9.423</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The second number is the new value of <TT><FONT FACE="Courier">$x</FONT></TT>
+after the call to the <TT><FONT FACE="Courier">doit</FONT></TT>
+subroutine. Calling the <TT><FONT FACE="Courier">doit</FONT></TT>
+subroutine with a constant value such as shown in the commented
+lines above will result in an exception with an error message
+indicating that your program attempted to modify a read-only value.
+The preceeding test confirms that Perl indeed passes values of
+variables by reference and not by value. <P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The value of the <TT><FONT FACE="Courier">$\</FONT></TT> system variable is the output separator. In the preceding example, it is set to a newline. By setting the value of <TT><FONT FACE="Courier">$\</FONT></TT> to <TT><FONT FACE="Courier">\n</FONT></TT>, 
+the <TT><FONT FACE="Courier">print</FONT></TT> statements did not have to prepend a <TT><FONT FACE="Courier">\n</FONT></TT> to any string being printed. It's a matter of style, of course, and you do not have to use the <TT><FONT 
+FACE="Courier">$\</FONT></TT> variable if you do not want to. The default value of this <TT><FONT FACE="Courier">$\</FONT></TT> variable is null. The <TT><FONT FACE="Courier">$\ </FONT></TT>is useful in instances when you are writing special text records 
+with the <TT><FONT FACE="Courier">print</FONT></TT> statement that have to have a special record separator such as <TT><FONT FACE="Courier">END\n</FONT></TT> and<TT><FONT FACE="Courier"> RECORDEND\n\n</FONT></TT>.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Listing 3.11 provides a sample subroutine that expects a list
+of names and a list of phone numbers.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.11. Passing multiple arrays into a subroutine.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 @names = (mickey,
+goofy, daffy );<BR>
+&nbsp;4 @phones = (5551234, 5554321, 666 );<BR>
+&nbsp;5 $i = 0;<BR>
+&nbsp;6 sub listem {<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my (@a,@b) = @_;<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+foreach (@a) {<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;a[$i] = &quot;. $a[$i] . &quot; &quot; . &quot;\tb[$i]
+= &quot; . $b[$i] .&quot;\n&quot;;<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$i++;
+<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+13 <BR>
+14 &amp;listem(@names, @phones);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here's the output from this program:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">a[0] = mickey&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+b[0] =<BR>
+a[1] = goofy&nbsp;&nbsp;b[1] =<BR>
+a[2] = daffy&nbsp;&nbsp;&nbsp;b[2] =<BR>
+a[3] = 5551234&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b[3]
+=<BR>
+a[4] = 5554321&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b[4]
+=<BR>
+a[5] = 666&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b[5] =</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">@b</FONT></TT> array is empty, and
+<TT><FONT FACE="Courier">@a</FONT></TT> is just like the array
+<TT><FONT FACE="Courier">@b</FONT></TT>. This is because the <TT><FONT FACE="Courier">@_</FONT></TT>
+array is a solitary array of all parameters into a subroutine.
+If you pass in 50 arrays, <TT><FONT FACE="Courier">@_</FONT></TT>
+is still going to be one array of all the elements of the 50 arrays
+concatenated together.
+<P>
+In the subroutine in this example, the assignment
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">my (@a, @b) = @_</FONT></TT>
+</BLOCKQUOTE>
+<P>
+gets loosely interpreted by your Perl interpreter as &quot;let's
+see, <TT><FONT FACE="Courier">@a</FONT></TT> is an array, so let's
+assign one array from <TT><FONT FACE="Courier">@_</FONT></TT>
+to <TT><FONT FACE="Courier">@a</FONT></TT> and then assign everything
+else to <TT><FONT FACE="Courier">@b</FONT></TT>.&quot; Never mind
+the fact that <TT><FONT FACE="Courier">@_</FONT></TT> is itself
+an array and will therefore get assigned to <TT><FONT FACE="Courier">@a</FONT></TT>,
+leaving nothing to assign to <TT><FONT FACE="Courier">@b</FONT></TT>.
+<P>
+In order to get around this <TT><FONT FACE="Courier">@_</FONT></TT>-interpretation
+feature and to be able to pass arrays into subroutines, you would
+have to pass arrays in by reference. This is done by modifying
+the script to look like the one shown in Listing 3.12.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.12. Passing multiple arrays by reference.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 @names = (mickey,
+goofy, daffy );<BR>
+&nbsp;4 @phones = (5551234, 5554321, 666 );<BR>
+&nbsp;5 $i = 0;<BR>
+&nbsp;6 sub listem {<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+my ($a,$b) = @_;<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+foreach (@$a) {<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;a[$i] = &quot; . @$a[$i] . &quot; &quot; . &quot;\tb[$i]
+= &quot; . @$b[$i] .&quot;\n&quot;;<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$i++;<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+13 <BR>
+14 &amp;listem(\@names, \@phones);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here are the major changes made to this script:
+<UL>
+<LI><FONT COLOR=#000000>The local variables for the sub </FONT><TT><FONT FACE="Courier">listem</FONT></TT>
+are now scalars, not array references. This way, <TT><FONT FACE="Courier">$a</FONT></TT>
+is the first item on the <TT><FONT FACE="Courier">@_</FONT></TT>
+list, and <TT><FONT FACE="Courier">$b</FONT></TT> is the second
+item.
+<LI><FONT COLOR=#000000>The local parameters (</FONT><TT><FONT FACE="Courier">$a</FONT></TT>
+and <TT><FONT FACE="Courier">$b</FONT></TT>) are used as array
+references with the statements <TT><FONT FACE="Courier">@$a</FONT></TT>
+and <TT><FONT FACE="Courier">@$b</FONT></TT>, respectively.
+<LI><FONT COLOR=#000000>The call to the subroutine passes the
+references to the arrays with the backslash, </FONT><TT><FONT FACE="Courier">\@names</FONT></TT>
+and <TT><FONT FACE="Courier">\@phones</FONT></TT>, thus passing
+only two items to the subroutine.
+</UL>
+<P>
+The output from this listing is what we expected:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">a[0] = mickey b[0] = 5551234<BR>
+a[1] = goofy&nbsp;&nbsp;b[1] = 5554321<BR>
+a[2] = daffy&nbsp;&nbsp;b[2] = 666</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="PassbyValueorbyReference">Pass by Value or by Reference?</A>
+</H3>
+<P>
+Scalar variables, when used in a subroutine argument list, are
+always passed by reference. You do not have a choice here. You
+can modify the values of these variables if you really want to.
+To access these variables, you can use the <TT><FONT FACE="Courier">@_</FONT></TT>
+array and index each individual element in it, using <TT><FONT FACE="Courier">$_[$index]</FONT></TT>,
+where <TT><FONT FACE="Courier">$index</FONT></TT> as an integer
+goes from 0 on up.
+<P>
+Arrays and hashes are different beasts altogether. You can either
+pass them as references once, or you can pass references to each
+element in the array. For long arrays, the choice should be fairly
+obvious, pass the reference to the array only. In either case,
+you can use the reference(s) to modify what you want in the original
+array.
+<P>
+Also, the <TT><FONT FACE="Courier">@_</FONT></TT> mechanism concatenates
+all the input arrays to a subroutine into one long array. Sure,
+this feature is nice if you do want to process the incoming arrays
+as one long array. Normally, you want to keep the arrays separate
+when processing them in a subroutine, and passing by reference
+is the best way that you can do that.
+<H2><A NAME="ReferencestoFileHandles"><FONT SIZE=5 COLOR=#FF0000>References
+to File Handles</FONT></A></H2>
+<P>
+There are times when you have to write the same output to different
+output files. For instance, an application programmer might want
+output to go to a screen in one instance, the printer in another,
+and a file in yet another, or perhaps even all three at the same
+time. Rather than make separate statements per handle, it would
+be nice to write something like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">spitOut(\*STDIN);<BR>
+spitOut(\*LPHANDLE);<BR>
+spitOut(\*LOGHANDLE);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Note how the file handle reference is sent with the <TT><FONT FACE="Courier">\*FILEHANDLE</FONT></TT>
+syntax. This is because you're referring to the symbol table in
+the current package. In the subroutine handling the output to
+the file handle, you have code that looks something like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sub spitOut {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;my $fh = shift;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;print $fh &quot;Gee Wilbur, I like this
+lettuce\n&quot;;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="WhatDoesthevariableOperatorDo">What Does the <TT><I><FONT size=4 FACE="Courier">*variable</FONT></I></TT><FONT SIZE=4>
+Operator Do?</FONT></A></H3>
+<P>
+In UNIX (and other operating systems, too) the asterisk is a sort
+of wildcard operator. In Perl you can refer to other variables,
+arrays, subroutines, and so on by using the asterisk operator
+like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">*iceCream;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The asterisk used this way is also known as a <I>typeglob</I>.
+The asterisk on the front can be thought of as a wildcard match
+for all the mangled names used internally by Perl. When evaluated,
+a typeglob of <TT><FONT FACE="Courier">*<I>name</I></FONT></TT>
+produces a scalar value that represents the first object found
+with that <TT><I><FONT FACE="Courier">name</FONT></I></TT>.
+<P>
+A typeglob can be used the same way a reference can be used because
+the dereference syntax always indicates the kind of reference
+desired. Therefore, <TT><FONT FACE="Courier">${*iceCream}</FONT></TT>
+and <TT><FONT FACE="Courier">${\$iceCream}</FONT></TT> both mean
+the same scalar variable. Basically, <TT><FONT FACE="Courier">*iceCream</FONT></TT>
+refers to the entry in the internal <TT><FONT FACE="Courier">_main</FONT></TT>
+associative array of all symbol names for the <TT><FONT FACE="Courier">_main</FONT></TT>
+package. Thus, <TT><FONT FACE="Courier">*kamran</FONT></TT> really
+translates to <TT><FONT FACE="Courier">$_main{'kamran'}</FONT></TT>
+if you are in the <TT><FONT FACE="Courier">_main</FONT></TT> package
+context. 
+<P>
+A <I>package context</I> implies the use of the associative array
+of symbol names, called a <I>symbol table</I>, by Perl for resolving
+variable names in a program. We will cover symbols and symbol
+tables in <A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch4.htm" >Chapter 4</A>. What is confusing
+is that the terms <I>module</I> and <I>package</I> are used interchangeably
+in all Perl documentation and <I>these two terms mean the very
+same thing</I>. Basically, your Perl program runs in the <TT><FONT FACE="Courier">_main</FONT></TT>
+package (think &quot;module&quot;) and uses other modules to switch
+symbol tables. Code running in the context of a module has its
+own symbol table that is different from the symbol table in the
+main module.
+<H2><A NAME="UsingSymbolicReferences"><FONT SIZE=5 COLOR=#FF0000>Using
+Symbolic References</FONT></A></H2>
+<P>
+The use of brackets around symbolic references makes it easier
+to construct strings:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$road = ($w)  ? &quot;free&quot;:&quot;high&quot;;
+<BR>
+print &quot;${road}way&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This line will print <TT><FONT FACE="Courier">highway</FONT></TT>
+or <TT><FONT FACE="Courier">freeway</FONT></TT>, depending on
+the value of <TT><FONT FACE="Courier">$w</FONT></TT>. This type
+of syntax will be very familiar to folks writing makefiles or
+shell scripts. In fact, you can use this <TT><FONT FACE="Courier">${variable}</FONT></TT>
+construct outside of double quotes, like the examples shown here:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">print ${road};<BR>
+print ${road} . &quot;way&quot;;<BR>
+print ${ road } . &quot;way&quot;;<BR>
+$if = &quot;road&quot;;<BR>
+print &quot;\n ${if} way \n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Note that you can use reserved words in the <TT><FONT FACE="Courier">${
+}</FONT></TT> brackets, too. However, using reserved words for
+anything other than their purpose is playing with fire. Be imaginative
+and make up your own variables.
+<P>
+One last point. Symbolic references cannot be used on variables
+declared with the <TT><FONT FACE="Courier">my</FONT></TT> construct
+because these variables are not kept in any symbol table. Variables
+declared with the <TT><FONT FACE="Courier">my</FONT></TT> construct
+are valid only for the block in which they're created. Variables
+declared with the <TT><FONT FACE="Courier">local</FONT></TT> word
+are visible to all ensuing lower code blocks because they are
+in a symbol table.
+<H3><A NAME="DeclaringwithCurlyBraces">Declaring with Curly Braces</A>
+</H3>
+<P>
+The previous section brings up an interesting point about curly
+braces for use other than as hashes. In Perl, curly braces are
+normally reserved for delimiting blocks of code. Let's say you
+are returning the passed list by sorting it in reverse order.
+The passed list is in <TT><FONT FACE="Courier">@_</FONT></TT>
+of the called subroutine. Thus, these two statements are equivalent:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sub backward {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+reverse sort @_ ; }<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+<BR>
+<BR>
+sub backward {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reverse
+sort @_ ;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Curly braces, when preceded with the <TT><FONT FACE="Courier">@</FONT></TT>
+operator, allow you to set up small blocks of evaluated code.
+The code in Listing 3.13 evaluates an array.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 3.13. Evaluating references to arrays.<BR>
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!/usr/bin/perl<BR>
+2 sub average {<BR>
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($a,$b,$c)
+= @_;<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$x
+= $a + $b + $c;<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$x2
+= $a*$a + $b*$b + $c*$c;<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+($x/3, $x2/3 ); }<BR>
+<BR>
+7 $x = 1;<BR>
+8 $y = 34;<BR>
+9 $x = 47;<BR>
+<BR>
+10 print &quot;The midpt is @{[&amp;average($x,$y,$z)]} \n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+You should see the printout of <TT><FONT FACE="Courier">27</FONT></TT>
+and <TT><FONT FACE="Courier">1121.6666</FONT></TT>. In line 10,
+when <TT><FONT FACE="Courier">@{}</FONT></TT> is seen in the double-quoted
+string, the contents of <TT><FONT FACE="Courier">@{}</FONT></TT>
+are evaluated as a block of code. The block creates a reference
+to an anonymous array containing the results of the call to the
+subroutine <TT><FONT FACE="Courier">average($x,$y,$z)</FONT></TT>.
+The array is constructed because of the <TT><FONT FACE="Courier">[]</FONT></TT>
+brackets around the call. Thus, the <TT><FONT FACE="Courier">[]</FONT></TT>
+construct returns a reference to an array, which in turn is converted
+by <TT><FONT FACE="Courier">@{}</FONT></TT> into a string and
+inserted into the double-quoted string.
+<H3><A NAME="MultidimensionalAssociativeArrays">Multidimensional
+Associative Arrays</A></H3>
+<P>
+Perl does not directly support multidimensional associative arrays.
+In most cases, you would not want to use multidimensional arrays,
+though they are sometimes useful for tracking synonymous variable
+names. 
+<P>
+The syntax for using more than one index into an associative array
+is not the same as that for multidimensional arrays that use a
+numeric index. Therefore, you cannot use statements such as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$description{'pan'}{'handle'}; </FONT></TT>
+</BLOCKQUOTE>
+<P>
+as you would with regular arrays. What you can use is the following:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$description{'pan' , 'handle'}; </FONT></TT>
+</BLOCKQUOTE>
+<P>
+The latter statement lets you index into the <TT><FONT FACE="Courier">%description</FONT></TT>
+array using two strings, so you can index the array as
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$description{'pan' , 'cake'}; <BR>
+$description{'pan' , 'der'};<BR>
+$description{'pan' , 'da'};</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Your first index here for a row would be <TT><FONT FACE="Courier">pan</FONT></TT>
+and each index into the row would be <TT><FONT FACE="Courier">cake</FONT></TT>,
+<TT><FONT FACE="Courier">der</FONT></TT>, <TT><FONT FACE="Courier">da</FONT></TT>,
+and <TT><FONT FACE="Courier">handle</FONT></TT>. It's a bit cumbersome
+to use, but it will work. 
+<P>
+You are not limited to using commas to separate indexes into an
+associative array. By using the <TT><FONT FACE="Courier">$;</FONT></TT>
+system variable you can use more than one index into an associative
+array and use a separator other than just a comma. The <TT><FONT FACE="Courier">$;</FONT></TT>
+system variable is a subscript separator for all items used to
+index an associative array. The default value of <TT><FONT FACE="Courier">$;</FONT></TT>
+is the Ctrl-\ character, but you can set it to anything you want.
+<P>
+When more than one index is used to reference an associative array,
+all items are concatenated together with the use of the <TT><FONT FACE="Courier">$;</FONT></TT>
+variable. That is, the statement
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$description{&quot;texas&quot;, &quot;pan&quot;,&quot;handle&quot;}
+;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+is interpreted as 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$description{&quot;texas&quot; . $; .
+&quot;pan&quot; . $; . &quot;handle&quot;} ;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+By setting the value of <TT><FONT FACE="Courier">$;</FONT></TT>
+to <TT><FONT FACE="Courier">&quot;::&quot;</FONT></TT>, you can
+use the index specifier. The following lines of code will illustrate
+how to do this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$; = &quot;::&quot;;<BR>
+$description{&quot;pan&quot;, &quot;cake&quot;} = &quot;edible&quot;;
+<BR>
+$description{&quot;pan::da&quot;} = &quot;cute&quot;; </FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">&quot;::&quot; </FONT></TT>is now
+interchangeable with the comma separator. There is one catch to
+using the <TT><FONT FACE="Courier">&quot;::&quot;</FONT></TT>
+as a separator: the <TT><FONT FACE="Courier">&quot;::&quot;</FONT></TT>
+is also used as an <TT><I><FONT FACE="Courier">object</FONT></I><FONT FACE="Courier">::<I>member</I></FONT></TT><I>
+</I>syntax as you will see in <A HREF="ch5.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch5.htm" >Chapter 5</A>,
+&quot;Object-Oriented Programming in Perl.&quot; So a statement
+like this with the <TT><FONT FACE="Courier">$;</FONT></TT> set
+to <TT><FONT FACE="Courier">&quot;::&quot;</FONT></TT> 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$description{&quot;pan::handle&quot;,
+&quot;cake&quot;} </FONT></TT>
+</BLOCKQUOTE>
+<P>
+will get translated to 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$description{&quot;pan::handle::cake&quot;}
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+which is something you probably do not want! We will cover this
+syntax and how to work with objects in <A HREF="ch5.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch5.htm" >Chapter 5</A>,
+so be patient. 
+<H2><A NAME="StrictReferences"><FONT SIZE=5 COLOR=#FF0000>Strict
+References</FONT></A></H2>
+<P>
+To force only hard references in a program and protect yourself
+from accidentally creating symbolic references, you can use a
+module called <TT><FONT FACE="Courier">strict</FONT></TT>, which
+forces Perl to do strict type checking. To use this module, place
+the following statement at the top of your Perl script:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use strict 'refs';</FONT></TT>
+</BLOCKQUOTE>
+<P>
+From this point, only hard references are allowed for the rest
+of the script. You place this statement within curly braces, too,
+where the type checking would be limited to only within the code
+block for the curly braces.
+<P>
+To turn off the strict type checking at any time within a code
+block, use this statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">no strict 'refs';</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="ForMoreInformation"><FONT SIZE=5 COLOR=#FF0000>For
+More Information</FONT></A></H2>
+<P>
+Besides the obvious documents, such as the Perl <TT><FONT FACE="Courier">man</FONT></TT>
+pages, look at the Perl source code. The <TT><FONT FACE="Courier">t/op</FONT></TT>
+directory in the Perl source tree has some regression test routines
+that should definitely get you thinking. There are lots of documents
+and references at the Web sites <TT><FONT FACE="Courier">www.perl.com/index.html,
+mox.perl.com/index.html</FONT></TT>, and <TT><FONT FACE="Courier">www.metronet.com/perlinfo/doc/manual/html/perl.html</FONT></TT>.
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+There are two types of references you can deal with in Perl 5:
+hard or symbolic. Hard links work like the links in UNIX file
+systems. You can have more than one hard link to the same item.
+Perl keeps a reference count for you. This reference count is
+incremented or decremented as references to the item are created
+or destroyed. When the count goes to zero, the link and the object
+it is pointing to are both destroyed. Symbolic links are created
+via the <TT><FONT FACE="Courier">${}</FONT></TT> construct and
+are useful in providing multiple stages of references to objects.
+<P>
+You can have references to scalars, arrays, hashes, subroutines,
+and even other references. References themselves are scalars and
+have to be dereferenced to the context before being used. Use
+<TT><FONT FACE="Courier">@$pointer</FONT></TT> for an array, <TT><FONT FACE="Courier">%$pointer</FONT></TT>
+for a hash, <TT><FONT FACE="Courier">&amp;$pointer</FONT></TT>
+for a subroutine, and so on. Multidimensional arrays are possible
+by using references in arrays and hashes. You can also have references
+to other elements holding even more references to create very
+complicated structures. There is a <TT><FONT FACE="Courier">scalar()</FONT></TT>
+function, a <TT><FONT FACE="Courier">scalar</FONT></TT> variable
+holds one value, and a hard reference is a scalar unless it's
+dereferenced to behave like a non-scalar. Got that?
+<P>
+Parameters are passed into a subroutine through references. The
+<TT><FONT FACE="Courier">@_</FONT></TT> array is really one long
+array of all the passed parameters concatenated in one long array.
+To send separate arrays, use the references to the individual
+items.
+<P>
+The next chapter covers Perl objects and references to objects.
+I deliberately did not cover Perl objects in this chapter because
+they require some knowledge of objects, constructors, and packages.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch2.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch4.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

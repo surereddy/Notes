@@ -1,0 +1,49 @@
+Update probe IP:
+====================
+select Native_Ip_Address,RTU_Name from TFLOATING_RTU_C where Is_Parent = 'y' and RTU_Name like 'QA%' order by RTU_Name;
+
+update TFLOATING_RTU_C set Native_Ip_Address='10.250.165.101' where Is_Parent = 'y' and RTU_Name = 'QA1_Y';
+update TFLOATING_RTU_C set Native_Ip_Address='10.250.165.102' where Is_Parent = 'y' and RTU_Name = 'QA2_Y_Redhat';
+update TFLOATING_RTU_C set Native_Ip_Address='10.250.165.105' where Is_Parent = 'y' and RTU_Name = 'QA7_Y';
+update TFLOATING_RTU_C set Native_Ip_Address='10.250.165.109' where Is_Parent = 'y' and RTU_Name = 'QA11_Y';
+update TFLOATING_RTU_C set Native_Ip_Address='10.250.165.110' where Is_Parent = 'y' and RTU_Name = 'QA12_Y';
+
+update TFLOATING_RTU_C set Native_Ip_Address='10.250.165.103' where Is_Parent = 'y' and RTU_Name = 'QA5_Y';
+update TFLOATING_RTU_C set Native_Ip_Address='10.250.165.104' where Is_Parent = 'y' and RTU_Name = 'QA6_Y';
+update TFLOATING_RTU_C set Native_Ip_Address='10.250.165.106' where Is_Parent = 'y' and RTU_Name = 'QA8_Y';
+select Native_Ip_Address,RTU_Name from TFLOATING_RTU_C where Is_Parent = 'y' and RTU_Name like 'QA%' order by RTU_Name;
+
+
+--
+select Native_Ip_Address,RTU_Name from TFLOATING_RTU_C where Is_Parent = 'y' and RTU_Name like '%500%' order by RTU_Name;
+
+update TFLOATING_RTU_C set Native_Ip_Address='10.250.165.111' where Is_Parent = 'y' and RTU_Name = 'PP500_IBT';
+select Native_Ip_Address,RTU_Name from TFLOATING_RTU_C where Is_Parent = 'y' and RTU_Name like '%500%' order by RTU_Name;
+
+--
+select Native_Ip_Address,RTU_Name from TFLOATING_RTU_C where Is_Parent = 'y' and RTU_Name like 'Embark%' order by RTU_Name;
+
+update TFLOATING_RTU_C set Native_Ip_Address='10.250.165.107' where Is_Parent = 'y' and RTU_Name = 'Embark';
+select Native_Ip_Address,RTU_Name from TFLOATING_RTU_C where Is_Parent = 'y' and RTU_Name like '%Embark%' order by RTU_Name;
+
+
+Update SIP profile:
+====================
+update sip_endpoints set domain = '10.250.165.143' where name like 'QA6_Y_EP%' and domain ='172.17.15.205' 
+select name,display_name, user_name,domain from sip_endpoints where domain is not null and name like 'QA6_Y_EP%'
+
+Asterik3
+select name,display_name, user_name,domain from sip_endpoints where domain ='172.17.15.205'
+update sip_endpoints set domain = '10.250.165.143' where domain ='172.17.15.205' 
+select name,display_name, user_name,domain from sip_endpoints where domain ='10.250.165.143'
+
+Asterik1
+select name,display_name, user_name,domain from sip_endpoints where domain ='172.17.15.126'
+
+Asterik2
+select name,display_name, user_name,domain from sip_endpoints where domain ='172.17.15.10'
+update sip_endpoints set domain = '10.250.165.142' where domain ='172.17.15.10' 
+select name,display_name, user_name,domain from sip_endpoints where domain ='10.250.165.142'
+
+Asterik4
+select name,display_name, user_name,domain from sip_endpoints where domain ='qa-asterisk4'

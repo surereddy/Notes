@@ -1,0 +1,626 @@
+********************************* 
+Cluster Oracle&Tomcat Installation Guide
+        Active Standby Mode     
+
+Author: FCG Xie Jiping
+Date: 2006.07.03       
+Note: This is for VSS project. 
+********************************* 
+
+version:
+OS: solaris9
+RAID:  sc3.1
+oracle:  9.2
+Tomcat: jakarta-tomcat-5.0.30
+
+Convention:
+'-' in the front of a line is to indicate the section hierarchies.
+E.g., '|-' is the first level,'||-' means second hierarchy,etc.
+'<>' is to bracket the entered value.
+';' is the comments prefix.
+
+
+|-suppose
+All the oracle software and database are installed in RAID disk.
+
+Note:
+	The RAID disk will be mounted in all the cluster nodes. t
+
+Example env:
+Node1: ems1 192.168.0.20
+Node2: ems2 192.168.0.21
+Cluster: ems 192.168.0.30 (float IP)
+
+
+/dev/md/oradg/dsk/d80     201G   3.8G   195G     2%    /global/oracle
+
+ORACLE_BASE=/global/oracle/oracle9
+ORACLE_HOME=$ORACLE_BASE/product/9.2.0
+
+
+|-Procedure
+0.Ask sun engineer to do the preinstall
+1.Install oracle in node1 
+2.Create same oracle user and environment parameter in node2
+3.Ask sun engineer to do the postinstall 
+4.Install tomcat in RAID disk
+5.Register tomcat in oragrp
+
+|-0. Ask sun engineer to do the preinstall
+Refer to <sc31 data service for oracle.pdf>
+Do all before section 'Installing the Oracle Software'. 
+
+|-1.Install oracle in node1 
+||- Create user oracle 
+#groupadd dba 
+#useradd -d /global/oracle/oracle9 -g dba -m oracle 
+#passwd oracle  
+
+||- Set environment
+#  -Add following lines in /etc/services 
+#    orasrv 1525/tcp  oracle
+#    listener 1521/tcp 
+
+	- # vi /etc/system
+在/etc/system文件set模块后增加一段:
+set shmsys:shminfo_shmmax= $A (8589934592)
+set shmsys:shminfo_shmmin=1
+set shmsys:shminfo_shmmni=1024
+set shmsys:shminfo_shmseg=256
+set semsys:seminfo_semmnu=100
+set semsys:seminfo_semmni=256
+set semsys:seminfo_semmsl=510
+set semsys:seminfo_semmns=10700
+set semsys:seminfo_semopm=100
+set semsys:seminfo_semvmx=32767
+
+;Notice: $A=0.8 * memory amount in byte
+;#prtconf|grep Mem ;show memory
+
+  -Add following lines in oracle's profile
+*******Start of Profile***********
+#	This is the default standard profile provided to a user.
+#	They are expected to edit it to meet their own needs.
+
+MAIL=/usr/mail/${LOGNAME:?}
+umask 022
+
+ULIMIT=3000000
+
+ORACLE_SID=orcl
+
+ORACLE_BASE=/global/oracle/oracle9
+
+ORACLE_HOME=$ORACLE_BASE/product/9.2.0
+
+ORACLE_TERM=sun5
+
+export ULIMIT ORACLE_SID ORACLE_BASE ORACLE_HOME ORACLE_TERM
+
+export PATH=$PATH:$ORACLE_HOME/bin
+
+#export DISPLAY=192.168.0.59:0.0
+#export NLS_LANG=AMERICAN_CHINA.ZHS16GBK
+
+#export JAVA_HOME=$ORACLE_HOME/JRE
+#export JDK_HOME=$JAVA_HOME
+#export ORACLE_OEM_JAVARUNTIME=$JAVA_HOME
+export PATH=.:/usr/local/bin:$ORACLE_HOME/JRE/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/css/bin:/usr/local/bin:/usr/proc/bin:$ORACLE_HOME/bin:$ORACLE_HOME/admin/bin:$ORACLE_HOME/lib:$PATH
+export LD_LIBRARY_PATH=.:/lib:/usr/lib:/usr/local/lib:/usr/share/lib:/usr/css/lib:$ORACLE_HOME/lib:$ORACLE_HOME/rdbms/lib:/usr/java/lib
+******End of Profile************
+
+
+||- Install Oracle Software as normal installation
+ - Login server through Xmanager with user id oracle
+ - set DISPLAY first for oracle
+ export DISPLAY=<%your pc ip%>:1.0 or 0.0
+ eg.$export DISPLAY=192.168.100.178:1.0
+ - ./runinstaller
+ #- Select English and Simple Chinese in language selection
+ - Select install Software only (not creating a Database)
+ 
+||- Run cmd $ORACLE_HOME/bin/dbca in user oracle mode
+  The wizard with will pop up in the Xmanager.
+	-  select custom->ZH16GBK in the in language selection
+  - if the dbca doesn't work,
+    copy and replace $ORACLE_HOME/JRE from another good server, like 172.24.198.204.
+    Note: JRE is a link.
+    
+||-test
+su - oracle
+oracle> sqlplus /nolog
+SQL> connect / as sysdba
+SQL> startup
+SQL> exit
+lsnrctl start
+
+|-2.Create same oracle user and environment parameter in node2
+||- Create user oracle
+ 
+#groupadd dba 
+#useradd -d /global/oracle/oracle9 -g dba -m oracle 
+#passwd oracle  
+
+||- Set environment
+	- # vi /etc/system
+在/etc/system文件set模块后增加一段:
+set shmsys:shminfo_shmmax= $A (8589934592)
+set shmsys:shminfo_shmmin=1
+set shmsys:shminfo_shmmni=1024
+set shmsys:shminfo_shmseg=256
+set semsys:seminfo_semmnu=100
+set semsys:seminfo_semmni=256
+set semsys:seminfo_semmsl=510
+set semsys:seminfo_semmns=10700
+set semsys:seminfo_semopm=100
+set semsys:seminfo_semvmx=32767
+
+;Notice: $A=0.8 * memory amount in byte
+;#prtconf|grep Mem ;show memory
+
+||-copy following files from node1 to node2
+~oracle/.profile
+
+bash-2.05$ cd /var/opt/oracle
+bash-2.05$ ls
+oraInst.loc  oratab
+
+/usr/local/bin
+bash-2.05$ ls -lrt
+total 18
+-rwxr-xr-x   1 oracle   other       2428 Jun 29 00:48 dbhome
+-rwxr-xr-x   1 oracle   other       2550 Jun 29 00:48 oraenv
+-rwxr-xr-x   1 oracle   other       2840 Jun 29 00:48 coraenv
+
+||-test
+rsh ems1
+su - oracle
+dbshut
+rsh ems2
+su - oracle
+oracle> sqlplus /nolog
+SQL> connect / as sysdba
+SQL> startup
+SQL> exit
+lsnrctl start
+
+
+
+|-3. Ask sun engineer to do the postinstall
+Refer to <sc31 data service for oracle.pdf>
+Do all after section 'Installing the Oracle Software'. 
+
+FYI:
+Following command to register oracle instance resource:
+scrgadm -a -j orares -g oragrp \
+-t SUNW.oracle_server \
+-x Connect_string=system/system \
+-x ORACLE_SID=orcl \
+-x ORACLE_HOME=/global/oracle/oracle9/product/9.2.0 \
+-x Alert_log_file=/global/oracle/oracle9/admin/orcl/bdump/alert_orcl.log \
+-y resource_dependencies=oracle-hastp-rs         ;oracle-hastp-rs is the raid disk resource, it must starts before oracle
+
+Following command to register oracle listener resource:
+scrgadm -a -j lnsres -g oragrp \
+-t SUNW.oracle_listener \
+-x LISTENER_NAME=LISTENER \
+-x ORACLE_HOME=/global/oracle/oracle9/product/9.2.0 \
+-y resource_dependencies=oracle-hastp-rs
+
+
+||-check
+|||-ems2 # scstat   
+------------------------------------------------------------------
+
+-- Cluster Nodes --
+
+                    Node name           Status
+                    ---------           ------
+  Cluster node:     ems2                Online
+  Cluster node:     ems1                Online
+
+------------------------------------------------------------------
+
+-- Cluster Transport Paths --
+
+                    Endpoint               Endpoint               Status
+                    --------               --------               ------
+  Transport path:   ems2:bge3              ems1:bge3              Path online
+  Transport path:   ems2:bge2              ems1:bge2              Path online
+
+------------------------------------------------------------------
+
+-- Quorum Summary --
+
+  Quorum votes possible:      3
+  Quorum votes needed:        2
+  Quorum votes present:       3
+
+
+-- Quorum Votes by Node --
+
+                    Node Name           Present Possible Status
+                    ---------           ------- -------- ------
+  Node votes:       ems2                1        1       Online
+  Node votes:       ems1                1        1       Online
+
+
+-- Quorum Votes by Device --
+
+                    Device Name         Present Possible Status
+                    -----------         ------- -------- ------
+  Device votes:     /dev/did/rdsk/d4s2  1        1       Online
+
+------------------------------------------------------------------
+
+-- Device Group Servers --
+
+                         Device Group        Primary             Secondary
+                         ------------        -------             ---------
+  Device group servers:  oradg               ems1                ems2
+
+
+-- Device Group Status --
+
+                              Device Group        Status              
+                              ------------        ------              
+  Device group status:        oradg               Online
+
+
+-- Multi-owner Device Groups --
+
+                              Device Group        Online Status
+                              ------------        -------------
+
+------------------------------------------------------------------
+
+-- Resource Groups and Resources --
+
+            Group Name          Resources
+            ----------          ---------
+ Resources: oragrp              ems oracle-hastp-rs orares lnsres
+
+
+-- Resource Groups --
+
+            Group Name          Node Name           State
+            ----------          ---------           -----
+     Group: oragrp              ems1                Online
+     Group: oragrp              ems2                Offline
+
+
+-- Resources --
+
+            Resource Name       Node Name           State     Status Message
+            -------------       ---------           -----     --------------
+  Resource: ems                 ems1                Online    Online - LogicalHostname online.
+  Resource: ems                 ems2                Offline   Offline - LogicalHostname offline.
+
+  Resource: oracle-hastp-rs     ems1                Online    Online
+  Resource: oracle-hastp-rs     ems2                Offline   Offline
+
+  Resource: orares              ems1                Online    Online
+  Resource: orares              ems2                Offline   Offline
+
+  Resource: lnsres              ems1                Online    Online
+  Resource: lnsres              ems2                Offline   Offline
+
+------------------------------------------------------------------
+
+-- IPMP Groups --
+
+              Node Name           Group   Status         Adapter   Status
+              ---------           -----   ------         -------   ------
+  IPMP Group: ems2                ipmp    Online         bge1      Online
+  IPMP Group: ems2                ipmp    Online         bge0      Online
+
+  IPMP Group: ems1                ipmp    Online         bge1      Online
+  IPMP Group: ems1                ipmp    Online         bge0      Online
+
+------------------------------------------------------------------
+ems2 # 
+ems2 # 
+|||-ems2 # scrgadm -ppv -g oragrp
+parameter pls refer to <sc31 data service for oracle.pdf>,<sc31 data service planning and admin.pdf>
+
+Res Group name:                                    oragrp
+  (oragrp) Res Group RG_description:               <NULL>
+  (oragrp) Res Group mode:                         Failover
+  (oragrp) Res Group management state:             Managed
+  (oragrp) Res Group RG_project_name:              default
+  (oragrp) Res Group RG_affinities:                <NULL>
+  (oragrp) Res Group Auto_start_on_new_cluster:    True
+  (oragrp) Res Group Failback:                     False
+  (oragrp) Res Group Nodelist:                     ems1 ems2
+  (oragrp) Res Group Maximum_primaries:            1
+  (oragrp) Res Group Desired_primaries:            1
+  (oragrp) Res Group RG_dependencies:              <NULL>
+  (oragrp) Res Group network dependencies:         True
+  (oragrp) Res Group Global_resources_used:        <All>
+  (oragrp) Res Group Pingpong_interval:            3600
+  (oragrp) Res Group Pathprefix:                   <NULL>
+  (oragrp) Res Group system:                       False
+
+  (oragrp) Res name:                               ems
+    (oragrp:ems) Res R_description:                
+    (oragrp:ems) Res resource type:                SUNW.LogicalHostnam
+    (oragrp:ems) Res type version:                 2
+    (oragrp:ems) Res resource group name:          oragrp
+    (oragrp:ems) Res resource project name:        default
+    (oragrp:ems) Res enabled:                      True
+    (oragrp:ems) Res monitor enabled:              True
+
+  (oragrp) Res name:                               oracle-hastp-rs
+    (oragrp:oracle-hastp-rs) Res R_description:    
+    (oragrp:oracle-hastp-rs) Res resource type:    SUNW.HAStoragePlus:
+    (oragrp:oracle-hastp-rs) Res type version:     2
+    (oragrp:oracle-hastp-rs) Res resource group name: oragrp
+    (oragrp:oracle-hastp-rs) Res resource project name: default
+    (oragrp:oracle-hastp-rs) Res enabled:          True
+    (oragrp:oracle-hastp-rs) Res monitor enabled:  True
+
+  (oragrp) Res name:                               orares
+    (oragrp:orares) Res R_description:             
+    (oragrp:orares) Res resource type:             SUNW.oracle_server:4
+    (oragrp:orares) Res type version:              4
+    (oragrp:orares) Res resource group name:       oragrp
+    (oragrp:orares) Res resource project name:     default
+    (oragrp:orares) Res enabled:                   True
+    (oragrp:orares) Res monitor enabled:           True
+
+  (oragrp) Res name:                               lnsres
+    (oragrp:lnsres) Res R_description:             
+    (oragrp:lnsres) Res resource type:             SUNW.oracle_listener:4
+    (oragrp:lnsres) Res type version:              4
+    (oragrp:lnsres) Res resource group name:       oragrp
+    (oragrp:lnsres) Res resource project name:     default
+    (oragrp:lnsres) Res enabled:                   True
+    (oragrp:lnsres) Res monitor enabled:           True
+|||-check oracle switch
+;start oracle resource group
+bash-2.05# scswitch -Z -g oragrp
+
+;start oracle at ems1
+bash-2.05# scswitch -z -g oragrp -h ems1
+ps -ef|grep ora
+user PC's oracle client to connect ems1
+
+;start oracle at ems2
+bash-2.05# scswitch -z -g oragrp -h ems2
+check
+
+|-4.Install tomcat in RAID disk
+- creat VSS user ems in both nodes with the same parameter
+- logon ems1 as VSS user ems
+- copy tomcat to /global/oracle/jakarta-tomcat-5.0.30
+  ;copy and can be used.
+- modify the http port
+  !!!The port must be changed to someone other than 8080, which has been used by oracle.
+  Eg, we use 8081
+  bash-2.05# cd /global/oracle/jakarta-tomcat-5.0.30/conf
+  bash-2.05# ls
+  Catalina             catalina.properties  server-minimal.xml   tomcat-users.xml
+  catalina.policy      jk2.properties       server.xml           web.xml
+  bash-2.05# vi server.xml
+            replace 8080 with 8081. 
+
+
+|-5.Register tomcat in oragrp
+
+||-0.Install tomcat HA package in both nodes
+bash-2.05# pwd
+/global/oracle/tmp/SunCluster_HA_APACHE_TC_3.1/Solaris_9/Packages
+bash-2.05# ls
+SUNWsctomcat
+bash-2.05# pkgadd -vd .
+....
+## Executing postinstall script.
+FILE=SUNW.tomcat
+RTRDIR=/usr/cluster/lib/rgm/gdsdata
+SRCDIR=/opt/SUNWsctomcat/etc
++ [ ! -d /usr/cluster/lib/rgm/gdsdata ]
++ echo Link /opt/SUNWsctomcat/etc/SUNW.tomcat to /usr/cluster/lib/rgm/gdsdata/SUNW.tomcat
+Link /opt/SUNWsctomcat/etc/SUNW.tomcat to /usr/cluster/lib/rgm/gdsdata/SUNW.tomcat
++ /bin/ln -s /opt/SUNWsctomcat/etc/SUNW.tomcat /usr/cluster/lib/rgm/gdsdata/SUNW.tomcat
++ exit 0
+
+Installation of <SUNWsctomcat> was successful.
+
+
+
+||-1. Become superuser on one of the nodes in the cluster that will host Apache
+Tomcat.
+eg. ems1
+||-2. Register the SUNW.gds resource type.
+# scrgadm -a -t SUNW.gds
+||-3. Register the SUNW.HAStoragePlus resource type.
+; No need.
+; It's already done in oracle registration
+# scrgadm -a -t SUNW.HAStoragePlus
+
+
+||-4. Create a failover resource group.
+; No need.
+; We use the same group, oracle group.
+; It's better to use one group, for the logical host name resourse and Disk Storage one 
+; have registered in oracle group,oragrp.
+# scrgadm -a -g Apache-Tomcat-failover-resource-group
+
+||-5. Create a resource for the Apache Tomcat Disk Storage.
+; No need.
+; It's already done in oracle registration
+# scrgadm -a -j tcdskres \
+-g tcgrp \
+-t SUNW.HAStoragePlus \
+-x FilesystemMountPoints=/global/oracle
+
+||-6. Create a resource for the Apache Tomcat Logical Host name.
+; No need.
+; It's already done in oracle registration
+# scrgadm -a -L -j $<Apache-Tomcat-lh-resource> \
+> -g $<Apache-Tomcat-failover-resource-group> \
+> -l $<Apache-Tomcat-logical-hostname>
+
+||-7. Enable the failover resource group, which now includes the Apache Tomcat Disk
+Storage and Logical Hostname resources.
+; No need.
+; It's already done in oracle registration
+# scswitch -Z -g Apache-Tomcat-failover-resource-group
+
+||-8. Prepare the parameter file, which is required by the Sun Cluster HAfor Apache
+Tomcat.
+
+# mkdir -p /global/oracle/ems_tomcat
+# cd /global/oracle/ems_tomcat
+# vi env.ksh  ; or env.sh, create common env parameter 
+--------begin-----
+#!/usr/bin/ksh
+#
+# Environment for Tomcat
+#
+JAVA_HOME=/usr/java
+export JAVA_HOME
+JAKARTA_HOME=/global/oracle/jakarta-tomcat-5.0.30
+export JAKARTA_HOME
+TOMCAT_HOME=$JAKARTA_HOME
+export TOMCAT_HOME
+--------end-----
+
+# cd /opt/SUNWsctomcat/bin
+# cp pfile /global/oracle/ems_tomcat
+Edit the parameter file pfile and follow the comments within that file. For
+example:
+#!/usr/bin/ksh
+# Set the Apache Tomcat specific environment variables which the start, stop
+# and check fuctions will use
+#
+# EnvScript     Script to set runtime environment for tomcat
+# User          Apache Tomcat User
+# Basepath      Absolute path to Tomcat Home directory i.e. 4.x CATALINA_HOME
+#               or TOMCAT_HOME for 3.x
+# Host          Hostname to test Apache Tomcat
+# Port          Port where Apache Tomcat is configured
+# TestCmd       Apache Tomcat test command
+# Startwait     Sleeping $Startwait seconds aftercompletion of the
+#               start command
+EnvScript=/global/oracle/ems_tomcat/env.ksh
+User=ems
+Basepath=/global/oracle/jakarta-tomcat-5.0.30
+Host=ems
+Port=8081
+TestCmd="get /index.jsp"
+ReturnString="CATALINA"
+Startwait=20
+
+
+;This example is from anApache Tomcat 5.0.30 configured as standalone web server
+;with the default start page index.jsp. The start page contains the string CATALINA.
+;!!!Host must be the cluster floating IP, instead of ip of one node.
+
+Repeat Step 8 for everyApache Tomcat instance you need.
+
+||-9. Create and register each required Apache Tomcat component.
+# cd /opt/SUNWsctomcat/util
+# cp sctomcat_config /global/oracle/ems_tomcat
+# cp sctomcat_register /global/oracle/ems_tomcat
+Edit the sctomcat_config file and follow the comments within that file. For
+example:
+bash-2.05# cat sctomcat_config
+#
+# Copyright 2003 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+# This file will be sourced in by sctomcat_register and the parameters
+# listed below will be used.
+#
+# These parameters can be customized in (key=value) form
+#
+#        RS - name of the resource for the application
+#        RG - name of the resource group containing RS
+#      PORT - name of the port number
+#        LH - name of the LogicalHostname SC resource
+#  SCALABLE - true or false for a scalable or failover resource
+#     PFILE - absolute path to the parameter file for the Tomcat resource
+#    HAS_RS - name of the HAStoragePlus SC resource
+#             (it can be a , separated list for the dependencies)
+#
+
+
+RS=tcres
+RG=oragrp
+PORT=8081
+LH=ems
+SCALABLE=false
+PFILE=/global/oracle/ems_tomcat/pfile
+HAS_RS=oracle-hastp-rs
+
+
+;Note: !!! The port is 8081, which have been changed in the step of tomcat installation.
+
+||-10.After editing sctomcat_config register the resource.
+# ./sctomcat_register
+Repeat Step 7,8, and 9 for eachApache Tomcat instance you need.
+||-11. Enable each Apache Tomcat resource.
+Repeat this step for eachApache Tomcat resource created in the step 10.
+# scswitch -F -g oragrp
+# scstat
+# scswitch -e -j tcres
+# scswitch -Z -g oragrp
+# scstat
+
+|-common cmd
+||-scsetup
+2) Resource groups
+register sequence:
+        1) Create a resource group
+        4) Resource type registration
+        2) Add a network resource to a resource group
+        3) Add a data service resource to a resource group (SUNW.HAStoragePlus)
+        register service(tomcat, oracle)
+        
+unregister sequence:        
+        9) Remove a resource from a resource group
+       10) Remove a resource group
+       
+
+bash-2.05# scsetup
+
+  *** Main Menu ***
+
+    Please select from one of the following options:
+
+        1) Quorum
+        2) Resource groups
+        3) Data Services
+        4) Cluster interconnect
+        5) Device groups and volumes
+        6) Private hostnames
+        7) New nodes
+        8) Other cluster properties
+
+        ?) Help with menu options
+        q) Quit
+
+    Option:  2
+
+  *** Resource Group Menu ***
+
+    Please select from one of the following options:
+
+        1) Create a resource group
+        2) Add a network resource to a resource group
+        3) Add a data service resource to a resource group
+        4) Resource type registration
+        5) Online/Offline or Switchover a resource group
+        6) Enable/Disable a resource
+        7) Change properties of a resource group
+        8) Change properties of a resource
+        9) Remove a resource from a resource group
+       10) Remove a resource group
+       11) Clear the stop_failed error flag from a resource
+
+        ?) Help
+        s) Show current status
+        q) Return to the main menu
+
+    Option:

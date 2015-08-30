@@ -1,0 +1,70 @@
+voipcmm@cmm $ cat .kshrc
+# example korn set resource script for an smc user
+#
+
+#shell setup:
+
+# do not exit on end-of-file (CTRL-D):
+set -o ignoreeof
+set -o emacs
+
+
+# Useful vms-style aliases
+alias dir='ls -alFg'
+alias lo='exit'
+alias quit='exit'
+
+
+# other useful variables / shell functions
+alias ll='ls -al'
+
+function cdl
+{
+    cd $*
+    ls -al
+}
+
+
+
+#SMC aliases
+
+alias startall='${SMCHOME}/bin/startall.sh'
+alias killall='${SMCHOME}/bin/killall.sh'
+alias showall='${SMCHOME}/bin/showall.sh'
+
+alias startsmc='${SMCHOME}/bin/startsmc.sh'
+alias killsmc='${SMCHOME}/bin/killsmc.sh'
+alias showsmc='${SMCHOME}/bin/showsmc.sh'
+
+alias startgk='${SMCHOME}/bin/startgk.sh'
+alias killgk='${SMCHOME}/bin/killgk.sh'
+alias showgk='${SMCHOME}/bin/showgk.sh'
+alias gkman='${SMCHOME}/bin/gkman.exe 192.168.50.11 6060'
+
+alias start_smcupdates='${SMCHOME}/bin/start_smcupdates.sh'
+alias start_rtdbupdates='${SMCHOME}/bin/start_rtdbupdates.sh'
+alias start_updates='start_smcupdates; start_rtdbupdates'
+alias stop_smcupdates='${SMCHOME}/bin/stop_smcupdates.sh'
+alias stop_rtdbupdates='${SMCHOME}/bin/stop_rtdbupdates.sh'
+alias stop_updates='stop_smcupdates; stop_rtdbupdates'
+alias smcupdates_running='${SMCHOME}/bin/smcupdates_running.sh'
+alias rtdbupdates_running='${SMCHOME}/bin/rtdbupdates_running.sh'
+alias updates_running='smcupdates_running; rtdbupdates_running'
+
+
+alias pmt='cd ${SMCHOME}/bin ; ${SMCHOME}/bin/pmt.exe ; cd -'
+alias resync_rtdb='${SMCHOME}/bin/resync_rtdb.sh'
+alias version='${SMCHOME}/bin/version.sh'
+alias logproc='cd ${SMCHOME}/bin ; set -o noglob;${SMCHOME}/bin/logproc.exe ; cd -'
+
+alias l='ls -algtr'
+
+host=$( uname )
+if [[ "$host" = "SunOS" ]]
+then
+  # enable arrow keys
+  alias __A=$( echo "\020" )
+  alias __B=$( echo "\016" )
+  alias __C=$( echo "\006" )
+  alias __D=$( echo "\002" )
+fi

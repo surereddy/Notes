@@ -1,0 +1,347 @@
+SQL> show parameter;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+O7_DICTIONARY_ACCESSIBILITY          boolean     FALSE
+active_instance_count                integer
+aq_tm_processes                      integer     0
+archive_lag_target                   integer     0
+asm_diskgroups                       string
+asm_diskstring                       string
+asm_power_limit                      integer     1
+audit_file_dest                      string      /export/home/oracle/product/10
+                                                 .2.0/admin/univiss/adump
+audit_sys_operations                 boolean     FALSE
+audit_syslog_level                   string
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+audit_trail                          string      NONE
+background_core_dump                 string      partial
+background_dump_dest                 string      /export/home/oracle/product/10
+                                                 .2.0/admin/univiss/bdump
+backup_tape_io_slaves                boolean     FALSE
+bitmap_merge_area_size               integer     1048576
+blank_trimming                       boolean     FALSE
+buffer_pool_keep                     string
+buffer_pool_recycle                  string
+circuits                             integer
+cluster_database                     boolean     FALSE
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+cluster_database_instances           integer     1
+cluster_interconnects                string
+commit_point_strength                integer     1
+commit_write                         string
+compatible                           string      10.2.0.1.0
+control_file_record_keep_time        integer     7
+control_files                        string      /global/oradata/univiss/contro
+                                                 l01.ctl, /global/oradata/univi
+                                                 ss/control02.ctl, /global/orad
+                                                 ata/univiss/control03.ctl
+core_dump_dest                       string      /export/home/oracle/product/10
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+                                                 .2.0/admin/univiss/cdump
+cpu_count                            integer     32
+create_bitmap_area_size              integer     8388608
+create_stored_outlines               string
+cursor_sharing                       string      EXACT
+cursor_space_for_time                boolean     FALSE
+db_16k_cache_size                    big integer 0
+db_2k_cache_size                     big integer 0
+db_32k_cache_size                    big integer 0
+db_4k_cache_size                     big integer 0
+db_8k_cache_size                     big integer 0
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+db_block_buffers                     integer     0
+db_block_checking                    string      FALSE
+db_block_checksum                    string      TRUE
+db_block_size                        integer     8192
+db_cache_advice                      string      ON
+db_cache_size                        big integer 0
+db_create_file_dest                  string
+db_create_online_log_dest_1          string
+db_create_online_log_dest_2          string
+db_create_online_log_dest_3          string
+db_create_online_log_dest_4          string
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+db_create_online_log_dest_5          string
+db_domain                            string
+db_file_multiblock_read_count        integer     16
+db_file_name_convert                 string
+db_files                             integer     200
+db_flashback_retention_target        integer     1440
+db_keep_cache_size                   big integer 0
+db_name                              string      univiss
+db_recovery_file_dest                string      /export/home/oracle/product/10
+                                                 .2.0/flash_recovery_area
+db_recovery_file_dest_size           big integer 2G
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+db_recycle_cache_size                big integer 0
+db_unique_name                       string      univiss
+db_writer_processes                  integer     4
+dbwr_io_slaves                       integer     0
+ddl_wait_for_locks                   boolean     FALSE
+dg_broker_config_file1               string      /export/home/oracle/product/10
+                                                 .2.0/dbs/dr1univiss.dat
+dg_broker_config_file2               string      /export/home/oracle/product/10
+                                                 .2.0/dbs/dr2univiss.dat
+dg_broker_start                      boolean     FALSE
+disk_asynch_io                       boolean     TRUE
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+dispatchers                          string      (PROTOCOL=TCP) (SERVICE=univis
+                                                 sXDB)
+distributed_lock_timeout             integer     60
+dml_locks                            integer     1812
+drs_start                            boolean     FALSE
+event                                string
+fal_client                           string
+fal_server                           string
+fast_start_io_target                 integer     0
+fast_start_mttr_target               integer     0
+fast_start_parallel_rollback         string      LOW
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+file_mapping                         boolean     FALSE
+fileio_network_adapters              string
+filesystemio_options                 string      asynch
+fixed_date                           string
+gc_files_to_locks                    string
+gcs_server_processes                 integer     0
+global_context_pool_size             string
+global_names                         boolean     FALSE
+hash_area_size                       integer     131072
+hi_shared_memory_address             integer     0
+hs_autoregister                      boolean     TRUE
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+ifile                                file
+instance_groups                      string
+instance_name                        string      univiss
+instance_number                      integer     0
+instance_type                        string      RDBMS
+java_max_sessionspace_size           integer     0
+java_pool_size                       big integer 0
+java_soft_sessionspace_limit         integer     0
+job_queue_processes                  integer     10
+large_pool_size                      big integer 0
+ldap_directory_access                string      NONE
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+license_max_sessions                 integer     0
+license_max_users                    integer     0
+license_sessions_warning             integer     0
+local_listener                       string
+lock_name_space                      string
+lock_sga                             boolean     FALSE
+log_archive_config                   string
+log_archive_dest                     string
+log_archive_dest_1                   string
+log_archive_dest_10                  string
+log_archive_dest_2                   string
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_archive_dest_3                   string
+log_archive_dest_4                   string
+log_archive_dest_5                   string
+log_archive_dest_6                   string
+log_archive_dest_7                   string
+log_archive_dest_8                   string
+log_archive_dest_9                   string
+log_archive_dest_state_1             string      enable
+log_archive_dest_state_10            string      enable
+log_archive_dest_state_2             string      enable
+log_archive_dest_state_3             string      enable
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_archive_dest_state_4             string      enable
+log_archive_dest_state_5             string      enable
+log_archive_dest_state_6             string      enable
+log_archive_dest_state_7             string      enable
+log_archive_dest_state_8             string      enable
+log_archive_dest_state_9             string      enable
+log_archive_duplex_dest              string
+log_archive_format                   string      %t_%s_%r.dbf
+log_archive_local_first              boolean     TRUE
+log_archive_max_processes            integer     2
+log_archive_min_succeed_dest         integer     1
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_archive_start                    boolean     FALSE
+log_archive_trace                    integer     0
+log_buffer                           integer     14338048
+log_checkpoint_interval              integer     0
+log_checkpoint_timeout               integer     1800
+log_checkpoints_to_alert             boolean     FALSE
+log_file_name_convert                string
+logmnr_max_persistent_sessions       integer     1
+max_commit_propagation_delay         integer     0
+max_dispatchers                      integer
+max_dump_file_size                   string      UNLIMITED
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+max_enabled_roles                    integer     150
+max_shared_servers                   integer
+nls_calendar                         string
+nls_comp                             string
+nls_currency                         string
+nls_date_format                      string
+nls_date_language                    string
+nls_dual_currency                    string
+nls_iso_currency                     string
+nls_language                         string      AMERICAN
+nls_length_semantics                 string      BYTE
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+nls_nchar_conv_excp                  string      FALSE
+nls_numeric_characters               string
+nls_sort                             string
+nls_territory                        string      AMERICA
+nls_time_format                      string
+nls_time_tz_format                   string
+nls_timestamp_format                 string
+nls_timestamp_tz_format              string
+object_cache_max_size_percent        integer     10
+object_cache_optimal_size            integer     102400
+olap_page_pool_size                  big integer 0
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+open_cursors                         integer     300
+open_links                           integer     4
+open_links_per_instance              integer     4
+optimizer_dynamic_sampling           integer     2
+optimizer_features_enable            string      10.2.0.1
+optimizer_index_caching              integer     0
+optimizer_index_cost_adj             integer     100
+optimizer_mode                       string      ALL_ROWS
+optimizer_secure_view_merging        boolean     TRUE
+os_authent_prefix                    string      ops$
+os_roles                             boolean     FALSE
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+parallel_adaptive_multi_user         boolean     TRUE
+parallel_automatic_tuning            boolean     FALSE
+parallel_execution_message_size      integer     2152
+parallel_instance_group              string
+parallel_max_servers                 integer     355
+parallel_min_percent                 integer     0
+parallel_min_servers                 integer     0
+parallel_server                      boolean     FALSE
+parallel_server_instances            integer     1
+parallel_threads_per_cpu             integer     2
+pga_aggregate_target                 big integer 1217M
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+plsql_ccflags                        string
+plsql_code_type                      string      INTERPRETED
+plsql_compiler_flags                 string      INTERPRETED, NON_DEBUG
+plsql_debug                          boolean     FALSE
+plsql_native_library_dir             string
+plsql_native_library_subdir_count    integer     0
+plsql_optimize_level                 integer     2
+plsql_v2_compatibility               boolean     FALSE
+plsql_warnings                       string      DISABLE:ALL
+pre_page_sga                         boolean     FALSE
+processes                            integer     370
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+query_rewrite_enabled                string      TRUE
+query_rewrite_integrity              string      enforced
+rdbms_server_dn                      string
+read_only_open_delayed               boolean     FALSE
+recovery_parallelism                 integer     0
+recyclebin                           string      on
+remote_archive_enable                string      true
+remote_dependencies_mode             string      TIMESTAMP
+remote_listener                      string
+remote_login_passwordfile            string      EXCLUSIVE
+remote_os_authent                    boolean     FALSE
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+remote_os_roles                      boolean     FALSE
+replication_dependency_tracking      boolean     TRUE
+resource_limit                       boolean     FALSE
+resource_manager_plan                string
+resumable_timeout                    integer     0
+rollback_segments                    string
+serial_reuse                         string      disable
+service_names                        string      univiss
+session_cached_cursors               integer     20
+session_max_open_files               integer     10
+sessions                             integer     412
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+sga_max_size                         big integer 3664M
+sga_target                           big integer 3664M
+shadow_core_dump                     string      partial
+shared_memory_address                integer     0
+shared_pool_reserved_size            big integer 35232153
+shared_pool_size                     big integer 0
+shared_server_sessions               integer
+shared_servers                       integer     1
+skip_unusable_indexes                boolean     TRUE
+smtp_out_server                      string
+sort_area_retained_size              integer     0
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+sort_area_size                       integer     65536
+spfile                               string      /export/home/oracle/product/10
+                                                 .2.0/dbs/spfileuniviss.ora
+sql92_security                       boolean     FALSE
+sql_trace                            boolean     FALSE
+sql_version                          string      NATIVE
+sqltune_category                     string      DEFAULT
+standby_archive_dest                 string      ?/dbs/arch
+standby_file_management              string      MANUAL
+star_transformation_enabled          string      FALSE
+statistics_level                     string      TYPICAL
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+streams_pool_size                    big integer 0
+tape_asynch_io                       boolean     TRUE
+thread                               integer     0
+timed_os_statistics                  integer     0
+timed_statistics                     boolean     TRUE
+trace_enabled                        boolean     TRUE
+tracefile_identifier                 string
+transactions                         integer     453
+transactions_per_rollback_segment    integer     5
+undo_management                      string      AUTO
+undo_retention                       integer     900
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+undo_tablespace                      string      UNDOTBS1
+use_indirect_data_buffers            boolean     FALSE
+user_dump_dest                       string      /export/home/oracle/product/10
+                                                 .2.0/admin/univiss/udump
+utl_file_dir                         string
+workarea_size_policy                 string      AUTO
+SQL> 

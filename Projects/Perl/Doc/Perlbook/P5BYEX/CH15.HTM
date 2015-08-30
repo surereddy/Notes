@@ -1,0 +1,2764 @@
+<html>
+
+<head>
+
+<title>Chapter 15  -- Perl Modules</title>
+
+
+
+<meta>
+
+</head>
+
+<body TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<h1><font SIZE="6" COLOR="#FF0000">Chapter&nbsp;15</font></h1>
+
+<h1><font SIZE="6" COLOR="#FF0000">Perl Modules</font></h1>
+
+<hr>
+
+<p>
+
+<center><b><font SIZE="5">CONTENTS</font></b></center>
+
+<ul>
+
+<li><a HREF="#ModuleConstructorsandDestructors">
+
+Module Constructors and Destructors</a>
+
+<ul>
+
+<li><a HREF="#TheTTFONTSIZEFACECourierBEGINFONTTTFONTSIZEBlockFONT">
+
+The <tt>BEGIN </tt>Block</font>
+
+</a>
+
+<li><a HREF="#TheTTFONTSIZEFACECourierENDFONTTTFONTSIZEBlockFONT">
+
+The <tt>END</tt>
+
+Block</font></a>
+
+</ul>
+
+<li><a HREF="#SymbolTables">
+
+Symbol Tables</a>
+
+<li><a HREF="#TheTTFONTSIZEFACECourierrequireFONTTTFONTSIZECompilerDirectiveFONT">
+
+The <tt>require</tt>
+
+Compiler Directive</font></a>
+
+<li><a HREF="#TheTTFONTSIZEFACECourieruseFONTTTFONTSIZECompilerDirectiveFONT">
+
+The <tt>use</tt>
+
+Compiler Directive</font></a>
+
+<li><a HREF="#WhatsaPragma">
+
+What's a Pragma?</a>
+
+<li><a HREF="#TheTTFONTSIZEFACECourierstrictFONTTTFONTSIZEPragmaFONT">
+
+The <tt>strict</tt>
+
+Pragma</font></a>
+
+<li><a HREF="#TheStandardModules">
+
+The Standard Modules</a>
+
+<li><a HREF="#TTFONTSIZEFACECourierstrictmyFONTTTFONTSIZEandModulesFONT">
+
+<tt>strict, my() </tt>and
+
+Modules</font></a>
+
+<li><a HREF="#ModuleExamples">
+
+Module Examples</a>
+
+<ul>
+
+<li><a HREF="#ExampleTheTTFONTSIZEFACECourierCarpFONTTTFONTSIZEModuleFONT">
+
+Example: The <tt>Carp</tt>
+
+Module</font></a>
+
+<li><a HREF="#ExampleTheTTFONTSIZEFACECourierEnglishFONTTTFONTSIZEModuleFONT">
+
+Example: The <tt>English</tt>
+
+Module</font></a>
+
+<li><a HREF="#ExampleTheTTFONTSIZEFACECourierEnvFONTTTFONTSIZEModuleFONT">
+
+Example: The <tt>Env </tt>Module</font>
+
+</a>
+
+</ul>
+
+<li><a HREF="#Summary">
+
+Summary</a>
+
+<li><a HREF="#ReviewQuestions">
+
+Review Questions</a>
+
+<li><a HREF="#ReviewExercises">
+
+Review Exercises</a>
+
+</ul>
+
+
+
+<hr>
+
+<p>
+
+In the last chapter, you were introduced to object-oriented programming.
+
+Along the way, you learned some aspects of programming with Modules
+
+although you may not have realized it. I believe the shortest
+
+definition of a <i>module</i> is a namespace defined in a file.
+
+For example, the <tt>English</tt>
+
+module is defined in the <tt>English.pm</tt>
+
+file and the <tt>Find</tt> module
+
+is defined in the <tt>Find.pm</tt>
+
+file.
+
+<p>
+
+Of course, modules are more than simply a namespace in a file.
+
+But, don't be coNCerned-there's not much more.
+
+<p>
+
+Perl 4, the last version of Perl, depended on libraries to group
+
+fuNCtions in units. 31 libraries shipped with Perl 4.036 These
+
+have been replaced with a standard set of modules. However, the
+
+old libraries are still available in case you run across some
+
+old Perl scripts that need them.
+
+<p>
+
+Libraries-and modules-are generally placed in a subdirectory called
+
+Lib. On my machine, the library directory is <tt>c:\perl5\lib</tt>.
+
+If you don't know what your library directory is, ask your system
+
+administrator. Some modules are placed in subdirectories like
+
+<tt>Lib/Net</tt> or <tt>Lib/File</tt>.
+
+The modules in these subdirectories are loaded using the subdirectory
+
+name, two colons, and the module name. For example, <tt>Net::Ping</tt>
+
+or <tt>File::Basename</tt>.
+
+<p>
+
+Libraries are made available to your script by using the <tt>require</tt>
+
+compiler directive. Directives may seem like fuNCtions, but they
+
+aren't. The differeNCe is that compiler directives are carried
+
+out when the script is compiled and fuNCtions are executed while
+
+the script is running.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+You might think the distiNCtion between compiler directives and fuNCtions is minor. And you might be right. I like to be as precise as possible when using computer terminology. After all, the computer is precise; why shouldn't we be, too?</blockquote>
+
+<blockquote>
+
+Unfortunately, Perl doesn't make it easy to create simple definitions and place every feature into a nice orderly category. So don't get hung up on attaching a label to everything. If you know what something does, the names won't matter a whole 
+lot.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Some modules are just collections of fuNCtions-like the libraries-with
+
+some &quot;module&quot; stuff added. Modules should follow these
+
+guidelines:
+
+<ul>
+
+<li>The file name should be the same as the package name.
+
+<li>The package name should start with a capital letter.
+
+<li>The file name should have a file extension of <tt>pm</tt>.
+
+<li>The package should be derived from the <tt>Exporter</tt>
+
+class if object-oriented techniques are not being used.
+
+<li>The module should export fuNCtions and variables to the main
+
+namespace using the <tt>@EXPORT</tt>
+
+and <tt>@EXPORT_OK</tt> arrays if
+
+object-oriented techniques are not being used.
+
+</ul>
+
+<p>
+
+Modules are loaded by the <tt>use</tt>
+
+directive, which is similar to <tt>require</tt>
+
+except it automates the importing of fuNCtion and variable names.
+
+<p>
+
+Modules that are simply a collection of fuNCtions can be thought
+
+of as classes without constructors. Remember that the package
+
+name <i>is</i> the class name. Whenever you see a package name,
+
+you're also seeing a class-even if none of the object-oriented
+
+techniques are used.
+
+<p>
+
+Object-oriented modules keep all fuNCtion and variable names close
+
+to the vest-so to speak. They are not available directly, you
+
+access them through the module name. Remember the <tt>Inventory_item-&gt;new()</tt>
+
+notation?
+
+<p>
+
+However, simple fuNCtion collections don't have this object-oriented
+
+need for secrecy. They want your script to directly access the
+
+defined fuNCtions. This is done using the Exporter class, <tt>@EXPORT</tt>,
+
+and <tt>@EXPORT_OK</tt>.
+
+<p>
+
+The <tt>Exporter</tt> class supplies
+
+basic fuNCtionality that gives your script access to the fuNCtions
+
+and variables inside the module. The <tt>import()</tt>
+
+fuNCtion, defined inside the <tt>Exporter</tt>
+
+class, is executed at compile-time by the <tt>use</tt>
+
+compiler directive. The <tt>import()</tt>
+
+fuNCtion takes fuNCtion and variable names from the module namespace
+
+and places them into the <tt>main</tt>
+
+namespace. Thus, your script can access them directly.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+I can almost hear your thoughts at this point. You're thinking, &quot;The exporting of fuNCtion and variable names is handled by the <tt><i>import() </i></tt>fuNCtion?&quot; Well, I sympathize. But, look at it this way: The module is exporting and your 
+script is importing.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+You may occasionally see a refereNCe to what may look like a nested
+
+module. For example, <tt>$Outer::Inner::foo</tt>.
+
+This really refers to a module named <tt>Outer::Inner</tt>,
+
+so named by the statement: <tt>package Outer::Inner;</tt>.
+
+Module designers sometimes use this technique to simulate nested
+
+modules.
+
+<h2><a NAME="ModuleConstructorsandDestructors"><font SIZE="5" COLOR="#FF0000">
+
+Module Constructors and Destructors</font></a></h2>
+
+<p>
+
+You may recall constructors and destructors from the discussion
+
+about objects in the last chapter. Constructors are used to initialize
+
+something and destructors are used to write log messages, close
+
+files, and do other clean-up type duties.
+
+<p>
+
+Perl has constructors and destructors that work at the module
+
+level as well as the class level. The module constructor is called
+
+the <tt>BEGIN</tt> block, while the
+
+module destructor is called the <tt>END</tt>
+
+block.
+
+<h3><a NAME="TheTTFONTSIZEFACECourierBEGINFONTTTFONTSIZEBlockFONT">
+
+The <tt>BEGIN </tt>Block</font>
+
+</a></h3>
+
+<p>
+
+The <tt>BEGIN</tt> block is evaluated
+
+as soon as it is defined. Therefore, it can iNClude other fuNCtions
+
+using <tt>do()</tt> or <tt>require</tt>
+
+statements. SiNCe the blocks are evaluated immediately after definition,
+
+multiple <tt>BEGIN</tt> blocks will
+
+execute in the order that they appear in the script.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Define a </i><tt><i>BEGIN</i></tt><i>
+
+block for the main package.<br>
+
+Display a string indicating the begin block is executing.<br>
+
+Start the </i><tt><i>Foo</i></tt><i>
+
+package.<br>
+
+Define a </i><tt><i>BEGIN</i></tt><i>
+
+block for the </i><tt><i>Foo</i></tt><i>
+
+package.<br>
+
+Display a string indicating the begin block is executing.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 15.1&nbsp;&nbsp;15LST01.PL-Using </b><tt><b><font FACE="Courier">BEGIN</font></b></tt><b>
+
+Blocks<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+BEGIN {
+
+    print(&quot;main\n&quot;);
+
+}
+
+
+
+package Foo;
+
+    BEGIN {
+
+        print(&quot;Foo\n&quot;);
+
+    }
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+main
+
+Foo
+
+</pre>
+
+</blockquote>
+
+<h3><a NAME="TheTTFONTSIZEFACECourierENDFONTTTFONTSIZEBlockFONT">
+
+The <tt>END</tt>
+
+Block</font></a></h3>
+
+<p>
+
+The <tt>END</tt> blocks are the last
+
+thing to be evaluated. They are even evaluated after <tt>exit()</tt>
+
+or <tt>die()</tt> fuNCtions are called.
+
+Therefore, they can be used to close files or write messages to
+
+log files. Multiple <tt>END</tt> blocks
+
+are evaluated in reverse order.
+
+<hr>
+
+<blockquote>
+
+<b>Listing 15.2&nbsp;&nbsp;15LST02.PL-Using </b><tt><b><font FACE="Courier">END</font></b></tt><b>
+
+Blocks<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+END {
+
+    print(&quot;main\n&quot;);
+
+}
+
+
+
+package Foo;
+
+    END {
+
+        print(&quot;Foo\n&quot;);
+
+    }
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+Foo
+
+Main<br>
+
+
+
+</pre>
+
+</blockquote>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Signals that are sent to your script can bypass the <tt>END</tt> blocks. So, if your script is in danger of stopping due to a signal, be sure to define a signal-handler fuNCtion. See <a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm">Chapter 13</a>, &quot;Handling Errors and 
+Signals,&quot; for more information.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h2><a NAME="SymbolTables"><font SIZE="5" COLOR="#FF0000">
+
+Symbol Tables</font></a></h2>
+
+<p>
+
+Each namespace-and therefore, each module, class, or package-has
+
+its own symbol table. A <i>symbol table</i>, in Perl, is a hash
+
+that holds all of the names defined in a namespace. All of the
+
+variable and fuNCtion names can be found there. The hash for each
+
+namespace is named after the namespace with two colons. For example,
+
+the symbol table for the <tt>Foo</tt>
+
+namespace is called <tt>%Foo::</tt>.
+
+Listing 15.3 shows a program that displays all of the entries
+
+in the <tt>Foo::</tt> namespace.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Define the </i><tt><i>dispSymbols()</i></tt><i>
+
+fuNCtion.<br>
+
+Get the hash refereNCe that should be the first parameter.<br>
+
+Declare local temporary variables.<br>
+
+Initialize the </i><tt><i>%symbols</i></tt><i>
+
+variable. This is done to make the code easier to read.<br>
+
+Initialize the </i><tt><i>@symbols</i></tt><i>
+
+variables. This variable is also used to make the code easier
+
+to read.<br>
+
+Iterate over the symbols array displaying the key-value pairs
+
+of the symbol table.<br>
+
+Call the </i><tt><i>dispSymbols()</i></tt><i>
+
+fuNCtion to display the symbols for the Foo package.<br>
+
+Start the Foo package.<br>
+
+Initialize the </i><tt><i>$bar</i></tt><i>
+
+variable. This will place an entry into the symbol table.<br>
+
+Define the </i><tt><i>baz()</i></tt><i>
+
+fuNCtion. This will also create an entry into the symbol table.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 15.3&nbsp;&nbsp;15LST03.PL-How to Display the Entries
+
+in a Symbol Table<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+sub dispSymbols {
+
+    my($hashRef) = shift;
+
+    my(%symbols);
+
+    my(@symbols);
+
+
+
+    %symbols = %{$hashRef};
+
+    @symbols = sort(keys(%symbols));
+
+
+
+    foreach (@symbols) {
+
+        printf(&quot;%-10.10s| %s\n&quot;, $_, $symbols{$_});
+
+    }
+
+}
+
+
+
+dispSymbols(\%Foo::);
+
+
+
+package Foo;
+
+    $bar = 2;
+
+
+
+    sub baz {
+
+        $bar++;
+
+    }
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+bar       | *Foo::bar
+
+baz       | *Foo::baz
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This example shows that there are only two things in the <tt>%Foo::</tt>
+
+symbol table-only those things that the script placed there. This
+
+is not the case with the <tt>%main::</tt>
+
+symbol table. When I display the entries in <tt>%main::,</tt>
+
+I see over 85 items. Part of the reason for the large number of
+
+names in the <tt>main</tt> package
+
+is that some variables are forced there. For example, <tt>STDIN</tt>,
+
+<tt>STDOUT</tt>, <tt>STDERR</tt>,
+
+<tt>@ARGV</tt>, <tt>@ARGVOUT</tt>,
+
+<tt>%ENV</tt>, <tt>@INC</tt>,
+
+and <tt>%SIG</tt> are forced into
+
+the <tt>main</tt> namespace regardless
+
+of when they are used.
+
+<h2><a NAME="TheTTFONTSIZEFACECourierrequireFONTTTFONTSIZECompilerDirectiveFONT"><font SIZE="5" COLOR="#FF0000">
+
+The <tt>require</tt>
+
+Compiler Directive</font></font></a></h2>
+
+<p>
+
+The <tt>require</tt> directive is
+
+used to load Perl libraries. If you needed to load a library called
+
+<tt>Room.pl</tt>, you would do so
+
+like this:
+
+<blockquote>
+
+<pre>
+
+require Room.pl;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+No exporting of symbols is done by the <tt>require</tt>
+
+directive. So all symbols in the libraries must be explicitly
+
+placed into the <tt>main</tt> namespace.
+
+For example, you might see a library that looks like this:
+
+<blockquote>
+
+<pre>
+
+package abbrev;
+
+
+
+sub main'abbrev {
+
+    # code for the fuNCtion
+
+}
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Two things in this code snippet point out that it is Perl 4 code.
+
+The first is that the package name is in all lowercase. And the
+
+second is that a single quote is used instead of double colons
+
+to indicate a qualifying package name. Even though the <tt>abbrev()</tt>
+
+fuNCtion is defined inside the <tt>abbrev</tt>
+
+package, it is not part of the <tt>%abbrev::</tt>
+
+namespace because of the <tt>main'</tt>
+
+in front of the fuNCtion name.
+
+<p>
+
+The <tt>require</tt> directive can
+
+also indicate that your script needs a certain version of Perl
+
+to run. For example, if you are using refereNCes, you should place
+
+the following statement at the top of your script:
+
+<blockquote>
+
+<pre>
+
+require 5.000;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+And if you are using a feature that is available only with Perl
+
+5.002-like prototypes-use the following:
+
+<blockquote>
+
+<pre>
+
+require 5.002;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Perl 4 will generate a fatal error if these lines are seen.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Prototypes are not covered in this book. If you are using Perl 5.002 or later, prototypes should be discussed in the documentation that comes with the Perl distribution.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h2><a NAME="TheTTFONTSIZEFACECourieruseFONTTTFONTSIZECompilerDirectiveFONT"><font SIZE="5" COLOR="#FF0000">
+
+The <tt>use</tt>
+
+Compiler Directive</font></font></a></h2>
+
+<p>
+
+When it came time to add modules to Perl, thought was given to
+
+how this could be done and still support the old libraries. It
+
+was decided that a new directive was needed. Thus, <tt>use</tt>
+
+was born.
+
+<p>
+
+The <tt>use</tt> directive will automatically
+
+export fuNCtion and variable names to the <tt>main</tt>
+
+namespace by calling the module's <tt>import()</tt>
+
+fuNCtion. Most modules don't have their own <tt>import()</tt>
+
+fuNCtion; instead they inherit it from the <tt>Exporter</tt>
+
+module. You have to keep in mind that the <tt>import()</tt>
+
+fuNCtion is not applicable to object-oriented modules. Object-oriented
+
+modules should not export any of their fuNCtions or variables.
+
+<p>
+
+You can use the following lines as a template for creating your
+
+own modules:
+
+<blockquote>
+
+<pre>
+
+package Module;
+
+    require(Exporter);
+
+    @ISA = qw(Exporter);
+
+    @EXPORT = qw(fuNCOne $varOne @variable %variable);
+
+    @EXPORT_OK = qw(fuNCTwo $varTwo);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The names in the <tt>@EXPORT</tt>
+
+array will always be moved into the <tt>main</tt>
+
+namespace. Those names in the <tt>@EXPORT_OK</tt>
+
+will be moved only if you request them. This small module can
+
+be loading into your script using this statement:
+
+<blockquote>
+
+<pre>
+
+use Module;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+SiNCe <tt>use</tt> is a compiler directive,
+
+the module is loaded as soon as the compiler sees the directive.
+
+This means that the variables and fuNCtions from the module are
+
+available to the rest of your script.
+
+<p>
+
+If you need to access some of the names in the <tt>@EXPORT_OK</tt>
+
+array, use a statement like this:
+
+<blockquote>
+
+<pre>
+
+use Module qw(:DEFAULT fuNCTwo);     # $varTwo is not exported.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+ONCe you add optional elements to the <tt>use</tt>
+
+directive you need to explicitly list all of the names that you
+
+want to use. The <tt>:DEFAULT</tt>
+
+is a short way of saying, &quot;give me everything in the <tt>@EXPORT</tt>
+
+list.&quot;
+
+<h2><a NAME="WhatsaPragma"><font SIZE="5" COLOR="#FF0000">
+
+What's a Pragma?</font></a></h2>
+
+<p>
+
+In a-hopefully futile-effort to confuse programmers, the <tt>use</tt>
+
+directive, was given a second job to do. It turns other compiler
+
+directives on and off. For example, you might want to force Perl
+
+to use integer math instead of floating-point match to speed up
+
+certain sections of your program.
+
+<p>
+
+Remember all of the new terminology that was developed for objects?
+
+The computer scientists have also developed their own term for
+
+a compiler directive. And that term is <i>Pragma</i>. The <tt>use</tt>
+
+statement controls the other pragmas. Listing 15.4 shows a program
+
+that use the <tt>integer</tt> pragma.
+
+<hr>
+
+<blockquote>
+
+<b>Listing 15.4&nbsp;&nbsp;15LST04.PL-Using the </b><tt><b><font FACE="Courier">integer</font></b></tt><b>
+
+Pragma<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+print(&quot;Floating point math: &quot;, 10 / 3, &quot;\n&quot;);
+
+use integer;
+
+print(&quot;Integer math:        &quot; 10 / 3, &quot;\n&quot;);
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+Floating point math: 3.33333333333333
+
+Integer math:        3
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Pragmas can be turned off using the <tt>no</tt>
+
+compiler directive. For example, the following statement turns
+
+off the <tt>integer</tt> pragma:
+
+<blockquote>
+
+<pre>
+
+no integer;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Table 15.1 shows a list of the pragmas that you can use.<br>
+
+<p>
+
+<center><b>Table 15.1&nbsp;&nbsp;Perl's Pragmas</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="85"><center><i>Pragma</i></center></td><td WIDTH="505"><i>Description</i>
+
+</td></tr>
+
+<tr><td WIDTH="85"><center>integer</center></td><td WIDTH="505">Forces integer math instead of floating point or double precision math.
+
+</td></tr>
+
+<tr><td WIDTH="85"><center>less</center></td><td WIDTH="505">Requests less of something-like memory or cpu time-from the compiler. This pragma has not been implemented yet.
+
+</td></tr>
+
+<tr><td WIDTH="85"><center>sigtrap</center></td><td WIDTH="505">Enables stack backtracing on unexpected signals.
+
+</td></tr>
+
+<tr><td WIDTH="85"><center>strict</center></td><td WIDTH="505">Restricts unsafe constructs. This pragma is highly recommended! Every program should use it.
+
+</td></tr>
+
+<tr><td WIDTH="85"><center>subs</center></td><td WIDTH="505">Lets you predeclare fuNCtion names.
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h2><a NAME="TheTTFONTSIZEFACECourierstrictFONTTTFONTSIZEPragmaFONT"><font SIZE="5" COLOR="#FF0000">
+
+The <tt>strict</tt>
+
+Pragma</font></font></a></h2>
+
+<p>
+
+The most important pragma is <tt>strict</tt>.
+
+This pragma generates compiler errors if unsafe programming is
+
+detected. There are three specific things that are detected:
+
+<ul>
+
+<li>Symbolic refereNCes
+
+<li>Non-local variables (those not declared with <tt>my()</tt>)
+
+and variables that aren't fully qualified.
+
+<li>Non-quoted words that aren't subroutine names or file handles.
+
+</ul>
+
+<p>
+
+<i>Symbolic</i> refereNCes use the name of a variable as the refereNCe
+
+to the variable. They are a kind of shorthand widely used in the
+
+C programming language, but not available in Perl. Listing 15.5
+
+shows a program that uses symbolic refereNCes.
+
+<p>
+
+
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Declare two variables.<br>
+
+Initialize </i><tt><i>$ref</i></tt><i>
+
+with a refereNCe to </i><tt><i>$foo</i></tt><i>.
+
+<br>
+
+DerefereNCe </i><tt><i>$ref</i></tt><i>
+
+and display the result.<br>
+
+Initialize </i><tt><i>$ref</i></tt><i>
+
+to </i><tt><i>$foo</i></tt><i>.<br>
+
+DerefereNCe </i><tt><i>$ref</i></tt><i>
+
+and display the result.<br>
+
+Invoke the strict pragma.<br>
+
+DerefereNCe </i><tt><i>$ref</i></tt><i>
+
+and display the result.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 15.5&nbsp;&nbsp;15LST05.PL-Detecting Symbolic RefereNCes
+
+<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+my($foo) = &quot;Testing.&quot;;
+
+my($ref);
+
+
+
+$ref = \$foo;
+
+print(&quot;${$ref}\n&quot;);     # Using a real refereNCe
+
+
+
+$ref = $foo;
+
+print(&quot;${$ref}\n&quot;);     # Using a symbolic refereNCe
+
+
+
+use strict;
+
+print(&quot;${$ref}\n&quot;);
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+When run with the command <tt>perl 15lst05.pl</tt>,
+
+this program displays:
+
+<blockquote>
+
+<pre>
+
+Testing.
+
+
+
+Can't use string (&quot;Testing.&quot;) as a SCALAR ref while &quot;strict refs&quot; in 
+
+    use at 15lst05.pl line 14.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The second print statement, even though obviously wrong, does
+
+not generate any errors. Imagine if you were using a complicated
+
+data structure such as the ones described in <a HREF="ch8.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch8.htm">Chapter 8</a> &quot;RefereNCes.&quot;
+
+You could spend hours looking for a bug like this. After the <tt>strict</tt>
+
+pragma is turned on, however, a runtime error is generated when
+
+the same print statement is repeated. Perl even displays the value
+
+of the scalar that attempted to masquerade as the refereNCe value.
+
+<p>
+
+The <tt>strict</tt> pragma ensures
+
+that all variables that are used are either local to the current
+
+block or they are fully qualified. Fully qualifying a variable
+
+name simply means to add the package name where the variable was
+
+defined to the variable name. For example, you would specify the
+
+<tt>$numTables</tt> variable in package
+
+<tt>Room</tt> by saying <tt>$Room::numTables</tt>.
+
+If you are not sure which package a variable is defined in, try
+
+using the <tt>dispSymbols()</tt> fuNCtion
+
+from Listing 15.3. Call the <tt>dispSymbols()</tt>
+
+fuNCtion oNCe for each package that your script uses. 
+
+<p>
+
+The last type of error that <tt>strict</tt>
+
+will generate an error for is the non-quoted word that is not
+
+used as a subroutine name or file handle. For example, the following
+
+line is good:
+
+<blockquote>
+
+<pre>
+
+$SIG{'PIPE'} = 'Plumber';
+
+</pre>
+
+</blockquote>
+
+<p>
+
+And this line is bad:
+
+<blockquote>
+
+<pre>
+
+$SIG{PIPE} = 'Plumber';
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Perl 5, without the <tt>strict</tt>
+
+pragma, will do the correct thing in the bad situation and assume
+
+that you meant to create a string literal. However, this is considered
+
+bad programming practice.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Always use the <tt>strict</tt> pragma in your scripts. It will take a little longer to declare everything, but the time saved in debugging will more than make up for it.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h2><a NAME="TheStandardModules"><font SIZE="5" COLOR="#FF0000">
+
+The Standard Modules</font></a></h2>
+
+<p>
+
+Table 15.2 lists the modules that should come with all distributions
+
+of Perl. Some of these modules are not portable across all operating
+
+systems, however. The descriptions for the modules mention the
+
+iNCompatibility if I know about it.<br>
+
+<p>
+
+<center><b>Table 15.2&nbsp;&nbsp;Perl's Standard Modules</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="153"><i>Module</i></td><td WIDTH="437"><i>Description</i>
+
+</td></tr>
+
+<tr><td WIDTH="153">Text::Abbrev</td><td WIDTH="437">Creates an abbreviation table from a list. The abbreviation table consists of the shortest sequeNCe of characters that can uniquely identify each element of the list.
+
+</td></tr>
+
+<tr><td WIDTH="153">AnyDBM_File</td><td WIDTH="437">Provides a framework for accessing multiple DBMs. This is a UNIX-based module.
+
+</td></tr>
+
+<tr><td WIDTH="153">AutoLoader</td><td WIDTH="437">Loads fuNCtions on demand. This enables your scripts to use less memory.
+
+</td></tr>
+
+<tr><td WIDTH="153">AutoSplit</td><td WIDTH="437">Splits a package or module into its component parts for autoloading.
+
+</td></tr>
+
+<tr><td WIDTH="153">BeNChmark</td><td WIDTH="437">Tracks the running time of code. This module can be modified to run under Windows but some of its fuNCtionality will be lost.
+
+</td></tr>
+
+<tr><td WIDTH="153">Carp</td><td WIDTH="437">Provides an alternative to the <tt>warn()</tt> and <tt>die()</tt> fuNCtions that report the line number of the calling routine. See &quot;Example: The <tt>Carp</tt> Module&quot; later in the chapter for more 
+information.
+
+</td></tr>
+
+<tr><td WIDTH="153">I18N::Collate</td><td WIDTH="437">Compares 8-bit scalar data according to the current locale. This helps to give an international viewpoint to your script.
+
+</td></tr>
+
+<tr><td WIDTH="153">Config</td><td WIDTH="437">Accesses the Perl configuration options.
+
+</td></tr>
+
+<tr><td WIDTH="153">Cwd</td><td WIDTH="437">Gets the pathname of the current working directory. This module will generate a warning message when used with the -w command line option under the Windows and VAX VMS operating systems. You can safely ignore the 
+warning.
+
+</td></tr>
+
+<tr><td WIDTH="153">Dynaloader</td><td WIDTH="437">Lets you dynamically load C libraries into Perl code.
+
+</td></tr>
+
+<tr><td WIDTH="153">English</td><td WIDTH="437">Lets you use English terms instead of the normal special variable names.
+
+</td></tr>
+
+<tr><td WIDTH="153">Env</td><td WIDTH="437">Lets you access the system environment variables using scalars instead of a hash. If you make heavy use of the environment variables, this module might improve the speed of your script.
+
+</td></tr>
+
+<tr><td WIDTH="153">Exporter</td><td WIDTH="437">Controls namespace manipulations.
+
+</td></tr>
+
+<tr><td WIDTH="153">Fcntl</td><td WIDTH="437">Loads file control definition used by the <tt>fcntl()</tt> fuNCtion.
+
+</td></tr>
+
+<tr><td WIDTH="153">FileHandle</td><td WIDTH="437">Provides an object-oriented interface to filehandles.
+
+</td></tr>
+
+<tr><td WIDTH="153">File::Basename</td><td WIDTH="437">Separates a file name and path from a specification.
+
+</td></tr>
+
+<tr><td WIDTH="153">File::CheckTree</td><td WIDTH="437">Runs filetest checks on a directory tree.
+
+</td></tr>
+
+<tr><td WIDTH="153">File::Find</td><td WIDTH="437">Traverse a file tree. This module will not work under the Windows operating systems without modification.
+
+</td></tr>
+
+<tr><td WIDTH="153">Getopt</td><td WIDTH="437">Provides basic and extended options processing.
+
+</td></tr>
+
+<tr><td WIDTH="153">ExtUtils::MakeMaker</td><td WIDTH="437">Creates a Makefile for a Perl extension.
+
+</td></tr>
+
+<tr><td WIDTH="153">Ipc::Open2</td><td WIDTH="437">Opens a process for both reading and writing.
+
+</td></tr>
+
+<tr><td WIDTH="153">Ipc::Open3</td><td WIDTH="437">Opens a process for reading, writing, and error handling.
+
+</td></tr>
+
+<tr><td WIDTH="153">POSIX</td><td WIDTH="437">Provides an interface to IEEE 1003.1 namespace.
+
+</td></tr>
+
+<tr><td WIDTH="153">Net::Ping</td><td WIDTH="437">Checks to see if a host is available.
+
+</td></tr>
+
+<tr><td WIDTH="153">Socket</td><td WIDTH="437">Loads socket definitions used by the socket fuNCtions.
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h2><a NAME="TTFONTSIZEFACECourierstrictmyFONTTTFONTSIZEandModulesFONT"><font SIZE="5" COLOR="#FF0000">
+
+<tt>strict, my() </tt>and
+
+Modules</font></font></a></h2>
+
+<p>
+
+In order to use the <tt>strict</tt>
+
+pragma with modules, you need to know a bit more about the <tt>my()</tt>
+
+fuNCtion about how it creates lexical variables instead of local
+
+variables. You may be tempted to think that variables declared
+
+with <tt>my()</tt> are local to a
+
+package, especially siNCe you can have more than one package statement
+
+per file. However, <tt>my()</tt> does
+
+the exact opposite; in fact, variables that are declared with
+
+<tt>my()</tt> are never stored inside
+
+the symbol table.
+
+<p>
+
+If you need to declare variables that are local to a package,
+
+fully qualify your variable name in the declaration or initialization
+
+statement, like this:
+
+<blockquote>
+
+<pre>
+
+use strict;
+
+
+
+$main::foo = '';
+
+
+
+package Math;
+
+    $Math::PI = 3.1415 &amp;&amp; $Math::PI;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This code snippet declares two variables: <tt>$foo</tt>
+
+in the <tt>main</tt> namespace and
+
+<tt>$PI</tt> in the <tt>Math</tt>
+
+namespace. The <tt>&amp;&amp; $Math::PI</tt>
+
+part of the second declaration is used to avoid getting error
+
+messages from the -w command line option. SiNCe the variable is
+
+inside a package, there is no guarantee that it will be used by
+
+the calling script and the -w command line option generates a
+
+warning about any variable that is only used oNCe. By adding the
+
+harmless logical and to the declaration, the warning messages
+
+are avoided.
+
+<h2><a NAME="ModuleExamples"><font SIZE="5" COLOR="#FF0000">
+
+Module Examples</font></a></h2>
+
+<p>
+
+This section shows you how to use the <tt>Carp</tt>,
+
+<tt>English</tt>, and <tt>Env</tt>
+
+modules. After looking at these examples, you should feel comfortable
+
+about trying the rest.
+
+<h3><a NAME="ExampleTheTTFONTSIZEFACECourierCarpFONTTTFONTSIZEModuleFONT">
+
+Example: The <tt>Carp</tt>
+
+Module</font></a></h3>
+
+<p>
+
+This useful little module lets you do a better job of analyzing
+
+runtime errors-like when your script can't open a file or when
+
+an unexpected input value is found. It defines the <tt>carp()</tt>,
+
+<tt>croak()</tt>, and <tt>confess()</tt>
+
+fuNCtions. These are similar to <tt>warn()</tt>
+
+and <tt>die()</tt>. However, instead
+
+of reported in the exact script line where the error occurred,
+
+the fuNCtions in this module will display the line number that
+
+called the fuNCtion that generated the error. Confused? So was
+
+I, until I did some experimenting. The results of that experimenting
+
+can be found in Listing 15.6.
+
+<p>
+
+
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Load the Carp module.<br>
+
+Invoke the strict pragma.<br>
+
+Start the Foo namespace.<br>
+
+Define the </i><tt><i>foo()</i></tt><i>
+
+fuNCtion.<br>
+
+Call the </i><tt><i>carp()</i></tt><i>
+
+fuNCtion.<br>
+
+Call the </i><tt><i>croak()</i></tt><i>
+
+fuNCtion.<br>
+
+Switch to the main namespace.<br>
+
+Call the </i><tt><i>foo()</i></tt><i>
+
+fuNCtion.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 15.6&nbsp;&nbsp;15LST06.PL-Using the </b><tt><b><font FACE="Courier">carp()</font></b></tt><b>
+
+and </b><tt><b><font FACE="Courier">croak()</font></b></tt><b>
+
+from the </b><tt><b><font FACE="Courier">Carp Module<br>
+
+</font></b></tt>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+use Carp;
+
+use strict;
+
+
+
+package Foo;
+
+    sub foo {
+
+        main::carp(&quot;carp called at line &quot; . __LINE__ .
+
+            &quot;,\n    but foo() was called&quot;);
+
+
+
+        main::croak(&quot;croak called at line &quot; . __LINE__ .
+
+            &quot;,\n    but foo() was called&quot;);
+
+}
+
+
+
+package main;
+
+    foo::foo();
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+carp called at line 9, 
+
+    but foo() was called at e.pl line 18
+
+croak called at line 10, 
+
+    but foo() was called at e.pl line 18
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This example uses a compiler symbol, __LINE__, to iNCorporate
+
+the current line number in the string passed to both <tt>carp()</tt>
+
+and <tt>croak()</tt>. This technique
+
+enables you to see both the line number where <tt>carp()</tt>
+
+and <tt>croak()</tt> were called <i>and</i>
+
+the line number where <tt>foo()</tt>
+
+was called.
+
+<p>
+
+The <tt>Carp</tt> module also defines
+
+a <tt>confess()</tt> fuNCtion which
+
+is similar to <tt>croak()</tt> except
+
+that a fuNCtion call history will also be displayed. Listing 15.7
+
+shows how this fuNCtion can be used. The fuNCtion declarations
+
+were placed after the <tt>foo()</tt>
+
+fuNCtion call so that the program flow reads from top to bottom
+
+with no jumping around.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Load the Carp module.<br>
+
+Invoke the strict pragma.<br>
+
+Call </i><tt><i>foo()</i></tt><i>.
+
+<br>
+
+Define </i><tt><i>foo()</i></tt><i>.
+
+<br>
+
+Call </i><tt><i>bar()</i></tt><i>.
+
+<br>
+
+Define </i><tt><i>bar()</i></tt><i>.
+
+<br>
+
+Call </i><tt><i>baz()</i></tt><i>.
+
+<br>
+
+Define </i><tt><i>baz()</i></tt><i>.
+
+<br>
+
+Call </i><tt><i>Confess()</i></tt><i>.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 15.7&nbsp;&nbsp;15LST07.PL-Using </b><tt><b><font FACE="Courier">confess()</font></b></tt><b>
+
+from the </b><tt><b><font FACE="Courier">Carp</font></b></tt><b>
+
+Module<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+use Carp;
+
+use strict;
+
+
+
+foo();
+
+
+
+sub foo {
+
+    bar();
+
+}
+
+
+
+sub bar {
+
+    baz();
+
+}
+
+
+
+sub baz {
+
+    confess(&quot;I give up!&quot;);
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+I give up! at e.pl line 16
+
+        main::baz called at e.pl line 12
+
+        main::bar called at e.pl line 8
+
+        main::foo called at e.pl line 5
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This daisy-chain of fuNCtion calls was done to show you how the
+
+fuNCtion call history looks when displayed. The fuNCtion call
+
+history is also called a <i>stack trace</i>. As each fuNCtion
+
+is called, the address from which it is called gets placed on
+
+a stack. When the <tt>confess()</tt>
+
+fuNCtion is called, the stack is unwound or read. This lets Perl
+
+print the fuNCtion call history.
+
+<h3><a NAME="ExampleTheTTFONTSIZEFACECourierEnglishFONTTTFONTSIZEModuleFONT">
+
+Example: The <tt>English</tt>
+
+Module</font></a></h3>
+
+<p>
+
+The <tt>English</tt> module is designed
+
+to make your scripts more readable. It creates aliases for all
+
+of the special variables that were discussed in <a HREF="ch12.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch12.htm">Chapter 12</a>, &quot;Using
+
+Special Variables.&quot; Table 15.3 lists all of the aliases that
+
+are defined. After the table, some examples show you how the aliases
+
+are used.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Some of the same coNCepts embodied by the special variables are used by the UNIX-based awk program. The <tt>English</tt> module also provides aliases that match what the special variables are called in awk.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+I think that this module is especially useful because it provides aliases for the regular expression matching special variables and the formatting special variables. You'll use the other special variables often enough so that their use becomes second 
+nature. Or else you won't need to use them at all.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<center><b>Table 15.3&nbsp;&nbsp;Aliases Provided by the English
+
+Module</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="139"><center><i>Special Variable</i></center></td>
+
+<td WIDTH="451"><i>Alias</i></td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Miscellaneous</b></td></tr>
+
+<tr><td WIDTH="139"><center><tt>$_</tt></center>
+
+</td><td WIDTH="451"><tt>$ARG</tt></td>
+
+</tr>
+
+<tr><td WIDTH="139"><center><tt>@_</tt></center>
+
+</td><td WIDTH="451"><tt>@ARG</tt></td>
+
+</tr>
+
+<tr><td WIDTH="139"><center><tt>$&quot;</tt></center>
+
+</td><td WIDTH="451"><tt>$LIST_SEPARATOR</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$;</tt></center>
+
+</td><td WIDTH="451"><tt>$SUBSCRIPT_SEPARATOR</tt> or <tt>$SUBSEP</tt>
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Regular Expression or Matching</b>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$&amp;</tt></center>
+
+</td><td WIDTH="451"><tt>$MATCH</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$`</tt></center>
+
+</td><td WIDTH="451"><tt>$PREMATCH</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$&acute;</tt></center>
+
+</td><td WIDTH="451"><tt>$POSTMATCH</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$+</tt></center>
+
+</td><td WIDTH="451"><tt>$LAST_PAREN_MATCH</tt>
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Input</b></td></tr>
+
+<tr><td WIDTH="139"><center><tt>$.</tt></center>
+
+</td><td WIDTH="451"><tt>$INPUT_LINE_NUMBER</tt> or <tt>$NR</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$/</tt></center>
+
+</td><td WIDTH="451"><tt>$INPUT_RECORD_SEPARATOR</tt> or <tt>$RS</tt>
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Output</b></td></tr>
+
+<tr><td WIDTH="139"><center><tt>$|</tt></center>
+
+</td><td WIDTH="451"><tt>$OUTPUT_AUTOFLUSH</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$,</tt></center>
+
+</td><td WIDTH="451"><tt>$OUTPUT_FIELD_SEPARATOR</tt> or <tt>$OFS</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$\</tt></center>
+
+</td><td WIDTH="451"><tt>$OUTPUT_RECORD_SEPARATOR</tt> or <tt>$ORS</tt>
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Formats</b></td></tr>
+
+<tr><td WIDTH="139"><center><tt>$%</tt></center>
+
+</td><td WIDTH="451"><tt>$FORMAT_PAGE_NUMBER</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$=</tt></center>
+
+</td><td WIDTH="451"><tt>$FORMAT_LINES_PER_PAGE</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$_</tt></center>
+
+</td><td WIDTH="451"><tt>$FORMAT_LINES_LEFT</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$~</tt></center>
+
+</td><td WIDTH="451"><tt>$FORMAT_NAME</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$^</tt></center>
+
+</td><td WIDTH="451"><tt>$FORMAT_TOP_NAME</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$:</tt></center>
+
+</td><td WIDTH="451"><tt>$FORMAT_LINE_BREAK_CHARACTERS</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$^L</tt></center>
+
+</td><td WIDTH="451"><tt>$FORMAT_FORMFEED</tt>
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Error Status</b></td></tr>
+
+<tr><td WIDTH="139"><center><tt>$?</tt></center>
+
+</td><td WIDTH="451"><tt>$CHILD_ERROR</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$!</tt></center>
+
+</td><td WIDTH="451"><tt>$OS_ERROR</tt> or <tt>$ERRNO</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$@</tt></center>
+
+</td><td WIDTH="451"><tt>$EVAL_ERROR</tt>
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Process Information</b></td></tr>
+
+<tr><td WIDTH="139"><center><tt>$$</tt></center>
+
+</td><td WIDTH="451"><tt>$PROCESS_ID</tt> or <tt>$PID</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$&lt;</tt></center>
+
+</td><td WIDTH="451"><tt>$REAL_USER_ID</tt> or <tt>$UID</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$&gt;</tt></center>
+
+</td><td WIDTH="451"><tt>$EFFECTIVE_USER_ID</tt> or <tt>$EUID</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$(</tt></center>
+
+</td><td WIDTH="451"><tt>$REAL_GROUP_ID</tt> or <tt>$GID</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$)</tt></center>
+
+</td><td WIDTH="451"><tt>$EFFECTIVE_GROUP_ID</tt> or <tt>$EGID</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$0</tt></center>
+
+</td><td WIDTH="451"><tt>$PROGRAM_NAME</tt>
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Internal Variables</b></td></tr>
+
+<tr><td WIDTH="139"><center><tt>$]</tt></center>
+
+</td><td WIDTH="451"><tt>$PERL_VERSION</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$^A</tt></center>
+
+</td><td WIDTH="451"><tt>$AccUMULATOR</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$^D</tt></center>
+
+</td><td WIDTH="451"><tt>$DEBUGGING</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$^F</tt></center>
+
+</td><td WIDTH="451"><tt>$SYSTEM_FD_MAX</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$^I</tt></center>
+
+</td><td WIDTH="451"><tt>$INPLACE_EDIT</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$^P</tt></center>
+
+</td><td WIDTH="451"><tt>$PERLDB</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$^T</tt></center>
+
+</td><td WIDTH="451"><tt>$BASETIME</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$^W</tt></center>
+
+</td><td WIDTH="451"><tt>$WARNING</tt>
+
+</td></tr>
+
+<tr><td WIDTH="139"><center><tt>$^X</tt></center>
+
+</td><td WIDTH="451"><tt>$EXECUTABLE_NAME</tt>
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Listing 15.8 shows a program that uses one of the English variables
+
+to access information about a matched string.
+
+<p>
+
+
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Load the </i><tt><i>English</i></tt><i>
+
+module.<br>
+
+Invoke the strict pragma.<br>
+
+Initialize the search space and pattern variables.<br>
+
+Perform a matching operation to find the pattern <br>
+
+in the </i><tt><i>$searchSpace</i></tt><i>
+
+variable.<br>
+
+Display information about the search.<br>
+
+Display the matching string using the English variable names.
+
+<br>
+
+Display the matching string using the standard Perl special variables.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 15.8&nbsp;&nbsp;15LST01.PL-Using the English Module
+
+<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+use English;
+
+use strict;
+
+
+
+my($searchSpace) = &quot;TTTT BBBABBB DDDD&quot;;
+
+my($pattern)     = &quot;B+AB+&quot;;
+
+
+
+$searchSpace =~ m/$pattern/;
+
+
+
+print(&quot;Search space:   $searchSpace\n&quot;);
+
+print(&quot;Pattern:        /$pattern/\n&quot;);
+
+print(&quot;Matched String: $English::MATCH\n&quot;);  # the English variable
+
+print(&quot;Matched String: $&amp;\n&quot;);               # the standard Perl variable
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays
+
+<blockquote>
+
+<pre>
+
+Search space:   TTTT BBBABBB DDDD
+
+Pattern:        /B+AB+/
+
+Matched String: BBBABBB
+
+Matched String: BBBABBB
+
+</pre>
+
+</blockquote>
+
+<p>
+
+You can see that the <tt>$&amp;</tt>
+
+and <tt>$MATCH</tt> variables are
+
+equivalent. This means that you can use another programmer's fuNCtions
+
+without renaming their variables and still use the English names
+
+in your own fuNCtions.
+
+<h3><a NAME="ExampleTheTTFONTSIZEFACECourierEnvFONTTTFONTSIZEModuleFONT">
+
+Example: The <tt>Env </tt>Module</font>
+
+</a></h3>
+
+<p>
+
+If you use environment variables a lot, then you need to look
+
+at the <tt>Env</tt> module. It will
+
+enable you to directly access the environment variables as Perl
+
+scalar variables instead of through the <tt>%Env</tt>
+
+hash. For example, <tt>$PATH</tt>
+
+is equivalent to <tt>$ENV{'PATH'}</tt>.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Load the </i><tt><i>Env</i></tt><i>
+
+module.<br>
+
+Invoke the strict pragma.<br>
+
+Declare the </i><tt><i>@files</i></tt><i>
+
+variable.<br>
+
+Open the temporary directory and read all of its files.<br>
+
+Display the name of the temporary directory.<br>
+
+Display the names of all files that end in tmp.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 15.9&nbsp;&nbsp;15LST09.PL-Displaying Temporary Files
+
+Using the </b><tt><b><font FACE="Courier">Env</font></b></tt><b>
+
+Module<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+use Env;
+
+use strict;
+
+
+
+my(@files);
+
+
+
+opendir(DIR, $main::TEMP);
+
+    @files = readdir(DIR);
+
+closedir(DIR);
+
+
+
+print &quot;$main::TEMP\n&quot;;
+
+foreach (@files) {
+
+    print(&quot;\t$_\n&quot;) if m/\.tmp/i;
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+C:\WINDOWS\TEMP
+
+        ~Df182.TMP
+
+        ~Df1B3.TMP
+
+        ~Df8073.TMP
+
+        ~Df8074.TMP
+
+        ~WRS0003.tmp
+
+        ~Df6116.TMP
+
+        ~DFC2C2.TMP
+
+        ~Df9145.TMP
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This program is pretty self-explanatory, except perhaps for the
+
+manner in which the <tt>$main::TEMP</tt>
+
+variable is specified. The <tt>strict</tt>
+
+pragma requires all variables to be lexically declared or to be
+
+fully qualified. The environment variables are declared in the
+
+<tt>Env</tt> package, but exported
+
+into the <tt>main</tt>  namespace.
+
+Therefore, they need to be qualified using the <tt>main::</tt>
+
+notation.
+
+<h2><a NAME="Summary"><font SIZE="5" COLOR="#FF0000">
+
+Summary</font></a></h2>
+
+<p>
+
+In this chapter, you learned about Perl modules. You read about
+
+several guidelines that should be followed when creating modules.
+
+For example, package name should have their first letter capitalized
+
+and use file extensions of <tt>pm</tt>.
+
+<p>
+
+The <tt>require</tt> compiler directive
+
+is used to load Perl libraries that were distributed with Perl
+
+4. Modules, however, are loaded with the <tt>use</tt>
+
+directive. In addition to loading the module, <tt>use</tt>
+
+will move variable and fuNCtion names into the <tt>main</tt>
+
+namespace where your script can easily access them. The name movement
+
+is done by using the <tt>@EXPORT</tt>
+
+and <tt>@EXPORT_OK</tt> arrays.
+
+<p>
+
+Next, you read about the <tt>BEGIN</tt>
+
+and <tt>END</tt> blocks which are
+
+like module constructors and destructors. The <tt>BEGIN</tt>
+
+block is evaluated as soon as it is defined. <tt>END</tt>
+
+blocks are evaluated just before your program ends-in reverse
+
+order. The last <tt>END</tt> block
+
+defined is the first to be evaluated.
+
+<p>
+
+Symbols tables are used to hold the fuNCtion and variable names
+
+for each package. You learned that each symbol table is stored
+
+in a hash named after the package name. For example, the symbol
+
+table for the <tt>Room</tt> package
+
+is stored in <tt>%Room::</tt>. Listing
+
+15.3 contained a fuNCtion-<tt>dispSymbol</tt>-that
+
+displays all of the names in a given symbol table.
+
+<p>
+
+Libraries are loaded using the <tt>require</tt>
+
+compiler directive and modules are loaded with the <tt>use</tt>
+
+directive. Unlike the <tt>require</tt>
+
+directive, <tt>use</tt> will automatically
+
+call a module's <tt>import()</tt>
+
+fuNCtion to move fuNCtion and variable names from the module's
+
+namespace into the <tt>main</tt> namespace.
+
+The name movement is controlled using the <tt>@EXPORT</tt>
+
+and <tt>@EXPORT_OK</tt> array. Names
+
+in <tt>@EXPORT</tt> are always exported.
+
+Those in <tt>@EXPORT_OK</tt> must
+
+be explicitly mentioned in the <tt>use</tt>
+
+statement.
+
+<p>
+
+The <tt>use</tt> directive also controls
+
+other directives which are called pragmas. The most useful pragmas
+
+are <tt>integer</tt> and <tt>strict</tt>.
+
+Use the <tt>integer</tt> pragma when
+
+you need fast integer math. And use <tt>strict</tt>
+
+all of the time to enforce good programming habits-like using
+
+local variables.
+
+<p>
+
+Table 15.2 shows the 25 modules that are distributed with Perl.
+
+And then some more light was shed on how the <tt>my()</tt>
+
+fuNCtion won't create variables that are local to a package. In
+
+order to create variables in the packages' namespace, you need
+
+to fully qualify them with the package name. For example, <tt>$Math::PI</tt>
+
+or <tt>$Room::numChairs</tt>.
+
+<p>
+
+The last section of the chapter looked at specific examples of
+
+how to use modules. The <tt>Carp</tt>,
+
+<tt>English</tt>, and <tt>Env</tt>
+
+modules were discussed. <tt>Carp</tt>
+
+defines three fuNCtions: <tt>carp()</tt>,
+
+<tt>croak()</tt>, and <tt>confess()</tt>
+
+that aid in debugging and error handling. <tt>English</tt>
+
+provides aliases for all of Perl's special variables so that Perl
+
+code is easier to understand. <tt>Env</tt>
+
+provides aliases for environmental variables so that you can access
+
+them directly instead of through the <tt>%Env</tt>
+
+hash variable.
+
+<p>
+
+In the next chapter, you learn about debugging Perl code. You
+
+read about syntax or compile-time errors versus runtime errors.
+
+The <tt>strict</tt> pragma will be
+
+discussed in more detail.
+
+<h2><a NAME="ReviewQuestions"><font SIZE="5" COLOR="#FF0000">
+
+Review Questions</font></a></h2>
+
+<p>
+
+Answers to Review Questions are in Appendix A.
+
+<ol>
+
+<li>What is a module?
+
+<li>How is a module different from a library?
+
+<li>What is the correct file extension for a module?
+
+<li>What is a pragma?
+
+<li>What is the most important pragma and why?
+
+<li>What does the <tt>END</tt> block
+
+do?
+
+<li>What is a symbol table?
+
+<li>How can you create a variable that is local to a package?
+
+</ol>
+
+<h2><a NAME="ReviewExercises"><font SIZE="5" COLOR="#FF0000">
+
+Review Exercises</font></a></h2>
+
+<ol>
+
+<li>Write a program that uses <tt>BEGIN</tt>
+
+and <tt>END</tt> blocks to write a
+
+message to a log file about the start and end times for the program.
+
+<li>Use the <tt>English</tt> module
+
+to display Perl's version number.
+
+<li>Modify the <tt>dispSymbols()</tt>
+
+fuNCtion from Listing 15.3 to display only fuNCtion and variable
+
+names passed as arguments.
+
+<li>Execute the program in Listing 15.5 with the -w command line
+
+option. Describe the results.
+
+<li>Write a module to calculate the area of a rectangle. Use the
+
+<tt>@EXPORT</tt> array to export the
+
+name of your fuNCtion.
+
+</ol>
+
+<hr>
+
+
+
+<center><p><a HREF="ch14.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm"><img SRC="pc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="#CONTENTS"><img SRC="cc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/cc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="index-1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/index-1.htm"><img SRC="hb.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/hb.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="ch16.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm"><img SRC="nc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/nc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<hr WIDTH="100%"></p></center>
+
+</body>
+
+</html>
+

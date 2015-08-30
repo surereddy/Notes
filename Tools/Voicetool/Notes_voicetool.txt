@@ -1,0 +1,10 @@
+[sip]
+voicetool send ack to 488 reponse automatically. Error will occur if u add a ack.
+
+[content type]
+application/sdp
+
+In voicetool 3.1.11 the value is auto, but it must be changed in Late Sdp or H323toSIP slowconnect.
+
+||- Start voice with specific ini
+voice.exe -i <full directory of ini> -m <full directory of db>

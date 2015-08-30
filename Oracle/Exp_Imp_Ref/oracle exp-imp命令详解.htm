@@ -1,0 +1,402 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0070)http://www.91linux.com/html/article/database/oracle/20070802/5003.html -->
+<HTML xml:lang="zh-cn" xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>oracle exp/imp命令详解</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META content="详解 命令 文件 导出 用户 导入 数据 传输 空间 口令" name=keywords>
+<META 
+content="E:exp help=y 通过输入 EXP 命令和用户名/口令，您可以 在用户 / 口令之后的命令: 实例: EXP SCOTT/TIGER" 
+name=description><LINK href="oracle exp-imp命令详解.files/dede.css" type=text/css 
+rel=stylesheet><LINK href="oracle exp-imp命令详解.files/article.css" type=text/css 
+rel=stylesheet><!-- Digg 参数 -->
+<SCRIPT language=javascript src=""></SCRIPT>
+
+<SCRIPT language=javascript>
+function Digg(divId,aid){
+   var taget_obj = document.getElementById(divId+''+aid);
+   var myajax = new DedeAjax(taget_obj,false,false,"","","");
+   myajax.SendGet2("/digg.php?action=digg&aid="+aid);
+   DedeXHTTP = null;
+}
+</SCRIPT>
+
+<STYLE>.context {
+	CLEAR: both; WIDTH: 638px
+}
+.diggArea {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FLOAT: left; BACKGROUND-IMAGE: url(http://www.91linux.com/plus/img/diggbg2.gif); PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: 60px; LINE-HEIGHT: 23px; PADDING-TOP: 0px; HEIGHT: 58px
+}
+.diggNum {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: bold; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; MARGIN: 8px 0px 0px; WIDTH: 58px; COLOR: #cc0000; PADDING-TOP: 0px; HEIGHT: 23px; TEXT-ALIGN: center
+}
+.diggLink {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-WEIGHT: bold; FONT-SIZE: 14px; PADDING-BOTTOM: 0px; MARGIN: 0px; WIDTH: 58px; PADDING-TOP: 0px; HEIGHT: 23px; TEXT-ALIGN: center
+}
+.diggLink A {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px
+}
+</STYLE>
+
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR></HEAD>
+<BODY>
+<SCRIPT type=text/javascript>
+document.body.oncopy = function () { 
+setTimeout( function () { 
+var text = clipboardData.getData("text");
+if (text) { 
+text = text + "\r\n本文来自: (www.91linux.com) 详细出处参考："+location.href; clipboardData.setData("text", text);
+} 
+}, 100 ) 
+}
+</SCRIPT>
+<!--头部开始-->
+<DIV class="top cbody">
+<DIV class=toplogo><A href="http://www.91linux.com/"><IMG alt=91Linux 
+src="oracle exp-imp命令详解.files/logo.gif"></A></DIV>
+<DIV class=topbanner>
+<SCRIPT language=javascript src=""></SCRIPT>
+</DIV>
+<DIV class=toplink>
+<UL>
+  <LI><A href="http://www.91linux.com/plus/heightsearch.php">高级搜索</A> </LI>
+  <LI><A 
+  onclick="javascript:window.external.AddFavorite('http://www.91linux.com','91Linux');" 
+  href="http://www.91linux.com/html/article/database/oracle/20070802/5003.html#">收藏本站</A> 
+  </LI>
+  <LI><A href="http://www.91linux.com/plus/sitemap.html">网站地图</A> </LI>
+  <LI><A href="http://www.91linux.com/html/news/20081010/13504.html" 
+  target=_blank>开源赞助</A> </LI></UL></DIV></DIV><!--导航栏-->
+<DIV class="topmenu cbody">
+<UL>
+  <LI><A href="http://www.91linux.com/">首页</A> </LI>
+  <LI><A href="http://www.91linux.com/html/news/">新闻</A> </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/linux_pub/ubuntu/index.html">Ubuntu</A> 
+</LI>
+  <LI><A 
+  href="http://www.91linux.com/html/linux_pub/fedora/index.html">Fedora</A> 
+</LI>
+  <LI><A 
+  href="http://www.91linux.com/html/linux_pub/gentoo/index.html">Gentoo</A> 
+</LI>
+  <LI><A 
+  href="http://www.91linux.com/html/linux_pub/mandriva/index.html">Mandriva</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/linux_pub/slackware/index.html">Slackware</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/linux_pub/suse_linux/index.html">Suse</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/linux_pub/redflag-linux/index.html">红旗</A> 
+  </LI>
+  <LI><A href="http://www.91linux.com/html/linux_pub/lfs/index.html">LFS</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/program/cpp/index.html">C++</A> 
+</LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/program/java/index.html">JAVA</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/program/perl/index.html">Perl</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/program/php/index.html">PHP</A> 
+</LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/program/python/index.html">Python</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/program/ruby/index.html">Ruby</A> 
+  </LI></UL></DIV>
+<DIV class="topmenu cbody">
+<UL>
+  <LI><A href="http://www.91linux.com/html/article/go/index.html">入门</A> </LI>
+  <LI><A href="http://www.91linux.com/html/article/cmd/index.html">命令</A> </LI>
+  <LI><A href="http://www.91linux.com/html/article/media/index.html">多媒体</A> 
+  </LI>
+  <LI><A href="http://www.91linux.com/html/article/guanli/index.html">服务器</A> 
+  </LI>
+  <LI><A href="http://www.91linux.com/html/article/kernel/index.html">内核</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/qianrushiyingyong/index.html">嵌入式</A> 
+  </LI>
+  <LI><A href="http://www.91linux.com/html/article/linux_soft/index.html">软件</A> 
+  </LI>
+  <LI><A href="http://www.91linux.com/html/article/shell/index.html">SHELL</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/db2/index.html">DB2</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/mysql/index.html">MySQL</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/index.html">Oracle</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/PostgreSQL/index.html">PostgreSQL</A> 
+  </LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/sybase/index.html">Sybase</A> 
+  </LI></UL></DIV><!--搜索条-->
+<DIV class="topsearch cbody">
+<DIV class=title></DIV>
+<DIV class=inpbox>
+<FORM name=formsearch action=http://www.91linux.com/plus/search.php><INPUT 
+type=hidden value=1 name=kwtype> <INPUT class=searchtxt id=keyword name=keyword> 
+<SELECT id=searchtype name=searchtype> <OPTION value=titlekeyword 
+  selected>智能模糊搜索</OPTION> <OPTION value=title>仅搜索标题</OPTION></SELECT> <INPUT 
+type=image src="oracle exp-imp命令详解.files/topsearch_submit.gif"> </FORM></DIV>
+<DIV class=hots><STRONG>热门关键字：</STRONG> 　<A 
+href="http://www.91linux.com/plus/search.php?keyword=ubuntu&amp;searchtype=titlekeyword">ubuntu</A> 
+　<A 
+href="http://www.91linux.com/plus/search.php?keyword=%B7%D6%C7%F8&amp;searchtype=titlekeyword">分区</A> 
+　<A 
+href="http://www.91linux.com/plus/search.php?keyword=%BA%AF%CA%FD&amp;searchtype=titlekeyword">函数</A> 
+　<A 
+href="http://www.91linux.com/plus/search.php?keyword=Fedora&amp;searchtype=titlekeyword">Fedora</A> 
+　<A 
+href="http://www.91linux.com/plus/search.php?keyword=linux%CF%B5%CD%B3%BD%F8%B3%CC&amp;searchtype=titlekeyword">linux系统进程</A> 
+</DIV></DIV>
+<DIV class=tonglan>
+<SCRIPT language=javascript src="oracle exp-imp命令详解.files/ad_js.htm"></SCRIPT>
+
+<SCRIPT language=javascript src=""></SCRIPT>
+<BR>
+<SCRIPT language=javascript 
+src="D:\Notes\Oracle\oracle exp-imp命令详解.files\ad_js(1).htm"></SCRIPT>
+</DIV><!--内容-->
+<DIV class="main cbody margintop"><!--左侧-->
+<DIV class=pleft><!--位置导航-->
+<DIV class=thisplace>
+<DIV class=placenav><SPAN>当前位置 :</SPAN>| <A 
+href="http://www.91linux.com/">主页</A>&gt;<A 
+href="http://www.91linux.com/html/article/">Linux教程</A>&gt;<A 
+href="http://www.91linux.com/html/article/database/">数据库应用</A>&gt;<A 
+href="http://www.91linux.com/html/article/database/oracle/">Oracle</A>&gt; 
+</DIV></DIV><!--资讯内容-->
+<DIV class=newsview><!--资讯标题-->
+<DIV class=title>
+<H1>oracle exp/imp命令详解</H1></DIV><!--相关信息-->
+<DIV class=info><STRONG>来源：</STRONG> <STRONG>作者：</STRONG> 
+<STRONG>时间：</STRONG>2007-08-02 <STRONG>Tag：</STRONG> <STRONG>点击：</STRONG>
+<SCRIPT language=javascript src="oracle exp-imp命令详解.files/count.htm"></SCRIPT>
+ </DIV><!--资讯正文-->
+<DIV class=content>
+<CENTER>
+<SCRIPT language=javascript 
+src="D:\Notes\Oracle\oracle exp-imp命令详解.files\ad_js(2).htm"></SCRIPT>
+
+<SCRIPT language=javascript 
+src="D:\Notes\Oracle\oracle exp-imp命令详解.files\ad_js(3).htm"></SCRIPT>
+</CENTER>&nbsp; 
+<P>E:\&gt;exp help=y</P>
+<P>通过输入 EXP 命令和用户名/口令，您可以<BR>在用户 / 口令之后的命令:</P>
+<P>实例: EXP SCOTT/TIGER</P>
+<P>或者，您也可以通过输入跟有各种参数的 EXP 命令来控制“导出”的运行方式。<BR>要指定参数，您可以使用关键字:</P>
+<P>格式: EXP KEYWORD=value 或 KEYWORD=(value1,value2,...,valueN)<BR>实例: EXP 
+SCOTT/TIGER GRANTS=Y TABLES=(EMP,DEPT,MGR)<BR>或 TABLES=(T1: P1,T1: P2)，如果 T1 
+是分区表</P>
+<P>USERID 必须是命令行中的第一个参数。</P>
+<P>关键字 说明（默认）<BR>---------------------------------------------------<BR>USERID 
+用户名/口令<BR>FULL 导出整个文件 (N)<BR>BUFFER 数据缓冲区的大小<BR>OWNER 所有者用户名列表<BR>FILE 输出文件 
+(EXPDAT.DMP)<BR>TABLES 表名列表<BR>COMPRESS 导入一个范围 (Y)<BR>RECORDLENGTH IO 
+记录的长度<BR>GRANTS 导出权限 (Y)<BR>INCTYPE 增量导出类型<BR>INDEXES 导出索引 (Y)<BR>RECORD 跟踪增量导出 
+(Y)<BR>ROWS 导出数据行 (Y)<BR>PARFILE 参数文件名<BR>CONSTRAINTS 导出限制 (Y)<BR>CONSISTENT 
+交叉表一致性<BR>LOG 屏幕输出的日志文件<BR>STATISTICS 分析对象 (ESTIMATE)<BR>DIRECT 直接路径 
+(N)<BR>TRIGGERS 导出触发器 (Y)<BR>FEEDBACK 显示每 x 行 (0) 的进度<BR>FILESIZE 
+各转储文件的最大尺寸<BR>QUERY 选定导出表子集的子句</P>
+<P>下列关键字仅用于可传输的表空间<BR>TRANSPORT_TABLESPACE 导出可传输的表空间元数据 (N)<BR>TABLESPACES 
+将传输的表空间列表</P>
+<P><BR>E:\&gt;imp help=y</P>
+<P>可以通过输入 IMP 命令和您的用户名/口令<BR>跟有您的用户名 / 口令的命令:</P>
+<P>实例: IMP SCOTT/TIGER</P>
+<P>或者, 可以通过输入 IMP 命令和各种自变量来控制“导入”按照不同参数。<BR>要指定参数，您可以使用关键字:</P>
+<P>格式: IMP KEYWORD=value 或 KEYWORD=(value1,value2,...,vlaueN)<BR>实例: IMP 
+SCOTT/TIGER IGNORE=Y TABLES=(EMP,DEPT) FULL=N<BR>或 TABLES=(T1: P1,T1: P2)，如果 T1 
+是分区表</P>
+<P>USERID 必须是命令行中的第一个参数。</P>
+<P>关键字 说明（默认）&nbsp;&nbsp; 
+<BR>----------------------------------------------<BR>USERID 用户名/口令<BR>FULL 
+导入整个文件 (N)<BR>BUFFER 数据缓冲区大小<BR>FROMUSER 所有人用户名列表<BR>FILE 输入文件 
+(EXPDAT.DMP)<BR>TOUSER 用户名列表<BR>SHOW 只列出文件内容 (N)<BR>TABLES 表名列表<BR>IGNORE 忽略创建错误 
+(N)<BR>RECORDLENGTH IO 记录的长度<BR>GRANTS 导入权限 (Y)<BR>INCTYPE 增量导入类型<BR>INDEXES 
+导入索引 (Y)<BR>COMMIT 提交数组插入 (N)<BR>ROWS 导入数据行 (Y)<BR>PARFILE 参数文件名<BR>LOG 
+屏幕输出的日志文件<BR>CONSTRAINTS 导入限制 (Y)<BR>DESTROY 覆盖表空间数据文件 (N)<BR>INDEXFILE 
+将表/索引信息写入指定的文件<BR>SKIP_UNUSABLE_INDEXES 跳过不可用索引的维护 (N)<BR>ANALYZE 执行转储文件中的 
+ANALYZE 语句 (Y)<BR>FEEDBACK 显示每 x 行 (0) 的进度<BR>TOID_NOVALIDATE 跳过指定类型 id 
+的校验<BR>FILESIZE 各转储文件的最大尺寸<BR>RECALCULATE_STATISTICS 重新计算统计值 (N)</P>
+<P>下列关键字仅用于可传输的表空间<BR>TRANSPORT_TABLESPACE 导入可传输的表空间元数据 (N)<BR>TABLESPACES 
+将要传输到数据库的表空间<BR>DATAFILES 将要传输到数据库的数据文件<BR>TTS_OWNERS 拥有可传输表空间集中数据的用户</P><BR>
+<CENTER>
+<SCRIPT language=javascript 
+src="D:\Notes\Oracle\oracle exp-imp命令详解.files\ad_js(3).htm"></SCRIPT>
+</CENTER></DIV>
+<DIV class=cupage></DIV><!--操作-->
+<DIV class=actbar><SPAN>[<A 
+href="http://www.91linux.com/plus/stow.php?arcID=5003">收藏</A>]</SPAN> <SPAN>[<A 
+href="http://www.91linux.com/plus/recommend.php?arcID=5003">推荐</A>]</SPAN> 
+<SPAN>[<A 
+href="http://www.91linux.com/plus/feedback.php?arcID=5003">评论</A>]</SPAN> 
+<SPAN>[<A onclick=window.print(); 
+href="http://www.91linux.com/html/article/database/oracle/20070802/5003.html#">打印</A>]</SPAN> 
+<SPAN>[<A onclick=window.close(); 
+href="http://www.91linux.com/html/article/database/oracle/20070802/5003.html#">关闭</A>]</SPAN> 
+</DIV><!--上下文-->
+<DIV class=context>
+<DIV class=diggArea id=digg5003>
+<DIV class=diggNum>0</DIV>
+<DIV class=diggLink><A href="javascript:Digg('digg',5003);">顶一下</A></DIV></DIV>
+<DIV style="FLOAT: left; MARGIN-LEFT: 20px">上一篇：<A 
+href="http://www.91linux.com/html/article/database/oracle/20070802/5002.html">Oracle 
+exp/imp导出导入工具的使用</A> <BR>下一篇：<A 
+href="http://www.91linux.com/html/article/database/oracle/20070807/5107.html">谨慎防范网络隐患以此来保护Oracle数据</A> 
+</DIV></DIV>
+<DIV class=floatclear><!--清除浮动--></DIV></DIV><!--评论-->
+<DIV class=comment><!--评论:标题-->
+<DIV class=commenttitle>
+<DIV class=title><STRONG>最新评论</STRONG>共有 5 位网友发表了评论 </DIV>
+<DIV class=gotopost><A 
+href="http://www.91linux.com/plus/feedback.php?arcID=5003">查看所有评论</A></DIV></DIV><!--评论内容-->
+<DIV class=commentbox>
+<SCRIPT src="oracle exp-imp命令详解.files/feedback_js.htm"></SCRIPT>
+</DIV><!--发表评论:标题-->
+<DIV class=posttitle><STRONG>发表评论</STRONG></DIV><!--发表评论-->
+<FORM name=feedback action=http://www.91linux.com/plus/feedback.php?action=send 
+method=post><INPUT type=hidden value=5003 name=arcID> 
+<DIV class=postbox>
+<DIV class=txtbox><STRONG>评论内容：</STRONG>不能超过250字，需审核，请自觉遵守互联网相关政策法规。 <TEXTAREA name=msg rows=6 cols=60></TEXTAREA> </DIV>
+<DIV class=userbox>
+<DL>
+  <DD><STRONG>用户名：</STRONG><INPUT class=username maxLength=20 name=username> 
+  <STRONG>密码：</STRONG><INPUT class=password type=password maxLength=20 name=pwd> 
+  </DD>
+  <DD></DD>
+  <DD class=mtop><INPUT type=checkbox value=1 name=notuser> <STRONG>匿名?</STRONG> 
+  </DD>
+  <DD><INPUT class=submit onclick='javascript:if(document.feedback.msg.value!="") document.feedback.submit(); else alert("评论内容不能为空！");' type=button value=发表评论 name=sb> 
+  </DD>
+  <DD class=mtop><A 
+  href="http://www.91linux.com/member/index_do.php?fmdo=user&amp;dopost=regnew" 
+  target=_blank>注册</A> </DD></DL></DIV></DIV></FORM></DIV></DIV><!--右侧-->
+<DIV class=pright><!--侧边信息列表-->
+<DIV class=classbox>
+<DL>
+  <DT>栏目列表 </DT>
+  <DD>
+  <UL>
+    <LI><A href="http://www.91linux.com/html/article/database/db2/">DB2</A> 
+</LI>
+    <LI><A href="http://www.91linux.com/html/article/database/LDAP/">LDAP</A> 
+    </LI>
+    <LI><A href="http://www.91linux.com/html/article/database/mysql/">MySQL</A> 
+    </LI>
+    <LI><A 
+    href="http://www.91linux.com/html/article/database/oracle/">Oracle</A> </LI>
+    <LI><A 
+    href="http://www.91linux.com/html/article/database/PostgreSQL/">PostgreSQL</A> 
+    </LI>
+    <LI><A 
+    href="http://www.91linux.com/html/article/database/sybase/">Sybase</A> 
+  </LI></UL></DD></DL></DIV>
+<DIV class="rlist margintop">
+<DIV class=title>热点关注</DIV>
+<DIV class=rbox>
+<UL>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20071005/7341.html">ubuntu安装oracle 
+  10g</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20070802/5002.html">Oracle 
+  exp/imp导出导入工</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20071019/7696.html">linux 
+  AS4上安装oracle 9i</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20070801/4983.html">Oracle 
+  10g RAC 关机重启</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20071126/8566.html">oracle-merge用法详解</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20080509/10799.html">oracle中的 
+  exists 和 in </A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20071114/8218.html">ORACLE数据库表分区</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20071213/9056.html">DSG(HP-UX)HA-RAC的oracle</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20071114/8220.html">oracle 
+  问题精解</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20071203/8762.html">Oracle 
+  10.1.0.5归档日志</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20070729/4948.html">Oracle索引原理</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20070802/5003.html">oracle 
+  exp/imp命令详解</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20071206/8864.html">使用Appfuse2.0.1开始开发</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20071119/8349.html">Oracle查询用户权限</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20071126/8563.html">10g的OEM 
+  DBCONSOLE和ISQL</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20080304/9847.html">Oracle建立DBLINK的详细步</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20070724/4841.html">Oracle 
+  HA 在Unix上双机环</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20070724/4842.html">Oracle 
+  HA 在Unix上双机环</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20080523/11373.html">oracle 
+  环境变量学习小结</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20070909/6787.html">Oracle技术的位操作</A> 
+  </LI></UL></DIV></DIV><!--侧边信息列表-->
+<DIV class="rlist margintop">
+<DIV class=title>相关文章</DIV>
+<DIV class=rbox>
+<UL>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20081015/13559.html">xml 
+  publisher 开发总结</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20081013/13535.html">oracle 
+  分区表对应的数据</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20081010/13498.html">oracle中buffer 
+  cache</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20080910/13417.html">Oracle 
+  DBA笔试及面试题汇</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20080901/13403.html">oracle 
+  用户配置文件 （Us</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20080901/13398.html">oracle 
+  用户管理</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20080901/13372.html">Oracle10gR2在Aix5L的详细</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20080827/13342.html">安装oracle 
+  10.2时遇到的</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20080820/13280.html">for 
+  update锁</A></LI>
+  <LI><A 
+  href="http://www.91linux.com/html/article/database/oracle/20080820/13277.html">创建oracle表空间</A> 
+  </LI></UL></DIV></DIV></DIV>
+<DIV class=floatclear><!--清除浮动--></DIV></DIV>
+<DIV class="footer cbody margintop">
+<DIV class=copyright>
+<DIV style="FONT-SIZE: 12px"><A href="http://www.91linux.com/" 
+target=_blank>91Linux!</A> </DIV></DIV>
+<DIV class=floatclear></DIV></DIV>
+<SCRIPT language=JavaScript src="" charset=gb2312></SCRIPT>
+</BODY></HTML>

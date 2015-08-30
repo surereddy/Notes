@@ -1,0 +1,41 @@
+cisco swtich 2950
+pwd: en/alcatel
+
+en
+show vlan
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/1, Fa0/2, Fa0/8, Fa0/9
+                                                Fa0/10, Fa0/11, Fa0/12, Fa0/13
+                                                Fa0/14, Fa0/15, Fa0/16, Fa0/17
+                                                Fa0/18, Fa0/19, Fa0/20, Fa0/21
+                                                Fa0/22, Fa0/23, Fa0/24
+2    B1-OP                            active    Fa0/3, Fa0/4, Fa0/5, Fa0/6
+                                                Fa0/7
+conf t
+int f0/4
+switchport mode access
+switchport access vlan 1
+int f0/3
+switchport mode access
+switchport access vlan 1
+int f0/5
+switchport mode access
+switchport access vlan 1
+int f0/6
+switchport mode access
+switchport access vlan 1
+int f0/7
+switchport mode access
+switchport access vlan 1
+end
+show vlan
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/1, Fa0/2, Fa0/8, Fa0/9
+                                                Fa0/10, Fa0/11, Fa0/12, Fa0/13
+                                                Fa0/14, Fa0/15, Fa0/16, Fa0/17
+                                                Fa0/18, Fa0/19, Fa0/20, Fa0/21
+                                                Fa0/22, Fa0/23, Fa0/24
+2    B1-OP                            active    
+copy running-config startup-config

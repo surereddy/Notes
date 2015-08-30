@@ -1,0 +1,7 @@
+FAQ:
+
+- Can not open page?
+  Solution: Use asbproxy.
+  
+- Add attachment fail: bad link?
+  R&S: The name of the attachment can not be too long. It's better in 25 characters.

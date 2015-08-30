@@ -1,0 +1,30 @@
+ppt和pdf之间如何相互转换? 
+
+
+1. PDFcamp Pro(pdf writer) 2.1 
+JawsPDFcamp是一个可以快速创建或者转换DOC,XLS,PPT,TXT和HTML文件为PDF文档的强力工具 ...
+http://www.onlinedown.net/soft/7245.htm
+www.onlinedown.net/soft/23418.htm
+
+2. CZ-Ppt2Pdf 1.0
+CZ-Ppt2Pdf可以将微软PowerPoint的档案(.ppt、.pps)转换成PDF档，这个工具支持微软Word ...
+http://www.onlinedown.net/soft/16952.htm 
+
+3. Kinati 2PDF Converter 1.0 
+是一个完全免费在线PDF文件转换工具，能将TXT、RTF、DOC、XLS和PPT格式文档转换成PDF ...
+http://www.onlinedown.net/soft/23294.htm 
+
+4. PDF2everything 8.0 
+
+
+这个实用的应用程序能将PDF文档转换成多种格式。其中包括：PDF2PPT (Microsoft PowerPoint), PDF2PS (Post Script), PDF2EPS (Encapsulated Post Script), PDF2PNG (Portable Network Grafik), PDF2BMP (Bitmap), PDF2TIF (Tagged Image Format), PDF2JPG (Joint Photographic Expert Group), PDF2PCX (PC Paintbrush Format)。 
+http://www.onlinedown.net/soft/32346.htm
+PDF2everythingV8.0
+
+5. Adobe Acrobat V7.0 PRO
+先安装Adobe Acrobat 6.0 pro 或7.0 pro软件，然后用Microsoft Office PowerPoint打开需转换的ppt文件，点击“转为Adobe PDF”按钮，按提示操作即可。
+http://download.winzheng.com/softview/SoftView_2019.htm
+http://lib.verycd.com/2005/04/29/0000048665.html
+ 
+回家去下载吧。公司里不允许访问上述下载地址！
+ 

@@ -1,0 +1,100 @@
+Warning: Log archiving (ARCHIVELOG mode) is currently disabled. If
+you restore the database from this backup, any transactions that take
+place between this backup and the next backup will be lost. It is
+recommended that you enable ARCHIVELOG mode before proceeding so
+that all transactions can be recovered upon restore. See the section
+'Enabling ARCHIVELOG Mode...' in the online help for instructions.
+Backup with log archiving disabled will shut down and restart the
+database. Are you sure [Y/N]? y
+Backup in progress...
+
+Recovery Manager: Release 10.2.0.1.0 - Production on Sat May 22 08:06:57 2010
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+connected to target database: XE (DBID=2600774568)
+
+RMAN> set echo on;
+2> shutdown immediate;
+3> startup mount;
+4> configure controlfile autobackup format for device type disk clear;
+5> configure retention policy to redundancy 2;
+6> configure controlfile autobackup on;
+7> sql "create pfile=''D:\ORACLEXE\APP\ORACLE\PRODUCT\10.2.0\SERVER\DATABASE\SPF
+ILE2INIT.ORA'' from spfile";
+8> backup as backupset device type disk database;
+9> configure controlfile autobackup off;
+10> alter database open;
+11> delete noprompt obsolete;
+12>
+echo set on
+
+using target database control file instead of recovery catalog
+database closed
+database dismounted
+Oracle instance shut down
+
+connected to target database (not started)
+Oracle instance started
+database mounted
+
+Total System Global Area     805306368 bytes
+
+Fixed Size                     1289996 bytes
+Variable Size                218104052 bytes
+Database Buffers             583008256 bytes
+Redo Buffers                   2904064 bytes
+
+RMAN configuration parameters are successfully reset to default value
+
+new RMAN configuration parameters:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 2;
+new RMAN configuration parameters are successfully stored
+
+new RMAN configuration parameters:
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+new RMAN configuration parameters are successfully stored
+
+sql statement: create pfile=''D:\ORACLEXE\APP\ORACLE\PRODUCT\10.2.0\SERVER\DATAB
+ASE\SPFILE2INIT.ORA'' from spfile
+
+Starting backup at 22-MAY-10
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: sid=36 devtype=DISK
+channel ORA_DISK_1: starting full datafile backupset
+channel ORA_DISK_1: specifying datafile(s) in backupset
+input datafile fno=00003 name=D:\ORACLEXE\ORADATA\XE\SYSAUX.DBF
+input datafile fno=00001 name=D:\ORACLEXE\ORADATA\XE\SYSTEM.DBF
+input datafile fno=00004 name=D:\ORACLEXE\ORADATA\XE\USERS.DBF
+input datafile fno=00002 name=D:\ORACLEXE\ORADATA\XE\UNDO.DBF
+channel ORA_DISK_1: starting piece 1 at 22-MAY-10
+channel ORA_DISK_1: finished piece 1 at 22-MAY-10
+piece handle=D:\ORACLEXE\APP\ORACLE\FLASH_RECOVERY_AREA\XE\BACKUPSET\2010_05_22\
+O1_MF_NNNDF_TAG20100522T080729_5ZG8227T_.BKP tag=TAG20100522T080729 comment=NONE
+
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:36
+Finished backup at 22-MAY-10
+
+Starting Control File and SPFILE Autobackup at 22-MAY-10
+piece handle=D:\ORACLEXE\APP\ORACLE\FLASH_RECOVERY_AREA\XE\AUTOBACKUP\2010_05_22
+\O1_MF_S_719654833_5ZG8367B_.BKP comment=NONE
+Finished Control File and SPFILE Autobackup at 22-MAY-10
+
+old RMAN configuration parameters:
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+new RMAN configuration parameters:
+CONFIGURE CONTROLFILE AUTOBACKUP OFF;
+new RMAN configuration parameters are successfully stored
+
+database opened
+
+RMAN retention policy will be applied to the command
+RMAN retention policy is set to redundancy 2
+using channel ORA_DISK_1
+no obsolete backups found
+
+Recovery Manager complete.
+Backup of the database succeeded.
+Log file is at D:\ORACLEXE\APP\ORACLE\PRODUCT\10.2.0\SERVER\DATABASE\OXE_BACKUP_
+CURRENT.LOG.
+Press any key to continue . . .

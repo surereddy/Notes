@@ -1,0 +1,2541 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Chapter 11 -- Database Interaction</TITLE>
+
+
+
+<META>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Chapter&nbsp;11</FONT></H1>
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Database Interaction</FONT></H1>
+
+<P>
+
+<I><B>by David Harlan</B></I>
+
+<HR>
+
+<P>
+
+<CENTER><B><FONT SIZE=5><A NAME="CONTENTS">CONTENTS</A></FONT></B></CENTER>
+
+<UL>
+
+<LI><A HREF="#JustifyingPerlDatabaseInteraction">
+
+Justifying Perl/Database Interaction</A>
+
+<LI><A HREF="#ExaminingtheDatabaseOptions">
+
+Examining the Database Options</A>
+
+<UL>
+
+<LI><A HREF="#DBIandDBDDatabaseAccessModulesforPerl">
+
+DBI and DBD Database Access Modules for Perl 5</A>
+
+<LI><A HREF="#mSQLandmSQLPerl">
+
+mSQL and mSQLPerl</A>
+
+<LI><A HREF="#OracleRDBMSandOraperl">
+
+Oracle RDBMS and Oraperl</A>
+
+<LI><A HREF="#StartingaNewMessageThread">
+
+Starting a New Message Thread</A>
+
+<LI><A HREF="#ListingThreadsandDisplayingtheContentsofaSingleThread">
+
+Listing Threads and Displaying the Contents of a Single Thread
+
+</A>
+
+<LI><A HREF="#NavigatingThroughMessagesandPostingReplies">
+
+Navigating Through Messages and Posting Replies</A>
+
+</UL>
+
+<LI><A HREF="#FromHere">
+
+From Here   </A>
+
+</UL>
+
+
+
+<HR>
+
+<P>
+
+Throughout this book, I have persistently reminded you that if
+
+you want people to come back to your Web site, you have to give
+
+them a good reason to return. And I've said all along that fresh,
+
+dynamic content is one such reason. You've seen some good ways
+
+to add some dynamic elements to your site: server-side includes,
+
+client pull, server push, and others. This chapter introduces
+
+one of the best methods for maintaining large amounts of dynamic
+
+data on a Web site: databases.
+
+<P>
+
+You may remember reading earlier about DBM files, which are a
+
+simple form of database functionality accessible through Perl.
+
+I showed you some useful, if simple, examples and explained their
+
+limitations. This chapter examines some optional add-on functionality
+
+to Perl that allows for interaction with full-fledged relational
+
+database management systems (RDBMS), such as Informix, Sybase,
+
+and Oracle. Then I'll demonstrate the capabilities of one of these
+
+systems in detail.
+
+<H2><A NAME="JustifyingPerlDatabaseInteraction"><FONT SIZE=5 COLOR=#FF0000>
+
+Justifying Perl/Database Interaction</FONT></A></H2>
+
+<P>
+
+In the Web survey example in <A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A> &quot;Introduction to
+
+CGI,&quot; and <A HREF="ch3.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch3.htm" >Chapter 3</A> &quot;Advanced Form Processing and Data
+
+Storage,&quot; I used Perl's built-in database functionality to
+
+store and retrieve some relatively complex data. Using DBM files
+
+was effective in this example, but barely so. You may have noticed
+
+that I had to work around some functional limitations of Perl's
+
+built-in DBM file handling. Also, you should have noticed that
+
+these DBM files had little advanced functionality-no relating
+
+between tables, for example, and no way to distinguish between
+
+fields in a given record.
+
+<P>
+
+Had I used an RDBMS, I would have been able to access the data
+
+more easily. I could have averaged and totaled data much more
+
+readily. In fact, that Web survey would have been an excellent
+
+candidate for a relational database application.
+
+<P>
+
+This last statement, of course, begs the question &quot;How do
+
+I decide whether I should use a high-end database on my site?&quot;
+
+<P>
+
+The easiest answer is this: If you have access to an RDBMS, use
+
+it on your Web site. You will find that many common tasks become
+
+much easier in a database environment. User tracking is a breeze.
+
+Summarizing Web logs can be simplified, and the data from the
+
+logs can be analyzed extensively if you transfer your logs to
+
+a database.
+
+<P>
+
+But what if you don't have an RDBMS and are wondering whether
+
+you should invest in one? Then the decision (like any business
+
+decision) comes down to a cost/benefit analysis.
+
+<P>
+
+The costs for an RDBMS can be significant. In addition to the
+
+initial outlay for the software, you have to calculate installation
+
+and configuration time, time to integrate the software with your
+
+Web server, time to learn the new system, and additional administrative
+
+effort that comes with any complex piece of software.
+
+<P>
+
+But keep in mind that all these tasks can be accomplished by a
+
+single person; I know this from experience. The effort can be
+
+a little draining at first, but it worked out well for me.
+
+<P>
+
+So, then, what are the benefits? As I said before, an RDBMS is
+
+capable of storing and retrieving large amounts of complex data
+
+with extraordinary speed and reliability. A Webmaster can, obviously,
+
+use a database to track users and analyze logs. But you could
+
+go so far as to keep your entire site in a database, accessing
+
+the whole thing through CGI. Why? This setup would allow you to
+
+use the built-in search features of an advanced RDBMS instead
+
+of adding search functionality, as I demonstrated in <A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch4.htm" >Chapter 4</A>
+
+&quot;Advanced Page Output.&quot; This kind of setup would also
+
+allow you to create a rotation of pages, so users see fresh content
+
+every time they come to the site.
+
+<P>
+
+My best advice is this: If you wish that your users could more
+
+easily find, retrieve, and even create discrete pieces of data
+
+on your site, you may want to look into adding database functionality
+
+to your Web system.
+
+<H2><A NAME="ExaminingtheDatabaseOptions"><FONT SIZE=5 COLOR=#FF0000>
+
+Examining the Database Options</FONT></A></H2>
+
+<P>
+
+Most manufacturers of database software have jumped onto the Web
+
+bandwagon recently. Some manufacturers have built their own Web
+
+servers to work directly with their database systems. Almost all
+
+of the major players have built add-on tools that give a Webmaster
+
+the means to access their databases from a stand-alone Web server.
+
+<P>
+
+Given the fact that this book is about Perl, however, we're not
+
+interested in those options right now. This section examines the
+
+options for accessing databases from Perl.
+
+<H3><A NAME="DBIandDBDDatabaseAccessModulesforPerl">
+
+DBI and DBD Database Access Modules for Perl 5</A></H3>
+
+<P>
+
+At this writing, the largest development effort in database-Perl
+
+integration is a set of modules called <I>DBperl</I>. This project
+
+is an effort by a group in this Internet community to standardize
+
+the methods for accessing a database from Perl.
+
+<P>
+
+The interface actually consists of two parts: DBI and DBD.
+
+<P>
+
+<I>DBI</I>, which is the actual Perl interface, defines a standard
+
+set of functions that (theoretically) allow a programmer to access
+
+any database from Perl. The goal is to make Perl code independent
+
+of the database that it is accessing.
+
+<P>
+
+The second part of this system, <I>DBD</I>, essentially is a driver
+
+for a specific database. Currently, 10 DBD modules are in some
+
+state of development. Most of these modules still are considered
+
+to be alpha software, which means that the developers don't recommend
+
+their use in production environments. Several Web sites, however,
+
+are using these tools fairly rigorously.
+
+<P>
+
+If you are looking for the future of Perl-database integration;
+
+are willing to take the risks (which perhaps are minimal at this
+
+point) of using alpha software; and have the time, inclination,
+
+and ability to get DBI up and running on your system, this latest
+
+technology is the way that you want to go.
+
+<H3><A NAME="mSQLandmSQLPerl">
+
+mSQL and mSQLPerl</A></H3>
+
+<P>
+
+At the other end of the spectrum from a high-end database and
+
+DBI are mSQL and <TT>m</TT>SQLPerl.
+
+<P>
+
+<I>mSQL</I> is a lightweight relational database server that supports
+
+a subset of the Structured Query Language (SQL), which is standard
+
+to the large relational databases. mSQL was created and is sold
+
+by Hughes Technologies in Australia. Although its functionality
+
+is somewhat limited compared with systems from the major database
+
+providers, mSQL does nearly everything that a Webmaster needs
+
+it to do, and it costs a fraction of the prices of Oracle, Sybase,
+
+and Informix.
+
+<P>
+
+<TT>m</TT><I>SQLPerl</I> is a Perl 5 module that gives the Perl
+
+programmer full access to the mSQL database. Anything that you
+
+can do to the mSQL system from the command line, you can do from
+
+mSQLPerl. The manufacturer reports that the database itself is
+
+being used on Web sites around the world. The mSQLPerl module
+
+is reported to be quite stable.
+
+<P>
+
+mSQL and mSQLPerl might be a good first step for Webmasters who
+
+are not sure whether they need a database. The mSQL server itself
+
+is quick and easy to install, and so is the mSQLPerl module. The
+
+documentation included with the package is lucid and complete.
+
+With this combination, a Webmaster could add significant database
+
+capabilities to a Web site in just a few days, with minimal capital
+
+expense.
+
+<H3><A NAME="OracleRDBMSandOraperl">
+
+Oracle RDBMS and Oraperl</A></H3>
+
+<P>
+
+The third and final option that I talk about here is my personal
+
+favorite, Oraperl. <I>Oraperl</I> is a set of extensions to Perl
+
+4.036 that provides complete access to an Oracle database server.
+
+One obvious drawback of this package is the fact that it is built
+
+on an old version of Perl, but its positive traits are many and,
+
+in my mind, outweigh the few negatives.
+
+<P>
+
+First and foremost, the code is quite well-tested and stable.
+
+I have used it on a production Web site and have never had any
+
+problems with it. As with mSQL and mSQLPerl, the documentation
+
+included with Oraperl is quite good. Finally, installation is
+
+well-documented, as are all the additional functions.
+
+<P>
+
+If you can afford to purchase an Oracle database server, or if
+
+you have access to one already, Oraperl is an excellent database
+
+interface option.
+
+<P>
+
+The rest of this chapter examines an Oraperl example in detail.
+
+Even if you don't think that an RDBMS is in your Web future, you
+
+may want to continue reading, if only to see the functionality
+
+that databases add to Perl and CGI.
+
+<H2>Creating a Threaded Message Database</H2>
+
+<P>
+
+One of the most compelling aspects of the Internet is the ability
+
+of people around the world to interact with very few limitations.
+
+In the one-on-one communication arena, unfortunately, the Web
+
+has not caught up with its older siblings: Usenet, e-mail, and
+
+talk. Because many of the newest Internet users are solely Web
+
+users, the Web's weakness in the interactivity department has
+
+occasionally made new users wonder what the big deal is.
+
+<P>
+
+As browser technology advances, and as more specialized plug-ins
+
+and add-ons are created, the Web is catching up. Unfortunately,
+
+this new technology does not help people who are tied to older
+
+browser technology-people who are accessing the Web through online
+
+services or who simply don't have the hardware horsepower to run
+
+the big new browsers. The obvious answer to the interactivity
+
+question right now is CGI, and one of the best CGI methods available
+
+to support interactivity is the subject of this chapter: databases.
+
+<P>
+
+This section examines a threaded message database built in CGI,
+
+using Oraperl. You will see how using a database enabled me to
+
+produce a relatively simple and quite reliable application.
+
+<H3><A NAME="StartingaNewMessageThread">
+
+Starting a New Message Thread</A></H3>
+
+<P>
+
+Figure 11.1 shows a typical opening screen to a threaded message
+
+database. Each row on the page represents a <I>thread</I>-a series
+
+of messages on a single topic. You notice that the subject of
+
+each thread is a link, and you probably can guess that selecting
+
+that link brings up a listing of that thread. Also, in the graphic
+
+at the top of the page is an image-map link that allows the user
+
+to create a new thread.
+
+<P>
+
+<A HREF="f11-1.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f11-1.gif"><B> Figure 11.1 : </B><I>This screen shows the opening page of a threaded message database.
+
+
+
+</I></A><P>
+
+<P>
+
+When the user selects the <TT>create new thread</TT> link, he
+
+or she goes to the form shown in figure 11.2.
+
+<P>
+
+<A HREF="f11-2.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f11-2.gif"><B> Figure 11.2 : </B><I>The user fills out and submits this form to create a new message thread.
+
+
+
+</I></A><P>
+
+<P>
+
+When the user completes the form and submits it, the server returns
+
+the user to the thread listing. As you can see in figure 11.3,
+
+the new thread is added to the bottom of the list.
+
+<P>
+
+<A HREF="f11-3.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f11-3.gif"><B> Figure 11.3 : </B><I>After submitting a new thread, the user returns to the thread-listing screen.
+
+
+
+</I></A><P>
+
+<P>
+
+Listing 11.1 shows <TT>newthread.pl</TT>, the script that processes
+
+the user input into a new thread. The first thing that you should
+
+notice about this script is the top line. In all the scripts that
+
+you've seen up to this time, that line has read <TT>#!/usr/bin/perl</TT>.
+
+Remember that this line tells the operating system that the rest
+
+of the file is a program that should be passed to /USR/BIN/PERL
+
+for processing. As I said earlier, this example uses an extended
+
+version of Perl 4.036 called Oraperl. To parse the extended functionality,
+
+you  have to call a different interpreter. The interpreter for
+
+Oraperl is (not surprisingly) called Oraperl-thus, the first line.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.1&nbsp;&nbsp;Script (newthread.pl) to Parse Information
+
+into a New Message Thread<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/oraperl
+
+
+
+require &quot;process_cgi.pl&quot;;
+
+
+
+#Login to oracle
+
+$lda=&amp;ora_login('oracle_sid','oracle_user','oracle_pass') || die $ora_errstr;
+
+
+
+#Get a new messageid
+
+$csr=&amp;ora_open($lda, 'select max(msgid) from msghome');
+
+if (($msgid)=&amp;ora_fetch($csr)) { $msgid=$msgid+1; } else {$msgid=1;}
+
+&amp;ora_close ($csr);
+
+
+
+#find the message id for the last message in the database
+
+$select=&quot;select max(msgid) from msghome where threadid = (select max(threadid) from msghome)&quot;;
+
+$csr=&amp;ora_open($lda,$select);
+
+($previd)=&amp;ora_fetch($csr);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+As you move farther down the script, you see a call to the function
+
+<TT>&amp;ora_login</TT>. This function is the first example of
+
+the extended functionality of Oraperl. The function requires an
+
+Oracle System ID, an Oracle user name, and a password as its arguments;
+
+it returns a scalar that uniquely identifies this particular Oracle
+
+session.
+
+<P>
+
+Notice that I follow this statement with Perl's <TT>||</TT> (<TT>or</TT>)
+
+operator. If the login fails for some reason, I want to know about
+
+it. So on an unsuccessful login, the program exits, using the
+
+<TT>die</TT> function to print the variable <TT>$ora_errstr</TT>
+
+to <TT>STDERR</TT>. The variable <TT>$ora_errstr</TT> contains
+
+the text that describes the most recent Oracle error that Oraperl
+
+encountered. Recall that most Web servers direct <TT>STDERR</TT>
+
+from CGI scripts to the daemon's error log. If I'm conscientious
+
+about checking the error log, I'll discover this error and track
+
+down the problem.
+
+<P>
+
+Every Oraperl script has at least one call to <TT>&amp;ora_login</TT>-usually
+
+near the beginning of the script, and always before any other
+
+Oraperl functions are used. Every Oraperl function requires a
+
+valid login identifier as an argument or requires another value
+
+that depends on a login identifier.
+
+<P>
+
+One such function, <TT>&amp;ora_open</TT>, is used in the next
+
+statement in the script. This function takes a login identifier
+
+and a Structured Query Language (SQL) statement as its arguments;
+
+it returns a statement identifier, also known as a <I>cursor</I>.
+
+<P>
+
+SQL is the standard language of major relational databases. In
+
+its simpler forms, SQL reads very much like English. The statement
+
+that you see in this first use of <TT>&amp;ora_open</TT> has the
+
+fairly obvious function of finding the maximum value of the field
+
+<TT>msgid</TT> in the table <TT>msghome</TT>. The basics of SQL
+
+are beyond the scope of this book, so from here on, I assume that
+
+you have some knowledge of the language.
+
+<P>
+
+The function <TT>&amp;ora_open</TT> is the most commonly used
+
+Oraperl function. You use <TT>&amp;ora_open</TT> whenever you
+
+want to submit an SQL statement to the database.
+
+<P>
+
+After you have the statement identifier, you need to get the data
+
+from it. This function is performed by <TT>&amp;ora_fetch</TT>.
+
+Near the top of Listing 11.1, you can see that the result of <TT>&amp;ora_fetch</TT>
+
+is being assigned to <TT>$msgid</TT>. You should take careful
+
+note of the syntax here, however. The result is being assigned
+
+to <TT>$msgid</TT> as the only member of a list; the parentheses
+
+create this syntax. This distinction is important, because <TT>&amp;ora_fetch</TT>
+
+returns different data if it is asked for a scalar.
+
+<P>
+
+When called in a scalar context, <TT>&amp;ora_fetch</TT> returns
+
+the number of fields returned by the SQL statement. Without the
+
+parentheses, this statement always returns <TT>1</TT>, which is
+
+not the result that you are looking for. In an array context,
+
+however, the function returns a row of data returned from the
+
+statement. Upon each successive call to <TT>&amp;ora_fetch</TT>,
+
+the function returns a row of data. When there is no data to return,
+
+the function fails.
+
+<P>
+
+Now you can see why this particular statement is embedded in an
+
+<TT>if</TT> statement. You know that <TT>msgid</TT> can have only
+
+one maximum value, and if it exists, <TT>&amp;ora_fetch</TT> returns
+
+it successfully. Then you want to increment <TT>msgid</TT> by
+
+1 to create your new message ID. If the function fails, you know
+
+that no data exists in the <TT>msghome</TT> table, because no
+
+row in this table can exist without an <TT>msgid</TT> field. Therefore,
+
+you set your new message ID to <TT>1</TT>.
+
+<P>
+
+With that processing out of the way, you get rid of the statement
+
+ID by calling <TT>&amp;ora_close</TT>. This act is simply a matter
+
+of housekeeping and not strictly necessary in this script; any
+
+statement identifiers from this script are disposed of properly
+
+when the script ends. I habitually close the identifiers when
+
+I finish, however, to avoid any unnecessary memory use.
+
+<P>
+
+The next section of the script finds the message ID of the last
+
+message in the database. Understand that you can define the last
+
+message in the database in several ways-as the message with the
+
+highest ID number, for example. But for purposes of this example,
+
+the last message in the database is the message from the highest-numbered
+
+thread with the highest message ID.
+
+<P>
+
+You need this last message ID to set the preceding message ID
+
+for the message that you are creating. To understand this situation,
+
+it probably would help to know a bit about the structure of the
+
+table that this data is going into. The table, called <TT>msghome</TT>,
+
+consists of eight fields:
+
+<UL>
+
+<LI><TT>msgdate</TT>, which contains the date and time when the
+
+message was posted
+
+<LI><TT>msgid</TT>, which contains an integer that uniquely identifies
+
+this message in the table
+
+<LI><TT>subject</TT>, which contains the Subject line typed by
+
+the user
+
+<LI><TT>author</TT>, which contains the name given by the user
+
+<LI><TT>threadid</TT>, which contains an integer ID of the thread
+
+to which this message belongs
+
+<LI><TT>previd</TT>, which contains the integer ID of the message
+
+before this one in the database
+
+<LI><TT>nextid</TT>, which contains the integer ID of the next
+
+message in the database
+
+<LI><TT>parentid</TT>, which contains the integer ID of the message
+
+to which this message is a reply
+
+</UL>
+
+<P>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+This table is relatively simple, but it stores all the necessary data for this application. If you want to use the scripts on the CD-ROM that accompanies this book to put this message database on your own Web server, you first have to create the 
+<TT>msghome</TT> table in your Oracle database.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+To find the message ID of the last message in the database, you
+
+use the SQL <TT>select</TT> statement, which you can see near
+
+the bottom of Listing 11.1. This statement is more complex than
+
+the one used earlier in this section but still is fairly easy
+
+to understand. If you look at the part of the statement after
+
+<TT>threadid=</TT>, you see a complete <TT>select</TT> statement
+
+embedded in the main <TT>select</TT> statement. This embedded
+
+<TT>select</TT> is looking for the highest-thread ID in <TT>msghome</TT>.
+
+When you look at the statement as a whole, you see that it is
+
+looking for the highest message ID that belongs to the thread
+
+with the highest thread ID.
+
+<P>
+
+Now that you know the ID number of the new message and last message
+
+in the database, you can insert that information into the database
+
+and create the HTML for this new message. Listing 11.2 shows this
+
+part of the process.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.2&nbsp;&nbsp;Part 2 of the Script to Update the
+
+msghome Table and Create the HTML Display<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&amp;parse_input(*fields);
+
+
+
+#parse out illegal characters and HTML
+
+$fields{'body'} =[td] s/&lt;[^&gt;]+&gt;//g;
+
+$fields{'body'} =[td] s/\n/&lt;br&gt;/g;
+
+
+
+$fields{'subject'} =[td] s/&lt;[^&gt;]+&gt;//g;
+
+$fields{'subject'} =[td] s/\'/&amp;#039;/g;
+
+
+
+$fields{'author'} =[td] s/&lt;[^&gt;]+&gt;//g;
+
+$fields{'author'} =[td] s/\'/&amp;#039;/g;
+
+
+
+#insert the new message information into msghome
+
+$insert=&quot;insert into msghome
+
+     (msgdate, msgid,subject,author,threadid,previd)
+
+     select sysdate, '$msgid',
+
+     '$fields{'subject'}','$fields{'author'}',
+
+     '$msgid','$previd' from dual&quot;;
+
+$csr=&amp;ora_open($lda,$insert);
+
+&amp;ora_commit($lda);
+
+&amp;ora_close ($csr);
+
+
+
+#update nextid for the previous message
+
+$csr=&amp;ora_open($lda,&quot;update msghome set nextid = '$msgid' where msgid = '$previd'&quot;);
+
+&amp;ora_commit($lda);
+
+
+
+#print out the HTML file for this message
+
+open(F, &quot;&gt;/opt/lib/httpd/htdocs/traveler/log/$msgid.html&quot;);
+
+print F &quot;&lt;title&gt;$fields{'subject'}&lt;/title&gt;&quot;;
+
+print F &quot;&lt;body bgcolor=\&quot;FFFFFF\&quot;&gt;&lt;center&gt;&quot;;
+
+print F &quot;&lt;table width=480 border=0 cellpadding=3&gt;\n&quot;;
+
+print F &quot;&lt;tr&gt;&lt;td colspan=2&gt;&lt;img src=\&quot;/traveler/tra211a.gif\&quot;&gt;&quot;;
+
+print F &quot;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Subject:&lt;/b&gt;&lt;td&gt;$fields{'subject'}&quot;;
+
+print F &quot;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Author:&lt;/b&gt;&lt;td&gt;$fields{'author'}&quot;;
+
+print F &quot;&lt;tr&gt;&lt;td valign=top&gt;&lt;b&gt;Message:&lt;/b&gt;&lt;td&gt;&quot;;
+
+print F $fields{'body'};
+
+print F &quot;&lt;/table&gt;&lt;p&gt;&lt;hr width=480&gt;&lt;a href=\&quot;/cgi-bin/main/msgnext/$msgid\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/nextmsg.gif\&quot; border=0&gt;&lt;/a&gt;&quot;;
+
+print F &quot;&lt;a href=\&quot;/cgi-bin/main/msgprev/$msgid\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/prevmsg.gif\&quot; border=0&gt;&lt;/a&gt;&quot;;
+
+print F &quot;&lt;a href=\&quot;/cgi-bin/main/showthread/$msgid\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/showthrd.gif\&quot; border=0&gt;&lt;/a&gt;&quot;;
+
+print F &quot;&lt;a href=\&quot;/cgi-bin/main/msgreply/$msgid\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/msgreply.gif\&quot; border=0&gt;&lt;/a&gt;&quot;;
+
+close F;
+
+
+
+#Send the browser back to the main threads screen
+
+print &quot;Location: http://www.iwant.com/traveler/log/log.cgi\n\n&quot;;
+
+
+
+#close the last cursor and logout from oracle
+
+&amp;ora_close ($csr) || die $ora_errstr;
+
+&amp;ora_logoff ($lda) || die $ora_errstr;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The first thing that you see in Listing 11.2 is the standard call
+
+to <TT>&amp;parse_input</TT>, processing the data from the form
+
+into the associative array <TT>%fields</TT>. After that processing
+
+is done, the next section attempts to process out any HTML coding
+
+from the fields that comprise the message. These lines also add
+
+<TT>&lt;BR&gt;</TT> tags in place of new lines in the body of
+
+the message. Finally, in <TT>$fields{'subject'}</TT> and <TT>$fields{'author'}</TT>,
+
+any single-quote characters are changed into the appropriate HTML-entity
+
+reference for that character. This process is necessary because
+
+the single quote is a special character in Oracle. If the data
+
+included any single-quote characters, the <TT>insert</TT> statement
+
+(described in the following paragraph) would fail.
+
+<P>
+
+The SQL <TT>insert</TT> statement placed in the variable aptly
+
+named <TT>$insert</TT> places the data from the new message into
+
+the database. Like the <TT>select</TT> statement described in
+
+the preceding paragraph, this <TT>insert</TT> uses an embedded
+
+<TT>select</TT> statement to perform its function. This embedded
+
+<TT>select</TT> may look strange at first, but its function actually
+
+is simple: to get the date and time from the system, which it
+
+does by selecting <TT>sysdate</TT> from the table <TT>dual</TT>.
+
+<TT>sysdate</TT> is an Oracle function that returns the date and
+
+time from the computer that is running the Oracle server. <TT>dual</TT>
+
+is a special system table in Oracle that contains only one field:
+
+a dummy field called (appropriately enough) <TT>dummy</TT>. <TT>dual</TT>
+
+is often used in situations such as this one, when you want to
+
+get the result of a function without an actual call to a real
+
+table.
+
+<P>
+
+The rest of the items that are being <TT>select</TT>ed from <TT>dual</TT>
+
+in this statement actually are constants; notice that they are
+
+all enclosed in single quotes. Selecting constants in this way
+
+simply tells Oracle to return those constants with each row returned
+
+from the <TT>select</TT> statement. This syntax is an easy way
+
+to insert the user data, along with the system date and time,
+
+into <TT>msghome</TT> with only one Oracle call.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Errors in my SQL statements tripped me up quite often when I was learning to use Oraperl. These errors frequently are difficult to track down. Nowadays, when I get unexpected results, I print the actual SQL statement that I'm using to my HTML page (during 
+testing only, of course). Then I copy that text and paste it into Oracle's command-line SQL parser, SQL*Plus. This program gives me direct feedback on any errors, usually leading to a quick fix for my problem.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+After defining the <TT>insert</TT> statement, the script immediately
+
+submits it to the database, using <TT>&amp;ora_open()</TT>. Then
+
+the script commits the change that was just made, using <TT>&amp;ora_commit()</TT>.
+
+This Oraperl function takes a login identifier as an argument.
+
+When called, <TT>&amp;ora_commit()</TT> makes any changes to the
+
+database performed under the provided login identifier permanent.
+
+<P>
+
+The next step in this process tells the database that the message
+
+whose ID is stored in <TT>$previd</TT> should have its <TT>nextid</TT>
+
+field set to the message ID of the new message. This process is
+
+performed by <TT>&amp;ora_open()</TT> and the SQL <TT>update</TT>
+
+statement that you see in Listing 11.2. Again, after sending this
+
+change to the database, the script immediately commits the change,
+
+using <TT>&amp;ora_commit()</TT>.
+
+<P>
+
+When all the database changes are complete, the next section of
+
+the script prints the HTML file for this message. In this case
+
+(as in any case in which your CGI is writing to files on the server),
+
+you have to carefully set file permissions to allow<TT> file creation.</TT>
+
+The creation of the HTML file completes the processing of the
+
+new message. All that is left to do is print a Location header
+
+to point the browser back to the script that shows the current
+
+threads in the database-including, of course, the one that the
+
+user just added. The final two lines of the script close the last
+
+cursor used and log the user out of the database.
+
+<H3><A NAME="ListingThreadsandDisplayingtheContentsofaSingleThread">
+
+Listing Threads and Displaying the Contents of a Single Thread
+
+</A></H3>
+
+<P>
+
+Now that you have seen how to create a new message thread, the
+
+logical next step is to learn how to list the threads as shown
+
+in figures 11.1 and 11.3. Listing 11.3 shows the script that performs
+
+this task.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.3&nbsp;&nbsp;Script (showthreads.pl) to List All
+
+the Thread Subjects in the Message Database<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/oraperl
+
+
+
+require &quot;process_cgi.pl&quot;;
+
+
+
+#Login to oracle
+
+$lda=&amp;ora_login('oracle_sid','oracle_user','oracle_pass') || die $ora_errstr;
+
+
+
+#print out the standard header and the top of the page
+
+&amp;print_header;
+
+print &quot;&lt;title&gt;Travelers' log&lt;/title&gt;&quot;;
+
+print &quot;&lt;body bgcolor=\&quot;FFFFFF\&quot;&gt;&quot;;
+
+print &quot;&lt;center&gt;&lt;table border=0 cellpadding=0 width = 450&gt;&quot;;
+
+print &quot;&lt;tr&gt;&lt;td&gt;&lt;a href=\&quot;/cgi-bin/imagemap/log\&quot;&gt;
+
+   &lt;img src=\&quot;/traveler/tra210a.gif\&quot; border=0 ISMAP&gt;&lt;/a&gt;&lt;/table&gt;&quot;;
+
+print &quot;&lt;table border=0 cellpadding = 3 width=450&gt;&quot;;
+
+print &quot;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Date&lt;/b&gt;&lt;td&gt;&lt;b&gt;Author:&lt;/b&gt;&lt;td&gt;&lt;b&gt;Subject&lt;/b&gt;&lt;td&gt;&lt;b&gt;#&lt;/b&gt;&quot;;
+
+
+
+#Select all threads
+
+$datemask='MM/DD, HH24:MI';
+
+$query= &quot;select msgid, subject, author, to_char(msgdate, '$datemask') from
+
+   msghome where parentid is null order by msgdate&quot;;
+
+$csr=&amp;ora_open($lda, $query);
+
+
+
+#run through the data returned from the select statement, printing
+
+#out a row in the table per row returned.
+
+while (($msgid, $subject, $author, $date)=&amp;ora_fetch($csr)) {
+
+
+
+   #Get the number of messages in a given thread
+
+   $csr2=&amp;ora_open($lda,&quot;select count(msgid) from msghome where threadid = $msgid&quot;);
+
+   ($msgcount)=&amp;ora_fetch($csr2);
+
+   &amp;ora_close($csr2);
+
+   print &quot;&lt;tr&gt;&lt;td valign=top&gt;$date&lt;td valign=top&gt;$author&lt;td valign=top&gt;
+
+     &lt;a href=\&quot;/cgi-bin/main/showthread/$msgid\&quot;&gt;&quot;;
+
+   print &quot;$subject&lt;/a&gt;&lt;td valign=top&gt;$msgcount&lt;br&gt;&quot;
+
+}
+
+
+
+#print out the bottom of the page and close out the Oracle login.
+
+print &quot;&lt;/table&gt;&quot;;
+
+print &quot;&lt;p&gt;&lt;a href=\&quot;/cgi-bin/imagemap/navbar2\&quot;&gt;&lt;img src=\&quot;/navbar2.gif\&quot; ISMAP border=0&gt;&lt;/a&gt;&quot;;
+
+
+
+&amp;ora_close ($csr) || die $ora_errstr;
+
+&amp;ora_logoff ($lda) || die $ora_errstr;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Listing 11.3 begins just as Listing 11.1 did, calling in the code
+
+for the CGI library and logging into the Oracle database. The
+
+script then prints the top of the thread-display page. With those
+
+details out of the way, the script moves on to print the threads
+
+themselves.
+
+<P>
+
+First, of course, you have to create a <TT>select</TT> statement
+
+that gets the proper data. You know that any message that has
+
+a null parent message ID is the start of a thread, so you select
+
+the messages that meet that criterion, as you see in the line
+
+of Listing 11.3 that begins with <TT>$query=</TT>.
+
+<P>
+
+This <TT>select</TT> statement grabs the message ID, the subject,
+
+and the author. The script also uses the Oracle function <TT>to_char()</TT>
+
+to get the message date in the format that you want. This function,
+
+which can be used within SQL statements in Oracle, takes a column
+
+name and a mask as arguments. In the listing, I defined the mask
+
+in the variable <TT>$datemask</TT>, telling Oracle that I wanted
+
+the date to be printed as a two-digit month-day combination, followed
+
+by the time in 24-hour notation. (For complete details on date
+
+masks, see your Oracle documentation.) Notice also that this <TT>select</TT>
+
+statement uses an <TT>order by</TT> clause to put the messages
+
+in order by date.
+
+<P>
+
+After submitting the <TT>select</TT> statement to Oracle, using
+
+<TT>&amp;ora_open</TT>, the script begins a <TT>while</TT> loop
+
+to process all the data that is returned. Remember that <TT>&amp;ora_fetch</TT>
+
+returns <TT>true</TT> as long as rows that meet the criteria of
+
+the <TT>select</TT> statement remain to be processed.
+
+<P>
+
+Each time through this loop, another SQL <TT>select</TT> statement
+
+is used to get the number of messages in the thread. This statement
+
+uses the function <TT>count()</TT> to determine the number of
+
+messages in the database that have a thread ID equal to the message
+
+ID that is currently being processed. This function works because
+
+the script is looping through all the message IDs that don't have
+
+parent messages. Messages without parent IDs are always the beginning
+
+of threads, and their message IDs are also their thread IDs. Each
+
+time through the loop, therefore, <TT>$msgid</TT> actually contains
+
+a thread ID, and you can use that message ID/thread ID to get
+
+the number of messages in that thread.
+
+<P>
+
+Notice that when you print each row of the table, you link each
+
+subject to a script called <TT>showthread</TT>. When users follow
+
+this link, they see a listing of the messages in that thread.
+
+Figure 11.4 shows an example of the output of <TT>showthread</TT>.
+
+<P>
+
+<A HREF="f11-4.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f11-4.gif"><B> Figure 11.4 : </B><I>Users see a thread listing like this one when they select a thread subject from  the screen shown in figure 11.3.
+
+
+
+</I></A><P>
+
+<P>
+
+In figure 11.4, you should notice that the Subject lines of replies
+
+are indented from those of the original messages. If any of the
+
+replies had subsequent replies, they would be further indented.
+
+Listing 11.4 shows the script that prints this thread listing.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.4&nbsp;&nbsp;Script (showthread.pl) to Query the
+
+Database and Print a Thread Listing<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/oraperl
+
+
+
+require &quot;process-cgi.pl&quot;;
+
+$msgid=&amp;path_info;
+
+
+
+#Login to oracle
+
+$lda=&amp;ora_login('oracle_sid','oracle_user','oracle_pass') || die $ora_errstr;
+
+
+
+#Get the data for the first message in the thread
+
+$datemask='MM/DD, HH24:MI';
+
+$query= &quot;select author, subject, to_char(msgdate, '$datemask') from msghome 
+
+           where msgid='$msgid'&quot;;
+
+$csr=&amp;ora_open($lda, $query);
+
+($threadauthor,$threadsubject,$threaddate)=&amp;ora_fetch($csr);
+
+
+
+#print the header and the top of the page
+
+&amp;print_header;
+
+print &quot;&lt;title&gt;$threadsubject&lt;/title&gt;&quot;;
+
+print &quot;&lt;body bgcolor=\&quot;FFFFFF\&quot;&gt;&quot;;
+
+print &quot;&lt;center&gt;&lt;table border=0 cellpadding=0 width = 450&gt;&quot;;
+
+print &quot;&lt;tr&gt;&lt;td&gt;&lt;img src=\&quot;/traveler/tra211a.gif\&quot; alt= \&quot;Travelers' Log\&quot;&gt;&lt;br&gt;&quot;;
+
+print &quot;&lt;tr&gt;&lt;td&gt;&lt;a href=\&quot;/traveler/log/$msgid.html\&quot;&gt;$threadsubject&lt;/a&gt;, 
+
+           $threadauthor, $threaddate&lt;br&gt;&quot;;
+
+
+
+#Get and print the rest of the messages in the thread
+
+&amp;showreplies($msgid);
+
+
+
+#print the end of the table
+
+print &quot;&lt;/table&gt;&quot;;
+
+print &quot;&lt;a href=\&quot;/cgi-bin/main/prevthread/$msgid\&quot;&gt;&lt;img src=\&quot;/traveler/log/prevthrd.gif\&quot;
+
+border=0 alt=\&quot;Previous Thread\&quot;&gt;&lt;/a&gt;&lt;a href=\&quot;/traveler/log/threadform.html\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/newthrd.gif\&quot;
+
+border=0 alt=\&quot;New Thread\&quot;&gt;&lt;/a&gt;&lt;a href=\&quot;/traveler/log/log.cgi\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/showlog.gif\&quot;
+
+border=0 alt=\&quot;Show Log\&quot;&gt;&lt;/a&gt;&lt;a href=\&quot;/cgi-bin/main/nextthread/$msgid\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/nextthrd.gif\&quot;
+
+border=0 alt=\&quot;Next Thread\&quot;&gt;&lt;/a&gt;&quot;;
+
+
+
+#Close final cursor and log out from Oracle
+
+&amp;ora_close ($csr) || die $ora_errstr;
+
+&amp;ora_logoff ($lda) || die $ora_errstr;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Listing 11.4 starts by calling in the <TT>process-cgi.pl</TT>
+
+library. The script then uses the <TT>&amp;path_info</TT> subroutine
+
+from that library to get the ID number of the thread that the
+
+user wants to see. You can see, in Listing 11.3, that the URL
+
+for the link to <TT>showthread</TT> includes the thread ID tacked
+
+to the end of it. After logging into the database, the script
+
+makes a call to the database to get the author, subject, and date
+
+for the message that begins the requested thread. With that data
+
+in hand, the script prints the top of the page and the first item
+
+in the thread listing. As in <TT>showthreads</TT>, the Subject
+
+line is a link. This time, however, instead of going to a script,
+
+the listing in the thread links to the HTML file created when
+
+the message was posted.
+
+<P>
+
+When the top of the page is printed, you need to print the rest
+
+of the messages in the thread. This processing takes place in
+
+the call to the subroutine <TT>&amp;showreplies</TT> (explained
+
+in the following paragraphs). When <TT>&amp;showreplies</TT> is
+
+finished, the script prints the bottom of the page, including
+
+a button bar that allows users to go to the following and preceding
+
+threads, go back to the thread listing, and create a new thread.
+
+Finally, the script closes the last cursor and logs out of Oracle.
+
+<P>
+
+You still have <TT>&amp;showreplies</TT> to deal with, however.
+
+Listing 11.5 shows this subroutine.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.5&nbsp;&nbsp;Subroutine (showreplies) That Recursively
+
+Prints All Replies to a Given Thread<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sub showreplies {
+
+   local ($msgid)=$_[0];
+
+   local ($csr, $csr2, $query, $i);
+
+
+
+   #select all replies to this message
+
+   $query= &quot;select msgid, subject, author, to_char(msgdate, '$datemask')
+
+     from msghome where parentid='$msgid' order by msgdate&quot;;
+
+   $csr=&amp;ora_open($lda, $query);
+
+   print &quot;&lt;menu&gt;&quot;;
+
+
+
+   #iterate through those replies
+
+   while (($newmsgid, $subject, $author, $date)=&amp;ora_fetch($csr)) {
+
+     print &quot;&lt;a href=\&quot;/traveler/log/$newmsgid.html\&quot;&gt;$subject&lt;/a&gt;, $author, $date&lt;br&gt;\n&quot;;
+
+     $csr2=&amp;ora_open($lda, &quot;Select count(msgid) from msghome where parentid='$newmsgid'&quot;);
+
+
+
+     #if there are replies to this message, make a recursive
+
+     #call to get and print those replies.
+
+     ($replycount)=&amp;ora_fetch($csr2);
+
+     if ($replycount &gt; 0) {&amp;showreplies($newmsgid);}
+
+   }
+
+   print &quot;&lt;/menu&gt;&quot;;
+
+   &amp;ora_close ($csr);
+
+   return 0;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+After the subroutine definition line, the first task at hand is
+
+to place the message ID that was passed to the subroutine in a
+
+local variable called <TT>$msgid</TT>. With that definition accomplished,
+
+the script defines four more local variables and moves on to select
+
+the replies from the database.
+
+<P>
+
+The <TT>select</TT> statement that gets the replies is shown in
+
+Listing 11.5 in the line that begins with <TT>$query=</TT>. This
+
+statement looks for messages whose parent message ID equals the
+
+value in <TT>$msgid</TT>; this condition is what makes them replies
+
+to the current message. After opening a cursor for this <TT>select</TT>
+
+statement and printing a <TT>&lt;MENU&gt;</TT> tag to indent the
+
+replies, the script begins a <TT>while</TT> loop to iterate through
+
+the data.
+
+<P>
+
+Each time through the loop, in addition to printing the appropriate
+
+line of data, the script checks to see whether the message currently
+
+being processed by the loop has any replies. If the message does
+
+indeed have replies, the script makes a recursive call to <TT>&amp;showreplies</TT>
+
+to get them. If you trace through this process by hand, you see
+
+that the replies for each message follow that message and are
+
+indented from below that message. If any of those replies have
+
+replies themselves, those messages are treated similarly, creating
+
+a standard threaded-message database display.
+
+<H3><A NAME="NavigatingThroughMessagesandPostingReplies">
+
+Navigating Through Messages and Posting Replies</A></H3>
+
+<P>
+
+When a user selects one of the messages to view, he or she sees
+
+a screen like figure 11.5. This message comes from an HTML file
+
+created by a script when a user replied to a message. Notice that
+
+this screen has a button bar along the bottom that allows users
+
+to navigate within the thread and gives them a chance to reply
+
+to the message.
+
+<P>
+
+<A HREF="f11-5.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f11-5.gif"><B> Figure 11.5 : </B><I>After selecting a message to view, the user sees a message formatted like this.
+
+
+
+</I></A><P>
+
+<P>
+
+After the user reads the message in figure 11.5, he or she may
+
+want to perform any of the functions in the button bar below the
+
+message. The following paragraphs discuss the buttons in left-to-right
+
+order.
+
+<P>
+
+To view the next message, the user clicks the Forward button.
+
+When this occurs, the button calls a script that figures out what
+
+the next message is and sends the user there. Listing 11.6 shows
+
+this script.
+
+<P>
+
+<A HREF="f11-6.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f11-6.gif"><B> Figure 11.6 : </B><I>The user enters a message reply on this form.
+
+
+
+</I></A><P>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.6&nbsp;&nbsp;Code (msgnext.pl) That Sends the User
+
+to the Next Message in the Database<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/oraperl
+
+require &quot;process-cgi.pl&quot;;
+
+
+
+#Login to oracle
+
+$lda=&amp;ora_login('oracle_sid','oracle_user','oracle_pass') || die $ora_errstr;
+
+
+
+#Get the message ID from the PATH_INFO variable
+
+$msgid=&amp;path_info;
+
+
+
+#Find the next message from the database
+
+$csr=&amp;ora_open($lda,&quot;select nextid from msghome where msgid='$msgid'&quot;);
+
+($nextid)=&amp;ora_fetch($csr);
+
+
+
+#print out the appropriate location header.
+
+if ($nextid ne '') {
+
+   print &quot;Location: http://www.iwant.com/traveler/log/$nextid.html\n\n&quot;;
+
+}
+
+else {
+
+   print &quot;Location: http://www.iwant.com/traveler/log/$msgid.html\n\n&quot;;
+
+}
+
+
+
+#logout from Oracle
+
+&amp;ora_close ($csr) || die $ora_errstr;
+
+&amp;ora_logoff ($lda) || die $ora_errstr;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The <TT>msgnext</TT> script shown in Listing 11.6 is very simple.
+
+After reading in the p<TT>rocess-cgi</TT> library and logging
+
+into Oracle, the script gets the message ID from the <TT>PATH_INFO</TT>
+
+variable. Then the script uses an SQL <TT>select</TT> statement
+
+and <TT>&amp;ora_open</TT> to get the next message ID from the
+
+database. Using <TT>&amp;ora_fetch</TT> to place the returned
+
+number in <TT>$nextid</TT>, the script uses an <TT>if...else</TT>
+
+conditional to make sure that the user is sent to the right place.
+
+If <TT>$nextid</TT> is not equal to the null string (<TT>''</TT>),
+
+the script prints a location header pointing to the HTML file
+
+indicated by the <TT>$nextid</TT> variable. If <TT>$nextid</TT>
+
+<I>is</I> equal to the null string, you know that it currently
+
+is the last message in the database.
+
+<P>
+
+When I developed this application, I had several options at this
+
+point. I could have sent the user back to the first message in
+
+the database, essentially wrapping around to the top, or I could
+
+have sent some HTML to indicate that the user was already at the
+
+end of the database. Instead, I chose simply to stop the user
+
+at this point. If <TT>$nextid</TT> is null, the script sends a
+
+Location header back to the browser, pointing back to the message
+
+that the user is already viewing.
+
+<P>
+
+If the user chooses the Back button in figure 11.5, he or she
+
+follows a link that calls the script <TT>msgprev</TT>. Listing
+
+11.7 shows this script.
+
+<P>
+
+<A HREF="f11-7.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f11-7.gif"><B> Figure 11.7 : </B><I>The thread listing is printed back to the user after he or she replies to a message.
+
+
+
+</I></A><P>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.7&nbsp;&nbsp; Script to Display the Previous Message
+
+in a Thread (msgprev.pl)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/oraperl
+
+
+
+require &quot;process-cgi.pl&quot;;
+
+
+
+#Login to oracle
+
+$lda=&amp;ora_login('oracle_sid','oracle_user','oracle_pass') || die $ora_errstr;
+
+
+
+#Get the message ID from the PATH_INFO variable
+
+$msgid=&amp;path_info;
+
+
+
+#Find the previous message from the database
+
+$csr=&amp;ora_open($lda,&quot;select previd from msghome where msgid='$msgid'&quot;);
+
+($previd)=&amp;ora_fetch($csr);
+
+
+
+#print out the appropriate location header.
+
+if ($previd ne '') {
+
+   print &quot;Location: http://www.iwant.com/traveler/log/$previd.html\n\n&quot;;
+
+}
+
+else {
+
+   print &quot;Location: http://www.iwant.com/traveler/log/$msgid.html\n\n&quot;;
+
+}
+
+
+
+#logout from Oracle
+
+&amp;ora_close ($csr) || die $ora_errstr;
+
+&amp;ora_logoff ($lda) || die $ora_errstr;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The <TT>msgprev</TT> script shown in Listing 11.7 is nearly identical
+
+to <TT>msgnext</TT> (refer to Listing 11.6). Like <TT>msgnext</TT>,
+
+<TT>msgprev</TT> calls in <TT>process-cgi.pl</TT>, logs into Oracle,
+
+and gets the message ID from the <TT>PATH_INFO</TT> variable.
+
+Instead of selecting the <TT>nextid</TT> from the database, however,
+
+this script calls for <TT>previd</TT> and then uses a similar
+
+conditional to determine what Location header to print. If <TT>$previd</TT>
+
+is not null, it sends the browser a Location header that points
+
+to the HTML for the <TT>$previd</TT> message. If <TT>$previd</TT>
+
+is null, the user is looking at the first message in the database.
+
+Again, I could have wrapped around or sent some warning HTML,
+
+but I chose to simply leave the user where he or she is. The script
+
+ends by closing the last cursor and logging out of Oracle.
+
+<P>
+
+The next button in the button bar shown in figure 11.5-Show Thread-goes
+
+back to the thread listing. This button links to the <TT>showthread</TT>
+
+script that appears in listings 11.4 and 11.5. Were the user to
+
+select this button, he or she would see the screen shown in figure
+
+11.4.
+
+<P>
+
+The final option for a user who is viewing the message in figure
+
+11.5 is to reply to that message. If the user selects the Reply
+
+button, the form shown in figure 11.6 results.
+
+<P>
+
+This reply form is produced by a script called <TT>msgnext</TT>,
+
+shown in Listing 11.8. After the normal preliminary steps, this
+
+script calls out to the database to get the subject of the message
+
+to which this new message is replying. The script then prints
+
+the form. You can see in the fourth <TT>print</TT> statement that
+
+the value of <TT>$subject</TT> is included, preceded by <TT>Re:</TT>.
+
+After printing the rest of the form, the script logs out of Oracle
+
+and exits.
+
+<P>
+
+When the user submits the new message, another script processes
+
+the entered data and returns the page shown in figure 11.7. This
+
+script, called <TT>newreply</TT>, is shown in Listing 11.9.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.8&nbsp;&nbsp;Script (msgreply.pl) to Print a Form
+
+for the User to Reply to a Message<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/oraperl
+
+
+
+require &quot;process-cgi.pl&quot;;
+
+
+
+&amp;print_header;
+
+$parentid=&amp;path_info;
+
+
+
+#Login to oracle
+
+$lda=&amp;ora_login('oracle_sid','oracle_user','oracle_pass') || die $ora_errstr;
+
+
+
+#Get the subject from the database
+
+$csr=&amp;ora_open($lda,&quot;select subject from msghome where msgid='$parentid'&quot;);
+
+($subject)=&amp;ora_fetch($csr);
+
+
+
+#Print out the reply form with the subject filled in
+
+print &quot;&lt;title&gt;New reply&lt;/title&gt;&quot;;
+
+print &quot;&lt;form method=\&quot;post\&quot; action=\&quot;/cgi-bin/main/newreply\&quot;&gt;&quot;;
+
+print &quot;&lt;b&gt;Subject:&lt;/b&gt;&lt;br&gt;&quot;;
+
+print &quot;&lt;dd&gt;&lt;input type=\&quot;text\&quot; name = \&quot;subject\&quot; value= \&quot;Re: $subject\&quot;&gt;&lt;p&gt;&quot;;
+
+print &quot;&lt;b&gt;Author or Handle:&lt;/b&gt;&lt;br&gt;&quot;;
+
+print &quot;&lt;dd&gt;&lt;input type=\&quot;text\&quot; name = \&quot;author\&quot;&gt;&lt;p&gt;&quot;;
+
+print &quot;&lt;b&gt;Message:&lt;/b&gt;&lt;br&gt;&quot;;
+
+print &quot;&lt;dd&gt;&lt;textarea name=\&quot;body\&quot; WRAP=PHYSICAL rows=15 cols=50&gt;&lt;/textarea&gt;&lt;p&gt;&quot;;
+
+print &quot;&lt;input type=\&quot;submit\&quot; value=\&quot;Post Message\&quot;&gt;&quot;;
+
+print &quot;&lt;input type=\&quot;hidden\&quot; value=\&quot;$parentid\&quot; name=\&quot;parentid\&quot;&gt;&quot;;
+
+
+
+&amp;ora_close ($csr) || die $ora_errstr;
+
+&amp;ora_logoff ($lda) || die $ora_errstr;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.9&nbsp;&nbsp;Script to Process a User's Reply (newreply.pl)
+
+<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/oraperl
+
+
+
+require &quot;process-cgi.pl&quot;;
+
+
+
+#Login to oracle
+
+$lda=&amp;ora_login('oracle_sid','oracle_user','oracle_pass') || die $ora_errstr;
+
+
+
+#Get a new messageid
+
+$csr=&amp;ora_open($lda, 'select max(msgid) from msghome');
+
+if (($msgid)=&amp;ora_fetch($csr)) { $msgid=$msgid+1; } else {$msgid=1;}
+
+&amp;ora_close ($csr);
+
+
+
+$insert=&quot;insert into msghome
+
+     (msgid) values ('$msgid')&quot;;
+
+$csr=&amp;ora_open($lda,$insert);
+
+&amp;ora_commit($lda);
+
+&amp;ora_close ($csr);
+
+
+
+&amp;parse_input(*fields);
+
+&amp;print_header;
+
+
+
+$csr=&amp;ora_open($lda, &quot;select threadid from msghome where msgid = '$fields{'parentid'}'&quot;);
+
+($threadid)=&amp;ora_fetch($csr);
+
+&amp;ora_close($csr);
+
+
+
+$previd=&amp;findlast($fields{'parentid'});
+
+$csr=&amp;ora_open($lda,&quot;select nextid from msghome where msgid = '$previd'&quot;);
+
+if (($nextid)=&amp;ora_fetch($csr)) {
+
+   $csr2=&amp;ora_open($lda,&quot;update msghome set previd = '$msgid' where msgid='$nextid'&quot;);
+
+}
+
+&amp;ora_commit($lda);
+
+&amp;ora_close($csr);
+
+$csr2=&amp;ora_open($lda,&quot;update msghome set nextid = '$msgid' where msgid='$previd'&quot;);
+
+&amp;ora_commit($lda);
+
+&amp;ora_close($csr);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The first part of <TT>newreply</TT> shown in Listing 11.9 performs
+
+all the preliminary steps that all the previous scripts in this
+
+chapter do. When those steps are out of the way, the script goes
+
+to the database to get a new message ID for this reply. The process
+
+is similar to what I described in Listing 11.1. The script finds
+
+the maximum message ID and then adds 1 to it. After getting this
+
+message ID, the script inserts it into the database. I created
+
+this <TT>insert</TT> at this point in the script to prevent the
+
+possibility that another user would insert a message into the
+
+database while the script does the rest of the processing on this
+
+message, thereby coming up with the same new message ID.
+
+<P>
+
+After the new message ID is taken care of, the script gets the
+
+data from the form and begins processing it. First, the script
+
+finds out the ID of the thread to which this message belongs by
+
+selecting the thread ID of the parent message ID, which is a hidden
+
+field in the reply form. The script saves this value in <TT>$threadid</TT>
+
+for later insertion into the database.
+
+<P>
+
+The next piece of information that you need is the ID of the preceding
+
+message in the database. On its face, this proposition may seem
+
+to be simple, but in reality, it requires quite a bit of processing,
+
+as I'll explain later in this section. When this script has the
+
+previous ID, it places that message's <TT>nextid</TT> value and
+
+places it in <TT>$nextid</TT> for later insertion into the database.
+
+<P>
+
+Finally, near the end of Listing 11.9, you see two SQL <TT>update</TT>
+
+statements. The first of these statements sets the <TT>previd</TT>
+
+of the next message to point to this new message. Similarly, the
+
+second statement sets the <TT>nextid</TT> of the preceding message
+
+to point to this new message.
+
+<P>
+
+Now consider how the script found the ID of the preceding message
+
+in the first place. First, think about how this database is set
+
+up. The messages have been printed in hierarchical and chronological
+
+order. When a user steps through a particular thread, he or she
+
+goes in chronological order, <I>unless there is an appropriate
+
+hierarchical step to take</I>. In the listing shown in figure
+
+11.7, for example, the new message is (obviously) the last one
+
+chronologically, but it does not come last when the user is stepping
+
+through the database. In fact, you want users to be able to step
+
+through a thread as though they were reading the messages one
+
+after another, from top to bottom, in the listing. Thus, you need
+
+to be careful in finding the appropriate preceding message. The
+
+code in Listing 11.10 accomplishes this task.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.10&nbsp;&nbsp;Subroutine from newreply.pl That Determines
+
+What Message Precedes the New Message in the Database<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sub findlast {
+
+   local ($parentid,$select1);
+
+   $parentid=$_[0];
+
+   $select1=&quot;select max(msgid) from msghome where parentid = '$parentid'&quot;;
+
+   $csr=&amp;ora_open($lda,$select1);
+
+   ($possible)=&amp;ora_fetch($csr);
+
+   if ($possible ne '') {
+
+     $lastid=&amp;findlast($possible);
+
+   }
+
+   else {
+
+     $lastid=$parentid;
+
+   }
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The <TT>&amp;findlast</TT> subroutine in Listing 11.10 is intended
+
+to find the last message in the thread of replies to the new message's
+
+parent message. At first, you might think that the script could
+
+find this last message by finding the maximum message ID of all
+
+the messages whose parent ID is equal to the parent ID of the
+
+new message. This process would work...sometimes. But if the highest-numbered
+
+message in that group has replies, the order is messed up. Remember
+
+that when users are stepping through messages, you want them to
+
+step down the hierarchy as far as they can before they go to the
+
+next chronological message on the current level. Therefore, this
+
+new message has to come after the last existing reply to its parent
+
+message and all of the replies to that reply.
+
+<P>
+
+The <TT>&amp;findlast</TT> routine accomplishes this task by finding
+
+the maximum message ID of the parent ID. If this ID exists (if
+
+there are already replies to the new message's parent message,
+
+for example), the script calls <TT>&amp;findlast</TT> recursively
+
+to see whether that message has any replies itself. If so, <TT>&amp;findlast</TT>
+
+is called again, and so on until there are no replies. Then the
+
+routine simply returns the ID of the message being checked as
+
+the last message in this subthread. Then this value is assigned
+
+to <TT>$previd</TT>, as shown in Listing 11.9.
+
+<P>
+
+When the IDs of the next and preceding messages are taken care
+
+of, the rest of the processing can take place. Listing 11.11 shows
+
+the remainder of <TT>newreply</TT>.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 11.11&nbsp;&nbsp;Final Section of the Script to Process
+
+a User Reply<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$fields{'body'} =[td] s/&lt;[^&gt;]+&gt;//g;
+
+$fields{'body'} =[td] s/\n/&lt;br&gt;/g;
+
+
+
+$fields{'subject'} =[td] s/&lt;[^&gt;]+&gt;//g;
+
+$fields{'subject'} =[td] s/\'/&amp;#039;/g;
+
+
+
+$fields{'author'} =[td] s/&lt;[^&gt;]+&gt;//g;
+
+$fields{'author'} =[td] s/\'/&amp;#039;/g;
+
+
+
+$update=&quot;update msghome
+
+     set (msgdate,subject,author,threadid,parentid,nextid,previd) =
+
+     (select sysdate,
+
+     '$fields{'subject'}','$fields{'author'}',
+
+     , '$threadid','$fields{'parentid'}','$nextid','$previd' from dual) 
+
+	            where msgid='$msgid'&quot;;
+
+$csr=&amp;ora_open($lda,$update);
+
+&amp;ora_commit($lda);
+
+&amp;ora_close ($csr);
+
+
+
+open(F, &quot;&gt;/opt/lib/httpd/htdocs/traveler/log/$msgid.html&quot;);
+
+print F &quot;&lt;title&gt;$fields{'subject'}&lt;/title&gt;&quot;;
+
+print F &quot;&lt;body bgcolor=\&quot;FFFFFF\&quot;&gt;&lt;center&gt;&quot;;
+
+print F &quot;&lt;table width = 480 border=0 cellpadding=3&gt;\n&quot;;
+
+print F &quot;&lt;tr&gt;&lt;td colspan=2&gt;&lt;img src=\&quot;/traveler/tra211a.gif\&quot;&gt;&quot;;
+
+print F &quot;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Subject:&lt;/b&gt;&lt;td&gt;$fields{'subject'}&quot;;
+
+print F &quot;&lt;tr&gt;&lt;td&gt;&lt;b&gt;Author:&lt;/b&gt;&lt;td&gt;$fields{'author'}&quot;;
+
+print F &quot;&lt;tr&gt;&lt;td valign=top&gt;&lt;b&gt;Message:&lt;/b&gt;&lt;td&gt;&quot;;
+
+print F $fields{'body'};
+
+print F &quot;&lt;/table&gt;&lt;p&gt;&lt;hr width=480&gt;&lt;a href=\&quot;/cgi-bin/main/msgnext/$msgid\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/nextmsg.gif\&quot; border=0&gt;&lt;/a&gt;&quot;;
+
+print F &quot;&lt;a href=\&quot;/cgi-bin/main/msgprev/$msgid\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/prevmsg.gif\&quot; border=0&gt;&lt;/a&gt;&quot;;
+
+print F &quot;&lt;a href=\&quot;/cgi-bin/main/showthread/$threadid\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/showthrd.gif\&quot; border=0&gt;&lt;/a&gt;&quot;;
+
+print F &quot;&lt;a href=\&quot;/cgi-bin/main/msgreply/$msgid\&quot;&gt;
+
+           &lt;img src=\&quot;/traveler/log/msgreply.gif\&quot; border=0&gt;&lt;/a&gt;&quot;;
+
+close F;
+
+
+
+print &quot;Location: http://www.iwant.com/cgi-bin/main/showthread/$threadid\n\n&quot;;
+
+&amp;ora_close ($csr) || die $ora_errstr;
+
+&amp;ora_logoff ($lda) || die $ora_errstr;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The third section of the <TT>newreply</TT> script begins by processing
+
+HTML markup and single quotes out of the fields submitted by the
+
+user. Then the script updates the record in the database for the
+
+new message, using an SQL <TT>update</TT> statement. The script
+
+gets the message date and time from the Oracle function <TT>sysdate</TT>;
+
+it finds the subject, author, and parent ID in the data from the
+
+form. Finally, the script gets the thread ID, next message ID,
+
+and previous message ID from values calculated earlier in the
+
+script.
+
+<P>
+
+When the database is updated, the script creates the HTML file
+
+for the new message and prints a Location header to send the browser
+
+back to the thread listing. Finally, the script closes the last
+
+cursor and logs out of Oracle.
+
+<H2><A NAME="FromHere"><FONT SIZE=5 COLOR=#FF0000>
+
+From Here...</FONT></A></H2>
+
+<P>
+
+This chapter barely scratched the surface of database integration,
+
+but it covered some extremely valuable concepts. The chapter demonstrated
+
+how a database can be used to ease the implementation of a fairly
+
+complex application. The chapter showed the basic syntax of Oraperl,
+
+which is one of the most common Perl-database integration tools;
+
+it also showed that a database can be an excellent addition to
+
+your Web arsenal. Finally, the chapter whetted your appetite (I
+
+hope) for more highly interactive Web applications.
+
+<P>
+
+Following are some chapters where you may want to go to whet your
+
+appetite even further:
+
+<UL>
+
+<LI><A HREF="ch12.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch12.htm" >Chapter 12</A>, &quot;Database Application Using CGI,&quot; further
+
+explores the process of integrating a database into your Web site,
+
+examining an internal database application built with Web tools.
+
+<LI><A HREF="ch16.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch16.htm" >Chapter 16</A>, &quot;Subroutine Definition,&quot; presents more
+
+information on Perl libraries and modules for applications ranging
+
+from database integration to graphics.
+
+</UL>
+
+<HR>
+
+
+
+<CENTER><P><A HREF="ch10.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch10.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch12.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch12.htm"><IMG SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<HR WIDTH="100%"></P></CENTER>
+
+</BODY>
+
+</HTML>

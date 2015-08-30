@@ -1,0 +1,493 @@
+FOA:  First Office Application. That is trial project.
+ITSP (Internet telephony Service Provider) 
+ARQ: Access Request
+ACF: Access Conform
+LRQ: (Location Request for h323 between 2 Softswitches)
+LCF: Location Comfirm for h323
+PABX: private branch (telephone) exchange(专用自动交换分机)
+OPSI : Open Policy Server Interface (Connecting Routing server and Gatekeeper)
+OSP (Open Service Platform)
+IPT:
+PER:Packed Encoding Rules 
+
+CAPEX: CAPital EXpenditure IP 资本开支
+OPEX: 运营和资本开支（OPEX
+ 
+8788 MRP	Alcatel 8788 Media Resource Point.
+BCSM	Basic Call State Model
+CAPS	Call Attempts per Second
+IM	Instant Message
+LEX	Local Exchange
+MSC	Mobile Switching Centre. 
+MSS-CC	Managed Services Solution for Customer Contact. 
+NTS	Network T-Server. 
+OSP	Alcatel 8690 Open Service Platform. 
+SMPP	Short Message Peer to Peer Protocol. 
+SMS-C	Short Message Service Centre. 
+SOAP	Simple Object Access Protocol. 
+TEX	Terminating Exchange
+UPN	Universal Personal Number.
+UPT	Universal Personal Telephony. 
+
+
+GEC	Genesys Expert Contact: Network platform tor TDM virtual agents. May include CTI.
+GVP:NE	Genesys Voice Platform: Network Edition. Existing software-only product sold by Genesys. 
+I-Server	Genesys terminology for API to 3rd party IVRs components. 
+MRP	AKA 8788 in North America. As-yet unreleased platform combining OSP:ME with GVP:NE to create a telco-grade IVR.
+MSS-CC	Managed Service Solution for Customer Contact. A solution that combines 8642 FRC, MRP and NRS to create an integrated solution suitable for delivering Managed Customer Interaction Services.
+NbCC	Network based contact center. See NRS/NTS
+NRS	Network Routing Service: Genesys software allowing skills-based routing to take place in the network based on real-time agent status information gathered from all sites of a multi-site contact center.
+NTS	Network T-Server: Genesys software that permits integration between an SCP and the NRS.
+OSP:ME	OSP: Media Extension. Sometimes called 8691. This is an architecture that adds multimedia capabilities to the 8690 OSP. OSP:ME serves as the baseline for other products such as 8686 and 8688, but is not sold as a product on its own.
+SCP	Service Control Point. Examples include 8690 OSP
+SSP	Service Switching Point. 
+SRP	Service Resource Point
+TTS	Text to Speech
+
+GNP Genesys Network Platform.
+FRC	FLEXIBLE ROUTING AND CHARGING
+800	Chinese Freephone service
+IN	Intelligent Network
+Chinese INAP – CS 1	Chinese Intelligent Network Application Part – Capability Set 1
+IT	Information Technology
+IVR	Interactive Voice Response
+NGN	Next Generation Network
+PABX/PBX	Public Automatic Branch exchange
+PSTN	Public Switching Telephony Network
+OSP	Open Services Platform
+SIP	Session Initiation Protocol
+SRP	Special Resource Point
+SSP	Service Switching Point
+Call Parking	The call is parked at the network, and the GNP is able to prevent the FRC service as soon as an agent becomes free in order to route the parked call to this agent. 
+Call Qualification	The FRC service connects the calling to a SRF in order to retrieve some digits. Those digits are sent to the GNP, and this latter will use the received digits in its routing strategy in order to choose the destination number.
+Global Routing Strategy	The global routing strategy includes the configuration of the translation tree in FRC service and the routing strategy defined at the GNP level.
+IN Call Transfer	A call transfer started by the call center agent and performed by the FRC service. So, when the agent sends the new routing destination to the GNP and then he releases the call, the FRC service requests a new destination to the GNP. The new routing destination sent by the GNP will be used by the service to perform a new connection. This call transfer is doing with no tromboning on the network.
+Rerouting	A rerouting is performed when, in case of failure, an alternative destination is chosen by the FRC service.
+Routing number	The destination provided by the FRC translation tree.
+Routing destination	The number to whom the calling party will be connected. It may be provided either by the FRC translation tree or by the GNP depending on the applied scenario.
+Routing Strategy	The routing strategy is defined at the GNP. It defines the routing destination for a request depending on different criteria like time, site load, available agents, agent skills…
+Translation Tree	The translation tree is defined in the FRC service. It’s used by the service to choose the destination number or to decide whether a request to the GNP is required.
+Tserver	It is the link between the SCP(s) and the call centers. Tserver is a Genesys product
+Computer-telephony( integration (CTI)	The use of computers to manage telephone calls. Applications include  intelligent call routing, screen popping (putting a customer’s information on  an agent’s screen along with delivering the call) and caller authentication Sometimes simply “computer telephony.”
+Genesys NRS/ERS	NRS provides fine contact center routing, optionally interacting with enterprise routing service (ERS)
+DPE Distributed Processing Environment(OSP)
+SLEE Service Logic Execution Environment SLEE
+
+POP	Parent Operation Process (SignalWare environment).
+PRI ISDN trunk
+
+
+HDD Internal disk size
+INS:  Install
+MP Mated pair, such as MP-PSMF,MP-SMF
+BEP Back End Processor
+CALM Control Automatic Level Manager
+CDN Corporate Data Network
+DSS Database Support System
+FEP Front End Processor
+GIP Generic Inbound Product
+GRSMP Geographical Redundant SMP
+IN Intelligent Networks
+INOSS IN Operation Support System
+IT Information Technology
+LAN Local Area Network
+MD Mediation Device
+MDSMF MD SMF
+Nexis Network Exchange Integrated System
+OSR Alcatel Omni Switch Router
+PSMF Primary SMF
+SCHA Service Configuration History Application
+SCP Service Control Point
+SMF Service Management Function
+WAN Wide Area Network
+AP	Answering Point
+AIN	Alcatel Intelligent Network platform
+BEP	Back End Processor
+CAPS	Call Attempts per second
+CPC	Calling party category
+CPU	Central Processing Unit
+CTI	Computer Telephony Integration
+DDTS	Distributed Defect Tracking System
+DN	Destination Number
+DOW	Day of Week
+FEP	Front End Process
+GIP	Generic Inbound Product
+IVR	Interactive Voice Response
+NTS	Network T-server
+SEP	Service Execution Process 
+SDP	Service Data Point
+SGS	Signalling Gateway Server
+TOD	Time of day
+SPF SLEE, especailly BEP
+NAFO	Network Adapter Failover
+RDN	Router Data Network
+CIDN Customer Identification Number
+CRE – Convergent Rating Engine – provides validation, guidance, rules based rating and balance management for pre/post paid customers for any configured event type.
+RTCC – Real Time Call Control, e.g.,IN SCP 
+Diameter GW – implements interface to Telstra’s network elements for all non-voice services.  Provides interface to MAINS, ONDB, FusionWorks, ESS/3PPS, USSD Server,.
+TIBCO GW – provides access to EAI, supporting Customer/Self care and BSS.
+XML GW – provides XML based API for Mediator, provides XML parsing.
+Prov GW – provides bulk provisioning capability
+Voucher Management – provides voucher life cycle life cycle management, including verification and validation of the vouchers during recharges
+Telco Business Intelligence System – provides capability of on-line storage of CDRs, providing reporting capability. In addition provides interface to Openet
+BRAINS – Announcent Menu Configurations
+BSS	Business Support Systems
+
+AAA Authentication, Authorisation and Accounting.
+Aethos Prepaid Rating and Balance Management system.
+AOC Advice of Charge
+API Application Programming Interface
+APN Access Point Name 
+CDBoR Customer Database of Record. 
+CIDN Customer Identification Number. 
+CSG Content Service Gateway 
+EDR Event Detail Record - An EDR is defined to be a record that reflects an event that is generally used for charging purposes.
+ESS Enhanced Services System. 
+Flexcab Flexible Customer Account Billing System. 
+IMEI International Mobile Equipment Identifier.
+IMSI International Mobile Subscriber Identifier 
+MCC Mobile Country Code
+MNC Mobile Network Code
+MSIN/MSISDN Mobile Subscribers Identification Number
+Mica Mobiles Integrated Customer Accounts
+MIN Mobile Identification Number
+NEMIP IMode content management and delivery platform.
+ONDB On-Air Data Billing System. 
+OOCSB Online Ordering for Consumer and Small Business.
+PS Packet Switched. 
+PSG Product Solutions Group – Group responsible for configuring products, rate plans that are to be available in Mica. This is done using the PROM tool.
+PTS Product Technical Specification
+RFO Retail Fulfilment Operation message broker
+SCTP Stream Control Transfer Protocol
+SOA Service Oriented Architecture
+SOAP Simple Object Access Protocol
+STN Service Type Number/Name. 
+TCP Transmission Control Protocl
+TDSDI Telstra Device and Service Detail Inventory.
+TIBS Telstra Interface Broker Service 
+tps Transactions Per Second 
+UEL Universal Event Loader 
+VBC Value Based Charging. 
+WSDL Web Services Definition Language
+CORBA	Common Object Request Broker Architecture
+FoH	Telstra’s Front of House
+XML	eXtensible Markup Language
+XSLT	eXtensible Stylesheet Language--Transformations
+SMP	Service Management Point
+SOAP	Simple Object Access Protocol
+SEP	Service Execution Process
+FOH	Front Of House – Fulfilment of activation and sales process from point of sale. FoH uses the web CP functionality provided by Apollo IN.
+OLB	OLB is an application that provides billing inquiry  online for Postpay.
+RC  Right Click
+DC  Double Click
+D&D  Drag and Drop
+OOCSB Online Ordering for Consumer & Small Business
+GRSMP	Geographically Redundant Service Management Point
+SMAP PC using OSP management GUI
+PLMN mobile PSTN
+
+ADOB Alternative Destination On Busy
+ADONR Alternative Destination On Not Reply
+ADONRe Alternative Destination On Not Reachable
+ATI Any Time Interrogation
+CAMEL Customized Applications for Mobile Enhanced Logic
+CAP Competitor Access Provider
+CAP V2 CAMEL Application Part phase 2
+CDR Call Detail Record
+CFC Call Forwarding Conditional
+CLIP Calling Line Identifier Presentation
+CMM Corporate Mobility Manager
+CORBA Common Object Request Broker Architecture
+ESP Established Service Provider
+FMC Fixed/Mobile Convergence
+FTP File Transfer Protocol
+GID Group Identifier
+HLR Home Location Register
+IDL Interface Definition Language
+IMSI International Mobile Subscriber Identity
+IMR Intelligent Mobile Redirect
+IN Intelligent Network
+INAP – CS 1 Intelligent Network Application Part – Capability Set 1
+IT Information Technology
+[G/V]MSC [Gateway/Visited] Mobile Switching Centre
+LAC Location Area Code
+LC Line Code
+MSISDN Mobile Station Integrated Services Digital Number
+MSP Mobile Service Provider
+OC Originating Call
+PBX/PBX Public Automatic Branch exchange
+PED Preferred External Destination
+[F/H]PLMN [Foreign/Home] Public Land Mobile Network
+PNP Private Numbering Plan
+PSTN Public Switching Telephony Network
+OSP Open Services Platform
+OSSS Operator Specific Supplementary Service
+SAC Service Access Code
+SCE Service Creation Environment
+SIB Service Independent Building Block
+SID Site Identifier
+SMP Service Management Point
+SRP Special Resource Point
+SSP Service Switching Point
+TC Terminating Call
+TCP/IP Transport Control Protocol/Internet Protocol
+TLV Tag Length Value
+VPN Virtual Private Network
+
+SSN Sub-system number, eg.254
+ACN Application context name, eg.0-3-4605-1-1-1-0-0
+
+CSC  Call State Controller 
+CSCF  Call State Control Function 
+IFC  Initial Filter Criteria (iFC) 
+HSS  Home Subscriber Server 
+IMR  Intelligence Mobile Redirect 
+IMS  IP Multimedia Subsystem  
+MGCF  Media Gateway Control Function 
+MGW Media Gateway 
+PSI  Public Service Identity 
+
+|-FRC
+ATI	Any Time Interrogation
+CAMEL	Customised Applications for Mobile Enhanced Logic
+CAP	Competitor Access Provider
+CAP V2	CAMEL Application Part phase 2
+CDR	Call Detail Record
+CFC	Call Forwarding Conditional
+CFU	Call Forwarding Unconditional
+CLIP	Calling Line Identifier Presentation
+CORBA	Common Object Request Broker Architecture
+CSP	Commercial Service Provider
+EBC	Edge Border Controller
+EGK	Extended GateKeeper
+EPX	Extended Proxy Server
+FMC	Fixed/Mobile Convergence
+FRC	FLEXIBLE ROUTING AND CHARGING
+FTP	File Transfer Protocol
+GID	Group Identifier
+HL	Hunting List
+HLR	Home Location Register
+IDL	Interface Definition Language
+IMR	Intelligent Mobile Redirect
+IMS	IP Multimedia System
+IMSI	International Mobile Subscriber Identity
+IN	Intelligent Network
+INAP – CS 1	Intelligent Network Application Part – Capability Set 1
+IS	Information System
+ISC	IP multimedia Service Control
+IT	Information Technology
+IVR	Interactive Voice Response
+IWF	Inter-Working Function
+[G/V]MSC	[Gateway/Visited] Mobile Switching Centre
+LAC	Location Area Code
+LC	Line Code
+MG	Media Gateway 
+MGC	Media Gateway Controller
+MS	Media Server
+MSISDN	Mobile Station Integrated Services Digital Number
+MSP	Mobile Service Provider
+NGN	Next Generation Network
+OC	Originating Call
+PABX/PBX	Public Automatic Branch exchange
+CRI	Charge Record information
+PED	Preferred External Destination
+[F/H]PLMN	[Foreign/Home] Public Land Mobile Network
+PSTN	Public Switching Telephony Network
+OSP	Open Services Platform
+OSSS	Operator Specific Supplementary Service
+SAC	Service Access Code
+SAN	Service Access Number
+SCE	Service Creation Environment
+SCP	Service Control Point
+SIB	Service Independent Building Block
+SID	Site Identifier
+SIP	Session Initiation Protocol
+SMP	Service Management Point
+SRP	Special Resource Point
+SSP	Service Switching Point
+TC	Terminating Call
+TCP/IP	Transport Control Protocol/Internet Protocol 
+TLV	Tag Length Value
+URI	Uniform Ressource Identifier
+VPN	Virtual Private Network
+SMPP	Short Message Peer to Peer
+
+
+CAMEL  Customised Applications for Mobile Enhanced Logic 
+CAP  Competitor Access Provider 
+CAPS  Call Attempts Per Second 
+CAP V2  CAMEL Application Part phase 2 
+CFC  Call Forwarding Conditional 
+CFU  Call Forwarding Unconditional 
+CLI  Calling Line Identification 
+CMM  Corporate Mobility Manager 
+DAM  Digital Announcement Machine 
+DMZ Demilitarised Zone 
+DPE  Distributed Processing Environment 
+ECD  Event Collector Database 
+FEP  Front End Processor 
+FTP  File Transfer Protocol 
+GPRS  General Packet Radio Service 
+GUI  Graphical User Interface 
+HL Hunting List 
+HLR  Home Location Register 
+HTML  HyperText Markup Language 
+HTTP(S)  Hyper Text Transfer Protocol (with SSL) 
+IDL  Interface Definition Language 
+IN Intelligent Network 
+INAP – CS 1  Intelligent Network Application Part – Capability Set 1 
+IVR  Interactive Voice Response 
+LAN  Local Area Network 
+LC Line Code 
+LDAP  Lightweight Directory Access Protocol 
+MS Media Server 
+MSISDN  Mobile Station Integrated Services Digital Number 
+NGN  Next Generation Network 
+OC Originating Call 
+PABX/PBX  Public Automatic Branch exchange 
+PDN  Public Directory Number 
+PED  Preferred External Destination 
+[F/H]PLMN [Foreign/Home] Public Land Mobile Network 
+PN Private Number 
+PNP  Private Numbering Plan 
+PSTN  Public Switching Telephony Network 
+OSP  Open Services Platform 
+OSSS  Operator Specific Supplementary Service 
+SAC  Service Access Code 
+SAN  Service Access Number 
+SCE  Service Creation Environment 
+SCP  Service Control Point 
+SID Site Identifier 
+SIP  Session Initiation Protocol 
+
+SOAP  Simple Object Access Protocol 
+SMP  Service Management Point 
+SMS  Short Message Service 
+SRP  Special Resource Point 
+SS7  Signalling System Number 7 
+SSL  Secured Socket Layer  
+SSP  Service Switching Point 
+TC Terminating Call 
+TCP/IP  Transport Control Protocol/Internet Protocol  
+VIP  Virtual Internet Protocol Address 
+VPN  Virtual Private Network 
+WS Web Services 
+
+SO I/F: Service Order interface
+
+ADOB: Alternative Destination On Busy
+ADONR: Alternative Destination On Not Reply
+ADONRe: Alternative Destination On Not Reachable 
+ATI: Any Time Interrogation
+CAMEL: Customized Applications for Mobile Enhanced Logic
+CAP: Competitor Access Provider
+CAP V2: CAMEL Application Part phase 2
+CDR: Call Detail Record
+CFC: Call Forwarding Conditional
+CLIP: Calling Line Identifier Presentation
+CMM: Corporate Mobility Manager
+CORBA: Common Object Request Broker Architecture
+ESP: Established Service Provider
+FMC: Fixed/Mobile Convergence
+FTP: File Transfer Protocol
+GID: Group Identifier
+HLR: Home Location Register
+IDL: Interface Definition Language
+IMSI: International Mobile Subscriber Identity
+IMR: Intelligent Mobile Redirect
+IN: Intelligent Network
+INAP – CS 1: Intelligent Network Application Part – Capability Set 1
+IT: Information Technology
+[G/V]MSC: [Gateway/Visited] Mobile Switching Centre
+LAC: Location Area Code
+LC: Line Code
+MSISDN: Mobile Station Integrated Services Digital Number
+MSP: Mobile Service Provider
+OC: Originating Call
+PBX/PBX: Public Automatic Branch exchange
+PED: Preferred External Destination
+[F/H]PLMN: [Foreign/Home] Public Land Mobile Network
+PNP: Private Numbering Plan
+PSTN: Public Switching Telephony Network
+OSP: Open Services Platform
+OSSS: Operator Specific Supplementary Service
+SAC: Service Access Code
+SCE: Service Creation Environment
+SCP: Service Control Point
+SIB: Service Independent Building Block
+SID: Site Identifier
+SMP: Service Management Point
+SRP: Special Resource Point
+SSP: Service Switching Point
+TC: Terminating Call
+TCP/IP: Transport Control Protocol/Internet Protocol 
+TLV: Tag Length Value
+VPN: Virtual Private Network?
+CCBS Call Completion on Busy Subscriber
+MVNO Mobile Virtual Network Operator
+E2E:	End To End Test.
+SVT： Solution Validation Test
+IOT: 	Inter Operability Test
+DMZ 是英文“demilitarized zone”的缩写，中文名称为“隔离区”，
+Ad hoc network 指临时应变的特定网络。由若干个移动的无线通信终端构成一个临时应变的网络。
+               这种网络是临时性的、无中心的，无需依靠任何基础设施的非标准网络。因此可称作是“自组织网络”。
+               也有人称它是“特定网络”，是因为它是很短距离的特定连接，并且只能用于近距离的用户，又因为它是便于加入和离开，既能主控，
+               又能被控的网络，所以又有人称之为“对等网络”。
+
+UMTS Universal Mobile Telecommunications System 通用移动通信系统。 
+GSM(2G)-GPRS-EDGE-WCDMA(3G)的演进策略。
+GPRS General Packet Radio Service
+EDGE Enhanced Data rate for GSM Evolution
+
+LACP（Link Aggregation Control Protocol，链路聚合控制协议）进行动态链路汇聚。               
+ACM 	Address Complete Message 		   地址全消息
+ANM 	Answer Message 				   应答消息
+DN		Directory Number				   用户号码
+IAM 	Initial Address Message 		       初始地址消息
+MAP   Mobile Application Part			   移动应用部分
+PSTN	Public Switched Telephone Network  公共电话交换网
+REL 	Release 						   释放消息
+RLC 	Release Complete 				   释放完成消息
+SDC	Subscriber Data Center			   用户数据中心
+SSP	Service Switch Point			      业务交换点
+SAC   Service Access Code              业务接入码
+IAD   Integrated Access Device           综合接入设备
+NGN 	Next Generation Network          下一代网络
+SIP    Session Initiation Protocol          会话初始协议
+TG    Trunk Gateway                   中继网关
+ATCA（Advanced Telecom Computing Architecture）
+NBNS = NetBIOS Name Service 应该是在做命名查询 etc:WINS就是一个例子
+
+WiMAX World Interoperability for Microwave Access
+
+MAC Mediun Access Control
+RAID arrays (redundant arrays of inexpensive/independent disks). 
+
+LBS（Location－BasedServices－LBS），即无线定位业务又称为位置业务。
+
+JSR java specification request, JAVA 开发规范
+(JSR 179) that provide access to location information from local GPS chip or external GPS receiver connected over Bluetooth 
+
+CORBA Common Object Request Broker Architecture 
+
+MLP Mobile_Location_Protocol
+
+SAN：（Storage Area Network and SAN Protocols） 存储区域网络及其协议   
+　　存储区域网络（SAN）是一种高速网络或子网络，提供在计算机与存储系统之间的数据传输。
+NAS：network-attached storage
+
+SAN是计算机信息处理技术中的一种架构，它将服务器和远程的计算机存储设备（如磁盘阵列、磁带库）连接起来，使得这些存储设备看起来就像是本地一样。
+和SAN相反，NAS使用基于文件（file-based）的协议，如NFS、SMB/CIFS等，在这里仍然是远程存储，但计算机请求的是抽象文件中的一部分，而不是一个磁盘块。
+
+iSCSI：Internet 小型计算机系统接口 （iSCSI：Internet Small Computer System Interface） 
+SAS：串行 SCSI （SAS：Serial Attached SCSI） 
+SCSI：小型计算机系统接口 （SCSI：Small Computer System Interface）
+IP SAN:应用iSCSI技术的SAN（storage area network）网络，传输介质为IP网。
+
+ATA analog terminal adapter. e.g. IAD, IP PBX
+
+
+RD Ring Detection (RD) Agent
+AD Answer Detection (AD) Agent
+SD Speech & DTMF (SD) Agent
+SDL Speech & DTMF Loopback (SDL) Agent

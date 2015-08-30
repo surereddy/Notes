@@ -1,0 +1,9 @@
+#content {
+	OVERFLOW: hidden
+}
+.sidebar {
+	OVERFLOW: hidden
+}
+.format_text .drop_cap {
+	PADDING-RIGHT: 0.04em
+}

@@ -1,0 +1,1 @@
+- Its configuration is stored in Fozilla.xml in its installation folder.

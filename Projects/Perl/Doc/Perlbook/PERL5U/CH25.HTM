@@ -1,0 +1,1157 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 25 -- Perl Internal Files and Structures</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 25</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Perl Internal Files and Structures</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#Introduction" >Introduction</A>
+<UL>
+<LI><A HREF="#ExploringPerlSourceCode" >Exploring Perl Source Code</A>
+</UL>
+<LI><A HREF="#PerlVariableTypes" >Perl Variable Types</A>
+<UL>
+<LI><A HREF="#NamingConventions" >Naming Conventions</A>
+</UL>
+<LI><A HREF="#ScalarsandScalarFunctions" >Scalars and Scalar Functions</A>
+<LI><A HREF="#ArrayFunctions" >Array Functions</A>
+<LI><A HREF="#HashFunctions" >Hash Functions</A>
+<LI><A HREF="#MortalityofVariables" >Mortality of Variables</A>
+<LI><A HREF="#SubroutinesandStacks" >Subroutines and Stacks</A>
+<LI><A HREF="#WhatIsMagic" >What Is Magic?</A>
+<LI><A HREF="#TheGlobalVariableGVType" >The Global Variable (GV) Type</A>
+<LI><A HREF="#WheretoLookforMoreInformation" >Where to Look for More Information</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter introduces some of Perl's internal data structures,
+and the information presented here serves as a reference for the
+rest of the book. This chapter will be useful not only for programmers
+who want to add their own extensions to Perl but also for those
+who simply want to look at the Perl source code to see what's
+&quot;under the hood.&quot;
+<H2><A NAME="Introduction"><B><FONT SIZE=5 COLOR=#FF0000>Introduction</FONT></B></A>
+</H2>
+<P>
+Perl is written primarily in C and has libraries to which you
+can link in your own C/C++ code. To perform this linking, however,
+your programs have to know how Perl stores its own data structures
+as well as how to interpret Perl's data types.
+<P>
+The information presented in this chapter also will show you where
+to look for files, structures, and so on. There will be times
+when you are writing extensions or modules that you'll need to
+look up specific data structure definitions. The functions defined
+here are called from your extension's C sources.
+<P>
+Version 5.002b was the latest Perl release at the time this book
+was written. The <I>b</I> stands for beta; therefore, some changes
+to the source tree are quite possible. What you see here will
+not only be a snapshot in time of the source tree for 5.002b,
+but will also serve as a basis for you to do your own research.
+<P>
+The information in this chapter is about the functions you can
+call from C functions that interact with Perl variables. Your
+C code could be calling the Perl functions, or your Perl function
+could be calling your C code as part of an extension. The C functions
+have to be linked with the Perl libraries and also require the
+header files in your Perl distribution.
+<P>
+The compiler is guaranteed to work with Perl on almost all platforms
+in the GNU C compiler. If you have problems compiling with other
+commercial compilers, then get the GNU compiler from the Net.
+A good place to try is the <TT><FONT FACE="Courier">oak.oakland.edu
+ftp</FONT></TT> site.
+<H3><A NAME="ExploringPerlSourceCode"><B>Exploring Perl Source
+Code</B></A></H3>
+<P>
+This section covers some of the header files in your Perl distribution.
+Table 25.1 provides a brief description of what the ones covered
+here contain. You can track the values or specific definitions
+by starting from these header files.<BR>
+<P>
+<CENTER><B>Table 25.1. The Perl header files.</B></CENTER>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=138><I>File</I></TD><TD WIDTH=453><I>Purpose</I>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">XSUB.h</FONT></TT>
+</TD><TD WIDTH=453>Defines the <TT><FONT FACE="Courier">XSUB</FONT></TT> interface (<A HREF="ch27.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch27.htm" >see Chapter 27</A>, &quot;Writing Extensions in C,&quot; for more information)
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">av.h</FONT></TT></TD>
+<TD WIDTH=453>Array variable information</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">config.h</FONT></TT>
+</TD><TD WIDTH=453>Generated when Perl is installed</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">cop.h</FONT></TT></TD>
+<TD WIDTH=453>Glob pointers</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">cv.h</FONT></TT></TD>
+<TD WIDTH=453>Conversion structure</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">dosish.h</FONT></TT>
+</TD><TD WIDTH=453>Redefining <TT><FONT FACE="Courier">stat</FONT></TT>, <TT><FONT FACE="Courier">fstat</FONT></TT>, and <TT><FONT FACE="Courier">fflush</FONT></TT> for DOS
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">embed.h</FONT></TT>
+</TD><TD WIDTH=453>For embedding Perl in C</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">EXTERN.h</FONT></TT> 
+</TD><TD WIDTH=453>Global and external variables</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">form.h</FONT></TT>
+</TD><TD WIDTH=453>For form feed and line feed definitions</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">gv.h</FONT></TT></TD>
+<TD WIDTH=453>Glob pointer definitions</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">handy.h</FONT></TT>
+</TD><TD WIDTH=453>Used for embedding Perl in C</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">hv.h</FONT></TT></TD>
+<TD WIDTH=453>Hash definitions</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">INTERN.h</FONT></TT>
+</TD><TD WIDTH=453>Perl internal variables</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">keywords.h</FONT></TT>
+</TD><TD WIDTH=453>For Perl keywords</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">mg.h</FONT></TT></TD>
+<TD WIDTH=453>Definitions for using <TT><FONT FACE="Courier">MAGIC</FONT></TT> structures
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">op.h</FONT></TT></TD>
+<TD WIDTH=453>Perl operators</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">patchlevel.h</FONT></TT>
+</TD><TD WIDTH=453>For current <TT><FONT FACE="Courier">patchlevel</FONT></TT> information
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">pp.h</FONT></TT> </TD>
+<TD WIDTH=453>For preprocessor directives</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">perl.h</FONT></TT>
+</TD><TD WIDTH=453>Main header for Perl</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">perly.h</FONT></TT>
+</TD><TD WIDTH=453>For the <TT><FONT FACE="Courier">yylex</FONT></TT> parser
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">proto.h</FONT></TT>
+</TD><TD WIDTH=453>Function prototypes</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">regexp.h</FONT></TT>
+</TD><TD WIDTH=453>Regular expressions</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">scope.h</FONT></TT>
+</TD><TD WIDTH=453>Scoping rule definitions</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">sv.h</FONT></TT></TD>
+<TD WIDTH=453>Scalar values</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">util.h</FONT></TT>
+</TD><TD WIDTH=453>Blank header file</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">unixish.h</FONT></TT>
+</TD><TD WIDTH=453>For UNIX-specific definitions</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The source files in the Perl distribution are as follows. They
+come with very sparse comments.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=121><TT><FONT FACE="Courier">av.c</FONT></TT></TD>
+<TD WIDTH=168><FONT FACE="Courier">mg.c</FONT></TD><TD WIDTH=144><FONT FACE="Courier">pp_sys.c</FONT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=121><TT><FONT FACE="Courier">deb.c</FONT></TT></TD>
+<TD WIDTH=168><FONT FACE="Courier">miniperlmain.c</FONT></TD>
+<TD WIDTH=144><FONT FACE="Courier">regcomp.c</FONT></TD></TR>
+<TR VALIGN=TOP><TD WIDTH=121><TT><FONT FACE="Courier">doio.c</FONT></TT>
+</TD><TD WIDTH=168><FONT FACE="Courier">op.c</FONT></TD><TD WIDTH=144><FONT FACE="Courier">regexec.c</FONT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=121><TT><FONT FACE="Courier">doop.c</FONT></TT>
+</TD><TD WIDTH=168><FONT FACE="Courier">perl.c</FONT></TD><TD WIDTH=144><FONT FACE="Courier">run.c</FONT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=121><TT><FONT FACE="Courier">dump.c</FONT></TT>
+</TD><TD WIDTH=168><FONT FACE="Courier">perlmain.c</FONT></TD>
+<TD WIDTH=144><FONT FACE="Courier">scope.c</FONT></TD></TR>
+<TR VALIGN=TOP><TD WIDTH=121><TT><FONT FACE="Courier">globals.c</FONT></TT>
+</TD><TD WIDTH=168><FONT FACE="Courier">perly.c</FONT></TD><TD WIDTH=144><FONT FACE="Courier">sv.c</FONT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=121><TT><FONT FACE="Courier">gv.c</FONT></TT></TD>
+<TD WIDTH=168><FONT FACE="Courier">pp.c</FONT></TD><TD WIDTH=144><FONT FACE="Courier">taint.c</FONT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=121><TT><FONT FACE="Courier">hv.c</FONT></TT></TD>
+<TD WIDTH=168><FONT FACE="Courier">pp_ctl.c</FONT></TD><TD WIDTH=144><FONT FACE="Courier">toke.c</FONT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=121><TT><FONT FACE="Courier">malloc.c</FONT></TT>
+</TD><TD WIDTH=168><FONT FACE="Courier">pp_hot.c</FONT></TD><TD WIDTH=144><FONT FACE="Courier">util.c</FONT>
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The name of each file gives a hint as to what the code in the
+file does. Run <TT><FONT FACE="Courier">head *.c &gt; text</FONT></TT>
+to get a list of the headers for the files.
+<P>
+Now that you know a little about what source files to consult,
+you're ready to learn about the building blocks of Perl programs:
+the variables.
+<H2><A NAME="PerlVariableTypes"><B><FONT SIZE=5 COLOR=#FF0000>Perl
+Variable Types</FONT></B></A></H2>
+<P>
+Perl has three basic data types: scalars, arrays, and hashes.
+Perl enables you to have references to these data types as well
+as references to subroutines. Most references use scalar values
+to store their values, but you can have arrays of arrays, arrays
+of references, and so on. It's quite possible to build complicated
+data structures using the three basic types in Perl.
+<P>
+Variables in Perl programs can even have two types of values,
+depending on how they are interpreted. For instance, <TT><FONT FACE="Courier">$i</FONT></TT>
+can be an integer when used in a numeric operation, and <TT><FONT FACE="Courier">$i</FONT></TT>
+is a string when used in a string operation. Another example is
+the <TT><FONT FACE="Courier">$!</FONT></TT>, which is the <TT><FONT FACE="Courier">errno</FONT></TT>
+code when used as a number but a string when used within a <TT><FONT FACE="Courier">print</FONT></TT>
+statement.
+<H3><A NAME="NamingConventions"><B>Naming Conventions</B></A>
+</H3>
+<P>
+Because variables internal to Perl source code can have many types
+of values and definitions, the name must be descriptive enough
+to indicate what type it is. By convention, there are three tokens
+in Perl source code variable names: arrays, hashes, and scalar
+variables. A scalar variable can be further qualified to define
+the type of value it holds. The list of token prefixes for these
+Perl types are shown in the following list:<P>
+<CENTER>
+<TABLE BORDER=1>
+<TR VALIGN=TOP><TD WIDTH=100><BLOCKQUOTE>
+<TT><FONT FACE="Courier">AV</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=246><BLOCKQUOTE>
+Array variables</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><BLOCKQUOTE>
+<TT><FONT FACE="Courier">HV</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=246><BLOCKQUOTE>
+Hash variables</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=246><BLOCKQUOTE>
+Generic scalar variables</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><BLOCKQUOTE>
+<TT><FONT FACE="Courier">I32</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=246><BLOCKQUOTE>
+32-bit integer (scalar)</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><BLOCKQUOTE>
+<TT><FONT FACE="Courier">I16</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=246><BLOCKQUOTE>
+16-bit integer (scalar)</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><BLOCKQUOTE>
+<TT><FONT FACE="Courier">IV</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=246><BLOCKQUOTE>
+Integer or pointer only (scalar)</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><BLOCKQUOTE>
+<TT><FONT FACE="Courier">NV</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=246><BLOCKQUOTE>
+Double only (scalar)</BLOCKQUOTE>
+
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=100><BLOCKQUOTE>
+<TT><FONT FACE="Courier">PV</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=246><BLOCKQUOTE>
+String pointer only (scalar)</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+If you see <TT><FONT FACE="Courier">SV</FONT></TT> in a function
+or variable name, the function is probably working on a scalar
+item. The convention is followed closely in the Perl source code,
+and you should be able to glean the type of most variable names
+as you scan through the code. Function names in the source code
+can begin with <TT><FONT FACE="Courier">sv_</FONT></TT> for scalar
+variables and related operations, <TT><FONT FACE="Courier">av_</FONT></TT>
+for array variables, and <TT><FONT FACE="Courier">hv_</FONT></TT>
+for hashes.
+<P>
+Let's now cover these variable types and the functions to manipulate
+them.
+<H2><A NAME="ScalarsandScalarFunctions"><B><FONT SIZE=5 COLOR=#FF0000>Scalars
+and Scalar Functions</FONT></B></A></H2>
+<P>
+Scalar variables in the Perl source are those with <TT><FONT FACE="Courier">SV</FONT></TT>
+in their names. A scalar variable on a given system is the size
+of a pointer or an integer, whichever is larger. Specific types
+of scalars exist to specify numbers such as <TT><FONT FACE="Courier">IV</FONT></TT>
+for integer or pointer, <TT><FONT FACE="Courier">NV</FONT></TT>
+for doubles, and so on. The <TT><FONT FACE="Courier">SV</FONT></TT>
+definition is really a <TT><FONT FACE="Courier">typedef</FONT></TT>
+declaration of the <TT><FONT FACE="Courier">sv</FONT></TT> structure
+in the header file called <TT><FONT FACE="Courier">sv.h</FONT></TT>.
+<TT><FONT FACE="Courier">NV</FONT></TT>, <TT><FONT FACE="Courier">IV</FONT></TT>,
+<TT><FONT FACE="Courier">PV</FONT></TT>, <TT><FONT FACE="Courier">I32</FONT></TT>,
+and <TT><FONT FACE="Courier">I16</FONT></TT> are type-specific
+definitions of <TT><FONT FACE="Courier">SV</FONT></TT> for doubles,
+generic pointers, strings, and 32- and 16-bit numbers.
+<P>
+Floating-point numbers and integers in Perl are stored as doubles.
+Thus, a variable with <TT><FONT FACE="Courier">NV</FONT></TT>
+will be a double that you can cast in a C program to whatever
+type you want.
+<P>
+Four types of routines exist to create an <TT><FONT FACE="Courier">SV</FONT></TT>
+variable. All four return a pointer to a newly created variable.
+You call these routines from within an <TT><FONT FACE="Courier">XS</FONT></TT>
+Perl extension file:
+<UL>
+<LI><TT><FONT FACE="Courier">SV *newSViv(IV I);</FONT></TT>
+<LI><TT><FONT FACE="Courier">SV *newSVnv(double d);</FONT></TT>
+<LI><TT><FONT FACE="Courier">SV *newSVpv(char * p, int len);</FONT></TT>
+<LI><TT><FONT FACE="Courier">SV *newSVsv(SV *svp);</FONT></TT>
+</UL>
+<P>
+The way to read these function declarations is as follows. Take
+the <TT><FONT FACE="Courier">newSViv(IV)</FONT></TT> declaration,
+for example. The <TT><FONT FACE="Courier">new</FONT></TT> portion
+of the declaration asks Perl to create a new object. The <TT><FONT FACE="Courier">SV</FONT></TT>
+indicates a scalar variable. The <TT><FONT FACE="Courier">iv</FONT></TT>
+indicates a specific type to create: <TT><FONT FACE="Courier">iv</FONT></TT>
+for integer, <TT><FONT FACE="Courier">nv</FONT></TT> for double,
+<TT><FONT FACE="Courier">pv</FONT></TT> for a string of a specified
+length, and <TT><FONT FACE="Courier">sv</FONT></TT> for all other
+types of scalars.
+<P>
+Three functions exist to get the value stored in an <TT><FONT FACE="Courier">SV</FONT></TT>.
+The type of value returned depends on what type of value was set
+at the time of creation:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=291><TT><FONT FACE="Courier">int SvIV(SV*);</FONT></TT>
+</TD><TD WIDTH=299>This function returns an integer value of the <TT><FONT FACE="Courier">SV</FONT></TT> being pointed to. Cast the return value to a pointer if that is how you intend to use it. A sister macro, <TT><FONT 
+FACE="Courier">SvIVX(SV*)</FONT></TT>, does the same thing as the <TT><FONT FACE="Courier">SvIV</FONT></TT> function.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=291><TT><FONT FACE="Courier">double SvNV(SV*);</FONT></TT>
+</TD><TD WIDTH=299>This function returns a floating-point number. The <TT><FONT FACE="Courier">SvNVX</FONT></TT> macro does the same thing as the <TT><FONT FACE="Courier">SvNV()</FONT></TT> function.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=291><TT><FONT FACE="Courier">char *SvPV(SV*, STRLEN len);</FONT></TT>
+</TD><TD WIDTH=299>This function returns a pointer to a <TT><FONT FACE="Courier">char</FONT></TT>. The <TT><FONT FACE="Courier">STRLEN</FONT></TT> in this function call is really specifying a pointer to the <TT><FONT FACE="Courier">len</FONT></TT> 
+variable. The pointer to <TT><FONT FACE="Courier">len</FONT></TT> is used by the function to return the length of the string in <TT><FONT FACE="Courier">SV</FONT></TT>. The <TT><FONT FACE="Courier">SvPVX</FONT></TT> pointer returns the string too, but you 
+do not have to specify the <TT><FONT FACE="Courier">STRLEN len</FONT></TT> argument.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+You can modify the value contained in an already existing <TT><FONT FACE="Courier">SV</FONT></TT>
+by using the following functions:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=295><TT><FONT FACE="Courier">void sv_setiv(SV* ptr, IV incoming);</FONT></TT>
+</TD><TD WIDTH=295>This function sets the value of the <TT><FONT FACE="Courier">SV</FONT></TT> being pointed to by <TT><FONT FACE="Courier">ptr</FONT></TT> to the integer value in <TT><FONT FACE="Courier">incoming</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=295><TT><FONT FACE="Courier">void sv_setnv(SV* ptr, double);</FONT></TT>
+</TD><TD WIDTH=295>This function sets the value of the <TT><FONT FACE="Courier">SV</FONT></TT> being pointed to by <TT><FONT FACE="Courier">ptr</FONT></TT> to the value in <TT><FONT FACE="Courier">incoming</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=295><TT><FONT FACE="Courier">void sv_setsv(SV* dst, SV*src);</FONT></TT>
+</TD><TD WIDTH=295>This function sets the value of the <TT><FONT FACE="Courier">SV</FONT></TT> being pointed to by <TT><FONT FACE="Courier">dst</FONT></TT> to the value pointed to by <TT><FONT FACE="Courier">src</FONT></TT> in <TT><FONT 
+FACE="Courier">incoming</FONT></TT>.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Perl does not keep <TT><FONT FACE="Courier">NULL</FONT></TT>-terminated
+strings like C does. In fact, Perl strings can have multiple <TT><FONT FACE="Courier">NULL</FONT></TT>s
+in them. Perl tracks strings by a pointer and the length of the
+string. Strings can be modified in one of these ways:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void sv_setpvn(SV* ptr, char* anyt ,
+int len);<BR>
+</FONT></TT>This sets the value of the <TT><FONT FACE="Courier">SV</FONT></TT>
+being pointed to by <TT><FONT FACE="Courier">ptr</FONT></TT> to
+the value in <TT><FONT FACE="Courier">anyt</FONT></TT>. The string
+<TT><FONT FACE="Courier">anyt</FONT></TT> contains an array of
+<TT><FONT FACE="Courier">char</FONT></TT> items and does not have
+to be a <TT><FONT FACE="Courier">NULL</FONT></TT>-terminated string.
+In fact, the string <TT><FONT FACE="Courier">anyt</FONT></TT>
+can contain <TT><FONT FACE="Courier">NULL</FONT></TT>s because
+the function uses the value in <TT><FONT FACE="Courier">len</FONT></TT>
+to keep the string in memory.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void sv_setpv(SV* ptr, char* nullt);
+<BR>
+</FONT></TT>This sets the value of the <TT><FONT FACE="Courier">SV</FONT></TT>
+being pointed to by <TT><FONT FACE="Courier">ptr</FONT></TT> to
+the value in <TT><FONT FACE="Courier">nullt</FONT></TT>. The <TT><FONT FACE="Courier">nullt</FONT></TT>
+string is a <TT><FONT FACE="Courier">NULL</FONT></TT>-terminated
+string like those in C, and the function calculates and sets the
+length for you automatically.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SvGROW(SV* ptr, STRLEN newlen);<BR>
+</FONT></TT>This function increases the size of a string to the
+size in <TT><FONT FACE="Courier">newlen</FONT></TT>. You cannot
+decrease the size of a string using this function. Make a new
+variable and copy into it. You can use the function <TT><FONT FACE="Courier">SvCUR(SV*)</FONT></TT>
+to get the length of a string and <TT><FONT FACE="Courier">SvCUR_set(SV*,
+I32 length)</FONT></TT> to set the length of a string.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void sv_catpv(SV* ptr, char*);<BR>
+</FONT></TT>This function appends a <TT><FONT FACE="Courier">NULL</FONT></TT>-terminated
+string to a string in <TT><FONT FACE="Courier">SV</FONT></TT>.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void sv_catpvn(SV* ptr, char*, int);
+<BR>
+</FONT></TT>This function appends a string of length <TT><FONT FACE="Courier">len</FONT></TT>
+to the <TT><FONT FACE="Courier">SV</FONT></TT> pointed at by <TT><FONT FACE="Courier">ptr</FONT></TT>.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+v<TT><FONT FACE="Courier">oid sv_catsv(SV*dst, SV*src);<BR>
+</FONT></TT>This appends another SV* to an SV.
+</BLOCKQUOTE>
+<P>
+Your C program using these programs will crash if you are not
+careful enough to check whether these variables exist. To check
+whether a scalar variable exists, you can call these functions:
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=205><TT><FONT FACE="Courier">SvPOK(SV*ptr)</FONT></TT>
+</TD><TD WIDTH=150>For string</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205><TT><FONT FACE="Courier">SvIOK(SV*ptr)</FONT></TT>
+</TD><TD WIDTH=150>For integer</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205><TT><FONT FACE="Courier">SvNOK(SV*ptr)</FONT></TT>
+</TD><TD WIDTH=150>For double</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205><TT><FONT FACE="Courier">SvTRUE(SV *ptr)</FONT></TT>
+</TD><TD WIDTH=150>For Boolean value</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+A value of <TT><FONT FACE="Courier">FALSE</FONT></TT> received
+from these functions means that the variable does not exist. You
+can only get two returned values, either <TT><FONT FACE="Courier">TRUE</FONT></TT>
+or <TT><FONT FACE="Courier">FALSE</FONT></TT>, from the functions
+that check whether a variable is a string, integer, or double.
+The <TT><FONT FACE="Courier">SvTRUE(SV*)</FONT></TT> macro returns
+<TT><FONT FACE="Courier">0</FONT></TT> if the value pointed at
+by <TT><FONT FACE="Courier">SV</FONT></TT> is an integer zero
+or if <TT><FONT FACE="Courier">SV</FONT></TT> does not exist.
+Two other global variables, <TT><FONT FACE="Courier">sv_yes</FONT></TT>
+and <TT><FONT FACE="Courier">sv_no</FONT></TT>, can be used instead
+of <TT><FONT FACE="Courier">TRUE</FONT></TT> and <TT><FONT FACE="Courier">FALSE</FONT></TT>,
+respectively.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The Perl scalar <TT><FONT FACE="Courier">undef</FONT></TT> value is stored in an <TT><FONT FACE="Courier">SV</FONT></TT> instance called <TT><FONT FACE="Courier">sv_undef</FONT></TT>. The <TT><FONT FACE="Courier">sv_undef</FONT></TT> value is not <TT><FONT 
+FACE="Courier">(SV *) 0</FONT></TT> as you would expect in most versions of C.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+You can get a pointer to an existing scalar by specifying its
+variable name in the call to the function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV*&nbsp;&nbsp;perl_get_sv(&quot;myScalar&quot;,
+FALSE);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">FALSE</FONT></TT> parameter requests
+the function to return <TT><FONT FACE="Courier">sv_undef</FONT></TT>
+if the variable does not exist. If you specify a <TT><FONT FACE="Courier">TRUE</FONT></TT>
+value as the second parameter, a new scalar variable is created
+for you and assigned the name <TT><FONT FACE="Courier">myScalar</FONT></TT>
+in the current name space.
+<P>
+In fact, you can use package names in the variable name. For example,
+the following call creates a variable called <TT><FONT FACE="Courier">desk</FONT></TT>
+in the <TT><FONT FACE="Courier">VRML</FONT></TT> package:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV *desk;<BR>
+desk =&nbsp;&nbsp;&nbsp;perl_get_sv(&quot;VRML::desk&quot;, FALSE);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Now let's look at collections of scalars: arrays.
+<H2><A NAME="ArrayFunctions"><B><FONT SIZE=5 COLOR=#FF0000>Array
+Functions</FONT></B></A></H2>
+<P>
+The functions for handling array variables are similar in operation
+to those for scalar variables. To create an array called <TT><FONT FACE="Courier">myarray</FONT></TT>,
+you would use this call:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">AV *myarray = (AV* ) newAV();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To get the array by specifying the name, you can also use the
+following function. This <TT><FONT FACE="Courier">perl_get_av()</FONT></TT>
+returns <TT><FONT FACE="Courier">NULL</FONT></TT> if the variable
+does not exist:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">AV*&nbsp;&nbsp;perl_get_av(char *myarray,
+bool makeIt);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">makeIt</FONT></TT> variable can be
+set to <TT><FONT FACE="Courier">TRUE</FONT></TT> if you want the
+array created, and <TT><FONT FACE="Courier">FALSE</FONT></TT>
+if you are merely checking for its existence and do not want the
+array created if it does not exist.
+<P>
+To initialize an array at the time of creation, you can use the
+<TT><FONT FACE="Courier">av_make()</FONT></TT> function. Here's
+the syntax for the <TT><FONT FACE="Courier">av_make()</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">AV *myarray =&nbsp;&nbsp;(AV&nbsp;&nbsp;*)av_make(I32
+num, SV **data);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">num</FONT></TT> parameter is the
+size of the <TT><FONT FACE="Courier">AV</FONT></TT> array, and
+<TT><FONT FACE="Courier">data</FONT></TT> is a pointer to an array
+of pointers to scalars to add to this new array called <TT><FONT FACE="Courier">myarray</FONT></TT>.
+Do you see how the call uses <I>pointers </I>to <TT><FONT FACE="Courier">SV</FONT></TT>,
+rather than <TT><FONT FACE="Courier">SV</FONT></TT>s? The added
+level of indirection permits Perl to store any type of <TT><FONT FACE="Courier">SV</FONT></TT>
+in an array. So, you can store strings, integers, and doubles
+all in one array in Perl. The array passed into the <TT><FONT FACE="Courier">av_make()</FONT></TT>
+function is copied into a new memory area; therefore, the original
+<TT><FONT FACE="Courier">data</FONT></TT> array does not have
+to persist.
+<P>
+Check the <TT><FONT FACE="Courier">av.c</FONT></TT> source file
+in your Perl distribution for more details on the functions and
+their parameters. Here is a quick list of the functions you would
+most likely perform on <TT><FONT FACE="Courier">AV</FONT></TT>s.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void av_push(AV *ptr, SV *item);<BR>
+</FONT></TT>Pushes an item to the back of an array.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV* av_pop(AV *ptr);<BR>
+</FONT></TT>Pops an item off the back of an array.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV* av_shift(AV *ptr);<BR>
+</FONT></TT>Removes an item from the front of the array.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void av_unshift(AV *ptr, I32 num);<BR>
+</FONT></TT>Inserts <TT><FONT FACE="Courier">num</FONT></TT> items
+into the front of the array. The operation in this function only
+creates space for you. You still have to call the <TT><FONT FACE="Courier">av_store()</FONT></TT>
+function (defined below) to assign values to the newly added items.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">I32 av_len(AV *ptr);<BR>
+</FONT></TT>Returns the highest index in array.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV** av_fetch(AV *ptr, I32 offset, I32
+lval);<BR>
+</FONT></TT>Gets the value in the array at the offset. If <TT><FONT FACE="Courier">lval</FONT></TT>
+is a nonzero value, the value at the offset is replaced with the
+value of <TT><FONT FACE="Courier">lval</FONT></TT>.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV** av_store(AV *ptr, I32 key, SV* item);
+<BR>
+</FONT></TT>Stores the value of the item at the offset.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void av_clear(AV *ptr);<BR>
+</FONT></TT>Sets all items to zero but does not destroy the array
+in <TT><FONT FACE="Courier">*ptr</FONT></TT>.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void av_undef(AV *ptr);<BR>
+</FONT></TT>Removes the array and all its items.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void av_extend(AV *ptr, I32 size);<BR>
+</FONT></TT>Resizes the array to the maximum of the current size
+or the passed size.
+</BLOCKQUOTE>
+<H2><A NAME="HashFunctions"><B><FONT SIZE=5 COLOR=#FF0000>Hash
+Functions</FONT></B></A></H2>
+<P>
+Hash variables have <TT><FONT FACE="Courier">HV</FONT></TT> in
+their names and are created in a manner similar to creating array
+functions. To create an <TT><FONT FACE="Courier">HV</FONT></TT>
+type, you call this function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">HV*&nbsp;&nbsp;newHV();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here's how to use an existing hash function and refer to it by
+name:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">HV*&nbsp;&nbsp;perl_get_hv(&quot;myHash&quot;,
+FALSE);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The function returns <TT><FONT FACE="Courier">NULL</FONT></TT>
+if the variable does not exist. If the hash does not already exist
+and you want Perl to create the variable for you, use:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">HV*&nbsp;&nbsp;perl_get_hv(&quot;myHash&quot;,
+TRUE);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+As with the <TT><FONT FACE="Courier">AV</FONT></TT> type, you
+can perform the following functions on an <TT><FONT FACE="Courier">HV</FONT></TT>
+type of variable:
+<UL>
+<LI><TT><FONT FACE="Courier">SV** hv_store(HV* hptr,</FONT></TT>
+<LI><TT><FONT FACE="Courier">char* key&nbsp;&nbsp;</FONT></TT>The
+key of the hash item
+<LI><TT><FONT FACE="Courier">U32 klen,&nbsp;&nbsp;</FONT></TT>The
+length of the key
+<LI><TT><FONT FACE="Courier">SV* val,&nbsp;&nbsp;&nbsp;</FONT></TT>The
+scalar to insert
+<LI><TT><FONT FACE="Courier">U32 hash)&nbsp;&nbsp;</FONT></TT>Zero
+unless you compute the hash function yourself
+<LI><TT><FONT FACE="Courier">SV**&nbsp;&nbsp;hv_fetch(HV* hptr,</FONT></TT>
+<LI><TT><FONT FACE="Courier">char* keyq </FONT></TT>The key of
+the hash
+<LI><TT><FONT FACE="Courier">U32 klen&nbsp;&nbsp;&nbsp;</FONT></TT>The
+length of the key
+<LI><TT><FONT FACE="Courier">I32 lval)&nbsp;&nbsp;</FONT></TT>Its
+value
+</UL>
+<P>
+Check the file <TT><FONT FACE="Courier">hv.c</FONT></TT> in your
+Perl distribution for the function source file for details about
+how the hash function is defined. Both of the previous functions
+return pointers to pointers. The return value from either function
+will be <TT><FONT FACE="Courier">NULL</FONT></TT>.
+<P>
+The following functions are defined in the source file:
+<BLOCKQUOTE>
+bool hv_exists(HV*, char* key, U32 klen);<BR>
+This function returns TRUE or FALSE.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV* hv_delete(HV*, char* key, U32 klen,
+I32 flags);<BR>
+</FONT></TT>This function deletes the item, if it exists, at the
+specified key.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void hv_clear(HV*);<BR>
+</FONT></TT>This function leaves the hash but removes all its
+items.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void hv_undef(HV*);<BR>
+</FONT></TT>This function removes the hash and its items.
+</BLOCKQUOTE>
+<P>
+You can iterate through the hash table using indexes and pointers
+to hash table entries using the <TT><FONT FACE="Courier">HE</FONT></TT>
+pointer type. To iterate through the array (such as with the <TT><FONT FACE="Courier">each</FONT></TT>
+command in Perl), you can use <TT><FONT FACE="Courier">hv_iterinit(HV*)</FONT></TT>
+to set the starting point and then get the next item as an <TT><FONT FACE="Courier">HE</FONT></TT>
+pointer from a call to the <TT><FONT FACE="Courier">hv_iternext(HV*)</FONT></TT>
+function. To get the item being traversed, make a call to this
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV*&nbsp;&nbsp;&nbsp;&nbsp;hv_iterval(HV*
+hashptr, HE* entry);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The next <TT><FONT FACE="Courier">SV</FONT></TT> is available
+via a call to this function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV*&nbsp;&nbsp;&nbsp;&nbsp;hv_iternextsv(HV*hptr,
+char** key, I32* retlen);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">key</FONT></TT> and <TT><FONT FACE="Courier">retlen</FONT></TT>
+arguments are return values for the key and its length. See line
+600 in the <TT><FONT FACE="Courier">hv.c</FONT></TT>.
+<H2><A NAME="MortalityofVariables"><B><FONT SIZE=5 COLOR=#FF0000>Mortality
+of Variables</FONT></B></A></H2>
+<P>
+Values in Perl exist until explicitly freed. They are freed by
+the Perl garbage collector when the reference count to them is
+zero, by a call to the <TT><FONT FACE="Courier">undef</FONT></TT>
+function, or if they were declared <TT><FONT FACE="Courier">local</FONT></TT>
+or <TT><FONT FACE="Courier">my</FONT></TT> and the scope no longer
+exists. In all other cases, variables declared in one scope persist
+even after execution has left the code block in which they were
+declared. For example, declaring and using <TT><FONT FACE="Courier">$a</FONT></TT>
+in a function keeps <TT><FONT FACE="Courier">$a</FONT></TT> in
+the main program even after returning from the subroutine. This
+is why it's necessary to create local variables in subroutines
+using the <TT><FONT FACE="Courier">my</FONT></TT> keyword so that
+the Perl interpreter will automatically destroy these variables,
+which will no longer be used after the subroutine returns.
+<P>
+References to variables in Perl can also be modified using the
+following functions:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">int SvREFCNT(SV* sv);<BR>
+</FONT></TT>This function returns the current reference count
+to an existing <TT><FONT FACE="Courier">SV</FONT></TT>.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void SvREFCNT_inc(SV* sv);<BR>
+</FONT></TT>This function increments the current reference count.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void SvREFCNT_dec(SV* sv);<BR>
+</FONT></TT>This function decrements the current reference count.
+You can make the reference count be zero to delete the <TT><FONT FACE="Courier">SV</FONT></TT>
+being pointed to and let the garbage handler get rid <BR>
+of it.
+</BLOCKQUOTE>
+<P>
+Because the values declared within code blocks persist for a long
+time, they are referred to as <I>immortal</I>. Sometimes declaring
+and creating variable names in code blocks have the side effect
+of persisting even if you do not want them to. When writing code
+that declares and creates such variables, it's a good idea to
+create variables that you do not want to persist as <I>mortal</I>;
+that is, they die when code leaves the current scope.
+<P>
+The functions that create a mortal variable are as follows:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=243><TT><FONT FACE="Courier">SV* sv_newmortal();</FONT></TT>
+</TD><TD WIDTH=347>This function creates a new mortal variable and returns a pointer to it.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=243><TT><FONT FACE="Courier">SV* sv_2mortal(SV*);</FONT></TT>
+</TD><TD WIDTH=347>This function converts an existing immortal <TT><FONT FACE="Courier">SV</FONT></TT> into a mortal variable. Be careful not to convert an already mortal <TT><FONT FACE="Courier">SV</FONT></TT> into a mortal <TT><FONT 
+FACE="Courier">SV</FONT></TT> because this operation may result in the reference count for the variable to be decremented twice, leading to unpredictable results.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=243><TT><FONT FACE="Courier">SV* sv_mortalcopy(SV*);</FONT></TT>
+</TD><TD WIDTH=347>This function copies an existing <TT><FONT FACE="Courier">SV</FONT></TT> (without regard to the mortality of the passed <TT><FONT FACE="Courier">SV</FONT></TT>) into a new mortal <TT><FONT FACE="Courier">SV</FONT></TT>.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+To create <TT><FONT FACE="Courier">AV</FONT></TT> and <TT><FONT FACE="Courier">HV</FONT></TT>
+types, you have to cast the input parameters to and from these
+three functions as <TT><FONT FACE="Courier">AV*</FONT></TT> and
+<TT><FONT FACE="Courier">HV*</FONT></TT>.
+<H2><A NAME="SubroutinesandStacks"><B><FONT SIZE=5 COLOR=#FF0000>Subroutines
+and Stacks</FONT></B></A></H2>
+<P>
+Perl subroutines use the stack to get and return values to the
+callers. <A HREF="ch27.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch27.htm" >Chapter 27</A>, &quot;Writing  Extensions
+in C,&quot; covers how the stack is manipulated. This section
+describes the functions available for you to manipulate the stack.
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Look in the <TT><FONT FACE="Courier">XSUB.h</FONT></TT> file for more details than this chapter can give you. The details in the header include macro definitions for manipulating the stack in an extension module.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Arguments on a stack to a Perl function are available via the
+<TT><FONT FACE="Courier">ST(n)</FONT></TT> macro set. The topmost
+item on the stack is <TT><FONT FACE="Courier">ST(0)</FONT></TT>,
+and the <I>m</I>th one is <TT><FONT FACE="Courier">ST(m-1)</FONT></TT>.
+You may assign the return value to a static value, like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">SV *arg1 = ST(1); // Assign argument[1]
+to arg1;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+You can even increase the size of the argument stack in a function.
+(This is necessary if you are returning a list from a function
+call, for example. I cover this in more detail in <A HREF="ch27.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch27.htm" >Chapter 27</A>.)
+To increase the length of the stack, make a call to the macro:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">EXTEND(<I>sp, num</I>);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">sp</FONT></TT> is the stack pointer and
+<TT><FONT FACE="Courier">num</FONT></TT> is an extra number of
+elements to add to the stack. You cannot decrease the size of
+the stack.
+<P>
+To add items to the stack, you have to specify the type of variable
+you're adding. Four functions are available for four of the most
+generic types to push:
+<UL>
+<LI><TT><FONT FACE="Courier">PUSHi(<I>IV</I>)</FONT></TT>
+<LI><TT><FONT FACE="Courier">PUSHn(<I>double</I>)</FONT></TT>
+<LI><TT><FONT FACE="Courier">PUSHp(<I>char*, I32</I>)</FONT></TT>
+<LI><TT><FONT FACE="Courier">PUSHs(<I>SV*</I>)</FONT></TT>
+</UL>
+<P>
+If you want the stack to be adjusted automatically, make the calls
+to these macros:
+<UL>
+<LI><TT><FONT FACE="Courier">XPUSHi(IV)</FONT></TT>
+<LI><TT><FONT FACE="Courier">XPUSHn(double)</FONT></TT>
+<LI><TT><FONT FACE="Courier">XPUSHp(char*, I32)</FONT></TT>
+<LI><TT><FONT FACE="Courier">XPUSHs(SV*)</FONT></TT>
+</UL>
+<P>
+These macros are a bit slower but simpler to use.
+<P>
+In <A HREF="ch27.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch27.htm" >Chapter 27</A>, you'll see how to use stacks
+in the section titled &quot;The <TT><FONT FACE="Courier">typemap</FONT></TT>
+File.&quot; Basically, a <TT><FONT FACE="Courier">typemap</FONT></TT>
+file is used by the extensions compiler <TT><FONT FACE="Courier">xsubpp</FONT></TT>
+for the rules to convert from Perl's internal data types (<TT><FONT FACE="Courier">hash</FONT></TT>,
+<TT><FONT FACE="Courier">array</FONT></TT>, and so on) to C's
+data types (<TT><FONT FACE="Courier">int</FONT></TT>, <TT><FONT FACE="Courier">char
+*</FONT></TT>, and so on). These rules are stored in the <TT><FONT FACE="Courier">typemap</FONT></TT>
+file in your Perl distribution's <TT><FONT FACE="Courier">./lib/ExtUtils</FONT></TT>
+directory.
+<P>
+The definitions of the structures in the <TT><FONT FACE="Courier">typemap</FONT></TT>
+file are specified in the internal format for Perl.
+<H2><A NAME="WhatIsMagic"><B><FONT SIZE=5 COLOR=#FF0000>What Is
+Magic?</FONT></B></A></H2>
+<P>
+As you go through the online docs and the source for Perl, you'll
+often see the word <I>magic</I>. The mysterious connotations of
+this word are further enhanced by the almost complete lack of
+documentation on what magic really is. In order to understand
+the phrases &quot;then magic is applied to whatever&quot; or &quot;automagically
+[sic]&quot; in the Perl documentation, you have to know what &quot;magic&quot;
+in Perl really means. Perhaps after reading this section, you
+will have a better feel for Perl internal structures and actions
+of the Perl interpreter.
+<P>
+Basically, a scalar value in Perl can have special features for
+it to become &quot;magical.&quot; When you apply magic to a variable,
+that variable is placed into a linked list for methods. A method
+is called for each type of magic assigned to that variable when
+a certain action takes place, such as retrieving or storing the
+contents of the variable. Please refer to a comparable scheme
+in Perl when using the <TT><FONT FACE="Courier">tie()</FONT></TT>
+function as described in <A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch6.htm" >Chapter 6</A>, &quot;Binding
+Variables to Objects.&quot; When <I>tie</I>-ing a variable to
+an action, you are defining actions to take when a scalar is accessed
+or when an array item is read from. In the case of magic actions
+of a scalar, you have a set of magic methods that are called when
+the Perl interpreter takes a similar action on (like getting a
+value from or putting a value into) a scalar variable.
+<P>
+To check whether a variable has magic methods associated with
+it, you can get the flags for it using the <TT><FONT FACE="Courier">SvFLAGS(sv)</FONT></TT>
+macro. The <TT><FONT FACE="Courier">(sv)</FONT></TT> here is the
+name of the variable. The <TT><FONT FACE="Courier">SvMAGIC(variable)</FONT></TT>
+macro returns the list of methods that are magically applied to
+the variable. The <TT><FONT FACE="Courier">SvTYPE()</FONT></TT>
+of the variable is <TT><FONT FACE="Courier">SVt_PVMG</FONT></TT>
+if it has a list of methods. A normal <TT><FONT FACE="Courier">SV</FONT></TT>
+type is upgraded to a magical status by Perl if a method is requested
+for it.
+<P>
+The structure to maintain the list is found in the file <TT><FONT FACE="Courier">mg.h</FONT></TT>
+in the Perl source files:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">struct magic {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;MAGIC*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mg_moremagic;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+pointer to next method. NULL if none.<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;MGVTBL*&nbsp;&nbsp;&nbsp;&nbsp;mg_virtual;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;pointer
+to table of methods.<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;U16&nbsp;&nbsp;&nbsp;mg_private;&nbsp;&nbsp;&nbsp;//
+internal variable<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;&nbsp;mg_type;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+type of methods<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;U8&nbsp;&nbsp;&nbsp;&nbsp;mg_flags;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+flags for this method<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;SV*&nbsp;&nbsp;&nbsp;mg_obj;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+Reference to itself<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;char*&nbsp;mg_ptr;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+name of the magic variable<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;I32&nbsp;&nbsp;&nbsp;mg_len;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+length of the name<BR>
+};</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">mg_type</FONT></TT> value sets up
+how the magic function is applied. The following items are used
+in the magic table. You can see the values in use in the <TT><FONT FACE="Courier">sv.c</FONT></TT>
+file at about line 1950. Table 25.2, which has been constructed
+from the <TT><FONT FACE="Courier">switch</FONT></TT> statement,
+tells you how methods have to be applied.<BR>
+<P>
+<CENTER><B>Table 25.2. Types of Magic functions in </B><TT><B><FONT FACE="Courier">mg_type</FONT></B></TT><B>.</B></CENTER>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><I><FONT FACE="Courier">Mg_type</FONT></I></TT></CENTER>
+</TD><TD WIDTH=166><I>Virtual Magic Table</I></TD><TD WIDTH=209><I>Action Calling Method</I>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">\0</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_sv</FONT></TT>
+</TD><TD WIDTH=209>Null operation</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">A</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_amagic</FONT></TT>
+</TD><TD WIDTH=209>Operator overloading</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">a</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_amagicelem</FONT></TT>
+</TD><TD WIDTH=209>Operator overloading</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">c</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">0</FONT></TT></TD>
+<TD WIDTH=209>Used in operator overloading</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">B</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_bm</FONT></TT>
+</TD><TD WIDTH=209>Unknown</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">E</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_env</FONT></TT>
+</TD><TD WIDTH=209><TT><FONT FACE="Courier">%ENV</FONT></TT> hash
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">e</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_envelem</FONT></TT>
+</TD><TD WIDTH=209><TT><FONT FACE="Courier">%ENV</FONT></TT> hash element
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">g</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_mglob</FONT></TT>
+</TD><TD WIDTH=209><TT><FONT FACE="Courier">Regexp</FONT></TT> applied globally
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">I</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_isa</FONT></TT>
+</TD><TD WIDTH=209><TT><FONT FACE="Courier">@ISA</FONT></TT> array
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">i</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_isaelem</FONT></TT>
+</TD><TD WIDTH=209><TT><FONT FACE="Courier">@ISA</FONT></TT> array element
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">L</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">0</FONT></TT></TD>
+<TD WIDTH=209>Unknown</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">l</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">tbl_dbline</FONT></TT>
+</TD><TD WIDTH=209><TT><FONT FACE="Courier">n</FONT></TT> line debugger
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">P</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">tbl_pack</FONT></TT>
+</TD><TD WIDTH=209>Tied array or hash</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">p</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_packelem</FONT></TT>
+</TD><TD WIDTH=209>Tied array or hash element</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">q</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_packelem</FONT></TT>
+</TD><TD WIDTH=209>Tied scalar or handle</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">S</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_sig</FONT></TT>
+</TD><TD WIDTH=209>Signal hash</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">s</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_sigelem</FONT></TT>
+</TD><TD WIDTH=209>Signal hash element</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">t</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_taint</FONT></TT>
+</TD><TD WIDTH=209>Modified tainted variable</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">U</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_uvar</FONT></TT>
+</TD><TD WIDTH=209>Unknown variable type</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">v</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_vec</FONT></TT>
+</TD><TD WIDTH=209>Vector</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">x</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_substr</FONT></TT>
+</TD><TD WIDTH=209>Substring</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">*</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_glob</FONT></TT>
+</TD><TD WIDTH=209>The <TT><FONT FACE="Courier">GV</FONT></TT> type
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">#</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_arylen</FONT></TT>
+</TD><TD WIDTH=209>Array length</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><CENTER><TT><FONT FACE="Courier">&nbsp;.</FONT></TT></CENTER>
+</TD><TD WIDTH=166><TT><FONT FACE="Courier">vtbl_pos</FONT></TT>
+</TD><TD WIDTH=209><TT><FONT FACE="Courier">$.</FONT></TT> scalar variable
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The magic virtual tables are defined in <TT><FONT FACE="Courier">embed.h</FONT></TT>.
+The <TT><FONT FACE="Courier">mg_virtual</FONT></TT> field in each
+magic entry is assigned to the address of the virtual table.
+<P>
+Each entry in the magic virtual table has five items, each of
+which is defined in the following structure in the file <TT><FONT FACE="Courier">mg.h</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">struct mgvtbl {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*svt_get)&nbsp;&nbsp;&nbsp;&nbsp;_((SV
+*sv, MAGIC* mg));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*svt_set)&nbsp;&nbsp;&nbsp;&nbsp;_((SV
+*sv, MAGIC* mg));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;U32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*svt_len)&nbsp;&nbsp;&nbsp;&nbsp;_((SV
+*sv, MAGIC* mg));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*svt_clear)&nbsp;&nbsp;_((SV
+*sv, MAGIC* mg));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*svt_free)&nbsp;&nbsp;&nbsp;_((SV
+*sv, MAGIC* mg));<BR>
+};</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">svt_get()</FONT></TT> function is
+called when the data in <TT><FONT FACE="Courier">SV</FONT></TT>
+is retrieved. The <TT><FONT FACE="Courier">svt_set()</FONT></TT>
+function is called when the data in <TT><FONT FACE="Courier">SV</FONT></TT>
+is stored. The <TT><FONT FACE="Courier">svt_len()</FONT></TT>
+function is called when the length of the string is changed. The
+<TT><FONT FACE="Courier">svt_clear()</FONT></TT> function is called
+when <TT><FONT FACE="Courier">SV</FONT></TT> is cleared, and the
+<TT><FONT FACE="Courier">svt_free()</FONT></TT> function is called
+when <TT><FONT FACE="Courier">SV</FONT></TT> is destroyed.
+<P>
+All tables shown in the <TT><FONT FACE="Courier">perl.h</FONT></TT>
+file are assigned <TT><FONT FACE="Courier">mgvtbl</FONT></TT>
+structures. The values in each <TT><FONT FACE="Courier">mgvtbl</FONT></TT>
+structure for each item in a table define a function to call when
+an action that affects entries in this table is taken by the Perl
+interpreter. Here is an excerpt from the file:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">EXT MGVTBL vtbl_sv =<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{magic_get, magic_set, magic_len,0,0};
+<BR>
+EXT MGVTBL vtbl_env =<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0,&nbsp;&nbsp;0,&nbsp;&nbsp;&nbsp;0,&nbsp;&nbsp;&nbsp;0,&nbsp;&nbsp;&nbsp;0};
+<BR>
+EXT MGVTBL vtbl_envelem =<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0,&nbsp;&nbsp;magic_setenv, 0,magic_clearenv,
+0};<BR>
+EXT MGVTBL vtbl_sig =<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0,&nbsp;&nbsp;0,&nbsp;&nbsp;&nbsp;&nbsp;0,&nbsp;&nbsp;0,&nbsp;&nbsp;0};
+<BR>
+EXT MGVTBL vtbl_sigelem =<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0,&nbsp;&nbsp;magic_setsig, 0,0,
+0};</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">vbtl_sv</FONT></TT> is set to call
+three methods: <TT><FONT FACE="Courier">magic_get()</FONT></TT>,
+<TT><FONT FACE="Courier">magic_set()</FONT></TT>, and <TT><FONT FACE="Courier">magic_len()</FONT></TT>
+for the magic entries in <TT><FONT FACE="Courier">sv</FONT></TT>.
+The zeros for <TT><FONT FACE="Courier">vtbl_sig</FONT></TT> indicate
+that no magic methods are called.
+<H2><A NAME="TheGlobalVariableGVType"><B><FONT SIZE=5 COLOR=#FF0000>The
+Global Variable </FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">(GV)</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Type</FONT></B></A></H2>
+<P>
+If you are still awake, you'll notice a reference to <TT><FONT FACE="Courier">GV</FONT></TT>
+in the source file. <TT><FONT FACE="Courier">GV</FONT></TT> stands
+for <I>global variable</I>,<I> </I>and the value stored in <TT><FONT FACE="Courier">GV</FONT></TT>
+is any data type from scalar to a subroutine reference. <TT><FONT FACE="Courier">GV</FONT></TT>
+entries are stored in a hash table, and the keys to each entry
+are the names of the symbols being stored. A hash table with <TT><FONT FACE="Courier">GV</FONT></TT>
+entries is also referred to as a stash. Internally, a <TT><FONT FACE="Courier">GV</FONT></TT>
+type is the same as an <TT><FONT FACE="Courier">HV</FONT></TT>
+type.
+<P>
+Keys in a stash are also package names, with the data item pointing
+to other <TT><FONT FACE="Courier">GV</FONT></TT> tables containing
+the symbol within the package.
+<H2><A NAME="WheretoLookforMoreInformation"><B><FONT SIZE=5 COLOR=#FF0000>Where
+to Look for More Information</FONT></B></A></H2>
+<P>
+Most of the information in this chapter has been gleaned from
+source files or the online documents on the Internet. There is
+a somewhat old file called <TT><FONT FACE="Courier">perlguts.html</FONT></TT>
+by Jeff Okamoto (e-mail <TT><FONT FACE="Courier">okamoto@corp.hp.com</FONT></TT>)
+in the <TT><FONT FACE="Courier">www.metronet.com</FONT></TT> archives
+that has the Perl API functions and information about the internals.
+<P>
+Note that the <TT><FONT FACE="Courier">perlguts.html</FONT></TT>
+file was dated 1/27/1995, so it's probably not as up-to-date as
+you would like.
+<P>
+Please refer to the <TT><FONT FACE="Courier">perlguts.html</FONT></TT>
+or the <TT><FONT FACE="Courier">perlguts</FONT></TT> man page
+for a comprehensive listing of the Perl API. If you want a listing
+of the functions in the Perl source code and the search strings,
+use the <TT><FONT FACE="Courier">ctags *.c</FONT></TT> command
+on all the <TT><FONT FACE="Courier">.c</FONT></TT> files in the
+Perl source directory. The result will be a very long file (800
+lines), called <TT><FONT FACE="Courier">tags</FONT></TT>, in the
+same directory. A header of this file is shown here:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">ELSIF&nbsp;&nbsp;&nbsp;&nbsp; perly.c&nbsp;&nbsp;&nbsp;/^&quot;else
+: ELSIF '(' expr ')' block else&quot;,$/<BR>
+GvAVn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv.c&nbsp;/^AV *GvAVn(gv)$/
+<BR>
+GvHVn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv.c&nbsp;/^HV *GvHVn(gv)$/
+<BR>
+Gv_AMupdate&nbsp;&nbsp;&nbsp;&nbsp;gv.c /^Gv_AMupdate(stash)$/
+<BR>
+HTOV util.c&nbsp;&nbsp;&nbsp;&nbsp;/^HTOV(htovs,short)$/<BR>
+PP&nbsp;&nbsp;&nbsp;pp.c /^PP(pp_abs)$/<BR>
+PP&nbsp;&nbsp;&nbsp;pp.c /^PP(pp_anoncode)$/<BR>
+PP&nbsp;&nbsp;&nbsp;pp.c /^PP(pp_anonhash)$/<BR>
+PP&nbsp;&nbsp;&nbsp;pp.c /^PP(pp_anonlist)$/<BR>
+PP&nbsp;&nbsp;&nbsp;pp.c /^PP(pp_aslice)$/</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If you are a <TT><FONT FACE="Courier">vi</FONT></TT> hack, you
+can type <TT><I><FONT FACE="Courier">:tag functionName</FONT></I></TT>
+to go to the line and file immediately from within a <TT><FONT FACE="Courier">vi</FONT></TT>
+session. Ah, the old <TT><FONT FACE="Courier">vi</FONT></TT> editor
+still has a useful function in this day and age. <TT><FONT FACE="Courier">emacs</FONT></TT>
+users can issue the command <TT><FONT FACE="Courier">etags *.c</FONT></TT>
+and get a comparable <TT><FONT FACE="Courier">tags</FONT></TT>
+file for use with the <TT><FONT FACE="Courier">M-x find-tag</FONT></TT>
+command in <TT><FONT FACE="Courier">emacs</FONT></TT>.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+This chapter is a reference-only chapter to prepare you for what
+lies ahead in the rest of the book. You'll probably be referring
+to this chapter quite a bit as you write <TT><FONT FACE="Courier">include</FONT></TT>
+extensions.
+<P>
+There are three basic types of variables in Perl: <TT><FONT FACE="Courier">SV</FONT></TT>
+for scalar, <TT><FONT FACE="Courier">AV</FONT></TT> for arrays,
+and <TT><FONT FACE="Courier">HV</FONT></TT> for hash values. Macros
+exist for getting data from one type to another. You'll need to
+know about these internal data types if you're going to be writing
+Perl extensions, dealing with platform-dependent issues, or (ugh)
+embedding C code in Perl and vice versa. The dry information in
+this chapter will serve you well in the rest of this book.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch24.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch24.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch26.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch26.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,6 @@
+|- mac not changed after os file copy
+If you pause the VM and copy, you will have this problem.
+
+Solution:
+Stop the VM and then copy.
+When starting up the OS file, you are prompt the new UUID, click yes and new MAC will be created as WELL.

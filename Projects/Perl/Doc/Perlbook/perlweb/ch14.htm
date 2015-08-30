@@ -1,0 +1,9250 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Chapter 14 -- Operators</TITLE>
+
+
+
+<META>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Chapter&nbsp;14</FONT></H1>
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Operators</FONT></H1>
+
+<P>
+
+<I><B>by M&iacute;che&aacute;l &Oacute; Foghl&uacute;</B></I>
+
+<HR>
+
+<P>
+
+<CENTER><B><FONT SIZE=5><A NAME="CONTENTS">CONTENTS</A></FONT></B></CENTER></BLOCKQUOTE>
+
+<UL>
+
+<LI><A HREF="#expl">!</A>
+
+<LI><A HREF="#explequal">!=</A>
+
+<LI><A HREF="#expltilde">!~</A>
+
+<LI><A HREF="#percent">%</A>
+
+<LI><A HREF="#percentequal">%=</A>
+
+<LI><A HREF="#And">&amp;</A>
+
+<LI><A HREF="#Doubleand">&amp;&amp;</A>
+
+<LI><A HREF="#Dblandequal">&amp;&amp;=</A>
+
+<LI><A HREF="#Andequal">&amp;=</A>
+
+<LI><A HREF="#Star">*</A>
+
+<LI><A HREF="#Twostar">**</A>
+
+<LI><A HREF="#Twostarequal">**=</A>
+
+<LI><A HREF="#Starequal">*=</A>
+
+<LI><A HREF="#Unary">+ (Unary)</A>
+
+<LI><A HREF="#Binary">+ (Binary)</A>
+
+<LI><A HREF="#Doubleadd">++</A>
+
+<LI><A HREF="#Addequal">+=</A>
+
+<LI><A HREF="#Comma">,</A>
+
+<LI><A HREF="#Unary1">- (Unary)</A>
+
+<LI><A HREF="#Binary1">- (Binary)</A>
+
+<LI><A HREF="#Doublehyphune">--</A>
+
+<LI><A HREF="#Hyphuneequal">-=</A>
+
+<LI><A HREF="#Greaterthanhyphune">-&gt;</A>
+
+<LI><A HREF="#Fullstop">.</A>
+
+<LI><A HREF="#Doublefullstop">..</A>
+
+<LI><A HREF="#Fullstopequal">.=</A>
+
+<LI><A HREF="#Backsl">/</A>
+
+<LI><A HREF="#Backslequal">/=</A>
+
+<LI><A HREF="#Lesthan">&lt;</A>
+
+<LI><A HREF="#Dblesthan">&lt;&lt;</A>
+
+<LI><A HREF="#Dblesthanequal">&lt;&lt;=</A>
+
+<LI><A HREF="#lesthanequal">&lt;=</A>
+
+<LI><A HREF="#Lesequalgrthan">&lt;=&gt;</A>
+
+<LI><A HREF="#Equal">=</A>
+
+<LI><A HREF="#Doubleequal">==</A>
+
+<LI><A HREF="#Equalgrthan">=&gt;</A>
+
+<LI><A HREF="#Equaltilde">=~</A>
+
+<LI><A HREF="#Greaterthan">&gt;</A>
+
+<LI><A HREF="#Grthanequal">&gt;=</A>
+
+<LI><A HREF="#Grthandouble">&gt;&gt;</A>
+
+<LI><A HREF="#Grthandubequal">&gt;&gt;=</A>
+
+<LI><A HREF="#Questionmark">?</A>
+
+<LI><A HREF="#LISTOperatorsLeftward">LIST Operators (Leftward)</A>
+
+<LI><A HREF="#LISTOperatorsRightward">LIST Operators (Rightward)</A>
+
+<LI><A HREF="#NAMEDUnaryOperators">NAMED Unary Operators</A>
+
+<LI><A HREF="#TERMs">TERMs</A>
+
+<LI><A HREF="#Invcomma">&quot;</A>
+
+<LI><A HREF="#Hat">^</A>
+
+<LI><A HREF="#Hatequal">^=</A>
+
+<LI><A HREF="#and1">and</A>
+
+<LI><A HREF="#cmp">cmp</A>
+
+<LI><A HREF="#eq">eq</A>
+
+<LI><A HREF="#ge">ge</A>
+
+<LI><A HREF="#gt">gt</A>
+
+<LI><A HREF="#le">le</A>
+
+<LI><A HREF="#lt">lt</A>
+
+<LI><A HREF="#ne">ne</A>
+
+<LI><A HREF="#not">not</A>
+
+<LI><A HREF="#or">or</A>
+
+<LI><A HREF="#x">x</A>
+
+<LI><A HREF="#Xequal">x=</A>
+
+<LI><A HREF="#xor">xor</A>
+
+<LI><A HREF="#vbar">|</A>
+
+<LI><A HREF="#Vbarequal">|=</A>
+
+<LI><A HREF="#Vbardouble">||</A>
+
+<LI><A HREF="#Vbardoubleequal">||=</A>
+
+<LI><A HREF="#Tilde">~</A>
+
+<LI><A HREF="#FromHere">From Here...</A>
+
+</UL>
+
+<HR>
+
+<P>
+
+Perl has a range of operators, many of which are similar to the
+
+operators used in C. Also, many Perl functions can be used either
+
+as a unary operator or as a function. The difference in the syntax
+
+is that the function call has parentheses enclosing the parameters.
+
+The difference in semantics is that the function form has a higher
+
+precedence. All such operators are listed as functions rather
+
+than as operators in this book.
+
+<P>
+
+This chapter categorizes each operator in several ways:
+
+<UL>
+
+<LI><B>Name.</B> Unlike the special variables, no standard agreed
+
+long form exists for the name of each operator. You must use the
+
+symbolic name itself.
+
+<LI><B>Precedence.</B> Each operator is categorized with a precedence
+
+number, the lowest number being the highest precedence. Higher-precedence
+
+operations are evaluated before lower-precedence operations.
+
+<LI><B>Associativity.</B> Each operator may be left, right, or
+
+nonassociative. This associativity determines the order in which
+
+operands are evaluated.
+
+<LI><B>Type of operands.</B> This category indicates whether the
+
+operator operates on numeric or string arguments, lists, or files.
+
+<LI><B>Number of operands.</B> Each operator can operate on one
+
+(<I>unary</I>), two (<I>binary</I>), or three (<I>ternary</I>)
+
+operands.
+
+<LI><B>Context.</B> Each operator can expect an array or a scalar
+
+context. Some operators have separate behaviors for each context.
+
+</UL>
+
+<P>
+
+The following list shows the precedence of the operators:
+
+<OL>
+
+<LI><TT>TERM</TT>s, <TT>LIST</TT> operators (leftward)
+
+<LI><TT>-&gt;</TT>
+
+<LI><TT>++ --</TT>
+
+<LI><TT>**</TT>
+
+<LI><TT>! ~ - (unary) + (unary)</TT>
+
+<LI>=~ !~
+
+<LI><TT>* / % x</TT>
+
+<LI><TT>+ (binary) - (binary)</TT>
+
+<LI>&lt;&lt; &gt;&gt;
+
+<LI><TT>NAMED</TT> unary operators
+
+<LI><TT>&lt; &gt; &lt;= &gt;= lt gt le ge</TT>
+
+<LI><TT>== != &lt;=&gt; eq ne cmp</TT>
+
+<LI><TT>&amp;</TT>
+
+<LI><TT>| ^</TT>
+
+<LI><TT>&amp;&amp;</TT>
+
+<LI><TT>||</TT>
+
+<LI><TT>..</TT>
+
+<LI><TT>?:</TT>
+
+<LI><TT>= += -= *= /= %= |= &amp;= ^= &lt;&lt;= &gt;&gt;= **=
+
+||= &amp;&amp;=</TT>
+
+<LI><TT>, =&gt;</TT>
+
+<LI><TT>LIST</TT> operators (rightward)
+
+<LI><TT>not</TT>
+
+<LI><TT>and</TT>
+
+<LI><TT>or xor</TT>
+
+</OL>
+
+<P>
+
+This chapter contains detailed descriptions of these operators.
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="expl">!</A></FONT></A></H2>
+
+
+
+
+
+<BLOCKQUOTE><TABLE>
+
+
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+logical negation
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+5
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+one (unary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+The return value of this operation is <TT>1</TT> (true) if the
+
+operand has a false value that is defined as 0 in a numeric operand,
+
+a null string, or an undefined value. Otherwise, the return value
+
+is <TT>''</TT> (false)-that is, a null string that evaluates to
+
+0 in a numeric context.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$one = !1;
+
+$two = !22;
+
+$three = !0;
+
+$four = !'hello';
+
+$five = !'';
+
+print &quot;1=$one, 2=$two, 3=$three, 4=$four, 5=$five, \n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="explequal">!=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+relational not equal to
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+12
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+The return value of this operation is <TT>1</TT> (true) if the
+
+string operands are not equal. The return value is <TT>''</TT>
+
+(false) if the string operands are equal. Every character in the
+
+strings is compared based on the character codes.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$tmp = &quot;aaa &quot;;
+
+$ans = &quot;aaa&quot; != $tmp;
+
+if ($ans)
+
+     { print &quot;true\n&quot;; }
+
+else
+
+     { print &quot;false\n&quot;; }
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="expltilde">!~</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+bind pattern (with negation of return value)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+6
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>See also</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+<TT>=~</TT>
+
+
+
+
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator binds a pattern-matching operation to a string variable
+
+other than <TT>$_</TT>. If the pattern match is successful, the
+
+return value is <TT>''</TT> (false); if the pattern match is not
+
+successful, the return value is <TT>1</TT> (true).
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$tmp = &quot;superduper&quot;;
+
+if ($tmp !~ s/duper/dooper/)
+
+     {print &quot;Did not do a substitute, tmp still is: $tmp\n&quot;;}
+
+else
+
+     {print &quot;Did a substitute, tmp now is: $tmp\n&quot;;}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="percent">%</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+modulus
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+7
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+The operands are converted to integers, if necessary. The left
+
+side is divided by the right side, and the integer remainder is
+
+returned.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 48 % 5;
+
+print &quot;48 mod 4 is: $ans\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="percentequal">%=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+modulus assignment
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+18
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operation, like all the extra assignment operations, is a
+
+way to make the evaluation of the arguments more efficient.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 48;
+
+$ans %= 5;
+
+print &quot;48 mod 4 is: $ans\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="And">&amp;</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+bitwise and
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+13
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator performs a bitwise and on the binary representation
+
+of the two numeric operands.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 456 &amp; 111;
+
+print &quot;Bitwise and 456 &amp; 111 is: $ans\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Doubleand">&amp;&amp;</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+symbolic logical and
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+15
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+As in all logical operations, a null string and zero are false.
+
+This operator returns <TT>1</TT> (true) if both of the operands
+
+are true or <TT>null</TT> (false) if either operand is false or
+
+both operands are false.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 1 &amp;&amp; print(&quot;This will print.\n&quot;) &amp;&amp; 0 &amp;&amp; print(&quot;This won't print!\n&quot;);
+
+if ($ans)
+
+     {print(&quot;So it's all true!\n&quot;);}
+
+else
+
+     {print(&quot;So it's not all true. (expected)\n&quot;);}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Dblandequal">&amp;&amp;=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment logical and
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the logical and assignment operators.
+
+This operator is more efficient when a new value is being reassigned
+
+to the same variable, because the reference needs to be computed
+
+only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 1;
+
+$ans &amp;&amp;= &quot;eggs&quot; eq &quot;eggs&quot;;
+
+if ($ans)
+
+     {print(&quot;It's as true as eggs is eggs. (expected)\n&quot;);}
+
+else
+
+     {print(&quot;Not true, I'm afraid.&quot;);}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Andequal">&amp;=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment bitwise and
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the bitwise and assignment operators.
+
+This operator is more efficient when a new value is being reassigned
+
+to the same variable, because the reference needs to be computed
+
+only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 456;
+
+$ans &amp;= 111;
+
+print(&quot;Bitwise and 456 &amp; 111 is $ans\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Star">*</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+multiplication
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+7
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns the numeric result of multiplying the two
+
+numeric operands.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 7 * 10;
+
+print(&quot;$ans (expected 70)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Twostar">**</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+exponentiation
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+4
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+The operation <I>x</I>**<I>y</I> returns the value of <I>x</I>
+
+raised to the power of <I>y</I>.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 2 ** 3;
+
+print (&quot;$ans (expected 8)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Twostarequal">**=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment exponentiation
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the exponentiation and assignment
+
+operators. This operator is more efficient when a new value is
+
+being reassigned to the same variable, because the reference needs
+
+to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 2;
+
+$ans **= 3;
+
+print (&quot;$ans (expected 8)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Starequal">*=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment multiplication
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the multiplication and assignment
+
+operators. This operator is more efficient when a new value is
+
+being reassigned to the same variable, because the reference needs
+
+to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 7;
+
+$ans *= 10;
+
+print (&quot;$ans (expected 70)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Unary">+ (Unary)</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+unary plus
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+5
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+one (unary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator does not actually have any operation on a numeric
+
+or a string operand. In certain circumstances, the operator can
+
+disambiguate an expression. When a parenthesis follows a function
+
+name, it is taken to indicate a complete list of the arguments
+
+to the function, unless the parenthesis is preceded by <TT>+</TT>
+
+to make the parenthesized expression just one of the list arguments
+
+for that function.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@ans = sort +(5 + 5) * 10, -4;
+
+print(&quot;@ans (expected 100, -4)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Binary">+ (Binary)</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+addition
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+8
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns the sum of the two operands.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 15 + 5;
+
+print(&quot;$ans (expected 20)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Doubleadd">++</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+autoincrement
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+3
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+one (unary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+In a numeric context, the autoincrement adds 1 to the operand.
+
+If the syntax is prefix, the value before the increment is returned.
+
+If the syntax is postfix, the value after the increment is returned.
+
+<P>
+
+With a string operand (that has never been used in a numeric context),
+
+the autoincrement has a &quot;magic&quot; behavior. If the string
+
+is an alphanumeric expression, such as <TT>/^[a-zA-Z]*[0-9]*$/</TT>,
+
+the increment is carried out on the string, including a carry.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 45;
+
+print $ans,   &quot; (expected 45) &quot;;
+
+print $ans++, &quot; (expected 45) &quot;;
+
+print ++$ans, &quot; (expected 47)\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Addequal">+=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288></TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the summation and assignment
+
+operators. This operator is more efficient when a new value is
+
+being reassigned to the same variable, because the reference needs
+
+to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 15;
+
+$ans += 5;
+
+print(&quot;$ans (expected 20)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Comma">,</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+comma
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+20
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar, list
+
+</TD>
+
+</TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+In a scalar context, the comma operator evaluates the operand
+
+to the left, discards the result, evaluates the operand to the
+
+right, and returns that value as the result.
+
+<P>
+
+In an array context, the comma operator separates items in the
+
+list. The operator behaves as though it returns both operands
+
+as part of the list.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = ('one', 'two', 'three');
+
+print(&quot;$ans (expected three)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Unary1">- (Unary)</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+negation
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+5
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string, identifier
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+one (unary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns the negated value of a numeric operand.
+
+If the operand is a string that begins with a plus (<TT>+</TT>)
+
+or minus (<TT>-</TT>) sign, the operator returns a string that
+
+has the opposite sign. If the argument is an identifier, the operator
+
+returns a string that comprises the identifier prefixed with a
+
+minus sign.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 45;
+
+$ans = -$ans;
+
+print(&quot;$ans (expected -45)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Binary1">- (Binary)</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+subtraction
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+8
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context</B>:
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns the first operand minus the second operand.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 50 - 10;
+
+print(&quot;$ans (expected 40)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Doublehyphune">--</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+autodecrement
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+3
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+one (unary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator decrements its operand. The value returned is before
+
+the decrement takes place if the operator is in prefix notation
+
+(-&nbsp;- &nbsp;56 returns 56), and the value returned is with
+
+the decrement having taken place if the operator is in postfix
+
+notation (56&nbsp;-&nbsp;- &nbsp;returns 55).
+
+<P>
+
+Unlike the autoincrement operator, ++, this operator does not
+
+operate on strings.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 45;
+
+print $ans,   &quot; (expected 45) &quot;;
+
+print $ans--, &quot; (expected 45) &quot;;
+
+print --$ans, &quot; (expected 43)\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Hyphuneequal">-=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment subtraction
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the subtraction and assignment
+
+operators. This operator is more efficient when a new value is
+
+being reassigned to the same variable, because the reference needs
+
+to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 50;
+
+$ans -= 10;
+
+print(&quot;$ans (expected 40)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Greaterthanhyphune">-&gt;</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+dereference
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+2
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+special
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar, array
+
+
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is new to Perl 5. The capability to create and manipulate
+
+complex data types with references provides flexibility in Perl
+
+5 that was not present in Perl 4. This operator is just one of
+
+the aspects of this functionality.
+
+<P>
+
+The operands for this operator can be:
+
+<UL>
+
+<LI>A right side comprising array braces [] or {} and a left side
+
+comprising a reference to an array (or hash)
+
+<LI>A right side comprising a method name (or a variable with
+
+a method name) and a left side of either an object or a class
+
+name
+
+</UL>
+
+<P>
+
+The operator allows you to access the elements in the data structure
+
+referenced by the left side (an array name, a hash name, an object,
+
+or a class name). Because there is no automatic dereferencing,
+
+you must use this syntax to dereference such a reference.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@ans = (100, 200, 300);
+
+$ansref = \@ans;
+
+$ansref-&gt;[2] = 400;
+
+print $ans[2], &quot; (expected 400)\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Fullstop">.</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string concatenation
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+8
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator joins the two string operands, returning a longer
+
+string.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = &quot;jordy&quot; . &quot; jordy&quot;;
+
+print $ans, &quot; (expected jordy jordy)\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Doublefullstop">..</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+range operator
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+17
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar, list
+
+</TD>
+
+</TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+In a list context, the range operator returns an array of values,
+
+starting from the left operand up to the right operand in steps
+
+of 1. In this context, the range operator can use &quot;magic&quot;
+
+increments to increment strings, as with the autoincrement operator
+
+(<TT>++</TT>).
+
+<P>
+
+In a scalar context, the range operator returns a Boolean value.
+
+In effect, the return value remains false as long as the left
+
+operand is false. When the left operand becomes true, it becomes
+
+true until the right operand is true, after which it becomes false
+
+again. 
+
+<P>
+
+The range operator can be used in a scalar context to set conditions
+
+for certain ranges of line numbers of an input file.  This works
+
+because the default behavior when either operand is numeric is
+
+to compare that operand with the current line number (the <TT>$INPUT_LINE_NUMBER</TT>
+
+or <TT>$.</TT> special variable). Thus it is easy, using this
+
+construct, to treat certain lines in an input file differently.
+
+In the following example, the first five lines of the input file
+
+are suppressed from being output.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@ans = 1..5;
+
+print(&quot;@ans (expected 12345)\n&quot;);
+
+open(INFILE,&quot;&lt;infile.tst&quot;);
+
+while(&lt;INFILE&gt;) {
+
+     print unless (1..5);
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Fullstopequal">.=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment concatenation
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the concatenation and assignment
+
+operators. This operator is more efficient when a new value is
+
+being reassigned to the same variable, because the reference needs
+
+to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = &quot;jordy&quot;;
+
+$ans .= &quot; jordy&quot;;
+
+print $ans, &quot; (expected jordy jordy)\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Backsl">/</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+division
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+7
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns the product of the operands.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 10/2;
+
+print(&quot;$ans (expected 5)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Backslequal">/=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment division
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the division and assignment
+
+operators. This operator is more efficient when a new value is
+
+being reassigned to the same variable, because the reference needs
+
+to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 10;
+
+$ans /= 2;
+
+print(&quot;$ans (expected 5)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Lesthan">&lt;</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric less then
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+11
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns <TT>1</TT> if the left operand is numerically
+
+less than the right operand; otherwise, it returns <TT>null</TT>.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 45 &lt; 36;
+
+if ($ans)
+
+     { print(&quot;True.\n&quot;);}
+
+else
+
+     { print(&quot;False. (expected)\n&quot;);}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Dblesthan">&lt;&lt;</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+bitwise shift left
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+9
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator shifts the operand left 1 bit in binary representation
+
+and returns the result.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 1024&lt;&lt;1;
+
+print(&quot;$ans (Bitwise left shift of 1024 by 1 place)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Dblesthanequal">&lt;&lt;=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment bitwise shift left
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the bitwise shift left and assignment
+
+operators. This operator is more efficient when a new value is
+
+being reassigned to the same variable, because the reference needs
+
+to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 1024;
+
+$ans &lt;&lt;= 1;
+
+print(&quot;$ans (Bitwise left shift of 1024 by 1 place)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="lesthanequal">&lt;=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric less than or equal to
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+11
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns <TT>1</TT> (true) if the left operand is
+
+numerically less than or equal to the right operand.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 345 &lt;= 345;
+
+print(&quot;Comparing 345 &lt;= 345 yields $ans. (expected 1 for true).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Lesequalgrthan">&lt;=&gt;</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric comparison
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+12
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns <TT>0</TT> if the two numeric operands are
+
+equal. The operator returns <TT>-1</TT> if the left operand is
+
+less than the right operand and <TT>+1</TT> if the left operand
+
+is greater than the right operand.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 345 &lt;=&gt; 347;
+
+print(&quot;Comparing 345 with 437 yields $ans. (expected -1 for less than).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Equal">=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar, list
+
+</TD>
+
+</TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+In a scalar context, the assignment assigns the value of the right
+
+side to the variable on the left side. The assignment returns
+
+the variable on the left side.
+
+<P>
+
+In an array context, the assignment can assign multiple values
+
+to an array as the left operand if the right side results in a
+
+list.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 43;
+
+print(&quot;Assignment to \$ans: $ans (expected 43)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Doubleequal">==</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric equality
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+12
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns <TT>1</TT> (true) if the left and right
+
+numeric operands are numerically equal; otherwise, it returns
+
+<TT>null</TT> (false).
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 345 == 347;
+
+print(&quot;Comparing 345 with 347 yields +$ans+. (expected null not equal).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Equalgrthan">=&gt;</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+comma
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+20
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar, list
+
+</TD>
+
+</TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is an alternative to the comma operator.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = (1 =&gt; 2 =&gt; 3);
+
+print(&quot;$ans (expected 3)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Equaltilde">=~</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+pattern binding
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+6
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+special
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+The default string matched by pattern-match operations is <TT>$_</TT>.
+
+Any other string can be bound to a pattern-matching operation
+
+using the pattern-binding operator. The left operand is a string
+
+to be searched. The right operand is a pattern-match operation
+
+(search, substitution, translation). The return value is true
+
+or false, depending on the success of the operation.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$tmp = &quot;superduper&quot;;
+
+if ($tmp =~ s/duper/dooper/)
+
+     {print &quot;Did do a substitute, tmp now is: $tmp\n&quot;;}
+
+else
+
+     {print &quot;Did not a substitute, tmp still is: $tmp\n&quot;;}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Greaterthan">&gt;</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric greater than
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+11
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns <TT>1</TT> (true) if the left numeric operand
+
+is greater than the right numeric operand; otherwise, it returns
+
+<TT>null</TT> (false).
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 45 &gt; 36;
+
+if ($ans)
+
+     { print(&quot;True.\n&quot;);}
+
+else
+
+     { print(&quot;False. (expected)\n&quot;);}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Grthanequal">&gt;=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric greater than or equal to
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+11
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns <TT>1</TT> (true) if the left numeric operand
+
+is greater than or equal to the right numeric operand; otherwise,
+
+it returns <TT>null</TT> (false).
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 345 &gt;= 345;
+
+print(&quot;Comparing 345 &gt;= 345 yields $ans. (expected 1 for true).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Grthandouble">&gt;&gt;</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+bitwise shift right
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+9
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator shifts the operand right 1 bit in binary representation
+
+and returns the result.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 1024&gt;&gt;1;
+
+print(&quot;$ans (Bitwise right shift of 1024 by 1 place)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Grthandubequal">&gt;&gt;=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment bitwise shift right
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the bitwise shift right and
+
+assignment operators. This operator is more efficient when a new
+
+value is being reassigned to the same variable, because the reference
+
+needs to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 1024;
+
+$ans &gt;&gt;= 1;
+
+print(&quot;$ans (Bitwise right shift of 1024 by 1 place)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Questionmark">?</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+conditional operator
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+18
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+three (ternary)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar, list
+
+</TD>
+
+</TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is like a symbolic <TT>if/then/else</TT> clause.
+
+If the leftmost operand is true, the center operand is returned;
+
+otherwise, the rightmost operand is returned. Either of the operands
+
+can return scalar or list values, and these values will be returned
+
+if the context allows.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = (45 == 45) ? &quot;Equal (expected).\n&quot; : &quot;Not equal.\n&quot;;
+
+print $ans;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="LISTOperatorsLeftward"><I>LIST</I> Operators (Leftward)</A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+all named list operators
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+1
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+special
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+list
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+list
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+Several functions require a list as a parameter. The list can
+
+be written with or without the function parentheses. These list
+
+functions are in fact operators that behave like functions when
+
+their arguments are in parentheses. If they are written with parentheses,
+
+everything within the parentheses is taken as the list argument
+
+to the function, and they behave as a <TT>TERM</TT>.
+
+<P>
+
+When the function call is written without parentheses, the precedence
+
+is slightly more complex. The list operator has a different precedence,
+
+depending on whether the comparison is to the left of the list
+
+operator (<I>leftward</I>) or to the right of the list operator
+
+(<I>rightward</I>). The list operator has higher (or equal) precedence
+
+compared with all operators to its left. Thus, in the following
+
+example, <TT>join</TT> is evaluated before <TT>print</TT>, because
+
+<TT>print</TT> is to the left of <TT>join</TT>.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print 'Ones ', 'Twos ', join 'hoho ', 'Threes ', 'Fours ', &quot;\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="LISTOperatorsRightward"><I>LIST</I> Operators (Rightward)</A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+all named list operators
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+21
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+special
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+list
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+list
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+Several functions require a list as a parameter. The list can
+
+be written with or without the function parentheses. These functions
+
+are in fact operators that behave like functions when their arguments
+
+are in parentheses. If they are written with parentheses, everything
+
+within the parentheses is taken as the list argument to the function,
+
+and they behave as a <TT>TERM</TT>.
+
+<P>
+
+When the function is written without parentheses, the precedence
+
+is slightly more complex. The list operator has a different precedence,
+
+depending on whether the comparison is to the left of the list
+
+operator (leftward) or to the right of the list operator (rightward).
+
+The list operator has lower (or equal) precedence compared with
+
+all operators to its right. Thus, in the following example, <TT>print</TT>
+
+is evaluated after <TT>join</TT>, because <TT>join</TT> is to
+
+the right of <TT>print</TT>.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print 'Ones ', 'Twos ', join 'hoho ', 'Threes ', 'Fours ', &quot;\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="NAMEDUnaryOperators"><I>NAMED</I> Unary Operators</A>
+
+</FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+all named unary operators
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+10
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+special
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+one (unary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+In a similar way to list operators, <TT>NAMED</TT> unary operators
+
+can behave as a <TT>TERM</TT> by being expressed with a function
+
+syntax, with the argument placed in parentheses.
+
+<P>
+
+When the function is written without parentheses, the precedence
+
+of these operators is lower than arithmetic types of operators,
+
+but greater than the symbolic string and numeric comparisons.
+
+Thus, in the following example, the first <TT>int</TT> takes the
+
+result of the arithmetic division 7/2 as its argument, so 3 is
+
+printed. The second <TT>int</TT> is a term bound to 7, which returns
+
+7 and then is divided by 2 to yield 3.5.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print 'Ones ', 'Twos ', int 7/2, (int 7)/2, ' Fours', &quot;\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="TERMs"><I>TERMs</I></A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+<TT>TERM</TT>s
+
+
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+1
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+special
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+N/A
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+N/A
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+A <TT>TERM</TT> can be any variable, any expression enclosed in
+
+parentheses, any function with its arguments in parentheses, and
+
+also a quoted expression (using the so-called quote and quotelike
+
+operators). <TT>TERM</TT>s have the highest possible precedence-in
+
+other words, they are replaced by their return value when the
+
+entire expression is being evaluated before any other operator
+
+of lower precedence is evaluated. <TT>TERM</TT>s appear in this
+
+chapter on operators to show where they fall in the order of precedence.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print 'One ', (1, 2, 3), &quot;(expect One 3)\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Invcomma">&quot;</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+reference
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+5
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+one (unary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+special
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator permits the creation of references and the use of
+
+complex data types. One example is the capability to create another
+
+reference to an existing array variable.
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@ans = (100, 200, 300);
+
+$ansref = \@ans;
+
+$ansref-&gt;[2] = 400;
+
+print $ans[2], &quot; (expected 400)\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<P>
+
+The capability to create a reference to a variable is new to Perl
+
+5.<BR>
+
+<BR>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Hat">^</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+bitwise exclusive or
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+14
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+This operator returns the result of a bitwise exclusive or on
+
+the two operands.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 456 ^ 111;
+
+print &quot;Bitwise xor 456 &amp; 111 is: $ans\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Hatequal">^=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment bitwise exclusive or
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the bitwise exclusive or and
+
+assignment operators. This operator is more efficient when a new
+
+value is being reassigned to the same variable, because the reference
+
+needs to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 456;
+
+$ans ^= 111;
+
+print &quot;Bitwise xor 456 &amp; 111 is: $ans\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="and1">and</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+<TT>and</TT>
+
+
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+23
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is the lower-precedence version of symbolic <TT>and
+
+&amp;&amp;</TT>.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = (1 and 3 || 0);
+
+if ($ans)
+
+     { print &quot;true (expected)\n&quot;; }
+
+else
+
+     { print &quot;false\n&quot;; }
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<P>
+
+This alternative to the symbolic form is new to Perl 5.<BR>
+
+<BR>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="cmp">cmp</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string comparison
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+12
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator compares two string operands and returns <TT>-1</TT>
+
+if the first is less than the second, <TT>0</TT> if the operands
+
+are equal, and <TT>1</TT> if the first operand is greater than
+
+the second.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = &quot;abc&quot; cmp &quot;aba&quot;;
+
+print(&quot;Comparing (cmp) abc with aba yields $ans (expected +1 aba &gt; abc).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="eq">eq</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string equality
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+12
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator tests whether two strings are equal, returning <TT>1</TT>
+
+(true) if they are and <TT>null</TT> (false) if they are not.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = &quot;abc&quot; eq &quot;abc&quot;;
+
+print(&quot;Comparing (eq) abc with abc yields $ans (expected 1 true).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="ge">ge</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string greater than or equal to
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+11
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator compares two strings and returns <TT>1</TT> (true)
+
+if the first string is greater than or equal to the second; otherwise,
+
+it returns <TT>null</TT> (false).
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = &quot;abc&quot; ge &quot;abc&quot;;
+
+print(&quot;Comparing (ge) abc with abc yields $ans (expected 1 true).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="gt">gt</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string greater than
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+11
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator compares two strings and returns <TT>1</TT> (true)
+
+if the first is greater than the second; otherwise, it returns
+
+<TT>null</TT> (false).
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = &quot;abc&quot; gt &quot;aba&quot;;
+
+print(&quot;Comparing (gt) abc with aba yields $ans (expected 1 true).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="le">le</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string less than or equal to
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+11
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator compares two strings and returns <TT>1</TT> (true)
+
+if the first is less than or equal to the second; otherwise, it
+
+returns <TT>null</TT> (false).
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = &quot;abc&quot; le &quot;aba&quot;;
+
+print(&quot;Comparing (le) abc with aba yields +$ans+ (expected null false).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="lt">lt</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string less than
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+11
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator compares two strings and returns <TT>1</TT> (true)
+
+if the first is less than the second; otherwise, it returns <TT>null</TT>
+
+(false).
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = &quot;abc&quot; lt &quot;aba&quot;;
+
+print(&quot;Comparing (lt) abc with aba yields +$ans+ (expected null false).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="ne">ne</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string not equal to
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+12
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+nonassociative
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator compares two strings and returns <TT>1</TT> (true)
+
+if they are not equal; otherwise, it returns <TT>null</TT> (false).
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = &quot;abc&quot; ne &quot;aba&quot;;
+
+print(&quot;Comparing (ne) abc with aba yields $ans (expected 1 true).\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="not">not</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+<TT>not</TT>
+
+
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+22
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+one (unary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is the lower-precedence version of symbolic <TT>not
+
+!</TT>.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = not 1;
+
+print(&quot;Not 1 is +$ans+ (expected null)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<P>
+
+This alternative to the symbolic form is new to Perl 5.<BR>
+
+<BR>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="or">or</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+<TT>or</TT>
+
+
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+24
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is the lower-precedence version of symbolic <TT>or
+
+||</TT>.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+open TSTFILE, &quot;&lt;nofile.txt&quot; or print &quot;The file doesn't exist\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<P>
+
+This alternative to the symbolic form is new to Perl 5.<BR>
+
+<BR>
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="x">x</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+repetition
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+6
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string and numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+The first operand must be a string, and the second operand must
+
+be an integer. The operator returns a string comprising the string
+
+operand repeated the specified number of times.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;Hello &quot; x 5, &quot;\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Xequal">x=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment repetition
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+string and numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the repetition and assignment
+
+operators. This operator is more efficient when a new value is
+
+being reassigned to the same variable, because the reference needs
+
+to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 'Hello ';
+
+$ans x= 5;
+
+print(&quot;$ans\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="xor">xor</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+exclusive or
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+24
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns <TT>1</TT> (true) or <TT>null</TT> (false)
+
+as an exclusive or of the two operands: the result is true if
+
+either, but not both, of the operands is true.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+for (0..1) {
+
+     $a = $_;
+
+     for (0..1) {
+
+          $b = $_;
+
+          print $a, ,' ', $b, ' ', ($a xor $b) ? 1 : 0, &quot;\n&quot;;
+
+          }
+
+     }
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<P>
+
+The <TT>xor</TT> operator is new to Perl 5.
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="vbar">|</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+bitwise or
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+14
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns an integer that is the result of a bitwise
+
+or between the two integer operands.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 2 | 1024;
+
+print(&quot;2 OR 1204 is $ans\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Vbarequal">|=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment bitwise or
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the bitwise or and assignment
+
+operators. This operator is more efficient when a new value is
+
+being reassigned to the same variable, because the reference needs
+
+to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = 2;
+
+$ans |= 1024;
+
+print(&quot;2 OR 1204 is $ans\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Vbardouble">||</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+symbolic or
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+11
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+left
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns <TT>1</TT> (true) if either of the two operands
+
+is true and <TT>null</TT> (false) otherwise.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = '' || 'okay';
+
+print(&quot;null || okay is $ans (expected okay true)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Vbardoubleequal">||=</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+assignment symbolic or
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+19
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric, string
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+two (binary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator is a combination of the symbolic or and assignment
+
+operators. This operator is more efficient when a new value is
+
+being reassigned to the same variable, because the reference needs
+
+to be computed only one time.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = '';
+
+$ans ||= 'okay';
+
+print(&quot;null || okay is $ans (expected okay true)\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="Tilde">~</A></FONT></A></H2>
+
+<BLOCKQUOTE><TABLE>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Name:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+bitwise not
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Precedence:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+5
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Associativity:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+right
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Type of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+numeric (integer)
+
+
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Number of operands:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+one (unary)
+
+</TD>
+
+</TR>
+
+<TR VALIGN=TOP><TD WIDTH=192>
+
+<B>Context:</B>
+
+
+
+
+
+</TD><TD WIDTH=288>
+
+scalar
+
+</TD></TR>
+
+</TABLE></CENTER></BLOCKQUOTE>
+
+<P>
+
+<P>
+
+This operator returns the bitwise negation of an integer operand.
+
+The result of this operation is sometimes known as the <I>one's
+
+complement</I>.
+
+<P>
+
+Example:
+
+
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$ans = ~1000000000;
+
+print(&quot;Bitwise negation of 1000000000 is $ans\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+
+
+<H2><FONT SIZE=5 COLOR=#FF0000>
+
+<A NAME="FromHere">From Here...</A></FONT></A></H2>
+
+<P>
+
+This chapter lists only Perl operators; you should consult other
+
+reference sections for Perl special variables and Perl functions.
+
+(You may easily confuse some variables with some operators, so
+
+check the list of operators if the symbol that you require is
+
+not covered in this chapter.)
+
+<P>
+
+Be aware that all Perl functions can behave as operators and as
+
+functions. The difference is in the syntax; functions have parentheses-as
+
+in <TT>example()</TT>. Any named <TT>LIST</TT> operators/functions
+
+and <TT>NAMED</TT> unary operators/functions, including the file-test
+
+operators, are covered in the functions chapter.
+
+<P>
+
+For details on the other elements in the Perl reference, see the
+
+following chapters:
+
+<UL>
+
+<LI><A HREF="ch13.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch13.htm" >Chapter 13</A>, &quot;Special Variables,&quot; provides detailed
+
+descriptions of the Perl special variables.
+
+<LI><A HREF="ch15.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch15.htm" >Chapter 15</A>, &quot;Function List,&quot; provides detailed descriptions
+
+of the Perl functions.
+
+</UL>
+
+<HR>
+
+
+
+<CENTER><P><A HREF="ch13.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch13.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch15.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch15.htm"><IMG SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<HR WIDTH="100%"></P></CENTER></BLOCKQUOTE>
+
+</BODY>
+
+</HTML>
+

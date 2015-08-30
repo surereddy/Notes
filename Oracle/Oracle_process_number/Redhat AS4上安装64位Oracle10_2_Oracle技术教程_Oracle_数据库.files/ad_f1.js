@@ -1,0 +1,2 @@
+document.writeln("<div style=\"width=710px\"><a href=\"http:\/\/video.diybl.com\" target=_blank><img src=\"http:\/\/img.diybl.com\/ad\/video2.gif\" width=\"468px\" height=\"60px\" border=\"0px\"\/><\/a>");
+document.writeln("<a href=\"http:\/\/www.thxun.com\" target=_blank><img src=\"http:\/\/img.diybl.com\/ad\/th.gif\" border=0><\/a><\/div>")

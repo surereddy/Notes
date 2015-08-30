@@ -1,0 +1,3 @@
+Windows Registry Editor Version 5.00
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\WEB Applications\TPGenerator]
+"WebTrace"=dword:00000001

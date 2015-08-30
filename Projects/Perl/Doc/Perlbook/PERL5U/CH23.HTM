@@ -1,0 +1,1671 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 23 -- HTML with Perl Modules</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 23</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>HTML with Perl Modules</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#PresentingDataontheWebUsingCGIScr" >Presenting Data on the Web Using CGI Scripts</A>
+<LI><A HREF="#CollectingUserInputUsingPerlModules" >Collecting User Input Using Perl Modules</A>
+<LI><A HREF="#UsingTablesinHTML" >Using Tables in HTML</A>
+<LI><A HREF="#UsingtheHTMLModule" >Using the HTML Module</A>
+<LI><A HREF="#ConstructingHTMLObjects" >Constructing HTML Objects</A>
+<LI><A HREF="#SpecifyingtheBodyoftheTextinHTML" >Specifying the Body of the Text in HTML Documents</A>
+<LI><A HREF="#ControllingtheOutputDestinationFile" >Controlling the Output Destination File</A>
+<LI><A HREF="#UsingtheTablesFeatureinHTMLBase" >Using the Tables Feature in HTML::Base</A>
+<LI><A HREF="#MakingClickableImagesinHTML" >Making Clickable Images in HTML</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter covers how to use Perl with HTML <TT><FONT FACE="Courier">FORM</FONT></TT>s
+to get user input and respond back to Web servers. One of the
+examples in this chapter covers getting statistics from a Web
+site. The topics in this chapter include extending the way the
+collection of user input in an HTML <TT><FONT FACE="Courier">FORM</FONT></TT>
+is handled, processing the input, and then displaying the results
+back in tabular form. The data used in this chapter is information
+from the well-known, free utility <TT><FONT FACE="Courier">getstats</FONT></TT>.
+I also introduce a way to produce clickable images and show you
+how to connect to scripts that handle the input for you.
+<P>
+At the end of this chapter, you'll continue to work with public-domain
+extension modules to Perl, <TT><FONT FACE="Courier">CGI.pm</FONT></TT>
+and <TT><FONT FACE="Courier">HTML.pm</FONT></TT>, which remove
+a lot of the onus from writing HTML pages and segregates the application
+from the HTML standard, thus making the application more portable
+and less susceptible to changes in the standard. 
+<H2><A NAME="PresentingDataontheWebUsingCGIScr"><B><FONT SIZE=5 COLOR=#FF0000>Presenting
+Data on the Web Using CGI Scripts</FONT></B></A></H2>
+<P>
+The World Wide Web provides a lot of flexibility for presenting
+and publishing data. You can present data in graphical images,
+or text data arranged neatly in tables, or just as plain columnar
+text. In graphical form, data can be shown as figures and charts,
+even as images of tables, and so on. For tabular forms of presentation,
+you can show data by using the built-in tabulating features of
+HTML.
+<P>
+This chapter covers the basics of representing data on the Web.
+I do not assume that you have an existing, multi-layered, whiz-bang
+database. With such a database, no doubt you'll also have the
+tools to get this data out in just about any format you need.
+Instead, I concentrate on the basic comma-delimited format generated
+by most spreadsheets.
+<P>
+It is easy to generate comma-delimited data from commonly available
+software. This chapter cannot possibly cover the database engines
+and display options for all the software packages out there in
+the software world. Finally, given the examples in this chapter,
+you can easily extend the methods learned from applying them to
+your own databases.
+<P>
+You already learned the basic principles in <A HREF="ch22.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch22.htm" >Chapter 22</A>,
+&quot;Using HTML <TT><FONT FACE="Courier">FORM</FONT></TT>s with
+Perl CGI Scripts,&quot; concerning the collecting of responses
+from an HTML form. Here are the basic steps involved:
+<OL>
+<LI>Present the form for user input. This is covered in <A HREF="ch22.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch22.htm" >Chapter 22</A>.
+<LI>Collect the information requested based on user responses.
+I have covered this procedure using standard Perl scripts. In
+this chapter, I extend the procedure to using modules.
+<LI>Present the data back to the user. After reading this chapter,
+you should know how to send back the responses as simple HTML
+pages. I cover how to present the data back in the form of tables
+in this chapter.
+</OL>
+<H2><A NAME="CollectingUserInputUsingPerlModules"><B><FONT SIZE=5 COLOR=#FF0000>Collecting
+User Input Using Perl Modules</FONT></B></A></H2>
+<P>
+In this chapter I cover how to use existing Perl module extensions
+to collect user input in a CGI script. The best way to show something
+is by example. Refer to the Perl script in Listing 22.7 (in <A HREF="ch22.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch22.htm" >Chapter 22</A>)
+for processing a very simplified credit card application. We had
+to go through several steps for extracting the data from the environment
+variables and setting the internal variables in the handler script.
+What if this was not necessary? That's when the CGI modules come
+in.
+<P>
+The CGI modules, <TT><FONT FACE="Courier">CGI.pm</FONT></TT> and
+its related files, covered in this section are used in conjunction
+with HTML modules in the next section of this chapter. The file
+you need to install this package is called <TT><FONT FACE="Courier">CGI-modules.2.75.tar.gz</FONT></TT>.
+You can get it from your nearest CPAN site. The author of this
+package is Lincoln Stein. Please convey your comments directly
+to him at <TT><FONT FACE="Courier">lstein@genome.wi.mit.edu</FONT></TT>.
+<P>
+Un<TT><FONT FACE="Courier">tar</FONT></TT> and unzip the package
+file. You'll be left with a directory called <TT><FONT FACE="Courier">CGI-modules.2.75</FONT></TT>
+in the same directory. Move all the files in the <TT><FONT FACE="Courier">/usr/lib/perl5/CGI-modules-2.75/CGI</FONT></TT>
+directory to the <TT><FONT FACE="Courier">/usr/lib/perl/CGI</FONT></TT>
+directory. Now you're set to use the CGI modules stuff. Refer
+to the <TT><FONT FACE="Courier">./doc</FONT></TT> directory for
+more information.
+<P>
+Listing 23.1 illustrates how the same application could be rewritten
+using the CGI module extension for Perl. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 23.1. A sample application rewritten with CGI modules.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 #<BR>
+&nbsp;3 # The sample script file to show how to use<BR>
+&nbsp;4 # the CGI modules for FORM handling in Perl.<BR>
+&nbsp;5 #<BR>
+&nbsp;6 #<BR>
+&nbsp;7 use CGI::Base;<BR>
+&nbsp;8 use CGI::Request qw(:DEFAULT :cgi-lib);<BR>
+&nbsp;9 { package CREDIT;<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$income='income';
+<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ssn='ssn';
+<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$fname='fname';
+<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$lname='lname';
+<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$mname='mname';
+<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$dependants='dependants';
+<BR>
+16 }<BR>
+17 print PrintHeader();<BR>
+18 GetRequest('CREDIT');<BR>
+19 #<BR>
+20 # Now the variable $form has your input data.<BR>
+21 # Create your associative array.<BR>
+22 #<BR>
+23 if (($CREDIT::income &lt; '1') || ($CREDIT::income &gt; '6'))
+{<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$error
+= &quot;Please specify your income range [$income]&quot;;<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+26 if (error eq &quot;&quot;) {<BR>
+27 if ($CREDIT::ssn =~ /[0-9]{3}-[0-9][0-9]-[0-9]{4}/)<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$snumber
+= $CREDIT::ssn;<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$snumber
+=~ s/\-//g;<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+32 elsif ( $CREDIT::ssn =~ /[0-9]{9}/) {<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$snumber
+= $CREDIT::ssn;<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+35 else&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+36 $error = &quot;Enter the social security number in the form
+XXX-XX-XXXX&quot;;<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+38 }<BR>
+39 if ($CREDIT::fname eq &quot;&quot;&nbsp;&nbsp;&amp;&amp; error
+eq &quot;&quot;) {<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$error
+=&nbsp;&nbsp;&quot;Please enter your first name&quot;;<BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+42 if ($CREDIT::lname eq &quot;&quot; &amp;&amp; $error eq &quot;&quot;)
+{<BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$error
+=&nbsp;&nbsp;&quot;Please enter your last name&quot;;<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+45 if ($CREDIT::mname eq &quot;&quot; &amp;&amp; $error eq &quot;&quot;)
+{<BR>
+46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$error
+= &quot;Your mother's maiden name is required&quot;;<BR>
+47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+48 if ($CREDIT::dependants &lt; 1 &amp;&amp; $error eq&nbsp;&nbsp;&quot;&quot;)
+{<BR>
+49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$error
+= &quot;Now, now, we have to be dependant on ourselves.&quot;;
+<BR>
+50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+51 #<BR>
+52 #<BR>
+53 print &lt;&lt;&quot;HTMLHEAD&quot;;<BR>
+54 &lt;HTML&gt;<BR>
+55 &lt;BODY&gt;<BR>
+56 &lt;p&gt;<BR>
+57 HTMLHEAD<BR>
+58 if ($error eq &quot;&quot;)<BR>
+59&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n &lt;H2&gt;Congratulations!&lt;/H2&gt; &quot;;<BR>
+61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;&lt;P&gt;Your application has been accepted&quot;;<BR>
+62&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;&lt;P&gt;We will be living off your interest payments shortly&quot;;
+<BR>
+63&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+64 else<BR>
+65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n &lt;H2&gt;Error!&lt;/H2&gt; &quot;;<BR>
+67&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n &lt;P&gt;$error&lt;P&gt;&quot;;<BR>
+68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+&quot;\n &lt;P&gt;Please correct the error and retry&quot;;<BR>
+69&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+70 print &lt;&lt;END;<BR>
+71 &lt;HR&gt;<BR>
+72 &lt;B&gt; Application you requested...&lt;/B&gt;&lt;P&gt;<BR>
+73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SSN
+= $CREDIT::ssn &lt;BR&gt;<BR>
+74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name
+=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$CREDIT::fname&nbsp;&nbsp;$CREDIT::lname:
+&lt;BR&gt;<BR>
+75&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mom's
+Maiden Name = $CREDIT::mname; &lt;BR&gt;<BR>
+76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;With
+$CREDIT::dependants; dependants &lt;BR&gt;<BR>
+77&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Income
+code: $CREDIT::income; &lt;BR&gt;<BR>
+78 &lt;HR&gt;<BR>
+79 END<BR>
+80 print FmtRequest();&nbsp;&nbsp;append CGI variables to the
+form<BR>
+81 print &quot;&lt;/HTML&gt;&lt;/BODY&gt;\r\n&quot;;<BR>
+82 #</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Let's examine some of the lines that show how the CGI module is
+being used. Lines 7 and 8 are used to declare that you intend
+to use the <TT><FONT FACE="Courier">Base</FONT></TT> and <TT><FONT FACE="Courier">Request</FONT></TT>
+classes of the CGI module. Both modules reside in the <TT><FONT FACE="Courier">/usr/lib/perl5/CGI</FONT></TT>
+directory by default as <TT><FONT FACE="Courier">Base.pm</FONT></TT>
+and <TT><FONT FACE="Courier">Request.pm</FONT></TT> files, respectively.
+The <TT><FONT FACE="Courier">CGI::Base</FONT></TT> class is required
+for all functions that you intend using in the CGI module. The
+<TT><FONT FACE="Courier">CGI::Request</FONT></TT> class is required
+to parse incoming user input from <TT><FONT FACE="Courier">QUERY_STRING</FONT></TT>
+in your CGI script.
+<P>
+The <TT><FONT FACE="Courier">CGI::Base</FONT></TT> class transparently
+handles all the <TT><FONT FACE="Courier">POST</FONT></TT> and
+<TT><FONT FACE="Courier">PUT</FONT></TT> requests and reads from
+<TT><FONT FACE="Courier">STDIN</FONT></TT> into <TT><FONT FACE="Courier">QUERY_STRING</FONT></TT>.
+You have to parse the value of the environment variable <TT><FONT FACE="Courier">QUERY_STRING</FONT></TT>
+yourself or use the <TT><FONT FACE="Courier">CGI::Request</FONT></TT>
+class. <TT><FONT FACE="Courier">CGI::Base</FONT></TT> automatically
+sets Perl variables with the same name with the environment variable
+value.
+<P>
+The <TT><FONT FACE="Courier">CGI::Request</FONT></TT> does require
+the <TT><FONT FACE="Courier">CGI::Base</FONT></TT> object for
+its initialization and subsequent use, even though it does not
+inherit any information from the <TT><FONT FACE="Courier">CGI::Base</FONT></TT>
+object.
+<P>
+Lines 9 through 16 declare a package for parsing the incoming
+fields in the <TT><FONT FACE="Courier">QUERY_STRING</FONT></TT>.
+The assignments are of the form <TT><I><FONT FACE="Courier">variable
+= name</FONT></I></TT> in a query string. The local package <TT><FONT FACE="Courier">CREDIT</FONT></TT>
+declares those Perl variables that are required by this script
+as well as what strings to use to extract those values.
+<P>
+Line 17 prints the response header for the HTML request back to
+the client. Line 18 takes the input from the client (in <TT><FONT FACE="Courier">QUERY_STRING</FONT></TT>)
+and parses it into the members in the <TT><FONT FACE="Courier">CREDIT</FONT></TT>
+package. Lines 23 through 69 process the error-handling for the
+CGI script as before. Lines 70 through 79 echo the members of
+the <TT><FONT FACE="Courier">CREDIT</FONT></TT> package. Line
+81 terminates the output from the CGI script. Terminating the
+CGI script destroys the <TT><FONT FACE="Courier">CGI::Base</FONT></TT>
+and <TT><FONT FACE="Courier">CGI::Request</FONT></TT> objects
+automatically. Line 80 is used for debugging and echoes all the
+environment variables set by the <TT><FONT FACE="Courier">CGI::Base</FONT></TT>
+object. This output is very similar to Listing 20.9 in <A HREF="ch20.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch20.htm" >Chapter 20</A>,
+&quot;Introduction to Web Pages and CGI.&quot; In fact, given
+that Listing 20.9 is about 45 lines long, you can write a similar
+application that is much shorter using CGI class, as shown in
+Listing 23.2.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 23.2. Echoing CGI environment variables.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!/usr/bin/perl<BR>
+2 use CGI::Base;<BR>
+3 use CGI::Request;<BR>
+4 <BR>
+5 print PrintHeader();<BR>
+6 print FmtRequest();</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+It's complicated enough to write CGI scripts. It's worse to write
+lengthy Perl scripts to generate HTML for you. Using the CGI classes
+certainly takes some (not all) of the drudgery away.
+<P>
+In the next section, you'll use some more features of HTML to
+show data.
+<H2><A NAME="UsingTablesinHTML"><B><FONT SIZE=5 COLOR=#FF0000>Using
+Tables in HTML</FONT></B></A></H2>
+<P>
+The HTML 3.2 specification allows for displaying data in a clean
+tabular form using HTML widgets. The possibilities of showing
+data in a nice tabular format are tremendous.
+<P>
+Tables in HTML pages are in the following form:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;TABLE BORDER&gt;<BR>
+&lt;TH&gt; Header&nbsp;&nbsp;Column 1 &lt;/TH&gt;<BR>
+&lt;TH&gt; Header&nbsp;&nbsp;Column 2 &lt;/TH&gt;<BR>
+&lt;TH&gt; Header&nbsp;&nbsp;Column 3 &lt;/TH&gt;<BR>
+...<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt; Row 1 Column 1 &lt;/TD&gt;<BR>
+&lt;TD&gt; Row 1 Column 2 &lt;/TD&gt;<BR>
+&lt;TD&gt; Row 1 Column 3 &lt;/TD&gt;<BR>
+&lt;TD&gt; Row 1 Column 4 &lt;/TD&gt;<BR>
+...<BR>
+<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt; Row 2 Column 1 &lt;/TD&gt;<BR>
+&lt;TD&gt; Row 2 Column 2 &lt;/TD&gt;<BR>
+&lt;TD&gt; Row 2 Column 3 &lt;/TD&gt;<BR>
+&lt;TR&gt;<BR>
+&nbsp;&nbsp;...<BR>
+&lt;/TABLE&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">&lt;TABLE&gt;</FONT></TT> and <TT><FONT FACE="Courier">&lt;/TABLE&gt;</FONT></TT>
+tags delimit the table. The <TT><FONT FACE="Courier">BORDER</FONT></TT>
+attribute instructs the browser to put lines around the cell.
+If you do not want borders around the cells, omit the <TT><FONT FACE="Courier">BORDER</FONT></TT>
+attribute. The table will be as wide as the width of all the columns.
+Browsers adjust the width of columns to accommodate all the text
+as best they can. The <TT><FONT FACE="Courier">ALIGN</FONT></TT>
+attribute can take one of three values to align the text in a
+table cell: <TT><FONT FACE="Courier">left</FONT></TT>, <TT><FONT FACE="Courier">right</FONT></TT>,
+or <TT><FONT FACE="Courier">center</FONT></TT> (the default).
+<P>
+The data in between the table data tags, <TT><FONT FACE="Courier">&lt;TD&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/TD&gt;</FONT></TT>, is for the
+cell at a current row number. Rows start at every row tag, <TT><FONT FACE="Courier">&lt;TR&gt;</FONT></TT>.
+The table header tags, <TT><FONT FACE="Courier">&lt;TH&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/TH&gt;</FONT></TT>, specify
+the titles in the columns in the first row. Table data input is
+finished with the <TT><FONT FACE="Courier">&lt;/TABLE&gt;</FONT></TT>
+tag.
+<P>
+If not enough headers are specified, the headers for the table
+will be empty. Note that the first row has four columns, but only
+three headers. Therefore, the fourth column will not have a heading.
+<P>
+The Table widget provides other nifty features such as column
+spanning, where the <TT><FONT FACE="Courier">colspan</FONT></TT>
+attribute determines the number of columns a heading or item will
+span. The <TT><FONT FACE="Courier">rowspan</FONT></TT> attribute
+specifies the number of rows an item will span. Some sample code
+is shown in Listing 23.3.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 23.3. Using row and column spanning.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;html&gt;&lt;head&gt;<BR>
+&nbsp;2 &lt;/head&gt;<BR>
+&nbsp;3 <BR>
+&nbsp;4 &lt;body&gt;<BR>
+&nbsp;5 &lt;center&gt;&lt;h1&gt;Show Tables&lt;/h1&gt;&lt;/center&gt;
+<BR>
+&nbsp;6 &lt;p&gt;<BR>
+&nbsp;7 &lt;hr&gt;<BR>
+&nbsp;8 &lt;B&gt; Column Span &lt;/B&gt;<BR>
+&nbsp;9 &lt;hr&gt;<BR>
+10 &lt;TABLE BORDER&gt;<BR>
+11 &lt;TH&gt; Column 1 &lt;/TH&gt;<BR>
+12 &lt;TH&gt; Column 2 &lt;/TH&gt;<BR>
+13 &lt;TH colspan=2&gt; Column 3 and 4 &lt;/TH&gt;<BR>
+14 <BR>
+15 &lt;TR&gt;<BR>
+16 &lt;TD&gt; Row 1 Column 1 &lt;/TD&gt;<BR>
+17 &lt;TD&gt; Row 1 Column 2 &lt;/TD&gt;<BR>
+18 &lt;TD&gt; Row 1 Column 3 &lt;/TD&gt;<BR>
+19 &lt;TD&gt; Row 1 Column 4 &lt;/TD&gt;<BR>
+20 <BR>
+21 &lt;/TABLE&gt;<BR>
+22 &lt;P&gt;<BR>
+23 &lt;HR&gt;<BR>
+24 &lt;B&gt; Row Span &lt;/B&gt;<BR>
+25 &lt;hr&gt;<BR>
+26 &lt;TABLE BORDER&gt;<BR>
+27 &lt;TH rowspan=3&gt; Column 1 &lt;/TH&gt;<BR>
+28 &lt;TH&gt; Column 2 &lt;/TH&gt;<BR>
+29 &lt;TH&gt; Column 3 &lt;/TH&gt;<BR>
+30 &lt;TR&gt;<BR>
+31 &lt;TD&gt; Row 1 Column 1 &lt;/TD&gt;<BR>
+32 &lt;TD&gt; Row 1 Column 2 &lt;/TD&gt;<BR>
+33 &lt;TR&gt;<BR>
+34 &lt;TD&gt; Row 2 Column 1 &lt;/TD&gt;<BR>
+35 &lt;TD&gt; Row 2 Column 2 &lt;/TD&gt;<BR>
+36 &lt;TR&gt;<BR>
+37 &lt;TD&gt; Row 3 Column 1 &lt;/TD&gt;<BR>
+38 &lt;TD&gt; Row 3 Column 2 &lt;/TD&gt;<BR>
+39 &lt;TD&gt; Row 3 Column 3 &lt;/TD&gt;<BR>
+40 &lt;TR&gt;<BR>
+41 &lt;TD&gt; Row 4 Column 1 &lt;/TD&gt;<BR>
+42 &lt;TD&gt; Row 4 Column 2 &lt;/TD&gt;<BR>
+43 &lt;TD&gt; Row 4 Column 3 &lt;/TD&gt;<BR>
+44 &lt;/TABLE&gt;<BR>
+45&nbsp;&nbsp;4647 &lt;P&gt;<BR>
+46 &lt;HR&gt;<BR>
+47 &lt;B&gt; Row&nbsp;&nbsp;and Column Span &lt;/B&gt;<BR>
+48 &lt;hr&gt;49 &lt;TABLE BORDER&gt;<BR>
+50 &lt;TH rowspan=2&gt; Column 1 &lt;/TH&gt;<BR>
+51 &lt;TH colspan=2&gt; Column 2&nbsp;&nbsp;&lt;/TH&gt;<BR>
+52 &lt;TR&gt;<BR>
+53 &lt;TD&gt; Row 1 Column 1 &lt;/TD&gt;<BR>
+54 &lt;TD&gt; Row 1 Column 2 &lt;/TD&gt;<BR>
+55 &lt;TR&gt;<BR>
+56 &lt;TD&gt; Row 2 Column 1 &lt;/TD&gt;<BR>
+57 &lt;TD&gt; Row 2 Column 2 &lt;/TD&gt;<BR>
+58 &lt;TR&gt;<BR>
+59 &lt;TD&gt; Row 3 Column 1 &lt;/TD&gt;<BR>
+60 &lt;TD&gt; Row 3 Column 2 &lt;/TD&gt;<BR>
+61 &lt;TD&gt; Row 3 Column 3 &lt;/TD&gt;<BR>
+62 &lt;TR&gt;<BR>
+63 &lt;TD&gt; Row 4 Column 1 &lt;/TD&gt;<BR>
+64 &lt;TD&gt; Row 4 Column 2 &lt;/TD&gt;<BR>
+65 &lt;TD&gt; Row 4 Column 3 &lt;/TD&gt;<BR>
+66 &lt;/TABLE&gt;<BR>
+67 <BR>
+68 &lt;/body&gt;&lt;/html&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Now that you know how to put data in a table for an HTML page,
+let's see what we can display using these tables. For this example,
+you will display the statistics of which pages on the server get
+hit the most. This way you can gauge what the most popular items
+are on the Web site.
+<P>
+The statistics for the number of hits per file, including the
+date and IP number of the requesting server, are kept in a file
+called <TT><FONT FACE="Courier">access_log</FONT></TT> in your
+Web server's <TT><FONT FACE="Courier">logs</FONT></TT> directory.
+This is the file to look at if you want to know which file has
+been hit the most. The location of this file is set when your
+Web server is configured. You can find this file with the <TT><FONT FACE="Courier">find</FONT></TT>
+command (<TT><FONT FACE="Courier">find / -name access_log -print</FONT></TT>)
+if you are not sure where to look.
+<P>
+Rather than write a whole statistics utility from scratch, you
+can use existing tools to get the information from <TT><FONT FACE="Courier">access_log</FONT></TT>.
+In this example, you use <TT><FONT FACE="Courier">getstats</FONT></TT>.
+The <TT><FONT FACE="Courier">getstats</FONT></TT> program was
+written by Kevin Hughes at Enterprise Integration Technologies
+(<TT><FONT FACE="Courier">www.eit.com</FONT></TT>). Get it via
+FTP from <TT><FONT FACE="Courier">ftp.eit.com/web.software/getstats</FONT></TT>
+or from <TT><A HREF="tppmsgs/msgs0.htm#43" tppabs="http://www.eit.com/goodies/software/getstats/src/statform.html">http://www.eit.com/goodies/software/getstats/src/statform.html</A></TT>.
+(It's available in source form only, and you have to use GNU's
+<TT><FONT FACE="Courier">gcc</FONT></TT> to compile it. The source
+might be called <TT><FONT FACE="Courier">getstats.<I>XX</I>.c</FONT></TT>,
+where <TT><I><FONT FACE="Courier">XX</FONT></I></TT> is the version
+number. The version I work with in this section is 12.) 
+<P>
+One word of caution before you build the file: determine the type
+of server you are running and the type of format your <TT><FONT FACE="Courier">access_log</FONT></TT>
+is in. The most common server is the ncSA server. Chances are
+that your <TT><FONT FACE="Courier">access_log</FONT></TT> looks
+like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">crow.lib.uh.edu - - [04/Mar/1995:16:28:39
+-0600] &quot;GET /iistv.html<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HTTP/1.0&quot;
+200 850</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first item is the name of the calling browser, followed by
+a hyphen or an IP number, and then either a user name or a hyphen.
+Within the square brackets is the time of access, followed by
+the method of access and the file accessed. The HTTP server version
+number is listed next. Then the server result code is shown, followed
+by the number of bytes sent back. This is known as the <TT><FONT FACE="Courier">COMMON</FONT></TT>
+format.
+<P>
+If your log file is different from this one, determine the type
+of server you have and get the correct tool for it. In almost
+all cases, <TT><FONT FACE="Courier">getstats</FONT></TT> will
+work for you, so try it anyway. You may be pleasantly surprised.
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Tip</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+A search on the words <I>Perl</I>, <I>statistics</I>, and <I>Web</I> in the Netscape browser will produce some very interesting links to programs similar to <TT><FONT FACE="Courier">getstats</FONT></TT>. A good statistics program with a graphical output is 
+<TT><FONT FACE="Courier">gwstats</FONT></TT>.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Let's now work with the <TT><FONT FACE="Courier">getstats</FONT></TT>
+program to see how to use it. Before you can use it, you have
+to set some values for the <TT><FONT FACE="Courier">getstats</FONT></TT>
+program sources and then recompile it.
+<P>
+First of all, in the <TT><FONT FACE="Courier">getstats.12.c</FONT></TT>
+source file you have to set <TT><FONT FACE="Courier">#define COMMON</FONT></TT>
+to <TT><FONT FACE="Courier">1</FONT></TT>, not the value <TT><FONT FACE="Courier">0</FONT></TT>,
+which is the way it's delivered. Also, be sure to define the location
+of the files in your <TT><FONT FACE="Courier">WWW</FONT></TT>
+directory, especially the name of your server and the location
+of the <TT><FONT FACE="Courier">access_log</FONT></TT> file. Creating
+the program is as easy as typing the following command:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">gcc getstats.12.c -o getstats.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Ignore any warnings you get with the <TT><FONT FACE="Courier">gcc</FONT></TT>
+compiler. The warnings, if any, are harmless and are about comparing
+an integer with a pointer.
+<P>
+To get all the statistics, you just type <TT><FONT FACE="Courier">getstats</FONT></TT>
+at the prompt. If you do not get any output or the program appears
+to hang, make sure you have defined the <TT><FONT FACE="Courier">COMMON</FONT></TT>
+value to <TT><FONT FACE="Courier">1</FONT></TT> and then recompile.
+<P>
+The output from the <TT><FONT FACE="Courier">getstats</FONT></TT>
+program is long and verbose, depending on what files you have
+on your system. I am particularly interested in the following
+section of output:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">HTTP Server Request Statistics<BR>
+Covers: 07/18/95 to 03/09/96 (236 days).<BR>
+All dates are in local time.<BR>
+Sorted by request name, 11 unique requests.<BR>
+<BR>
+# of requests : Last Access (M/D/Y) : Request<BR>
+----------------------------------------------<BR>
+<BR>
+&nbsp;6 : 08/25/95 : /bosnia1.htm<BR>
+&nbsp;2 : 03/09/96 : /cgi-bin/cgipm.pl<BR>
+&nbsp;1 : 03/09/96 : /cgi-bin/query.pl<BR>
+20 : 10/04/95 : /cons2.htm<BR>
+33 : 10/17/95 : /eit.home.html<BR>
+&nbsp;1 : 03/09/96 : /euromap.gif<BR>
+&nbsp;1 : 03/09/96 : /iistv.html<BR>
+13 : 10/17/95 : /index.html<BR>
+&nbsp;1 : 03/09/96 : /paktravel.html<BR>
+49 : 10/11/95 : /training.htm<BR>
+&nbsp;2 : 03/09/96 : /x.html<BR>
+<BR>
+----------------------------------------------<BR>
+<BR>
+... </FONT></TT>
+</BLOCKQUOTE>
+<P>
+The Perl script to extract this section of code is shown in Listing
+23.4. The variable <TT><FONT FACE="Courier">$a</FONT></TT> is
+assigned the returned string from the <TT><FONT FACE="Courier">getstats</FONT></TT>
+command. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 23.4. The Perl script to get the needed information.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 $a = 'getstats';<BR>
+&nbsp;4 <BR>
+&nbsp;5 $found = 0;<BR>
+&nbsp;6 foreach $x (split('\n', $a)) {<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($x =~ /\#/) {<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$x
+= &quot;&quot;;&nbsp;&nbsp;&nbsp;# just ignore the header and
+any comments<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($x =~ /(.*) : (.*) : (.*)/ )&nbsp;&nbsp;{<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$x
+=~ s/ //g; # remove all extranous spaces.<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+$x . &quot;\n&quot;;<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+14 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here's the output from the  script in Listing 23.4:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">6:08/25/95:/bosnia1.htm<BR>
+2:03/09/96:/cgi-bin/cgipm.pl<BR>
+1:03/09/96:/cgi-bin/query.pl<BR>
+20:10/04/95:/cons2.htm<BR>
+33:10/17/95:/eit.home.html<BR>
+1:03/09/96:/euromap.gif<BR>
+1:03/09/96:/iistv.html<BR>
+13:10/17/95:/index.html<BR>
+1:03/09/96:/paktravel.html<BR>
+9:10/11/95:/training.htm<BR>
+2:03/09/96:/x.html</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The strange construct in the <TT><FONT FACE="Courier">if</FONT></TT>
+clause, <TT><FONT FACE="Courier">($x =~ /(.*) : (.*) : (.*)/ )</FONT></TT>,
+looks for three words separated by colons. The <TT><FONT FACE="Courier">~=</FONT></TT>
+does the search-and-replace operation to eliminate any extra white
+space.
+<P>
+Displaying statistics in a tabular form in HTML involves taking
+the output now safely stored in colon-delimited strings. This
+involves modifying the script to include printing out the correct
+table tags along with the data. 
+<P>
+The script is now modified to display table tags along with the
+returned data from the getstats program. The modified script is
+shown in Listing 23.5.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 23.5. The modified Perl listing to include table information.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 #<BR>
+&nbsp;3 # Return<BR>
+&nbsp;4 #<BR>
+&nbsp;5 <BR>
+&nbsp;6 $|=1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Flush output back immediately.<BR>
+&nbsp;7 <BR>
+&nbsp;8 #<BR>
+&nbsp;9 # Return the type of document.<BR>
+10 #<BR>
+11 print &quot;Content-type: text/html\n\n&quot;;<BR>
+12 <BR>
+13 $date = 'date';<BR>
+14 print &lt;&lt;&quot;HTMLHEAD&quot;;<BR>
+15 &lt;HTML&gt;<BR>
+16 &lt;HEAD&gt;&nbsp;&nbsp;&lt;TITLE&gt; Our Server Statistics
+&lt;/TITLE&gt;<BR>
+17 &lt;/HEAD&gt;<BR>
+18 &lt;BODY&gt;<BR>
+19 &lt;H1&gt;The top 10 most recent files hit &lt;/H1&gt;<BR>
+20 &lt;p&gt;<BR>
+21 &lt;H2&gt;Today's Date: $date &lt;/H2&gt;<BR>
+22 &lt;p&gt;<BR>
+23 HTMLHEAD<BR>
+24 <BR>
+25 $a = 'getstats';<BR>
+26 <BR>
+27 print &quot;\n &lt;TABLE BORDER&gt; &quot;;<BR>
+28 print &quot;\n &lt;TD&gt; Hits &lt;/TD&gt; &quot;;<BR>
+29 print &quot;\n &lt;TD&gt; Last &lt;/TD&gt; &quot;;<BR>
+30 print &quot;\n &lt;TD&gt; Filename &lt;/TD&gt; &quot;;<BR>
+31 # print $a;<BR>
+32 $found = 0;<BR>
+33 $ctr = 0;<BR>
+34 foreach $x (split('\n', $a)) {<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($x =~ /\#/) {<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$x
+= &quot;&quot;;&nbsp;&nbsp; # just ingore it.<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($x =~ /(.*) : (.*) : (.*)/ )&nbsp;&nbsp;{<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$x
+=~ s/ //g;<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($hits,
+$recent, $fname) = split(':',$x);<BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ctr++;
+<BR>
+42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($ctr &lt; 10)&nbsp;&nbsp;{<BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n&lt;TR&gt;&lt;TD&gt;$hits&lt;/TD&gt;\n&lt;TD&gt;$recent&lt;/TD&gt;&lt;TD&gt;$fname&lt;/TD&gt;&quot;;
+<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+46 }<BR>
+47 print &quot;\n &lt;/TABLE&gt; &quot;;<BR>
+48 <BR>
+49 #<BR>
+50 # Okay finish the HTML document.<BR>
+51 #<BR>
+52 <BR>
+53 print &lt;&lt;&quot;HTML&quot;;<BR>
+54 &lt;p&gt;<BR>
+55 &lt;p&gt;<BR>
+56 &lt;/BODY&gt;&lt;/HTML&gt;<BR>
+57 HTML</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">$|</FONT></TT> command in the script
+at line 6 forces the output back to the calling browser as soon
+as the <TT><FONT FACE="Courier">print</FONT></TT> statement is
+executed. This keeps the browser from timing out at the other
+end if the execution of the <TT><FONT FACE="Courier">getstats</FONT></TT>
+command takes too long.
+<P>
+The header and footer for the HTML document are generated from
+the statements <TT><FONT FACE="Courier">print &lt;&lt;&quot;HTMLHEAD&quot;</FONT></TT>
+and <TT><FONT FACE="Courier">print &lt;&lt;&quot;HTML&quot;</FONT></TT>,
+respectively. See line 53 for an example. Everything between <TT><FONT FACE="Courier">print</FONT></TT>
+and its terminating words (for example, <TT><FONT FACE="Courier">HTMLHEAD</FONT></TT>)
+is printed verbatim. This keeps me from having to type many <TT><FONT FACE="Courier">print</FONT></TT>
+commands.
+<P>
+Also, note that I use a counter called <TT><FONT FACE="Courier">$ctr</FONT></TT>
+in this script to limit the output (line 42) to only 10 rows.
+The machine I work on does not get hit this often, nor does it
+have that many files to offer. Your site may have a lot more hits
+per file. Therefore, in order to limit the output, you might want
+to keep this number to a reasonable value.
+<P>
+Now you know how to display data in a table. There is much more
+to displaying data in a tabular form that simply cannot be covered
+in one chapter alone. Please refer to the online documentation
+for writing HTML pages.
+<H2><A NAME="UsingtheHTMLModule"><B><FONT SIZE=5 COLOR=#FF0000>Using
+the HTML Module</FONT></B></A></H2>
+<P>
+<TT><FONT FACE="Courier">HTML::Base</FONT></TT> is an expansion
+module for Perl 5 that provides an object-oriented way to build
+HTML pages. Its purpose is to create HTML 2.0 tags, plus a few
+tags from the HTML 3.0 standard, including the <TT><FONT FACE="Courier">Table</FONT></TT>
+tags. The package comes with documentation in the <TT><FONT FACE="Courier">html_base.pod</FONT></TT>
+file.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The <TT>HTML::Base</TT> module is copyrighted 1995 by Anderson-Coates under the same terms as Perl itself. This program is free software; you can redistribute it and/or modify it. Please read all accompanying notices. The author of this package is Greg 
+Anderson of Anderson-Coates, a consulting firm specializing in professional Internet software and services. Contact Mr. Anderson directly by e-mail at <TT><FONT FACE="Courier">greg@acoates.com</FONT></TT> or through his Web site at <TT><A 
+HREF="tppmsgs/msgs0.htm#44" tppabs="http://www.acoates.com/">http://www.acoates.com/</A></TT>.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Using this package shields you from a lot of the nuances of HTML
+syntax. Basically, you should be able to use this package without
+worrying about the nitty-gritty details of HTML. For example,
+special characters such as the ampersand (<TT><FONT FACE="Courier">&amp;</FONT></TT>)
+are output as the correct ASCII escape character required for
+HTML-all you do is type in the ampersand in the text you want
+displayed. Plus, using the module lets you use the flexibility
+and language abstraction of Perl. You really do not need to learn
+the syntax for HTML to use the module described here. However,
+such knowledge is invaluable when debugging the output from a
+script using this module.
+<P>
+To install the HTML package, simply copy the file Base.pm to a
+subdirectory called <TT><FONT FACE="Courier">HTML</FONT></TT>
+in whatever directory you use to store Perl 5 modules. For example,
+if your Perl 5 modules are in <TT><FONT FACE="Courier">/usr/local/lib/perl5</FONT></TT>,
+you should create a subdirectory there called <TT><FONT FACE="Courier">HTML</FONT></TT>
+and copy <TT><FONT FACE="Courier">Base.pm</FONT></TT> into it,
+like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">mkdir /usr/local/lib/perl5/HTML<BR>
+cp Base.pm /usr/local/lib/perl5/HTML/Base.pm</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Each object in the <TT><FONT FACE="Courier">HTML::Base</FONT></TT>
+class represents a single instance of an <TT><FONT FACE="Courier">HTML</FONT></TT>
+tag. An object whose class is defined by <TT><FONT FACE="Courier">HTML::Base</FONT></TT>
+could be called an &quot;HTML object.&quot;
+<P>
+The primary function of the <TT><FONT FACE="Courier">HTML::Base</FONT></TT>
+module is to provide definitions and methods for classes of HTML
+objects. A base class, known as <TT><FONT FACE="Courier">HtmlObject</FONT></TT>,
+is defined from which all other HTML objects are derived. All
+objects know where they are situated in the hierarchy of HTML
+objects that make up a page (or pages) of HTML. They also know
+how to realize (display) themselves.
+<P>
+Here are the steps involved in creating the document with this
+package:
+<OL>
+<LI>To use this <TT><FONT FACE="Courier">HTML</FONT></TT> package,
+include the use <TT><FONT FACE="Courier">HTML::Base;</FONT></TT>
+statement.
+<LI>Create a top-level object. There is only one &quot;top&quot;
+object in the system. This will become the current object until
+the next object is created.
+<LI>Create all other objects below the top object in a hierarchical
+fashion.
+<LI>Display the top-level object to generate the HTML output.
+All other objects below it will also show themselves.
+</OL>
+<P>
+A key point to keep in mind when working with any HTML object
+in the package is that you are always working with a &quot;current&quot;
+object. As you create more objects, they in turn become the current
+object. You can always make an object current by calling the <TT><FONT FACE="Courier">make_current</FONT></TT>
+function. To go back up the hierarchy, you call the <TT><FONT FACE="Courier">end_object</FONT></TT>
+function on each object that you want to be the default.
+<P>
+HTML objects are created using the <TT><FONT FACE="Courier">new</FONT></TT>
+function. Each newly created object becomes the current object
+and is then the parent of the next object created. This chain
+of parenthood continues until an object is ended, or until another
+object is made the current object.
+<P>
+When an entire hierarchy of HTML objects has been created, it
+must be <I>realized</I> (or <I>displayed</I>). <I>Realization</I>
+is when the objects may be told to output the appropriate HTML
+for their object classes. The output is sent either to standard
+output or to a file. Listing 23.6 presents a modified example
+of what comes with the documentation. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 23.6. A sample HTML package usage.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 use HTML::Base;<BR>
+&nbsp;3 <BR>
+&nbsp;4 # Start the HTML, create a &lt;BODY&gt; tag<BR>
+&nbsp;5 $body = new HTML::Base::Body;<BR>
+&nbsp;6 <BR>
+&nbsp;7 # Create an &lt;H1&gt; Heading<BR>
+&nbsp;8 new HTML::Base::Header 1;<BR>
+&nbsp;9 <BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Add some text to the header<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot;Header Level 1 with Image&quot;;<BR>
+12 <BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Add an image to the header<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Image ('SRC','notepad.gif');<BR>
+15 <BR>
+16 # Make the body current again<BR>
+17 $body-&gt;make_current;<BR>
+18 <BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Add a paragraph to the body<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Paragraph;<BR>
+21 <BR>
+22 # Add some text to the paragraph<BR>
+23 new HTML::Base::Text &quot;This is a paragraph&quot;;<BR>
+24 <BR>
+25 # Output everything to stdout.<BR>
+26 $body-&gt;realize;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here is the output from the <TT><FONT FACE="Courier">HTML</FONT></TT>
+module:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;BODY&gt;<BR>
+&lt;H1&gt;<BR>
+Heading r Level 1 with Image<BR>
+&lt;IMG SRC=&quot;notepad.gif&quot;&gt;&lt;/H1&gt;<BR>
+&lt;P&gt;<BR>
+This is a paragraph<BR>
+&lt;/P&gt;<BR>
+&lt;/BODY&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To use <TT><FONT FACE="Courier">HTML::Base</FONT></TT> in your
+Perl 5 program, include the following <TT><FONT FACE="Courier">use</FONT></TT>
+command in the beginning of your program:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use HTML::Base;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">HTML::Base</FONT></TT> exports no subroutine
+names into your program's name space.
+<P>
+All objects that can output an HTML tag are derived from subclasses
+of the class created by the base. Each HTML object knows how to
+display itself and how to use fields called <I>attributes</I>
+in the display process.
+<P>
+Each HTML object knows which attributes to recognize and will
+ignore all strings. It is okay to give your own attributes to
+HTML objects during their construction as long as their names
+do not conflict with any of the standard HTML attributes.
+<H2><A NAME="ConstructingHTMLObjects"><B><FONT SIZE=5 COLOR=#FF0000>Constructing
+HTML Objects</FONT></B></A></H2>
+<P>
+HTML objects are constructed using the <TT><FONT FACE="Courier">new</FONT></TT>
+function. The simplest case is an HTML object that needs no attributes:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$line = new HTML::Base::HorizontalRule;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This creates a line tag, making it the child of the current HTML
+object. After construction, the new object becomes the current
+object; therefore, the next HTML object to be constructed will
+be the child of this <TT><FONT FACE="Courier">HorizontalRule</FONT></TT>
+object. You can prevent this from happening by calling
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$line-&gt;HTML::Base::end_object()</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This call to the <TT><FONT FACE="Courier">end_object()</FONT></TT>
+function will set the current object as the parent of the line
+object.
+<P>
+Some HTML objects must have a mandatory first parameter specified.
+For example, the HTML headings come in six flavors (numbered 1-6);
+therefore, to create a <TT><FONT FACE="Courier">Header</FONT></TT>
+object you can use either one of the following two lines:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$h2 =&nbsp;&nbsp;new HTML::Base::Header
+2;<BR>
+<BR>
+$h2 =&nbsp;&nbsp;new HTML::Base::Header 'Level' =&gt; 2;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This creates a Level-2 heading as the child of the current HTML
+object. All HTML objects will accept attributes. It is assumed
+that the attributes (if any) will follow any required parameters
+in the new call and take the form of simple key-value pairs, like
+this:
+<BLOCKQUOTE>
+<TT>new HTML::Base::Anchor ('HREF','http://www.ikra.com/',
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Name'&nbsp;&nbsp;=&gt;
+&quot;Hello&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">HREF</FONT></TT> is recognized as a valid
+attribute. <TT><FONT FACE="Courier">Name</FONT></TT> is not used
+by the object because it's not all uppercase letters.
+<P>
+Those HTML objects that do recognize attributes expect them to
+be set in the constructor. Consider the following line, which
+creates an HTML image reference:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">new HTML::Base::Image<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;('SRC','pictures/Goofy.gif',
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ALT','Goofy.pix',
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ALIGN','MIDDLE');</FONT></TT>
+</BLOCKQUOTE>
+<P>
+An image tag is created with the given <TT><FONT FACE="Courier">SRC</FONT></TT>,
+<TT><FONT FACE="Courier">ALT</FONT></TT>, and <TT><FONT FACE="Courier">ALIGN</FONT></TT>
+attributes. Note that all attributes are in capitals. Lowercase
+and mixed-case letters for attribute names will cause the attribute
+to be ignored.
+<H2><A NAME="SpecifyingtheBodyoftheTextinHTML"><B><FONT SIZE=5 COLOR=#FF0000>Specifying
+the Body of the Text in HTML Documents</FONT></B></A></H2>
+<P>
+Use the <TT><FONT FACE="Courier">HTML::Base::Text</FONT></TT>
+portions for implementing regular text in HTML. There are three
+attributes for this object: <TT><FONT FACE="Courier">Text</FONT></TT>,
+<TT><FONT FACE="Courier">Eval</FONT></TT>, and <TT><FONT FACE="Courier">Verb</FONT></TT>.
+The output from all three is in the form of a paragraph.
+<P>
+Text is a special-purpose HTML object that has no HTML tag associated
+with it. Instead, it is meant to contain the text that makes up
+the actual content of the HTML document. A <TT><FONT FACE="Courier">Text</FONT></TT>
+object that is a child of an HTML object will output its text
+within the scope of the HTML tags of its owner.
+<P>
+When being passed to the <TT><FONT FACE="Courier">HTML::Base::Text</FONT></TT>
+constructor, the text to be displayed must be the first parameter,
+preceding any attributes to be set. The text may also be passed
+in as the attribute <TT><FONT FACE="Courier">'Text'</FONT></TT>,
+but if specified like this, it must be the first attribute given.
+<P>
+All three of the following lines are equivalent:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">new HTML::Base::Text &quot;This is my
+text&quot;;<BR>
+<BR>
+new HTML::Base::Text ('Text', 'This is my text');<BR>
+<BR>
+new HTML::Base::Text Text =&gt; 'This is my text';</FONT></TT>
+</BLOCKQUOTE>
+<P>
+By default, the text is sanitized for HTML when an object is being
+realized and makes the text HTML easier to read by translating
+special HTML characters (such as <TT><FONT FACE="Courier">&amp;</FONT></TT>)
+into their HTML escape equivalents.
+<P>
+Two other attributes are defined for the <TT><FONT FACE="Courier">Text</FONT></TT>
+object. If <TT><FONT FACE="Courier">Verb</FONT></TT> is defined
+in the constructor, then the text will not be processed in any
+way or form before being output. This allows you to pump out raw
+text &quot;as is&quot; to the HTML document. You are responsible
+for the sanity of such code. This is useful for sending code samples
+as part of output.
+<P>
+Similarly, if <TT><FONT FACE="Courier">Eval</FONT></TT> is defined,
+the text is first passed to the Perl <TT><FONT FACE="Courier">eval()</FONT></TT>
+function. The output of that call is sent, unfiltered, to the
+output stream. The value of <TT><FONT FACE="Courier">Eval</FONT></TT>
+is set to <TT><FONT FACE="Courier">1</FONT></TT> for evaluation
+to take place.
+<H2><A NAME="ControllingtheOutputDestinationFile"><B><FONT SIZE=5 COLOR=#FF0000>Controlling
+the Output Destination File</FONT></B></A></H2>
+<P>
+By default, all HTML output by the objects is directed to <TT><FONT FACE="Courier">STDOUT</FONT></TT>.
+This can be changed using the <TT><FONT FACE="Courier">OUTPUTFILE</FONT></TT>
+attribute of the <TT><FONT FACE="Courier">Page</FONT></TT> object,
+which creates the <TT><FONT FACE="Courier">&lt;HTML&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/HTML&gt;</FONT></TT> tags and
+takes the attributes <TT><FONT FACE="Courier">OUTPUTFILE</FONT></TT>
+and <TT><FONT FACE="Courier">OUTPUTMODE</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">OUTPUTMODE</FONT></TT> attribute
+can be set to <TT><FONT FACE="Courier">appeND</FONT></TT> or <TT><FONT FACE="Courier">OVERWRITE</FONT></TT>.
+Thus, <TT><FONT FACE="Courier">HTML::Base::Page</FONT></TT> not
+only outputs the <TT><FONT FACE="Courier">&lt;HTML&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/HTML&gt;</FONT></TT> tags, but
+also controls the file handle to which output for a particular
+page of HTML is sent.
+<P>
+Each <TT><FONT FACE="Courier">Page</FONT></TT> object tracks its
+own output file handle. This allows you to nest <TT><FONT FACE="Courier">Page</FONT></TT>
+objects in a hierarchy (if you want to). Here is the segment of
+code to track the page it's writing to and its respective output.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$page = new HTML::Base::Page ('OUTPUTFILE','first.html');
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;new HTML::Base::Text &quot;This is being
+written to first.html!&quot;;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;new HTML::Base::Page ('OUTPUTFILE','second.html');
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;new HTML::Base::Text &quot;This is being
+written to second.html!&quot;;<BR>
+$page-&gt;make_current;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;new HTML::Base::Text &quot;This also is
+being written to first.html!&quot;;<BR>
+$page-&gt;realize;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here is the way to look at the output in two different HTML files:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>more first.html<BR>
+</B>&lt;HTML&gt;<BR>
+This is being written to first.html!<BR>
+This also is being written to first.html!<BR>
+&lt;/HTML&gt;<BR>
+$ <B>more second.html<BR>
+</B>&lt;HTML&gt;<BR>
+This is being written to trasho.html!<BR>
+&lt;/HTML&gt;</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="UsingtheTablesFeatureinHTMLBase"><B><FONT SIZE=5 COLOR=#FF0000>Using
+the Tables Feature in </FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">HTML::Base</FONT></B></TT></A>
+</H2>
+<P>
+The 0.6 release of the <TT><FONT FACE="Courier">HTML::Base</FONT></TT>
+includes support for generating tables for HTML 3.0 and later.
+See Listing 23.7 for an example. Note in Listing 23.7 how each
+table row object is created and then ended before a new one is
+created. The <TT><FONT FACE="Courier">end</FONT></TT> step is
+not necessary when creating data items because the object is smart
+enough to figure out which parent to use. Note ending <TT><FONT FACE="Courier">&lt;/TR&gt;</FONT></TT>
+tags in this output. This does not affect the output in any way
+with Netscape, although this is not the &quot;right&quot; way
+to generate the table row end tags. I cover the correct way to
+end these <TT><FONT FACE="Courier">&lt;TR&gt;</FONT></TT> objects
+in Listing 23.8.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Tip</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+If Listing 23.9 does not work, you may have to fix it yourself. The 0.6 release of the <TT><FONT FACE="Courier">HTML::Base</FONT></TT> also had a minor bug in it. The references in the <TT><FONT FACE="Courier">Base.pm</FONT></TT> file should be
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">my $self = new HTML::Base::BinaryTag (&quot;TABLE&quot;,@_);</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+instead of</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">my $self = new BinaryTag (&quot;TABLE&quot;,@_);</FONT></TT>
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 23.7. Using tables in </B><TT><B><FONT FACE="Courier">HTML::Base</FONT></B></TT><B><FONT SIZE=1>.
+<BR>
+</FONT></B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+use HTML::Base;<BR>
+&nbsp;4 <BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Start the HTML, create a &lt;BODY&gt; tag<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$body
+= new HTML::Base::Body;<BR>
+&nbsp;7 <BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Create an &lt;H1&gt;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Header 1;<BR>
+10 <BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Add some text to the header<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot;This is a header&quot;;<BR>
+13 <BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Add an image to the header<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Image ('SRC','notepad.gif');<BR>
+16 <BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Make the body current again<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$body-&gt;make_current;
+<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Add a paragraph to the body<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Paragraph;<BR>
+21 <BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Add some text to the paragraph<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot;This is a paragraph&quot;;<BR>
+24 <BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$outtable
+= new HTML::Base::Table ('BORDER', ' ');<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$h
+= new HTML::Base::TableHeader;<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot;Header 1&quot;;<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$h-&gt;end_object;
+<BR>
+29 <BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$h
+= new HTML::Base::TableHeader;<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot;Header 2&quot;;<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$h-&gt;end_object;
+<BR>
+33 <BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::TableRow ;<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$r
+= new HTML::Base::TableData ;<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot;Row 1 Col 1&quot;;<BR>
+37 <BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$r
+= new HTML::Base::TableData ;<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot;Row 1 Col 2&quot;;<BR>
+40 <BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::TableRow ;<BR>
+42 <BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$r
+= new HTML::Base::TableData ;<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot;Row 2 Col 1&quot;;<BR>
+45 <BR>
+46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$r
+= new HTML::Base::TableData ;<BR>
+47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot;Row 2 Col 2&quot;;<BR>
+48 <BR>
+49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$outtable-&gt;end_object;
+<BR>
+50 <BR>
+51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Output everything<BR>
+52&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$body-&gt;realize;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here is the output for the HTML tables in the output file: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&lt;BODY&gt;<BR>
+&lt;H1&gt;<BR>
+This is a header<BR>
+&lt;IMG SRC=&quot;notepad.gif&quot;&gt;&lt;/H1&gt;<BR>
+&lt;P&gt;<BR>
+This is a paragraph<BR>
+&lt;TABLE BORDER=&quot; &quot;&gt;<BR>
+&lt;TH&gt;<BR>
+Header 1<BR>
+&lt;/TH&gt;<BR>
+&lt;TH&gt;<BR>
+Header 2<BR>
+&lt;/TH&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+Row 1 Col 1<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+Row 1 Col 2<BR>
+&lt;/TD&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+Row 2 Col 1<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+Row 2 Col 2<BR>
+&lt;/TD&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;/TABLE&gt;<BR>
+&lt;/P&gt;<BR>
+&lt;/BODY&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Sure, the output does not look pretty as far as HTML pages go.
+However, the code generating this HTML output is abstracted from
+the HTML implementation below it. If the HTML specification is
+upgraded, the package optimized, or the module otherwise enhanced,
+then our Perl scripts would not be affected as long as the interface
+is kept consistent.
+<P>
+Let's rewrite the usage of the <TT><FONT FACE="Courier">getstats</FONT></TT>
+module with the <TT><FONT FACE="Courier">CGI</FONT></TT> and <TT><FONT FACE="Courier">HTML</FONT></TT>
+modules (see Listing 23.8). The placement of the <TT><FONT FACE="Courier">&lt;TR&gt;</FONT></TT>
+and <TT><FONT FACE="Courier">&lt;/TR&gt;</FONT></TT> tags is now
+correct because the row object is ended correctly. Contrast the
+output of this listing with the output from Listing 23.9. You'll
+see how the <TT><FONT FACE="Courier">&lt;/TR&gt;</FONT></TT> tags
+are matched when objects are ended and how they output one long
+list when objects are not ended correctly.
+<P>
+As a rule, if you create a row, you must end it.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 23.8. A rewrite of the </B><TT><B><FONT FACE="Courier">getstats</FONT></B></TT><B>
+script using Perl modules.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 #<BR>
+&nbsp;3 # Return Statistics using Perl Modules.<BR>
+&nbsp;4 #<BR>
+&nbsp;5 use CGI::Base;<BR>
+&nbsp;6 use CGI::Request qw(:DEFAULT :cgi-lib);<BR>
+&nbsp;7 <BR>
+&nbsp;8 print PrintHeader();<BR>
+&nbsp;9 <BR>
+10 use HTML::Base;<BR>
+11 <BR>
+12 # Start the HTML, create a &lt;BODY&gt; tag<BR>
+13 $body = new HTML::Base::Body;<BR>
+14 <BR>
+15 # Create an &lt;H1&gt; header<BR>
+16 new HTML::Base::Header 1;<BR>
+17 <BR>
+18 # Add some text to the header<BR>
+19 $date = 'date';<BR>
+20 new HTML::Base::Text &quot;The top 10 most recent files hit
+as of $date&quot;;<BR>
+21 <BR>
+22 # Make the body current again<BR>
+23 <BR>
+24 $body-&gt;make_current;<BR>
+25 # Add a paragraph to the body<BR>
+26 <BR>
+27 new HTML::Base::HorizontalRule;<BR>
+28 new HTML::Base::Paragraph;<BR>
+29 <BR>
+30 $a = '/usr/local/bin/getstats';<BR>
+31 <BR>
+32 #<BR>
+33 # Remove the following lines<BR>
+34 #<BR>
+35 #print &quot;\n &lt;TABLE BORDER&gt; &quot;;<BR>
+36 #print &quot;\n &lt;TD&gt; Hits &lt;/TD&gt; &quot;;<BR>
+37 #print &quot;\n &lt;TD&gt; Last &lt;/TD&gt; &quot;;<BR>
+38 #print &quot;\n &lt;TD&gt; Filename &lt;/TD&gt; &quot;;<BR>
+39 <BR>
+40 $outtable = new HTML::Base::Table ('BORDER', '');<BR>
+41 <BR>
+42 $h = new HTML::Base::TableHeader;<BR>
+43 new HTML::Base::Text &quot;Hits&quot;;<BR>
+44 $h-&gt;end_object;<BR>
+45 <BR>
+46 $h = new HTML::Base::TableHeader;<BR>
+47 new HTML::Base::Text &quot;Last&quot;;<BR>
+48 $h-&gt;end_object;<BR>
+49 <BR>
+50 $h = new HTML::Base::TableHeader;<BR>
+51 new HTML::Base::Text &quot;Filename&quot;;<BR>
+52 $h-&gt;end_object;<BR>
+53 <BR>
+54 $found = 0;<BR>
+55 $ctr = 0;<BR>
+56 foreach $x (split('\n', $a)) {<BR>
+57&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($x =~ /\#/) {<BR>
+58&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$x
+= &quot;&quot;;&nbsp;&nbsp;&nbsp;# just ignore it.<BR>
+59&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($x =~ /(.*) : (.*) : (.*)/ )&nbsp;&nbsp;{<BR>
+61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$x
+=~ s/ //g;<BR>
+62&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($hits,
+$recent, $fname) = split(':',$x);<BR>
+63&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ctr++;
+<BR>
+64&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+($ctr &lt; 10)&nbsp;&nbsp;&nbsp;{<BR>
+65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+print &quot;\n&lt;TR&gt;&lt;TD&gt;$hits&lt;/TD&gt;\n&lt;TD&gt;$recent&lt;/TD&gt;&lt;TD&gt;$fname&lt;/TD&gt;&quot;;
+<BR>
+66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$r
+=new HTML::Base::TableRow ;<BR>
+67&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$h
+= new HTML::Base::TableData ;<BR>
+68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot; $hits&quot;;<BR>
+69&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$h-&gt;end_object;
+<BR>
+70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$h
+= new HTML::Base::TableData ;<BR>
+71&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot; $recent&quot;;<BR>
+72&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$h-&gt;end_object;
+<BR>
+73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$h
+= new HTML::Base::TableData ;<BR>
+74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new
+HTML::Base::Text &quot; $fname&quot;;<BR>
+75&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$h-&gt;end_object;
+<BR>
+76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$r-&gt;end_object;
+<BR>
+77&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+79 }<BR>
+80 $outtable-&gt;end_object;<BR>
+81 #<BR>
+82 # Okay finish the HTML document.<BR>
+83 #<BR>
+84 $body-&gt;realize;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here's the output of the <TT><FONT FACE="Courier">getstats</FONT></TT>
+rewrite:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Content-type: text/html<BR>
+<BR>
+&lt;BODY&gt;<BR>
+&lt;H1&gt;<BR>
+The top 10 most recent files hit as of Sun Feb  4 16:55:30 CST
+1996<BR>
+<BR>
+&lt;/H1&gt;<BR>
+&lt;HR&gt;<BR>
+&lt;P&gt;<BR>
+&lt;TABLE BORDER&gt;<BR>
+&lt;TH&gt;<BR>
+Hits<BR>
+&lt;/TH&gt;<BR>
+&lt;TH&gt;<BR>
+Last<BR>
+&lt;/TH&gt;<BR>
+&lt;TH&gt;<BR>
+Filename<BR>
+&lt;/TH&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;57<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;01/26/96<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;/cgi-bin/travel.pl<BR>
+&lt;/TD&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;56<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;02/02/96<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;/index.html<BR>
+&lt;/TD&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;43<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;02/02/96<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;/cgi-bin/credit.pl<BR>
+&lt;/TD&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;42<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;02/04/96<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;/cgi-bin/test-cgi<BR>
+&lt;/TD&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;14<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;02/02/96<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;/credit.html<BR>
+&lt;/TD&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;12<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;02/02/96<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;/training.htm<BR>
+&lt;/TD&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;11<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;01/24/96<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;/pubs.html<BR>
+&lt;/TD&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;10<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;02/02/96<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;/mfc.html<BR>
+&lt;/TD&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;TR&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;10<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;12/28/95<BR>
+&lt;/TD&gt;<BR>
+&lt;TD&gt;<BR>
+&nbsp;/cgi-bin/test-cgi.pl<BR>
+&lt;/TD&gt;<BR>
+&lt;/TR&gt;<BR>
+&lt;/TABLE&gt;<BR>
+&lt;/P&gt;<BR>
+&lt;/BODY&gt;</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="MakingClickableImagesinHTML"><B><FONT SIZE=5 COLOR=#FF0000>Making
+Clickable Images in HTML</FONT></B></A></H2>
+<P>
+Pictures often convey more information than do gobs of text. Sometimes
+a picture or graph can describe data better than a table. HTML
+documents allow you to display GIF or JPEG images in documents.
+With CGI, you can even have &quot;hot&quot; portions of a GIF
+image so that clicking the hot area of the image produces input
+from the client to the server. Currently, the images have to be
+in the GIF format.
+<P>
+To make an image &quot;clickable,&quot; you have to define regions
+on the image in the form of rectangles, circles, or other closed
+polygons. The coordinates within each defined region are then
+associated with an URL to follow if the click happens to be in
+that region. The mapping of an image click to coordinates is done
+through a program called image map.
+<P>
+If you do not have the image map executable on your machine, you
+have to install it yourself. This installation is simpler than
+it sounds. For UNIX systems, your <TT><FONT FACE="Courier">httpd</FONT></TT>
+daemon software should untar itself with a <TT><FONT FACE="Courier">cgi-src</FONT></TT>
+directory containing the source for image map. For a CERN server,
+this file is called <TT><FONT FACE="Courier">htimage</FONT></TT>,
+but the building and installation is very similar. Edit the source
+file to point to the location of your server's root tree and make
+the executable using the makefile provided with the server software.
+<P>
+The image map program on almost all UNIX systems requires a file
+called <TT><FONT FACE="Courier">imagemap.conf</FONT></TT>. The
+location of this file is set in the image map executable. If you
+are making the <TT><FONT FACE="Courier">imagemap</FONT></TT> file,
+you have to edit the <TT><FONT FACE="Courier">CONF_FILE</FONT></TT>
+constant to specify the location of the <TT><FONT FACE="Courier">imagemap.conf</FONT></TT>
+file in the source file. The default line is shown here:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#define CONF_FILE &quot;/usr/local/etc/httpd/conf/imagemap.conf&quot;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">imagemap.conf</FONT></TT> file is
+a text file with all mappings as one item per line. The items
+in the <TT><FONT FACE="Courier">imagemap.conf</FONT></TT> file
+have two text parts each. The first part is the name of the GIF
+file with the extension replaced with a colon. The second part
+is the absolute path to the map file for the image. Therefore,
+<TT><FONT FACE="Courier">notepad.gif</FONT></TT> would have this
+entry on my system:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">notepad: /usr/local/etc/httpd/htdocs/notepad.map</FONT></TT>
+</BLOCKQUOTE>
+<P>
+By convention, the image and the map file share the same base
+name. The <TT><FONT FACE="Courier">.gif</FONT></TT> extension
+is for the image, and the <TT><FONT FACE="Courier">.map</FONT></TT>
+extension is for the map file. The map file is a text file as
+well, containing the methods to use when mapping mouse clicks
+on the image. One method is defined per line. Each method in the
+map file therefore defines the hot spots for the image. Each method
+is of the form
+<BLOCKQUOTE>
+<TT><I><FONT FACE="Courier">method URL coordinate1 coordinate2
+.... coordinateN</FONT></I></TT>
+</BLOCKQUOTE>
+<P>
+where coordinates take the form x,y. The number of coordinates
+depends on the type of hot spot. If regions overlap in a mapping
+file, the first region hit is returned.
+<P>
+Here are the types of methods:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=90><TT><FONT FACE="Courier">circle</FONT></TT></TD>
+<TD WIDTH=501>Defines a circle defined by the center point followed by a point on the circumference.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><TT><FONT FACE="Courier">rect</FONT></TT></TD>
+<TD WIDTH=501>Defines a rectangle defined by the upper-left and lower-right corner coordinates.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><TT><FONT FACE="Courier">poly</FONT></TT></TD>
+<TD WIDTH=501>Defines a polygon defined by coordinate pairs defining each vertex. The limit is 100 vertices.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><TT><FONT FACE="Courier">point</FONT></TT></TD>
+<TD WIDTH=501>Defines a region around a point defined by the coordinate. It's not very useful unless you have very fine resolution images.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=90><TT><FONT FACE="Courier">Default</FONT></TT>
+</TD><TD WIDTH=501>This is the catch-all of all regions not defined in the previous mapping methods.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+A sample mapping is shown in Listing 23.9 for a <TT><FONT FACE="Courier">notepad.gif</FONT></TT>
+image. In the image itself, you have to add the URL as shown in
+Listing 23.9. Note that the <TT><FONT FACE="Courier">HREF</FONT></TT>
+URL for this image ends in <TT><FONT FACE="Courier">imagemap/image-name</FONT></TT>.
+<BLOCKQUOTE>
+<TT>point http://www.ikra.com/cgi-bin/pointer.pl&nbsp;&nbsp;&nbsp;5,5
+<BR>
+rect&nbsp;&nbsp;http://www.ikra.com/cgi-bin/makesquare.pl&nbsp;&nbsp;&nbsp;15,5&nbsp;&nbsp;
+25,25<BR>
+circle http://pop.ikra.com/cgi-bin/round.html&nbsp;&nbsp;50,50
+50,70<BR>
+poly&nbsp;&nbsp;http://www.ikra.com/pointy/noke.html&nbsp;&nbsp;200,10
+200,100, 150,50<BR>
+default http://ikra.com/cowdunga.html</TT>
+</BLOCKQUOTE>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 23.9. The URL for the mapping. <BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 &lt;html&gt;<BR>
+&nbsp;2 &lt;body&gt;<BR>
+&nbsp;3 &lt;TITLE&gt;Clickable images Alignment&lt;/TITLE&gt;
+<BR>
+&nbsp;4 &lt;p&gt;<BR>
+&nbsp;5 &lt;HR&gt;<BR>
+&nbsp;6 &lt;A HREF=&quot;http://www.ikra.com/cgi-bin/imagemap/notepad&quot;&gt;
+<BR>
+&nbsp;7 &lt;IMG SRC=&quot;notepad.gif&quot; ISMAP&gt; &lt;/A&gt;
+<BR>
+&nbsp;8 &lt;HR&gt;<BR>
+&nbsp;9 &lt;/body&gt;<BR>
+10 &lt;/html&gt;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+This chapter has been an introduction to some of the techniques
+available to you for presenting data with CGI Perl modules. I
+covered ways of abstracting your CGI scripts from server implementations
+by using Perl modules. I also covered how to show data in a table
+and how to collect user input via images. The two modules covered
+in this chapter include the <TT><FONT FACE="Courier">CGI</FONT></TT>
+and <TT><FONT FACE="Courier">HTML</FONT></TT> modules available
+from the CPAN archives at <TT><A HREF="tppmsgs/msgs0.htm#1" tppabs="http://www.perl.com/">http://www.perl.com</A></TT>.
+Both modules provide a clean interface for your CGI scripts and
+can also be used to generate your own HTML documents.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch22.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch22.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch24.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch24.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

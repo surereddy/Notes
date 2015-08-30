@@ -1,0 +1,5 @@
+I have removed the big SQL Server transaction log file (more than 40 G) in DQ 93 by following steps because there was really little space left in Drive C.
+1. Detach the DirectReach database
+2. Rename the transaction log file from disk. Don't delete for now in case attaching database fails.
+3. Attach the DirectReach database. It will promts the log file is Not Found, select the log file and remove it, then click OK to attach. It will create a new empty transaction file named DirectReach_log.LDF.  See attached screenshot for this step.
+4. Delete the old transaction log file. 

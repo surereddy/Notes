@@ -1,0 +1,6 @@
+Prefered and enough: 
+http://mywiki.wooledge.org/RegularExpression
+i.e. 'RegularExpression - Greg's Wiki.htm'
+
+Refer for more: 
+http://en.wikipedia.org/wiki/Regular_expression

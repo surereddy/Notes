@@ -1,0 +1,292 @@
+SELECT username,machine FROM V$SESSION WHERE username is not null;
+
+instance/例程/实例 -占用内存
+database/数据库    -占用磁盘
+sessions/会话      -占用内存/网络带宽 V$SESSION
+
+INSTANCE：
+ SGA/系统全局区/共享内存
+  缓冲 常用的数据 经常执行的SQL
+ SHOW SGA
+ SHOW PARAMETER SGA_MAX_SIZE
+
+  A  数据库缓冲区 DB CACHE
+     用户经常访问的数据以 [块] 的形式缓冲在db cache；
+     块的大小 DB_BLOCK_SIZE / IO的最小单位
+     SHOW PARAMETER DB_BLOCK_SIZE
+     SHOW PARAMETER DB_CACHE_SIZE
+
+     ALTER SYSTEM SET DB_CACHE_SIZE=40M;
+------------------------------------------------------------------------
+SQL> analyze table emp compute statistics;
+SQL> select table_name,blocks from user_tables where table_name='EMP';
+
+TABLE_NAME                         BLOCKS
+------------------------------ ----------
+EMP                                     4
+------------------------------------------------------------------------
+ 
+  B 共享池
+    SHARED POOL
+    缓冲用户提交的SQL语句 / 缓冲数据字典信息 [表的定义，字段，权限，用户。。。]
+    SQL语句 1-分析 [执行计划] 20-30%  2-执行   3-取数据
+    SHOW PARAMETER SHARED_POOL_SIZE
+
+  
+  C LOG BUFFER 日志缓冲区
+    当用户修改数据库的数据的时候，服务进程会把修改的过程存放到log buffer
+    当用户提交数据的时候，把重做信息写到log file；
+    应当把日志文件存放在最快的磁盘。
+    SHOW PARAMETER LOG_BUFFER
+
+  D LARGE POOL :减轻SHARED POOL池的压力
+    当用户使用RMAN备份数据的时候
+    当服务器配置成共享服务器的时候
+    当用户使用并行查询的时候
+    SHOW PARAMETER LARGE_POOL
+   
+  E JAVA POOL:
+    当用户使用java编写和运行存储过程的时候。
+    SHOW PARAMETER JAVA_POOL
+   
+
+ BACKGROUND PROCESSES
+
+
+ PGA/程序全局区/私有内存/和服务器进程相关 / 内存排序
+
+ SGA + n*PGA
+
+
+DATABASE
+ 占用磁盘的文件
+ 3种
+  datafile[s]  - 存放用户的业务数据 和 系统的管理数据  包括索引
+              辅助数据  ：临时数据   UNDO数据/回滚段数据
+            
+              select name,bytes from v$datafile;
+
+  logfile[s]   - 存放用户对数据库的数据的修改过程
+            - 作用：当数据库出现问题的时候，用来恢复数据库
+
+            select * from v$logfile;
+            日志文件时分组的，循环使用的。
+            半小时切换一次比较科学
+
+            数据库可以启用归档方式，用来长期保留日志文件；
+
+  controlfile[s]
+            - 存放数据库的物理结构和同步信息
+              包括数据文件和日志文件的位置，是否同步/是否需要恢复
+              数据库的名称，创建时间，ID
+            select * from v$controlfile;
+              为了保证控制文件的安全性，控制文件时镜像的。
+
+
+  pfile:参数文件 
+  password文件 ：控制哪些用户可以管理数据库
+
+
+
+
+后台进程：
+
+ DBWn 负责将db cache的数据成批写回到datafile
+ LGWR 当用户提交数据的时候，LGWR将LOG BUFFER 的重做信息写到LOGFILE；
+ PMON 进程监控进程 ，当用户的连接异常中断的时候，回滚用户没有完成的事务，
+	释放用户的资源和锁。
+ SMON 系统监控进程，监控系统的运行安全
+      当数据库启动的时候，根据控制文件判断数据库是否需要例程恢复，实施恢复。
+      合并数据文件里面的碎片，回收临时空间。
+
+ CKPT：checkpoint检查点进程
+       当检查点事件完成的时候，修改控制文件和数据文件的头部信息。
+ ARCH：归档进程
+
+ select name from v$bgprocess where paddr<>'00';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+JDBC
+1 建立连接
+
+2 开始事务
+  DMLs [ INSERT，UPDATE，DELETE]
+3 提交事务
+
+
+2 开始事务
+  DMLs
+3 提交事务
+
+
+4 断开连接
+
+
+
+---------------------------------------------------------------------------
+启动instance/数据库需要的条件：
+1.权限 [ORA_DBA,PASSWORD FILE]
+2.参数文件 pfile / spfile
+  %ORACLE_HOME%/database
+  $ORACLE_HOME/dbs
+  名称：init<SID>.ora   spfile<SID>.ora
+
+   initorcl.ora :文本文件，可以编辑，但是数据库启动以后，不能动态修改参数。
+   spfileorcl.ora：二进制文件，由服务器管理，不能编辑，只能通过
+    alter system set [parameter]=value scope=memory|spfile|both 来修改。
+    可以动态调整数据库的参数。
+   重启oracle后,conn / as sysdba，然后通过show parameters 检查一下对应的参数,如processes对不对。
+   
+   create spfile from pfile;
+   create pfile from spfile;
+
+  spfileorcl.ora -> initorcl.ora ->init.ora
+  
+  startup pfile=.... 
+
+  C:\> SET ORACLE_SID=orcl
+  C:\> sqlplus /nolog
+  SQL> CONNECT / AS SYSDBA
+  SQL> STARTUP
+  SQL> SHOW PARAMETER SPFILE;
+  
+ 数据库启动，关闭，和运行的时候，会把数据库的运行状态和出现的问题
+包括dba的一些操作，记录在alert_orcl.log.
+  windows:%ORACLE_BASE%/admin/<SID>/bdump
+  OSP: %ORACLE_BASE%/rdbms/log/
+3个步骤
+  1 startup instance
+    --参数文件
+    startup nomount；
+    ----
+     show sga
+     v$instance
+
+  2 mount database
+    --控制文件
+    alter database mount；
+    ----
+    v$database
+    v$datafile v$logfile v$tablespace;
+
+  3 open database
+    --数据文件/日志文件
+    alter database open；
+    ---- 
+    all_users [来自数据字典，数据字典存放于系统表空间，也就是数据文件里面，
+    所以数据库打开以后才能看到]
+
+ 只有当数据库打开以后，用户才可以连接数据库，否则只有sysdba可以连接instance。
+
+
+关闭数据库有四种方式；
+
+SHUTDOWN [NORMAL]
+    TRANSACTIONAL
+    IMMEDIATE
+    ABORT
+
+STARTUP FORCE
+ = SHUTDOWN ABORT + STARTUP
+
+
+======================================================================
+创建数据库
+ 工具：dbca
+
+ 1.准备参数文件
+   准备好目录 
+   创建服务[windows]
+ 设置环境变量
+   set ORACLE_SID=testdb
+   export ORACLE_SID=testdb
+
+ 2.startup nomount
+ 3.create database......
+   创建其他表空间
+
+ 4.创建数据字典 run catalog.sql
+
+   创建spfile
+ 
+====================================================================
+动态性能视图
+数据字典
+  --DICTIONARY
+
+SYS /CHANGE_ON_INSTALL
+
+  拥有数据字典
+  可以CONNECT AS SYSDBA
+
+SYSTEM
+  拥有外围的数据库管理的表
+  口令：manager
+
+
+
+1292
+
+ DBA_USERS
+ DBA_DATA_FILES
+ DBA_TABLESPACES
+ DBA_TABLES;
+ DBA_INDEXES;
+ DBA_SEGMENTS;
+ DBA_EXTENTS
+ DBA_OBJECTS
+ DBA_CONSTRAINTS;
+
+   ---来源于数据字典/系统表空间
+
+ V$SGA
+ V$INSTANCE
+ V$DATABASE
+ V$LOGFILE
+ V$CONTROLFILE
+ V$LOG
+ V$TEMPFILE
+ V$SESSION
+
+ V$SYSSTAT
+ V$WAITSTAT
+
+   ---来源于参数文件和控制文件
+   ---暂时保留在内存里面
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

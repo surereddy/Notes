@@ -1,0 +1,78 @@
+|-Install oracle 9 in Solaris 8
+Refer to "ORACLE9_2_0 for Solaris SPARC°²װ˖²�ht"
+|-uninstall
+
+Xmanager
+/opt/oracle/oracle/product/10.2.0/db_1/oui/bin/runInstall.sh
+选deinstall
+
+||- Create user oracle 
+#groupadd dba 
+#useradd -d /export/home/oracle -g dba -m oracle 
+#passwd oracle  
+
+||- Set environment
+  -Add following lines in /etc/services 
+    orasrv 1525/tcp  oracle
+    listener 1521/tcp 
+	- # vi /etc/system
+在/etc/system文件set模块后增加一段:
+set shmsys:shminfo_shmmax= $A (8589934592)
+set shmsys:shminfo_shmmin=1
+set shmsys:shminfo_shmmni=1024
+set shmsys:shminfo_shmseg=256
+set semsys:seminfo_semmnu=100
+set semsys:seminfo_semmni=256
+set semsys:seminfo_semmsl=510
+set semsys:seminfo_semmns=10700
+set semsys:seminfo_semopm=100
+set semsys:seminfo_semvmx=32767
+
+;Notice: $A=0.8 * memory amount in byte
+;#prtconf|grep Mem ;show memory
+
+  It's better to reboot server to make the change take effect.    
+
+  -Add following lines in oracle's profile
+*******Start of Profile***********
+#	This is the default standard profile provided to a user.
+#	They are expected to edit it to meet their own needs.
+
+MAIL=/usr/mail/${LOGNAME:?}
+umask 022
+
+ULIMIT=3000000
+
+ORACLE_SID=iwpcdb
+
+ORACLE_BASE=/export/home/oracle
+
+ORACLE_HOME=$ORACLE_BASE/product/920
+
+ORACLE_TERM=sun5
+
+export ULIMIT ORACLE_SID ORACLE_BASE ORACLE_HOME ORACLE_TERM
+
+export PATH=$PATH:$ORACLE_HOME/bin
+
+
+#export DISPLAY=192.168.100.178:0.0
+#export NLS_LANG=AMERICAN_CHINA.ZHS16GBK （数据库支持中文）  |   NLS_LANG='SIMPLIFIED CHINESE_CHINA.ZHS16GBK' (sql 提示语中文)
+export JAVA_HOME=/export/home/oracle/oracle/product/9.2.0/JRE
+export JDK_HOME=$JAVA_HOME
+export ORACLE_OEM_JAVARUNTIME=$JAVA_HOME
+export PATH=.:/usr/local/bin:/export/home/oracle/product/9.2.0/JRE/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/css/bin:/usr/local/bin:/usr/proc/bin:$ORACLE_HOME/bin:$ORACLE_HOME/admin/bin:$ORACLE_HOME/lib:$PATH
+export LD_LIBRARY_PATH=.:/lib:/usr/lib:/usr/local/lib:/usr/share/lib:/usr/css/lib:$ORACLE_HOME/lib:$ORACLE_HOME/rdbms/lib:/usr/java/lib
+******End of Profile************
+
+
+||- Login server through Xmanager with user id oracle
+ - set DISPLAY first for oracle
+ export DISPLAY=<%your pc ip%>:0.0
+ eg.$export DISPLAY=192.168.100.178:0.0\
+ 
+||- Select English and Simple Chinese in language selection
+||- Select install Software only (not creating a Database)
+||- Run cmd $ORACLE_HOME/bin/dbca in user oracle mode
+  The wizard with will pop up in the Xmanager.
+ 

@@ -1,0 +1,10 @@
+|-FAQ:
+
+- Its configuration is stored regedit: HKEY_CURRENT_USER\Software\SimonTatham\PuTTY.
+  export this folder and backup, then import it if you want to restore.
+  
+
+- Change default sessions
+To save your default settings: first set up the settings the way you want them saved. 
+Then come back to the Session panel. Select the ¡®Default Settings¡¯ entry in the saved sessions list, with a single click. 
+Then press the ¡®Save¡¯ button. 

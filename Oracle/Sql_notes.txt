@@ -1,0 +1,202 @@
+|- FAQ
+
+||- sqlplus 直接执行sql文件
+sqlplus itaowner/iris@IRIS < truncate_ITA_7.13.1_SP4.sql
+
+
+||- use sql file
+
+SQL> @file_name;
+
+||- 重新运行上一次运行的sql语句
+
+SQL>/
+
+
+
+
+||- 将显示的内容输出到指定文件
+
+SQL> SPOOL file_name
+
+在屏幕上的所有内容都包含在该文件中，包括你输入的sql语句。
+
+
+5. 关闭spool输出
+
+SQL> SPOOL OFF
+
+只有关闭spool输出，才会在输出文件中看到输出的内容。
+
+|-select
+=======================
+select firstname || ' ' || subname || 'is a'|| position as 'Employee job details' from emp;
+Result:
+Employee job details
+------------------------------
+Jiping Xie is a test engineer. 
+
+() for condition priority
+where (firstname='peter' or job='mananger') and  salary>1000; 
+
+from emp order by salary [asc];
+         order by salary desc;
+
+sorting by column alias:
+select salary * 12 as annsal from emp order by annsal;
+
+upper(Peter Xie)=  PETER XIE
+lower(Peter Xie) = PETER XIE
+eg. name= Peter XIE,
+select name from emp where name='Peter Xie'; 
+=>None
+select name from emp where lower(name)='peter xie';
+Peter XIE
+
+Join/two table
+-----------
+select table1.colume1 and table2.colume2 from table1, table2 where table1.colume1=table2.colume1;
+
+
+DATE condition:
+-----------
+select to_char(birth_date,'YYYY-MM-DD') from emp where birth_date<= to_date('19791027','YYYYMMDD');
+or 
+select * from rawticket_voip where to_char(insertion_date,'yyyymmdd') >'20051019';
+
+TO_DATE(t_sysdate,'YYYYMMDDHH24:MI:SS'),
+
+GROUP function:
+-----------
+select sum(salary) from emp;
+avg, max, min,count
+
+select count(*) from emp; return the rows
+select count(distinct department) from emp; distinct number
+
+select avg(salary) from emp group by department;
+
+char
+-------
+select ascii(ann_dur), ascii(ann_rp) from cmmgen421.subann_p where ann_id=10;
+update cmmgen421.subann_p set ann_dur=chr(0),ann_rp=chr(1) where ann_id=10;
+
+like
+---------
+like '%sup%' % some characters
+like '_sup_' _ one character 
+not like '_sup_'
+
+distinct
+-----------
+select distinct country from customer;
+
+
+order desc,asc(default)
+------------
+select * from customer order by country desc;
+
+not
+---------
+where country NOT like '_sup_'
+
+in, between
+---------
+in for varchar
+where country in ('China','USA')
+
+between 10 and 20
+
+|-update
+=======================
+update table set salary=10000 where lower(name)='peter';
+
+delete rows:
+delete from emp where lower(name)='peter';
+
+insert into emp(name, salary) values('peter',10000); Need only the mandatory fields
+                              select name,salary from emp2;
+
+|- Loop
+=======================  
+http://www.adp-gmbh.ch/ora/plsql/loops.html
+While loop:
+while a > b loop
+  /* statements */
+end loop
+
+For loop:
+for i in 1..1000 loop
+    insert into a values(i,i*2);
+end loop;
+
+for i in reverse 1..1000 loop
+    insert into a values(i,i*2);
+end loop;
+
+Example:
+---Example start---
+DECLARE @i int 
+DECLARE @username varchar(100)
+DECLARE @linenumber varchar(100)
+ 
+SET @i = 1 
+WHILE (@i <= 9) 
+    BEGIN 
+       -- do something you want
+       -- convert is for SQL server. In Oracle, you need to replace convert() with to_char()
+       SET @username = 'CDC_2_EP1' + convert(nvarchar,@i)   
+       SET @linenumber = '72041' + convert(nvarchar,@i)
+       
+       update [DirectReach].[dbo].[TSIP_ENDPOINT] set 
+       [Post_Dial_String]=',,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111'
+       ,[use_resp_first]=1
+       ,[Line_Number]=@linenumber
+       where [user_name] = @username  
+     
+        -- increment counter
+        SET @i = @i + 1 
+    END
+---Example end---
+                              
+|-commit and rollback
+=======================    
+commit;
+rollback;
+
+|-Query table
+==========                      
+select * from tab; table/view name of user
+select table_name from user_tables;
+select table_name from all_tables;
+
+desc emp;
+
+|-table manipulation
+=======================   
+drop table emp;
+create table smc303.emp(name varchar2(14),salary number(8));
+
+
+
+
+|-user, password and grant
+=======================   
+sqlplus /nolog
+conn / as sysdba;
+
+drop user first
+-----
+DROP USER ViSS234 CASCADE;
+alter tablespace ViSS234 offline immediate;
+drop tablespace ViSS234 INCLUDING CONTENTS; 
+!rm -f /opt/oracle/oradata/emsdb/ViSS234.dbf
+
+
+--------
+create user peter identified by asb!2345; DBA sys system
+grant create table to peter;
+grant select on emp to peter;
+grant select on emp to public; to all users
+
+      

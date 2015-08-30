@@ -1,0 +1,503 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 33 -- Debugging CGI Applications</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 33</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Dynamic Image Creation</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+<UL>
+<LI><A HREF="#WrongPermissionsonCGIScripts" >Wrong Permissions on CGI Scripts</A>
+<UL>
+<LI><A HREF="#CheckingReturnedValuesfromScripts" >Checking Returned Values from Scripts</A>
+<LI><A HREF="#CheckingErrorsWhenOpeningFiles" >Checking Errors When Opening Files</A>
+<LI><A HREF="#DebugYourCGIScript" >Debug Your CGI Script</A>
+<LI><A HREF="#CheckingErrorsWhenOpeningPipes" >Checking Errors When Opening Pipes</A>
+<li><a href="#SendMail">Send Mail to Valid Recipients</a></UL>
+<LI><A HREF="#UsethePerlInterpreterLineonUNIXSy" >Use the Perl Interpreter Line on UNIX Systems</A>
+<LI><A HREF="#LibrariesforDynamicallyLoadedModules" >Libraries for Dynamically Loaded Modules</A>
+<LI><A HREF="#CheckforSupportforSystemCalls" >Check for Support for System Calls</A>
+<LI><A HREF="#DontReturnMalformedHeaders" >Don't Return Malformed Headers</A>
+<LI><A HREF="#FlushOutputBuffersImmediately" >Flush Output Buffers Immediately</A>
+<LI><A HREF="#DontSetEnvironmentVariables" >Don't Set Environment Variables</A>
+<LI><A HREF="#CleanUpAfterYourself" >Clean Up After Yourself</A>
+<LI><A HREF="#ConfigureYourServerCorrectly" >Configure Your Server Correctly</A>
+<LI><A HREF="#AlwaysCreateanindexhtmlFile" >Always Create an index.html File</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter is devoted to providing solutions to some of the
+most common bugs you'll run across when debugging CGI applications.
+The information in this chapter is the result of many frustrating
+hours spent figuring out why an obviously simple CGI script would
+not work. Hopefully, the information in this chapter will solve
+some of the problems you might face while debugging CGI scripts.
+The information in this chapter is based on topics covered in
+<A HREF="ch20.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch20.htm" >Chapter 20</A>, &quot;Introduction to Web
+Pages and CGI.&quot;
+<P>
+Basically, this chapter will cover the points to keep in mind
+when you write CGI scripts that have to open files or pipes or
+keep temporary information in files, as well issues about how
+to respond to client-side requests. We will also cover some security
+issues about writing and placing Perl scripts in directory trees.
+The summary at the end of the chapter will serve as a good checklist
+for you to use when evaluating potential problems with your Perl
+CGI scripts.
+<H2><A NAME="WrongPermissionsonCGIScripts"><B><FONT SIZE=5 COLOR=#FF0000>Wrong
+Permissions on CGI Scripts</FONT></B></A></H2>
+<P>
+The CGI script on the server side must be an executable file and
+have execute permissions set for the file. Not having the correct
+permissions results in &quot;file not found&quot; errors sent
+back to the client. Not having execute permissions results in
+other error messages being sent back to the client.
+<H3><A NAME="CheckingReturnedValuesfromScripts"><B>Checking Returned
+Values from Scripts</B></A></H3>
+<P>
+All paths of execution in the CGI script must return a value that
+can be interpreted by the client. Test your CGI to make sure that
+the application does not exit with an unpredictable return code.
+If the CGI script relies on files on the server side, are they
+accessible? The CGI script will be running under the same permissions
+as the Web server. The server runs as the user called &quot;nobody.&quot;
+Make sure that the data files being accessed by the CGI script
+have the correct read/write permissions for being accessed by
+&quot;nobody.&quot;
+<H3><A NAME="CheckingErrorsWhenOpeningFiles"><B>Checking Errors
+When Opening Files</B></A></H3>
+<P>
+Opening the file usually entails checking for errors before proceeding.
+Here's a usual call in a Perl script to open a file and read from
+it:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">open(MFILE,&quot;&lt;/tmp/bogus/data/file&quot;)
+<BR>
+|| die &quot;$!: Cannot open it!&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If the Perl script skips the error-checking portion and just goes
+on attempting to read from the nonexistent file handle <TT><FONT FACE="Courier">MFILE</FONT></TT>,
+it will read no data. (Perl does not crash in this instance.)
+For example, the following lines are expected to return a GIF
+image back to the client:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">print &quot;Content-type:image/gif \n\n&quot;;
+<BR>
+open(MFILE,&quot;&lt;/tmp/bogus/data/image.file&quot;);<BR>
+while (&lt;MFILE&gt;)&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print $_;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+close MFILE;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This code would be called in a CGI script to return the contents
+of an image back to the browser whose request caused the script
+to be executed. If the GIF image being opened does not exist,
+then no data is sent back to the browser. Here are the ways to
+avoid such errors:
+<UL>
+<LI><FONT COLOR=#000000>Write some code to make sure that the
+data file being read does exist and could be opened.</FONT>
+<LI><FONT COLOR=#000000>Return an error message back to the client
+if a file cannot be opened or some condition, such as an empty
+file, prevents the file from being opened.</FONT>
+</UL>
+<H3><A NAME="DebugYourCGIScript"><B>Debug Your CGI Script</B></A>
+</H3>
+<P>
+One important thing to look for are possible infinite loops. Make
+sure your CGI script always returns. Remember that CGI scripts
+are run as the result of a client request coming to your server.
+It's quite possible to have several clients make the same request
+to start off these infinitely looping CGI scripts on your server.
+Too many of these scripts will cause the machine running the server
+to lock up!
+<H3><A NAME="CheckingErrorsWhenOpeningPipes"><B>Checking Errors
+When Opening Pipes</B></A></H3>
+<P>
+Another common mistake when writing CGI scripts is to use the
+error from a pipe command directly. The returned code from a pipe
+command is based on whether or not the pipe was opened. The returned
+code from the pipe command has nothing to do with the command
+on either side of the pipe symbols (<TT><FONT FACE="Courier">|</FONT></TT>).
+For example, the following code will almost never execute the
+<TT><FONT FACE="Courier">die</FONT></TT> statement because a pipe
+almost always can be opened on a given system:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">open(MYFILE,&quot;myprogram |&quot;)
+|| die &quot;Cannot run myprogram&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Instead, break this statement into two statements and then close
+the file handle. The relevant error code will be in the variable
+(<TT><FONT FACE="Courier">$?</FONT></TT>) in case of any errors.
+Use the error code returned from the <TT><FONT FACE="Courier">close</FONT></TT>
+call before proceeding with the second portion of the code. If
+there are no errors, reopen the file and continue. This procedure
+sounds really hokey, but it works as long as you keep two things
+in mind: that starting up <TT><FONT FACE="Courier">myprogram</FONT></TT>
+is not inefficient and that each invocation of <TT><FONT FACE="Courier">myprogram</FONT></TT>
+is totally unrelated to any previous invocations of <TT><FONT FACE="Courier">myprogram</FONT></TT>.
+If these conditions are met, then you can go ahead and simply
+structure the code like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">open(MYFILE,&quot;myprogram |&quot;);
+<BR>
+close(MYFILE);<BR>
+if ($?)<BR>
+{<BR>
+die &quot;\n Cannot run myprogram&quot;;<BR>
+}<BR>
+open(MYFILE,&quot;myprogram |&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<a name="SendMail"><H3><B>Sending Mail to Valid Recipients</B></H3>
+<P>
+One way to use CGI scripts is to send mail to a recipient as part
+of a response to a <TT><FONT FACE="Courier">FORM</FONT></TT> handler.
+For example, the following statements send a mail message using
+<TT><FONT FACE="Courier">mailx</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$sendTo = &quot;badguy@bad.code.edu&quot;;
+<BR>
+#### NO, NO, NO, NOT this way....<BR>
+open (MAILME,&quot;| mailx -s 'A report' $sendTo&quot;)<BR>
+print MAILME, $mailMessage;<BR>
+#<BR>
+# some other code here.<BR>
+#<BR>
+close MAILME;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+When using lines to send mail, make sure you specify the absolute
+pathname to the mailer program. Also, close the pipe to the mail
+handler as soon as possible; otherwise you might forget to do
+so later in the code. Therefore, it's generally better to structure
+the previous lines as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$sendTo = &quot;myname@ikra.com&quot;;
+<BR>
+open (MAILME,&quot;| /usr/bin/mailx -s 'A report' $sendto&quot;)
+<BR>
+print MAILME, $mailMessage;<BR>
+close MAILME;<BR>
+#<BR>
+# some other code here.<BR>
+#</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Of course, you should use your system's mail carrier, such as
+<TT><FONT FACE="Courier">mh</FONT></TT>, or<TT><FONT FACE="Courier">
+elm</FONT></TT>, instead of <TT><FONT FACE="Courier">mailx</FONT></TT>
+in the previous example. Obviously, the underlying mail system
+has to be up and running for this to work.
+<H2><A NAME="UsethePerlInterpreterLineonUNIXSy"><B><FONT SIZE=5 COLOR=#FF0000>Use
+the Perl Interpreter Line on UNIX Systems</FONT></B></A></H2>
+<P>
+Most CGI applications run on UNIX systems that require the first
+line of the CGI script to be a &quot;bang&quot; line. For example,
+if your CGI script is a Perl script and your Perl interpreter
+is in <TT><FONT FACE="Courier">/usr/local/bin</FONT></TT>, then
+the first line of the file should be <TT><FONT FACE="Courier">#!/usr/local/bin/perl</FONT></TT>.
+If you don't use this bang line, the default shell script is used
+instead, and your CGI script is run by the default shell script.
+<P>
+On NT systems, the Perl CGI script should not have the bang line
+as the first line in the script. The bang line is ignored on NT
+systems. The CGI script should run on the NT machine without any
+problems. However, when porting CGI scripts from an NT system
+to a UNIX system, make sure you add the <TT><FONT FACE="Courier">#!</FONT></TT>
+line to the first line of every Perl CGI script.
+<H2><A NAME="LibrariesforDynamicallyLoadedModules"><B><FONT SIZE=5 COLOR=#FF0000>Libraries
+for Dynamically Loaded Modules</FONT></B></A></H2>
+<P>
+Some Perl scripts use the <TT><FONT FACE="Courier">Autoload.pm</FONT></TT>
+module to dynamically load in extensions at execution time. A
+Perl script will not run if the module cannot dynamically load
+the extensions. When porting such scripts to different systems,
+ensure that the extensions you have to load are available on each
+system you port your Perl script to. Some modules may not be available
+on the base system you port your CGI script to.
+<P>
+To avoid such problems at load time, you can either port the modules
+yourself, not use the module extensions, or statically link the
+extensions in. For example, most modules are statically linked
+into the NT version of Perl because the <TT><FONT FACE="Courier">autoload</FONT></TT>
+module is not supported under NT. If you are certain that the
+modules you are loading are not dynamically linked executables
+and that all the functionality you need is in the <TT><FONT FACE="Courier">.pm
+</FONT></TT>file, then you can simply use the <TT><FONT FACE="Courier">use</FONT></TT>
+statement to load the <TT><FONT FACE="Courier">.pm</FONT></TT>
+module file.
+<H2><A NAME="CheckforSupportforSystemCalls"><B><FONT SIZE=5 COLOR=#FF0000>Check
+for Support for System Calls</FONT></B></A></H2>
+<P>
+Avoid system calls as much as possible when writing CGI scripts
+that have to run on different systems. As its name suggests, a
+system call is very dependent on the type of system on which it's
+being called. Most versions of UNIX support system calls uniformly
+and do not cause any problems. Different operating systems support
+different types of system calls. A system call that works on a
+VMS system might not work on a UNIX system, and vice versa.
+<H2><A NAME="DontReturnMalformedHeaders"><B><FONT SIZE=5 COLOR=#FF0000>Don't
+Return Malformed Headers</FONT></B></A></H2>
+<P>
+A common problem that results from CGI scripts is that malformed
+headers are sent back when a request for data arrives from a browser.
+Normally, a MIME header is sent from a server back to a browser.
+For example, to send an HTML document back, a header will be of
+the form <TT><FONT FACE="Courier">Content-type: text/html \n\n</FONT></TT>,
+for a GIF image <TT><FONT FACE="Courier">Content-type: image/gif
+\n\n</FONT></TT>, and so on. A script that has errors in it or
+simply does not run will not return this header to the browser.
+<P>
+Also, don't forget to send two new lines at the end of every header.
+The server expects a blank line following the MIME header, so
+make the header call like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">print &quot;Content-type: image/gif \n\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">\n\n</FONT></TT> construct may not
+work under all conditions, especially those that require an explicit
+carriage-return/line-feed pair. In this case you should use the
+construct <TT><FONT FACE="Courier">\r\n\r\n</FONT></TT> instead
+of <TT><FONT FACE="Courier">\n\n</FONT></TT>.
+<H2><A NAME="FlushOutputBuffersImmediately"><B><FONT SIZE=5 COLOR=#FF0000>Flush
+Output Buffers Immediately</FONT></B></A></H2>
+<P>
+It's important to flush the output buffers used by CGI scripts
+immediately. The underlying operating system may keep output written
+to a file handle such as <TT><FONT FACE="Courier">STDOUT</FONT></TT>
+for some time. This time may be longer than a browser expects
+to spend while waiting for a response. The simplest way to do
+this is to select the output file handle and then set the <TT><FONT FACE="Courier">$|</FONT></TT>
+variable to <TT><FONT FACE="Courier">1</FONT></TT>.
+<H2><A NAME="DontSetEnvironmentVariables"><B><FONT SIZE=5 COLOR=#FF0000>Don't
+Set Environment Variables</FONT></B></A></H2>
+<P>
+A CGI script is the child process of the Web server running on
+a system. Being a child process, it cannot set its environment
+variables for a period longer than its own execution time. That
+is, any environment variables set using statements like the following
+will only set the value of the environment variable <TT><FONT FACE="Courier">GEEPERS</FONT></TT>
+for the script while it's executing:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ENV{'GEEPERS'} = &quot;creepers&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The value of <TT><FONT FACE="Courier">GEEPERS</FONT></TT> is not
+available to the parent (server) process, which invoked this shell
+script in the first place. In fact, the next time the same CGI
+script is run, the value of the environment variable <TT><FONT FACE="Courier">GEEPERS</FONT></TT>
+will be the value set in the server, not one set previously by
+a client.
+<P>
+A possible way to track information between successive runs of
+a CGI script is to use an HTML <TT><FONT FACE="Courier">FORM</FONT></TT>
+object to store variables. HTML <TT><FONT FACE="Courier">FORM</FONT></TT>
+handling is covered in detail in <A HREF="ch20.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch20.htm" >Chapter 20</A>.
+Basically, what you can do is store intermediate values in a <TT><FONT FACE="Courier">TEXT</FONT></TT>
+object, making the <TT><FONT FACE="Courier">TEXT</FONT></TT> box
+invisible. Successive calls to the CGI script update the value
+of the variable in the <TT><FONT FACE="Courier">TEXT</FONT></TT>
+box. Of course, you can chew up disk space by saving intermediate
+results to disk.
+<H2><A NAME="CleanUpAfterYourself"><B><FONT SIZE=5 COLOR=#FF0000>Clean
+Up After Yourself</FONT></B></A></H2>
+<P>
+There are occasions when CGI scripts use temporary files to store
+information. Don't forget to delete these files after your script
+is done. After some time, such temporary files can accumulate
+and use up valuable disk space. It's a good idea to exit from
+one point in the code by calling a subroutine and to remove all
+temporary files in that subroutine before exiting.
+<P>
+Keeping temporary files on a server also poses the problem of
+synchronizing the temporary file with the process that created
+it. Normally, the name of the temporary file is derived from the
+process ID of the creating application. This, in turn, means that
+only the process that created the file knows the filename and
+when to delete the file. Even if a common prefix, such as <TT><FONT FACE="Courier">CGI</FONT></TT>,
+is used for all temporary filenames, processes within the same
+process group should not arbitrarily delete all temporary files
+beginning with <TT><FONT FACE="Courier">CGI</FONT></TT>. For one
+thing, other CGI applications might be using the temporary files
+when another process deletes them. Also, there might be other
+unrelated processes using <TT><FONT FACE="Courier">CGI</FONT></TT>
+as the prefix for their filenames.
+<H2><A NAME="ConfigureYourServerCorrectly"><B><FONT SIZE=5 COLOR=#FF0000>Configure
+Your Server Correctly</FONT></B></A></H2>
+<P>
+Another common problem with CGI scripts is that beginning Webmasters
+forget to make the path to these scripts visible to the Web server.
+Most servers look in the <TT><FONT FACE="Courier">cgi-bin</FONT></TT>
+subdirectory as the top of the path for a CGI script to execute.
+If the named file in the path does not follow the rules for the
+server you happen to be running, the server will pick up the script
+and ship it back to the browser as a text file. In most cases,
+this is simply an annoyance. In some cases, looking at your CGI
+script may give away valuable directory information to the end
+user at the browser.
+<P>
+To avoid such problems, you should edit the configuration files
+for the server you are running. For the ncSA server, this entails
+editing the <TT><FONT FACE="Courier">srm.conf</FONT></TT> file
+in <TT><FONT FACE="Courier">conf</FONT></TT> subdirectory of where
+you installed the distribution for the server. The <TT><FONT FACE="Courier">ScriptAlias</FONT></TT>
+directive in the <TT><FONT FACE="Courier">srm.conf</FONT></TT>
+file controls which directories contain server scripts. The format
+for the <TT><FONT FACE="Courier">ScriptAlias</FONT></TT> directive
+in the <TT><FONT FACE="Courier">srm.conf</FONT></TT> file is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">ScriptAlias fakename realname</FONT></TT>
+</BLOCKQUOTE>
+<P>
+For example, the following setting will make the <TT><FONT FACE="Courier">/home/webserver/httpd/cgi-bin/</FONT></TT>
+directory look like the <TT><FONT FACE="Courier">/cgi-bin</FONT></TT>
+directory to the Web server:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">ScriptAlias /cgi-bin/ /home/webserver/httpd/cgi-bin/</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Also, if you want to execute files at locations other than those
+specified in the <TT><FONT FACE="Courier">ScriptAlias</FONT></TT>
+path, you can specify what file extensions are allowed with the
+<TT><FONT FACE="Courier">AddType</FONT></TT> directive. For example,
+the following directive allows all executable scripts with <TT><FONT FACE="Courier">.pl</FONT></TT>
+or <TT><FONT FACE="Courier">.cgi</FONT></TT> to be executed:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">AddType application/x-httpd-cgi .cgi</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In general, use absolute pathnames to all the files your CGI script
+accesses. Specifying a relative pathname causes all searches using
+the relative pathname to be started from the &quot;root&quot;
+of the <TT><FONT FACE="Courier">DocumentRoot</FONT></TT>. The
+<TT><FONT FACE="Courier">DocumentRoot</FONT></TT> directive in
+the <TT><FONT FACE="Courier">srm.conf</FONT></TT> file is the
+base directory from which files are searched for binary files.
+The benefit of using an external base starting directory is that
+an entire directory tree can be moved by simply moving the root
+of that tree. This way you do not have the agony of resetting
+all pathnames if all the scripts in the root of the directory
+change. However, the downside of this base directory path is that
+it makes your movable directory susceptible to hackers who can
+use the relative pathnames to point to their own files in place
+of a directory tree on a system and let your documents point to
+their own versions of your documents.
+<P>
+Finally, the configuration file <TT><FONT FACE="Courier">access.conf</FONT></TT>
+has a <TT><FONT FACE="Courier">FollowSymLinks/</FONT></TT> directive.
+If this directive is enabled, a browser can be used to follow
+symbolic links when it's resolving pathnames to find a document.
+If your CGI script is accessing a file via a symbolic link, the
+script will not work unless this directive is set to allow the
+follow-up of links. Unfortunately, enabling the follow-through
+opens up a security hole big enough to drive a virtual bus through.
+If someone symbolically links a document to the <TT><FONT FACE="Courier">/bin</FONT></TT>
+or <TT><FONT FACE="Courier">/sbin</FONT></TT> directory on your
+system, he or she has free run of the system.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD><B>Warning</B></TD></TR>
+<TR VALIGN=TOP><TD>
+<BLOCKQUOTE>
+Never put <TT><FONT FACE="Courier">perl.exe</FONT></TT> in the <TT><FONT FACE="Courier">httpd</FONT></TT> directories in the heat of debugging. It's a major mistake that will let users at the browser run anything on your system! Don't even symbolically 
+link to an executable program such as <TT><FONT FACE="Courier">perl</FONT></TT>, <TT><FONT FACE="Courier">sh</FONT></TT>, or something similar that a user could run off the command line.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H2><A NAME="AlwaysCreateanindexhtmlFile"><B><FONT SIZE=5 COLOR=#FF0000>Always
+Create an </FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">index.html</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+File</FONT></B></A></H2>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Almost all servers append /index.html
+or index.html to a given URL that references a directory. Therefore,
+the following URLs both become http://www.ikra.com/index.html:
+<BR>
+http://www.ikra.com/<BR>
+<BR>
+http://www.ikra.com</TT>
+</BLOCKQUOTE>
+<P>
+Guess what happens when there is no <TT><FONT FACE="Courier">index.html</FONT></TT>
+file in the directory being referenced? The server returns an
+FTP listing of <I>all</I> files in the directory! This type of
+exposure of your directory subtree to the world might not be what
+you want.
+<P>
+CGI scripts can often return HTML pages as responses. One of the
+first things you should do is to check all URLs generated in these
+scripts that refer to your server. Make sure that there is an
+<TT><FONT FACE="Courier">index.html</FONT></TT> file in all the
+directories that a URL generated at your server can refer to.
+It's a good idea for all URLs that you generate to be absolute
+pathnames instead of relative pathnames.
+<P>
+One very important directory to place an <TT><FONT FACE="Courier">index.html</FONT></TT>
+file in is the logs subdirectory in the <TT><FONT FACE="Courier">httpd</FONT></TT>
+tree. Not placing an <TT><FONT FACE="Courier">index.html</FONT></TT>
+file in the logs subdirectory will expose all your Web server
+logs.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+This chapter is a synopsis of some of the problems you can run
+into when coding CGI scripts using Perl. I cannot possibly enumerate
+all the problems you might run into when debugging CGI applications;
+however, this checklist will help you in debugging some common
+problems:
+<UL>
+<LI><FONT COLOR=#000000>Make sure your CGI script has execute
+permissions.</FONT>
+<LI><FONT COLOR=#000000>Make sure that any data files used by
+the CGI script are readable by user &quot;nobody.&quot;</FONT>
+<LI><FONT COLOR=#000000>The CGI script should compile and run
+correctly. Do use the </FONT><TT><FONT FACE="Courier">-w</FONT></TT>
+switch on your CGI scripts, especially when testing, to make sure
+that your Perl script does not have any embarrassing bugs.
+<LI><FONT COLOR=#000000>On UNIX systems, make sure you have the
+Perl interpreter line (</FONT><TT><FONT FACE="Courier">#!/usr/local/bin/perl</FONT></TT>,
+<TT><FONT FACE="Courier">#!/usr/bin/perl</FONT></TT>, whatever<TT><FONT FACE="Courier">
+</FONT></TT>), and on NT systems, take this line out. If you forget
+to place this line in the front of your Perl script in UNIX, a
+browser will get a <TT><FONT FACE="Courier">500 Server Error</FONT></TT>.
+<LI><FONT COLOR=#000000>Libraries for dynamically loaded modules
+must exist in the </FONT><TT><FONT FACE="Courier">@Inc </FONT></TT>path
+of the Perl script.
+<LI><FONT COLOR=#000000>Any system calls in the CGI script must
+be supported in the underlying system.</FONT>
+<LI><FONT COLOR=#000000>Return valid MIME headers in all cases
+from a CGI script.</FONT>
+<LI><FONT COLOR=#000000>Flush output buffers immediately by setting
+</FONT><TT><FONT FACE="Courier">$|</FONT></TT> to <TT><FONT FACE="Courier">1</FONT></TT>.
+<LI><FONT COLOR=#000000>Don't rely on environment variables being
+set on successive runs of the same CGI script.</FONT>
+<LI><FONT COLOR=#000000>Clean up any temporary files created by
+CGI scripts.</FONT>
+<LI><FONT COLOR=#000000>Make the CGI directory visible by configuring
+</FONT><TT><FONT FACE="Courier">ScriptAlias</FONT></TT> in the
+configuration file.
+</UL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch32.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch32.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="appa.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/appa.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

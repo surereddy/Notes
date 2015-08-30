@@ -1,0 +1,1522 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Appendix A -- Answers to Review Questions</TITLE>
+
+
+
+<META>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Appendix&nbsp;A</FONT></H1>
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Answers to Review Questions</FONT>
+
+</H1>
+
+<HR>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 1</FONT></A></H2>
+
+<OL>
+
+<LI>What is the address of Perl's home page?<BR>
+
+<B>http://www.perl.com/</B>
+
+<LI>Who was the creator of Perl?<BR>
+
+<B>Larry Wall</B>
+
+<LI>How much does Perl cost?<BR>
+
+<B>Free</B>
+
+<LI>Why are comments important to Programming?<BR>
+
+<B>Comments will enable you to figure out the intent behind the
+
+mechanics of your program.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 2</FONT></A></H2>
+
+<OL>
+
+<LI>What are the four types of data that can be used in literals?
+
+<BR>
+
+<B>Literals can be Numeric, Strings, Arrays, or Associative Arrays.</B>
+
+<LI>What are numeric literals?<BR>
+
+<B>They represent a number that your program will need to work
+
+with.</B>
+
+<LI>How many types of string literals are there?<BR>
+
+<B>Three-Single-quoted, double-quoted, and back-quoted. </B>
+
+<LI>What is the major differeNCe between single- and double-quoted
+
+strings?<BR>
+
+<B>Double-quoted strings allow the use of variables.</B>
+
+<LI>What are three escape sequeNCes and what do they mean?<BR>
+
+<B>Any value in this table would be correct:</B>
+
+</OL>
+
+<P>
+
+<P>
+
+<CENTER><B>Table A.1&nbsp;&nbsp;Escape SequeNCes</B></CENTER>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD WIDTH=145><CENTER><I>Escape SequeNCes</I></CENTER></TD>
+
+<TD WIDTH=386><I>Description or Character</I></TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\a</CENTER></TD><TD WIDTH=386>Alarm\bell
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\b</CENTER></TD><TD WIDTH=386>Backspace
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\e</CENTER></TD><TD WIDTH=386>Escape
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\f</CENTER></TD><TD WIDTH=386>Form Feed
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\n</CENTER></TD><TD WIDTH=386>Newline
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\r</CENTER></TD><TD WIDTH=386>Carriage Return
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\t</CENTER></TD><TD WIDTH=386>Tab</TD>
+
+</TR>
+
+<TR><TD WIDTH=145><CENTER>\v</CENTER></TD><TD WIDTH=386>Vertical Tab
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\$</CENTER></TD><TD WIDTH=386>Dollar Sign
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\@</CENTER></TD><TD WIDTH=386>Ampersand
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\%</CENTER></TD><TD WIDTH=386>Percent Sign
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\0nnn</CENTER></TD><TD WIDTH=386>Any octal byte
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\xnn</CENTER></TD><TD WIDTH=386>Any hexadecimal byte
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\cn</CENTER></TD><TD WIDTH=386>Any Control character
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\l</CENTER></TD><TD WIDTH=386>Change the next character to lowercase
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\u</CENTER></TD><TD WIDTH=386>Change the next character to uppercase
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\L</CENTER></TD><TD WIDTH=386>Change the following characters to lowercase until an \E sequeNCe is eNCountered
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\U</CENTER></TD><TD WIDTH=386>Change the following characters to uppercase until an \E sequeNCe is eNCountered
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\E</CENTER></TD><TD WIDTH=386>Terminate the \L or \U sequeNCe
+
+</TD></TR>
+
+<TR><TD WIDTH=145><CENTER>\\</CENTER></TD><TD WIDTH=386>Backslash
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<OL>
+
+<LI>What would the following one-line program display?<BR>
+
+print 'dir c:\*.log';<BR>
+
+<B>This would display all files with the extension of LOG on a
+
+DOS system.</B>
+
+<LI>What is scientific notation?<BR>
+
+<B>A means of displaying very large or very small numbers in a
+
+base-10 notation.</B>
+
+<LI>How can you represent the number 64 in hexadecimal inside
+
+a double-quoted string?<BR>
+
+<B>&quot;0x40&quot;</B>
+
+<LI>What is the easiest way to represent an array that iNCludes
+
+the numbers 56 to 87?<BR>
+
+<B>(56..87)</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 3</FONT></A></H2>
+
+<OL>
+
+<LI>What are the three basic data types that Perl uses?<BR>
+
+<B>Scalar, array, and associative array.</B>
+
+<LI>How can you determine the number of elements in an array?
+
+<BR>
+
+<B>You can assign the array variable to a scalar variable.</B>
+
+<LI>What is a namespace?<BR>
+
+<B>A namespace is a way to segregate one type of name from another.
+
+The scalar variables use one namespace and array variables use
+
+another.</B>
+
+<LI>What is the special variable $[ used for?<BR>
+
+<B>The $[ variable can tell you the base array subscript.</B>
+
+<LI>What is the special variable $&quot; used for?<BR>
+
+<B>The $&quot; variable determines what character or string is
+
+used to separate array elements when they are printed using a
+
+double-quoted string and variable interpolation.</B>
+
+<LI>What is the value of a variable when it is first used?<BR>
+
+<B>In a numeric context, zero. In a string context, an empty string.</B>
+
+<LI>What is an associative array?<BR>
+
+<B>An associative array is an array that can use non-numbers as
+
+array subscripts. A scalar key is used as the subscript to retrieve
+
+an associated value.</B>
+
+<LI>How can you access associative array elements?<BR>
+
+<B>You use curly braces around the subscript and a $ to begin
+
+the variable name.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 4</FONT></A></H2>
+
+<OL>
+
+<LI>What are three arithmetic operators?<BR>
+
+<B>+ Addition<BR>
+
+<B>- Subtraction<BR>
+
+<B>* Multiplication<BR>
+
+<B>/ Division</B></B></B></B>
+
+<LI>What does the x operator do?<BR>
+
+<B>Returns the string to the left of x and repeats it the number
+
+of times listed to the right of the x.</B>
+
+<LI>What does it mean to pre-decrement a variable?<BR>
+
+<B>To reduce the value of the variable by one before it is used.</B>
+
+<LI>What is the value of 1 ^ 1?<BR>
+
+<B>1</B>
+
+<LI>What is the value of 1 &lt;&lt; 3?<BR>
+
+<B>8</B>
+
+<LI>What is the ternary operator used for?<BR>
+
+<B>The <I>ternary</I> operator is actually a sequeNCe of operators
+
+designed to choose between two options.</B>
+
+<LI>Can the x operator be used with arrays?<BR>
+
+<B>Yes.</B>
+
+<LI>What is the precedeNCe level of the range operator?<BR>
+
+<B>4</B>
+
+<LI>What is the value of 2 <FONT FACE="Symbol">&#165;</FONT> 5
+
++ 10?<BR>
+
+<B>20</B>
+
+<LI>What is the value of 65 &gt;&gt; 1?<BR>
+
+<B>32</B>
+
+<LI>What is the spaceship operator used for?<BR>
+
+<B>Compares two values and returns a -1 for less than and a +1
+
+for greater than.</B>
+
+<LI>If an array was defined with (&quot;fy&quot;..&quot;gb&quot;),
+
+how many elements would it have?<BR>
+
+<B>4</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 5</FONT></A></H2>
+
+<OL>
+
+<LI>What is a parameter?<BR>
+
+<B>Values that get passed to a fuNCtion.</B>
+
+<LI>What two fuNCtions are used to create variables with local
+
+scope?<BR>
+
+<TT><B><FONT FACE="Courier">local()</FONT></B></TT><B> and </B><TT><B><FONT FACE="Courier">my()</FONT></B></TT>
+
+<LI>What does parameter passing by refereNCe mean?<BR>
+
+<B>When parameters are called by refereNCe, changing their value
+
+in the fuNCtion also changes their value in the main program.</B>
+
+<LI>What is the <TT>@_</TT> array
+
+used for?<BR>
+
+<B>To store arguments used by Perl.</B>
+
+<LI>Do Perl variables have global or local scope by default?<BR>
+
+<B>Global.</B>
+
+<LI>Why is it hard to pass two arrays to a fuNCtion?<BR>
+
+<B>Because passing an array will change the values in the main
+
+program as well as the fuNCtion.</B>
+
+<LI>What is the differeNCe between variables created with <TT>local()</TT>
+
+and variables created with <TT>my()</TT>?
+
+<BR>
+
+<B>The </B><TT><B><FONT FACE="Courier">my()</FONT></B></TT><B>
+
+fuNCtion creates variables that only the current procedure or
+
+code block can see. The </B><TT><B><FONT FACE="Courier">local()</FONT></B></TT><B>
+
+fuNCtion, however, creates variables that procedures called from
+
+the current procedure can see.</B>
+
+<LI>What does the <TT>map()</TT> fuNCtion
+
+do?<BR>
+
+<B>This fuNCtion will evaluate an expression for every element
+
+of a given array. The special variable </B><TT><B><FONT FACE="Courier">$_</FONT></B></TT><B>
+
+is assigned each element of the specified array before the expression
+
+is evaluated.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 6</FONT></A></H2>
+
+<OL>
+
+<LI>What is an expression?<BR>
+
+<B>It is a sequeNCe of literals, variables, or fuNCtions connected
+
+by one or more operators that evaluate to a single value-scalar
+
+or array.</B>
+
+<LI>What is a statement?<BR>
+
+<B>Statements are a complete unit of instruction for the computer
+
+to process.</B>
+
+<LI>What are the four statement modifiers?<BR>
+
+<B>if, unless, until, and while</B>
+
+<LI>What are two uses for statement blocks?<BR>
+
+<B>As a visual device to mark sections of code and a way to create
+
+local variables and when you temporarily need to send debugging
+
+output to a file.</B>
+
+<LI>What can non-action statements be used for?<BR>
+
+<B>These statements evaluate a value, but perform no actions.</B>
+
+<LI>How is the if modifier different from the unless modifier?
+
+<BR>
+
+<B>The <I>if</I> modifier will tell Perl that the expression should
+
+only be evaluated if a given condition is true.  The <I>unless</I>
+
+modifier will evaluate an expression unless a condition is true.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 7</FONT></A></H2>
+
+<OL>
+
+<LI>What are the four loop keywords?<BR>
+
+<B>While, until, for, and foreach.</B>
+
+<LI>What are the four jump keywords?<BR>
+
+<B>Last, next, redo, and goto.</B>
+
+<LI>Which form of the until statement is used when the statement
+
+block needs to be executed at least oNCe?<BR>
+
+<B>The do..until loop.</B>
+
+<LI>What will be displayed when this program executes?<BR>
+
+<BR>
+
+<TT>$firstVar = 5;<BR>
+
+{<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;if ($firstVar &gt; 10) {<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last;<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;$firstVar++;<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;redo;<BR>
+
+}<BR>
+
+print(&quot;$firstVar\n&quot;);<BR>
+
+This program will display:<BR>
+
+11</TT>
+
+<LI>What is the default name of the local variable in the <TT>foreach</TT>
+
+loop?<BR>
+
+<BR>
+
+$
+
+<LI>How is the <TT>next</TT> keyword
+
+different from the <TT>redo</TT> keyword?
+
+<BR>
+
+<B>The </B><TT><B><FONT FACE="Courier">next</FONT></B></TT><B>
+
+keyword is used to skip the rest of the statement block and continue
+
+to the next iteration of the loop. The </B><TT><B><FONT FACE="Courier">redo</FONT></B></TT><B>
+
+keyword is used to restart the statement block.</B>
+
+<LI>Why is the comma operator useful in the initialization expression
+
+of a <TT>for</TT> loop?<BR>
+
+<B>Because you can use the comma operator to evaluate two expressions
+
+at oNCe in the initialization and the iNCrement/decrement expressions.</B>
+
+<LI>What is the <TT>shift()</TT> fuNCtion
+
+used for?<BR>
+
+<B>To value a local variable <I>and </I>remove the first element
+
+of the parameter array from the array at the same time. If you
+
+use </B><TT><B><FONT FACE="Courier">shift()</FONT></B></TT><B>
+
+all by itself, the value of the first element is lost.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 8</FONT></A></H2>
+
+<OL>
+
+<LI>What is a refereNCe?<BR>
+
+<B>A <I>refereNCe</I> is a scalar value that points to a memory
+
+location that holds some type of data.</B>
+
+<LI>How many types of refereNCes are there?<BR>
+
+<B>Five.</B>
+
+<LI>What does the <TT>ref()</TT> fuNCtion
+
+return if passed a non-refereNCe as a <BR>
+
+parameter?<BR>
+
+<B>The </B><TT><B><FONT FACE="Courier">ref()</FONT></B></TT><B>
+
+fuNCtion will return a string that contains the words &quot;Non-refereNCe.&quot;</B>
+
+<LI>What notation is used to derefereNCe a refereNCe value?<BR>
+
+<B>Curly braces.</B>
+
+<LI>What is an anonymous array?<BR>
+
+<B>Anonymous arrays are associative arrays that are not being
+
+assigned directly to a variable.</B>
+
+<LI>What is a nested data structure?<BR>
+
+<B>A nested data structure is a data structure that contains another
+
+data structure. Frequently, an object needs to contain another
+
+object-just like a bag can contain groceries.</B>
+
+<LI>What will the following line of code display?<BR>
+
+<BR>
+
+<TT>print(&quot;${\ref(\(1..5))}&quot;);
+
+<BR>
+
+This line of code displays:<BR>
+
+ARRAY</TT>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 9</FONT></A></H2>
+
+<OL>
+
+<LI>What is a file handle?<BR>
+
+<B>File handles are variables used to manipulate files.</B>
+
+<LI>What is binary mode?<BR>
+
+<B>In binary mode on DOS systems, line endings are read as two
+
+characters-the line feed and the carriage return. On both DOS
+
+and UNIX systems, binary mode lets you read the end of file character
+
+as regular characters with no special meaning.</B>
+
+<LI>What is a fully qualified file name?<BR>
+
+<B>The fully qualified name iNCludes the name of the disk, the
+
+directory, and the file name.</B>
+
+<LI>Are variables in the computer's memory considered persistent
+
+storage?<BR>
+
+<B>No</B>.
+
+<LI>What is the &lt;&gt; operator used for?<BR>
+
+<B>The &lt;&gt; characters, when used together, are called the
+
+<I>diamond</I> operator. They tell Perl to read a line of input
+
+from the file handle inside the operators.</B>
+
+<LI>What is the default file handle for the <TT>printf()</TT>
+
+fuNCtion?<BR>
+
+<B>The default file handle is </B><TT><B><FONT FACE="Courier">STDOUT</FONT></B></TT><B>.</B>
+
+<LI>What is the differeNCe between the following two open statements?
+
+<BR>
+
+<TT>open(FILE_ONE, &quot;&gt;FILE_ONE.DAT&quot;);
+
+<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;open(FILE_TWO, &quot;&gt;&gt;FILE_TWO.DAT&quot;);
+
+<BR>
+
+</TT>The &gt; character causes the file to be opened for
+
+writing and causes any existing data in the file to be lost, whereas
+
+the &gt;&gt; character sequeNCe will open the file for appending-preserving
+
+the existing data. 
+
+<LI>What value will the following expression return?<BR>
+
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;(stat(&quot;09lst01.pl&quot;))[7];
+
+<BR>
+
+</TT>This expression returns the size of the file.
+
+<LI>What is globbing?<BR>
+
+<B>Using wildcard characters to find filenames.</B>
+
+<LI>What will the following statement display?<BR>
+
+<BR>
+
+<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;%x&quot;,
+
+16); <BR>
+
+</TT>This statement displays:<BR>
+
+<BR>
+
+<TT>10</TT>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 10</FONT></A></H2>
+
+<OL>
+
+<LI>Can you use variable interpolation with the translation operator?
+
+<BR>
+
+<B>No.</B>
+
+<LI>What happens if the pattern is empty?<BR>
+
+<B>The last pattern is used.</B>
+
+<LI>What variable does the substitution operator use as its default?
+
+<BR>
+
+<B>All regular expression operators use $_ as the default search
+
+space.</B>
+
+<LI>Will the following line of code work?<BR>
+
+m{.*];<BR>
+
+<B>No. When using curly braces as alternative delimiters, the
+
+end delimiter must be }.</B>
+
+<LI>What is the /g option of the substitution operator used for?
+
+<BR>
+
+<B>The /g option forces all instaNCes of the pattern to be substituted,
+
+not just the first.</B>
+
+<LI>What does the \d meta-character sequeNCe mean?<BR>
+
+<B>The \d sequeNCe is a symbolic character class that matches
+
+digits.</B>
+
+<LI>What is the meaning of the dollar sign in the following pattern?
+
+<BR>
+
+<TT>/AA[.&lt;]$]ER/<BR>
+
+</TT><B>The dollar sign is the beginning of the special
+
+variable $].</B>
+
+<LI>What is a word boundary?<BR>
+
+<B>A word boundary is that imaginary point between the end of
+
+a word and the next character-which is usually a space character
+
+or a puNCtuation mark.</B>
+
+<LI>What will be displayed by the following program?<BR>
+
+<TT>$_ = 'AB AB AC';<BR>
+
+print m/c$/i;<BR>
+
+</TT>This program displays:<BR>
+
+<BR>
+
+<TT>1</TT>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 11</FONT></A></H2>
+
+<OL>
+
+<LI>What is the syntax of the format statement?<BR>
+
+<TT>format FORMATNAME =<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD_LINE<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;VALUE_LINE<BR>
+
+.</TT>
+
+<LI>What is a footer?<BR>
+
+<B>Footers are used at the bottom of each page and can only consist
+
+of static text</B>.
+
+<LI>What fuNCtion is used to invoke the format statement?<BR>
+
+<B>The </B><TT><B><FONT FACE="Courier">write()</FONT></B></TT><B>
+
+fuNCtion.</B>
+
+<LI>How can you change a detail format line into a header format
+
+line?<BR>
+
+<B>By changing the field lines and value lines.</B>
+
+<LI>What is the &gt; format character used for?<BR>
+
+<B>This character indicates that the field should be right-justified.</B>
+
+<LI>What is the <TT>$^L</TT> variable
+
+used for?<BR>
+
+<B>The </B><TT><B><FONT FACE="Courier">$^L</FONT></B></TT><B>
+
+variable holds the string that Perl writes before every report
+
+page except for the first.</B>
+
+<LI>Can associative array variables be used in value lines?<BR>
+
+<B>No.</B>
+
+<LI>What will the following line of code do?<BR>
+
+<TT>select((select(ANNUAL_RPT), $^ = &quot;REGIONAL_SALES&quot;)[0]);
+
+<BR>
+
+</TT><B>First </B><TT><B><FONT FACE="Courier">ANNUAL RPT</FONT></B></TT><B>
+
+will be selected as the default file handle for the print and
+
+write statements and then the $~ variable will be changed to the
+
+new format name. By eNClosing the two statements inside parentheses
+
+their return values will be used in an array context. SiNCe the
+
+select fuNCtion returns the value of the previous default file
+
+handle, after executing the second </B><TT><B><FONT FACE="Courier">select()</FONT></B></TT><B>
+
+the default file handle will be restored to its previous value.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 12</FONT></A></H2>
+
+<OL>
+
+<LI>What is the <TT>$/</TT> variable
+
+used for?<BR>
+
+<B>This variable holds the input record separator.</B>
+
+<LI>What file handle is used to avoid a second system call when
+
+doing two or more file tests?<BR>
+
+<B>The underscore.</B>
+
+<LI>What will the following program display?<BR>
+
+<TT>$_ = &quot;The big red shoe&quot;;<BR>
+
+m/[rs].*\b/;<BR>
+
+print(&quot;$`\n&quot;);<BR>
+
+</TT>This program displays:<BR>
+
+<TT>The Big</TT>
+
+<LI>What variable holds the value of the last match string?<BR>
+
+<TT>$&amp;</TT>
+
+<LI>What will the following program display?<BR>
+
+<TT>@array = (1..5);<BR>
+
+$&quot; = &quot;+&quot;;<BR>
+
+print(&quot;@array\n&quot;);<BR>
+
+This program displays:<BR>
+
+1+2+3+4+5</TT>
+
+<LI>What does the following program display?<BR>
+
+<BR>
+
+<TT>@array = ('A'..'E');<BR>
+
+<BR>
+
+foreach (@array) {<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;print();<BR>
+
+}<BR>
+
+<BR>
+
+$\ = &quot;\n&quot;;<BR>
+
+foreach (@array) {<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;print();<BR>
+
+}<BR>
+
+</TT>This program displays:<BR>
+
+<BR>
+
+<TT>ABCDEA<BR>
+
+B<BR>
+
+C<BR>
+
+D<BR>
+
+E</TT>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 13</FONT></A></H2>
+
+<OL>
+
+<LI>Why is it important to check for errors?<BR>
+
+<B>There is only one way to check for errors in any programming
+
+language. You need to test the return values of the fuNCtions
+
+that you call. Most fuNCtions return zero or false when something
+
+goes wrong. So when using a critical fuNCtion like </B><TT><B><FONT FACE="Courier">open()</FONT></B></TT><B>
+
+or </B><TT><B><FONT FACE="Courier">sysread()</FONT></B></TT><B>,
+
+checking the return value helps to ensure that your program will
+
+work properly.</B>
+
+<LI>How is the <TT>die()</TT> fuNCtion
+
+different from the <TT>warn()</TT>
+
+fuNCtion?<BR>
+
+The <TT><B><FONT FACE="Courier">die()</FONT></B></TT> fuNCtion
+
+is used to quit your script and display a message for the user
+
+to read. The <TT><B><FONT FACE="Courier">warn()</FONT></B></TT>
+
+fuNCtion has the same fuNCtionality that <TT><B><FONT FACE="Courier">die()</FONT></B></TT>
+
+does except the script is not exited. This fuNCtion is better
+
+suited for non-fatal messages like low memory or disk space conditions.
+
+<LI>What is the meaning of the <TT>$!</TT>
+
+special variable?<BR>
+
+It helps to find out what happened after an error has occurred.
+
+The <TT><B><FONT FACE="Courier">$!</FONT></B></TT> variable can
+
+be used in either a numeric or a string context. In a numeric
+
+context it holds the current value of <TT><B><FONT FACE="Courier">errno</FONT></B></TT>.
+
+ If used in a string context, it will hold the error string associated
+
+with <TT><B><FONT FACE="Courier">errno</FONT></B></TT>.
+
+<LI>What does the <TT>eval()</TT>
+
+fuNCtion do?<BR>
+
+The <TT><B><FONT FACE="Courier">eval()</FONT></B></TT> fuNCtion
+
+executes its arguments as semi-isolated Perl code. First the Perl
+
+code in <TT><B><FONT FACE="Courier">$code</FONT></B></TT> is executed
+
+and then, if an error arises, the Perl code in <TT><B><FONT FACE="Courier">$code</FONT></B></TT>
+
+is displayed as text by the <TT><B><FONT FACE="Courier">die()</FONT></B></TT>
+
+fuNCtion.
+
+<LI>What is a signal?<BR>
+
+<I>Signals</I> are messages sent to the process running your Perl
+
+script by the operating system.
+
+<LI>What will the statement <TT>$SIG{'ABRT'}
+
+= 'IGNORE'</TT> do?<BR>
+
+You can cause Perl to ignore the Ctrl+c key sequeNCe by placing
+
+this line of code near the beginning of your program.
+
+<LI>Which signal is used to trap floating point exceptions?<BR>
+
+<B>FPE-</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 14</FONT></A></H2>
+
+<OL>
+
+<LI>What is an object?<BR>
+
+<B>Actually, &quot;What are objects?&quot; is a silly question
+
+because you already know what an object is. Trust your instiNCts.
+
+The book you are reading is an object. The knife and fork that
+
+you eat with are objects. In short, your life is filled with them.</B>
+
+<LI>What is a class?<BR>
+
+<B>The question that really needs to be asked is, &quot;What are
+
+classes?&quot; You see, all object oriented techniques use classes
+
+to do the real work. A <I>class</I> is a combination of variables
+
+and fuNCtions designed to emulate an object. However, when referring
+
+to variables in a class, object-oriented folks use the term <I>properties</I>.
+
+And when referring to fuNCtions in a class, the term <I>method</I>
+
+is used.</B>
+
+<LI>What is a property?<BR>
+
+<B>Variables in a class.</B>
+
+<LI>What does the term polymorphism mean?<BR>
+
+<B>A child class can redefine a method already defined in the
+
+parent class.</B>
+
+<LI>Is the <TT>bless()</TT> fuNCtion
+
+used to create classes?<BR>
+
+<B>No. The </B><TT><B><FONT FACE="Courier">bless()</FONT></B></TT><B>
+
+fuNCtion is used to change the data type of the anonymous hash
+
+to </B><TT><B><FONT FACE="Courier">$class</FONT></B></TT><B> or
+
+</B><TT><B><FONT FACE="Courier">Inventory_item</FONT></B></TT><B>.</B>
+
+<LI>What does the <TT>package</TT>
+
+keyword do?<BR>
+
+<B>The </B><TT><B><FONT FACE="Courier">package</FONT></B></TT><B>
+
+keyword is used to introduce new classes and namespaces.</B>
+
+<LI>What can a static variable be used for?<BR>
+
+<B>Static variables can be used to emulate <I>constants</I>-values
+
+that don't change.</B>
+
+<LI>Why is it good to use anonymous hashes to represent objects
+
+instead of regular arrays?<BR>
+
+<B>Child classes, in Perl, will not automatically inherit properties
+
+from its parents. However, using anonymous hashes totally avoids
+
+this issue because the parent constructor can be explicitly called
+
+to create the object. Then, the child can simply add entries to
+
+the anonymous hash.</B>
+
+<LI>How can you create a fuNCtion that is available to all classes
+
+in your script?<BR>
+
+<B>Start a definition of the </B><TT><B><FONT FACE="Courier">UNIVERSAL</FONT></B></TT><B>
+
+class.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 15</FONT></A></H2>
+
+<OL>
+
+<LI>What is a module?<BR>
+
+<B>A <I>module</I> is a namespace defined in a file. For example,
+
+the </B><TT><B><FONT FACE="Courier">English</FONT></B></TT><B>
+
+module is defined in the </B><TT><B><FONT FACE="Courier">English.pm</FONT></B></TT><B>
+
+file and the </B><TT><B><FONT FACE="Courier">Find</FONT></B></TT><B>
+
+module is defined in the </B><TT><B><FONT FACE="Courier">Find.pm</FONT></B></TT><B>
+
+file.</B>
+
+<LI>What is the correct file extension for a module?<BR>
+
+<B>.pm</B>
+
+<LI>What is a pragma?<BR>
+
+<B>It turns other compiler directives on and off.</B>
+
+<LI>What is the most important pragma and why?<BR>
+
+<B>The most important pragma is </B><TT><B><FONT FACE="Courier">strict</FONT></B></TT><B>.
+
+This pragma generates compiler errors if unsafe programming is
+
+detected.</B>
+
+<LI>What does the <TT>END</TT> block
+
+do?<BR>
+
+<TT><B><FONT FACE="Courier">END</FONT></B></TT><B> blocks write
+
+a message to a log file about end times for the program.</B>
+
+<LI>What is a symbol table and how are they named?<BR>
+
+<B>A <I>symbol table</I>, in Perl, is a hash that holds all of
+
+the names defined in a namespace. All of the variable and fuNCtion
+
+names can be found there. The hash for each namespace is named
+
+after the namespace with two colons.</B>
+
+<LI>How can you create a variable that is local to a package?
+
+<BR>
+
+<B>Fully qualify your variable name in the declaration or initialization
+
+statement.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 16</FONT></A></H2>
+
+<OL>
+
+<LI>What is a logic error?<BR>
+
+<I><B>Logic</B></I><B> errors are insidious and difficult to find.
+
+For example, you might place an assignment statement inside an
+
+</B><TT><B><FONT FACE="Courier">if</FONT></B></TT><B> statement
+
+block that belongs outside the block. Or you might have a loop
+
+that runs from 0 to 100 when it should run from 10 to 100. Accidentally
+
+deleting the 1 or not entering it in the first place is very easy.</B>
+
+<LI>What is a compile-time error?<BR>
+
+<B>Compile-time errors are also known as syntax errors and are
+
+made as you type your script into an editor.</B>
+
+<LI>What will the <TT>D</TT> debugger
+
+command do?<BR>
+
+<B>Deletes all breakpoints.</B>
+
+<LI>What is a conditional breakpoint?<BR>
+
+<B>A</B> <B>breakpoint that occurs only when certain criteria
+
+are met.</B>
+
+<LI>What will the <TT>c</TT> debugger
+
+command do?<BR>
+
+<B>Executes the rest of the statements in your script unless a
+
+breakpoint is found before the script ends. You can optionally
+
+use this command to create a temporary break by specifying a line
+
+number after the </B><TT><B><FONT FACE="Courier">c</FONT></B></TT><B>.</B>
+
+<LI>Can you invoke any fuNCtion directly from the debugger command
+
+line?<BR>
+
+<B>Yes.</B>
+
+<LI>What is an alias?<BR>
+
+<B>An alias is a way of assigning a name to a long command used
+
+over and over again.</B>
+
+<LI>What is a common error associated with conditional expressions?
+
+<BR>
+
+<B>One of the most common logic problems is using the assignment
+
+operator (</B><TT><B><FONT FACE="Courier">=</FONT></B></TT><B>)
+
+when you should use the equality operator (</B><TT><B><FONT FACE="Courier">==</FONT></B></TT><B>).
+
+If you are creating a conditional expression, you'll almost always
+
+use the equality operator (</B><TT><B><FONT FACE="Courier">==</FONT></B></TT><B>).</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 17</FONT></A></H2>
+
+<OL>
+
+<LI>What is a command-line option?<BR>
+
+<B>Command-line options (also called switches) turn on and off
+
+different behaviors of the Perl interpreter.</B>
+
+<LI>What are the two places that the switches can be specified?
+
+<BR>
+
+<B>Switches can be placed either on the command line that invokes
+
+Perl or in the first line of the program.</B>
+
+<LI>What switch should always be used?<BR>
+
+<B>You should always use the -w switch to turn on the extended
+
+warning option.</B>
+
+<LI>Which switch lets you read records that end with the ~ character
+
+instead of the newline?<BR>
+
+<B>The -o switch lets you specify the record delimiter character.</B>
+
+<LI>What two options can be used with the <TT>-n</TT>
+
+option?<BR>
+
+<B>The -a and -F options can be used with the -n.</B>
+
+<LI>How can you execute a script that someone sent you via e-mail?
+
+<BR>
+
+<B>The -x option can be used to execute a script from the middle
+
+of the file.</B>
+
+<LI>What happens if you specify both the <TT>-v</TT>
+
+and the <TT>-c</TT> options?<BR>
+
+<B>The -v option displays the Perl version number and then the
+
+-c option checks the syntax of any Perl script specified on the
+
+command line.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 18</FONT></A></H2>
+
+<OL>
+
+<LI>What is a protocol?<BR>
+
+<B>A protocol is a set of commands and responses.</B>
+
+<LI>What is a socket?<BR>
+
+<I><B>Sockets</B></I><B> are the low-level links that enable Internet
+
+conversations.</B>
+
+<LI>What is the POP?<BR>
+
+<B>Post Office Protocol-iNComing mail.</B>
+
+<LI>Will client programs use the <TT>bind()</TT>
+
+fuNCtion?<BR>
+
+<B>No.</B>
+
+<LI>Do newly created sockets have an address?<BR>
+
+<B>No.</B>
+
+<LI>What is a port?<BR>
+
+<B>A <I>Port</I> is an imaginary place where iNComing packets
+
+of information can arrive (just like a ship arrives at a sea port).</B>
+
+<LI>When sending the body or text of an e-mail message, will the
+
+server respond after each line?<BR>
+
+<B>Yes.</B>
+
+<LI>Why shouldn't the echo service be used by Windows operating
+
+systems?<BR>
+
+<B>Windows 95 (and perhaps other operating systems) can't use
+
+the SIGALRM interrupt signal. This may cause problems if you use
+
+this script on those systems because the program will wait forever
+
+when a server does not respond.</B>
+
+<LI>What is the largest NNTP reponse in terms of bytes?<BR>
+
+<B>Unlimited.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 19</FONT></A></H2>
+
+<OL>
+
+<LI>Is CGI a programming language?<BR>
+
+<B>No.</B>
+
+<LI>Are CGI and Java the same type of protocol?<BR>
+
+<B>No.</B>
+
+<LI>Do CGI program files need to have the write turned on?<BR>
+
+<B>No.</B>
+
+<LI>What is the first line of output for CGI programs?<BR>
+
+<B>An HTTP header.</B>
+
+<LI>What information does the HTTP_USER_AGENT contain?<BR>
+
+<B>It provides the type and version of the user's Web browser.</B>
+
+<LI>Why is CGItap a useful program?<BR>
+
+<B>It is a CGI debugging aid that can help pinpoint the problem
+
+in a troubling CGI application.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 20</FONT></A></H2>
+
+<OL>
+
+<LI>What does the acronym HTML stand for?<BR>
+
+<B>Hypertext Markup Language.</B>
+
+<LI>What are the <TT>&lt;H1&gt;..&lt;/H1&gt;</TT>
+
+set of tags used for?<BR>
+
+<B>It formats text as a first level heading.</B>
+
+<LI>What is the down side of using SSI directives?<BR>
+
+<B>They are very processor intensive.</B>
+
+<LI>Can an HTML form have two submit buttons?<BR>
+
+<B>No.</B>
+
+<LI>Why should all angle brackets be replaced in form information?
+
+<BR>
+
+<B>So that the Web browser doesn't think that a new HTML tag is
+
+starting.</B>
+
+<LI>How much text can be entered into a <TT>&lt;TEXTAREA&gt;</TT>
+
+input field?<BR>
+
+<B>Unlimited.</B>
+
+<LI>Can you debug a CGI script?<BR>
+
+<B>Yes.</B>
+
+</OL>
+
+<H2><A NAME="Chapter"><FONT SIZE=5 COLOR=#FF0000>
+
+Chapter 21</FONT></A></H2>
+
+<OL>
+
+<LI>What is the access log used for?<BR>
+
+<B>It records who and what accesses a specific HTML page or graphic</B>.
+
+<LI>Does the <TT>fullName</TT> field
+
+in the log file correspond to the user's mail address?<BR>
+
+<B>No.</B>
+
+<LI>Why is the status code of the log file entry important?<BR>
+
+<B>To determine if unauthorized people are trying to access secured
+
+<BR>
+
+documents.</B>
+
+<LI>Can you find log file analysis programs on the Internet?<BR>
+
+<B>Yes.</B>
+
+<LI>What good is a customized log file?<BR>
+
+<B>To keep track of who executes your CGI scripts.</B>
+
+<LI>What are two popular features of Web sites?<BR>
+
+<B>The &quot;What's New&quot; page and the Feedback Form.</B>
+
+<LI>What does recursion mean?<BR>
+
+<B>A recursive fuNCtion calls itself in order to get work done.</B>
+
+</OL>
+
+<HR>
+
+
+
+<CENTER><P><A HREF="ch22.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm"><IMG SRC="pc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="index-1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/index-1.htm"><IMG SRC="hb.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch24.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm"><IMG SRC="nc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<HR WIDTH="100%"></P></CENTER>
+
+</BODY>
+
+</HTML>
+

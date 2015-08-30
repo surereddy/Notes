@@ -1,0 +1,80 @@
+2. 取消2G 的文件大小限制 
+$ ulimit -Sa 
+$ ulimit -Ha 
+3. 修改Solaris 系统参数: 
+vi /etc/system ( 在此文件末尾加入以下几行 ) 
+set shmsys:shminfo_shmmax=4294967295 #内存的一半 
+set shmsys:shminfo_shmmin=1 
+set shmsys:shminfo_shmmni=100 
+set shmsys:shminfo_shmseg=10 
+set semsys:seminfo_semmns=310 #  2*process+10 
+set semsys:seminfo_semmni=110 #  process+10 
+
+文件保存修改后,重启计算机,使参数生效 . 
+
+4. 创建DBA组 和 ORACLE 用户 : 
+# groupadd dba 
+# useradd –g dba –d /export/home/oracle –m  oracle 
+# passwd oracle 
+
+
+//¨¤如使用其它mount点,应将其属主赋予ORACLE 用户: 
+例如: # chown –R oracle:dba /u01 
+ #  chmod –R 755 /u01 
+推荐使用图形加用户----------------admintool // These several lines are optional, don't add it.
+
+
+
+5. 编辑 ORACLE 用户的配置文件,加入必要的环境变量: 
+# vi /export/home/oracle/.profile 
+
+ORACLE_BASE=/opt/oracle 
+ORACLE_HOME=$ORACLE_BASE/product/9.2.0 
+ORACLE_SID= eam1                           # 此值根据用户要求而定 
+NLS_LANG=AMERICAN_AMERICA.ZHS16GBK         # 字符集根据用户要求而定 
+PATH=$ORACLE_HOME/bin:/bin:/sbin:/usr/bin:/usr/ccs/bin:/usr/local/bin 
+LD_LIBRARY_PATH=$ORACLE_HOME/lib:$ORACLE_HOME/network/lib:/usr/local/lib: 
+/usr/lib 
+DISPLAY=10.20.68.15:0.0             # 此处IP为启动图形界面机器的地址 
+TMPDIR=/var/tmp 
+export ORACLE_BASE ORACLE_HOME ORACLE_SID NLS_LANG PATH LD_LIBRARY_PATH 
+DISPLAY TMPDIR 
+
+umask 022 
+
+保存文件后执行,使环境变量生效 .  
+
+6. 数据库软件产品的安装过程: 
+  
+ 5.1 使ORACLE 用户或远程 调用图形可用. 
+#  xhost + 
+
+ 
+
+ 
+
+把ORACLE9用FTP工具上传到服务器/export/home/oracle中
+
+用gunzip XXXX 再用cpio –idmv <XXXX
+
+生成CD1/CD2/CD3这3个目录
+
+ 
+
+先用oracle用户登陆(xmanager)
+
+ 
+
+在CD1目录中运行./runstaller
+
+ 
+
+Best regards 
+
+CBG-Sang Qiming?桑琦鸣
+
+Alcatel Shanghai Bell
+
+021-50554550*7679
+
+ 

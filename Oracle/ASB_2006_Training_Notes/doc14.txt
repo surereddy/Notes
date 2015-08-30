@@ -1,0 +1,140 @@
+﻿statspack报告说明
+
+statspack历史数据的管理
+1 - 停止作业
+   SQL> CONNECT PERFSTAT/ORACLE
+   SQL> select job,what from dba_jobs;
+   <job_id>
+   SQL> exec dbms_job.broken(43934,true);  --停止
+2 - 清楚历史数据
+  SQL> CONNECT PERFSTAT/ORACLE
+  SQL>@?/rdbms/admin/sppurge.sql
+   <losnapid>
+   <hisnapid>
+
+
+卸载statspack
+   SQL> CONNECT / AS SYSDBA
+   SQL>@?/rdbms/admin/spdrop.sql
+
+介绍utlbstat/utlestat
+  utl*stat - 用来监控数据库某段时间的性能情况。
+  开始监控的时候运行：utlbstat.sql
+  结束监控的时候运行：utlestat.sql  --自动创建报表report.txt
+  它是statspack的早期版本，816以后由statspack代替。
+
+
+statspack 与ultstat的差别
+ADDM [AWR]
+
+
+
+
+第2章 ：诊断和调整工具
+
+1 - alert.log
+ windows: %ORACLE_BASE%/admin/<sid>/bdump/alert_<sid>.log
+ unix/linux: $ORACLE_BASE/admin/<sid>/bdump/alert<sid>.log
+
+2 - 关心
+  ORA-600 : 内部错误。打补丁
+  ORA-01578: BLOCK CORRUPTION.   -- 使用rman恢复。
+  监控数据库的一些操作 - 表空间的创建，rbs的创建。
+  non default 参数
+3 - 后台进程trace文件
+   一般用户oracle support排错
+   不包含和数据库性能相关信息。
+
+4- 用户trace文件
+  可以控制用户的trace文件 enable disable
+  用户trace文件包括sql语句信息和统计信息。
+  trace文件按照服务进程产生，一般来说，要监控用户session。
+    这个session最好是专有服务器连接。
+  有两种情况： 
+    1 - trace control file 
+    2 - trace user‘s sql 
+
+   
+
+5 - 跟踪用户sql
+   1 - 被检测用户/应用 连接到数据
+   2 - 查找用户的sid，serial#.
+    SQL> CONNECT / AS SYSDBA
+    SQL>select sid,serial#,username,machine from v$session where username = 'SCOTT';
+  
+   3 - 打开用户监控
+    SQL> EXECUTE DBMS_SYSTEM.SET_SQL_TRACE_IN_SESSION(20,51,TRUE);
+   
+   4 - 运行用户程序/应用
+    
+   5 - 关闭用户检测
+    SQL> EXECUTE DBMS_SYSTEM.SET_SQL_TRACE_IN_SESSION(20,51,FALSE);
+
+   6 - 查找user trace文件
+    $ORACLE_BASE/admin/<sid>/udump
+   
+   7 - 格式化user trace 文件
+    D:\>TKPROF ORCL1668.TRC SCOTT1.TXT SYS=NO SORT=FCHDSK
+
+   8 - 根据分析的结果，来判断应用程序的问题。
+
+
+6 - 与数据库性能调整相关的v$ dba_
+    在dba_tables,dba_indexes中，有很多对象统计信息，这些统计信息对优化器来优化
+    SQL，制定执行计划非常重要。
+    对象统计信息的收集工作是由dba来组织执行的。可以使用dbms_Job来使执行工作自动化。
+    使用dbms_job,参照 spauto.sql
+    
+    老的方式[8i以前]：
+     SQL>ANALYZE TABLE SCOTT.EMP COMPUTE STATISTICS;
+    新的方式：
+     SQL> EXEC DBMS_STATS.GATHER_SCHEMA_STATS('SCOTT');
+     全数据库的方式：
+     SQL> EXEC DBMS_STATS.GATHER_DATABASE_STATS;
+
+   
+
+第14张：SQL语句调整
+
+1 - OPTIMIZER :优化器
+  9i里面有2种优化器方式：
+   1 - 基于成本的
+   2 - 基于规则的 [慢慢淘汰了，10g彻底淘汰]
+
+2 - 优化方式的选择：
+   SQL> show parameter optimizer_mode
+   NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+optimizer_mode                       string      CHOOSE
+
+   choose: 根据sql语句涉及的表的统计信息情况来决定优化方式。
+   rule：基于规则的方式
+   first_rows | first_rows_[n] :基于成本的方式，追求相应时间
+   all_rows  :基于成本的方式，追求总体相应时间
+
+
+3 - explain plan
+   1 - 进入用户scott
+   2 - 创建plan_table
+     SQL> @?/rdbms/admin/utlxplan.sql
+   3 - 清除plan_table的数据
+     SQL> truncate table plan_table;
+   4 - 解释SQL
+     SQL> explain plan for
+          select * from emp;
+   5 - 察看执行计划：
+    SQL> @?/rdbms/admin/utlxpls.sql
+     PLAN_TABLE_OUTPUT
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------
+| Id  | Operation            |  Name       | Rows  | Bytes | Cost (%CPU)|
+-------------------------------------------------------------------------
+|   0 | SELECT STATEMENT     |             |    14 |   546 |     4  (25)|
+|   1 |  TABLE ACCESS FULL   | EMP         |    14 |   546 |     4  (25)|
+-------------------------------------------------------------------------
+
+
+
+
+
+

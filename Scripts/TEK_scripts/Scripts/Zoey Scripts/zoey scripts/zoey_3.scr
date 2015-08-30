@@ -1,0 +1,11 @@
+program zoey_3;
+   makecall;
+   pause 20;
+   digits <3>;
+   pause 17;
+   digits <123456789*0#>;
+   pause 38;
+   digits <9>;
+   pause 5;
+   dropcall;
+stop;

@@ -1,0 +1,198 @@
+.xspace-layout1 #sideleft {
+	FLOAT: left; WIDTH: 190px
+}
+.xspace-layout1 .mainarea-side {
+	MARGIN-LEFT: 197px; WIDTH: 560px
+}
+.xspace-layout2 #sideright {
+	FLOAT: right; WIDTH: 190px
+}
+.xspace-layout2 .mainarea-side {
+	FLOAT: left; WIDTH: 560px
+}
+.xspace-layout3 #sideleft {
+	FLOAT: left; WIDTH: 190px
+}
+.xspace-layout3 #sideright {
+	FLOAT: right; WIDTH: 190px
+}
+.xspace-layout3 .mainarea-side {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FLOAT: left; PADDING-BOTTOM: 0px; WIDTH: 370px; PADDING-TOP: 0px
+}
+.xspace-imgstyle {
+	BORDER-LEFT-COLOR: #8fd597; BACKGROUND: #e6ffe9; BORDER-BOTTOM-COLOR: #8fd597; BORDER-TOP-COLOR: #8fd597; BORDER-RIGHT-COLOR: #8fd597
+}
+H1.xspace-title {
+	BACKGROUND: #e5ffe8
+}
+.xspace-blocktitle {
+	FONT-SIZE: 1em; OVERFLOW: hidden; COLOR: #188e1b
+}
+.sidearea .xspace-blocktitle {
+	PADDING-LEFT: 35px; BACKGROUND: url(http://www.51testing.com/themes/green/images/sidearea_title_bg.gif) #cafbcf no-repeat left top; LINE-HEIGHT: 32px; HEIGHT: 28px
+}
+#mainarea .xspace-blocktitle {
+	PADDING-LEFT: 40px; BACKGROUND: url(http://www.51testing.com/themes/green/images/mainarea_title_bg.jpg) #e6ffe9 no-repeat left top; LINE-HEIGHT: 37px; HEIGHT: 33px
+}
+LI.xspace-loglist H4.xspace-entrytitle {
+	BACKGROUND-COLOR: #e5ffe8
+}
+BODY {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND: url(http://www.51testing.com/themes/green/images/background_top.gif) #4da94f repeat-x; PADDING-BOTTOM: 0px; MARGIN: 0px; FONT: 12px Arial, Helvetica, sans-serif; COLOR: #000; PADDING-TOP: 0px; TEXT-ALIGN: center
+}
+INPUT {
+	FONT: 1em Arial, Helvetica, sans-serif
+}
+TEXTAREA {
+	FONT: 1em Arial, Helvetica, sans-serif
+}
+SELECT {
+	FONT: 1em Arial, Helvetica, sans-serif
+}
+BUTTON {
+	FONT: 1em Arial, Helvetica, sans-serif
+}
+#wrap {
+	BORDER-RIGHT: #fff 5px solid; BORDER-TOP: #fff 5px solid; BACKGROUND: #fff; MARGIN: 1em auto; OVERFLOW: hidden; BORDER-LEFT: #fff 5px solid; WIDTH: 760px; BORDER-BOTTOM: #fff 5px solid; TEXT-ALIGN: left
+}
+#header {
+	BACKGROUND: url(http://www.51testing.com/themes/green/images/header_bg.gif) #71eb79 repeat-x 50% top; BORDER-BOTTOM: #fff 1px solid; HEIGHT: 132px
+}
+#header  {
+	COLOR: #188e1b
+}
+#spacename {
+	FLOAT: left; OVERFLOW: hidden; WIDTH: 200px; HEIGHT: 132px
+}
+#menu {
+	FLOAT: right; WIDTH: 550px; PADDING-TOP: 40px; HEIGHT: 70px
+}
+#menu UL {
+	FLOAT: right; MARGIN: 0px 1em 0px 0px
+}
+#menu LI {
+	DISPLAY: block; FLOAT: left; MARGIN: 0px; WIDTH: 52px; TEXT-ALIGN: center
+}
+#menu LI A {
+	DISPLAY: block; BACKGROUND: no-repeat 50% top; WIDTH: 52px; PADDING-TOP: 50px; HEIGHT: 20px; TEXT-DECORATION: none
+}
+#menu LI A.xspace-blog {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_blog.gif)
+}
+#menu LI A.xspace-image {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_photo.gif)
+}
+#menu LI A.xspace-goods {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_goods.gif)
+}
+#menu LI A.xspace-friend {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_friend.gif)
+}
+#menu LI A.xspace-link {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_link.gif)
+}
+#menu LI A.xspace-file {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_file.gif)
+}
+#menu LI A.xspace-mybbs {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_bbs.gif)
+}
+#menu LI A.xspace-guestbook {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_guestbook.gif)
+}
+#menu LI A.xspace-video {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_video.gif)
+}
+#menu LI A.xspace-group {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_group.gif)
+}
+#menu LI A.xspace-more {
+	BACKGROUND-IMAGE: url(http://www.51testing.com/themes/green/images/menu_icon_more.gif)
+}
+#menu A:hover {
+	BACKGROUND-POSITION: 0px -70px; COLOR: #fff; TEXT-DECORATION: none
+}
+#content {
+	BACKGROUND: url(http://www.51testing.com/themes/green/images/header_bg.gif) repeat-x left -133px
+}
+.sidearea {
+	BACKGROUND: url(http://www.51testing.com/themes/green/images/sidearea_top_bg.gif) #e5ffe8 repeat-x 50% top; OVERFLOW: hidden; PADDING-TOP: 10px
+}
+A {
+	COLOR: #006; TEXT-DECORATION: none
+}
+A:hover {
+	TEXT-DECORATION: underline
+}
+A:visited {
+	COLOR: #099
+}
+#xspace-imgnavbar {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+.xspace-noticemsg {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+#announcement {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+.xspace-itemlist LI {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+.xspace-imagebox {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+#xspace-filebaseinfo LI {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+#xspace-goodsbaseinfo LI {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+#xspace-aplist TH {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+#xspace-aplist TD {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+.xspace-msgmodule H5 {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+.xspace-addoninfo {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+.xspace-itemlinks {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+.xspace-itemtag {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+#xspace-itemreply DT {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+#xspace-itemform FIELDSET {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+TABLE.xspace-page A {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+#xspace-ownerinfo {
+	BORDER-LEFT-COLOR: #cafbcf; BORDER-BOTTOM-COLOR: #cafbcf; BORDER-TOP-COLOR: #cafbcf; BORDER-RIGHT-COLOR: #cafbcf
+}
+#xspace-aplist .xspace-ontop TD {
+	BACKGROUND: #cafbcf
+}
+#xspace-rates A {
+	BACKGROUND: #cafbcf
+}
+TABLE.xspace-page TD.xspace-current {
+	BACKGROUND: #cafbcf
+}
+TABLE.xspace-page A {
+	BACKGROUND: #e6ffe9
+}
+TABLE.xspace-page TD.xspace-totlerecord {
+	BACKGROUND: #e6ffe9
+}
+TABLE.xspace-page TD.xspace-totlepages {
+	BACKGROUND: #e6ffe9
+}

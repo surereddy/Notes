@@ -1,0 +1,84 @@
+BODY {
+	BACKGROUND: #fff no-repeat right top; FONT-FAMILY: arial, helvetica, sans-serif
+}
+A:link {
+	COLOR: #000000
+}
+A:visited {
+	COLOR: #000000
+}
+A:active {
+	COLOR: #000000
+}
+H2 {
+	BORDER-RIGHT: #777 1px solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #777 1px solid; PADDING-LEFT: 0.5em; FONT-SIZE: 1.1em; PADDING-BOTTOM: 0.5em; MARGIN: 0.5em 0em; BORDER-LEFT: #777 1px solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #777 1px solid; BACKGROUND-COLOR: #eaeaea
+}
+H2.title {
+	BORDER-RIGHT: #c6c6c6 1px solid; BORDER-TOP: #c6c6c6 1px solid; MARGIN-TOP: 1em; BORDER-LEFT: #c6c6c6 1px solid; BORDER-BOTTOM: #c6c6c6 1px solid; BACKGROUND-COLOR: #fff
+}
+P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px 1em 1em 0px; PADDING-TOP: 0px
+}
+TABLE {
+	FONT-SIZE: 1em
+}
+#main {
+	WIDTH: 100%
+}
+#header .title {
+	PADDING-TOP: 0.5em
+}
+#subnavlist {
+	FONT-SIZE: 0.8em
+}
+UL.links LI {
+	BORDER-LEFT: #c6c6c6 1px solid
+}
+UL.links LI.first {
+	BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none
+}
+.node .submitted {
+	PADDING-RIGHT: 0em; PADDING-LEFT: 1em; FONT-SIZE: 0.9em; FLOAT: left; PADDING-BOTTOM: 0.5em; COLOR: #7c7c7c; PADDING-TOP: 0.5em
+}
+.node .taxonomy {
+	FONT-SIZE: 0.9em; FLOAT: right; COLOR: #7c7c7c
+}
+.node .content {
+	CLEAR: both; PADDING-LEFT: 1em
+}
+.node .links {
+	PADDING-RIGHT: 0em; PADDING-LEFT: 0.2em; PADDING-BOTTOM: 0.1em; PADDING-TOP: 0.2em
+}
+.comment {
+	BORDER-RIGHT: #777 1px solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #777 1px solid; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; MARGIN: 0.5em 0px; BORDER-LEFT: #777 1px solid; PADDING-TOP: 0.5em; BORDER-BOTTOM: #777 1px solid
+}
+.block {
+	FONT-SIZE: 12px; MARGIN-BOTTOM: 10px
+}
+.block .content {
+	BORDER-RIGHT: #c6c6c6 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #c6c6c6 1px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; MARGIN: 0px; BORDER-LEFT: #c6c6c6 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #c6c6c6 1px solid
+}
+.block H2.title {
+	MARGIN: 0px
+}
+DIV.admin-panel .description {
+	COLOR: #c6c6c6
+}
+DIV.admin-panel .body {
+	BACKGROUND: #f4f4f4
+}
+DIV.admin-panel H3 {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 8px; PADDING-BOTTOM: 5px; MARGIN: 0px; COLOR: #fff; PADDING-TOP: 5px; BACKGROUND-COLOR: #c6c6c6
+}
+.item-list UL LI {
+	
+}
+.path {
+	COLOR: #c6c6c6
+}
+.path A {
+	COLOR: #c6c6c6
+}
+.path A:visited {
+	COLOR: #c6c6c6
+}

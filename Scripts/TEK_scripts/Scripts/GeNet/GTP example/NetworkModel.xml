@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE GENET_MODEL SYSTEM "/usr/etc/GeNetModel.dtd">
+
+<GENET_MODEL>
+
+    <PROBE name="ATCA20" hostname="134.64.206.112" />
+
+    <!-- Start SS7 Node Definitions  -->
+
+        <STP name="atca20_STP1" pointcode="7-140-0" ni="Natl" type="ITU"/>
+        <STP name="atca20_STP2" pointcode="7-150-0" ni="Natl" type="ITU"/>
+        <SSP name="atca20_SSP1" pointcode="7-140-1" ni="Natl" type="ITU"/>
+        <SSP name="atca20_SSP2" pointcode="7-140-2" ni="Natl" type="ITU"/>
+
+        <SSP name="atca20_SSP5" pointcode="7-143-1" ni="Natl" type="ITU"/>
+        <SSP name="atca20_SSP6" pointcode="7-143-1" ni="Natl" type="ITU"/>
+        <STP name="atca20_STP3" pointcode="7-143-0" ni="Natl" type="ITU"/>
+
+        <SSP name="atca20_SSP7" pointcode="7-145-1" ni="Intl" type="ITU"/>
+        <SSP name="atca20_SSP8" pointcode="7-145-1" ni="Intl" type="ITU"/>
+        <STP name="atca20_STP4" pointcode="7-145-0" ni="Intl" type="ITU"/>
+
+        <MSC name="atca20_MSC1" pointcode="7-141-0" ni="Natl" type="ITU"/>
+        <BSS name="atca20_BSC1" pointcode="7-141-1" ni="Natl" type="ITU"/>
+        <BSS name="atca20_BSC2" pointcode="7-141-2" ni="Natl" type="ITU"/>
+        <SCP name="atca20_HLR1" pointcode="7-141-3" ni="Natl" type="ITU"/>
+        <SCP name="atca20_SCP1" pointcode="7-141-5" ni="Natl" type="ITU"/>
+
+        <SSP name="STP_HSL1" pointcode="7-153-1" ni="Natl" type="ITU"/>
+        <SSP name="SSP_HSL1" pointcode="7-153-2" ni="Natl" type="ITU"/>
+        <SSP name="SSP_HSL2" pointcode="7-153-3" ni="Natl" type="ITU"/>
+
+    <!-- End SS7 Node Definitions  -->
+
+    <!-- Start GPRS Node Definitions  -->
+
+        <SGSN name="atca20_SGSN1" pointcode="7-141-4" ni="Natl" type="ITU"/>
+        <SGSN name="SGSN2_atca20" pointcode="7-100-2" ni="Natl" />
+        <SGSN name="atca20_SGSN3" />
+
+        <GGSN name="atca20_GGSN1" />
+
+        <GPRS_BSS name="atca20_BSS1" />
+        <GPRS_BSS name="atca20_BSS2" />
+        <GPRS_BSS name="atca20_BSS3" />
+
+        <SGSN name="atca19_SGSN1" />
+
+        <GGSN name="atca19_GGSN1" />
+        <GGSN name="atca18_GGSN1" />
+
+    <!-- End GPRS Node Definitions  -->
+
+    <!-- Start Gi / VOIP Node Definitions  -->
+        <IP_NODE name="atca20_IPNet1" />
+        <IP_NODE name="atca20_GSNNet1" />
+        <IP_NODE name="DUMMY" />
+ 
+        <IP_NODE name="H323_Server1" />
+        <IP_NODE name="H323_Client1" />
+
+        <IP_NODE name="H248_Server1" />
+        <IP_NODE name="H248_Client1" />
+
+        <IP_NODE name="POP3_Server1" />
+        <IP_NODE name="POP3_Client1" />
+
+        <IP_NODE name="H248_Server2" />
+        <IP_NODE name="H248_Client2" />
+
+        <IP_NODE name="SIP_Server1" />
+        <IP_NODE name="SIP_Client1" />
+
+        <IP_NODE name="SIP_Server2" />
+        <IP_NODE name="SIP_Client2" />
+    
+        <IP_NODE name="IPDC_Server1" />
+        <IP_NODE name="IPDC_Client1" />
+        <IP_NODE name="SS" />
+        <IP_NODE name="GW1" />
+        <IP_NODE name="GW2" />
+ 
+        <IP_NODE name="SMTP_Server1" />
+        <IP_NODE name="SMTP_Client1" />
+    
+        <IP_NODE name="SMSC1" />
+        <IP_NODE name="ESME1" />
+    
+        <IP_NODE name="LDAP_Server1" />
+        <IP_NODE name="LDAP_Client1" />
+    
+        <IP_NODE name="RTCP_Server1" />
+        <IP_NODE name="RTCP_Client1" />
+    
+        <IP_NODE name="MGCP_Server1" />
+        <IP_NODE name="MGCP_Client1" />
+ 
+    <!-- End Gi / VOIP Node Definitions  -->
+
+    <!-- Start UMTS Node Definitions  -->
+
+        <UMTS_RNC name="atca20_RNC1" pointcode="7-110-1" ni="Natl" />
+        <UMTS_RNC name="atca20_RNC2" pointcode="7-110-2" ni="Natl" />
+        <UMTS_MSC name="atca20_3GMSC1" pointcode="7-120-1" ni="Natl" />
+        <UMTS_MSC name="atca20_3GMSC2" pointcode="7-120-2" ni="Natl" />
+
+    <!-- End UMTS Node Definitions  -->
+
+    <!-- Start Protocol Stack Definitions  -->
+
+        <PROTOCOL_STACK name="UMTS_IU">
+            <AUTO_LAYER name="MTP3B"/>
+            <AUTO_LAYER name="SSCOP"/>
+            <AUTO_LAYER name="ITF-ATM"/>
+        </PROTOCOL_STACK>
+
+<!--	<PROTOCOL_STACK name="ITF-TDM" > 
+            <AUTO_LAYER name="ITF-TDM" /> 
+	</PROTOCOL_STACK>  --> 
+
+    <!-- End Protocol Stack Definitions  -->
+
+    <!-- Start SS7 Link/Linkset Definitions  -->
+
+    <!-- ISUP Link  -->
+
+       <LINKSET lnode="atca20_STP1" rnode="atca20_SSP1" monProbe="ATCA20">
+
+           <LINK name="SSP1-STP1-00" protocolStack="MTP-ITU-LSL" 
+   	  	   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1001" 
+                   tdmHwRx="0,2,2" tdmHwTx="0,3,2" />
+
+           <LINK name="SSP1-STP1-01" protocolStack="MTP-ITU-LSL" 
+                   tdmLayerOneRx="1,0,1,1,2" tdmLayerOneTx="0,0,1,1,2" monPort="1101" 
+                   tdmHwRx="0,0,17" tdmHwTx="0,1,17" />
+
+           <!--
+           <LINK name="SSP1-STP1-01" protocolStack="MTP-ITU-LSL"
+                   monPort="1037" tdmHwRx="0,0,1" tdmHwTx="0,1,1" />
+           -->
+
+       </LINKSET>
+
+       <LINKSET lnode="atca20_STP1" rnode="atca20_SSP2" monProbe="ATCA20">
+
+           <LINK name="SSP2-STP1-00" protocolStack="MTP-ITU-LSL" 
+   	  	   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1001" 
+                   tdmHwRx="0,2,2" tdmHwTx="0,3,2" />
+
+           <LINK name="SSP2-STP1-01" protocolStack="MTP-ITU-LSL" 
+                   tdmLayerOneRx="1,0,1,1,2" tdmLayerOneTx="0,0,1,1,2" monPort="1102" 
+                   tdmHwRx="0,0,18" tdmHwTx="0,1,18" />
+
+           <!--
+           <LINK name="SSP2-STP1-01" protocolStack="MTP-ITU-LSL"
+                   monPort="1038" tdmHwRx="0,0,2" tdmHwTx="0,1,2" />
+           -->
+       </LINKSET>
+
+
+
+    <!--    ISUP HSL Link  
+
+       <LINKSET lnode="STP_HSL1" rnode="SSP_HSL2" monProbe="ATCA20">
+           <LINK name="STP_HSL1-SSP_HSL1-00" protocolStack="MTP-ITU-HSL" 
+	    	   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1099" 
+	 	   tdmHwRx="0,0,2" tdmHwTx="0,1,2" />
+       </LINKSET>
+-->
+    <!--    GSM AIF Link  -->
+
+       <LINKSET lnode="atca20_MSC1" rnode="atca20_BSC1" monProbe="ATCA20">
+           <LINK name="BSC1-MSC1-00" protocolStack="MTP-ITU-LSL" 
+  		   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1003" 
+		   tdmHwRx="0,0,1" tdmHwTx="0,1,1" />
+
+           <LINK name="BSC1-MSC1-01" protocolStack="MTP-ITU-LSL" 
+  		   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1103" 
+		   tdmHwRx="0,0,19" tdmHwTx="0,1,19" />
+       </LINKSET>
+
+    <!--    GSM AIF Link  -->
+
+       <LINKSET lnode="atca20_MSC1" rnode="atca20_BSC2" monProbe="ATCA20">
+           <LINK name="BSC2-MSC1-00" protocolStack="MTP-ITU-LSL" 
+	  	   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1004" 
+		   tdmHwRx="0,0,1" tdmHwTx="0,1,1" />
+
+           <LINK name="BSC2-MSC1-01" protocolStack="MTP-ITU-LSL" 
+  		   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1104" 
+		   tdmHwRx="0,0,20" tdmHwTx="0,1,20" />
+       </LINKSET>
+
+    <!--    GSM MAP Link  -->
+
+       <LINKSET lnode="atca20_MSC1" rnode="atca20_HLR1" monProbe="ATCA20">
+           <LINK name="HLR1-MSC1-00" protocolStack="MTP-ITU-LSL" 
+		   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1005" 
+		   tdmHwRx="0,0,1" tdmHwTx="0,1,1" />
+
+           <LINK name="HLR1-MSC1-01" protocolStack="MTP-ITU-LSL" 
+		   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1105" 
+		   tdmHwRx="0,0,21" tdmHwTx="0,1,21" />
+       </LINKSET>
+
+    <!--    GPRS Gs Link  -->
+
+       <LINKSET lnode="atca20_MSC1" rnode="atca20_SGSN1" monProbe="ATCA20">
+           <LINK name="SGSN1-MSC1-00" protocolStack="MTP-ITU-LSL" 
+	  	   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1006" 
+		   tdmHwRx="0,0,1" tdmHwTx="0,1,1" />
+
+           <LINK name="SGSN1-MSC1-01" protocolStack="MTP-ITU-LSL" 
+	  	   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1106" 
+		   tdmHwRx="0,0,22" tdmHwTx="0,1,22" />
+       </LINKSET>
+
+    <!--    INAP Link 
+
+       <LINKSET lnode="atca20_MSC1" rnode="atca20_SCP1" monProbe="ATCA20">
+           <LINK name="SCP1-MSC1-00" protocolStack="MTP-ITU-LSL" 
+	  	   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1007" 
+		   tdmHwRx="0,0,1" tdmHwTx="0,1,1" />
+       </LINKSET>
+    -->
+
+    <!--   ##### CAMEL Link ##### -->
+
+       <LINKSET lnode="atca20_MSC1" rnode="atca20_SCP1" monProbe="ATCA20">
+
+           <LINK name="SCP1-MSC1-00" protocolStack="MTP-ITU-LSL" 
+                   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1007" 
+                   tdmHwRx="0,0,1" tdmHwTx="0,1,1" />
+
+           <!--    Real Link  -->
+
+           <LINK name="SCP1-MSC1-01" protocolStack="MTP-ITU-LSL" 
+                   tdmLayerOneRx="1,0,1,1,1" tdmLayerOneTx="0,0,1,1,1" monPort="1107" 
+                   tdmHwRx="0,0,23" tdmHwTx="0,1,23" />
+
+       </LINKSET>
+
+    <!--    GPRS Gr Link  -->
+
+       <LINKSET lnode="atca20_SGSN1" rnode="atca20_HLR1" monProbe="ATCA20">
+           <LINK name="HLR1-SGSN1-00" protocolStack="MTP-ITU-LSL" 
+		   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1008" 
+		   tdmHwRx="0,0,1" tdmHwTx="0,1,1" />
+
+           <LINK name="HLR1-SGSN1-01" protocolStack="MTP-ITU-LSL" 
+		   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1108" 
+		   tdmHwRx="0,0,24" tdmHwTx="0,1,24" />
+       </LINKSET>
+
+
+       <LINKSET lnode="atca20_STP3" rnode="atca20_SSP5" monProbe="ATCA20">
+
+           <!--    ITF Link  -->
+
+           <LINK name="SSP5-STP3-00" protocolStack="MTP-ITU-LSL" 
+                   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1011" 
+                   tdmHwRx="0,0,2" tdmHwTx="0,1,2" />
+
+           <!--    Real Link  -->
+
+           <LINK name="SSP5-STP3-01" protocolStack="MTP-ITU-LSL"
+                   tdmLayerOneRx="1,0,1,1,2" tdmLayerOneTx="0,0,1,1,2" monPort="1110"
+                   tdmHwRx="0,0,26" tdmHwTx="0,1,26" />
+
+       </LINKSET>
+
+       <LINKSET lnode="atca20_STP3" rnode="atca20_SSP6" monProbe="ATCA20">
+
+           <!--    ITF Link  -->
+
+           <LINK name="SSP6-STP3-00" protocolStack="MTP-ITU-LSL" 
+                   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1012" 
+                   tdmHwRx="0,0,2" tdmHwTx="0,1,2" />
+
+           <!--    Real Link  -->
+
+           <LINK name="SSP6-STP3-01" protocolStack="MTP-ITU-LSL"
+                   tdmLayerOneRx="1,0,1,1,2" tdmLayerOneTx="0,0,1,1,2" monPort="1111"
+                   tdmHwRx="0,0,27" tdmHwTx="0,1,27" />
+
+       </LINKSET>
+
+       <LINKSET lnode="atca20_STP4" rnode="atca20_SSP7" monProbe="ATCA20">
+
+           <!--    ITF Link  -->
+
+           <LINK name="SSP7-STP4-00" protocolStack="MTP-ITU-LSL" 
+                   tdmLayerOneRx="1,0,1,1,1-2" tdmLayerOneTx="0,0,1,1,1-2" monPort="1010" 
+                   tdmHwRx="0,0,2" tdmHwTx="0,1,2" />
+
+           <!--    Real Link  -->
+
+           <LINK name="SSP7-STP4-01" protocolStack="MTP-ITU-LSL"
+                   tdmLayerOneRx="1,0,1,1,2" tdmLayerOneTx="0,0,1,1,2" monPort="1109"
+                   tdmHwRx="0,0,30" tdmHwTx="0,1,30" />
+
+       </LINKSET>
+
+       <LINKSET lnode="atca20_STP4" rnode="atca20_SSP8" monProbe="ATCA20">
+
+           <!--    ITF Link  -->
+
+
+           <!--    Real Link  -->
+
+           <LINK name="SSP8-STP4-01" protocolStack="MTP-ITU-LSL"
+                   tdmLayerOneRx="1,0,1,1,2" tdmLayerOneTx="0,0,1,1,2" monPort="1114"
+                   tdmHwRx="0,0,31" tdmHwTx="0,1,31" />
+
+       </LINKSET>
+
+    <!-- End SS7 Link/Linkset Definitions  -->
+
+    <!-- Start GPRS Interface Definitions  -->
+
+        <!--  *** Gb Interface Start  *** -->
+
+<!--
+             <LINKSET lnode="atca20_SGSN1" rnode="atca20_BSS1" monProbe="atca20">
+
+                 <LINK name="atca20_SGSN1-atca20_BSS1-1" protocolStack="FRAME-RELAY" physicalDevice="1"
+                       tdmLayerOneRx="0,1,0,2,5-8" tdmLayerOneTx="0,1,0,1,1-4" monPort="0" 
+                       tdmHwRx="0,0,1-4" tdmHwTx="0,1,5-8" />
+             </LINKSET>
+-->
+
+              <LINKSET lnode="atca20_SGSN1" rnode="atca20_BSS1" monProbe="atca20">
+
+                  <LINK name="atca20_SGSN1-atca20_BSS1-1" protocolStack="FRAME-RELAY" physicalDevice="1"
+                             tdmLayerOneRx="1,13,2,2,1" tdmLayerOneTx="1, 13, 1, 1,1" monPort="0" 
+                             tdmHwRx="0,0,1" tdmHwTx="0,1,1" />
+              </LINKSET>
+
+             <LINKSET lnode="atca20_SGSN1" rnode="atca20_BSS2" monProbe="atca20">
+
+                 <LINK name="atca20_SGSN1-atca20_BSS2-1" protocolStack="FRAME-RELAY" physicalDevice="1"
+                       tdmLayerOneRx="0,1,0,2,5-8" tdmLayerOneTx="0,1,0,1,1-4" monPort="0" 
+                       tdmHwRx="0,0,1" tdmHwTx="0,1,1" />
+
+              </LINKSET>  
+
+
+           <!-- *********** Gb Over IP Link *********** -->
+              <LINKSET lnode="atca20_SGSN3" rnode="atca20_BSS3" monProbe="atca20">
+
+                  <LINK name="atca20_SGSN3-atca20_BSS3-1" protocolStack="SCTP" physicalDevice="1"
+                        srcAddr="172.16.220.220:2157" dstAddr="172.16.220.221:2157" />
+
+              </LINKSET>
+
+        <!--    *** Gb Interface End  *** -->
+
+        <!--    *** GTP Interface Start *** -->
+
+              <LINKSET lnode="atca20_SGSN1" rnode="atca20_GGSN1" monProbe="atca20">
+
+                 <!-- ITF Mode link for GTPC V1 -->
+                 <LINK name="GTPC-atca20_SGSN1-atca20_GGSN1-1" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.10.10:2123" dstAddr="172.10.10.11:2123" />
+<!-- llm -->
+                 <!-- Real Mode link for GTPC V1 -->
+                 <LINK name="GTPC-atca20_SGSN1-atca20_GGSN1-1_Real" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.10.10:2123" dstAddr="172.10.10.11:2123" />
+
+                 <LINK name="GTPU-atca20_SGSN1-atca20_GGSN1-1" protocolStack="UDP" physicalDevice="1" 
+                       srcAddr="172.10.10.10:2152" dstAddr="172.10.10.11:2152" />
+
+                 <LINK name="GTPU-atca20_RNC1-atca20_GGSN1-1" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.10.12:2152" dstAddr="172.10.10.11:2152" />
+
+                 <!-- Real Mode link for GTP V0 -->
+                 <LINK name="V0-atca20_SGSN1-atca20_GGSN1-1" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.10.10:3386" dstAddr="172.10.10.11:3386" />
+
+                 <LINK name="GTPC-atca19_SGSN1-atca19_GGSN1-1_Real" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="192.169.100.1:2123" dstAddr="10.100.200.33:2123" />
+
+                 <LINK name="GTPC-atca19_SGSN1-atca18_GGSN1-1_Real" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="192.169.100.1:2123" dstAddr="10.100.200.34:2123" />
+
+              </LINKSET>
+
+              <LINKSET lnode="atca20_GGSN1" rnode="atca20_GSNNet1" monProbe="atca20">
+
+                  <LINK name="V0-atca20_GGSN1-atca20_GSNNet1-1" protocolStack="GTP" physicalDevice="1"
+                        srcAddr="172.10.10.11:2387" dstAddr="172.10.10.11:3387" />
+
+                  <LINK name="DUMMY_FOR_TUNNEL_atca20_GGSN1_v0" protocolStack="UDP"
+                        srcAddr="172.10.10.11:53" dstAddr="172.10.10.11:333"
+                        tunnel="V0-atca20_GGSN1-atca20_GSNNet1-1" />
+
+              </LINKSET>
+
+         <!--   *** GTP Interface End *** -->
+
+    <!-- End GPRS Interface Definitions  -->
+
+    <!-- Start Gi Interface Definitions  -->
+
+         <!--    *** GI Interface  *** -->
+             <LINKSET lnode="atca20_GGSN1" rnode="atca20_IPNet1" monProbe="atca20">
+  
+                 <LINK name="GI_INTF_0_PD0_53" protocolStack="UDP" physicalDevice="0" 
+                       srcAddr="172.10.10.11:53" dstAddr="172.10.10.12:53" />
+
+                 <LINK name="GI_INTF_0_PD0_67" protocolStack="UDP" physicalDevice="0" 
+                       srcAddr="172.10.10.11:67" dstAddr="172.10.10.12:67" />
+
+                 <LINK name="GI_INTF_0_PD0_2427" protocolStack="UDP" physicalDevice="0" 
+                       srcAddr="1.1.1.11:2427" dstAddr="1.1.1.10:2427" />
+
+                 <LINK name="GI_INTF_0_PD0_1812" protocolStack="UDP" physicalDevice="0" 
+                       srcAddr="172.10.10.11:1812" dstAddr="172.10.10.12:1812" />
+
+                 <LINK name="GI_INTF_0_PD0_1813" protocolStack="UDP" physicalDevice="0" 
+                       srcAddr="172.10.10.11:1813" dstAddr="172.10.10.12:1813" />
+
+                 <LINK name="GI_INTF_0_PD0_9022" protocolStack="UDP" physicalDevice="0"
+                       srcAddr="172.10.10.11:9022" dstAddr="172.10.10.12:9022" />
+
+                 <LINK name="GI_INTF_0_PD0_9023" protocolStack="UDP" physicalDevice="0"
+                       srcAddr="172.10.10.11:9023" dstAddr="172.10.10.12:9023" />
+
+                 <LINK name="GI_INTF_0_PD0_80" protocolStack="TCP" physicalDevice="0"
+                       srcAddr="172.10.10.11:80" dstAddr="172.10.10.12:80" />
+
+                 <LINK name="GI_INTF_0_PD0_9201" protocolStack="UDP" physicalDevice="0" 
+                       srcAddr="172.10.10.11:9201" dstAddr="172.10.10.12:9201" />
+
+                 <LINK name="GI_INTF_0_PD0_9203" protocolStack="UDP" physicalDevice="0" 
+                       srcAddr="172.10.10.11:9203" dstAddr="172.10.10.12:9203" />
+
+             </LINKSET>
+         <!--     *** GI Interface END*** -->
+
+    <!-- End Gi Interface Definitions  -->
+
+    <!-- Start VOIP Interface Definitions  -->
+
+             <LINKSET lnode="H248_Server1" rnode="H248_Client1" monProbe="atca20">
+                 <LINK name="IP_INTF_0_PD0_UDP" protocolStack="UDP" physicalDevice="0"
+                       srcAddr="172.10.20.40:2944" dstAddr="55.55.55.55:2944" />
+
+                 <LINK name="IP_INTF_0_PD0_2944" protocolStack="UDP" physicalDevice="0"
+                       srcAddr="172.10.20.40:2944" dstAddr="172.10.20.41:2944" />
+
+                 <LINK name="IP_INTF_0_PD0_2944_ITF" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.20.40:2944" dstAddr="172.10.20.42:2944" />
+
+                 <LINK name="IP_INTF_3_PD0_2944" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.20.40:2944" dstAddr="172.10.20.43:2944" />
+
+                 <LINK name="IP_INTF_4_PD0_2944" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.20.40:2944" dstAddr="172.10.20.44:2944" />
+
+                 <LINK name="IP_INTF_5_PD0_2944" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.20.40:2944" dstAddr="172.10.20.45:2944" />
+
+                 <LINK name="IP_INTF_6_PD0_2944" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.20.40:2944" dstAddr="172.10.20.46:2944" />
+
+                 <LINK name="IP_INTF_7_PD0_2944" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.20.40:2944" dstAddr="172.10.20.47:2944" />
+
+                 <LINK name="IP_INTF_8_PD0_2944" protocolStack="UDP" physicalDevice="1"
+                       srcAddr="172.10.20.40:2944" dstAddr="172.10.20.48:2944" />
+
+                 <LINK name="IP_INTF_0_PD0_SCTP" protocolStack="SCTP" physicalDevice="0"
+                       srcAddr="172.10.20.40:2944" dstAddr="99.99.99.99:2944" />
+
+            </LINKSET>
+
+            <LINKSET lnode="SIP_Server1" rnode="SIP_Client1" monProbe="atca20">
+
+                <LINK name="GI_INTF_0_PD0_UDP_5060" protocolStack="UDP" physicalDevice="0"
+                      srcAddr="172.10.10.50:5060" dstAddr="55.55.55.55:5060" />
+
+                <LINK name="GI_INTF_0_PD0_UDP_5081" protocolStack="UDP" physicalDevice="0"
+                      srcAddr="1.2.2.2:5081" dstAddr="55.22.22.22:5081" />
+
+                <LINK name="GI_INTF_0_PD0_TCP_5060" protocolStack="TCP" physicalDevice="0"
+                      srcAddr="172.10.10.50:5060" dstAddr="57.77.77.77:5060" />
+
+                <LINK name="GI_INTF_0_PD0_SCTP_5060" protocolStack="SCTP" physicalDevice="0"
+                      srcAddr="88.88.88.88:5060" dstAddr="99.99.99.99:5060" />
+            </LINKSET>
+
+            <LINKSET lnode="SIP_Server2" rnode="SIP_Client2" monProbe="atca20">
+
+               <LINK name="GI_INTF_1_PD0_SCTP_5060" protocolStack="SCTP" physicalDevice="0"
+                     srcAddr="172.10.10.50:5060" dstAddr="55.55.55.55:5060" />
+            </LINKSET>
+
+          <!--    *** POP3 Interface  *** -->
+
+            <LINKSET lnode="POP3_Server1" rnode="POP3_Client1" monProbe="atca20">
+
+                <LINK name="GI_INTF_0_PD0_110" protocolStack="TCP" physicalDevice="0" 
+                      srcAddr="172.10.10.11:110" dstAddr="172.10.10.12:110" />
+
+                      <!--
+                        <LINK name="GI_INTF_2_PD0_110" protocolStack="TCP-VLAN" physicalDevice="0" 
+                      -->
+                <LINK name="GI_INTF_2_PD0_110" protocolStack="TCP" physicalDevice="0" 
+                      srcAddr="172.10.10.12:110" dstAddr="172.10.10.11:110" />
+
+            </LINKSET>
+
+          <!--    *** End of POP3 Interface  *** -->
+
+          <!--    *** H323 Interface  *** -->
+
+            <LINKSET lnode="H323_Server1" rnode="H323_Client1" monProbe="atca20">
+
+               <LINK name="EP1-GK1" protocolStack="TCP" physicalDevice="0"
+                     srcAddr="172.26.15.112:55004" dstAddr="172.10.20.30:1721" />
+
+               <LINK name="GK1-GK2" protocolStack="TCP" physicalDevice="0"
+                     srcAddr="172.26.15.208:4666" dstAddr="172.10.20.30:1721" />
+
+               <LINK name="GK2-EP2" protocolStack="TCP" physicalDevice="0"
+                     srcAddr="172.26.15.207:4666" dstAddr="172.10.20.30:1720" />
+
+               <LINK name="GK1-EP2" protocolStack="TCP" physicalDevice="0"
+                     srcAddr="172.26.15.208:4666" dstAddr="172.10.20.30:1720" />
+
+               <LINK name="EP1-EP2" protocolStack="TCP" physicalDevice="1"
+                     srcAddr="172.26.15.112:55004" dstAddr="172.10.20.30:1720" />
+
+               <LINK name="GI_INTF_0_PD0_1720" protocolStack="TCP" physicalDevice="0" 
+                     srcAddr="172.10.20.30:1720" dstAddr="172.10.20.31:1721" />
+
+               <LINK name="GI_INTF_0_PD0_1721" protocolStack="TCP" physicalDevice="0" 
+                     srcAddr="172.10.20.30:1721" dstAddr="172.10.20.31:1720" />
+
+               <LINK name="GI_INTF_0_PD0_1718" protocolStack="UDP" physicalDevice="0" 
+                     srcAddr="172.10.20.30:1718" dstAddr="172.10.20.31:1719" />
+
+               <LINK name="GI_INTF_0_PD0_1719" protocolStack="UDP" physicalDevice="0" 
+                     srcAddr="172.10.20.30:1719" dstAddr="172.10.20.31:1718" />
+
+            </LINKSET>
+         <!--    *** End of H323 Interface  *** -->
+
+         <!--    *** IPDC Interface  *** -->
+
+            <LINKSET lnode="IPDC_Server1" rnode="IPDC_Client1" monProbe="atca20">
+
+                <LINK name="GI_INTF_0_PD0_11002" protocolStack="TCP" physicalDevice="0" 
+                      srcAddr="172.10.30.20:11002" dstAddr="172.10.30.21:11002" />
+
+            </LINKSET>
+
+         <!--    *** End of IPDC Interface  *** -->
+
+         <!--    *** SMTP Interface  *** -->
+
+            <LINKSET lnode="SMTP_Server1" rnode="SMTP_Client1" monProbe="atca20">
+
+               <LINK name="GI_INTF_0_PD0_25" protocolStack="TCP" physicalDevice="0" 
+                     srcAddr="172.10.10.11:25" dstAddr="172.10.10.12:25" />
+
+               <LINK name="GI_INTF_2_PD0_25" protocolStack="TCP" physicalDevice="0" 
+                     srcAddr="172.10.10.12:25" dstAddr="172.10.10.11:25" />
+
+            </LINKSET>
+
+         <!--    *** End of SMTP Interface  *** -->
+
+         <!--    *** LDAP Interface  *** -->
+
+            <LINKSET lnode="LDAP_Server1" rnode="LDAP_Client1" monProbe="atca20">
+
+                <LINK name="GI_INTF_2_PD0_389" protocolStack="TCP" physicalDevice="0" 
+                      srcAddr="172.10.20.20:389" dstAddr="172.10.20.21:389" />
+
+            </LINKSET>
+
+         <!--    *** End of LDAP Interface  *** -->
+
+
+         <!--    *** RTP/RTCP Interface  *** -->
+
+            <LINKSET lnode="RTCP_Server1" rnode="RTCP_Client1" monProbe="atca20">
+
+                <LINK name="GI_INTF_0_PD0_2000" protocolStack="UDP" physicalDevice="1"
+                      srcAddr="172.10.20.50:49157" dstAddr="172.10.20.50:49159" />
+
+                <LINK name="GI_INTF_0_PD0_2222" protocolStack="UDP" physicalDevice="1"
+                      srcAddr="172.10.20.50:49152" dstAddr="172.10.20.51:49154" />
+
+            </LINKSET>
+
+          <!--    *** End of RTP/RTCP Interface  *** -->
+
+          <!--    *** SMPP Interface  *** -->
+
+            <LINKSET lnode="SMSC1" rnode="ESME1" monProbe="atca20">
+
+                <LINK name="GI_INTF_3_PD0_2775" protocolStack="TCP" physicalDevice="0" 
+                      srcAddr="172.10.30.10:2775" dstAddr="172.10.30.11:2775" />
+
+            </LINKSET>
+
+          <!--    *** End of SMPP Interface  *** -->
+                                                                                                                                                             
+<!--    *** Start of IPDC Interface  *** -->
+
+    <LINKSET lnode="SS" rnode="GW1" monProbe="atca20">
+        <LINK name="SS_GW1" protocolStack="TCP" physicalDevice="0"
+              srcAddr="172.10.10.60:11002" dstAddr="172.10.10.61:11002" />
+        <LINK name="SS_GW2" protocolStack="TCP" physicalDevice="0"
+              srcAddr="172.10.10.60:11002" dstAddr="172.10.10.61:11002"/>
+    </LINKSET>
+
+<!--    *** End of IPDC Interface  *** -->
+
+<!--    *** Start of MGCP Interface  *** -->
+
+    <LINKSET lnode="MGCP_Server1" rnode="MGCP_Client1" monProbe="atca20">
+        <LINK name="GI_INTF_0_PD0_2727" protocolStack="UDP" physicalDevice="0"
+              srcAddr="172.10.30.31:2727" dstAddr="172.10.30.30:2727" />
+    </LINKSET>
+
+<!--    *** End of MGCP Interface  *** -->
+
+    <!-- End VOIP Interface Definitions  -->
+
+    <!-- Start UMTS Interface Definitions  -->
+       <LINKSET lnode="atca20_3GMSC1" rnode="atca20_RNC1" monProbe="atca20">
+
+          <LINK name="IuCS_SCCP" protocolStack="UMTS_IU"
+                atmRx="0,66-67,56-57" atmTx="1,66-67,56-57" />
+
+          <LINK name="IuCS1" protocolStack="UMTS_IU"
+                atmRx="0,61-63,61-63" atmTx="1,61-63,61-63" />
+
+        <LINK name="IuCS4" protocolStack="UMTS_IU"
+              atmRx="0,81-83,81-83" atmTx="1,81-83,81-83" />
+
+          <LINK name="IuCS5" protocolStack="UMTS_IU"
+                atmRx="0,64-65,64-65" atmTx="1,64-65,64-65" />
+
+          <LINK name="IuCS_RANAP" protocolStack="UMTS_IU"
+                atmRx="0,34-34,34-34" atmTx="1,34-34,34-34" />
+
+      </LINKSET>
+
+
+      <LINKSET lnode="atca20_SGSN1" rnode="atca20_RNC1" monProbe="atca20">
+
+         <LINK name="IuPS_SCCP" protocolStack="UMTS_IU"
+               atmRx="0,35-36,25-26" atmTx="1,35-36,25-26" />
+
+         <LINK name="IuPS1" protocolStack="UMTS_IU"
+               atmRx="0,31-33,41-43" atmTx="1,31-33,41-43" />
+               <!--atmRx="0,31-33,31-33" atmTx="1,31-33,31-33" /-->
+
+         <LINK name="IuPS3" protocolStack="UMTS-IU"
+               atmRx="0,71-73,71-73" atmTx="1,71-73,71-73" />
+
+         <LINK name="IuPS4" protocolStack="UMTS_IU"
+               atmRx="0,37-39,37-39" atmTx="1,37-39,37-39" />
+
+      </LINKSET>
+
+    <!-- End UMTS Interface Definitions  -->
+
+</GENET_MODEL>

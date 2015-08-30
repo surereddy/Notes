@@ -1,0 +1,11 @@
+Configure network interface
+Check if all network interfaces that want to use are Enable
+# ifconfig -a
+lo0: flags=1000849<UP,LOOPBACK,RUNNING,MULTICAST,IPv4> mtu 8232 index 1        inet 127.0.0.1 netmask ff000000 
+ce0: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 2        inet 192.168.50.25 netmask ff000000 broadcast 10.255.255.255        ether 0:3:ba:2c:97:12
+
+If some interfaces are not appear, do following steps to enable them:
+1.	plumb the network interface
+# ifconfig ce1 plumb
+2.	Add ip address and UP the interface
+# ifconfig ce1 10.10.10.4 netmask 255.255.255.0 up

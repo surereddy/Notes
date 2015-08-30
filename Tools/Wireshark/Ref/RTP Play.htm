@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="robots" content="index,nofollow">
+
+<title>RTP_statistics - The Wireshark Wiki</title>
+<script type="text/javascript" src="/moin_static163/common/js/common.js"></script>
+
+<script type="text/javascript">
+<!--
+var search_hint = "搜索";
+//-->
+</script>
+
+
+<link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="/moin_static163/modern/css/common.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="/moin_static163/modern/css/screen.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="print" href="/moin_static163/modern/css/print.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="projection" href="/moin_static163/modern/css/projection.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="/mm/css/ws-wiki-1.css">
+
+<!-- css only for MSIE browsers -->
+<!--[if IE]>
+   <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="/moin_static163/modern/css/msie.css">
+<![endif]-->
+
+
+
+<link rel="Start" href="/FrontPage">
+<link rel="Alternate" title="维基标记" href="/RTP_statistics?action=raw">
+<link rel="Alternate" media="print" title="打印视图" href="/RTP_statistics?action=print">
+<link rel="Appendix" title="RTP_graph_analysis.gif" href="/RTP_statistics?action=AttachFile&amp;do=view&amp;target=RTP_graph_analysis.gif">
+<link rel="Appendix" title="RTP_graph_analysis2.gif" href="/RTP_statistics?action=AttachFile&amp;do=view&amp;target=RTP_graph_analysis2.gif">
+<link rel="Appendix" title="openrtpsession.png" href="/RTP_statistics?action=AttachFile&amp;do=view&amp;target=openrtpsession.png">
+<link rel="Appendix" title="rtpdump.c.1.18.patch" href="/RTP_statistics?action=AttachFile&amp;do=view&amp;target=rtpdump.c.1.18.patch">
+<link rel="Appendix" title="startrtpstream.png" href="/RTP_statistics?action=AttachFile&amp;do=view&amp;target=startrtpstream.png">
+<link rel="Search" href="/FindPage">
+<link rel="Index" href="/TitleIndex">
+<link rel="Glossary" href="/WordIndex">
+<link rel="Help" href="/HelpOnFormatting">
+</head>
+
+<body  lang="zh" dir="ltr">
+
+<div id="header">
+<div id="logo"><a href="/FrontPage"><img class="logo" src="http://wiki.wireshark.org/mm/image/wsbadgewiki64.png" alt="The Wireshark Wiki" border=0></a></div>
+
+<form id="searchform" method="get" action="/RTP_statistics">
+<div>
+<input type="hidden" name="action" value="fullsearch">
+<input type="hidden" name="context" value="180">
+<label for="searchinput">搜索:</label>
+<input id="searchinput" type="text" name="value" value="" size="20"
+    onfocus="searchFocus(this)" onblur="searchBlur(this)"
+    onkeyup="searchChange(this)" onchange="searchChange(this)" alt="Search">
+<input id="titlesearch" name="titlesearch" type="submit"
+    value="标题" alt="Search Titles">
+<input id="fullsearch" name="fullsearch" type="submit"
+    value="正文" alt="Search Full Text">
+</div>
+</form>
+<script type="text/javascript">
+<!--// Initialize search form
+var f = document.getElementById('searchform');
+f.getElementsByTagName('label')[0].style.display = 'none';
+var e = document.getElementById('searchinput');
+searchChange(e);
+searchBlur(e);
+//-->
+</script>
+
+<ul id="username"><li><a href="/RTP_statistics?action=login" id="login" rel="nofollow">登录</a></li></ul>
+<div id="locationline">
+
+
+<ul id="pagelocation">
+<li><a class="backlink" href="/RTP_statistics?action=fullsearch&amp;context=180&amp;value=linkto%3A%22RTP_statistics%22" rel="nofollow" title="点击对这个标题进行全文检索">RTP_statistics</a></li>
+</ul>
+
+</div>
+
+
+<ul id="navibar">
+<li class="wikilink"><a href="/FrontPage">FrontPage</a></li><li class="wikilink"><a href="/RecentChanges">RecentChanges</a></li><li class="wikilink"><a href="/FindPage">FindPage</a></li><li class="wikilink"><a href="/HelpContents">HelpContents</a></li><li class="current"><a href="/RTP_statistics">RTP_statistics</a></li>
+</ul>
+
+<div id="pageline"><hr style="display:none;"></div>
+
+<ul class="editbar"><li><span class="disabled">只读网页</span></li><li><a href="#" class="toggleCommentsButton" style="display:none;" onClick="toggleComments();return false;">备注</a></li><li><a class="nbinfo" href="/RTP_statistics?action=info" rel="nofollow">信息</a></li><li><a class="nbattachments" href="/RTP_statistics?action=AttachFile" rel="nofollow">附件</a></li><li>
+<form class="actionsmenu" method="get" action="/RTP_statistics">
+<div>
+    <label>更多操作</label>
+    <select name="action"
+        onchange="if ((this.selectedIndex != 0) &&
+                      (this.options[this.selectedIndex].disabled == false)) {
+                this.form.submit();
+            }
+            this.selectedIndex = 0;">
+        <option value="raw">源码</option>
+<option value="print">打印视图</option>
+<option value="RenderAsDocbook">输出 Docbook 格式</option>
+<option value="refresh">删除缓存</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="SpellCheck">拼写检查</option>
+<option value="LikePages">相似网页</option>
+<option value="LocalSiteMap">本站地图</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="RenamePage" disabled class="disabled">重命名网页</option>
+<option value="CopyPage">复制网页</option>
+<option value="DeletePage" disabled class="disabled">删除网页</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="MyPages">我的网页</option>
+<option value="SubscribeUser">订阅用户</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="Despam">删除垃圾广告</option>
+<option value="revert">恢复成此版本</option>
+<option value="PackagePages">网页打包</option>
+<option value="SyncPages">同步网页</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="Load">加载</option>
+<option value="Save">保存</option>
+    </select>
+    <input type="submit" value="执行">
+    
+</div>
+<script type="text/javascript">
+<!--// Init menu
+actionsMenuInit('更多操作');
+//-->
+</script>
+</form>
+</li></ul>
+
+</div>
+
+<div id="page" lang="en" dir="ltr">
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line867">
+<h1 id="head-f7b7b827af3b273b18333e98c3fe4a116c3e348c">RTP statistics</h1>
+<span class="anchor" id="line-2"></span><p class="line867">
+<h2 id="head-d78c5fbe599d17c00780b1d8003ddef5870b5a47">Saving RTP audio streams</h2>
+<span class="anchor" id="line-3"></span><p class="line867">
+<h3 id="head-2d07fa822f505304a04723aa20544690b288ebb5">Payload type is G.711 A-law or mu-law</h3>
+<span class="anchor" id="line-4"></span><p class="line862">You can save the content of an <a href="/RTP">RTP</a> audio stream to an au-file directly from Wireshark, if it uses G.711 A-law and G.711U-law codecs. This is done from the "RTP Stream Analysis" dialog by pressing the the "Save payload" button. <span class="anchor" id="line-5"></span><span class="anchor" id="line-6"></span><p class="line862">In addition, from Wireshark 0.99.4 onwards, it is possible to listen to RTP streams from within Wireshark. See <a href="/VoIP_calls">VoIP_calls</a>. <span class="anchor" id="line-7"></span><span class="anchor" id="line-8"></span><p class="line867">
+<h3 id="head-de9afc190836cc159d1c179d09b4e38336f32d40">Other codec types</h3>
+<span class="anchor" id="line-9"></span><p class="line862">It is possible to save in <a href="/rtpdump">rtpdump</a> format for any codec (both audio and video) and use e.g. rtplay program from <a class="http" href="http://www.cs.columbia.edu/IRT/software/rtptools/">http://www.cs.columbia.edu/IRT/software/rtptools/</a> to replay the RTP stream towards JMF JMstudio <a class="http" href="http://java.sun.com/products/java-media/jmf/">http://java.sun.com/products/java-media/jmf/</a> , Apple <a class="nonexistent" href="/QuickTime">QuickTime</a> player and similar if they support the codec. But unfortunately there is no support for G.729 in those programs (maybe due to high license fees for G.729). <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span><p class="line874">Here is a small example: <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span><ul><li>Install JMF (JMstudio is included) <span class="anchor" id="line-14"></span></li><li>Download rtptools <span class="anchor" id="line-15"></span></li><li>Open the RTP capture file with Wireshark <span class="anchor" id="line-16"></span></li><li><p class="line862">Select the proper UDP and force its decoding as RTP: Menu Analyze &gt;&gt; Decode As... RTP. <span class="anchor" id="line-17"></span></li><li><p class="line862">Menu Statistics &gt;&gt; RTP &gt;&gt; Show all streams. Select the one of your interest, and press button Save As... into a "rtpdump" formatted file. <span class="anchor" id="line-18"></span></li><li>Start JMstudio <span class="anchor" id="line-19"></span></li><li><p class="line862">Menu File &gt;&gt; Open RTP Session and insert your local ip-Address (it didn't work with 127.0.0.1 for me) like this: <span class="anchor" id="line-20"></span><span class="anchor" id="line-21"></span></li></ul><p class="line867"><img alt="openrtpsession.png" class="attachment" src="/RTP_statistics?action=AttachFile&amp;do=get&amp;target=openrtpsession.png" title="openrtpsession.png" /> <span class="anchor" id="line-22"></span><span class="anchor" id="line-23"></span><ul><li>Press button "Open" - now JMstudio waits for the stream <span class="anchor" id="line-24"></span></li><li>Open a terminal and type: <span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span></li></ul><p class="line867"><img alt="startrtpstream.png" class="attachment" src="/RTP_statistics?action=AttachFile&amp;do=get&amp;target=startrtpstream.png" title="startrtpstream.png" /> <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span><p class="line862">You should now hear what you've captured. <strong>Note:</strong>JMstudio does not support <span class="u">every</span> codec, but some commonly used for RTP (worked perfect for me to listen to a captured kphone-session using GSM as codec). <span class="anchor" id="line-29"></span><span class="anchor" id="line-30"></span><p class="line867">
+<h3 id="head-340d66f25856e797b0feab52225e96c652aaf613">G.729</h3>
+<span class="anchor" id="line-31"></span><p class="line862">The ITU-T includes software routines to convert PCM audio (<em>G.729 bitstream format</em>) to and from PCM. If you buy such software package you can compile the decoder to extract the PCM audio from G.729 <em>bitstream</em>. This <em>G.729AB bitstream</em> is rather cumbersome (G.729AB packets are composed of several voice or silence chunks; in the ITU-T routines each chunk is identified by a leading sync pattern; further more, each bit in the payload must be coded as a 16-bit long word), so a modified version of <a href="/rtpdump">rtpdump</a> is required to extract <em>G.729AB bitstream</em> from the rtpdump file from Wireshark; download the sources of the version 1.18 of <a href="/rtpdump">rtpdump</a>, apply the patch <a class="attachment" href="/RTP_statistics?action=AttachFile&amp;do=view&amp;target=rtpdump.c.1.18.patch" title="attachment:rtpdump.c.1.18.patch">rtpdump.c.1.18.patch</a>, compile and follow these steps: <span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span><ol type="1"><li>Open the RTP capture file with Wireshark <span class="anchor" id="line-34"></span></li><li><p class="line862">Select the proper UDP and force its decoding as RTP: Menu Analyze &gt;&gt; Decode As... RTP. <span class="anchor" id="line-35"></span></li><li>Filter the G.729AB payload with display filter rtp.p_type==18. <span class="anchor" id="line-36"></span></li><li><p class="line862">Menu Statistics &gt;&gt; RTP &gt;&gt; Show all streams. Select the one with G.729 of your interest, and press button Save As... into a "rtpdump" formatted file. <span class="anchor" id="line-37"></span></li><li>rtpdump -F itut -f file.rtpdump -o file.rtp <span class="anchor" id="line-38"></span></li><li>decoder file.rtp file.pcm <span class="anchor" id="line-39"></span></li><li>Import the file.pcm in Goldwave or Audacity (for example) as 16 bit signed mono, sampling ratio of 8000 Hz. <span class="anchor" id="line-40"></span><span class="anchor" id="line-41"></span></li></ol><p class="line874">The flag "itut" for RTPDUMP is new to allow the decoding of rtpdump into ITU-T G.729AB format described above. <span class="anchor" id="line-42"></span><span class="anchor" id="line-43"></span><p class="line867">
+<h3 id="head-2024945ba229e2eddc6dc7be5085edfb4dd9714b">G.723.1</h3>
+<span class="anchor" id="line-44"></span><p class="line874">Once again the ITU-T includes software routines to convert between PCM audio and G.723.1 format. Fortunately the bitstream format expected by the ITU-T software routine "lbccodec" is simpler than in the case of G.729AB above, so the RTPDUMP program can be used as is with flag "payload": <span class="anchor" id="line-45"></span><span class="anchor" id="line-46"></span><ol type="1"><li>Open the capture file with Wireshark. <span class="anchor" id="line-47"></span></li><li><p class="line862">Menu Analyze &gt;&gt; Decode As... RTP. <span class="anchor" id="line-48"></span></li><li>Filter the G.723.1 payload with display filter rtp.p_type==8. <span class="anchor" id="line-49"></span></li><li><p class="line862">Menu Statistics &gt;&gt; RTP &gt;&gt; Show all streams. Select the one with G.723.1 of your interest, and press button Save As... into a "rtpdump" formatted file. <span class="anchor" id="line-50"></span></li><li>rtpdump -F payload -f file.rtpdump -o file.rtp <span class="anchor" id="line-51"></span></li><li>lbccodec -d file.rtp file.pcm <span class="anchor" id="line-52"></span></li><li>Import the file.pcm in Goldwave as 16 bit signed mono, sampling ratio of 8000 Hz: <span class="anchor" id="line-53"></span><span class="anchor" id="line-54"></span></li></ol><p class="line874">You can save an RTP stream in rtpdump format from the "RTP streams" dialog by selecting the stream and pressing the "Save As "button. <span class="anchor" id="line-55"></span><span class="anchor" id="line-56"></span><p class="line867">
+<h2 id="head-8853040e5f34cc3b315054e845acffe42322c1e0">RTP stream analysis</h2>
+<span class="anchor" id="line-57"></span><p class="line862">If you want to analyze an <a href="/RTP">RTP</a> stream, there are two ways to select the one to analyze: <span class="anchor" id="line-58"></span><span class="anchor" id="line-59"></span><ul><li><p class="line862">use the menu entry "Statistics-&gt;RTP-&gt;Show All Streams..." and select a stream in the upcoming "RTP Streams" dialog <span class="anchor" id="line-60"></span></li><li><p class="line862">select an RTP packet in the Packet List Pane and use "Statistics-&gt;RTP-&gt;Stream Analysis..." <span class="anchor" id="line-61"></span><span class="anchor" id="line-62"></span></li></ul><p class="line874">... both ways will lead to the same "RTP Stream Analysis" dialog. <span class="anchor" id="line-63"></span><span class="anchor" id="line-64"></span><p class="line862">You can get the Delay, jitter, bandwidth, etc. of that RTP stream. Also get general statistics like <a href="/PacketLoss">PacketLoss</a>, max delay and sequence errors. Use the "Graph" button to see the jitter and difference between packets over the time. <span class="anchor" id="line-65"></span><span class="anchor" id="line-66"></span><p class="line867"><img alt="RTP_graph_analysis2.gif" class="attachment" src="/RTP_statistics?action=AttachFile&amp;do=get&amp;target=RTP_graph_analysis2.gif" title="RTP_graph_analysis2.gif" /> <span class="anchor" id="line-67"></span><span class="anchor" id="line-68"></span><p class="line867">
+<h3 id="head-eeffe02cb2c309f6ffcd0cadea9039940c146a14">How jitter is calculated</h3>
+<span class="anchor" id="line-69"></span><p class="line862">Wireshark calculates jitter according to <a class="http" href="http://www.ietf.org/rfc/rfc3550.txt?number=3550">RFC3550(RTP)</a>: <span class="anchor" id="line-70"></span><span class="anchor" id="line-71"></span><p class="line874">If Si is the RTP timestamp from packet i, and Ri is the time of arrival in RTP timestamp units for packet i, then for two packets i and j, D may be expressed as <span class="anchor" id="line-72"></span><span class="anchor" id="line-73"></span><ul><li style="list-style-type:none">D(i,j) = (Rj - Ri) - (Sj - Si) = (Rj - Sj) - (Ri - Si) <span class="anchor" id="line-74"></span><span class="anchor" id="line-75"></span></li></ul><p class="line874">The interarrival jitter SHOULD be calculated continuously as each data packet i is received from source SSRC_n, using this difference D for that packet and the previous packet i-1 in order of arrival (not necessarily in sequence), according to the formula <span class="anchor" id="line-76"></span><span class="anchor" id="line-77"></span><ul><li style="list-style-type:none">J(i) = J(i-1) + (|D(i-1,i)| - J(i-1))/16 <span class="anchor" id="line-78"></span><span class="anchor" id="line-79"></span></li></ul><p class="line867"><strong>RTP timestamp:</strong> RTP timestamp is based on the sampling frequency of the codec, 8000 in most audio codecs and 90000 in most video codecs. As the sampling frequency must be known to correctly calculate jitter it is problematic to do jitter calculations for dynamic payload types as the codec and it's sampling frequency must be known which implies that the setup information for the session must be in the trace and the codec used must be known to the program(with the current implementation). <span class="anchor" id="line-80"></span><span class="anchor" id="line-81"></span><p class="line874">Developers with time to spend could change the current implementation to also record the sampling frequency in the SDP data and add that to the RTP conversation data and use that in the RTP analysis. <span class="anchor" id="line-82"></span><span class="anchor" id="line-83"></span><p class="line867"><strong>Example:</strong> <span class="anchor" id="line-84"></span><span class="anchor" id="line-85"></span><p class="line867"><a class="http" href="http://wiki.wireshark.org/SampleCaptures#head-6f6128a524888c86ee322aa7cbf0d7b7a8fdf353">http://wiki.wireshark.org/SampleCaptures#head-6f6128a524888c86ee322aa7cbf0d7b7a8fdf353</a> file: aaa.pcap, stream: SSRC = 932629361 <span class="anchor" id="line-86"></span><span class="anchor" id="line-87"></span><p class="line874">This is what we have in the packets and what we will use in the formula: <span class="anchor" id="line-88"></span><span class="anchor" id="line-89"></span><p class="line874">R0 = frame 624: frame.time = Jul  4, 2005 11:56:25.348411000 <span class="anchor" id="line-90"></span><span class="anchor" id="line-91"></span><p class="line874">S0 = frame 624: rtp.timestamp = 1240 <span class="anchor" id="line-92"></span><span class="anchor" id="line-93"></span><p class="line874">R1 = frame 625: frame.time = Jul  4, 2005 11:56:25.418358000 <span class="anchor" id="line-94"></span><span class="anchor" id="line-95"></span><p class="line874">S1 = frame 625: rtp.timestamp = 1400 <span class="anchor" id="line-96"></span><span class="anchor" id="line-97"></span><p class="line874">R2 = frame 626: frame.time = Jul  4, 2005 11:56:25.421891000 <span class="anchor" id="line-98"></span><span class="anchor" id="line-99"></span><p class="line874">S2 = frame 626: rtp.timestamp = 1560 <span class="anchor" id="line-100"></span><span class="anchor" id="line-101"></span><p class="line874">we also have rtp.p_type = ITU-T G.711 PCMA (8) and thus we know sampling clock is 8000Hz and thus the unit of rtp.timestamp is 1/8000 sec = 0.000125 sec . <span class="anchor" id="line-102"></span><span class="anchor" id="line-103"></span><p class="line874">Now the calculation: <span class="anchor" id="line-104"></span><span class="anchor" id="line-105"></span><p class="line874">frame 624: <span class="anchor" id="line-106"></span><span class="anchor" id="line-107"></span><p class="line874">J(0) = 0 <span class="anchor" id="line-108"></span><span class="anchor" id="line-109"></span><p class="line874">frame 625: <span class="anchor" id="line-110"></span><span class="anchor" id="line-111"></span><p class="line874">D(0,1) = (R1 - R0) - (S1 - S0) <span class="anchor" id="line-112"></span><span class="anchor" id="line-113"></span><ul><li style="list-style-type:none">= [in seconds] (.418358000 sec - .348411000 sec) - (1400 * 0.000125 sec - 1240 * 0.000125 sec) = 0.049947 <span class="anchor" id="line-114"></span><span class="anchor" id="line-115"></span></li></ul><p class="line874">J(1) = J(0) + (|D(0,1)| - J(0))/16 <span class="anchor" id="line-116"></span><span class="anchor" id="line-117"></span><ul><li style="list-style-type:none">= [in seconds] 0 + (|0.049947| - 0)/16 = 0.0031216875 <span class="anchor" id="line-118"></span><span class="anchor" id="line-119"></span></li></ul><p class="line874">frame 626: <span class="anchor" id="line-120"></span><span class="anchor" id="line-121"></span><p class="line874">D(1,2) = (R2 - R1) - (S2 - S1) <span class="anchor" id="line-122"></span><span class="anchor" id="line-123"></span><ul><li style="list-style-type:none">= [in seconds] (.421891000 sec - .418358000 sec) - (1560 * 0.000125 sec - 1400 * 0.000125 sec) = -0.016467 <span class="anchor" id="line-124"></span><span class="anchor" id="line-125"></span></li></ul><p class="line874">J(2) = J(1) + (|D(1,2)| - J(1))/16 <span class="anchor" id="line-126"></span><span class="anchor" id="line-127"></span><ul><li style="list-style-type:none">= [in seconds] 0.0031216875 + (|-0.016467| - 0.0031216875)/16 = 0.00395576953125 <span class="anchor" id="line-128"></span></li></ul><span class="anchor" id="bottom"></span></div><p id="pageinfo" class="info" lang="zh" dir="ltr">RTP_statistics  (在 2008-07-03 21:28:36 由 <span title="GuyHarris @ A17-202-40-208.apple.com[17.202.40.208]"><a class="nonexistent" href="/GuyHarris" title="GuyHarris @ A17-202-40-208.apple.com[17.202.40.208]">GuyHarris</a></span> 编辑)</p>
+
+<div id="pagebottom"></div>
+</div>
+
+
+<div id="footer">
+<ul class="editbar"><li><span class="disabled">只读网页</span></li><li><a href="#" class="toggleCommentsButton" style="display:none;" onClick="toggleComments();return false;">备注</a></li><li><a class="nbinfo" href="/RTP_statistics?action=info" rel="nofollow">信息</a></li><li><a class="nbattachments" href="/RTP_statistics?action=AttachFile" rel="nofollow">附件</a></li><li>
+<form class="actionsmenu" method="get" action="/RTP_statistics">
+<div>
+    <label>更多操作</label>
+    <select name="action"
+        onchange="if ((this.selectedIndex != 0) &&
+                      (this.options[this.selectedIndex].disabled == false)) {
+                this.form.submit();
+            }
+            this.selectedIndex = 0;">
+        <option value="raw">源码</option>
+<option value="print">打印视图</option>
+<option value="RenderAsDocbook">输出 Docbook 格式</option>
+<option value="refresh">删除缓存</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="SpellCheck">拼写检查</option>
+<option value="LikePages">相似网页</option>
+<option value="LocalSiteMap">本站地图</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="RenamePage" disabled class="disabled">重命名网页</option>
+<option value="CopyPage">复制网页</option>
+<option value="DeletePage" disabled class="disabled">删除网页</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="MyPages">我的网页</option>
+<option value="SubscribeUser">订阅用户</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="Despam">删除垃圾广告</option>
+<option value="revert">恢复成此版本</option>
+<option value="PackagePages">网页打包</option>
+<option value="SyncPages">同步网页</option>
+<option value="show" disabled class="disabled">------------------------</option>
+<option value="Load">加载</option>
+<option value="Save">保存</option>
+    </select>
+    <input type="submit" value="执行">
+    
+</div>
+<script type="text/javascript">
+<!--// Init menu
+actionsMenuInit('更多操作');
+//-->
+</script>
+</form>
+</li></ul>
+
+
+<table class="credits" width="98%" border=0 cellpadding=0 cellspacing=0>
+  <tr>
+    <td valign=top>
+Original content on this site is available under the GNU General Public License.<br>
+See the <a href="/License">License</a> page for details.
+    </td>
+    <td align=right valign=top>
+Powered by <a href="http://moinmoin.wikiwikiweb.de/">MoinMoin</a>
+and <a href="http://www.python.org/">Python</a>.
+<br>
+Please don't pee in the pool.
+    </td>
+  </tr>
+</table>
+
+<!-- Google Analytics -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-605389-3";
+urchinTracker();
+</script>
+<!-- / Google Analytics -->
+
+
+</div>
+</body>
+</html>
+

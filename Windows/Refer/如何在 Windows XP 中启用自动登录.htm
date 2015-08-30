@@ -1,0 +1,853 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0044)http://support.microsoft.com/kb/315231/zh-cn -->
+<HTML lang=en-us><HEAD><TITLE>如何在 Windows XP 中启用自动登录</TITLE><LINK 
+title="Microsoft Support Search" 
+href="/common/opensearchdescriptor.aspx?ln=en-us" 
+type=application/opensearchdescription+xml rel=search>
+<META content=315231 name=DCSext.sup_cid>
+<META content=zh-cn name=DCSext.sup_cln>
+<META content=kb name=DCSext.sup_ct>
+<META content=en-us name=DCSext.sup_ln>
+<META content=gn name=DCSext.sup_sd>
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/jquery-1.2.6.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/default.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT type=text/javascript>setcookieval("gssSITE","gn",'',true);</SCRIPT>
+
+<SCRIPT type=text/javascript>setcookieval("gssTHEME","gn",'',true);</SCRIPT>
+
+<SCRIPT type=text/javascript>setcookieval("gssTOOLBAR","gn",'',true);</SCRIPT>
+
+<SCRIPT 
+type=text/javascript>var g_currentContent='kb\x3bzh-cn\x3b315231';</SCRIPT>
+
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/survey.js" 
+type=text/javascript></SCRIPT>
+
+<META content=noarchive name=robots>
+<META content=1 name=Search.Assets>
+<META content="介绍如何在 Windows XP 中使用注册表编辑器自动执行登录过程。" name=Search.Description>
+<META content=2005-10-24T10:48:00 name=Search.DateModified>
+<META content=kb;zh-cn;315231 name=Search.scid>
+<META content="如何在 Windows XP 中启用自动登录" name=Search.Title>
+<META content="171862 192881" name=Search.Products>
+<META content="5917 3221 1173 6728 3223" name=Search.KBParents>
+<META content="5917 3221 1173 6728 3223" name=KBParents>
+<META content="" name=Search.Audiences>
+<META content=kb name=Search.ContentType>
+<META content=0 name=Search.Retire>
+<META content=315231 name=Search.ContentID>
+<META content="kbhowto kbinfo kbregistry kbenv kbui kbacwsurvey KB315231" 
+name=Search.KeyWords>
+<META content=0 name=Search.MT>
+<META content=0 name=Search.KB3>
+<META content="kbhowto kbinfo kbregistry kbenv kbui kbacwsurvey KB315231" 
+name=Keywords>
+<META content="介绍如何在 Windows XP 中使用注册表编辑器自动执行登录过程。" name=Description>
+<META content=zh-cn name=MS.LOCALE>
+<META http-equiv=content-type content="text/html; charset=utf-8">
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/search.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/ac.js" type=text/javascript></SCRIPT>
+
+<SCRIPT type=text/javascript>var gCookieDomain='';</SCRIPT>
+<XMLREADER><LINK href="如何在 Windows XP 中启用自动登录_files/default.css" type=text/css 
+rel=stylesheet><LINK href="如何在 Windows XP 中启用自动登录_files/xmlContent.css" 
+type=text/css rel=stylesheet>
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/kb.js" type=text/javascript></SCRIPT>
+<LINK href="如何在 Windows XP 中启用自动登录_files/dbcsOverride.css" type=text/css 
+rel=stylesheet><LINK href="如何在 Windows XP 中启用自动登录_files/override.css" 
+type=text/css rel=stylesheet><LINK 
+href="如何在 Windows XP 中启用自动登录_files/pngFilter.css" type=text/css rel=stylesheet>
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/IE6PNGFilter.js" 
+type=text/javascript></SCRIPT>
+<LINK href="如何在 Windows XP 中启用自动登录_files/branding.css" type=text/css 
+rel=stylesheet><LINK href="如何在 Windows XP 中启用自动登录_files/brandingPngFilter.css" 
+type=text/css rel=stylesheet></XMLREADER><!-- RESG: 8/23/2009 6:09:20 PM - RESX: 1/1/0001 12:00:00 AM --><!-- (c) 2009 Microsoft Corporation. All Rights Reserved -->
+<STYLE type=text/css>HTML BODY {
+	FONT-FAMILY: Verdana, Arial, Helvetica, Sans-Serif
+}
+HTML SELECT {
+	FONT-FAMILY: Verdana, Arial, Helvetica, Sans-Serif
+}
+HTML INPUT {
+	FONT-FAMILY: Verdana, Arial, Helvetica, Sans-Serif
+}
+HTML FORM {
+	FONT-FAMILY: Verdana, Arial, Helvetica, Sans-Serif
+}
+HTML TEXTAREA {
+	FONT-FAMILY: Verdana, Arial, Helvetica, Sans-Serif
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>var PersonalizationInfo='a2IzMTUyMzEIemgtY24I5aaC5L2V5ZyoIFdpbmRvd3MgWFAg5Lit5ZCv55So6Ieq5Yqo55m75b2V';</SCRIPT>
+
+<SCRIPT type=text/javascript>var enableSiteSurvey = true;</SCRIPT>
+<LINK href="如何在 Windows XP 中启用自动登录_files/surveytrigger.css" type=text/css 
+rel=stylesheet>
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/surveycookieutil.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/surveytrigger.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT>animationDuration = 0.5;</SCRIPT>
+
+<SCRIPT>var embedSurveyPrompt='nothing';var Exp=90;var Delay=0;var Freq=112;var SurveyStyle='popup';var DisplayIntroPage=1;var EmailStyle=0;var EmailSurveyID='';var ReferringURL='';var TrEvent='onunload';var TriggerId='12105';var IntervalType = 'session';var surveyTrigger = new MS.Support.Fms.Gsfx.SurveyTrigger();</SCRIPT>
+
+<META content="MSHTML 6.00.2900.5848" name=GENERATOR></HEAD>
+<BODY onload=thisLoad(); onunload=thisUnload();>
+<STYLE type=text/css>BODY {
+	BACKGROUND: url(/library/images/support/cn/gsfx_brnd_gn_top_bgrd.gif) #c8e3f1 repeat-x
+}
+#gsfx_brnd_SiteHeaderImage {
+	HEIGHT: 0px
+}
+.gsfx_brnd_NetworkLink {
+	COLOR: #cdcbce
+}
+.gsfx_brnd_NetworkLink:visited {
+	COLOR: #cdcbce
+}
+.gsfx_brnd_NetworkLink A {
+	COLOR: #cdcbce
+}
+.gsfx_brnd_NetworkLink A:visited {
+	COLOR: #cdcbce
+}
+.gsfx_brnd_NetworkLink:hover {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+.gsfx_brnd_NetworkLink:active {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+.gsfx_brnd_NetworkLink:unknown {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+.gsfx_brnd_NetworkLink A:hover {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+.gsfx_brnd_NetworkLink A:active {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+.gsfx_brnd_NetworkLink A:unknown #gsfx_brnd_NetworkFooter .gsfx_brnd_NetworkLink:hover SPAN {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+#gsfx_brnd_NetworkFooter .gsfx_brnd_NetworkLink:active SPAN {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+.gsfx_brnd_NetworkLink#gsfx_brnd_NetworkFooter:unknown SPAN {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+#gsfx_brnd_NetworkFooter .gsfx_brnd_NetworkLink A:hover SPAN {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+#gsfx_brnd_NetworkFooter .gsfx_brnd_NetworkLink A:active SPAN {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+#gsfx_brnd_NetworkFooter .gsfx_brnd_NetworkLink A:unknown SPAN {
+	BORDER-BOTTOM-COLOR: #f9d060; COLOR: #f9d060
+}
+#gsfx_brnd_NetworkHeader {
+	COLOR: #ffffff
+}
+#gsfx_brnd_NetworkHeaderLinks {
+	COLOR: #ffffff
+}
+#gsfx_brnd_SiteHeader {
+	COLOR: #ffffff
+}
+#gsfx_brnd_PageLogoWrapper {
+	COLOR: #ffffff
+}
+#gsfx_brnd_PageTitle {
+	COLOR: #ffffff
+}
+#gsfx_brnd_SearchWrapper A {
+	COLOR: #ffffff
+}
+#gsfx_bsrch_poweredbycell SPAN {
+	COLOR: #ffffff
+}
+#gsfx_bsrch_catsel A {
+	BORDER-LEFT-COLOR: #ffffff; BORDER-BOTTOM-COLOR: #ffffff; BORDER-TOP-COLOR: #ffffff; BORDER-RIGHT-COLOR: #ffffff
+}
+#gsfx_bsrch_catsel SPAN {
+	BORDER-LEFT-COLOR: #ffffff; BORDER-BOTTOM-COLOR: #ffffff; BORDER-TOP-COLOR: #ffffff; BORDER-RIGHT-COLOR: #ffffff
+}
+#gsfx_brnd_SiteFooter {
+	COLOR: #ffffff
+}
+#gsfx_brnd_SiteFooterWrap {
+	COLOR: #ffffff
+}
+#gsfx_brnd_NetworkFooter {
+	COLOR: #ffffff
+}
+#gsfx_brnd_FooterLinkContainer {
+	COLOR: #ffffff
+}
+#gsfx_brnd_FooterLinkContainer SPAN {
+	COLOR: #ffffff
+}
+#gsfx_brnd_copyright_container {
+	COLOR: #ffffff
+}
+#gsfx_brnd_copyright_container SPAN {
+	COLOR: #ffffff
+}
+</STYLE>
+<!--[if lte IE 6]>
+<STYLE type=text/css>#gsfx_brnd_PageHeaderImage {
+	BACKGROUND: none transparent scroll repeat 0% 0%; FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='', sizingMethod='image')
+}
+#gsfx_brnd_SiteImgWedge {
+	BACKGROUND: none transparent scroll repeat 0% 0%; FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='', sizingMethod='scale')
+}
+#gsfx_brnd_PageLogo {
+	VISIBILITY: hidden
+}
+#gsfx_brnd_legacy_PageLogo {
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/library/images/support/cn/gsfx_brnd_ms_logo.png', sizingMethod='image')
+}
+#gsfx_brnd_MSLogo {
+	VISIBILITY: hidden
+}
+#gsfx_brnd_legacy_MSLogo {
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/library/images/support/cn/gsfx_brnd_ms_logo_sml_wht.png', sizingMethod='image')
+}
+</STYLE>
+<![endif]-->
+<DIV id=gsfx_brnd_CenterContent>
+<DIV id=gsfx_brnd_PageWrapper>
+<DIV id=gsfx_brnd_PageContainer>
+<DIV id=gsfx_brnd_PageHeaderImage></DIV>
+<DIV id=gsfx_brnd_HeaderContainer>
+<DIV id=gsfx_brnd_NetworkHeader>
+<DIV class=gsfx_brnd_NetworkLeft id=gsfx_brnd_CorpMarketingContainer>
+<DIV class=gsfx_brnd_NetworkLeft id=gsfx_brnd_CorpMarketingSpace>
+<DIV class=gsfx_brnd_NetworkLink><IMG 
+src="如何在 Windows XP 中启用自动登录_files/gsfx_eie_icon_dkbg.png"> <SPAN><A id=L_191784 
+href="http://clk.atdmt.com/MRT/go/163155872/direct/01/">Upgrade your Internet 
+Experience</A> </SPAN></DIV>
+<STYLE type=text/css>#gsfx_brnd_CorpMarketingContainer {
+	BACKGROUND: none transparent scroll repeat 0% 0%
+}
+#gsfx_brnd_corpflyoutad_inner {
+	BACKGROUND: url(/library/images/support/en-us/gsfx_corpflyoutad_background.png); WIDTH: 423px; HEIGHT: 133px
+}
+#gsfx_brnd_corpflyoutad_go {
+	LEFT: 313px; POSITION: absolute; TOP: 96px
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>
+                            var gsfx_brnd_ad_pushenddate;
+                            var gsfx_brnd_ad_pushstartdate;
+                            try
+                            {
+                                gsfx_brnd_ad_pushenddate = new Date('October 15, 2009');
+                                gsfx_brnd_ad_pushstartdate = new Date('August 3, 2009');
+                            }
+                            catch(e)
+                            {
+                                gsfx_brnd_ad_pushenddate = null;
+                                gsfx_brnd_ad_pushstartdate = null;
+                            }
+                        </SCRIPT>
+
+<DIV id=gsfx_brnd_corpflyoutad>
+<DIV id=gsfx_brnd_corpflyoutad_inner><A id=gsfx_brnd_corpflyoutad_close 
+href="javascript:void(0);"><IMG 
+onmousedown="this.src='/library/images/support/en-us/gsfx_corpflyoutad_btn_close_hover.png';" 
+onmouseover="this.src='/library/images/support/en-us/gsfx_corpflyoutad_btn_close_hover.png';" 
+onmouseout="this.src='/library/images/support/en-us/gsfx_corpflyoutad_btn_close.png';" 
+alt="" src="如何在 Windows XP 中启用自动登录_files/gsfx_corpflyoutad_btn_close.png"> 
+</A><A id=gsfx_brnd_corpflyoutad_go 
+href="http://clk.atdmt.com/MRT/go/163155872/direct/01/"><IMG 
+onmousedown="this.src='/library/images/support/en-us/gsfx_corpflyoutad_go_hover.png';" 
+onmouseover="this.src='/library/images/support/en-us/gsfx_corpflyoutad_go_hover.png';" 
+onmouseout="this.src='/library/images/support/en-us/gsfx_corpflyoutad_go.png';" 
+alt="" src="如何在 Windows XP 中启用自动登录_files/gsfx_corpflyoutad_go.png"> </A><A 
+id=gsfx_brnd_corpflyoutad_dontshow href="javascript:void(0);"><SPAN>Don't show 
+me this again </SPAN></A></DIV></DIV></DIV></DIV><!--Table is used here in order to properly order the links for LTR and RTL while maintaining the correct tab order-->
+<TABLE class=gsfx_brnd_NetworkRight id=gsfx_brnd_NetworkHeaderLinks 
+summary="Network Header Links">
+  <TBODY>
+  <TR>
+    <TD class=gsfx_brnd_NetworkLinkContainer><SPAN 
+      id=gsfx_brnd_LocalName>United States </SPAN></TD>
+    <TD class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><A 
+      id=L_153552 
+      href="http://support.microsoft.com/common/international.aspx">Change</A> 
+    </TD>
+    <TD class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_HeaderSeperator">|</TD>
+    <TD class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><A 
+      id=L_153551 href="http://www.microsoft.com/en/us/sitemap.aspx">All 
+      Microsoft Sites</A> </TD></TR></TBODY></TABLE></DIV>
+<DIV id=gsfx_brnd_SiteHeader>
+<DIV id=gsfx_brnd_SiteHeaderImageContainer>
+<DIV id=gsfx_brnd_SiteHeaderImage></DIV></DIV><!--[if lte IE 6]>
+<DIV class=gsfx_brnd_NetworkLeft id=gsfx_brnd_legacy_PageLogo></DIV><![endif]-->
+<DIV class=gsfx_brnd_NetworkLeft id=gsfx_brnd_PageLogoWrapper><A 
+id=gsfx_brnd_PageLogoLink href="http://www.microsoft.com/"><IMG 
+id=gsfx_brnd_PageLogo alt=Microsoft 
+src="如何在 Windows XP 中启用自动登录_files/gsfx_brnd_ms_logo.png"></A> <SPAN 
+id=gsfx_brnd_PageTitle><A style="COLOR: white; TEXT-DECORATION: none" 
+href="http://support.microsoft.com/">Help and Support</A></SPAN> </DIV>
+<DIV class=gsfx_brnd_NetworkRight id=gsfx_brnd_SearchWrapper>
+<FORM id=frmsrch onsubmit="return SaveSimpleSearch();" 
+action=/search/default.aspx method=get>
+<STYLE type=text/css>#gsfx_cat_sel_ie6 {
+	VISIBILITY: hidden
+}
+</STYLE>
+
+<SCRIPT type=text/javascript>setACStartChars('4:');</SCRIPT>
+<!--[if lte IE 6]>
+<STYLE type=text/css>.gsfx_bsrch_container {
+	BACKGROUND-IMAGE: none
+}
+.gsfx_bsrch_container1 {
+	DISPLAY: none; FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/library/images/support/cn/ss_live_glass_border.png'); POSITION: absolute
+}
+#gsfx_cat_sel {
+	BACKGROUND-IMAGE: none
+}
+#gsfx_cat_sel_ie6 {
+	FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/library/images/support/cn/ss_dd_select1.png'); VISIBILITY: visible; WIDTH: 12px; POSITION: absolute; HEIGHT: 24px
+}
+</STYLE>
+
+<DIV class="gsfx_bsrch_container gsfx_bsrch_container1" id=gsfx_bsrch_bg_ie6 
+style="FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/library/images/support/cn/ss_live_glass_border.png')"></DIV><![endif]-->
+<DIV class=gsfx_bsrch_container id=gsfx_bsrch_bg>
+<DIV id=gsfx_bsrch_divQuery style="WIDTH: 304px"><INPUT class=siteseltxt 
+id=gsfx_bsrch_query style="WIDTH: 272px" maxLength=200 name=query 
+autocomplete="off"> <!--span class="gsfx_bsrch_buttonwrap" id="gsfx_bsrch_websrch"--><!--input type="image" id="gsfx_bsrch_btnimg" onclick="submitSimpleSearch('http://www.bing.com/search?mkt=en-us&q=', $('#gsfx_bsrch_query').get(0).value);" /--><INPUT 
+class=gsfx_img_png id=gsfx_bsrch_btnimg style="WIDTH: 20px; HEIGHT: 20px" 
+onclick=SaveSimpleSearch(); type=image alt="" 
+src="如何在 Windows XP 中启用自动登录_files/ss_live_button.png"><!--[if lte IE 6]><INPUT 
+class=gsfx_div_png id=gsfx_bsrch_btnimg 
+style="FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/library/images/support/CN/ss_live_button.png', sizingMethod='scale'); WIDTH: 20px; HEIGHT: 20px" 
+onclick=SaveSimpleSearch(); type=image alt="" 
+src="如何在 Windows XP 中启用自动登录_files/onepix.gif"><![endif]--> <!--/span--></DIV>
+<DIV id=gsfx_cat_sel onmouseover="ChangeBackground(this, true)" 
+style="DISPLAY: none" onclick=ShowHideLangSel(event) 
+onmouseout="ChangeBackground(this, false)">
+<DIV id=gsfx_cat_sel_ie6 onmouseover="ChangeBackground(this, true)" 
+style="DISPLAY: none" onmouseout="ChangeBackground(this, false)"></DIV><INPUT 
+id=catalog type=hidden value=LCID=1033 name=catalog> </DIV>
+<DIV id=gsfx_bsrch_logo_div><IMG class=gsfx_img_png id=gsfx_bsrch_logo 
+style="WIDTH: 51px; HEIGHT: 17px" 
+onclick="CallWebSearch('http\x3a\x2f\x2fwww.bing.com\x2fsearch\x3fmkt\x3den-us\x26q\x3d','http\x3a\x2f\x2fwww.bing.com\x2fsearch\x3fmkt\x3den-us\x26q\x3d');" 
+alt="" src="如何在 Windows XP 中启用自动登录_files/bing_logo_white.png"><!--[if lte IE 6]>
+<DIV class=gsfx_div_png id=gsfx_bsrch_logo 
+style="FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/library/images/support/CN/bing_logo_white.png', sizingMethod='scale'); WIDTH: 51px; HEIGHT: 17px" 
+onclick="CallWebSearch('http\x3a\x2f\x2fwww.bing.com\x2fsearch\x3fmkt\x3den-us\x26q\x3d','http\x3a\x2f\x2fwww.bing.com\x2fsearch\x3fmkt\x3den-us\x26q\x3d');" 
+alt=""></DIV><![endif]--></DIV><BR></DIV>
+<SCRIPT type=text/javascript>try{MS.Support.AC.MakeAutoComplete({id:'gsfx_bsrch_query', lcid:'1033', acURL:'http://autocomplete.support.microsoft.com', statsObj:StatsDotNet, startChar:'4', bubbleside:'left'});}catch(e){}</SCRIPT>
+
+<SCRIPT type=text/javascript>supportedSites.push(new Site('Search Microsoft Support', '\x2fsearch\x2fdefault.aspx', true));supportedSites.push(new Site('Search Microsoft.com', 'http\x3a\x2f\x2fsearch.microsoft.com\x2fsearch\x2fresults.aspx\x3fview\x3den-us\x26qu\x3d', false));supportedSites.push(new Site('Search the web', 'http\x3a\x2f\x2fwww.bing.com\x2fsearch\x3fmkt\x3den-us\x26q\x3d', false));</SCRIPT>
+<!--div id="gsfx_bsrch_poweredbycell" class="gsfx_brnd_NetworkTextRight">
+            
+        </div-->
+<DIV class=hiddenformels><INPUT type=hidden value=r name=mode> </DIV><NOSCRIPT>
+<STYLE type=text/css>#gsfx_bsrch_catsel A {
+	DISPLAY: none
+}
+#gsfx_bsrch_websrch {
+	DISPLAY: none
+}
+#gsfx_bsrch_query {
+	COLOR: black; FONT-STYLE: normal
+}
+</STYLE>
+<!--[if lte IE 6]>
+<STYLE>#gsfx_bsrch_bg_ie6 {
+	DISPLAY: block; RIGHT: 1px
+}
+</STYLE>
+<![endif]--></NOSCRIPT></FORM></DIV></DIV></DIV>
+<DIV class=gsfx_brnd_CornerContainer id=gsfx_brnd_TopCorners>
+<DIV class="gsfx_brnd_TBBorders gsfx_brnd_TransBG" id=gsfx_brnd_TopBorder></DIV>
+<DIV class=gsfx_brnd_Corner id=gsfx_brnd_LUpperCorner></DIV></DIV>
+<DIV class="gsfx_brnd_TransBG gsfx_brnd_SideBorder" id=gsfx_brnd_LocalToolBar>
+<UL id=gsfx_brnd_LocalLinks>
+  <LI class=gsfx_brnd_LocalLink><A id=L_153581 
+  href="http://support.microsoft.com/"><SPAN>Help and Support 
+  Home</SPAN></A></LI>
+  <LI class=gsfx_brnd_LocalSeperator></LI>
+  <LI class=gsfx_brnd_LocalLink><A id=L_153582 
+  href="http://support.microsoft.com/select/?target=hub"><SPAN>Select a 
+  Product</SPAN></A></LI>
+  <LI class=gsfx_brnd_LocalSeperator></LI>
+  <LI class=gsfx_brnd_LocalLink><A id=L_153583 
+  href="http://support.microsoft.com/search/?adv=1"><SPAN>Advanced 
+  Search</SPAN></A></LI>
+  <LI class=gsfx_brnd_LocalSeperator></LI>
+  <LI class=gsfx_brnd_LocalLink><A id=L_195944 
+  href="http://store.microsoft.com/home.aspx?WT.mc_id=SupportSiteUS_buyproducts"><SPAN>Buy 
+  products</SPAN></A></LI></UL></DIV>
+<DIV class="gsfx_brnd_TransBG gsfx_brnd_SideBorder" id=gsfx_brnd_ToolbarShadow>
+<DIV id=gsfx_brnd_shadow></DIV></DIV>
+<DIV class="gsfx_brnd_TransBG gsfx_brnd_SideBorder" 
+id=gsfx_brnd_ContentContainer>
+<DIV id=contentArea>
+<DIV id=mainRow>
+<DIV class=primaryTable>
+<TABLE class=primaryTable cellSpacing=0 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD class=primaryMainColumn>
+      <DIV lang=zh-cn id=mainColumn>
+      <DIV class=kb id=kb>
+      <DIV class="kb_default ltr" id=kb_default><!-- - -KB 3 start- - --><A 
+      id=top></A>
+      <DIV class=articleProperty>文章编号: 315231 - 最后修改: 2005年10月24日 - 修订: 
+4.2</DIV>
+      <H1 class=title>如何在 Windows XP 中启用自动登录</H1>
+      <DIV class=appliesToLink><A 
+      href="http://support.microsoft.com/kb/315231/zh-cn#appliesto">查看本文应用于的产品</A></DIV>
+      <SCRIPT type=text/javascript>if (!loadTOCNode) {var loadTOCNode = function(){}}</SCRIPT>
+
+      <DIV class=notice>本文的发布号曾为 CHS315231</DIV>
+      <DIV 
+      class=notice><B>重要说明</B>：本文包含有关修改注册表的信息。修改注册表之前，一定要备份注册表，并且一定要知道在发生问题时如何还原注册表。有关如何备份、还原和编辑注册表的信息，请单击下面的文章编号，以查看 
+      Microsoft 知识库中相应的文章：
+      <DIV class=indent><A class=KBlink 
+      href="http://support.microsoft.com/kb/256986/">256986</A>&nbsp; <SPAN 
+      class=pLink>(http://support.microsoft.com/kb/256986/ ) </SPAN>Microsoft 
+      Windows 注册表说明</DIV></DIV>
+      <DIV class=section id=kb_section>
+      <DIV class=expandcollapseall id=kb_expandcollapseall><A 
+      class=expandalltext href="javascript:void(0);">展开全部</A> | <A 
+      class=collapsealltext href="javascript:void(0);">关闭全部</A>
+      <SCRIPT type=text/javascript>
+                    if (kb_page_object)
+                    {
+                    kb_page_object.kb_imageExpandHoverText = '点击扩展这个图片';
+                    }
+                </SCRIPT>
+      </DIV>
+      <H2 class=subTitle id=tocHeadRef><SPAN><A 
+      href="javascript:void(0);">简介</A></SPAN>
+      <DIV class=sectionpreview_closed></DIV></H2>
+      <SCRIPT type=text/javascript>
+                            loadTOCNode(1, 'summary');
+                        </SCRIPT>
+
+      <DIV class=sbody>本文介绍如何通过将密码和其他相关信息存储在注册表数据库中，以将 Microsoft Windows XP 
+      配置为自动执行登录过程。此功能允许其他用户启动您的计算机以及使用您建立的帐户自动登录。<BR><BR><B>重要说明</B>：如果启用自动登录，Windows 
+      XP 使用起来会更为方便。但是，使用此功能可能会造成安全风险。</DIV>
+      <H2 class=subTitle id=tocHeadRef><SPAN><A 
+      href="javascript:void(0);">更多信息</A></SPAN>
+      <DIV class=sectionpreview_closed></DIV></H2>
+      <SCRIPT type=text/javascript>
+                            loadTOCNode(1, 'moreinformation');
+                        </SCRIPT>
+
+      <DIV class=sbody><B>警告</B>：注册表编辑器使用不当可能导致严重问题，可能需要重新安装操作系统。Microsoft 
+      不能保证您可以解决因注册表编辑器使用不当而导致的问题。使用注册表编辑器需要您自担风险。<BR>如果将计算机设置为自动登录，则可以实际访问此计算机的任何用户还可以访问此计算机上的所有内容（包括与此计算机连接的所有网络）。另外，如果启用自动登录，密码将以纯文本格式存储在注册表中。Authenticated 
+      Users 
+      组可以远程读取存储此值的特定注册表项。因此，只有在计算机的安全性确实可靠，并且确保不可信用户无法远程查看注册表的情况下才能使用此设置。<BR><BR>您可以使用注册表编辑器添加登录信息。为此，请按照下列步骤操作： 
+
+      <OL>
+        <LI>单击“开始”，单击“运行”，键入 <SPAN class=userInput>regedit</SPAN>，然后单击“确定”。
+        <LI>找到以下注册表项：
+        <DIV 
+        class=indent>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Winlogon</DIV>
+        <LI>在使用您的帐户名和密码的情况下，双击“DefaultUserName”项，键入您的用户名，然后单击“确定”。
+        <LI>双击“DefaultPassword”项，在“数值数据”框下键入密码，然后单击“确定”。<BR><BR>如果没有 
+        <B>DefaultPassword</B> 值，则创建该值。为此，请按照下列步骤操作： 
+        <OL>
+          <LI type=a>在注册表编辑器中，单击“编辑”，单击“新建”，然后单击“字符串值”。
+          <LI type=a>键入 <SPAN class=userInput>DefaultPassword</SPAN> 作为数值名称，然后按 
+          Enter 键。
+          <LI type=a>双击新创建的项，然后在“数值数据”框中键入密码。</LI></OL>如果未指定 DefaultPassword 
+        字符串，Windows XP 会自动将 AutoAdminLogon 注册表项的值从 <B>1</B> (True) 更改为 <B>0</B> 
+        (False) 以禁用 AutoAdminLogon 功能。
+        <LI>双击“AutoAdminLogon”项，在“数值数据”框中键入 <SPAN 
+        class=userInput>1</SPAN>，然后单击“确定”。<BR><BR>如果没有 AutoAdminLogon 
+        项，则创建该项。为此，请按照下列步骤操作： 
+        <OL>
+          <LI type=a>在注册表编辑器中，单击“编辑”，单击“新建”，然后单击“字符串值”。
+          <LI type=a>键入 <SPAN class=userInput>AutoAdminLogon</SPAN> 作为数值名称，然后按 
+          Enter 键。
+          <LI type=a>双击新创建的项，然后在“数值数据”框中键入 <SPAN 
+        class=userInput>1</SPAN>。</LI></OL>
+        <LI>退出注册表编辑器。
+        <LI>单击“开始”，单击“重新启动”，然后单击“确定”。</LI></OL>当计算机重新启动并且 Windows XP 
+      启动后，便可以自动登录。<BR><BR>若要跳过自动登录过程并以其他用户身份登录，请在注销后或在 Windows XP 重新启动后按住 Shift 
+      键。请注意，此过程只适用于首次登录。要对以后的注销强制使用此设置，管理员必须设置以下注册表项：
+      <DIV 
+      class=indent>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsNT\CurrentVersion\Winlogon<BR><BR><B>数值：</B><B>ForceAutoLogon<BR>类型：REG_SZ<BR>数据：1</B></DIV>在未加入域的计算机上，您也可以启用自动登录，而无需编辑 
+      Microsoft Windows XP Home Edition 和 Microsoft Windows XP Professional 
+      中的注册表。为此，请按照下列步骤操作： 
+      <OL>
+        <LI>单击“开始”，然后单击“运行”。
+        <LI>在“打开”框中，键入 <SPAN class=userInput>control 
+        userpasswords2</SPAN>，然后单击“确定”。<BR><BR><B>注意</B>：在 Windows XP Home 
+        Edition 中，当用户试图在“用户帐户”窗口中显示帮助信息时，帮助信息不能显示。此外，用户还会收到以下错误信息：
+        <DIV class=kb_errormsgbody>
+        <DIV class=kb_errorcontent>
+        <DIV class=errormsg>Cannot find the 
+        <VAR>Drive</VAR>:\Windows\System32\users.hlp Help file.Check to see that 
+        the file exists on your hard disk drive.If it does not exist, you must 
+        reinstall it.</DIV></DIV></DIV>
+        <LI>清除“要使用本机，用户必须输入用户名和密码”复选框，然后单击“应用”。
+        <LI>在“自动登录”窗口的“密码”框中键入密码，然后在“确认密码”框中重新键入密码。
+        <LI>单击“确定”关闭“自动登录”窗口，然后单击“确定”关闭“用户帐户”窗口。</LI></OL></DIV></DIV>
+      <DIV class="sbody norollup">
+      <DIV class=appliesTo>
+      <HR>
+      <A id=appliesto></A>
+      <H5>这篇文章中的信息适用于:</H5>
+      <UL>
+        <LI>Microsoft Windows XP Home Edition
+        <LI>Microsoft Windows XP Professional Edition
+        <LI>Microsoft Windows XP 64-Bit Edition</LI></UL></DIV>
+      <DIV class=topOfPage><A 
+      href="http://support.microsoft.com/kb/315231/zh-cn#top"><IMG alt="" 
+      src="如何在 Windows XP 中启用自动登录_files/uparrow.gif">回到顶端</A></DIV>
+      <DIV class=keywords>
+      <TABLE>
+        <TBODY>
+        <TR>
+          <TD class=header>
+            <H5>关键字：&nbsp; </H5></TD>
+          <TD class=text>kbhowto kbinfo kbregistry kbenv kbui kbacwsurvey 
+            KB315231</TD></TR></TBODY></TABLE></DIV>
+      <DIV 
+      class="disclaimer text">Microsoft和/或其各供应商对于为任何目的而在本服务器上发布的文件及有关图形所含信息的适用性，不作任何声明。 
+      所有该等文件及有关图形均"依样"提供，而不带任何性质的保证。Microsoft和/或其各供应商特此声明，对所有与该等信息有关的保证和条件不负任何责任，该等保证和条件包括关于适销性、符合特定用途、所有权和非侵权的所有默示保证和条件。在任何情况下，在由于使用或运行本服务器上的信息所引起的或与该等使用或运行有关的诉讼中，Microsoft和/或其各供应商就因丧失使用、数据或利润所导致的任何特别的、间接的、衍生性的损害或任何因使用而丧失所导致的之损害、数据或利润不负任何责任。</DIV></DIV><!-- - -KB 3 end- - --></DIV></DIV><SPAN 
+      class=bookmark><A id=survey name=survey>&nbsp;</A></SPAN>
+      <DIV class=wp id=fmsSurvey style="DISPLAY: none">
+      <DIV class=fms><NOSCRIPT>
+      <DIV class=SURVEYNOSCRIPT></DIV></NOSCRIPT><INPUT id=surveyname 
+      type=hidden name=surveyname><INPUT id=showpage type=hidden value=1 
+      name=showpage>
+      <DIV id=SURVEYSECTIONCONTAINER>
+      <DIV class=SURVEYSECTION id=SURVEYSECTION_132 style="DISPLAY: none" 
+      xmlns:sw="urn:schemas-microsoft-com/PSS/PSS_Survey01"><INPUT type=hidden 
+      value=132 name=id><INPUT type=hidden name=CompoundingBranchRules><INPUT 
+      type=hidden value=0 name=NextSectionByTopicRef>
+      <DIV class=QUESTIONCONTAINER id=SURVEYQUESTION_9089><INPUT type=hidden 
+      value=9089 name=id><INPUT type=hidden value=LABEL name=type><INPUT 
+      type=hidden value=0 name=required>
+      <DIV class=QUESTIONTEXT>
+      <H5>请提供关于这些信息的反馈</H5></DIV>
+      <DIV class=QUESTIONINSTRUCTION></DIV>
+      <DIV class=QUESTIONREQUIRED></DIV></DIV>
+      <DIV class=QUESTIONCONTAINER id=SURVEYQUESTION_9088><INPUT type=hidden 
+      value=9088 name=id><INPUT type=hidden value=CHOICE name=type><INPUT 
+      type=hidden value=0 name=required>
+      <DIV class=QUESTIONTEXT>这些信息帮助解决问题了吗？</DIV>
+      <DIV class=QUESTIONINSTRUCTION></DIV>
+      <DIV class=QUESTIONREQUIRED></DIV><INPUT type=hidden name=randomization>
+      <TABLE cellSpacing=0 cellPadding=0 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 border=0>
+              <TBODY>
+              <TR>
+                <TD class=CHOICEROW vAlign=top><INPUT id=14471 type=radio 
+                  value=0 name=QUESTION_132_90889088></TD>
+                <TD class=ANSWERTEXT>是</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 border=0>
+              <TBODY>
+              <TR>
+                <TD class=CHOICEROW vAlign=top><INPUT id=14472 type=radio 
+                  value=1 name=QUESTION_132_90889088></TD>
+                <TD class=ANSWERTEXT>否</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 border=0>
+              <TBODY>
+              <TR>
+                <TD class=CHOICEROW vAlign=top><INPUT id=14473 type=radio 
+                  value=2 name=QUESTION_132_90889088></TD>
+                <TD 
+      class=ANSWERTEXT>我不知道</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></DIV>
+      <DIV class=QUESTIONCONTAINER id=SURVEYQUESTION_9086><INPUT type=hidden 
+      value=9086 name=id><INPUT type=hidden value=CHOICE name=type><INPUT 
+      type=hidden value=0 name=required>
+      <DIV class=QUESTIONTEXT>这些信息和问题是相关的吗？</DIV>
+      <DIV class=QUESTIONINSTRUCTION></DIV>
+      <DIV class=QUESTIONREQUIRED></DIV><INPUT type=hidden name=randomization>
+      <TABLE cellSpacing=0 cellPadding=0 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 border=0>
+              <TBODY>
+              <TR>
+                <TD class=CHOICEROW vAlign=top><INPUT id=14471 type=radio 
+                  value=0 name=QUESTION_132_90869086></TD>
+                <TD class=ANSWERTEXT>是</TD></TR></TBODY></TABLE></TD></TR>
+        <TR>
+          <TD vAlign=top>
+            <TABLE cellSpacing=0 cellPadding=0 border=0>
+              <TBODY>
+              <TR>
+                <TD class=CHOICEROW vAlign=top><INPUT id=14472 type=radio 
+                  value=1 name=QUESTION_132_90869086></TD>
+                <TD 
+      class=ANSWERTEXT>否</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></DIV>
+      <DIV class=QUESTIONCONTAINER id=SURVEYQUESTION_9087><INPUT type=hidden 
+      value=9087 name=id><INPUT type=hidden value=TEXT-BLOCK name=type><INPUT 
+      type=hidden value=0 name=required>
+      <DIV class=QUESTIONTEXT>您认为我们怎样才能提高这些信息的质量呢？</DIV>
+      <DIV class=QUESTIONINSTRUCTION></DIV>
+      <DIV class=QUESTIONREQUIRED></DIV><TEXTAREA class=ANSWERBOX onpaste=enforceMaxLength(this,500,event) onkeydown=enforceMaxLength(this,500,event) name=TEXTBLOCK_9087 rows=6 cols=80></TEXTAREA></DIV>
+      <DIV class=QUESTIONCONTAINER id=SURVEYQUESTION_7813><INPUT type=hidden 
+      value=7813 name=id><INPUT type=hidden value=LABEL name=type><INPUT 
+      type=hidden value=0 name=required>
+      <DIV class=QUESTIONTEXT>为了保护您的隐私，请不要在您的反馈中提及联系信息。</DIV>
+      <DIV class=QUESTIONINSTRUCTION></DIV>
+      <DIV class=QUESTIONREQUIRED></DIV></DIV>
+      <DIV class=NAVIGATION>
+      <TABLE class=NAVBUTTONCONTAINER>
+        <TBODY>
+        <TR>
+          <TD class=PADDINGCELL></TD>
+          <TD class=NAVBUTTONCELL><INPUT class=NAVBUTTON onclick=kbSurvey.next();this.blur(); type=button value=提交></TD>
+          <TD class=ENDPADDINGCELL></TD></TR></TBODY></TABLE></DIV></DIV>
+      <DIV id=DIV_CLOSE style="DISPLAY: none" 
+      xmlns:sw="urn:schemas-microsoft-com/PSS/PSS_Survey01">
+      <DIV class=SURVEYTHANKYOUCONTAINER>
+      <DIV class=SURVEYINTROTEXT>非常感谢！您的反馈将被用来改进我们的支持内容。更多的帮助选项，请访问<A 
+      href="http://support.microsoft.com/">微软帮助和支持主页</A>.</DIV></DIV>
+      <DIV class=NAVIGATION>
+      <TABLE class=NAVBUTTONCONTAINER nowrap="yes">
+        <TBODY>
+        <TR>
+          <TD class=PADDINGCELL></TD>
+          <TD class=NAVBUTTONCELL></TD>
+          <TD 
+      class=ENDPADDINGCELL></TD></TR></TBODY></TABLE></DIV></DIV></DIV></DIV></DIV>
+      <SCRIPT type=text/javascript>
+			var kbSurvey = new MS.Support.Fms.Survey("fmsSurvey");
+			kbSurvey.isKBEmbedded = true;
+			kbSurvey.addSubmitField('REGIONID', 'en-us');
+			kbSurvey.addSubmitField('SITE', 'gn');
+			kbSurvey.addSubmitField('SURVEYSCID', 'sw;zh-sim;1496');
+			kbSurvey.addSubmitField('SURVEYID', '1496');
+			kbSurvey.addSubmitField('SURVEYNAME', '');
+			kbSurvey.addSubmitField('BROWSERLANGCODE', 'en-us');
+			kbSurvey.addSubmitField('SURVEYLANGCODE', 'zh-sim');
+			kbSurvey.addSubmitField('FMSURL', '%252fdefault.aspx%252fkb%252f315231%252fzh-cn');
+			kbSurvey.parameters = ['kb','zh-cn','315231','','','','','','',''];
+			kbSurvey.maxKBsInCookie = '10';
+			kbSurvey.kbvisited = '';
+		</SCRIPT>
+      </DIV></TD>
+    <TD class=primaryThinColumn>
+      <DIV id=thinColumn style="FLOAT: none">
+      <DIV class="wp getHelp">
+      <TABLE cellSpacing=0 cellPadding=0 align=center>
+        <TBODY>
+        <TR>
+          <TD class=image><A id=L_174092 
+            href="http://support.microsoft.com/gethelp/default.aspx?content=kb;zh-cn;315231"><IMG 
+            alt="" 
+src="如何在 Windows XP 中启用自动登录_files/Help_support_55.gif"></A></TD>
+          <TD class=text>
+            <H3>Get Help Now</H3><A id=L_174092 
+            href="http://support.microsoft.com/gethelp/default.aspx?content=kb;zh-cn;315231">Contact 
+            a support professional by E-mail, Online, or 
+      Phone</A></TD></TR></TBODY></TABLE></DIV>
+      <DIV class="wp articleTrans">
+      <H3><SPAN class=linkCon>文章翻译</SPAN><SPAN class=linkConTop></SPAN></H3>
+      <FORM name=frmArticleTrans onsubmit="return SwitchLanguage(29803);" 
+      action=/>
+      <DIV>
+      <TABLE cellSpacing=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD><SELECT name=scid><OPTION 
+              value=kb;he;315231>Hebrew</OPTION><OPTION 
+              value=kb;id-id;315231>Indonesia ‏(Bahasa)</OPTION><OPTION 
+              value=kb;uk-ua;315231>Ukraine</OPTION><OPTION 
+              value=kb;vi-vn;315231>Vietnam</OPTION><OPTION 
+              value=kb;ar;315231>阿拉伯语</OPTION><OPTION 
+              value=kb;et;315231>爱沙尼亚语</OPTION><OPTION 
+              value=kb;bg;315231>保加利亚语</OPTION><OPTION 
+              value=kb;hi;315231>北印度语</OPTION><OPTION 
+              value=kb;pl;315231>波兰语</OPTION><OPTION 
+              value=kb;da;315231>丹麦语</OPTION><OPTION 
+              value=kb;de;315231>德语</OPTION><OPTION 
+              value=kb;ro;315231>俄文</OPTION><OPTION 
+              value=kb;ru;315231>俄语</OPTION><OPTION 
+              value=kb;fr;315231>法语</OPTION><OPTION 
+              value=kb;zh-tw;315231>繁体中文</OPTION><OPTION 
+              value=kb;fi;315231>芬兰语</OPTION><OPTION 
+              value=kb;kk-kz;315231>哈萨克</OPTION><OPTION 
+              value=kb;ko;315231>韩国语</OPTION><OPTION 
+              value=kb;nl;315231>荷兰语</OPTION><OPTION 
+              value=kb;cs;315231>捷克共和国语</OPTION><OPTION 
+              value=kb;hr;315231>克罗地亚语</OPTION><OPTION 
+              value=kb;lv;315231>拉脱维亚语</OPTION><OPTION 
+              value=kb;lt;315231>立陶宛语</OPTION><OPTION 
+              value=kb;no;315231>挪威语</OPTION><OPTION 
+              value=kb;pt;315231>葡萄牙语</OPTION><OPTION 
+              value=kb;pt-br;315231>葡萄牙语(巴西)</OPTION><OPTION 
+              value=kb;ja;315231>日语</OPTION><OPTION 
+              value=kb;sv;315231>瑞典语</OPTION><OPTION 
+              value=kb;sr-cs;315231>塞尔维亚语</OPTION><OPTION 
+              value=kb;sk;315231>斯洛维亚语</OPTION><OPTION 
+              value=kb;sl;315231>斯洛文尼亚语</OPTION><OPTION 
+              value=kb;th;315231>泰国语</OPTION><OPTION 
+              value=kb;tr;315231>土耳其语</OPTION><OPTION 
+              value=kb;es;315231>西班牙语</OPTION><OPTION 
+              value=kb;el;315231>希腊语</OPTION><OPTION 
+              value=kb;hu;315231>匈牙利语</OPTION><OPTION 
+              value=kb;it;315231>意大利语</OPTION><OPTION value=kb;en-us;315231 
+              selected>英语 (US)</OPTION></SELECT></TD>
+          <TD class=spacer>&nbsp;</TD>
+          <TD><INPUT 
+            onmouseover="this.src='/library/images/support/ZH-CN/go_right_02-over.gif';" 
+            onmouseout="this.src='/library/images/support/ZH-CN/go_right_02.gif';" 
+            type=image alt=翻译此文章 
+            src="如何在 Windows XP 中启用自动登录_files/go_right_02.gif"><A 
+            id=KBLangListRedirect 
+            href="http://support.microsoft.com/kb/315231/"></A></TD></TR></TBODY></TABLE></DIV></FORM></DIV>
+      <DIV class=wp id=RelatedSupportCenters>
+      <TABLE class=LCT cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD class=textColumn>
+            <H3><SPAN class=linkCon>Related Support Centers</SPAN><SPAN 
+            class=linkConTop></SPAN></H3>
+            <UL>
+              <LI><SPAN><A 
+              href="http://support.microsoft.com/ph/1173/en-us">Windows 
+              XP</A></SPAN></LI></UL></TD></TR></TBODY></TABLE></DIV>
+      <DIV class=wp id=SupportTools>
+      <TABLE class=LCT cellSpacing=0>
+        <TBODY>
+        <TR>
+          <TD class=textColumn>
+            <H3><SPAN class=linkCon>Page Tools</SPAN><SPAN 
+            class=linkConTop></SPAN></H3>
+            <UL>
+              <LI id=PrintPage_tr><SPAN><A id=PrintPage title="Print this page" 
+              onclick="return MS_HandleClick(this,'SupportTools', true);" 
+              href="http://support.microsoft.com/gp/noscript">Print this 
+              page</A></SPAN>
+              <LI id=EmailPage_tr><SPAN><A id=EmailPage title="E-mail this page" 
+              onclick="return MS_HandleClick(this,'SupportTools', true);" 
+              href="mailto:?body=http://support.microsoft.com/default.aspx/kb/315231/zh-cn">E-mail 
+              this 
+  page</A></SPAN></LI></UL></TD></TR></TBODY></TABLE></DIV></DIV></TD></TR></TBODY></TABLE></DIV></DIV>
+<DIV id=bottomRow>
+<DIV class="wp getHelp">
+<TABLE cellSpacing=0 cellPadding=0 align=center>
+  <TBODY>
+  <TR>
+    <TD class=image><A id=L_174092 
+      href="http://support.microsoft.com/gethelp/default.aspx?content=kb;zh-cn;315231"><IMG 
+      alt="" src="如何在 Windows XP 中启用自动登录_files/Help_support_55.gif"></A></TD>
+    <TD class=text>
+      <H3>Get Help Now</H3><A id=L_174092 
+      href="http://support.microsoft.com/gethelp/default.aspx?content=kb;zh-cn;315231">Contact 
+      a support professional by E-mail, Online, or 
+Phone</A></TD></TR></TBODY></TABLE></DIV></DIV></DIV></DIV>
+<DIV class=gsfx_brnd_CornerContainer id=gsfx_brnd_BottomCorners>
+<DIV class="gsfx_brnd_TBBorders gsfx_brnd_TransBG" 
+id=gsfx_brnd_BottomBorder></DIV>
+<DIV class=gsfx_brnd_Corner id=gsfx_brnd_LLowerCorner></DIV></DIV>
+<DIV id=gsfx_brnd_WidthFix></DIV>
+<DIV id=gsfx_brnd_FooterContainer>
+<DIV class=gsfx_brnd_NetworkLeft id=gsfx_brnd_SiteFooter>Help and Support </DIV>
+<TABLE class=gsfx_brnd_NetworkRight id=gsfx_brnd_NetworkFooter>
+  <TBODY>
+  <TR>
+    <TD id=gsfx_brnd_FooterLinkContainer><!--Table is wrapped in a div tag to facilitate proper alignment and stacking-->
+      <DIV class=gsfx_brnd_FooterLinks id=gsfx_brnd_SiteFooterLinks><!--Table is used here in order to properly order the links for LTR and RTL while maintaining the correct tab order-->
+      <TABLE class=gsfx_brnd_NetworkRight summary="Site Footer Links">
+        <TBODY>
+        <TR>
+          <TD class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><A 
+            id=L_184649 
+            href="javascript:window.open('http://mymfe.microsoft.com/support.microsoft.com/feedback.aspx?formid=24', 'Feedback', 'scrollbars=yes,menubar=no,titlebar=no,location=no,width=500,height=600,resizable=yes');void(0);"><SPAN>Feedback</SPAN></A></TD>
+          <TD 
+          class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_FooterSeperator">|</TD>
+          <TD class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><A 
+            id=L_157327 
+            href="http://support.microsoft.com/gp/csa"><SPAN>Services 
+            Agreement</SPAN></A></TD></TR></TBODY></TABLE></DIV><!--Table is wrapped in a div tag to facilitate proper alignment and stacking-->
+      <DIV class=gsfx_brnd_FooterLinks id=gsfx_brnd_NetworkFooterLinks><!--Table is used here in order to properly order the links for LTR and RTL while maintaining the correct tab order-->
+      <TABLE class=gsfx_brnd_NetworkRight summary="Network Footer Links">
+        <TBODY>
+        <TR>
+          <TD class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><A 
+            id=L_153553 
+            href="http://support.microsoft.com/contactus/?ws=support"><SPAN>Contact 
+            Us</SPAN></A></TD>
+          <TD 
+          class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_FooterSeperator">|</TD>
+          <TD class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><A 
+            id=L_153554 
+            href="http://go.microsoft.com/?linkid=4412892"><SPAN>Terms of 
+            Use</SPAN></A></TD>
+          <TD 
+          class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_FooterSeperator">|</TD>
+          <TD class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><A 
+            id=L_153555 
+            href="http://go.microsoft.com/?linkid=4412893"><SPAN>Trademarks</SPAN></A></TD>
+          <TD 
+          class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_FooterSeperator">|</TD>
+          <TD class="gsfx_brnd_NetworkLinkContainer gsfx_brnd_NetworkLink"><A 
+            id=L_153556 
+            href="http://go.microsoft.com/?linkid=4412894"><SPAN>Privacy 
+            Statement</SPAN></A></TD></TR></TBODY></TABLE></DIV></TD>
+    <TD id=gsfx_brnd_copyright_container>
+      <DIV id=gsfx_brnd_MSLogoContainer><!--[if lte IE 6]>
+      <DIV id=gsfx_brnd_legacy_MSLogo></DIV><![endif]--><IMG id=gsfx_brnd_MSLogo 
+      alt=Microsoft 
+      src="如何在 Windows XP 中启用自动登录_files/gsfx_brnd_ms_logo_sml_wht.png"> <IMG 
+      id=gsfx_brnd_MSLogoPrint alt=Microsoft 
+      src="如何在 Windows XP 中启用自动登录_files/gsfx_brnd_ms_logo_sml_blk.png"> 
+      </DIV><SPAN id=gsfx_brnd_copyright>©2009 Microsoft</SPAN> 
+</TD></TR></TBODY></TABLE></DIV></DIV></DIV></DIV>
+<STYLE type=text/css>#gsfx_brnd_CenterContent {
+	BACKGROUND: url(/library/images/support/cn/gsfx_brnd_gn_bottom_bgrd.png) repeat-x 50% bottom
+}
+#gsfx_brnd_PageWrapper {
+	BACKGROUND: url(/library/images/support/cn/gsfx_brnd_gn_bottom_bgrd.png) repeat-x 50% bottom
+}
+</STYLE>
+
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/branding.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/wtInit.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="如何在 Windows XP 中启用自动登录_files/wtCore.js" 
+type=text/javascript></SCRIPT>
+<NOSCRIPT><IMG id=DCSIMG height=1 alt="" 
+src="如何在 Windows XP 中启用自动登录_files/njs.gif" width=1></NOSCRIPT><IMG 
+id=webmetriximg alt="" 
+src="如何在 Windows XP 中启用自动登录_files/onepix.gif"><NOSCRIPT><IMG 
+id=StatsDotNetImgNoScript alt="" src=""></NOSCRIPT><IMG id=StatsDotNetImg alt="" 
+src="如何在 Windows XP 中启用自动登录_files/onepix.gif" name=StatsDotNetImg>
+<SCRIPT type=text/javascript>StatsDotNet.disabled=false;StatsDotNet.enableCollTierParams=false;StatsDotNet.host='http\x3a\x2f\x2fsupport.microsoft.com\x2fLTS\x2fdefault.aspx';StatsDotNet.ssId='1';StatsDotNet.siteLcId='1033';StatsDotNet.SiteCulture='en-us';StatsDotNet.SsVersion='GSS4.9';StatsDotNet.url='\x2fdefault.aspx';StatsDotNet.ContentCulture ='zh-cn';StatsDotNet.contentType='kb';StatsDotNet.contentLn='2052';StatsDotNet.contentId='315231';StatsDotNet.platform='windows nt 5.1';StatsDotNet.eventCollectionId=1;StatsDotNet.siteBrandId='1';StatsDotNet.onUnloadTimeout=300;StatsDotNet.ltsIdleTimeout=296000;StatsDotNet.userAgentString='mozilla\x2f4.0 \x28compatible\x3b msie 6.0\x3b windows nt 5.1\x3b sv1\x3b maxthon\x3b .net clr 1.1.4322\x3b .net clr 2.0.50727\x3b ms-rtc lm 8\x3b ciba\x29';StatsDotNet.ContentProperties='6\x3d9\x7c7\x3d4.2\x7c';</SCRIPT>
+
+<SCRIPT type=text/javascript>function isDomainTracking(){var entry = fetchcookieval('fmshb');if (entry){try{return entry.split(',')[0] == '1' ? true : false;}catch (e){return false;}}return false;};window.setInterval("document.cookie = 'fmshb=' + (isDomainTracking() ? '1' : '0') + ',' + new Date().getTime() + ';path=/'", 1000);</SCRIPT>
+
+<SCRIPT type=text/javascript>var CookieDef = 'ST_GN_EN-US';function fmsLastExp(){var visits = fetchcookieval(CookieDef);if (visits){var parts = visits.split('_');if (parts.length == 3 && !isNaN(parts[0])){return parseInt(parts[2]);}}setcookieval(CookieDef, '1_0_0');return 0;}function fmsSurveyExpired(days){var MiliDay = 86400000;var visits = fetchcookieval(CookieDef);if (visits){var parts = visits.split('_');if(parts.length == 3 && !isNaN(parts[0])){var origDate = parseInt(parts[1]);var curDate = new Date();return (curDate.getTime()/MiliDay - days) >= origDate;}}setcookieval(CookieDef, '1_0_0');return true;}function activateSiteSurvey(){if(window.top == window && !isDomainTracking() && enableSiteSurvey && fmsSurveyExpired(fmsLastExp())){document.write('<script language="javascript" src="/library/svy/broker.js"></scr'+'ipt>');}}</SCRIPT>
+
+<SCRIPT language=javascript>if(surveyTrigger.triggerInit(0)){surveyTrigger.fireTrigger('/common/survey.aspx?scid=sw;en;1487&XSL=','gn','gn','gn','en-us','http\x253a\x252f\x252fsupport.microsoft.com\x252fdefault.aspx\x252fkb\x252f315231\x252fzh-cn','kb','zh-cn','315231','','','','','','','');}else{activateSiteSurvey();}</SCRIPT>
+
+<SCRIPT type=text/javascript>function thisLoad(){KBFeedBackShowSurvey();CreateSearchOptions('acListWrappergsfx_bsrch_query', 306);SetCatLangPos();InitSrch();InitAC('gsfx_bsrch_query');$(document).ready(function() {gsfx_bsrch_InitCatSelection('gsfx_bsrch_query', '4:');});MS_WebMetrix('http\x3a\x2f\x2fc.microsoft.com\x2ftrans_pixel.asp\x3fTYPE\x3dSSPV\x26SOURCE\x3dSUPPORT\x26GUID\x3d1F4FC18C-F71E-47fb-8FC9-612F8EE59C61\x26URI\x3d\x252fgn\x252fen-us\x252fkb_zh-cn_315231\x26R\x3dhttp\x253a\x252f\x252fwww.google.cn\x252fsearch\x253fhl\x253dzh-CN\x2526source\x253dhp\x2526q\x253dxp\x252b\x2525E5\x2525A6\x252582\x2525E4\x2525BD\x252595\x2525E8\x252587\x2525AA\x2525E5\x25258A\x2525A8\x2525E7\x252599\x2525BB\x2525E5\x2525BD\x252595\x252b');StatsDotNet.LogPageOnLoad();}function thisUnload(){}</SCRIPT>
+</BODY></HTML>

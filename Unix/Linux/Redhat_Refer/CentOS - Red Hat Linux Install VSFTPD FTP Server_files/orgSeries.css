@@ -1,0 +1,42 @@
+.imgset {
+	FLOAT: left; BORDER-TOP-STYLE: none; MARGIN-RIGHT: 6px; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none
+}
+.serieslist-content {
+	FONT-SIZE: 1.2em; COLOR: #000; TEXT-ALIGN: left
+}
+.serieslist-box {
+	BORDER-RIGHT: #1e3a96 1px solid; PADDING-RIGHT: 6px; BORDER-TOP: #1e3a96 1px solid; PADDING-LEFT: 6px; BACKGROUND: #fff; PADDING-BOTTOM: 6px; MARGIN: 10px auto 0px; BORDER-LEFT: #1e3a96 1px solid; WIDTH: 90%; PADDING-TOP: 6px; BORDER-BOTTOM: #1e3a96 2px solid
+}
+UNKNOWN {
+	HEIGHT: auto
+}
+H2.series-title {
+	FONT-SIZE: 1.2em; COLOR: #1e3a96; TEXT-ALIGN: center
+}
+UL.serieslist-ul {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px; LIST-STYLE-TYPE: none
+}
+LI.serieslist-li {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+.seriesbox {
+	BORDER-RIGHT: #1e3a96 1px dotted; PADDING-RIGHT: 6px; BORDER-TOP: #1e3a96 1px dotted; DISPLAY: inline; PADDING-LEFT: 6px; BACKGROUND: #f8f8f8; FLOAT: right; PADDING-BOTTOM: 12px; MARGIN: 0px 10px; FONT: 0.8em Arial, Tahoma, Verdana, Sans-Serif; BORDER-LEFT: #1e3a96 1px dotted; COLOR: #777; PADDING-TOP: 6px; BORDER-BOTTOM: #1e3a96 2px solid; TEXT-ALIGN: left; min-width: 125px
+}
+.seriesbox IMG {
+	MARGIN: 0px 12px
+}
+H3.series-title-post-page {
+	FONT-SIZE: 1.1em; COLOR: #1e3a96; TEXT-ALIGN: center
+}
+P.series-description {
+	FONT-STYLE: italic
+}
+.seriesmeta {
+	FONT-SIZE: 0.8em; BACKGROUND-COLOR: #e5f3ff
+}
+.series-nav-left {
+	FLOAT: left
+}
+.series-nav-right {
+	FLOAT: right
+}

@@ -1,0 +1,100 @@
+voipcmm@cmm $ cat .profile
+# Example profile file for SMC user
+# relies on SHELL being set to ksh
+# use chsh to change shell
+#
+
+OS=$( uname -s )
+
+#setup initial search PATH
+if [[ $OS = "OSF1" ]]
+then
+
+    export PATH=/usr/xpg4/bin:$HOME/bin:/usr/ucb:/usr/sbin:/usr/ccs/bin:/usr/local/bin:/usr/bin/X11:/usr/sbin:${PATH:-/usr/bin:.}
+    export MAIL=/usr/spool/mail/$USER
+
+elif [[ $OS = "SunOS" ]]
+then
+
+    export PATH=$HOME/bin:/usr/sbin:$PATH:$HOME/`hostname`/bin
+    export USER=$(/usr/ucb/whoami)
+    export SNMPCONFPATH=/usr/local/share/snmp
+
+fi
+
+
+#set ksh environment file (.kshrc) and read it
+export ENV=$HOME/.kshrc
+
+
+# set up a variable with a 'short' hostname - stripping domain name
+FULL_HOSTNAME=$(hostname)
+export HOSTNAME=${FULL_HOSTNAME%%.*}
+
+# set up smchome directory variable
+export SMCHOME=$HOME/$HOSTNAME
+export SSHOME=$SMCHOME
+
+# ORACLE environment
+nodeget=/usr/cluster/bin/scha_cluster_get
+if [[ -f $nodeget ]]
+then
+        #set local SID for Solaris cluster
+        export ORACLE_SID=asmc$( $nodeget -O NODEID_LOCAL)
+else
+        #not a solaris cluster
+        export ORACLE_SID=asmc
+fi
+ORAENV_ASK=NO
+if [[ -x /usr/bin/oraenv ]]
+then
+        . /usr/bin/oraenv
+elif [[ -x /usr/local/bin/oraenv ]]
+then
+        . /usr/local/bin/oraenv
+else
+        echo "Unable to find oracle enviroment setup script"
+fi
+
+#setup initial search PATH
+if [[ $OS = "OSF1" ]];
+then
+        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-DEFAULT}:$SMCHOME/lib:${ORACLE_HOME}/lib
+elif [[ $OS = "SunOS" ]]
+then
+        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-DEFAULT}:$SMCHOME/lib:${ORACLE_HOME}/lib32
+fi
+
+
+#set up prompt
+export PS1='$USER@$HOSTNAME $ '
+
+
+# change directory to SMCHOME
+cd $SMCHOME
+echo ""
+if [[ "$OS" =  "SunOS" ]]
+then
+        cat $SMCHOME/ini/version_solaris9.inf
+else            #OS is OSF1
+        UnixVersion=`sizer -v | sed 's/.*\(V[0-9]\{1,\}.[0-9]\{1,\}[^ ]*\).*$/\1/'`
+        if [[ $UnixVersion = 'V5.1B' ]]
+        then
+                cat $SMCHOME/ini/version_tru64unix51b.inf
+        else
+                if [[ $UnixVersion = 'V5.1A' ]]
+                then
+                        cat $SMCHOME/ini/version_tru64unix5.inf
+                else
+                        if [ -r $SMCHOME/ini/version_tru64unix4.inf ]
+                        then
+                                cat $SMCHOME/ini/version_tru64unix4.inf
+                        else
+                                cat $SMCHOME/ini/version_tru64unix.inf
+                        fi
+                fi
+        fi
+fi
+echo ""
+echo "Current directory: `pwd`"
+echo ""

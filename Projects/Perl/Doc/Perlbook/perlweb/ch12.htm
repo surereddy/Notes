@@ -1,0 +1,3985 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Chapter 12 -- Database Application Using CGI</TITLE>
+
+
+
+<META>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Chapter&nbsp;12</FONT></H1>
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Database Application Using CGI</FONT>
+
+</H1>
+
+<P>
+
+<I><B>by Matthew D. Healy</B></I>
+
+<HR>
+
+<P>
+
+<CENTER><B><FONT SIZE=5><A NAME="CONTENTS">CONTENTS</A></FONT></B></CENTER>
+
+<UL>
+
+<LI><A HREF="#FundamentalDesignandSecurityIssues">
+
+Fundamental Design and Security Issues</A>
+
+<UL>
+
+<LI><A HREF="#AdvantagesandDisadvantagesofaWebRDBMSInterface">
+
+Advantages and Disadvantages of a Web/RDBMS Interface</A>
+
+<LI><A HREF="#LimitationsofHTTPinaDatabaseContext">
+
+Limitations of HTTP in a Database Context</A>
+
+<LI><A HREF="#SecurityIssues">
+
+Security Issues</A>
+
+</UL>
+
+<LI><A HREF="#ASimpleWorkingExampleinPerl">
+
+A Simple Working Example in Perl</A>
+
+<UL>
+
+<LI><A HREF="#AccessingaDBMSfromPerl">
+
+Accessing a DBMS from Perl</A>
+
+<LI><A HREF="#DefiningtheDatabaseSchemafortheWorkingExample">
+
+Defining the Database Schema for the Working Example</A>
+
+<LI><A HREF="#SearchingtheHotlist">
+
+Searching the Hotlist</A>
+
+<LI><A HREF="#ViewingtheDetailRecord">
+
+Viewing the Detail Record</A>
+
+<LI><A HREF="#SubmittingDatatotheHotlist">
+
+Submitting Data to the Hotlist</A>
+
+<LI><A HREF="#GeneratingSQLCodetoTransferSubmittedData">
+
+Generating SQL Code to Transfer Submitted Data</A>
+
+</UL>
+
+<LI><A HREF="#PerlToolsforWebDBMSWork">
+
+Perl Tools for Web/DBMS Work</A>
+
+<UL>
+
+<LI><A HREF="#WDB">
+
+WDB</A>
+
+<LI><A HREF="#WebGenera">
+
+Web/Genera</A>
+
+<LI><A HREF="#MiniSQLmSQLandWmSQL">
+
+MiniSQL (mSQL) and W3-mSQL</A>
+
+<LI><A HREF="#DBI">
+
+DBI</A>
+
+<LI><A HREF="#ODBCTools">
+
+ODBC Tools</A>
+
+<LI><A HREF="#SomeUsefulHotlists">
+
+Some Useful Hotlists</A>
+
+</UL>
+
+<LI><A HREF="#ProblemSolving">
+
+Problem-Solving</A>
+
+<UL>
+
+<LI><A HREF="#Debugging">
+
+Debugging</A>
+
+<LI><A HREF="#TuningPerformance">
+
+Tuning Performance</A>
+
+</UL>
+
+<LI><A HREF="#TheFutureofWebDatabaseInterfaces">
+
+The Future of Web/Database Interfaces</A>
+
+<LI><A HREF="#FromHere">
+
+From Here...</A>
+
+</UL>
+
+
+
+<HR>
+
+<P>
+
+Although an increasing proliferation of commercial tools for World
+
+Wide Web/database integration exist, there still is a place for
+
+custom-written Perl CGI scripts in database work. By using CGI
+
+scripts to access an existing internal SQL database, you can provide
+
+controlled access for outside users without having to redesign
+
+the database itself and without purchasing any proprietary software.
+
+As a bonus, your WWW front end will automatically be platform-
+
+and location-independent: All that your users need is a WWW browser.
+
+Building a good Web/database application is not easy, but the
+
+results can be well worth the effort.
+
+<H2><A NAME="FundamentalDesignandSecurityIssues"><FONT SIZE=5 COLOR=#FF0000>
+
+Fundamental Design and Security Issues</FONT></A></H2>
+
+<P>
+
+Figures 12.1 and 12.2 show how information flows between the various
+
+programs that together constitute a complete Web/database application.
+
+Each layer hides many internal details from the other layers and
+
+presents the layers above and below it with standardized protocols.
+
+This information-hiding is the great advantage that a Web front
+
+end has over conventional client/server systems; the numerous,
+
+widely distributed users need nothing but standard Web browsers
+
+on their computers. The Web server and the database server could
+
+reside on one machine, or they could reside on different machines,
+
+in which case your CGI program talks over a network to the database
+
+server.
+
+<P>
+
+<A HREF="f12-1.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f12-1.gif"><B> Figure 12.1 : </B><I>This schematic of Web/database interaction shows how information flows between the programs that make up the application when the database server and Web server are on the same machine.
+
+
+
+</I></A><P>
+
+<P>
+
+<A HREF="f12-2.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f12-2.gif"><B> Figure 12.2 : </B><I>This schematic shows how information flows between the programs that make up the application when the database server and the Web server are on different machines.
+
+
+
+</I></A><P>
+
+<P>
+
+More complex possibilities exist. One application running at my
+
+site talks to several database servers, integrating information
+
+from a local database with several remote databases. Indeed, users
+
+may not even realize how many computers are cooperating to answer
+
+their queries; with a well-written database application, all a
+
+user needs to know is what information to request. Your job as
+
+a Web/database developer is to build tools that allow users to
+
+find information without their knowing or caring where the information
+
+is actually stored. Security access controls, although often important,
+
+should be as unobtrusive as possible, especially for users who
+
+are accustomed to the wide-open Internet.
+
+<H3><A NAME="AdvantagesandDisadvantagesofaWebRDBMSInterface">
+
+Advantages and Disadvantages of a Web/RDBMS Interface</A></H3>
+
+<P>
+
+Building a Web interface to an existing relational database management
+
+system, or RDBMS, isn't simple. You need to be familiar with both
+
+your relational database and CGI scripting to plan their integration.
+
+<P>
+
+You may also need to do much more &quot;roll-your-own&quot; work
+
+than you would with a conventional client/server design, because
+
+you need to polish the rough edges off the available tools for
+
+Web gateways to relational databases. Many of the most powerful
+
+products are freeware or shareware, and all the commercial products
+
+are very new. Just about every database vendor now has some kind
+
+of Web offering, but most products are either in beta or just
+
+barely out of beta. In short, if you do Web/database development,
+
+you'll be on the cutting edge.
+
+<P>
+
+So why do it? For one thing, the Web is a hot field, so you may
+
+feel a compelling desire to be in the vanguard. You may also see
+
+the neat tricks that other people do at their Web sites and wonder
+
+how you can duplicate such effects-especially if the WWW site
+
+doing the neat tricks belongs to a competitor.
+
+<P>
+
+I believe that some very good technical reasons exist for putting
+
+databases on the Web. Your existing relational database serves
+
+as a robust repository for your data, with all the maintenance
+
+and security features that you have come to expect from your RDBMS,
+
+and the WWW front end provides the open access and user-interface
+
+flexibility that your users have come to expect from desktop applications.
+
+<P>
+
+I won't try to teach relational design in this chapter, because
+
+that's beyond the scope of this book. Many excellent books on
+
+relational database design are available; I recommend practically
+
+anything by C.J. Date, David McGoveran, Joe Celko, George Tillman,
+
+and Andrew Warden (pseudonym for Hugh Darwen; some of his works
+
+have appeared under both names at different times). Any large
+
+technical library or bookstore should have works by most of these
+
+authors. At a more advanced level, the writings of E.F. Codd,
+
+who invented the relational model, will reward prolonged study.
+
+If more RDBMS programmers had read Codd's works with care, the
+
+RDBMS implementations that are now on the market would be far
+
+better.
+
+<P>
+
+After reading what these people have to say, I hope that you'll
+
+share my passionate conviction that the relational model is both
+
+an elegant mathematical formalism and a powerful tool for solving
+
+real-world database problems in a manner that no other approach
+
+can match. As is true of any type of front end, no CGI application
+
+can replace a good database design, but you probably know that
+
+already. End of sermon.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>SQL and Its Dialects</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+SQL has become the <I>lingua franca </I>of relational database work. Starting at IBM in the mid-1970s as a research project called SEQUEL, SQL has grown in popularity over the intervening decades. Today, SQL is by far the most important database query 
+language, with probably hundreds of implementations in use. ANSI has published several official standards (in 1986, 1989, and 1992) and is now working on a new version, informally known as SQL3.
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+Though official SQL standards exist, few implementations follow them strictly. Every implementation that derives from one or another ANSI-standard dialect of SQL has its own extra features that are deemed useful by those who built it-a situation that 
+creates a big mess. Fortunately, in a typical CGI application, you'll mostly use a rather small subset of SQL that appears (in nearly the same form) in all commonly used dialects of the language.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H3><A NAME="LimitationsofHTTPinaDatabaseContext">
+
+Limitations of HTTP in a Database Context</A></H3>
+
+<P>
+
+With a CGI front end to an RDBMS, you have multiple programs cooperating
+
+to accomplish a task. The remote browser is a client to your HTTP
+
+server, but the CGI script launched by the HTTP server is itself
+
+a client to the RDBMS server. Furthermore, the HTTP protocols
+
+are stateless-the browser connects to the server, sends one query,
+
+and waits for the reply. After the server sends its reply, it
+
+closes the connection. There's no concept of a current connection,
+
+so there's no simple mechanism for keeping client-state information
+
+around on the server.
+
+<P>
+
+For most searches, you can get around the statelessness of the
+
+server by keeping all client-state information on the client.
+
+Suppose that a user has just performed a search that returned
+
+the list of employee records shown in figure 12.3.
+
+<P>
+
+<A HREF="f12-3.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f12-3.gif"><B> Figure 12.3 : </B><I>In this sample query-results screen, each item in the results list is a hot link that performs another search.
+
+
+
+</I></A><P>
+
+<P>
+
+Encoded in the URL behind each hot link in a list like that shown
+
+in figure 12.3 is sufficient information for the CGI script to
+
+perform a database lookup that will return more details to the
+
+user. This technique-sending program-generated HTML that contains
+
+enough state information to perform the next search-is known as
+
+<I>dynamic HTML</I>. The URLs listed in a search-results screen,
+
+such as the one in figure 12.3, typically look something like
+
+the following:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;a href=/cgi-bin/EmpSrch?id=503&quot;&gt;Tom     Anderson&lt;/a&gt;
+
+&lt;a href=/cgi-bin/EmpSrch?id=229&quot;&gt;Mike    Johnson&lt;/a&gt;
+
+&lt;a href=/cgi-bin/EmpSrch?id=507&quot;&gt;Steve   Jones&lt;/a&gt;
+
+&lt;a href=/cgi-bin/EmpSrch?id=917&quot;&gt;Sarah   King&lt;/a&gt;
+
+&lt;a href=/cgi-bin/EmpSrch?id=467&quot;&gt;Susan   Moore&lt;/a&gt;
+
+&lt;a href=/cgi-bin/EmpSrch?id=327&quot;&gt;John    Wang&lt;/a&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+<TT>id</TT> is the primary key in the employees table that is
+
+to be searched. (By <I>primary key</I>, I mean that the database
+
+designer has set things up so that a given key value uniquely
+
+identifies a single record.)
+
+<P>
+
+How does this allow the database server to display a detail view
+
+without any information beyond that in the URL? You may recall
+
+from <A HREF="ch3.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch3.htm" >Chapter 3</A> &quot;Advanced Form Processing and Data Storage,&quot;
+
+that when an URL contains a question mark, the part that follows
+
+the question mark is passed to the CGI program as the environment
+
+variable <TT>QUERY_STRING</TT>. The SQL code generated in response
+
+to a <TT>QUERY_STRING</TT> that contains a primary key value of
+
+503, as in the first sample URL in this section, might look something
+
+like Listing 12.1.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.1&nbsp;&nbsp;Sample SQL Query Generated by Clicking
+
+a Hot Link<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+select
+
+     employees.first_name,
+
+     employees.last_name
+
+     employees.salary,
+
+     employees.startdate
+
+     depts.name,
+
+     depts.locid
+
+     emp_dept.empid,
+
+     emp_dept.deptid
+
+from
+
+     employees,depts,emp_dept
+
+where
+
+     employees.id = 503
+
+     and depts.id = emp_dept.deptid
+
+     and employees.id = emp_dept.empid
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Look at the bottom of any Yahoo (<B><A HREF="tppmsgs/msgs0.htm#74" tppabs="http://www.yahoo.com/">http://www.yahoo.com</A></B>) search-results screen for an elegant example of how URLs can pass information from query to query. The links below the heading &quot;Other Search 
+Engines&quot; automatically search other databases.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+When you're updating a database, the use of a CGI interface presents
+
+some serious difficulties if more than one user is allowed to
+
+make changes to the database. If you aren't careful, the following
+
+sequence of events may occur:
+
+<UL>
+
+<LI>User 1 downloads the form to edit a record.
+
+<LI>User 2 downloads the same record for editing.
+
+<LI>User 1 submits an edited version of the record.
+
+<LI>User 2 submits an edited version of the same record.
+
+</UL>
+
+<P>
+
+In a conventional client/server database system, each user maintains
+
+an active connection with session-specific state information.
+
+If a user downloads a record for editing, the server can keep
+
+that record locked until the user who downloaded that record for
+
+editing either submits the changes or cancels the editing. Any
+
+other user who tries to change the locked record will be told
+
+that it's locked by the user who is editing it. With a stateless
+
+HTTP server, there's no concept of a current connection; thus,
+
+there is no simple mechanism for locking a record.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+One way to handle updates in a CGI program is to place a time-stamp field in each record. You must update this field every time the record changes. In your editing forms, include hidden time-stamp fields so that the CGI program can detect conflicting 
+updates.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+Another significant limitation of HTML forms for database work
+
+is the lack of field-level validation. A conventional client/server
+
+database typically allows the designer to specify various constraints
+
+for each field-this one must be an integer between 5 and 99, that
+
+one must be in telephone-number format, and so on. When a user
+
+tries to type a name in a phone-number field, for example, the
+
+program immediately beeps and displays an error message. But an
+
+HTML form is sent to the server all at once when the user clicks
+
+the submit button, so your script must handle the errors all at
+
+once. As you'll see near the end of this chapter, new technologies
+
+such as Java and JavaScript can remove this limitation.
+
+<H3><A NAME="SecurityIssues">
+
+Security Issues</A></H3>
+
+<P>
+
+Remember that any CGI script is being executed on the same machine
+
+as your HTTP server to fulfill a request from an untrusted client
+
+browser. Although this situation is true of any CGI script, with
+
+a CGI RDBMS application, your script is itself a trusted client
+
+to your RDBMS server. Accordingly, you must be even more careful
+
+about what you allow users to do through your CGI interface than
+
+you do when you write other types of CGI programs.
+
+<P>
+
+I said that your CGI program is a trusted client to your RDBMS
+
+server. How does the RDBMS server know that your script is to
+
+be trusted? Database servers commonly use two mechanisms to authenticate
+
+client programs. Both of these mechanisms have important security
+
+implications.
+
+<P>
+
+One approach is for the database server to implement its own user
+
+name and password system, independent of your operating system's
+
+or Web server's user names and passwords. In this case, your program
+
+source code must contain a database password, which it transmits
+
+every time that it tries to connect. When you use this approach,
+
+you must be careful to prevent strangers from seeing your actual
+
+program code.
+
+<P>
+
+Also, to limit the damage in case someone does manage to see the
+
+password contained in your program, you should create a user account
+
+on your database server, with only the access rights needed for
+
+your CGI program to function, and use that account in all your
+
+CGI programs. If most of your CGI programs perform only searching,
+
+and if only one updates the database, only that program should
+
+have update rights in the database.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>CAUTION</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+A particular trap in the CGI-database context is the use of file extensions to tell your HTTP server which files are CGI executables and which are documents. If your text editor makes a backup copy in the same directory with a different extension (such as 
+NAME.BAK or NAME.CGI&#247;), a wily cracker might be able to download your actual code. For this reason, I strongly advise anyone who uses CGI scripts with hard-coded passwords to configure the HTTP server so that certain directories are defined as CGI 
+directories. Files in those directories can be executed but never displayed. In my experience, any time you mix documents and programs in the same directory, you're asking for trouble.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+The other common mechanism for the database server to decide whether
+
+a client can be trusted is to define database access rights for
+
+specified operating-system user names. In this approach, the database
+
+server must trust the operating system to authenticate users.
+
+In the CGI context, the use of operating-system user names for
+
+authentication presents an especially tricky issue, because most
+
+HTTP servers run all CGI scripts under a special, low-privilege
+
+user name. (Most UNIX HTTP servers, for example, run all CGI scripts
+
+under the name nobody or the name www.) Therefore, you must trust
+
+every person who writes CGI scripts on your HTTP server.
+
+<P>
+
+One alternative provided in some operating systems is the capability
+
+to have a CGI program run as the user name of its owner, with
+
+all rights that the owner would have. This method eliminates the
+
+need to have your database server trust every CGI script, but
+
+it creates its own security problems-now your CGI program has
+
+significantly more access rights to the rest of your system than
+
+does a CGI running under a special, low-privilege ID. If your
+
+HTTP server is running under a single-user operating system that
+
+lacks the concept of user names, of course, you must trust every
+
+CGI program in any case.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+If you use a UNIX server, the program cgiwrap (available at <B><A HREF="tppmsgs/msgs1.htm#133" tppabs="ftp://ftp.cc.umr.edu/pub/cgi/cgiwrap/">ftp://ftp.cc.umr.edu/pub/cgi/cgiwrap/</A></B>) provides an excellent way to run a script as a given user name. This program is better than 
+others for this purpose because it was designed to plug some CGI-specific security holes.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+To handle multiple classes of users with one script, put symbolic links (aliases) to your script in multiple directories with different access policies. Your script checks the SCRIPT_NAME environment variable to see which version was called.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><A NAME="ASimpleWorkingExampleinPerl"><FONT SIZE=5 COLOR=#FF0000>
+
+A Simple Working Example in Perl</FONT></A></H2>
+
+<P>
+
+I often find vague generalities and isolated code snippets to
+
+be frustrating, because they don't tell me how the various pieces
+
+fit together to form a complete application. To show you how a
+
+Web/database gateway works, in this section I'll build a small
+
+working application that maintains a hotlist of Web sites, which
+
+remote users can search.
+
+<P>
+
+First, you see how a Perl script talks to the database. I'll demonstrate
+
+the specific calling conventions of two database engines; then
+
+I'll show you how to make the code much more portable. The sample
+
+application is written with this portable interface.
+
+<H3><A NAME="AccessingaDBMSfromPerl">
+
+Accessing a DBMS from Perl</A></H3>
+
+<P>
+
+As I noted in the sidebar &quot;SQL and Its Dialects&quot; earlier
+
+in this chapter, the subset of SQL that is needed for most CGI/database
+
+programming is nearly universal; the same SQL code can often be
+
+ported from one database engine to another with little or no change.
+
+The details of sending that SQL to the database server and getting
+
+the results back from the server, however, are much more varied.
+
+Most SQL database servers provide some form of C API for this
+
+purpose-typically, a set of functions that can be linked into
+
+a C client program. Because Perl, with its strong string manipulation
+
+and I/O facilities, lends itself so well to database manipulation,
+
+Perl wrappers have been written for most of the common database-server
+
+APIs. The use of such a Perl wrapper permits database access from
+
+within Perl programs but limits portability, because each database
+
+server API is unique; therefore, its Perl wrapper is also unique.
+
+<P>
+
+<B>Two DBMS APIs</B>&nbsp;&nbsp;To illustrate the variation in
+
+database APIs, listings 12.2 and 12.3 show two short sample programs
+
+written in the Perl wrappers for Sybase and mSQL (mini-SQL) servers.
+
+The Perl wrapper for Sybase is called SybPerl, and the Perl wrapper
+
+for mSQL is called msqlPerl; Perl wrappers for other database
+
+engines typically follow the same naming convention. Each of the
+
+following two programs connects to the server, asks for a database
+
+called <TT>test</TT>, sends a single SQL statement, and prints
+
+the results.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.2&nbsp;&nbsp;An Example of a Simple SQL Query with
+
+SybPerl<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+require sybperl;
+
+#
+
+#This code tested with Sybase 4.9.1 and Sybase 10.0.1 under SunOS 4.1.2
+
+#
+
+#NOTE: for Perl4, or for Statically loaded Perl5 versions
+
+#of sybperl, you must edit the first line to replace
+
+#the name 'perl' with the name of your sybperl version
+
+
+
+#raw_syb_perl_demo.p
+
+#A simple demonstration of Sybperl in action
+
+#
+
+#Must define $USER,$PWD,$SERVER here!
+
+    $dbproc = &amp;dblogin( $USER,$PWD,$SERVER);
+
+    $dbproc != -1 || die &quot;Can't connect to $server ...\n&quot;;
+
+    &amp;dbuse( &quot;test&quot; ) || die &quot;Can't use $database ...\n&quot;;
+
+
+
+#Create the SQL statement &amp; send to the server
+
+$SQL = &quot;select last_name,salary,id from employees&quot;;
+
+&amp;dbcmd( $SQL ) || die &quot;Error in dbcmd.\n&quot; ;
+
+&amp;dbsqlexec || die &quot;Error in dbsqlexec.\n&quot; ;
+
+$result = &amp;dbresults($dbproc);
+
+
+
+#and get the resulting rows
+
+%row = &amp;dbnextrow($dbproc, 1); #get first row
+
+while (%row = &amp;dbnextrow($dbproc, 1))
+
+     {
+
+          print &quot;last_name:$row{'last_name'}\t&quot;;
+
+          print &quot;salary:$row{'salary'}\t&quot;;
+
+          print &quot;id:$row{'id'}\t&quot;;
+
+          print &quot;\n&quot;;
+
+     }
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.3&nbsp;&nbsp;The Same Query as Listing 12.2, but
+
+Using mSQL<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+#raw_msqlperl_demo.p
+
+#
+
+#This code has been tested with Msql 1.0.6 under SunOS 4.1.4
+
+#
+
+#A simple demonstration of Msqlperl in action
+
+require &quot;Msql.pm&quot;;$host = shift || &quot;&quot;;
+
+package main;
+
+#Connect in two steps: (1) Connect and (2) SelectDB...
+
+if ($dbh = Msql-&gt;Connect($host))
+
+    {print &quot;Connected\n&quot;;} else {die &quot;failed to connect\n&quot;;}
+
+if ($dbh-&gt;SelectDB(&quot;test&quot;))
+
+    {print(&quot;Test db\n&quot;);} else {die &quot;Select db failed\n&quot;;}
+
+
+
+$SQL = &quot;select last_name,salary,id from employees&quot;;
+
+$sth = $dbh-&gt;Query($SQL) or die $Msql::db_errstr;
+
+#get the hash associating fieldnames and numbers:
+
+@fieldnum{@{$sth-&gt;name}} = 0..@{$sth-&gt;name}-1;
+
+# %fieldnum is now a list of fieldnums, indexed on names
+
+#and get the rows
+
+while (@row = $sth-&gt;FetchRow())
+
+     {
+
+          print &quot;last_name:$row[$fieldnum{'last_name'}]\t&quot;;
+
+          print &quot;salary:$row[$fieldnum{'salary'}]\t&quot;;
+
+          print &quot;id:$row[$fieldnum{'id'}]\t&quot;;
+
+     print &quot;\n&quot;;
+
+     }
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The output of either program looks something like the following:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+last_name:Smith     salary:21000     id:123
+
+last_name:Huskins     salary:19500     id:124
+
+last_name:Williams     salary:51075     id:125
+
+last_name:Jones     salary:27000     id:126
+
+last_name:Hill     salary:17500     id:127
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Notice in listings 12.2 and 12.3 that the SQL code string is exactly
+
+the same for either database server and that the output is also
+
+the same (assuming identical data in the table, of course). Also,
+
+the structure of the two programs is similar: connect to the database,
+
+send the query, and get the rows. But the details of how the client
+
+communicates with the server are different. If your code is to
+
+be portable, you need some kind of abstraction layer that insulates
+
+the programmer from most database-specific details. Fortunately,
+
+such a layer has been written.
+
+<P>
+
+<B>A Simple DBMS Abstraction Layer</B>&nbsp;&nbsp;Bo Frese Rasmussen,
+
+the author of the excellent WDB database forms-generation package
+
+(discussed in detail in the section &quot;WDB&quot; later in this
+
+chapter) has written a simple database interface, or <I>dbi layer</I>.
+
+By isolating most of the database-specific details to one Perl
+
+function library, he made the entire package easy to port, and
+
+various database programmers have written versions of the dbi
+
+library. As of late August 1996, versions of WDB (and, therefore,
+
+of the dbi library) were available for Sybase, Informix, mSQL,
+
+Oracle, and Postgres95.
+
+<P>
+
+Listing 12.4 shows a dbi version of the simple Sybase and mSQL
+
+clients from listings 12.2 and 12.3.<BR>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.4&nbsp;&nbsp;The Same Query as Listings 12.2 and
+
+12.3, Using the dbi Layer<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#Either_dbi_demo.p
+
+#
+
+#This works with either Sybperl or Msqlperl
+
+
+
+#AS SHOWN HERE, this works with Msqlperl.
+
+#To make it work with Sybperl, change the
+
+#    $dbFlag line below.
+
+#
+
+#Also, if you are using the Perl4 version of sybperl
+
+#then you must change the first line of this program
+
+
+
+$dBFlag = 'MSQL';  ## OR $DbFlag = 'SYBASE'
+
+#this is the msql version!
+
+
+
+if ($DbFlag eq 'MSQL') {require 'msql_dbi.pl';}
+
+elsif ($DbFlag eq 'SYBASE') {require 'syb_dbi.pl';}
+
+else {die &quot;unsupported database\n&quot;;}
+
+
+
+$database = &quot;test&quot;; #define $User, etc here!
+
+&amp;dbi_connect( $user, $pswd, $server, $database );
+
+
+
+$Query = &quot;select last_name,salary,id from employees&quot;;
+
+&amp;dbi_dosql($Query);
+
+
+
+if ($DbFlag eq 'MSQL') #one extra thing needed for Msql
+
+{&amp;dbi_fieldnames( 'last_name', 'salary','id');}
+
+
+
+while( %row = &amp;dbi_nextrow  ) {
+
+          print &quot;last_name:$row{'last_name'}\t&quot;;
+
+          print &quot;salary:$row{'salary'}\t&quot;;
+
+          print &quot;id:$row{'id'}\t&quot;;
+
+          print &quot;\n&quot;;
+
+
+
+       }
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+If you have either Sybase and Sybperl or mSQL and MsqlPerl installed
+
+on your system, you can run the code in Listing 12.4 on either
+
+platform by editing it as indicated by the comments in the program.
+
+Revising the code to work with the other versions of the dbi library
+
+shouldn't be much more difficult. All Perl examples in the rest
+
+of this chapter use the <TT>msql_dbi.pl</TT> interface, so they
+
+can easily be ported to any other database for which WDB has been
+
+ported.
+
+<H3><A NAME="DefiningtheDatabaseSchemafortheWorkingExample">
+
+Defining the Database Schema for the Working Example</A></H3>
+
+<P>
+
+This example, as I said in &quot;A Simple Working Example in Perl&quot;
+
+earlier in this chapter, is a simple interactive hotlist of Web
+
+sites, providing the URL and a description for each site.Remote
+
+users can search the hotlist and submit new entries for potential
+
+inclusion. The administrator (who knows the appropriate password)
+
+can review submissions, adding approved submissions to the hotlist
+
+for public viewing. Think of the example as being a rudimentary
+
+equivalent of Yahoo (just as the Wright brothers' flying machine
+
+of 1903 was a rudimentary equivalent of an airliner).
+
+<P>
+
+<B>Database Tables and Fields</B>&nbsp;&nbsp;This database has
+
+three tables. The UIDs table shown in Table 12.1 is used for generating
+
+UIDs, so that each record in the other tables has a unique identifier
+
+that can be used as a primary key.<BR>
+
+<P>
+
+<CENTER><B>Table 12.1&nbsp;&nbsp;The UIDs Table</B></CENTER>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=60%>
+
+<TR VALIGN=TOP><TD WIDTH=144><B>Column</B></TD><TD WIDTH=96><B>Type</B></TD>
+
+<TD WIDTH=96><CENTER><B>Length</B></CENTER></TD><TD WIDTH=96><CENTER><B>Not Null</B></CENTER>
+
+</TD><TD WIDTH=96><CENTER><B>Key</B></CENTER></TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=144><TT>TableName</TT></TD><TD WIDTH=96>char</TD>
+
+<TD WIDTH=96><CENTER>40</CENTER></TD><TD WIDTH=96><CENTER>Y</CENTER>
+
+</TD><TD WIDTH=96><CENTER>Y</CENTER></TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=144><TT>MaxUID</TT></TD><TD WIDTH=96>longint</TD>
+
+<TD WIDTH=96><CENTER>4</CENTER></TD><TD WIDTH=96><CENTER>Y</CENTER>
+
+</TD><TD WIDTH=96><CENTER>N</CENTER></TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+This technique is commonly used by database designers. You create
+
+one row in the UIDs table for each table that needs to have UIDs
+
+generated. <TT>MaxUID</TT> then records the highest UID yet assigned.
+
+Each time you create a new row for a data table, you increment
+
+the <TT>MaxUID</TT> value for that table and use this value for
+
+the new row of data.
+
+<P>
+
+The Hotlist table, shown in Table 12.2, contains data for all
+
+approved submissions to the database.<BR>
+
+<P>
+
+<CENTER><B>Table 12.2&nbsp;&nbsp;The Hotlist Table</B></CENTER>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=60%>
+
+<TR VALIGN=TOP><TD WIDTH=144><B>Column</B></TD><TD WIDTH=96><B>Type</B></TD>
+
+<TD WIDTH=96><B>Length</B></TD><TD WIDTH=96><CENTER><B>Not Null</B></CENTER>
+
+</TD><TD WIDTH=96><CENTER><B>Key</B></CENTER></TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=144><TT>UID</TT></TD><TD WIDTH=96>longint</TD><TD WIDTH=96>4
+
+</TD><TD WIDTH=96><CENTER>Y</CENTER></TD><TD WIDTH=96><CENTER>Y</CENTER>
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=144><TT>URL</TT></TD><TD WIDTH=96>char</TD><TD WIDTH=96>100
+
+</TD><TD WIDTH=96><CENTER>Y</CENTER></TD><TD WIDTH=96><CENTER>N</CENTER>
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=144><TT>SHORTDESC</TT></TD><TD WIDTH=96>char</TD>
+
+<TD WIDTH=96>50</TD><TD WIDTH=96><CENTER>N</CENTER></TD><TD WIDTH=96><CENTER>N</CENTER>
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=144><TT>DESCRIPTION</TT></TD><TD WIDTH=96>char</TD>
+
+<TD WIDTH=96>200</TD><TD WIDTH=96><CENTER>N</CENTER></TD><TD WIDTH=96><CENTER>N</CENTER>
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+New submissions are stored in the Submissions table until they
+
+have been approved by the database administrator, as shown in
+
+Table 12.3. The Hotlist table and the Submissions table are otherwise
+
+identical.<BR>
+
+<P>
+
+<CENTER><B>Table 12.3&nbsp;&nbsp;The Submissions Table</B></CENTER>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=60%>
+
+<TR VALIGN=TOP><TD WIDTH=144><B>Column</B></TD><TD WIDTH=96><B>Type</B></TD>
+
+<TD WIDTH=96><B>Length</B></TD><TD WIDTH=96><CENTER><B>Not Null</B></CENTER>
+
+</TD><TD WIDTH=96><CENTER><B>Key</B></CENTER></TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=144><TT>UID</TT></TD><TD WIDTH=96>longint</TD><TD WIDTH=96>4
+
+</TD><TD WIDTH=96><CENTER>Y</CENTER></TD><TD WIDTH=96><CENTER>Y</CENTER>
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=144><TT>URL</TT></TD><TD WIDTH=96>char</TD><TD WIDTH=96>100
+
+</TD><TD WIDTH=96><CENTER>Y</CENTER></TD><TD WIDTH=96><CENTER>N</CENTER>
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=144><TT>SHORTDESC</TT></TD><TD WIDTH=96>char</TD>
+
+<TD WIDTH=96>50</TD><TD WIDTH=96><CENTER>N</CENTER></TD><TD WIDTH=96><CENTER>N</CENTER>
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=144><TT>DESCRIPTION</TT></TD><TD WIDTH=96>char</TD>
+
+<TD WIDTH=96>200</TD><TD WIDTH=96><CENTER>N</CENTER></TD><TD WIDTH=96><CENTER>N</CENTER>
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+<B>Directory Layout&nbsp;&nbsp;</B>The data tables are stored
+
+by the database server (mSQL was used for this example). Although
+
+any database server almost certainly stores the actual data as
+
+disk files, the database server manages those files internally;
+
+indeed, that's the fundamental reason for using a database server.
+
+In addition to the database tables described in the preceding
+
+section, my sample application consists of three HTML documents
+
+and three Perl scripts placed in three directories, as follows:
+
+<BLOCKQUOTE>
+
+<TT>~hhealy/public_html:</TT> (documents)<BR>
+
+<TT> DemoHome.html<BR>
+
+ Search.html<BR>
+
+ Submission.html</TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+The three files are the top-level main screen and the two forms
+
+for searching and submitting data. Because the files reside in
+
+my public HTML directory, they can be viewed by any user on the
+
+Web.
+
+<P>
+
+The following two programs reside in an unprotected directory
+
+within the CGI-BIN hierarchy on this Web server, so they can be
+
+run as CGI scripts by anyone on the Web:
+
+<BLOCKQUOTE>
+
+<TT>.../cgi-bin/healy/public:</TT> (public CGI programs)<BR>
+
+<TT> SearchHotlist.p<BR>
+
+ ShowDetails.p</TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+The following directory is password-protected by means of the
+
+.HTPASSWD and .HTACCESS files, so you must type a name and password
+
+to run the program in this directory as a CGI script:
+
+<BLOCKQUOTE>
+
+<TT>.../cgi-bin/healy/private:</TT> (private program)<BR>
+
+<TT> .htpasswd<BR>
+
+ .htaccess<BR>
+
+ ListSubmissions.p</TT>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="SearchingtheHotlist">
+
+Searching the Hotlist</A></H3>
+
+<P>
+
+The user of this application typically begins with a simple opening
+
+screen that lists the available options. I've intentionally kept
+
+the screen in figure 12.4 as simple as possible. Most of the hot
+
+links in this opening screen point to scripts that perform the
+
+actual work of providing database access.
+
+<P>
+
+<A HREF="f12-4.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f12-4.gif"><B> Figure 12.4 : </B><I>The opening screen for the Hotlist database has hot links to the available programs for database access.
+
+
+
+</I></A><P>
+
+<P>
+
+Listing 12.5 shows the HTML for the opening screen.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.5&nbsp;&nbsp;The Opening Screen<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Hotlist Demo HomePage&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;
+
+&lt;H1&gt;Hotlist Demo HomePage&lt;/H1&gt;
+
+
+
+&lt;A HREF=&quot;Search.html&quot;&gt;Search the Hotlist&lt;/A&gt;&lt;p&gt;
+
+
+
+&lt;A HREF=&quot;Submission.html&quot;&gt;Submit an Item for the Hotlist&lt;/A&gt;&lt;p&gt;
+
+
+
+&lt;a HREF=&quot;/cgi-bin/healy/SearchHotlist.p&quot;&gt;See All Records in Hotlist&lt;/a&gt;&lt;p&gt;
+
+
+
+&lt;a HREF=&quot;/cgi-bin/healy/ListSubmissions.p&quot;&gt;Transfer Submitted Data&lt;/a&gt;
+
+to the Public portion of the database (password required).&lt;p&gt;
+
+&lt;/PRE&gt;&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Clicking <TT>Search the Hotlist</TT> calls up the search form,
+
+which I've likewise kept as simple as possible (see fig. 12.5).
+
+<P>
+
+Listing 12.6 shows the HTML for the search form shown in figure
+
+12.5.
+
+<P>
+
+<A HREF="f12-5.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f12-5.gif"><B> Figure 12.5 : </B><I>The user enters search criteria in this form, which then posts the criteria to the searching script.
+
+
+
+</I></A><P>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.6&nbsp;&nbsp;The Search Form<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;
+
+&lt;TITLE&gt;Hotlist Searching Form&lt;/TITLE&gt;
+
+&lt;/HEAD&gt;
+
+&lt;BODY&gt;
+
+&lt;H1&gt;Hotlist Searching Form&lt;/h1&gt;
+
+Please enter a keyword and click the &lt;b&gt;Send&lt;/b&gt; button at the bottom.
+
+The &lt;b&gt;Reset&lt;/b&gt; button will clear everything you've typed.&lt;P&gt;
+
+&lt;FORM ACTION=&quot;http://server.wherever/cgi-bin/healy/SearchHotlist.p&quot; METHOD=&quot;POST&quot;&gt;&lt;hr&gt;
+
+&lt;p&gt;
+
+&lt;INPUT name=&quot;SHORTDESC&quot; size=20 value=&quot;&quot;&gt;&lt;b&gt;SHORT description&lt;/b&gt;&lt;BR&gt;
+
+&lt;hr&gt;
+
+&lt;INPUT TYPE=&quot;submit&quot; VALUE=&quot;Send&quot;&gt; &lt;INPUT TYPE=&quot;reset&quot; VALUE=&quot;Reset&quot;&gt;&lt;P&gt;
+
+&lt;hr&gt;
+
+&lt;/FORM&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Submitting a search request (by entering a key to search and clicking
+
+the submit button) <TT>POST</TT>s the search key to a simple searching
+
+script. This script generates a SQL query and submits it to the
+
+server. The script works just like the three sample database query
+
+scripts shown in listings 12.2 through 12.4, except that the SQL
+
+string is built up from the form data. SQL that has been generated
+
+on the fly is known as <I>dynamic SQL</I>.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+I do no error checking on input; I just wrap it in an SQL <TT>like</TT> clause in the program, which is shown in Listing 12.7 later in this section.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+To keep this example as simple as possible, I provided only one
+
+search field, and I converted that field to all uppercase in the
+
+database. If your search form provides multiple lookup fields,
+
+you must generate a complex <TT>where</TT> clause based on which
+
+fields contain search strings. The WDB package (discussed in &quot;WDB&quot;
+
+later in this chapter) can build up such a <TT>where</TT> clause
+
+based on form contents.
+
+<P>
+
+In the program shown in Listing 12.7 (and in all my other form-handling
+
+CGI programs), to avoid all the messy details of reading and parsing
+
+the form information, I call Steven Brenner's <TT>cgi-lib.pl</TT>
+
+routines. You can find this library at many FTP sites or on the
+
+CD-ROM that is included with this book. One particular advantage
+
+of using <TT>cgi-lib.pl</TT> for database work is the fact that
+
+it handles <TT>GET</TT> or <TT>POST</TT> identically. Name-value
+
+pairs can be appended to the URL as <TT>?name1=value1&amp;name2=value2...</TT>
+
+or sent as a <TT>POST</TT> data block.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.7&nbsp;&nbsp;Perl Code to Perform the Search<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+#This program tested with Msql 1.0.6 under SunOS 4.1.4 and
+
+#NCSA httpd 1.5 with Perl 5.001m
+
+
+
+#do this as soon as possible!
+
+print &quot;Content-type:text/html\n\n&quot;;
+
+
+
+#Define two little subroutines for urlencode/decode
+
+#
+
+#replace funny characters with %xx hex for urls
+
+sub escape
+
+{
+
+    ($_)=@_;
+
+    s/([^a-zA-Z0-9_\-.])/uc sprintf(&quot;%%%02x&quot;,ord($1))/eg;
+
+    $_;
+
+}
+
+
+
+#replace + with space and %xx with that ASCII character
+
+sub unescape {
+
+    ($_)=@_;
+
+    tr/+/ /;
+
+    s/%(..)/pack(&quot;c&quot;,hex($1))/ge;
+
+    $_;
+
+}
+
+
+
+#load the cgi library
+
+require &quot;cgi-lib.pl&quot;;
+
+#load the Msql database interface library
+
+require 'msql_dbi.pl';
+
+
+
+# Start output
+
+
+
+#read in the form contents:
+
+
+
+&amp;ReadParse(); #handles GET or POST forms w/identical results
+
+#now @in has key=value pairs, and %in{key} = value
+
+#Main Program Begins Here
+
+
+
+$SHORTDESC = $in{'SHORTDESC'};
+
+$SHORTDESC =&#247;h tr/a-z/A-Z/;  #convert to uppercase
+
+$SCRIPT_NAME = $ENV{'SCRIPT_NAME'};
+
+
+
+#connect to database server
+
+$user = &quot;healy&quot;;
+
+$server = &quot;server.wherever&quot;;
+
+$passwd = &quot;dummy&quot;;  #not used, for msql goes by Unix UID;
+
+$database = &quot;test&quot;;
+
+&amp;dbi_connect( $user, $pswd, $server, $database );
+
+
+
+$Query = &quot;select UID,URL,SHORTDESC from HOTLIST&quot;;
+
+$Query = $Query . &quot; where SHORTDESC like '%&quot;;
+
+$Query = $Query . $SHORTDESC . &quot;%'&quot;;
+
+
+
+&amp;dbi_dosql($Query);
+
+#the next line is msql-specific; comment-out for other ver
+
+&amp;dbi_fieldnames('UID','URL','SHORTDESC','DESCRIPTION');
+
+
+
+print &quot;&lt;h1&gt;Search Results&lt;/h1&gt;\n&quot;;
+
+
+
+while( %row = &amp;dbi_nextrow  )
+
+     {
+
+      print '&lt;a href=&quot;';
+
+      print &quot;$row{'URL'}&quot;;
+
+      print '&quot;&gt;';
+
+      print &amp;unescape($row{'SHORTDESC'});
+
+      print &quot;&lt;/a&gt; &quot;;
+
+      print '&lt;a href=&quot;';
+
+      print '/cgi-bin/healy/ShowDetails.p?';
+
+      print 'UID=';
+
+      print $row{'UID'};
+
+      print '&quot;&gt;';
+
+      print &quot;Details&lt;/a&gt;&lt;p&gt;\n&quot;;
+
+      }
+
+
+
+print &quot;Click on a link to go there, or click on
+
+&lt;b&gt;details&lt;/b&gt; for a more-detailed description of the link\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+After a search is performed, the output looks something like the
+
+sample screen shown in figure 12.6.
+
+<P>
+
+<A HREF="f12-6.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f12-6.gif"><B> Figure 12.6 : </B><I>After searching the hotlist database, the user sees a list of hot links like this one. Each hot link calls a Perl script that shows the details of that record.
+
+
+
+</I></A><P>
+
+<P>
+
+Listing 12.8 is the HTML generated for the search results shown
+
+in figure 12.6.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.8&nbsp;&nbsp;Typical Output from Search of Hotlist
+
+Database, With URLs</B> <B>to Detailed Views<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;h1&gt;Search Results&lt;/h1&gt;
+
+
+
+&lt;a href=&quot;http://arch-http.hq.eso.org/bfrasmus/wdb/install.html&quot;&gt;
+
+WDB INSTALLATION INSTRUCTIONS&lt;/a&gt;
+
+&lt;a href=&quot;/cgi-bin/healy/public/ShowDetails.p?UID=2&quot;&gt;Details&lt;/a&gt;&lt;p&gt;
+
+&lt;a href=&quot;http://arch-http.hq.eso.org/bfrasmus/wdb/&quot;&gt;WDB HOMEPAGE&lt;/a&gt;
+
+&lt;a href=&quot;/cgi-bin/healy/public/ShowDetails.p?UID=3&quot;&gt;Details&lt;/a&gt;&lt;p&gt;
+
+&lt;a href=&quot;http://cscsun1.larc.nasa.gov/&#247;bbeowulf/db/
+
+existing_products.html&quot;&gt;LIST OF WWW DBMS GATEWAYS&lt;/a&gt;
+
+&lt;a href=&quot;/cgi-bin/healy/public/ShowDetails.p?UID=7&quot;&gt;Details&lt;/a&gt;&lt;p&gt;
+
+&lt;a href=&quot;http://server.wherever/&#247;hhealy/Submission.html&quot;&gt;DB GATEWAY&lt;/a&gt;
+
+&lt;a href=&quot;/cgi-bin/healy/public/ShowDetails.p?UID=13&quot;&gt;Details&lt;/a&gt;&lt;p&gt;
+
+Click on a link to go there, or click on &lt;b&gt;details&lt;/b&gt;
+
+for a more-detailed description of the link
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<H3><A NAME="ViewingtheDetailRecord">
+
+Viewing the Detail Record</A></H3>
+
+<P>
+
+Notice that the Details links in the search-results screen shown
+
+in figure 12.6 (with the HTML given in Listing 12.8) point to
+
+a second CGI script and that each URL has <TT>?UID=nn</TT> appended.
+
+This simple example shows how state is maintained on the client
+
+browser side; no history is maintained on the stateless server.
+
+Listing 12.9 shows the code for <TT>ShowDetails.p</TT>, the CGI
+
+program that generates the detail record. This program is similar
+
+to the preceding example.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.9&nbsp;&nbsp;Perl Code to Return the Detail View
+
+<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#Up to here code is identical with SearchHotlist.p above
+
+#
+
+#now @in has key=value pairs, and %in{key} = value
+
+#Main Program Begins Here
+
+#
+
+$UID = $in{'UID'};
+
+
+
+#connect to database server
+
+$user = &quot;healy&quot;;
+
+$server = &quot;server.wherever&quot;;
+
+$passwd = &quot;dummy&quot;;  #not used, for msql goes by Unix UID;
+
+$database = &quot;test&quot;;
+
+&amp;dbi_connect( $user, $pswd, $server, $database );
+
+
+
+$Query = &quot;select UID,URL,SHORTDESC,DESCRIPTION from HOTLIST where UID = $UID&quot;;
+
+
+
+&amp;dbi_dosql($Query);
+
+#the next line is msql-specific; comment-out for other ver
+
+&amp;dbi_fieldnames('UID','URL','SHORTDESC','DESCRIPTION');
+
+
+
+print &quot;&lt;h1&gt;Detail View&lt;/h1&gt;\n&quot;;
+
+
+
+while( %row = &amp;dbi_nextrow  )
+
+     {
+
+      print &quot;Hot link to this item: &quot;;
+
+      print '&lt;a href=&quot;';
+
+      print &quot;$row{'URL'}&quot;;
+
+      print '&quot;&gt;';
+
+      print &amp;unescape($row{'SHORTDESC'});
+
+      print &quot;&lt;/a&gt;&lt;br&gt;&quot;;
+
+      print &quot;Detailed description: &quot;;
+
+      print &amp;unescape($row{'DESCRIPTION'});
+
+      print &quot;&lt;p&gt;\n&quot;;
+
+      }
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Figure 12.7 shows an example of the detail screen, and Listing
+
+12.10 shows the HTML generated for this screen.
+
+<P>
+
+<A HREF="f12-7.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f12-7.gif"><B> Figure 12.7 : </B><I>Clicking an URL in the search-results screen of figure 12.6 generates a detail view such as this one.
+
+
+
+</I></A><P>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.10&nbsp;&nbsp;The Detail View of Figure 12.7<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;h1&gt;Detail View&lt;/h1&gt;
+
+Hot link to this item:
+
+&lt;a href=&quot;http://cscsun1.larc.nasa.gov/&#247;bbeowulf/db/existing_products.html&quot;&gt;
+
+LIST OF WWW DBMS GATEWAYS&lt;/a&gt;&lt;br&gt;
+
+Detailed description: Comprehensive List of Tools for Building RDBMS CGI Gateways&lt;p&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+This simple example has only one hot link-to the URL that is being
+
+described. In a real application, you can (and should) have multiple
+
+hot links in your detail screens-hot links that perform lookups
+
+on this database or other databases. The HTML snippet in Listing
+
+12.11, taken from a hypothetical Employee Detail screen, shows
+
+what I mean.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.11&nbsp;&nbsp;A Hypothetical Employee Detail Screen
+
+<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;h1&gt;Tom Anderson&lt;/h1&gt;
+
+Department:
+
+&lt;a href=&quot;http://server.wherever/cgi-bin/DeptSrch?Deptid=17&quot;&gt;Engineering&lt;/a&gt;&lt;p&gt;
+
+Location:
+
+&lt;a href=&quot;http://server.wherever/cgi-bin/LocSrch?Locid=29&quot;&gt;Podunk&lt;/a&gt;&lt;p&gt;
+
+Position:
+
+&lt;a href=&quot;http://server.wherever/cgi-bin/PosSrch?Posid=17&quot;&gt;CAD Technician&lt;/a&gt;&lt;p&gt;
+
+Mail Stop:
+
+&lt;a href=&quot;http://server.wherever/cgi-bin/EmpSrch?Mailid=97&quot;&gt;POD-43&lt;/a&gt;&lt;p&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Clicking any field in the detail record performs a lookup of related
+
+records in that category. The list would contain the names of
+
+employees, and the URL behind each name would perform a lookup
+
+on the employee ID. This use of URLs to generate further searches
+
+effectively converts a relational database to a giant hypertext
+
+document.
+
+<P>
+
+Such hyperlinks can just as easily link one database with another.
+
+Several large international databases that are widely used in
+
+molecular biology, for example, have Web interfaces. A local database
+
+used by one research group for its own internal data can include
+
+hot links to related information from one or more of the international
+
+databases.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>Some Major Scientific Databases on the WWW</B>
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+If you want to check out some major biological and chemical databases, use the following URLs:
+
+<UL>
+
+<LI><B><A HREF="tppmsgs/msgs1.htm#134" tppabs="http://expasy.hcuge.ch/">http://expasy.hcuge.ch/</A></B>-the molecular-biology server of Geneva University Hospital
+
+<LI><B><A HREF="tppmsgs/msgs1.htm#135" tppabs="http://dot.imgen.bcm.tmc.edu:9331/seq-annot/home.html">http://dot.imgen.bcm.tmc.edu:9331/seq-annot/home.html</A></B>-the Sequence Annotation server
+
+<LI><B><A HREF="tppmsgs/msgs1.htm#136" tppabs="http://www.ncbi.nlm.nih.gov/">http://www.ncbi.nlm.nih.gov/</A></B>-the National Center for Biotechnology Information home page
+
+<LI><B><A HREF="tppmsgs/msgs1.htm#137" tppabs="http://www3.ncbi.nlm.nih.gov/Omim/">http://www3.ncbi.nlm.nih.gov/Omim/</A></B>-the Online Mendelian Inheritance in Man Genetic Database
+
+<LI><B><A HREF="tppmsgs/msgs1.htm#138" tppabs="http://www.pdb.bnl.gov/">http://www.pdb.bnl.gov/</A></B>-the Brookhaven Protein Data Bank
+
+<LI><B><A HREF="tppmsgs/msgs1.htm#139" tppabs="http://www.unige.ch/crystal/w3vlc/data.index.html">http://www.unige.ch/crystal/w3vlc/data.index.html</A></B>-a list of crystallography databases
+
+</UL>
+
+
+
+Most of these URLs have links to other sites that have related information.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+Consider a hypothetical business-related example. The marketing
+
+people in your company have created a Web-accessible database
+
+of product information, including which company locations build
+
+given parts of each product. Now suppose that you're a programmer
+
+in the personnel department and that you've been given the job
+
+of putting your company directory on the Web.
+
+<P>
+
+You could use hyperlinks in your directory database to link product
+
+information with directory information. The location field in
+
+a directory detail screen could show the list of products made
+
+at that location, for example.
+
+<P>
+
+With the cooperation of the people who maintain the product-information
+
+database, you could also work the other way. When you see a record
+
+that lists the various locations that make each part of the product,
+
+you could click links that locate people who work at each location.
+
+<P>
+
+The possibilities for using the Web to integrate multiple databases
+
+in different locations are limited only by the programmer's imagination-and
+
+by the quality of available databases. The task may also require
+
+a much higher degree of connection among the parts of your MIS
+
+organization than was the case before. After all, Internet and
+
+intranet applications are basically <I>about</I> pulling scattered
+
+information together.
+
+<H3><A NAME="SubmittingDatatotheHotlist">
+
+Submitting Data to the Hotlist</A></H3>
+
+<P>
+
+A database is scarcely complete without providing a means for
+
+entering data. For some databases, the Web front end allows only
+
+searching. For this example, however, I also include a simple
+
+data-submission form, so that any user can submit proposed records
+
+for possible inclusion in the publicly searchable database. Figure
+
+12.8 shows the submission screen.
+
+<P>
+
+<A HREF="f12-8.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f12-8.gif"><B> Figure 12.8 : </B><I>This form is used for the remote submission, via the Web, of records to be added to the database.
+
+
+
+</I></A><P>
+
+<P>
+
+Listing 12.12 shows the HTML for the submission screen.<BR>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.12&nbsp;&nbsp;A Simple HTML Form to Submit New Data
+
+via the Web<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;
+
+&lt;TITLE&gt;Url Submission Form&lt;/TITLE&gt;
+
+&lt;/HEAD&gt;
+
+&lt;BODY&gt;
+
+&lt;H1&gt;Url Submission Form&lt;/h1&gt;
+
+Please enter data in the fields below and click the &lt;b&gt;Send&lt;/b&gt; button
+
+at the bottom. The &lt;b&gt;Reset&lt;/b&gt; button will clear everything you've
+
+typed.&lt;P&gt;
+
+&lt;FORM ACTION=&quot;http://server.wherever/cgi-bin/healy/public/Submit.p&quot;
+
+METHOD=&quot;POST&quot;&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;
+
+&lt;INPUT name=&quot;URL&quot; size=60 value=&quot;&quot; &gt;&lt;b&gt;The URL&lt;/b&gt;&lt;BR&gt;
+
+&lt;INPUT name=&quot;SHORTDESC&quot; size=20 value=&quot;&quot;&gt;&lt;b&gt;SHORT description&lt;/b&gt;&lt;BR&gt;
+
+&lt;TEXTAREA name=&quot;DESCRIPTION&quot; ROWS=2 COLS=40&gt;&lt;/TEXTAREA&gt;
+
+Longer Description (up to 3 lines)&lt;BR&gt;
+
+&lt;hr&gt;
+
+&lt;INPUT TYPE=&quot;submit&quot; VALUE=&quot;Send&quot;&gt; &lt;INPUT TYPE=&quot;reset&quot; VALUE=&quot;Reset&quot;&gt;&lt;P&gt;
+
+&lt;hr&gt;
+
+&lt;/FORM&gt;
+
+Note:&lt;p&gt;
+
+The data entered will be reviewed by the database administrators before being added to
+
+the database; submitted records will usually be available for viewing in one or two
+
+working days. Please check back in a few days to confirm that your submission has been
+
+added.&lt;p&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Submitted data is posted to the script shown in Listing 12.13.
+
+<BR>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.13&nbsp;&nbsp;Perl Script to Handle Data-Submission
+
+Form<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#Up to here code is identical with SearchHotlist.p above
+
+#
+
+#now @in has key=value pairs, and %in{key} = value
+
+#Main Program Begins Here
+
+#connect to database server
+
+$user = &quot;healy&quot;;
+
+$server = &quot;server.wherever&quot;;
+
+$passwd = &quot;dummy&quot;;  #not used, for msql goes by Unix UID;
+
+$database = &quot;test&quot;;
+
+&amp;dbi_connect( $user, $pswd, $server, $database );
+
+
+
+$UID = $in{'UID'};
+
+$URL = $in{'URL'};
+
+$SHORTDESC = &amp;escape($in{'SHORTDESC'});
+
+$SHORTDESC =&#247; tr/a-z/A-Z/;  #convert to uppercase
+
+$DESCRIPTION = &amp;escape($in{'DESCRIPTION'});
+
+$Query = &quot;select MaxUID from UIDs where TableName = 'SUBMISSIONS'&quot;;
+
+&amp;dbi_dosql($Query);
+
+#the next line is msql-specific; comment-out for other ver
+
+&amp;dbi_fieldnames('MaxUID');
+
+%row = &amp;dbi_nextrow;
+
+$MaxUID = $row{'MaxUID'} + 1;
+
+$Query = &quot;Update UIDs Set MaxUID = $MaxUID where TableName =
+
+   &aring;'SUBMISSIONS'&quot;;
+
+
+
+&amp;dbi_dosql($Query);
+
+$Query = &quot;Insert into SUBMISSIONS values(&quot;;
+
+
+
+$Query = $Query . $MaxUID . &quot;,'&quot;;
+
+
+
+$Query = $Query . $URL . &quot;','&quot;;
+
+$Query = $Query . $SHORTDESC . &quot;','&quot;;
+
+$Query = $Query . $DESCRIPTION . &quot;')&quot;;
+
+
+
+&amp;dbi_dosql($Query);
+
+
+
+print &quot;&lt;h1&gt;Submission Accepted&lt;/h1&gt;\n&quot;;
+
+print &quot;Thank you for your submission. \n&quot;;
+
+print &quot;It will be reviewed by the database administrator \n&quot;;
+
+print &quot;for possible inclusion in our hotlist \n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+A couple of interesting wrinkles to this script don't appear in
+
+the other programs:
+
+<UL>
+
+<LI>All data is inserted-in URL-encoded form-into the Submissions
+
+table, not into the publicly searchable Hotlist table. This feature
+
+gives the administrator a chance to review all submissions.
+
+<LI>The UIDs table is used to generate a unique ID for each submitted
+
+record.
+
+</UL>
+
+<P>
+
+The possibility exists that two people might submit new data at
+
+precisely the same moment, so between the instant of getting the
+
+current value of <TT>MaxUID</TT> and the instant of updating UIDs,
+
+another user could get the same UID value. Although that scenario
+
+is not very likely for a simple application such as this one,
+
+it's a real concern for active databases. Most high-end database
+
+engines have a feature called <I>transactions </I>(which mSQL
+
+doesn't support). The programmer declares the actions of getting
+
+the UID and updating the UID to be one transaction that must be
+
+run as a unit or not at all.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+For simplicity, the script shown in Listing 12.13 doesn't validate user input-it simply sticks whatever the user entered into a table. Your real applications should perform appropriate validation on the input data. Your script also could try to 
+<TT>GET</TT> the URL entered by the user, to verify that it's a valid URL.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H3><A NAME="GeneratingSQLCodetoTransferSubmittedData">
+
+Generating SQL Code to Transfer Submitted Data</A></H3>
+
+<P>
+
+The last piece of this package is a mechanism by which an administrator
+
+can transfer data from the Submissions table to the Hotlist table.
+
+To sidestep the complexities of updating via the stateless Web
+
+server, I use a different approach: a CGI script that doesn't
+
+perform any updating itself but that generates a SQL script to
+
+perform the required actions. Listing 12.14 shows the Perl code.
+
+<BR>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.14&nbsp;&nbsp;Generating Transfer SQL to Move Data
+
+to Public Table<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#Up to here code is identical with SearchHotlist.p above
+
+#
+
+#now @in has key=value pairs, and %in{key} = value
+
+#Main Program Begins Here
+
+#connect to database server
+
+$user = &quot;healy&quot;;
+
+$server = &quot;server.wherever&quot;;
+
+$passwd = &quot;dummy&quot;;  #not used, for msql goes by Unix UID;
+
+$database = &quot;test&quot;;
+
+&amp;dbi_connect( $user, $pswd, $server, $database );
+
+
+
+$Query = &quot;select UID,URL,SHORTDESC,DESCRIPTION from SUBMISSIONS&quot;;
+
+    print &quot;#SQL Query: $Query\n\n&quot;;
+
+    print &quot;#\n#\n#\n&quot;;
+
+    print &quot;#Review this SQL script with care, then &quot;;
+
+    print &quot;pipe it through msql\n#\n#\n&quot;;
+
+
+
+&amp;dbi_dosql($Query);
+
+#the next line is msql-specific; comment-out for other ver
+
+&amp;dbi_fieldnames('UID','URL','SHORTDESC','DESCRIPTION');
+
+
+
+print &quot;#Inserting into HOTLIST\n\n&quot;;
+
+while( %row = &amp;dbi_nextrow  )
+
+     {
+
+      print &quot;Insert into HOTLIST values(\n&quot;;
+
+
+
+      print &quot;$row{'UID'}'\n,&quot;;
+
+
+
+      print &quot;$row{'URL'}'\n,'&quot;;
+
+      print &quot;$row{'SHORTDESC'}'\n,'&quot;;
+
+      print &quot;$row{'DESCRIPTION'}'&quot;;
+
+      print ')\g';
+
+      print &quot;\n&quot;;
+
+      }
+
+
+
+$Query = &quot;select MaxUID from UIDs where TableName = 'SUBMISSIONS'&quot;;
+
+&amp;dbi_dosql($Query);
+
+#the next line is msql-specific; comment-out for other ver
+
+&amp;dbi_fieldnames('MaxUID');
+
+$MaxUID=0;
+
+$Query = &quot;select MaxUID from UIDs where TableName = 'SUBMISSIONS'&quot;;
+
+&amp;dbi_dosql($Query);
+
+#the next line is msql-specific; comment-out for other ver
+
+&amp;dbi_fieldnames('MaxUID');
+
+$MaxUID=0;
+
+%row = &amp;dbi_nextrow;
+
+$MaxUID = $row{'MaxUID'};
+
+print &quot;\n\n#Updating UIDs\n\n&quot;;
+
+print &quot;Update UIDs Set MaxUID = $MaxUID where&quot;
+
+print &quot; TableName = 'HOTLIST'&quot; . '\g' . &quot;\n\n&quot;;
+
+
+
+print &quot;\n\n#Deleting from SUBMISSIONS\n\n&quot;;
+
+print 'delete from SUBMISSIONS where UID &lt;= ' . $MaxUID . '\g';
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Running this script via the Web generates SQL similar to that
+
+shown in Listing 12.15.<BR>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 12.15&nbsp;&nbsp;Typical Transfer SQL Generated by
+
+the Program in</B> <B>Listing 12.14<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#SQL Query: select UID,URL,SHORTDESC,DESCRIPTION from SUBMISSIONS
+
+#
+
+#
+
+#Review this SQL script with care, then pipe it through msql
+
+#
+
+#
+
+#Inserting into HOTLIST
+
+
+
+Insert into HOTLIST values(
+
+18
+
+,'http://gasnet.med.yale.edu/'
+
+,'GASNET'
+
+,'The%20Gasnet%20server%20has%20various%20resources%0D%0Afor
+
+&aring;%20Anesthesiology...')\g
+
+Insert into HOTLIST values(
+
+17
+
+,'http://www.ncbi.nlm.nih.gov/BLAST/'
+
+,'BLAST'
+
+,'BLAST%20Homepage%20at%20the%20National%20Center%0D%0Afor
+
+&aring;%20Biotechnology%20Information')\g
+
+Insert into HOTLIST values(
+
+16
+
+,'http://www.eol.ists.ca/&#247;ddunlop/wdb-p95/'
+
+,'WDB%20POSTGRES'
+
+,'WDB%20Port%20to%20Postgres')\g
+
+Insert into HOTLIST values(
+
+15
+
+,'http://www.comvista.com/net/www/cgidata.html'
+
+,'MAC%2FWWW%2FDB'
+
+,'List%20of%20URLs%20with%20info%20on%20Mac%20WWW%2FDBMS%0D
+
+&aring;%0Ascripting')\g
+
+
+
+#Deleting from SUBMISSIONS
+
+
+
+delete from SUBMISSIONS where UID &lt;= 18\g
+
+#Updating UIDs
+
+
+
+Update UIDs Set MaxUID = 18 where TableName = 'HOTLIST'\g
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The database administrator edits the SQL that is generated to
+
+delete records that shouldn't be added to the Hotlist table and
+
+then feeds the script through the mSQL command line. Alternatively,
+
+if you want a purely Web solution, you can modify this script
+
+to generate a form that contains all the SQL in a scrollable text
+
+area. That form would submit the edited SQL to another script
+
+that pipes the SQL through the mSQL command line.
+
+<P>
+
+Probably the cleanest approach is to generate updating forms that
+
+contain database fields instead of SQL code. You then would need
+
+to address the issue of conflicting updates, however, probably
+
+by using time stamps. The sequence would be something like the
+
+following:
+
+<OL>
+
+<LI>Generate an updating form with all data in editable fields
+
+and the time stamp included in the form as a hidden field.
+
+<LI>On submission of the edited form, first check the time stamp
+
+in the database record against the time stamp in the form. If
+
+the time stamps vary, generate an error message and quit without
+
+updating the record.
+
+<LI>When you update the record, also update the time-stamp value.
+
+</OL>
+
+<P>
+
+With mSQL, you need to update the time stamps in the CGI script
+
+and in every program that updates the database. With many higher-end
+
+servers, you can define a time stamp that the database engine
+
+maintains automatically, eliminating the possibility that a programmer
+
+will forget to change time stamps whenever data changes.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+In Sybase, the term <I>time stamp </I>is a misnomer; the time-stamp value has no relationship to clock time at all. Sybase simply takes responsibility for guaranteeing that the value of this field will change every time that any other field in that record 
+changes. Thus, the sole value of Sybase time-stamp fields is to check for conflicting updates.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><A NAME="PerlToolsforWebDBMSWork"><FONT SIZE=5 COLOR=#FF0000>
+
+Perl Tools for Web/DBMS Work</FONT></A></H2>
+
+<P>
+
+Database access via the Web is such a hot area that listing every
+
+available or promised product would be impossible. Every major
+
+database vendor either has a Web-related product available now
+
+or promises to have one soon, and many programmers are working
+
+on their own database gateways, running with a wide range of database
+
+engines. You can safely assume that a mechanism exists for linking
+
+any reasonable combination of database server and HTTP server,
+
+but the quality of the implementations varies wildly.
+
+<P>
+
+If you're thinking about putting a database on the Web, I suggest
+
+that you start by reading Usenet postings in newsgroups that are
+
+related to your favorite database packages. You also should look
+
+at the Web site of your database vendor.
+
+<P>
+
+The following sections list a few tools that are available on
+
+the Web and some Web sites that contain pointers to information
+
+about Web/database tools.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>Installing Web/Database Tools</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Some of the tools mentioned in the following sections are commercial programs, which generally come with installation instructions; others are shareware or freeware. With all shareware and freeware programs, part of the price that you pay for low-cost 
+software is less hand-holding when it comes to installation. Generally, you install these programs in the same manner that you would install any shareware program for your OS.</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+Many of the tools are for UNIX servers and typically come as source code in <TT>tar</TT> form. If you've never installed such a package, you should seek out your local UNIX guru for assistance. UNIX comes in many flavors, and every system that I've used 
+has had local customizations added to the standard system, so giving detailed directions here is impossible. Most of the UNIX packages mentioned in this chapter come with makefiles or other installation scripts, but you probably need to check and edit 
+these scripts as required by your local configuration. Pay particular attention to where various directories are located on your system.
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+Installation and configuration information for most of these tools is available on their authors' Web sites, so visit those sites for details. The directions for many database interfaces assume that you have the database and its API library already 
+installed, so you should do that part first.</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+Most tools for microcomputer operating systems (such as Windows and the Macintosh System software) are distributed as executable binaries, rather than source code, so installation typically is somewhat simpler than for UNIX.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H3><A NAME="WDB">
+
+WDB</A></H3>
+
+<P>
+
+WDB is a freeware package, written entirely in Perl, that greatly
+
+simplifies the task of building a Web front end to a relational
+
+database under UNIX. (Source code and installation directions
+
+for WDB, in UNIX <TT>tar</TT> format, are included on the CD-ROM
+
+that comes with this book.) Because all the database-specific
+
+aspects of WDB are confined to one module of the program, and
+
+because the entire package is written in Perl, porting WDB to
+
+various databases has proved to be relatively easy. WDB has been
+
+successfully ported to several database servers and to many versions
+
+of UNIX, including Linux. If you're UNIX- and Perl-oriented, WDB
+
+should be high on your short list of preferred free solutions,
+
+especially because the excellent shareware database mSQL is one
+
+of the supported SQL engines.
+
+<P>
+
+The heart of WDB is what its author, Bo Frese Rasmussen, calls
+
+a <I>form definition file </I>(FDF). For each searching form,
+
+you write a description in a relatively high-level form definition
+
+language to list the tables and fields to be used for this form,
+
+the search constraints, how you want the output to be formatted,
+
+and so on. WDB comes with a utility that generates an FDF template
+
+from a database table or view by querying the metadata provided;
+
+you then edit its output. Although the program can't do your thinking
+
+for you, many details that otherwise would require tedious hand-hacking
+
+are filled in by the FDF-making utility.
+
+<P>
+
+Given an FDF, WDB generates an HTML search form on the fly. As
+
+with the program-generated FDFs, you may want to edit the output.
+
+When the user submits a completed search form, WDB generates the
+
+SQL query; performs the search; and returns a list of matching
+
+records, each item of which has a hot link to the full screen
+
+view of that record.
+
+<P>
+
+The upshot is that WDB does much of the donkey work (especially
+
+for ad hoc searches) for you. WDB's feature set is somewhat limited,
+
+but if you know Perl, you probably can modify it to your heart's
+
+content; the code is well structured and well commented. You can
+
+handle simpler customizations by adding snippets of Perl code
+
+to the FDF, because several &quot;hooks&quot; enable you to call
+
+your own code at various stages in the query process.
+
+<P>
+
+A particularly nice feature is the capability to define input-
+
+and output-conversion functions that apply to specified fields.
+
+WDB automatically invokes these functions at the correct time
+
+in its query-generation and formatting cycle. WDB also has several
+
+features that help you generate URLs from database lookups, which
+
+can perform other lookups of related data when they are clicked.
+
+Clever use of this elegant feature of WDB can effectively turn
+
+your relational database into a gigantic hypertext document.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>ON THE WEB</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+You can find information about WDB, installation instructions, and the downloadable source code at <B><A HREF="tppmsgs/msgs1.htm#140" tppabs="http://venus.dtv.dk/~bfr/">http://venus.dtv.dk/~bfr/</A></B>.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<H3><A NAME="WebGenera">
+
+Web/Genera</A></H3>
+
+<P>
+
+Web/Genera (by Stanley Letovsky, Mary B. Berlyn, and others) is
+
+another public-domain software tool set that simplifies the integration
+
+of Sybase databases into the Web. You can use the tool to retrofit
+
+a Web front end to an existing Sybase database or to create a
+
+new database. Like WDB, Web/Genera requires you to use a high-level
+
+schema notation to write a specification of the Sybase database
+
+(and of the desired appearance of its contents on the Web). The
+
+Web/Genera programs process this description to generate SQL commands
+
+and formatting instructions that together extract objects from
+
+a database and format them in HTML.
+
+<P>
+
+Web/Genera also supports form-based relational querying and whole-database
+
+formatting into text and HTML formats. The notation of Web/Genera
+
+seems to be richer than that of WDB, because the former includes
+
+notions (such as set and group) for field values, enabling you
+
+to build pick lists on the fly. Unlike WDB, however, Web/Genera
+
+doesn't provide hooks that allow users to write customized extensions.
+
+To make any extensions to Web/Genera, a user must change its source
+
+code, which is written mainly in C and Perl.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>ON THE WEB</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+You can find information about Web/Genera, installation instructions, and the downloadable source code at <B><A HREF="tppmsgs/msgs1.htm#141" tppabs="http://gdbdoc.gdb.org/letovsky/genera/genera.html">http://gdbdoc.gdb.org/letovsky/genera/genera.html.</A></B>
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H3><A NAME="MiniSQLmSQLandWmSQL">
+
+MiniSQL (mSQL) and W3-mSQL</A></H3>
+
+<P>
+
+mSQL is a shareware SQL engine (free to academic users) that has
+
+been ported to most versions of UNIX. In combination with WDB,
+
+mSQL provides an excellent, low-cost way to build a simple relational
+
+database with a Web front end. An excellent Perl interface for
+
+mSQL is available, and the combination of WDB with mSQL is known
+
+to work well under Linux.
+
+<P>
+
+mSQL's author, David Hughes, has also written a new program called
+
+W3-mSQL, which was in alpha at the time when this chapter was
+
+written. Although both mSQL and W3-mSQL are included on the CD-ROM
+
+that comes with this book, I haven't yet tried W3-mSQL, so I don't
+
+know how well it works. According to Hughes, W3-mSQL works via
+
+HTML documents with embedded tags that perform database lookups,
+
+so you don't need to write any CGI scripts to use it.
+
+<P>
+
+mSQL supports only a relatively small subset of SQL, but what
+
+it does support is in strict conformance to ANSI standards. According
+
+to the mSQL WWW site, David Hughes is working on a major upgrade
+
+of mSQL that will support a much larger set of features, but he
+
+doesn't yet know when this upgrade will be released.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>ON THE WEB</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+You can find information about mSQL and W3-mSQL, installation instructions, and the downloadable source code at<B> <A HREF="tppmsgs/msgs0.htm#38" tppabs="http://hughes.com.au/">http://Hughes.com.au/.</A></B>
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H3><A NAME="DBI">
+
+DBI</A></H3>
+
+<P>
+
+The long-term future of Perl-database interfaces in many applications,
+
+including Web interfaces, may well lie with the new DBI project.
+
+The long-term goal of this project is to create a generic Perl
+
+interface with versions for every SQL database, in the hope of
+
+providing greater portability for Perl database applications.
+
+DBI also takes advantage of the Perl 5.0 object-oriented extensions.
+
+<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>ON THE WEB</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+You can find information about the evolving DBI standard at <B><A HREF="tppmsgs/msgs1.htm#126" tppabs="http://www.hermetica.com/technologia/DBI/index.html">http://www.hermetica.com/technologia/DBI/index.html.</A></B>
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>Why I Chose the WDB Library Instead of This One</B>
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+The DBI (uppercase) interface defined by this project isn't the same as the dbi (lowercase) interface used in WDB. I used the WDB version in my examples for three reasons:
+
+<UL>
+
+<LI>The WDB interface is simpler.
+
+<LI>The DBI version for mSQL was released recently; all my existing code for both Sybase and mSQL uses the WDB interface.
+
+<LI>At the time when this chapter was written, the new DBI standard was something of a moving target. DBI's authors recently performed a complete rewrite based on ODBC standards.
+
+</UL></BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H3><A NAME="ODBCTools">
+
+ODBC Tools</A></H3>
+
+<P>
+
+In the Windows/Windows NT environment, ODBC has long been one
+
+of the most popular ways to access databases from other programs.
+
+As a result, most popular Windows databases, and most programming
+
+languages targeted for the Windows environment, have ODBC drivers
+
+included or available. If you come from a UNIX-oriented background,
+
+you may want to use one of the ODBC drivers for NTPerl, which
+
+you can find in various places on the Net. If you come from a
+
+Windows background, you'll probably be happier using Visual Basic
+
+or Visual C with any of the numerous ODBC drivers that are available
+
+for those languages.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+If you use ODBC under Windows or Windows NT for your database CGI programs, you have a choice of query languages: the SQL interface to ODBC, or such ODBC-specific features as dynasets. On one hand, dynasets can improve performance significantly, because 
+the SQL parsers in many ODBC drivers are rather slow; and dynasets can be easier to code than SQL for simple lookups. On the other hand, the use of SQL is more portable to non-ODBC environments.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>ON THE WEB</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+You can find information about ODBC access from Perl under NT at the following URLs:
+
+<BLOCKQUOTE>
+
+<B><A HREF="tppmsgs/msgs1.htm#142" tppabs="http://info.hip.com/ntperl/PerlFaq.htm">http://info.hip.com/ntperl/PerlFaq.htm</A></B><BR>
+
+<B><A HREF="tppmsgs/msgs1.htm#143" tppabs="http://www.bhs.com/">http://www.bhs.com/</A></B><BR>
+
+<B><A HREF="tppmsgs/msgs1.htm#144" tppabs="ftp://ftp.digex.net/pub/access/psii/public_html/home.html">ftp://ftp.digex.net/pub/access/psii/public_html/home.html</A></B>
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H3><A NAME="SomeUsefulHotlists">
+
+Some Useful Hotlists</A></H3>
+
+<P>
+
+Many sites on the Web have pointers to various Web/database tools
+
+and projects. The following URLs are the most comprehensive listings
+
+of Web/database resources that I have found in an extensive search
+
+for such information:<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>ON THE WEB</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+<B><A HREF="tppmsgs/msgs1.htm#145" tppabs="http://cscsun1.larc.nasa.gov/~beowulf/db/">http://cscsun1.larc.nasa.gov/~beowulf/db/</A></B>[em]is the most comprehensive list of Web/database resources that I have found. The hotlist includes freeware, shareware, and commercial products, as 
+well as a wealth of Perl-database tutorial materials.
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<B><A HREF="tppmsgs/msgs1.htm#146" tppabs="http://cuiwww.unige.ch/~scg/FreeDB/FreeDB.list.html">http://cuiwww.unige.ch/~scg/FreeDB/FreeDB.list.html</A></B>&nbsp;&nbsp;is an extensive list of free or low-cost database tools, not all of which are specifically Web-oriented.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><A NAME="ProblemSolving"><FONT SIZE=5 COLOR=#FF0000>
+
+Problem-Solving</FONT></A></H2>
+
+<P>
+
+Because a Web/database gateway involves multiple programs, possibly
+
+running on multiple machines, various things can go wrong. Your
+
+application may not work at all, or it may run far too slowly.
+
+For database-specific debugging and performance tuning, consult
+
+the documentation for your database package. The following  sections
+
+provide a few general hints on debugging and tuning a Web/database
+
+gateway-hints that should apply to any platform.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Bear in mind that no amount of after-the-fact tweaking can replace careful planning at the outset of your project.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H3><A NAME="Debugging">
+
+Debugging</A></H3>
+
+<P>
+
+Debugging a Web/database gateway isn't simple, because problems
+
+can occur at multiple levels. I suggest that the first version
+
+of any database CGI script not try to access the database, but
+
+instead display the generated SQL code in a document that begins
+
+with the header <TT>Content-type:</TT> <TT>text/plain</TT>, followed
+
+by a blank line. When you think that the generated SQL looks correct,
+
+pipe it through the command-line interface of your database. After
+
+this step confirms that you can generate correct SQL, the next
+
+step is to write your own client program to send the SQL to the
+
+server and execute it from the command line.
+
+<P>
+
+If you can't get your CGI script to generate any SQL, try sending
+
+your form input to a CGI script that does nothing more than list
+
+all the information that it got from the Web server. Given that
+
+list, add hard-coded assignment statements to your code, so that
+
+you can run it from the command line and watch how it behaves
+
+in a simulated CGI environment. Only then should you try to combine
+
+the CGI and database interfaces in one program and run that program
+
+as a CGI script.
+
+<P>
+
+If that procedure doesn't work, look at the error log of your
+
+server for any messages that your program may have sent to standard
+
+error. If that log tells you little or nothing, you need to think
+
+about the differences between a command-line environment and the
+
+CGI environment. Are you assuming something about the <TT>PATH</TT>
+
+environment variable, which has far fewer directories in a CGI
+
+context? Do you need other environment variables for database
+
+work? Most Sybase installations, for example, define an environment
+
+variable (<TT>DSQUERY</TT>) that tells Sybase clients which server
+
+to use if none is specified. In the CGI environment, this variable
+
+isn't defined, so your script will fail unless you specify the
+
+server in your script.
+
+<P>
+
+If you have installed cgiwrap (mentioned in &quot;Security Issues&quot;
+
+earlier in this chapter), it includes a very handy debugging flag;
+
+see the documentation that comes with the cgiwrap distribution.
+
+This feature can be a tremendous time saver, and it alone can
+
+repay the modest effort of installing cgiwrap.
+
+<P>
+
+Finally, remember that CGI scripts usually run at a lower-privilege
+
+user ID than regular programs do. If your database server uses
+
+OS-level user IDs for authentication, you may have client programs
+
+that work from the command line but not as CGI scripts.
+
+<P>
+
+The general strategy is to divide and conquer, so that you can
+
+isolate the problem to a particular part of your system. Start
+
+simply, and build up to the full functionality that you want one
+
+step at a time.
+
+<H3><A NAME="TuningPerformance">
+
+Tuning Performance</A></H3>
+
+<P>
+
+From the hardware perspective, database and HTTP servers tend
+
+to be I/O-bound, not CPU-intensive, which means that the performance
+
+of your Web/database application depends mainly on disk access
+
+and process-launching overhead. A fast hard drive and ample memory
+
+are more important than a fast processor. A badly designed Web/database
+
+application, however, can bring even the most powerful server
+
+platform to its knees.
+
+<P>
+
+Remember that your application is a client/client/server application
+
+in which your CGI script connects as a client to the database
+
+engine, sending SQL to the engine and accepting data returned
+
+from the engine. Considerable overhead is associated with setting
+
+up and tearing down the connection between the CGI script and
+
+the database server. Even a well-designed CGI application has
+
+to incur this overhead every time a request comes to the HTTP
+
+server; from the viewpoint of the remote user, a single session
+
+involves multiple database logons. This situation is unavoidable,
+
+but a badly designed CGI program can make matters worse if it
+
+opens and closes multiple connections to the database engine in
+
+a single HTTP request.
+
+<P>
+
+Even if you avoid opening an excessive number of connections to
+
+the database server, you can still hurt performance by sending
+
+too much data back and forth between the CGI script and the database
+
+server. It's a nearly universal rule in client/server database
+
+programming to do as much work as possible inside the database
+
+server, to minimize the overhead associated with transferring
+
+data between the database client and the database server. In CGI
+
+work, in which you're already incurring some extra overhead because
+
+each HTTP request requires a new connection to the database, this
+
+principle applies with particular force.
+
+<P>
+
+For server efficiency, observe the following rules:
+
+<UL>
+
+<LI>Do as much work as possible per connection to the database
+
+server.
+
+<LI>Do as much work as possible per SQL statement.
+
+<LI>Filter the results inside the database server as much as possible.
+
+</UL>
+
+<P>
+
+These rules apply <I>especially</I> if your database engine and
+
+your HTTP server reside on different machines, because all data
+
+transfer between your CGI program and the database server incurs
+
+network overhead, as well as the overhead inherent in any connection
+
+to the database server.
+
+<P>
+
+Recently, a colleague asked me for help with a CGI interface to
+
+an Illustra database that was taking more than three minutes to
+
+respond to some queries. By applying these principles and taking
+
+advantage of Illustra's unusually powerful version of SQL, he
+
+could get the response time to less than 10 seconds. Most database
+
+servers can perform only internal manipulation of fixed-size data
+
+types; large text fields can be copied in or out but must be manipulated
+
+outside the database program. Illustra's string-manipulation commands
+
+can be applied to any amount of text. We used this feature of
+
+Illustra to build complex SQL queries that would perform extensive
+
+string manipulation inside Illustra and return the results. Most
+
+Web queries can now be handled by one or two monster SQL statements
+
+instead of by many small SQL statements.
+
+<H2><A NAME="TheFutureofWebDatabaseInterfaces"><FONT SIZE=5 COLOR=#FF0000>
+
+The Future of Web/Database Interfaces</FONT></A></H2>
+
+<P>
+
+This chapter presented the fundamentals of building a Web gateway
+
+to a relational database engine, explaining the unique capabilities
+
+that this combination makes possible and pointing out some of
+
+the limitations inherent in doing this kind of thing over the
+
+Web.
+
+<P>
+
+As you've seen, current Web technology has some serious limitations
+
+for database work: no client-side validation, no facility for
+
+extending the user interface toolkit provided by HTML, and no
+
+mechanism for the graceful handling of concurrent updates. Equally
+
+serious for multimedia database work-something for which the Web,
+
+by its nature, seems to be so well-suited-are the limitations
+
+of conventional database technology, which supports a limited
+
+set of data types. All other types of data must be stored as text
+
+or binary fields that can't be manipulated within the database
+
+itself.
+
+<P>
+
+On the other hand, object-oriented databases are extensible, but
+
+they lack the data integrity and flexible querying features of
+
+relational databases. The new object-relational paradigm exemplified
+
+by Illustra has enormous promise, because it addresses the limitations
+
+of both relational and object-oriented databases. On the one hand,
+
+like most relational databases but unlike most object-oriented
+
+databases, Illustra has a full SQL implementation and facilities
+
+for defining database integrity constraints. On the other hand,
+
+unlike standard relational databases, Illustra provides the capability
+
+to define new data types and associated operations. And the recent
+
+merger of Illustra with Informix means that the object-relational
+
+technology of Illustra should have a very bright future indeed-joining
+
+the powerful new technology of Illustra with the industrial-strength
+
+server technology for which Informix is known.
+
+<P>
+
+Object-oriented database technology-and especially object-relational
+
+database technology-may also be an excellent server-side counterpart
+
+to such client-side extensions as Java and JavaScript. For database
+
+work, client-side scripting promises three major advantages:
+
+<UL>
+
+<LI>An active form written in a client-side scripting language
+
+can provide field-level validation of entered data.
+
+<LI>Because Java applets can talk to the network, an active form
+
+that's used to edit an existing record could log on to the server
+
+and maintain an active connection, thereby averting the problems
+
+caused by the stateless nature of the Web.
+
+<LI>Client-side scripting promises to make Web browsers extensible.
+
+Just as you can define a new type of data in a object-oriented
+
+database, you can define a new type of data object for use on
+
+the Web and write active forms to display it. This method averts
+
+the difficulties of the current helper-application approach. With
+
+a conventional Web browser, each new type needs a new helper application.
+
+Versions of this helper application must be written for every
+
+platform that your users have, and you must help users obtain
+
+and install your helper application. With a platform-independent
+
+language for creating scripts that a browser automatically-and
+
+transparently-downloads and executes, creating and using new data
+
+types should be much easier.
+
+</UL>
+
+<P>
+
+In my view, these two new technologies have the potential to revolutionize
+
+the Web-after the bugs are worked out and robust implementations
+
+are made available for every common platform. And I don't say
+
+this because of all the media hype about Java; I say it because
+
+I'm all too familiar with the limitations of the current Web and
+
+database technologies and with the various kludges that developers
+
+use to circumvent them. Some real substance exists behind the
+
+media excitement; in the fullness of time, we'll all find out
+
+whether the implementations of these new ideas live up to their
+
+promise. Database-specific Java and JavaScript tools are beginning
+
+to appear, but they have yet to be integrated with the database-oriented
+
+CGI tools discussed in this chapter. So if you combine client-side
+
+scripting with CGI/DBMS programming right now, you truly are on
+
+the bleeding edge.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+This work was supported in part by the Human Brain Project (NIMH, NASA, and NIDCD) grant R01 DC02307 and by NIH Grant G08LM05583 from the National Library of Medicine's IAIMS Program. The section on Web/GENERA was written by Kei Cheung, one of the authors 
+of that program.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><A NAME="FromHere"><FONT SIZE=5 COLOR=#FF0000>
+
+From Here...</FONT></A></H2>
+
+<P>
+
+In a single chapter, I have only scratched the surface of what
+
+you can do with a relational database engine and some CGI scripts.
+
+A whole world of possibilities awaits you; the field is exploding
+
+at a truly amazing pace. Above all, remember that the Internet
+
+itself is your single most useful resource. I've tried to get
+
+you started by listing URLs to every tool that I mention in this
+
+chapter, but new things appear every day.
+
+<P>
+
+The rest of this book is full of information that you will need
+
+as you build your WWW/database application. You especially may
+
+want to read the following chapters:
+
+<UL>
+
+<LI><A HREF="ch3.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch3.htm" >Chapter 3</A> &quot;Advanced Form Processing and Data Storage.&quot;
+
+This chapter really is about one specific aspect of what Chapter
+
+3 discusses in more general terms.
+
+<LI><A HREF="ch7.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch7.htm" >Chapter 7</A> &quot;Dynamic and Interactive HTML Content in Perl
+
+and CGI.&quot; The section on using persistent cookies mentions
+
+a technique that can be very useful in database work.
+
+<LI><A HREF="ch9.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch9.htm" >Chapter 9</A> &quot;Understanding CGI Security.&quot; The CGI
+
+security issues discussed in this chapter are especially important
+
+if you are hooking a production database to your WWW site.
+
+<LI><A HREF="ch11.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch11.htm" >Chapter 11</A>, &quot;Database Interaction.&quot; Whether or not
+
+you will be working with Oracle, you should at least take a quick
+
+look at the Oracle example in this chapter.
+
+</UL>
+
+<HR>
+
+
+
+<CENTER><P><A HREF="ch11.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch11.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch13.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch13.htm"><IMG SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<HR WIDTH="100%"></P></CENTER>
+
+</BODY>
+
+</HTML>

@@ -1,0 +1,61 @@
+|- FAQ
+||- Install and ftp server vsftpd
+
+Directory:
+[root@cmmweb vsftpd]# pwd
+/etc/vsftpd
+Files:
+[root@cmmweb vsftpd]# ls -alF
+total 64
+drwxr-xr-x   2 root root  4096 Sep 27 14:15 ./
+drwxr-xr-x 102 root root 12288 Sep 27 11:25 ../
+-rw-------   1 root root   120 Sep 27 14:07 ftpusers         // remove root
+from list
+-rw-------   1 root root   356 Sep 27 14:12 user_list	   // remove root from
+list
+-rw-------   1 root root  4007 Sep 27 14:09 vsftpd.conf	   // set local_umask=077, seems not neccesary, leave it 022.
+anonymous_enable=NO
+
+! disable SELinux or enable all FTP right in modify SELinux policy through Fedora desktop->system-> 
+administration-> secure level and firewall->SELinux.
+
+Enable vsftpd after start:  webmin or change attributes in file
+
+/etc/init.d/vsftpd restart
+or service vsftpd restart
+
+
+||- enable vncserver
+
+1. cmd:service vncserver restart / DESKTOP->preferences->remote desktop
+default password is root passwd.
+
+2. add 5900 allow in commline 
+[root@personalImage init.d]# vi /etc/sysconfig/iptables
+
+# Firewall configuration written by system-config-securitylevel
+# Manual customization of this file is not recommended.
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:RH-Firewall-1-INPUT - [0:0]
+-A INPUT -j RH-Firewall-1-INPUT
+-A FORWARD -j RH-Firewall-1-INPUT
+-A RH-Firewall-1-INPUT -i lo -j ACCEPT
+-A RH-Firewall-1-INPUT -p icmp --icmp-type any -j ACCEPT
+-A RH-Firewall-1-INPUT -p 50 -j ACCEPT
+-A RH-Firewall-1-INPUT -p 51 -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp --dport 5353 -d 224.0.0.251 -j ACCEPT
+-A RH-Firewall-1-INPUT -p udp -m udp --dport 631 -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m tcp --dport 631 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 21 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 5900 -j ACCEPT
+
+service iptables restart
+
+or in DESKTOP->administration->firewall: other port: add 5900

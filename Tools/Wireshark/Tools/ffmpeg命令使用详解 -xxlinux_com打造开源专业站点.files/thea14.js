@@ -1,0 +1,1 @@
+document.write("<a href='http://www.xxlinux.com/linux/e/public/ClickAd?adid=14' target=_parent><img src='http://www.xxlinux.com/linux/d/file/p/2009-04-02/294ce545ed1d4710dc8d1040395c99d7.gif' border=0 width='658' height='60' alt=''></a>");

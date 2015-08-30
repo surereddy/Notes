@@ -1,0 +1,12 @@
+HTML {
+	FONT-SIZE: 125%
+}
+BODY {
+	FONT-SIZE: 50%
+}
+UL#tabs {
+	WIDTH: 100%
+}
+INPUT.form_submit {
+	OVERFLOW: visible; WIDTH: auto
+}

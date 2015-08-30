@@ -1,0 +1,17 @@
+REST on JSON over HTTP
+
+Example - Position Entry:
+Multiple and embedded.
+
+http://27c603a8.ngrok.com/zone/enter
+POST ...
+
+{
+    "user": {
+        "firstName": "Paul",
+        "lastName": "Bao"
+    },
+    "zone": {
+        "name": "Zone-1"
+    }
+}

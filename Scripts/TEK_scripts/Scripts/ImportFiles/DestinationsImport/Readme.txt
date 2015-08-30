@@ -1,0 +1,4 @@
+Refer to SPR 3068.
+I swapped the comment field to the position before the ftp username. The sequence now is: 
+"Country name","City name","Area code","Phone number","Termination type","IP Protocol","Status","Account No","Node ID","MAC Address","Manufacturer","Model","Firmware","Street","Cross Street","Network Id","Market","CMTS","Channel","SNMP Read","SNMP Write","Comment","FTPusername","FTPpassword" 
+

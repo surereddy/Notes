@@ -1,0 +1,420 @@
+    <SIP_ENDPOINT no="205">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="206">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="207">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="208">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="209">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="210">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="211">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="212">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="213">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="214">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="215">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="216">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="217">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="218">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="219">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="220">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="221">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="222">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="223">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="224">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="225">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="226">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="227">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="228">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="229">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="230">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="231">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="232">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="233">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="234">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="235">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="236">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="237">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="238">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="239">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="240">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="241">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="242">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="243">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="244">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="245">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="246">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="247">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="248">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="249">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="250">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="251">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="252">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="253">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="254">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="255">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="256">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="257">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="258">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="259">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="260">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="261">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="262">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="263">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              
+    <SIP_ENDPOINT no="264">  
+       <TEST type="RING_DETECTION_SIP"   />   
+       <TEST type="ANSWER_DETECTION_SIP"    />   
+       <TEST type="SPEECH_DTMF_SIP"       />     
+       <TEST type="SPEECH_DTMF_LB_SIP"       />  
+       <TEST type="COT_LB_SIP"    />             
+    </SIP_ENDPOINT>                              

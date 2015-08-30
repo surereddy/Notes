@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- saved from url=(0044)http://mywiki.wooledge.org/RegularExpression -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="edit_on_doubleclick" content="/">
+<meta name="robots" content="index,nofollow">
+
+<title>RegularExpression - Greg's Wiki</title>
+<script type="text/javascript" src="./RegularExpression - Greg's Wiki_files/common.js"></script>
+
+<script type="text/javascript">
+<!--
+var search_hint = "Search";
+//-->
+</script>
+
+<script type="text/javascript">
+<!-- // GUI edit link and i18n
+var gui_editor_link_href = "/RegularExpression?action=edit&editor=gui";
+var gui_editor_link_text = "Edit (GUI)";
+//-->
+</script>
+
+<link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="./RegularExpression - Greg's Wiki_files/common.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="screen" href="./RegularExpression - Greg's Wiki_files/screen.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="print" href="./RegularExpression - Greg's Wiki_files/print.css">
+<link rel="stylesheet" type="text/css" charset="utf-8" media="projection" href="./RegularExpression - Greg's Wiki_files/projection.css">
+
+<!-- css only for MS IE6/IE7 browsers -->
+<!--[if lt IE 8]>
+   <link rel="stylesheet" type="text/css" charset="utf-8" media="all" href="/moin_static197/modernized/css/msie.css">
+<![endif]-->
+
+
+<link rel="alternate" title="Greg&#39;s Wiki: RegularExpression" href="http://mywiki.wooledge.org/RegularExpression?diffs=1&show_att=1&action=rss_rc&unique=0&page=RegularExpression&ddiffs=1" type="application/rss+xml">
+<link rel="alternate" type="application/wiki" title="Edit" href="http://mywiki.wooledge.org/RegularExpression?action=edit">
+
+<link rel="Start" href="http://mywiki.wooledge.org/EnglishFrontPage">
+<link rel="Alternate" title="Wiki Markup" href="http://mywiki.wooledge.org/RegularExpression?action=raw">
+<link rel="Alternate" media="print" title="Print View" href="http://mywiki.wooledge.org/RegularExpression?action=print">
+<link rel="Search" href="http://mywiki.wooledge.org/FindPage">
+<link rel="Index" href="http://mywiki.wooledge.org/TitleIndex">
+<link rel="Glossary" href="http://mywiki.wooledge.org/WordIndex">
+<link rel="Help" href="http://mywiki.wooledge.org/HelpOnFormatting">
+</head>
+
+<body lang="en" dir="ltr">
+
+<div id="header">
+
+<form id="searchform" method="get" action="./RegularExpression - Greg's Wiki_files/RegularExpression - Greg's Wiki.htm">
+<div>
+<input type="hidden" name="action" value="fullsearch">
+<input type="hidden" name="context" value="180">
+<label for="searchinput" style="display: none;">Search:</label>
+<input id="searchinput" type="text" name="value" value="" size="20" onfocus="searchFocus(this)" onblur="searchBlur(this)" onkeyup="searchChange(this)" onchange="searchChange(this)" alt="Search" class="disabled">
+<input id="titlesearch" name="titlesearch" type="submit" value="Titles" alt="Search Titles" disabled="">
+<input id="fullsearch" name="fullsearch" type="submit" value="Text" alt="Search Full Text" disabled="">
+</div>
+</form>
+<script type="text/javascript">
+<!--// Initialize search form
+var f = document.getElementById('searchform');
+f.getElementsByTagName('label')[0].style.display = 'none';
+var e = document.getElementById('searchinput');
+searchChange(e);
+searchBlur(e);
+//-->
+</script>
+
+<div id="logo"><a href="http://mywiki.wooledge.org/EnglishFrontPage"><img src="./RegularExpression - Greg's Wiki_files/moinmoin.png" alt="MoinMoin Logo"></a></div>
+<div id="username"><a href="http://mywiki.wooledge.org/RegularExpression?action=login" id="login" rel="nofollow">Login</a></div>
+<h1 id="locationline">
+
+<span id="pagelocation"><a class="backlink" href="http://mywiki.wooledge.org/RegularExpression?action=fullsearch&value=linkto%3A%22RegularExpression%22&context=180" rel="nofollow" title="Click to do a full-text search for this title">RegularExpression</a></span>
+</h1>
+
+
+<ul id="navibar">
+<li class="wikilink"><a href="http://mywiki.wooledge.org/BashGuide">BashGuide</a></li><li class="wikilink"><a href="http://mywiki.wooledge.org/BashFAQ">BashFAQ</a></li><li class="wikilink"><a href="http://mywiki.wooledge.org/RecentChanges">RecentChanges</a></li><li class="wikilink"><a href="http://mywiki.wooledge.org/FindPage">FindPage</a></li><li class="wikilink"><a href="http://mywiki.wooledge.org/HelpContents">HelpContents</a></li><li class="current"><a href="./RegularExpression - Greg's Wiki_files/RegularExpression - Greg's Wiki.htm">RegularExpression</a></li>
+</ul>
+
+<div id="pageline"><hr style="display:none;"></div>
+
+<ul class="editbar"><li><a href="http://mywiki.wooledge.org/RegularExpression?action=edit&editor=text" name="texteditlink" rel="nofollow">Edit (Text)</a></li><li><a href="http://mywiki.wooledge.org/RegularExpression?action=edit&editor=gui">Edit (GUI)</a></li><li class="toggleCommentsButton" style="display:none;"><a href="http://mywiki.wooledge.org/RegularExpression#" class="nbcomment" onclick="toggleComments();return false;">Comments</a></li><li><a class="nbinfo" href="http://mywiki.wooledge.org/RegularExpression?action=info" rel="nofollow">Info</a></li><li><a class="nbattachments" href="http://mywiki.wooledge.org/RegularExpression?action=AttachFile" rel="nofollow">Attachments</a></li><li>
+<form class="actionsmenu" method="GET" action="./RegularExpression - Greg's Wiki_files/RegularExpression - Greg's Wiki.htm">
+<div>
+    
+    <select name="action" onchange="if ((this.selectedIndex != 0) &amp;&amp;
+                      (this.options[this.selectedIndex].disabled == false)) {
+                this.form.submit();
+            }
+            this.selectedIndex = 0;">
+        <option value="show">More Actions:</option><option value="raw">Raw Text</option>
+<option value="print">Print View</option>
+<option value="RenderAsDocbook">Render as Docbook</option>
+<option value="refresh">Delete Cache</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="SpellCheck">Check Spelling</option>
+<option value="LikePages">Like Pages</option>
+<option value="LocalSiteMap">Local Site Map</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="RenamePage" disabled="" class="disabled">Rename Page</option>
+<option value="DeletePage" disabled="" class="disabled">Delete Page</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="show" disabled="" class="disabled">Subscribe User</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="show" disabled="" class="disabled">Remove Spam</option>
+<option value="show" disabled="" class="disabled">Revert to this revision</option>
+<option value="PackagePages">Package Pages</option>
+<option value="SyncPages">Sync Pages</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="Load">Load</option>
+<option value="Save">Save</option>
+<option value="SlideShow">SlideShow</option>
+    </select>
+    
+    
+</div>
+<script type="text/javascript">
+<!--// Init menu
+actionsMenuInit('More Actions:');
+//-->
+</script>
+</form>
+</li></ul>
+
+</div>
+
+<div id="page" lang="en" dir="ltr">
+<div dir="ltr" id="content" lang="en"><span class="anchor" id="top"></span>
+<span class="anchor" id="line-1"></span><p class="line874">Regular expressions (RE) are a computer science construct, used to determine whether a string matches some sort of pattern.  There are countless variations, including both syntactic and semantic changes.  Let's start with the theory. <span class="anchor" id="line-2"></span><span class="anchor" id="line-3"></span></p><p class="line874">A regular expression consists of three features: <span class="anchor" id="line-4"></span><span class="anchor" id="line-5"></span></p><ol type="1"><li><p class="line891"><strong>Concatenation</strong>.  Two regular expressions may be written next to each other.  The resulting large expression will match the input string if and only if a part of the input that matches the <em>first</em> small expression is immediately followed by a part that matches the <em>second</em> small expression. <span class="anchor" id="line-6"></span></p></li><li><p class="line891"><strong>Union</strong>.  This is basically an "or" operation.  The large expression will match the input if either of the small expressions matches the input. <span class="anchor" id="line-7"></span></p></li><li><p class="line891"><strong>Closure</strong>.  Also called "Kleene closure" (prounced "KLEE-nee").  The small expression may be "repeated" zero or more times in order to match the input. <span class="anchor" id="line-8"></span><span class="anchor" id="line-9"></span></p></li></ol><p class="line874">(I'm not using precise mathematical language here.  If you need formal definitions, please consult a computer science textbook instead.) <span class="anchor" id="line-10"></span><span class="anchor" id="line-11"></span></p><p class="line862">The syntax by which these features are expressed varies widely across different RE implementations.  We'll start with the syntax used by the Unix command <tt class="backtick">egrep</tt>, because it's probably the most common.  Here are some examples of the three required features, using this syntax: <span class="anchor" id="line-12"></span><span class="anchor" id="line-13"></span></p><ul><li><p class="line891"><strong>Concatenation</strong>.  RE <strong>ab</strong> matches an input string of <em>ab</em>. <span class="anchor" id="line-14"></span></p></li><li><p class="line891"><strong>Union</strong>.  RE <strong>a|b</strong> matches an input string of <em>a</em> or an input string of <em>b</em>.  It does not match <em>ab</em>. <span class="anchor" id="line-15"></span></p></li><li><p class="line891"><strong>Closure</strong>.  RE <strong>a*</strong> matches the empty string, or an input string of <em>a</em>, or an input string of <em>aa</em>, etc. <span class="anchor" id="line-16"></span><span class="anchor" id="line-17"></span></p></li></ul><p class="line874">Obviously, in order to have any practical use, these features must be combined together. <span class="anchor" id="line-18"></span><span class="anchor" id="line-19"></span></p><ul><li><p class="line862">RE <strong>f(oo|ee)t</strong> matches <em>foot</em> or <em>feet</em>.  (The parentheses introduce a feature known as <em>grouping</em>.) <span class="anchor" id="line-20"></span></p></li><li><p class="line862">RE <strong>a(0|1|2|3|4|5|6|7|8|9)</strong> matches <em>a0</em> or <em>a1</em> or ... or <em>a9</em>. <span class="anchor" id="line-21"></span><span class="anchor" id="line-22"></span></p></li></ul><p class="line862">Most RE implementations have shortcuts to greatly reduce the length and ugliness of common expressions.  For example, in <tt class="backtick">egrep</tt>, our previous example could be written: <span class="anchor" id="line-23"></span><span class="anchor" id="line-24"></span></p><ul><li><p class="line862">RE <strong>a[0-9]</strong> matches <em>a0</em> or <em>a1</em> or ... or <em>a9</em>. <span class="anchor" id="line-25"></span><span class="anchor" id="line-26"></span></p></li></ul><p class="line862">The <strong>[...]</strong> syntax is called a <em>character class</em> or a <em>bracket expression</em>, and specifies an implicit union operation.  The resulting expression matches any single character that falls within the specified range.  However, this relies on the ordering of characters.  In the case of digits, there's not much danger; but in the case of letters of the alphabet, <a href="http://mywiki.wooledge.org/locale">ASCII ordering cannot be safely assumed</a>.  Therefore, modern implementations of <tt class="backtick">egrep</tt> provide class names instead: <span class="anchor" id="line-27"></span><span class="anchor" id="line-28"></span></p><ul><li><p class="line862">RE <tt class="backtick">a[[:digit:]]</tt> matches <em>a0</em> or <em>a1</em> or ... or <em>a9</em>. <span class="anchor" id="line-29"></span></p></li><li><p class="line862">RE <tt class="backtick">[[:alpha:]]0</tt> matches <em>a0</em> or <em>B0</em> or .... <span class="anchor" id="line-30"></span><span class="anchor" id="line-31"></span></p></li></ul><p class="line862">The character class <tt class="backtick">[[:space:]]</tt> is particularly useful; it matches any character which is displayed as whitespace (including spaces, tabs, carriage returns, etc.). <span class="anchor" id="line-32"></span><span class="anchor" id="line-33"></span></p><p class="line874">Now the bad news: there are a plethora of incompatible regular expression syntaxes and feature sets in common use.  It's nearly impossible to determine what a given RE means without knowing which tool is supposed to use it.  Let's take a look at some of the common ones. <span class="anchor" id="line-34"></span><span class="anchor" id="line-35"></span></p><ul><li><p class="line891"><a class="http" href="http://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap09.html#tag_09_04">Extended Regular Expressions</a> (ERE).  This is the syntax used by <tt class="backtick">egrep</tt>, as well as by Bash's <tt class="backtick">[[&nbsp;...&nbsp;=~&nbsp;...&nbsp;]]</tt> operator. Even particular versions of <tt>sed</tt> can handle these; mainly <a class="http" href="http://www.gnu.org/software/sed/manual/sed.html">GNU sed</a> (with <tt>-r</tt>) and <a class="http" href="http://www.freebsd.org/cgi/man.cgi?query=sed">BSD sed</a> (with <tt>-E</tt>). <span class="anchor" id="line-36"></span></p><ul><li><p class="line862">ERE <strong>a+</strong> matches <em>a</em> or <em>aa</em> or ....  It does not match the empty string.  In other words, the <strong>+</strong> means "one or more". <span class="anchor" id="line-37"></span></p></li><li><p class="line862">ERE <strong>ab?</strong> is equivalent to regular expression <strong>a(b|)</strong>.  It matches <em>a</em> or <em>ab</em>.  In other words, the <strong>?</strong> means "optionally once". <span class="anchor" id="line-38"></span></p></li><li><p class="line862">ERE <strong>a{3}</strong> is equivalent to regular expression <strong>aaa</strong>.  It matches <em>aaa</em> only.  In other words, "exactly three times". <span class="anchor" id="line-39"></span></p></li><li><p class="line862">ERE <strong>a{3,}</strong> is equivalent to regular expression <strong>aaaa*</strong>.  It matches <em>aaa</em> or <em>aaaa</em> or any longer sequence of <em>a</em>s.  In other words, "three or more times". <span class="anchor" id="line-40"></span></p></li><li><p class="line862">ERE <strong>a{,3}</strong> is equivalent to regular expression <strong>|a|aa|aaa</strong>.  It matches the empty string or <em>a</em> or <em>aa</em> or <em>aaa</em>.  In other words, "up to three times". <span class="anchor" id="line-41"></span></p></li><li><p class="line862">ERE <strong>a{3,5}</strong> is equivalent to regular expression <strong>aaa|aaaa|aaaaa</strong>.  In other words, "between three and five times". <span class="anchor" id="line-42"></span></p></li></ul></li><li><p class="line891"><a class="http" href="http://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap09.html#tag_09_03">Basic Regular Expressions</a> (BRE).  This is the syntax used by the Unix commands <tt class="backtick">grep</tt> and <tt class="backtick">sed</tt>.  In BRE syntax, all characters are literal <em>except</em> <strong>.</strong>, <strong>[</strong>, <strong>\</strong>, <strong>*</strong>, <strong>^</strong> and <strong>$</strong>.  There is no union operator (apart from bracket expressions matching a single character), however grouping is supported with <tt class="backtick">\(</tt> and <tt class="backtick">\)</tt>. <span class="anchor" id="line-43"></span></p><ul><li><p class="line891"><strong>CONTRARY TO POPULAR BELIEF</strong>, you may <strong>NOT</strong> use <tt class="backtick">\</tt> in front of ERE operators such as <tt class="backtick">|</tt> to make them work in a BRE.  Doing this is a <strong>GNU EXTENSION</strong> only available in certain GNU programs such as GNU <tt class="backtick">sed</tt> and GNU <tt class="backtick">grep</tt>. <span class="anchor" id="line-44"></span></p></li><li><p class="line862">However, <strong>\{<em></em></strong><em>m</em><strong>,<em></em></strong><em>n</em><strong>\}</strong> syntax is supported in BRE, and means the same as <strong>{<em></em></strong><em>m</em><strong>,<em></em></strong><em>n</em><strong>}</strong> does in ERE.  This is probably where GNU got the inspiration to extend this notation to the <tt class="backtick">|</tt> operator. <span class="anchor" id="line-45"></span></p></li></ul></li><li><p class="line891"><a class="http" href="http://www.pcre.org/">Perl-Compatible Regular Expressions</a> (PCRE). <span class="anchor" id="line-46"></span></p></li><li><p class="line891"><a href="http://mywiki.wooledge.org/glob">Extended globs</a> ("extglob") qualify as regular expressions; they have closure, union and grouping operators.  The syntax is different from that of EREs -- extended globs use a <em>prefix</em> notation (where the operator appears before its operands), rather than <em>postfix</em> like EREs. <span class="anchor" id="line-47"></span></p><ul><li><p class="line862">Extglob <strong>@(<em></em></strong><em>foo</em><strong>|<em></em></strong><em>bar</em><strong>)</strong> matches either <em>foo</em> or <em>bar</em>.  (Union.) <span class="anchor" id="line-48"></span></p></li><li><p class="line862">Extglob <strong>*(<em></em></strong><em>foo</em><strong>)</strong> matches 0 or more instances of <em>foo</em>.  (Closure.) <span class="anchor" id="line-49"></span></p></li><li><p class="line862">Extglob <strong>?(<em></em></strong><em>foo</em><strong>)</strong> matches 0 or 1 instance of <em>foo</em>.  (Like the <strong>?</strong> operator in ERE.) <span class="anchor" id="line-50"></span><span class="anchor" id="line-51"></span></p></li></ul></li></ul><p class="line862">In most implementations, regular expressions are not <em>anchored</em> by default.  This means the expression can match any part of the input string, rather than the entire input string.  Thus, the BRE <strong>abc</strong> used in <tt class="backtick">grep</tt> (for example) would match the input string <em>abcdefg</em>.  If you want <tt class="backtick">grep</tt> to act differently, you must specify whether your expressions are anchored at the start of a line, at the end of a line, or both: <span class="anchor" id="line-52"></span></p><ul><li><p class="line891"><tt class="backtick">grep&nbsp;'^abc'</tt> matches an input line of <em>abcde</em> but not <em>42abc</em> or <em>42abcde</em>.  The <strong>^</strong> at the start of a BRE or ERE causes the expression to be <em>anchored</em> at the start of a line. <span class="anchor" id="line-53"></span></p></li><li><p class="line891"><tt class="backtick">grep&nbsp;'xyz$'</tt> matches an input line of <em>tuvwxyz</em> but not <em>xyzzy</em>.  The <strong>$</strong> at the end of a BRE or ERE <em>anchors</em> the expression at the end of a line. <span class="anchor" id="line-54"></span></p></li><li><p class="line891"><tt class="backtick">grep&nbsp;'^abc$'</tt> matches an input line of <em>abc</em> only.  The expression is <em>anchored</em> at both the start and end of a line. <span class="anchor" id="line-55"></span></p></li></ul><span class="anchor" id="bottom"></span></div><p id="pageinfo" class="info" lang="en" dir="ltr">RegularExpression  (last edited 2013-01-18 21:25:06 by <span title="geirha @ 253.38.34.95.customer.cdi.no[95.34.38.253]"><a class="nonexistent" href="http://mywiki.wooledge.org/geirha" title="geirha @ 253.38.34.95.customer.cdi.no[95.34.38.253]">geirha</a></span>)</p>
+
+<div id="pagebottom"></div>
+</div>
+
+
+<div id="footer">
+<ul class="editbar"><li><a href="http://mywiki.wooledge.org/RegularExpression?action=edit&editor=text" name="texteditlink" rel="nofollow">Edit (Text)</a></li><li><a href="http://mywiki.wooledge.org/RegularExpression?action=edit&editor=gui">Edit (GUI)</a></li><li class="toggleCommentsButton" style="display:none;"><a href="http://mywiki.wooledge.org/RegularExpression#" class="nbcomment" onclick="toggleComments();return false;">Comments</a></li><li><a class="nbinfo" href="http://mywiki.wooledge.org/RegularExpression?action=info" rel="nofollow">Info</a></li><li><a class="nbattachments" href="http://mywiki.wooledge.org/RegularExpression?action=AttachFile" rel="nofollow">Attachments</a></li><li>
+<form class="actionsmenu" method="GET" action="./RegularExpression - Greg's Wiki_files/RegularExpression - Greg's Wiki.htm">
+<div>
+    
+    <select name="action" onchange="if ((this.selectedIndex != 0) &amp;&amp;
+                      (this.options[this.selectedIndex].disabled == false)) {
+                this.form.submit();
+            }
+            this.selectedIndex = 0;">
+        <option value="show">More Actions:</option><option value="raw">Raw Text</option>
+<option value="print">Print View</option>
+<option value="RenderAsDocbook">Render as Docbook</option>
+<option value="refresh">Delete Cache</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="SpellCheck">Check Spelling</option>
+<option value="LikePages">Like Pages</option>
+<option value="LocalSiteMap">Local Site Map</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="RenamePage" disabled="" class="disabled">Rename Page</option>
+<option value="DeletePage" disabled="" class="disabled">Delete Page</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="show" disabled="" class="disabled">Subscribe User</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="show" disabled="" class="disabled">Remove Spam</option>
+<option value="show" disabled="" class="disabled">Revert to this revision</option>
+<option value="PackagePages">Package Pages</option>
+<option value="SyncPages">Sync Pages</option>
+<option value="show" disabled="" class="disabled">------------------------</option>
+<option value="Load">Load</option>
+<option value="Save">Save</option>
+<option value="SlideShow">SlideShow</option>
+    </select>
+    
+    
+</div>
+<script type="text/javascript">
+<!--// Init menu
+actionsMenuInit('More Actions:');
+//-->
+</script>
+</form>
+</li></ul>
+
+<ul id="credits">
+<li><a href="http://moinmo.in/" title="This site uses the MoinMoin Wiki software.">MoinMoin Powered</a></li><li><a href="http://moinmo.in/Python" title="MoinMoin is written in Python.">Python Powered</a></li><li><a href="http://moinmo.in/GPL" title="MoinMoin is GPL licensed.">GPL licensed</a></li><li><a href="http://validator.w3.org/check?uri=referer" title="Click here to validate this page.">Valid HTML 4.01</a></li>
+</ul>
+
+
+</div>
+
+
+
+</body></html>

@@ -1,0 +1,58 @@
+C:\Documents and Settings\maha007>sqlplus /nolog
+
+SQL*Plus: Release 9.2.0.7.0 - Production on 星期六 8月 5 15:18:04 2006
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+SQL> connect / as sysdba
+已连接到空闲例程。
+SQL> startup
+ORACLE 例程已经启动。
+
+Total System Global Area  126951228 bytes
+Fixed Size                   454460 bytes
+Variable Size             109051904 bytes
+Database Buffers           16777216 bytes
+Redo Buffers                 667648 bytes
+ORA-00205: ?????????????????????
+
+
+SQL>
+
+================================================================================
+C:\Documents and Settings\maha007>rman
+
+恢复管理器: 版本9.2.0.7.0 - Production
+
+Copyright (c) 1995, 2002, Oracle Corporation.  All rights reserved.
+
+RMAN> connect target /
+
+连接到目标数据库: orcl（未安装）
+
+RMAN> set dbid=1107259909
+
+正在执行命令: SET DBID
+
+RMAN> restore controlfile from autobackup;
+
+启动 restore 于 05-8月 -06
+
+使用通道 ORA_DISK_1
+通道 ORA_DISK_1: 寻找以下日期的自动备份: 20060805
+通道 ORA_DISK_1: 已找到的自动备份: c-1107259909-20060805-09
+通道 ORA_DISK_1: 从自动备份复原控制文件已完成
+正在复制控制文件
+输出文件名=D:\ORACLE\ORADATA\ORCL\CONTROL01.CTL
+输出文件名=D:\ORACLE\ORADATA\ORCL\CONTROL02.CTL
+输出文件名=D:\ORACLE\ORADATA\ORCL\CONTROL03.CTL
+输出文件名=D:\ORACLE\ORADATA\ORCL\CONTROL04.CTL
+完成 restore 于 05-8月 -06
+
+RMAN> alter database mount;
+
+数据库已加载
+
+RMAN> restore database;
+RMAN> recover database;
+RMAN> alter database open resetlogs;

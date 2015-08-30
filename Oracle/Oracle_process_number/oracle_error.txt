@@ -1,0 +1,39 @@
+
+INFO: End output from spawned process.
+INFO: ----------------------------------
+INFO: Calling Action unixActions10.2.0.1.0  make
+        installMakePath = /usr/bin/make
+        installMakeFileName = /opt/oracle/oracle/product/10.2.0/db_1/network/lib/ins_net_client.mk
+        installTarget = client_sharedlib
+        installArguments = ORACLE_HOME=/opt/oracle/oracle/product/10.2.0/db_1,
+        undoMakeFileName = null
+        undoTarget = null
+        undoArguments = null
+        logFile = /opt/oracle/oracle/product/10.2.0/db_1/install/make.log
+        progMsg = Building client shared libraries
+
+INFO: The output of this make operation is also available at: '/opt/oracle/oracle/product/10.2.0/db_1/install/make.log'
+INFO: 
+
+INFO: Start output from spawned process:
+INFO: ----------------------------------
+INFO: 
+
+INFO: /opt/oracle/oracle/product/10.2.0/db_1/bin/genclntsh
+
+INFO: /usr/bin/ld: skipping incompatible /opt/oracle/oracle/product/10.2.0/db_1/lib/libxml10.a when searching for -lxml10
+/usr/bin/ld: cannot find -lxml10
+
+INFO: collect2: ld returned 1 exit status
+
+INFO: genclntsh: Failed to link libclntsh.so.10.1
+
+INFO: make: *** [client_sharedlib] Error 1
+
+INFO: End output from spawned process.
+INFO: ----------------------------------
+INFO: Exception thrown from action: make
+Exception Name: MakefileException
+Exception String: Error in invoking target 'client_sharedlib' of makefile '/opt/oracle/oracle/product/10.2.0/db_1/network/lib/ins_net_client.mk'. See '/opt/oracle/oraInventory/logs/installActions2009-03-04_10-02-58PM.log' for details.
+Exception Severity: 1
+[oracle@pss logs]$ cd

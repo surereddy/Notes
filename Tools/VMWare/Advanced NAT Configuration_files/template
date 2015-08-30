@@ -1,0 +1,78 @@
+
+//http://www.vmware.com/support/gsx3/doc/network_nat_advanced_gsx.html
+loadTemplate = function() {
+	
+vmimport('<ul id=\"global-sites\"><li><span><a href=\"http://www.vmware.com/\" class=\"vmware\">Home</a></span></li><li><span><a href=\"http://www.vmware.com/communities/content/\">Communities</a></span></li><li><span><a href=\"http://www.vmware.com/appliances/\">Virtual Appliances</a></span></li><li><span><a href=\"http://www.vmware.com/vmwarestore/\">Store</a></span></li><li class=\"active\"><span><a href=\"http://www.vmware.com/support/\">Support</a></span></li></ul>','iglobal-sites');
+
+vmimport('<ul id=\"site-tools\"><li><a href=\"http://www.vmware.com/download/\">Downloads</a></li><li><a href=\"http://www.vmware.com/vmwarestore/newstore/account.jsp\">Account</a></li><li><a href=\"http://www.vmware.com/company/contact.html\">Contact Us</a></li></ul>','isite-tools');
+
+vmimport('<ul id=\"language\"><li><a hbxrootmenuid=\"//worldwide\" hbxrootmenuorientation=\"down\" href=\"http://www.vmware.com/worldwide.html\"><span>Worldwide</span></a></li></ul>','ilanguage');
+
+vmimport('<div id=\"search-form\"><form name=\"frmSearchGLOBAL\" action=\"http://search-www.vmware.com/socialsearch/query\" method=\"get\" id=\"frmSearchGLOBAL\"><input type=\"hidden\" name=\"cn\" value=\"vmware\" /><input type=\"hidden\" name=\"cc\" value=\"www\" /><input type=\"hidden\" name=\"ie\" value=\"UTF-8\" /><input type=\"hidden\" name=\"oe\" value=\"UTF-8\" /><input type=\"text\" onfocus=\"javascript:searchglobal_clear();\" name=\"q\" value=\"Search\" class=\"searchfield\" /><input type=\"image\" onclick=\"javascript:searchglobal_submit();\" src=\"http://www.vmware.com/files/images/tpl/button-search.gif\" value=\"Go\" class=\"search-button\" /></form></div>','isearch-form');
+
+vmimport('<div id=\"footer\"><p>Copyright © 2009 VMware, Inc. All rights reserved.</p><a href=\"http://vmware.simplefeed.net/subscription\" class=\"rss\">rss feed</a><ul id=\"navigation-bottom\"><li><a href=\"http://www.vmware.com/help/legal.html\">Legal</a></li><li><a href=\"http://www.vmware.com/help/privacy.html\">Privacy</a></li><li><a href=\"http://www.vmware.com/help/accessibility.html\">Accessibility</a></li><li><a href=\"http://www.vmware.com/site_index.html\">Site Index</a></li><li><a href=\"http://www.vmware.com/help/\">Help</a></li><li style=\"padding-top:1px; padding-bottom:5px\">  <script src=\"http://www.vmware.com/files/templates/inc/oo_engine.js\" type=\"text/javascript\"></script><a href=\"javascript:O_LC();\"><img src=\"http://www.vmware.com/files/templates/img/sm_999_oo.gif\" border=\"0\" title=\"Feedback\" style=\"margin-right:5px;\" />Feedback</a>  </li></ul></div>','ifooter');
+
+vmimport('<ul id=\"primary-navigation\"><li><a href=\"http://www.vmware.com/support/resources/index_resources.html\" class=\"active\"><span>Support Resources</span></a><div><ul><li><a href=\"http://www.vmware.com/r/knowledgebase.html\" target=\"new\">Knowledge Base</a></li><li><a href=\"http://www.vmware.com/support/vsphere.html\">VMware vSphere Support Center</a></li><li><a href=\"http://www.vmware.com/support/support-center/cisco/\">Cisco Nexus 1000V Support Center</a></li><li><a href=\"http://www.vmware.com/support/tools/\">Support Tools</a></li><li><a href=\"http://www.vmware.com/security/\">Security Center</a></li><li><a href=\"http://www.vmware.com/r/documentation.html\">Documentation</a></li><li><a href=\"http://www.vmware.com/r/discussion_forums.html\">Communities</a></li><li><a href=\"http://www.vmware.com/support/licensing.html\">VMware Licensing</a></li></ul></div></li><li><a href=\"http://www.vmware.com/support/contacts/\"><span>Support Contacts</span></a><div><ul><li><a href=\"http://www.vmware.com/go/support_request/\" target=\"new\">File a Support Request Online</a></li><li><a href=\"http://www.vmware.com/support/support_history.html\">View Support Requests</a></li><li><a href=\"http://www.vmware.com/support/phone_support.html\">Phone Support</a></li><li><a href=\"http://www.vmware.com/support/contacts/account.html\">VMware Account</a></li></ul></div></li><li><a href=\"http://www.vmware.com/support/services/\"><span>Support Offerings</span></a></li><li class=\"last\"><a href=\"http://www.vmware.com/support/policies/\"><span>Support Policies</span></a></li></ul>','iprimary-navigation');
+
+vmimport('<div id=\"breadcrumbs\"><a href=\"http://www.vmware.com/support/\">Support</a> > Support Resources</div>','ibreadcrumbs');
+}
+
+function vmimport(src_content,whichlayer) {
+	var container = document.getElementById(whichlayer);
+	if (container) {
+		container.innerHTML = src_content;
+	}
+}
+
+loadTemplate();
+
+/****************************************************************************************************/
+// Menu Dropdowns
+initNav = function() {
+	if (document.getElementById("primary-navigation")){
+		var navRoot = document.getElementById("primary-navigation");
+		var lis = navRoot.getElementsByTagName("li");
+		for (var i=0; i<lis.length; i++)
+		{
+			var drops = lis[i].getElementsByTagName("ul");
+			if (drops.length)
+			{
+				lis[i].onmouseover = function()
+				{
+					this.className += " hover";
+				}
+				lis[i].onmouseout = function()
+				{
+					this.className = this.className.replace("hover", "");
+				}
+			}
+		}
+	}
+		var navRoot = document.getElementById("language");
+		var lis = navRoot.getElementsByTagName("li");
+		for (var i=0; i<lis.length; i++)
+		{
+			var drops = lis[i].getElementsByTagName("ul");
+			if (drops.length)
+			{
+				lis[i].onmouseover = function()
+				{
+					this.className += " hover";
+				}
+				lis[i].onmouseout = function()
+				{
+					this.className = this.className.replace("hover", "");
+				}
+			}
+		}
+		
+}
+
+if (window.addEventListener){
+	window.addEventListener("load", initNav, false);
+}
+else if (window.attachEvent){
+	window.attachEvent("onload", initNav);
+}
+
+/****************************************************************************************************/

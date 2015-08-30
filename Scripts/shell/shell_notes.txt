@@ -1,0 +1,638 @@
+|- FAQ
+
+||- single v.s. double quotation
+#/bin/bash
+cat $1 | sed -e "s/DURATION=.*/DURATION=$2/"
+=> replace with value of $2
+
+cat $1 | sed -e 's/DURATION=.*/DURATION=$2/'
+=> replace with string '$2'
+
+||- How to get shell script its own process id?
+$BASHPID or $$
+
+Difference:
+http://www.gnu.org/software/bash/manual/bashref.html#Bash-Variables
+BASHPID
+Expands to the process ID of the current Bash process. This differs from $$ under certain circumstances, such as subshells that do not require Bash to be re-initialized.
+
+||- How to redirect standard error output?
+Use 2. 
+Note: You must not put whitespace between 2 and > or > and second redirection file.
+Correct:
+./1bots_temp.bash >a.txt 2>err.txt
+Wrong:
+./1bots_temp.bash > a.txt 2 > err.txt
+
+Example 1:
+nohup GeNetPFServer -i dna0 -i dna1 -g 2 -v 1 -w 10 -q 40 -s 50000 -c 4096 -m 1500 -n 50000000 -o 0 -S 200 -N 20 -E 99h > /tmp/GeNetPFServerOutput.txt 2>/dev/null &
+
+Adding '2>/dev/null' is to avoid below output when you run the command. It is only useful when you run iTest automation. 
+[root@g10gen27 ~]# nohup: ignoring input and redirecting stderr to stdout
+
+Example 2:
+[root@plno-vcd-vms46 ISA_Server_Test_EVCI_50bots]# ./1bots_temp.bash >a.txt 2>err.txt
+^C
+[root@plno-vcd-vms46 ISA_Server_Test_EVCI_50bots]# cat a.txt
++++++Start at Sun Oct 19 22:03:11 CDT 2014 +++++
++++ Started robot 1 at Sun Oct 19 22:03:11 CDT 2014 .+++
++++ Started robot 2 at Sun Oct 19 22:03:12 CDT 2014 .+++
++++ Started robot 3 at Sun Oct 19 22:03:13 CDT 2014 .+++
++++ Started robot 4 at Sun Oct 19 22:03:14 CDT 2014 .+++
++++ Started robot 5 at Sun Oct 19 22:03:15 CDT 2014 .+++
+
+[root@plno-vcd-vms46 ISA_Server_Test_EVCI_50bots]# cat err.txt 
+Can't call method "decoded_content" on an undefined value at ./ISARobot.pl line 164.
+Can't call method "decoded_content" on an undefined value at ./ISARobot.pl line 164.
+Can't call method "decoded_content" on an undefined value at ./ISARobot.pl line 164.
+
+
+
+More reference:
+On Unix, to capture everything that goes to your terminal, you want to redirect both the standard output and the standard error.
+With bash, the command resembles
+$ ./my-perl-program arg1 arg2 argn > output.txt 2>&1
+or ./my-perl-program arg1 arg2 argn > output.txt 2>output.txt 
+
+The C shell, csh derivatives such as tcsh, and newer versions of bash understand
+$ ./my-perl-program arg1 arg2 argn >& output.txt
+to mean the same thing.
+
+The syntax for the command shell on Windows resembles Bourne shell's.
+C:\> my-perl-program.pl args 1> output.txt 2>&1
+
+To set up this redirection in your Perl code, add
+open STDOUT, ">", "output.txt" or die "$0: open: $!";
+open STDERR, ">&STDOUT"        or die "$0: dup: $!";
+to the beginning of your program’s executable statements.
+
+||- How to use perl in shell script?
+
+more seePerformance.geoblade.sh:
+#!/bin/bash
+#!/usr/bin/perl -w
+
+## Statistic: "rx_packet_count"
+##########################################################################
+cat ./myFile | perl -we '
+$input=<STDIN>;
+@fields = split ",", $input;
+$rx_packet_count = 0;
+$period = 0;
+$time = 0;
+$tmp =0;
+
+foreach $field (@fields)
+{
+    if ($field eq "\"rx_packet_count\"")
+    {
+        $rx_packet_count = $tmp;
+    }
+...
+    $tmp++;
+}
+my $currentTime;
+my $currentPeriod;
+...
+while ($input = <STDIN>)
+{
+    @fields = split ",", $input;
+...
+
+printf "IFC-RX-PACKET-COUNT-(TOTAL):%.0f\n", ($totalPackets);
+'
+
+||- read input
+# (1) prompt user, and read command line argument
+read -p "What trafficModel did you run (MME, GTP, IMS, etc)? " trafficModel
+
+||- How to copy files based on file timestamp
+Example 1: getDbgData.sh
+iic crash information collection script.
+
+./getDbgData.sh "14-9-23 12:00" "14-9-23 13:00"
+
+touch_ts_1=`date -d "$1"`
+touch_ts_2=`date -d "$2"`
+
+touch -d "$touch_ts_1" $dir_path/start_marker
+touch -d "$touch_ts_2" $dir_path/stop_marker
+
+start="$dir_path/start_marker"
+stop="$dir_path/stop_marker"
+
+find /log/trace/ -newer $start \! -newer $stop | while read tracefile
+do
+    cp -r --parent $tracefile $dir_path/
+done
+
+find /iris/home/stats -newer $start \! -newer $stop | while read statsfile
+do
+    cp -r --parent $statsfile $dir_path/
+done
+
+||- Echo and dynamic progress percentage example
+echo key options:
+ -n     do not output the trailing newline
+ -e     enable interpretation of backslash escapes
+ If -e is in effect, the following sequences are recognized:
+
+       \\     backslash
+
+       \b     backspace
+
+       \n     new line
+...
+
+Simple progress example:
+function progress {
+ progresspercent=0
+ backspace=3
+ echo -ne "[INFO] Progress:  0%" 
+ while [ $progresspercent -lt 100 ]; do
+   sleep  5
+   index=0
+          while [ $index -lt $backspace ]; do
+              echo -ne "\b"
+              ((index++))
+          done
+   progresspercent=$((progresspercent+10))  
+   #replace with new ratio
+   echo -ne "${progresspercent}%"      
+ done
+ echo -ne "\n"       
+}
+progress
+
+Full example from iris auto unzip shell script.
+###########################################################################################
+# progress
+#
+# params:
+#   $1 - filename - the file name or path to be monitored for progress
+#   $2 - expectedsize - the expected size in KB of the filename upon completion
+#
+# description:
+#   The time it takes to execute this self extraction script will vary depending on the
+#   server performance. This function starts a process that monitors the file or directory
+#   that is currently being extracted and displays an estimated progress percentage and
+#   completion time.
+###########################################################################################
+function progress {
+    filename=$1
+    expectedsize=$2 #in kb
+
+    progresspercent=0
+    sleeptime=10
+    echo -ne "[INFO] Progress: 0% 0:00   "
+    backspace=10
+    timepass=0
+    while [ $progresspercent -lt 100 ]; do
+        timepass=$((timepass + sleeptime))
+        sleep $sleeptime
+        #get current size and separate out number and letter, example 1.5M
+        currentsize=($(du -sk $filename))
+        #calculate progress percentage
+        progresspercent=$((((currentsize * 100) / expectedsize) + 1))
+        if [ $progresspercent -gt 99 ]; then
+            progresspercent=99
+        fi
+        #calculate estimated remaining time in minutes and seconds
+        timeleft=$(echo "scale=1; ((100/$progresspercent)*$timepass)-$timepass;" | bc)
+        timeleft=${timeleft%%.*}
+        minleft=$((timeleft / 60))
+        secleft=$((timeleft % 60))
+        #add leading zero if single digit
+        if [ ${#secleft} -lt 2 ]; then
+            secleft="0${secleft}"
+        fi
+        #backspace to overwrite old progress percentage
+        index=0
+        while [ $index -lt $backspace ]; do
+            echo -ne "\b"
+            ((index++))
+        done
+        echo -ne "${progresspercent}% ${minleft}:${secleft}   "
+        #set number of characters to be backspaced on next iteration
+        backspace=$((${#progresspercent} + ${#minleft} + ${#secleft} + 6))
+    done
+}
+
+||- function 
+function run_traffic () {
+
+GeNet --capture-replay $1  --bitrate $2 --interface eth3  --plugin ethernet --debug 2 | grep -i ERROR
+
+}
+
+run_traffic a.pcap 1000
+
+
+||- declare 
+declare variable specifically. For normal variables, no need.
+
+-a     Each name is an array variable (see Arrays above).
+-i     The variable is treated as an integer; arithmetic evaluation (see ARITHMETIC EVALUATION ) is performed when the variable is assigned a value.
+
+declare -a A
+declare -i B
+
+||- array variable
+Print all *.pcap filenames in current path.
+
+declare -a A 
+
+A=(*.pcap)
+for((i=0;i<${#A[@]};i++))
+do 
+echo ${A[i]}
+done
+
+
+Another way:
+for i in `ls *.pcap`
+do 
+echo $i
+done
+
+
+
+||- sleep 
+
+[minacom@qa6y jxie]$ cat test.sh
+echo line1
+sleep 3s
+echo line2
+sleep 1s
+echo line3
+sleep 6s
+echo line4
+
+Syntax
+      sleep [NUMBER [smhd]]...
+
+Key:
+
+   s  :  seconds (default)
+
+   m  :  minutes
+
+   h  :  hours
+
+   d  :  days
+||- If
+There are many different ways that an conditional statement can be used. These are summarized here:
+
+String Comparison	Description
+Str1 = Str2	Returns true if the strings are equal
+Str1 != Str2	Returns true if the strings are not equal
+-n Str1	Returns true if the string is not null
+-z Str1	Returns true if the string is null
+
+Numeric Comparison	Description
+expr1 -eq expr2	Returns true if the expressions are equal
+expr1 -ne expr2	Returns true if the expressions are not equal
+expr1 -gt expr2	Returns true if expr1 is greater than expr2
+expr1 -ge expr2	Returns true if expr1 is greater than or equal to expr2
+expr1 -lt expr2	Returns true if expr1 is less than expr2
+expr1 -le expr2	Returns true if expr1 is less than or equal to expr2
+! expr1	Negates the result of the expression
+
+File Conditionals	Description
+-d file	True if the file is a directory
+-e file	True if the file exists (note that this is not particularly portable, thus -f is generally used)
+-f file	True if the provided string is a file
+-g file	True if the group id is set on a file
+-r file	True if the file is readable
+-s file	True if the file has a non-zero size
+-u	True if the user id is set on a file
+-w	True if the file is writable
+-x	True if the file is an executable
+
+
+Note: You must put white space both before and after the Comparison	Description.
+
+#!/bin/bash
+
+if [ "$1" = "cool" ]
+then
+    echo "Cool Beans"
+elif [ "$1" = "neat" ]
+then
+    echo "Neato cool"
+else
+    echo "Not Cool Beans"
+fi
+
+
+if [[ $OS = "OSF1" ]]
+then
+
+    export PATH=/usr/xpg4/bin:$HOME/bin:/usr/ucb:/usr/sbin:/usr/ccs/bin:/usr/local/bin:/usr/bin/X11:/usr/sbin:${PATH:-/usr/bin:.}
+    export MAIL=/usr/spool/mail/$USER
+
+elif [[ $OS = "SunOS" ]]
+then
+
+    export PATH=$HOME/bin:/usr/sbin:$PATH:$HOME/`hostname`/bin
+    export USER=$(/usr/ucb/whoami)
+    export SNMPCONFPATH=/usr/local/share/snmp
+
+fi
+
+more:
+For string comparion, you can use either '==' or '='.
+if [[ $OS == "OSF1" ]]
+
+if [[ $OS != "OSF1" ]]
+
+
+#!/bin/sh
+n=13
+if [[ $n -lt 10 ]]
+then
+filename=pp6000.0$n
+echo $filename
+elif [[ $n -ge 10 ]]  
+then
+filename=pp6000.$n
+echo $filename
+fi
+
+Note: "-ge": >= 
+"-gt" >
+"-lt" <
+"-eq" =
+
+!Note: You must put a space between condition expressins and [].
+Error example:
+if [[ 1 -gt 0]]; then
+
+=> Error:
+./test.sh: line 2: syntax error in conditional expression: unexpected token `;'
+./test.sh: line 2: syntax error near `;'
+./test.sh: line 2: `if [[ 1 -gt 0]]; then'
+
+Correct one:
+if [[ 1 -gt 0 ]]; then
+
+||- for 
+for ((i=13;i<=35;i++))
+do 
+vox_configure --run_TRU $i
+done
+
+for i in 1 3 5 7 9 11
+do 
+vox_configure --run_TRU $i
+done
+
+
+read file content:
+######
+audio_list.txt:
+76152
+76153
+
+shell:
+for i in `cat audio_list.txt`
+do
+echo `ls $i\*gz` >> a.txt
+done
+
+output:
+a.txt:
+76152/InvalidTimeFormat.wav.gz
+76153/InvalidPinHangUp.wav.gz
+
+
+||- exit
+#main function
+if [ $# -ne 1 ]; then
+   exit 1
+else
+   fun1
+fi 
+||- let or (()) double parentheses/ paires of round brackets for arithmetic operations
+You can use either let or (()) for arithmetic operations.
+
+i=502;let "j=$i-500";echo $j
+2
+
+i=502;j=$(($i-500));echo $j
+2
+
+or 
+i=502;j=$(( i - 500 ));echo $j
+2
+
+Not working:
+i=502;j=$i-500;echo $j
+502-500
+
+index=1;((index++));echo $index
+2
+
+
+Double parentheses are used for arithmetic operations:
+((a++))
+
+((meaning = 42))
+
+for ((i=0; i<10; i++))
+
+echo $((a + b + (14 * c)))
+Advantage:
+and they enable you to omit the dollar signs on integer and array variables and include spaces around operators for readability.
+
+
+||-sed 
+-e is default. Run script.
+-f run from file.
+
+Example: replace in batch
+Replace the all string 192.168.100.113 with 192.168.0.112 in all files in current directory.
+
+for i in *
+do
+;sed -e 's/192.168.100.113/192.168.0.112/g' $i > tempFile
+sed -e "s/192.168.100.113/192.168.0.112/g" $i > tempFile
+
+mv -f tempFile $i
+done
+
+Put commands in one line:
+cat a.txt
+aa
+bb
+bb
+cat a.txt | sed -e 's/bb/cc/g' > temp.txt ; mv -f temp.txt a.txt; cat a.txt
+
+
+example: delete
+sed /^#/d filename > temp.txt
+Remove lines leading by # and output to temp.txt
+
+
+
+example: 
+sed 's/<devices>.*devices>$/<devices>0<\/devices>/g'
+
+$ means the ending.
+
+Replace all <devices> lines to <devices>0<\/devices>.
+a.txt:
+		<devices>1,2,3,4,5,6,7,8,9,10,11,12</devices>
+		<links>0</links>
+		<devices>13,14,15,16,17,18,19,20,21,22,23,24</devices>
+		<links>0</links>
+
+output:
+		<devices>0</devices>
+		<links>0</links>
+		<devices>0</devices>
+		<links>0</links>
+
+
+
+
+||- awk
+cat test.txt
+Line 1 101,11
+Line 2 102,12
+Line 3 XIE Jiping
+Line 33 GUO Lianzhi
+
+vau212@bj-sa3:~/temp-dir> awk '/1/' test.txt
+Line 1 101,11
+Line 2 102,12
+
+vau212@bj-sa3:~/temp-dir> awk '/1/{print $1}' test.txt
+Line
+Line
+
+vau212@bj-sa3:~/temp-dir> awk '/1/{print $2}' test.txt
+1
+2
+
+vau212@bj-sa3:~/temp-dir> awk '/1/{print $1, $2}' test.txt
+Line 1
+Line 2
+
+vau212@bj-sa3:~/temp-dir> awk '/1/{print $0}' test.txt
+Line 1 101,11
+Line 2 102,12
+
+How to invoke system shell command in awk - {""|getline d;}
+------
+vau212@bj-sa3:~/temp-dir> ls
+test.txt
+vau212@bj-sa3:~/temp-dir> cat test.txt 
+Line 1 101,11
+Line 2 102,12
+Line 3 XIE Jiping
+Line 33 GUO Lianzhi
+vau212@bj-sa3:~/temp-dir> awk '{"ls"|getline d;print d}' test.txt 
+test.txt
+test.txt
+test.txt
+test.txt
+vau212@bj-sa3:~/temp-dir> 
+
+制定输入，输出分隔符。默认空格
+想先根据<或者>做为输入分隔符，打印时指定输出分隔符为&，出现了如下的情况：
+cat test.txt | awk 'BEGIN{FS="[<>]";OFS="&"} {print $0}'  输出时没有变化分隔符
+cat test.txt | awk 'BEGIN{FS="[<>]";OFS="&"} {print $1,$2,$3}' 输出时分隔符为&
+
+example:
+[root@g10gen27 jxie]# cat test.txt 
+1<2>3<4
+[root@g10gen27 jxie]# cat test.txt | awk 'BEGIN{FS="[<>]";OFS="&"} {print $1,$2,$3}'
+1&2&3
+[root@g10gen27 jxie]# cat test.txt | awk 'BEGIN{FS="[<>]";OFS="&"} {print $0}'
+1<2>3<4
+
+
+The following table summarizes how fields are split, based on the value of FS (‘==’ means “is equal to”):
+FS == " "
+Fields are separated by runs of whitespace. Leading and trailing whitespace are ignored. This is the default.
+
+FS == any other single character
+Fields are separated by each occurrence of the character. Multiple successive occurrences delimit empty fields, as do leading and trailing occurrences. The character can even be a regexp metacharacter; it does not need to be escaped.
+
+FS == regexp
+Fields are separated by occurrences of characters that match regexp. Leading and trailing matches of regexp delimit empty fields.
+
+Note: This is tricky:
+There is an important difference between the two cases of ‘FS = " "’ (a single space) and ‘FS = "[ \t\n]+"’ (a regular expression matching one or more spaces, TABs, or newlines). 
+For both values of FS, fields are separated by runs (multiple adjacent occurrences) of spaces, TABs, and/or newlines. 
+However, when the value of FS is " ", awk first strips leading and trailing whitespace from the record and then decides where the fields are. 
+For example, the following pipeline prints ‘b’: 
+$ echo ' a b c d ' | awk '{ print $2 }'
+b
+
+However, this pipeline prints ‘a’ (note the extra spaces around each letter): 
+$ echo ' a  b  c  d ' | awk 'BEGIN { FS = "[ \t\n]+" } { print $2 }'
+a
+   
+In this case, the first field is null or empty.  TRICKY!
+
+
+
+Example 1: 
+Get heap usage from jmap dump
+
+{OFS=","} 制定输出分隔符 ,. 默认空格
+
+a.sh:
+echo "Eden,From,To,Old,Perm,Total_Used" > a.csv
+cat jmap_output.txt | awk '/Configuration/{ed=0;fr=0;to=0;pso=0;psp=0} {if (NR == 21) {ed= $3} if(NR==26){fr= $3} if(NR==31){to= $3} if(NR==36){pso= $3} {OFS=","} if(NR==41){psp= $3; ttt=ed+fr+to+pso+psp; print ed,fr,to,pso,psp,ttt} }'  >> a.csv
+
+iris@agnes:/export0/home/iris/jxie > cat a.csv
+Eden,From,To,Old,Perm,Total_Used
+1204153528,0,0,430521128,104031400,1738706056
+
+jmap_output.txt：
+
+using thread-local object allocation.
+Parallel GC with 23 thread(s)
+
+Heap Configuration:
+   MinHeapFreeRatio = 40
+   MaxHeapFreeRatio = 70
+   MaxHeapSize      = 17179869184 (16384.0MB)
+   NewSize          = 1310720 (1.25MB)
+   MaxNewSize       = 17592186044415 MB
+   OldSize          = 5439488 (5.1875MB)
+   NewRatio         = 2
+   SurvivorRatio    = 8
+   PermSize         = 21757952 (20.75MB)
+   MaxPermSize      = 536870912 (512.0MB)
+
+Heap Usage:
+PS Young Generation
+Eden Space:
+   capacity = 1597767680 (1523.75MB)
+   used     = 1204153528 (1148.3702926635742MB)       ------- NR (line) 21, get 3rd value 1204153528.
+   free     = 393614152 (375.3797073364258MB)
+   75.36474439137484% used
+From Space:
+   capacity = 6881280 (6.5625MB)
+   used     = 0 (0.0MB)
+   free     = 6881280 (6.5625MB)
+   0.0% used
+To Space:
+   capacity = 106561536 (101.625MB)
+   used     = 0 (0.0MB)
+   free     = 106561536 (101.625MB)
+   0.0% used
+PS Old Generation
+   capacity = 1432354816 (1366.0MB)
+   used     = 430521128 (410.57694244384766MB)
+   free     = 1001833688 (955.4230575561523MB)
+   30.056877192082553% used
+PS Perm Generation
+   capacity = 106954752 (102.0MB)
+   used     = 104031400 (99.21207427978516MB)
+   free     = 2923352 (2.7879257202148438MB)
+   97.26673948998545% used

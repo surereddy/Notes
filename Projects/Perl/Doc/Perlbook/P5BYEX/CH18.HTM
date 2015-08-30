@@ -1,0 +1,4152 @@
+<html>
+
+<head>
+
+<title>Chapter 18  -- Using Internet Protocols</title>
+
+
+
+<meta>
+
+</head>
+
+<body TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<h1><font SIZE="6" COLOR="#FF0000">Chapter&nbsp;18</font></h1>
+
+<h1><font SIZE="6" COLOR="#FF0000">Using Internet Protocols</font>
+
+</h1>
+
+<hr>
+
+<p>
+
+<center><b><font SIZE="5">CONTENTS</font></b></center>
+
+<ul>
+
+<li><a HREF="#Sockets">
+
+Sockets</a>
+
+<ul>
+
+<li><a HREF="#TheServerSideofaConversation">
+
+The Server Side of a Conversation</a>
+
+<li><a HREF="#TheClientSideofaConversation">
+
+The Client Side of a Conversation</a>
+
+</ul>
+
+<li><a HREF="#UsingtheTimeService">
+
+Using the Time Service</a>
+
+<li><a HREF="#SendingMailSMTP">
+
+Sending Mail (SMTP)</a>
+
+<ul>
+
+<li><a HREF="#TheTTFONTSIZEFACECourierMAILFONTTTFONTSIZECommandFONT">
+
+The <tt>MAIL</tt>
+
+Command</font></a>
+
+<li><a HREF="#TheTTFONTSIZEFACECourierRCPTFONTTTFONTSIZECommandFONT">
+
+The <tt>RCPT </tt>Command</font>
+
+</a>
+
+<li><a HREF="#TheTTFONTSIZEFACECourierDATAFONTTTFONTSIZECommandFONT">
+
+The <tt>DATA</tt>
+
+Command</font></a>
+
+<li><a HREF="#ReportingUndeliverableMail">
+
+Reporting Undeliverable Mail</a>
+
+<li><a HREF="#UsingPerltoSendMail">
+
+Using Perl to Send Mail</a>
+
+</ul>
+
+<li><a HREF="#ReceivingMailPOP">
+
+Receiving Mail (POP)</a>
+
+<li><a HREF="#CheckingforUpnessEcho">
+
+Checking for Upness (Echo)</a>
+
+<li><a HREF="#TransferringFilesFTP">
+
+Transferring Files (FTP)</a>
+
+<li><a HREF="#ReadingtheNewsNNTP">
+
+Reading the News (NNTP)</a>
+
+<li><a HREF="#TheWorldWideWebHTTP">
+
+The World Wide Web (HTTP)</a>
+
+<li><a HREF="#Summary">
+
+Summary</a>
+
+<li><a HREF="#ReviewQuestions">
+
+Review Questions</a>
+
+<li><a HREF="#ReviewExercises">
+
+Review Exercises</a>
+
+</ul>
+
+
+
+<hr>
+
+<p>
+
+One of the reasons the Internet has blossomed so quickly is because
+
+everyone can understand the <i>protocols</i> that are spoken on
+
+the net. A protocol is a set of commands and responses. There
+
+are two layers of protocols that I'll mention here. The low-level
+
+layer is called TCP/IP and while it is crucial to the Internet,
+
+we can effectively ignore it. The high-level protocols like ftp,
+
+smtp, pop, http, and telnet are what you'll read about in this
+
+chapter. They use TCP/IP as a facilitator to communicate between
+
+computers. The protocols all have the same basic pattern:
+
+<ul>
+
+<li>Begin a Conversation-Your computer (the client) starts a conversation
+
+with another computer (the server).
+
+<li>Hold a Conversation-During the conversation, commands are
+
+sent and acknowledged.
+
+<li>End a Conversation-The conversation is terminated.
+
+</ul>
+
+<p>
+
+Figure 18.1 is what the protocol for sending mail looks like.
+
+The end-user creates a mail message and then the sending system
+
+uses the mail protocol to hold a conversation with the receiving
+
+system.
+
+<p>
+
+<a HREF="f18-1.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/f18-1.gif"><b>Figure 18.1 : </b><i>All protocols follow this Communications
+
+model</i>.</a>
+
+<p>
+
+Internet conversations are done with sockets, in a manner similar
+
+to using the telephone or shouting out a window. I won't kid you,
+
+sockets are a complicated subject. They are discussed in the &quot;Sockets&quot;
+
+section that follows. Fortunately, you only have to learn about
+
+a small subset of the socket fuNCtionality in order to use the
+
+high-level protocols.
+
+<p>
+
+Table 18.1 provides a list of the high-level protocols that you
+
+can use. This chapter will not be able to cover them all, but
+
+if you'd like to investigate further, the protocols are detailed
+
+in documents at the <b>http://ds.internic.net/ds/dspg0 intdoc.html</b>
+
+Web site.<br>
+
+<center><b>Table 18.1&nbsp;&nbsp;A Small Sampling of Protocols</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="75"><center><i>Protocol</i></center></td><td WIDTH="73"><center><i>Number</i></center>
+
+</td><td WIDTH="442"><i>Description</i></td></tr>
+
+<tr><td WIDTH="75"><center>auth</center></td><td WIDTH="73"><center>113</center>
+
+</td><td WIDTH="442">Authentication</td></tr>
+
+<tr><td WIDTH="75"><center>echo</center></td><td WIDTH="73"><center>&nbsp;&nbsp;7</center>
+
+</td><td WIDTH="442">Checks server to see if they are running</td>
+
+</tr>
+
+<tr><td WIDTH="75"><center>finger</center></td><td WIDTH="73"><center>&nbsp;79</center>
+
+</td><td WIDTH="442">Lets you retrieve information about a user
+
+</td></tr>
+
+<tr><td WIDTH="75"><center>ftp</center></td><td WIDTH="73"><center>&nbsp;21</center>
+
+</td><td WIDTH="442">File Transfer Protocol</td></tr>
+
+<tr><td WIDTH="75"><center>nntp</center></td><td WIDTH="73"><center>&nbsp;119</center>
+
+</td><td WIDTH="442">Network News Transfer Protocol - Usenet News Groups
+
+</td></tr>
+
+<tr><td WIDTH="75"><center>pop</center></td><td WIDTH="73"><center>&nbsp;109</center>
+
+</td><td WIDTH="442">Post Office Protocol - iNComing mail</td></tr>
+
+<tr><td WIDTH="75"><center>smtp</center></td><td WIDTH="73"><center>&nbsp;25</center>
+
+</td><td WIDTH="442">Simple Mail Transfer Protocol - outgoing mail
+
+</td></tr>
+
+<tr><td WIDTH="75"><center>time</center></td><td WIDTH="73"><center>&nbsp;37</center>
+
+</td><td WIDTH="442">Time Server</td></tr>
+
+<tr><td WIDTH="75"><center>telnet</center></td><td WIDTH="73"><center>&nbsp;23</center>
+
+</td><td WIDTH="442">Lets you connect to a host and use it as if you were a directly connected terminal
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Each protocol is also called a service. HeNCe the term, mail server
+
+or ftp server. Underlying all of the high-level protocols is the
+
+very popular Transfer Control Protocol/Internet Protocol or TCP/IP.
+
+You don't need to know about TCP/IP in order to use the high-level
+
+protocols. All you need to know is that TCP/IP enables a server
+
+to <i>listen</i> and respond to an iNComing conversation. INComing
+
+conversations arrive at something called a port. A <i>Port</i>
+
+is an imaginary place where iNComing packets of information can
+
+arrive (just like a ship arrives at a sea port). Each type of
+
+service (for example, mail or file transfer) has its own port
+
+number.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+If you have access to a UNIX machine, look at the <tt>/etc/services</tt> file for a list of the services and their assigned port numbers. Users of Windows 95-and, I suspect Windows NT-can look in \windows\services.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+In this chapter, we take a quick look at sockets, and then turn
+
+our attention to examples that use them. You see how to send and
+
+receive mail. Sending mail is done using the Simple Mail Transfer
+
+Protocol (SMTP), which is detailed in an RFC numbered 821. Receiving
+
+mail is done using the Post Office Protocol (POP) as detailed
+
+in RFC 1725.
+
+<h2><a NAME="Sockets"><font SIZE="5" COLOR="#FF0000">
+
+Sockets</font></a></h2>
+
+<p>
+
+<i>Sockets</i> are the low-level links that enable Internet conversations.
+
+There are a whole slew of fuNCtions that deal with sockets. Fortunately,
+
+you don't normally need to deal with them all. A small subset
+
+is all you need to get started. This section will focus in on
+
+those aspects of sockets that are useful in Perl. There will be
+
+whole areas of sockets that I won't mention.
+
+<p>
+
+Table 18.2 lists all of the Perl fuNCtions that relate to sockets
+
+so you have a handy refereNCe. But remember, you probably won't
+
+need them all.<br>
+
+<center><b>Table 18.2&nbsp;&nbsp;Perl's Socket FuNCtions</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="319"><i>FuNCtion</i></td><td WIDTH="271"><i>Description</i>
+
+</td></tr>
+
+<tr><td WIDTH="319">accept(NEWSOCKET, SOCKET)</td><td WIDTH="271">Accepts a socket connection from clients waiting for a connection. The original socket, <tt>SOCKET</tt>, is left along, and a new socket is created for the remote process to talk with. 
+<tt>SOCKET</tt> must have already been opened using the <tt>socket()</tt> fuNCtion. Returns true if it succeeded, false otherwise.
+
+</td></tr>
+
+<tr><td WIDTH="319">bind(SOCKET, PACKED_ADDRESS)</td><td WIDTH="271">Binds a network address to the socket handle. Returns true if it succeeded, false otherwise.
+
+</td></tr>
+
+<tr><td WIDTH="319">connect(SOCKET, PACKED_ADDRESS)</td><td WIDTH="271">Attempts to connect to a socket. Returns true if it succeeded, false otherwise.
+
+</td></tr>
+
+<tr><td WIDTH="319">getpeername(SOCKET)</td><td WIDTH="271">Returns the packed address of the remote side of the connection. This fuNCtion can be used to reject connections for security reasons, if needed.
+
+</td></tr>
+
+<tr><td WIDTH="319">getsockname(SOCKET)</td><td WIDTH="271">Returns the packed address of the local side of the connection.
+
+</td></tr>
+
+<tr><td WIDTH="319">getsockopt(SOCKET, LEVEL, OPTNAME)</td><td WIDTH="271">Returns the socket option requested, or undefined if there is an error.
+
+</td></tr>
+
+<tr><td WIDTH="319">listen(SOCKET, QUEUESIZE)</td><td WIDTH="271">Creates a queue for <tt>SOCKET</tt> with <tt>QUEUESIZE</tt> slots. Returns true if it succeeded, false otherwise.
+
+</td></tr>
+
+<tr><td WIDTH="319">recv(SOCKET, BUFFER, LEN, FLAGS)</td><td WIDTH="271">Attempts to receive <tt>LENGTH</tt> bytes of data into a buffer from <tt>SOCKET</tt>. Returns the address of the sender, or the undefined value if there's an error. <tt>BUFFER</tt> will 
+be grown or shrunk to the length actually read. However, you must initalize BUFFER before use. For example <tt>my($buffer) = '';</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="319">select(RBITS, WBITS, EBITS, TIMEOUT)</td><td WIDTH="271">Examines file descriptors to see if they are ready or if they have exception conditions pending.
+
+</td></tr>
+
+<tr><td WIDTH="319">send(SOCKET, BUFFER, FLAGS, [TO])</td><td WIDTH="271">Sends a message to a socket. On uNConnected sockets you must specify a destination (the <tt>TO</tt> parameter). Returns the number of characters sent, or the undefined value if there is 
+an error.
+
+</td></tr>
+
+<tr><td WIDTH="319">setsockopt(SOCKET, LEVEL, OPTNAME, OPTVAL) 
+
+</td><td WIDTH="271">Sets the socket option requested. Returns undefined if there is an error. <tt>OPTVAL</tt> may be specified as undefined if you don't want to pass an argument.
+
+</td></tr>
+
+<tr><td WIDTH="319">shutdown(SOCKET, HOW)</td><td WIDTH="271">Shuts down a socket connection in the manner indicated by HOW. If <tt>HOW</tt> = 0, all iNComing information will be ignored. If <tt>HOW </tt>= 1, all outgoing information will be stopped. If 
+<tt>HOW</tt> = 2, then both sending and receiving is disallowed.
+
+</td></tr>
+
+<tr><td WIDTH="319">socket(SOCKET, DOMAIN,TYPE, PROTOCOL)</td><td WIDTH="271">Opens a specific <tt>TYPE</tt> of socket and attaches it to the name <tt>SOCKET</tt>. See &quot;The Server Side of a Conversation&quot; for more details. Returns true if successful, 
+false if not.
+
+</td></tr>
+
+<tr><td WIDTH="319">socketpair(SOCK1, SOCK2, DOMAIN, TYPE, PROTO)
+
+</td><td WIDTH="271">Creates an unnamed pair of sockets in the specified domain, of the specified type. Returns true if successful, false if not.
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+If you are interested in knowing everything about sockets, you need to get your hands on some UNIX documentation. The Perl set of socket fuNCtions are pretty much a duplication of those available using the C language under UNIX. Only the parameters are 
+different because Perl data structures are handled differently. You can find UNIX documentation at <b>http://www.delorie.com/gnu/docs/</b> on the World Wide Web.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Programs that use sockets inherently use the client-server paradigm.
+
+One program creates a socket (the server) and another connects
+
+to it (the client). The next couple of sections will look at both
+
+server programs and client programs.
+
+<h3><a NAME="TheServerSideofaConversation">
+
+The Server Side of a Conversation</a></h3>
+
+<p>
+
+Server programs will use the <tt>socket()</tt>
+
+fuNCtion to create a socket; <tt>bind()</tt>
+
+to give the socket an address so that it can be found; <tt>listen()</tt>
+
+to see if anyone wants to talk; and <tt>accept()</tt>
+
+to start the conversation. Then <tt>send()</tt>
+
+and <tt>recv()</tt> fuNCtions can
+
+be used to hold the conversation. And finally, the socket is closed
+
+with the <tt>close()</tt> fuNCtion.
+
+<p>
+
+The <tt>socket()</tt> call will look
+
+something like this:
+
+<blockquote>
+
+<pre>
+
+$tcpProtocolNumber = getprotobyname('tcp') || 6;
+
+
+
+socket(SOCKET, PF_INET(), SOCK_STREAM(), $tcpProtocolNumber)
+
+    or die(&quot;socket: $!&quot;);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The first line gets the TCP protocol number using the <tt>getprotobyname()</tt>
+
+fuNCtion. Some systems-such as Windows 95-do not implement this
+
+fuNCtion, so a default value of 6 is provided. Then, the socket
+
+is created with <tt>socket()</tt>.
+
+The socket name is <tt>SOCKET</tt>.
+
+Notice that it looks just like a file handle. When creating your
+
+own sockets, the first parameter is the only thing that you should
+
+change. The rest of the fuNCtion call will <i>always</i> use the
+
+same last three parameters shown above. The actual meaning of
+
+the three parameters is unimportant at this stage. If you are
+
+curious, please refer to the UNIX documentation previously mentioned.
+
+<p>
+
+Socket names exist in their own namespace. Actually, there are
+
+several pre-defined namespaces that you can use. The namespaces
+
+are called <i>protocol families</i> because the namespace controls
+
+how a socket connects to the world outside your process. For example,
+
+the <tt>PF_INET</tt> namespace used
+
+in the <tt>socket()</tt> fuNCtion
+
+call above is used for the Internet.
+
+<p>
+
+ONCe the socket is created, you need to bind it to an address
+
+with the <tt>bind()</tt> fuNCtion.
+
+The <tt>bind()</tt> call might look
+
+like this:
+
+<blockquote>
+
+<pre>
+
+$port = 20001;
+
+$internetPackedAddress = pack('Sna4x8', AF_INET(), $port, &quot;\0\0\0\0&quot;);
+
+
+
+bind(SOCKET, $internetPackedAddress) 
+
+    or die(&quot;bind: $!&quot;);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+All Internet sockets reside on a computer with symbolic names.
+
+The server's name in conjuNCtion with a port number makes up a
+
+socket's address. For example, <tt>www.water.com:20001</tt>.
+
+Symbolic names also have a number equivalent known as the dotted
+
+decimal address. For example, 145.56.23.1. Port numbers are a
+
+way of determining which socket at <tt>www.water.com</tt>
+
+you'd like to connect to. All port numbers below 1024 (or the
+
+symbolic constant, <tt>IPPORT_RESERVED</tt>)
+
+are reserved for special sockets. For example, port 37 is reserved
+
+for a time service and 25 is reserved for the smtp service. The
+
+value of 20,001 used in this example was picked at random. The
+
+only limitations are: use a value above 1024 and no two sockets
+
+on the same computer should have the same port number.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+You can always refer to your own computer using the dotted decimal address of <tt>127.0.0.1</tt> or the symbolic name <tt>localhost</tt>.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+The second line of this short example creates a full Internet
+
+socket address using the <tt>pack()</tt>
+
+fuNCtion. This is another complicated topic that I will sidestep.
+
+As long as you know the port number and the server's address,
+
+you can simply plug those values into the example code and not
+
+worry about the rest. The important part of the example is the
+
+&quot;\0\0\0\0&quot; string. This string holds the four numbers
+
+that make up the dotted decimal Internet address. If you already
+
+know the dotted decimal address, convert each number to octal
+
+and replace the appropriate \0 in the string.
+
+<p>
+
+If you know the symbolic name of the server instead of the dotted
+
+decimal address, use the following line to create the packed Internet
+
+address:
+
+<blockquote>
+
+<pre>
+
+$internetPackedAddress = pack('S n A4 x8', AF_INET(), $port, 
+
+    gethostbyname('www.remotehost.com'));
+
+</pre>
+
+</blockquote>
+
+<p>
+
+After the socket has been created and an address has been bound
+
+to it, you need to create a queue for the socket. This is done
+
+with the <tt>listen()</tt> fuNCtion.
+
+The <tt>listen()</tt> call looks like
+
+this:
+
+<blockquote>
+
+<pre>
+
+listen(SOCKET, 5) or die(&quot;listen: $!&quot;);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This <tt>listen()</tt> statement will
+
+create a queue that can handle 5 remote attempts to connect. The
+
+sixth attempt will fail with an appropriate error code.
+
+<p>
+
+Now that the socket exists, has an address, and has a queue, your
+
+program is ready to begin a conversation using the <tt>accept()</tt>
+
+fuNCtion. The <tt>accept()</tt> fuNCtion
+
+makes a copy of the socket and starts a conversation with the
+
+new socket. The original socket is still available and able to
+
+accept connections. You can use the <tt>fork()</tt>
+
+fuNCtion, in UNIX, to create child processes to handle multiple
+
+conversations. The normal <tt>accept()</tt>
+
+fuNCtion call looks like this:
+
+<blockquote>
+
+<pre>
+
+$addr = accept(NEWSOCKET, SOCKET) or die(&quot;accept: $!&quot;);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Now that the conversation has been started, use <tt>print()</tt>,
+
+<tt>send()</tt>, <tt>recv()</tt>,
+
+<tt>read()</tt>, or <tt>write()</tt>
+
+to hold the conversation. The examples later in the chapter show
+
+how the conversations are held.
+
+<h3><a NAME="TheClientSideofaConversation">
+
+The Client Side of a Conversation</a></h3>
+
+<p>
+
+Client programs will use <tt>socket()</tt>
+
+to create a socket and <tt>connect()</tt>
+
+to initiate a connection to a server's socket. Then input/output
+
+fuNCtions are used to hold  a conversation. And the <tt>close()</tt>
+
+fuNCtion closes the socket.
+
+<p>
+
+The <tt>socket()</tt> call for the
+
+client program is the same as that used in the server:
+
+<blockquote>
+
+<pre>
+
+$tcpProtocolNumber = getprotobyname('tcp') || 6;
+
+
+
+socket(SOCKET, PF_INET(), SOCK_STREAM(), $tcpProtocolNumber)
+
+    or die(&quot;socket: $!&quot;);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+After the socket is created, the <tt>connect()</tt>
+
+fuNCtion is called like this:
+
+<blockquote>
+
+<pre>
+
+$port = 20001;
+
+$internetPackedAddress = pack('Sna4x8', AF_INET(), $port, &quot;\0\0\0\0&quot;);
+
+
+
+connect(SOCKET, $internetPackedAddress) or die(&quot;connect: $!&quot;);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The packed address was explained in &quot;The Server Side of a
+
+Conversation.&quot; The <tt>SOCKET</tt>
+
+parameter has no relation to the name used on the server machine.
+
+I use <tt>SOCKET</tt> on both sides
+
+for convenieNCe.
+
+<p>
+
+The <tt>connect()</tt> fuNCtion is
+
+a <i>blocking</i> fuNCtion. This means that it will wait until
+
+the connection is completed. You can use the <tt>select()</tt>
+
+fuNCtion to set non-blocking mode, but you'll need to look in
+
+the UNIX documentation to find out how. It's a bit complicated
+
+to explain here.
+
+<p>
+
+After the connection is made, you use the normal input/output
+
+fuNCtions or the <tt>send()</tt> and
+
+<tt>recv()</tt> fuNCtions to talk
+
+with the server.
+
+<p>
+
+The rest of the chapter will be devoted to looking at examples
+
+of specific protocols. Let's start out by looking at the time
+
+service.
+
+<h2><a NAME="UsingtheTimeService"><font SIZE="5" COLOR="#FF0000">
+
+Using the Time Service</font></a></h2>
+
+<p>
+
+It is very important that all computers on a given network report
+
+the same time. This allows backups and other regularly scheduled
+
+events to be automated. Instead of manually adjusting the time
+
+on every computer in the network, you can designate a time server.
+
+The other computers can use the time server to determine the correct
+
+time and adjust their own clocks accordingly.
+
+<p>
+
+Listing 18.1 contains a program that can retrieve the time from
+
+any time server in the world. Modify the example to access your
+
+own time server by setting the <tt>$remoteServer</tt>
+
+variable to your server's symbolic name.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Turn on the warning compiler option.<br>
+
+Load the </i><tt><i>Socket</i></tt><i>
+
+module.<br>
+
+Turn on the strict pragma.<br>
+
+Initialize the </i><tt><i>$remoteServer</i></tt><i>
+
+to the symbolic name of the time server.<br>
+
+Set a variable equal to the number of seconds in 70 years.<br>
+
+Initialize a buffer variable, </i><tt><i>$buffer</i></tt><i>.
+
+<br>
+
+Declare </i><tt><i>$socketStructure</i></tt><i>.
+
+<br>
+
+Declare </i><tt><i>$serverTime</i></tt><i>.
+
+<br>
+
+Get the tcp protocol and time port numbers, provide a default
+
+in case the </i><tt><i>getprotobyname()</i></tt><i>
+
+and </i><tt><i>getservbyname()</i></tt><i>
+
+fuNCtions are notimplemented.<br>
+
+Initialize </i><tt><i>$serverAddr</i></tt><i>
+
+with the Internet address of the time server.<br>
+
+Display the current time on the local machine, also called the
+
+localhost.<br>
+
+Create a socket using the standard parameters.<br>
+
+Initialize </i><tt><i>$packedFormat</i></tt><i>
+
+with format specifiers.<br>
+
+Connect the local socket to the remote socket that is providing
+
+the time service.<br>
+
+Read the server's time as a 4 byte value. <br>
+
+Close the local socket.<br>
+
+Unpack the network address from a long (4 byte) value into a string
+
+value.<br>
+
+Adjust the server time by the number of seconds in 70 years.<br>
+
+Display the server's name, the number of seconds differeNCe between
+
+the remote time and the local time.<br>
+
+Declare the </i><tt><i>ctime()</i></tt><i>
+
+fuNCtion.<br>
+
+Return a string reflecting the time represented by the parameter.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 18.1&nbsp;&nbsp;18LST01.PL-Getting the Time from a
+
+Time Service<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+#!/usr/bin/perl  -w
+
+
+
+use Socket;
+
+use strict;
+
+
+
+my($remoteServer)     = 'saturn.planet.net';
+
+
+
+my($secsIn70years)    = 2208988800;
+
+my($buffer)           = '';
+
+my($socketStructure);
+
+my($serverTime);
+
+
+
+my($proto)      = getprotobyname('tcp')        || 6;
+
+my($port)       = getservbyname('time', 'tcp') || 37;
+
+
+
+my($serverAddr) = (gethostbyname($remoteServer))[4];
+
+
+
+printf(&quot;%-20s %8s %s\n&quot;,  &quot;localhost&quot;, 0, ctime(time()));
+
+
+
+socket(SOCKET, PF_INET, SOCK_STREAM, $proto)
+
+    or die(&quot;socket: $!&quot;);
+
+
+
+my($packFormat) = 'S n a4 x8';   # Windows 95, SunOs 4.1+
+
+#my($packFormat) = 'S n c4 x8';   # SunOs 5.4+ (Solaris 2)
+
+connect(SOCKET, pack($packFormat, AF_INET(), $port, $serverAddr))
+
+    or die(&quot;connect: $!&quot;);
+
+
+
+read(SOCKET, $buffer, 4);
+
+close(SOCKET);
+
+
+
+$serverTime  = unpack(&quot;N&quot;, $buffer);
+
+$serverTime -= $secsIn70years;
+
+
+
+printf(&quot;%-20s %8d %s\n&quot;, $remoteServer, $serverTime - time,
+
+    ctime($serverTime));
+
+
+
+sub ctime {
+
+    return(scalar(localtime($_[0])));
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+Each operating system will have a different method to update the
+
+local time. So I'll leave it in your hands to figure how to do
+
+that.
+
+<p>
+
+The next section is devoted to sending mail. First the protocol
+
+will be explained and then you will see a Perl script that can
+
+send a mail message.
+
+<h2><a NAME="SendingMailSMTP"><font SIZE="5" COLOR="#FF0000">
+
+Sending Mail (SMTP)</font></a></h2>
+
+<p>
+
+Before you send mail, the entire message needs to be composed.
+
+You need to know where it is going, who gets it, and what the
+
+text of the message is. When this information has been gathered,
+
+you begin the process of transferring the information to a mail
+
+server.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+The mail service will be listening for your connection on TCP port 25. But this information will not be important until you see some Perl code later in the chapter.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+The message that you prepare can only use alphanumeric characters.
+
+If you need to send binary information (like files), use the MIME
+
+protocol. The details of the MIME protocol can be found at the
+
+<b>http://ds.internic.net/ds/dspg0intdoc.html</b> Web site.
+
+<p>
+
+SMTP uses several commands to communicate with mail servers. These
+
+commands are described in Table 18.3. The commands are not case-insensitive,
+
+which means you can use either Mail or MAIL. However, remember
+
+that mail addresses are case-sensitive.<br>
+
+<center><b>Table 18.3&nbsp;&nbsp;The SMTP Command Set</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="133"><center><i>Command</i></center></td><td WIDTH="457"><i>Description</i>
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Basic Commands</b></td></tr>
+
+<tr><td WIDTH="133"><center><tt>HELO</tt></center>
+
+</td><td WIDTH="457">Initiates a conversation with the mail server. When using this command you can specify your domain name so that the mail server knows who you are. For example, <tt>HELO mailhost2. planet.net</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>MAIL</tt></center>
+
+</td><td WIDTH="457">Indicates who is sending the mail. For example, <tt>MAIL FROM: &lt;medined@planet.net&gt;</tt>. Remember this is not <i>your</i> name, it's the name of the person who is sending the mail message. Any returned mail will be sent back to 
+this address.
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>RCPT</tt></center>
+
+</td><td WIDTH="457">Indicates who is recieving the mail. For example, <tt>RCPT TO: &lt;rolf@earthdawn.com&gt;</tt>. You can indicate more than one user by issuing multiple <tt>RCPT</tt> commands.
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>DATA</tt></center>
+
+</td><td WIDTH="457">Indicates that you are about to send the text (or body) of the message. The message text must end with the following five letter sequeNCe: &quot;\r\n.\r\n.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>QUIT</tt></center>
+
+</td><td WIDTH="457">Indicates that the conversation is over.</td>
+
+</tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>AdvaNCed Commands (see RFC 821 for details)</b>
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>EXPN</tt></center>
+
+</td><td WIDTH="457">Indicates that you are using a mailing list.
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>HELP</tt></center>
+
+</td><td WIDTH="457">Asks for help from the mail server.</td></tr>
+
+<tr><td WIDTH="133"><center><tt>NOOP</tt></center>
+
+</td><td WIDTH="457">Does nothing other than get a reponse from the mail server.
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>RSET</tt></center>
+
+</td><td WIDTH="457">Aborts the current conversation.</td></tr>
+
+<tr><td WIDTH="133"><center><tt>SEND</tt></center>
+
+</td><td WIDTH="457">Sends a message to a user's terminal instead of a mailbox.
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>SAML</tt></center>
+
+</td><td WIDTH="457">Sends a message to a user's terminal and to a user's mailbox.
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>SOML</tt></center>
+
+</td><td WIDTH="457">Sends a message to a user's terminal if they are logged on; otherwise, sends the message to the user's mailbox.
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>TURN</tt></center>
+
+</td><td WIDTH="457">Reverses the role of client and server. This might be useful if the client program can also act as a server and needs to receive mail from the remote computer.
+
+</td></tr>
+
+<tr><td WIDTH="133"><center><tt>VRFY</tt></center>
+
+</td><td WIDTH="457">Verifies the existeNCe and user name of a given mail address. This command is not implemented in all mail servers. And it can be blocked by firewalls.
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Every command will receive a reply from the mail server in the
+
+form of a three digit number followed by some text describing
+
+the reply. For example, <tt>250 OK</tt>
+
+or <tt>500 Syntax error, command unrecognized</tt>.
+
+The complete list of reply codes is shown in Table 18.4. Hopefully,
+
+you'll never see most of them.<br>
+
+<center><b>Table 18.4&nbsp;&nbsp;Reply Codes Used by Mail Servers</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="62"><center><i>Code</i></center></td><td WIDTH="528"><i>Description</i>
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>211</center></td><td WIDTH="528">A system status or help reply.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>214</center></td><td WIDTH="528">Help Message.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>220</center></td><td WIDTH="528">The server is ready.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>221</center></td><td WIDTH="528">The server is ending the conversation.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;250</center></td><td WIDTH="528">The requested action was completed.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;251</center></td><td WIDTH="528">The specified user is not local, but the server will forward the mail message.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;354</center></td><td WIDTH="528">This is a reply to the <tt>DATA</tt> command. After getting this, start sending the body of the mail message, ending with &quot;\r\n.\r\n.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;421</center></td><td WIDTH="528">The mail server will be shut down. Save the mail message and try again later.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;450</center></td><td WIDTH="528">The mailbox that you are trying to reach is busy. Wait a little while and try again.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;451</center></td><td WIDTH="528">The requested action was not done. Some error occurred in the mail server.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;452</center></td><td WIDTH="528">The requested action was not done. The mail server ran out of system storage.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;500</center></td><td WIDTH="528">The last command contained a syntax error or the command line was too long.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;501</center></td><td WIDTH="528">The parameters or arguments in the last command contained a syntax error.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;502</center></td><td WIDTH="528">The mail server has not implemented the last command.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;503</center></td><td WIDTH="528">The last command was sent out of sequeNCe. For example, you might have sent <tt>DATA</tt> before sending <tt>RECV</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;504</center></td><td WIDTH="528">One of the parameters of the last command has not been implemented by the server.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;550</center></td><td WIDTH="528">The mailbox that you are trying to reach can't be found or you don't have access rights.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;551</center></td><td WIDTH="528">The specified user is not local; part of the text of the message will contain a forwarding address.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;552</center></td><td WIDTH="528">The mailbox that you are trying to reach has run out of space. Store the message and try again tomorrow or in a few days-after the user gets a chaNCe to delete some messages.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;553</center></td><td WIDTH="528">The mail address that you specified was not syntactically correct.
+
+</td></tr>
+
+<tr><td WIDTH="62"><center>&nbsp;554</center></td><td WIDTH="528">The mail transaction has failed for unknown causes.
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Now that you've seen all of the SMTP commands and reply codes,
+
+let's see what a typical mail conversation might look like. In
+
+the following conversation, the '&gt;' lines are the SMTP commands
+
+that your program issues. The '&lt;' lines are the mail server's
+
+replies.
+
+<blockquote>
+
+<pre>
+
+<b>&gt;HELO
+
+</font></b><font SIZE="2" FACE="Courier">&lt;250 saturn.planet.net Hello medined@planet.net [X.X.X.X],pleased to meet you
+
+
+
+<b>&gt;MAIL From: &lt;(Rolf D'Barno, 5th Circle Archer)&gt;
+
+</b>&lt;250 &lt;(Rolf D'Barno, 5th Circle Archer)&gt;... Sender ok
+
+
+
+<b>&gt;RCPT To: &lt;medined@planet.net&gt;
+
+</b>&lt;250 &lt;medined@planet.net&gt;... Recipient ok
+
+
+
+<b>&gt;DATA
+
+</b>&lt;354 Enter mail, end with &quot;.&quot; on a line by itself
+
+
+
+<b>&gt;From: (Rolf D'Barno, 5th Circle Archer)
+
+&gt;Subject: Arrows
+
+&gt;This is line one.
+
+&gt;This is line two.
+
+</b>&gt;.
+
+&lt;250 AAA14672 Message accepted for delivery
+
+
+
+<b>&gt;QUIT
+
+</b>&lt;221 saturn.planet.net closing connection
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The bold lines are the commands that are sent to the server. Some
+
+of the SMTP commands are a bit more complex than others. In the
+
+next few sections, the <tt>MAIL</tt>,
+
+<tt>RCPT,</tt> and <tt>DATA</tt>
+
+commands are discussed. You will also see how to react to undeliverable
+
+mail.
+
+<h3><a NAME="TheTTFONTSIZEFACECourierMAILFONTTTFONTSIZECommandFONT">
+
+The <tt>MAIL</tt>
+
+Command</font></a></h3>
+
+<p>
+
+The <tt>MAIL</tt> command tells the
+
+mail server to start a new conversation. It's also used to let
+
+the mail server know where to send a mail message to report errors.
+
+The syntax looks like this:
+
+<blockquote>
+
+<pre>
+
+MAIL FROM:&lt;reverse-path&gt;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+If the mail server accepts the command, it will reply with a code
+
+of 250. Otherwise, the reply code will be greater than 400.
+
+<p>
+
+In the example shown previously
+
+<blockquote>
+
+<pre>
+
+<b>&gt;MAIL From:&lt;(medined@planet.net)&gt;
+
+</font></b><font SIZE="2" FACE="Courier">&lt;250 &lt;(medined@planet.net)&gt;... Sender ok
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The reverse-path is different from the name given as the sender
+
+following the <tt>DATA</tt> command.
+
+You can use this technique to give a mailing list or yourself
+
+an alias. For example, if you are maintaining a mailing list to
+
+your college alumni, you might want the name that appears in the
+
+reader's mailer to be <tt>'87 RugRats</tt>
+
+instead of your own name.
+
+<h3><a NAME="TheTTFONTSIZEFACECourierRCPTFONTTTFONTSIZECommandFONT">
+
+The <tt>RCPT </tt>Command</font>
+
+</a></h3>
+
+<p>
+
+You tell the mail server who the recipient of your message is
+
+by using the <tt>RCPT</tt> command.
+
+You can send more than one <tt>RCPT</tt>
+
+command for multiple recipients. The server will respond with
+
+a code of 250 to each command. The syntax for the <tt>RCPT</tt>
+
+is:
+
+<blockquote>
+
+<pre>
+
+RCPT TO:&lt;forward-path&gt;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Only one recipient can be named per <tt>RCPT</tt>
+
+command. If the recipient is not known to the mail server, the
+
+response code will be 550. You might also get a response code
+
+indicating that the recipient is not local to the server. If that
+
+is the case, you will get one of two responses back from the server:
+
+<ul>
+
+<li><b>251 User not local; will forward to &lt;forward-path&gt;</b>-This
+
+reply means that the server will forward the message. The correct
+
+mail address is returned so that you can store it for future use.
+
+<li><b>551 User not local; please try &lt;forward-path&gt;</b>-This
+
+reply means that the server won't forward the message. You need
+
+to issue another <tt>RCPT</tt> command
+
+with the new address.
+
+</ul>
+
+<h3><a NAME="TheTTFONTSIZEFACECourierDATAFONTTTFONTSIZECommandFONT">
+
+The <tt>DATA</tt>
+
+Command</font></a></h3>
+
+<p>
+
+After starting the mail conversation and telling the server who
+
+the recipient or recipients are, you use the<tt>
+
+DATA</tt> command to send the body of the message. The
+
+syntax for the <tt>DATA</tt> command
+
+is very simple:
+
+<blockquote>
+
+<pre>
+
+DATA
+
+</pre>
+
+</blockquote>
+
+<p>
+
+After you get the standard 354 response, send the body of the
+
+message followed by a line with a single period to indicate that
+
+the body is finished. When the end of message line is received,
+
+the server will respond with a 250 reply code.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+The body of the message can also iNClude several header items like Date, Subject, To, Cc, and From.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h3><a NAME="ReportingUndeliverableMail">
+
+Reporting Undeliverable Mail</a></h3>
+
+<p>
+
+The mail server is responsible for reporting undeliverable mail,
+
+so you may not need to know too much about this topic. However,
+
+this information may come in handy if you ever run a list service
+
+or if you send a message from a temporary account.
+
+<p>
+
+An endless loop happens when an error notification message is
+
+sent to a non-existent mailbox. The server keeps trying to send
+
+a notification message to the reverse-path specified in the <tt>MAIL</tt>
+
+command.
+
+<p>
+
+The answer to this dilemma is to specify an empty reverse path
+
+in the <tt>MAIL</tt> command of a
+
+notification message like this:
+
+<blockquote>
+
+<pre>
+
+MAIL FROM:&lt;&gt;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+An entire mail session that delivers an error notification message
+
+might look like the following:
+
+<blockquote>
+
+<pre>
+
+<b>MAIL FROM:&lt;&gt;
+
+</font></b><font SIZE="2" FACE="Courier">250 ok
+
+<b>RCPT TO:&lt;@HOST.COM@HOSTW.ARPA&gt;
+
+</b>250 ok
+
+<b>DATA
+
+</b>354 send the mail data, end with .
+
+<b>Date: 12 May 96 12:34:53
+
+From: MEDINED@PLANET.NET
+
+To: ROBIN@UIC.HOST.COM
+
+Subject: Problem delivering mail.
+
+
+
+Robin, your message to JACK@SILVER.COM was not
+
+delivered.
+
+
+
+    SILVER.COM said this:
+
+        &quot;550 No Such User&quot;
+
+</b>.
+
+250 ok
+
+</pre>
+
+</blockquote>
+
+<h3><a NAME="UsingPerltoSendMail">
+
+Using Perl to Send Mail</a></h3>
+
+<p>
+
+I'm sure that by now you've had enough theory and would like to
+
+see some actual Perl code. Without further explanation, Listing
+
+18.2 shows you how to send mail.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Caution</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+The script in Listing 18.2 was tested on Windows 95. Some comments have been added to indicate changes that are needed for SunOS 4.1+ and SunOS 5.4+ (Solaris 2). The SunOS comments were supplied by Qusay H. Mahmoud-also known as Perlman on IRC. <font FACE="LI Helvetica Light Oblique">Thanks, Qusay!</font>
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Turn on the warning compiler option.<br>
+
+Load the </i><tt><i>Socket</i></tt><i>
+
+module.<br>
+
+Turn on the strict pragma.<br>
+
+Initialize </i><tt><i>$mail To </i></tt><i>which
+
+holds the recipient's mail address.<br>
+
+Initialize </i><tt><i>$mailServer</i></tt><i>
+
+which holds the symbolic name of your mail server.<br>
+
+Initialize </i><tt><i>$mailFrom</i></tt><i>
+
+which holds the originator's mail address.<br>
+
+Initialize </i><tt><i>$realName </i></tt><i>which
+
+holds the text that appears in the From header field.<br>
+
+Initialize </i><tt><i>$subject</i></tt><i>
+
+which holds the text that appears in the Subject header field.
+
+<br>
+
+Initialize </i><tt><i>$body</i></tt><i>
+
+which holds the text of the letter.<br>
+
+Declare a signal handler for the Interrupt signal. This handler
+
+will trap users hitting Ctrl+c or Ctrl+break.<br>
+
+Get the protocol number for the tcp protocol and the port number
+
+for the smtp service. Windows 95 and NT do not implement the </i><tt><i>getprotobyname()</i></tt><i>
+
+or </i><tt><i>getservbyname()</i></tt><i>
+
+fuNCtions so default values are supplied.<br>
+
+Initialize </i><tt><i>$serverAddr</i></tt><i>
+
+with the mail server's Internet address.<br>
+
+The </i><tt><i>$length</i></tt><i>
+
+variable is tested to see if it is defined, if not, then the</i><tt><i>gethostbyname()</i></tt><i>
+
+fuNCtion failed.<br>
+
+Create a socket called </i><tt><i>SMTP</i></tt><i>
+
+using standard parameters.<br>
+
+Initialize </i><tt><i>$packedFormat</i></tt><i>
+
+with format specifiers.<br>
+
+Connect the socket to the port on the mail server.<br>
+
+Change the socket to use unbuffer input/output. Normally, sends
+
+and receives are stored in an internal buffer before being sent
+
+to your script. This line of code eliminates the buffering steps.
+
+<br>
+
+Create a temporary buffer. The buffer is temporary because it
+
+is local to the block surrounded by the curly brackets.<br>
+
+Read two responses from the server. My mail server sends two reponses
+
+when the connection is made. Your server may only send one response.
+
+<br>
+
+If so, delete one of the </i><tt><i>recv()</i></tt><i>
+
+calls.<br>
+
+Send the </i><tt><i>HELO</i></tt><i>
+
+command. The </i><tt><i>sendSMTP()</i></tt><i>
+
+fuNCtion will take care of reading the response.<br>
+
+Send the </i><tt><i>MAIL</i></tt><i>
+
+command indicating where messages that the mail server sends back
+
+(like undeliverable mail messages) should be sent.<br>
+
+Send the </i><tt><i>RCPT</i></tt><i>
+
+command to specify the recipient.<br>
+
+Send the </i><tt><i>DATA</i></tt><i>
+
+command.<br>
+
+Send the body of the letter. Note that no reponses are received
+
+from the mail server while the letter is sent.<br>
+
+Send a line containing a single period indicating that you are
+
+finished sending the body of the letter.<br>
+
+Send the </i><tt><i>QUIT</i></tt><i>
+
+command to end the conversation.<br>
+
+Close the socket.<br>
+
+Define the </i><tt><i>closeSocket()</i></tt><i>
+
+fuNCtion which will act as a signal handler.<br>
+
+Close the socket.<br>
+
+Call </i><tt><i>die()</i></tt><i>
+
+to display a message and end the script.<br>
+
+Define the send </i><tt><i>SMTP()</i></tt><i>
+
+fuNCtion.<br>
+
+Get the debug parameter.<br>
+
+Get the </i><tt><i>smtp</i></tt><i>
+
+command from the parameter array.<br>
+
+Send the </i><tt><i>smtp</i></tt><i>
+
+command to </i><tt><i>STDERR</i></tt><i>
+
+if the debug parameters were true.<br>
+
+Send the </i><tt><i>smtp</i></tt><i>
+
+command to the mail server.<br>
+
+Get the mail server's response.<br>
+
+Send the response to </i><tt><i>STDERR</i></tt><i>
+
+if the debug parameter were true.<br>
+
+Split the response into reply code and message, and return just
+
+the reply code.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 18.2&nbsp;&nbsp;18LST02.PL-Sending Mail with Perl<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+#!/usr/bin/perl -w
+
+
+
+use Socket;
+
+use strict;
+
+
+
+my($mailTo)     = 'medined@planet.net';
+
+
+
+my($mailServer) = 'mailhost2.planet.net';
+
+
+
+my($mailFrom)   = 'medined@planet.net';
+
+my($realName)   = &quot;Rolf D'Barno&quot;;
+
+my($subject)    = 'Test';
+
+my($body)       = &quot;Test Line One.\nTest Line Two.\n&quot;;
+
+
+
+$main::SIG{'INT'} = 'closeSocket';
+
+
+
+my($proto)      = getprotobyname(&quot;tcp&quot;)        || 6;
+
+my($port)       = getservbyname(&quot;SMTP&quot;, &quot;tcp&quot;) || 25;
+
+my($serverAddr) = (gethostbyname($mailServer))[4];
+
+
+
+if (! defined($length)) {
+
+
+
+    die('gethostbyname failed.');
+
+}
+
+
+
+socket(SMTP, AF_INET(), SOCK_STREAM(), $proto)
+
+    or die(&quot;socket: $!&quot;);
+
+
+
+$packFormat = 'S n a4 x8';   # Windows 95, SunOs 4.1+
+
+#$packFormat = 'S n c4 x8';   # SunOs 5.4+ (Solaris 2)
+
+
+
+connect(SMTP, pack($packFormat, AF_INET(), $port, $serverAddr))
+
+    or die(&quot;connect: $!&quot;);
+
+
+
+select(SMTP); $| = 1; select(STDOUT);    # use unbuffered i/o.
+
+
+
+{
+
+    my($inpBuf) = '';
+
+
+
+    recv(SMTP, $inpBuf, 200, 0);
+
+    recv(SMTP, $inpBuf, 200, 0);
+
+}
+
+
+
+sendSMTP(1, &quot;HELO\n&quot;);
+
+sendSMTP(1, &quot;MAIL From: &lt;$mailFrom&gt;\n&quot;);
+
+sendSMTP(1, &quot;RCPT To: &lt;$mailTo&gt;\n&quot;);
+
+sendSMTP(1, &quot;DATA\n&quot;);
+
+
+
+send(SMTP, &quot;From: $realName\n&quot;, 0);
+
+send(SMTP, &quot;Subject: $subject\n&quot;, 0);
+
+send(SMTP, $body, 0);
+
+
+
+sendSMTP(1, &quot;\r\n.\r\n&quot;);
+
+sendSMTP(1, &quot;QUIT\n&quot;);
+
+
+
+close(SMTP);
+
+
+
+sub closeSocket {     # close smtp socket on error
+
+    close(SMTP);
+
+    die(&quot;SMTP socket closed due to SIGINT\n&quot;);
+
+}
+
+
+
+sub sendSMTP {
+
+    my($debug)  = shift;
+
+    my($buffer) = @_;
+
+
+
+    print STDERR (&quot;&gt; $buffer&quot;) if $debug;
+
+    send(SMTP, $buffer, 0);
+
+
+
+    recv(SMTP, $buffer, 200, 0);
+
+    print STDERR (&quot;&lt; $buffer&quot;) if $debug;
+
+
+
+    return( (split(/ /, $buffer))[0] );
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+<b>&gt; HELO
+
+</font></b><font SIZE="2" FACE="Courier New">&lt; 250 saturn.planet.net Hello medined@stan54.planet.net
+
+    [207.3.100.120], pleased to meet you
+
+</font><b><font SIZE="2" FACE="Courier">&gt; MAIL From: &lt;medined@planet.net&gt;
+
+</font></b><font SIZE="2" FACE="Courier New">&lt; 250 &lt;medined@planet.net&gt;... Sender ok
+
+</font><b><font SIZE="2" FACE="Courier">&gt; RCPT To: &lt;~r00tbeer@fundy.csd.unbsj.ca&gt;
+
+</font></b><font SIZE="2" FACE="Courier New">&lt; 250 &lt;~r00tbeer@fundy.csd.unbsj.ca&gt;... Recipient ok
+
+</font><b><font SIZE="2" FACE="Courier">&gt; DATA
+
+</font></b><font SIZE="2" FACE="Courier New">&lt; 354 Enter mail, end with &quot;.&quot; on a line by itself
+
+</font><b><font SIZE="2" FACE="Courier">&gt;
+
+<b>.
+
+</b></font></b><font SIZE="2" FACE="Courier New">&lt; 250 TAA12656 Message accepted for delivery
+
+</font><b><font SIZE="2" FACE="Courier">&gt; QUIT
+
+</font></b><font SIZE="2" FACE="Courier New">&lt; 221 saturn.planet.net closing connection
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The lines in bold are the commands that were sent to the server.
+
+The body of the letter is not shown in the output. 
+
+<h2><a NAME="ReceivingMailPOP"><font SIZE="5" COLOR="#FF0000">
+
+Receiving Mail (POP)</font></a></h2>
+
+<p>
+
+The flip side to sending mail is, of course, receiving it. This
+
+is done using the POP or Post Office Protocol. SiNCe you've already
+
+read about the SMTP protocol in detail, I'll skip describing the
+
+details of the POP. After all, the details can be read in the
+
+RFC documents when they are needed. Instead, I'll use the POP3Client
+
+module- available on the CD-ROM-to demonstrate receiving mail.
+
+<p>
+
+Listing 18.3 contains a program that will <i>filter</i> your mail.
+
+It will display a report of the authors and subject line for any
+
+mail that relates to EarthDawn&trade;, a role-playing game from
+
+FASA. This program will not delete any mail from the server, so
+
+you can experiment with confideNCe.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Before trying to run this program, make sure that the POP3Client module (POP3Client.pm) is in the <tt><b><font FACE="Courier">Mail</font></b></tt> subdirectory of the library directory. You may need to create the <tt><b><font FACE="Courier">Mail</font></b></tt> subdirectory as I did. On my system, this directory is called  it is probably different on your system though. See your system administratior if you need help placing the file into the correct directory.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Caution</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+This script was tested using Windows 95. You might need to modify it for other systems. On SunOS 5.4+ (Solaris 2), you'll need to change the <tt><b><font FACE="Courier">POP3Client</font></b></tt> module to use a packing format of <tt>'<b>S n c4 
+x8</b>'</tt> instead of <tt>'<b>S n a4 x8</b>'</tt>. Other changes might also be needed.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Turn on the warning compiler option.<br>
+
+Load the </i><tt><i>POP3Client module</i></tt><i>.
+
+The </i><tt><i>POP3Client</i></tt><i>
+
+module will load the </i><tt><i>Socket</i></tt><i>
+
+module automatically.<br>
+
+Turn on the </i><tt><i>strict</i></tt><i>
+
+pragma.<br>
+
+Declare some variables used to temporary values.<br>
+
+Define the header format for the report.<br>
+
+Define the detail format for the report.<br>
+
+Initialize </i><tt><i>$username</i></tt><i>
+
+to a valid username for the mail server.<br>
+
+Initialize </i><tt><i>$password</i></tt><i>
+
+to a valid password for the user name.<br>
+
+Create a new </i><tt><i>POP3Client</i></tt><i>
+
+object.<br>
+
+Iterate over the mail messages on the server. </i><tt><i>$pop-&gt;Count</i></tt><i>
+
+holds the number of messages waiting on the server to be read.
+
+<br>
+
+Initialize a flag variable. When set true, the script will have
+
+a mail message relating to </i><tt><i>EarthDawn</i></tt><i>.
+
+<br>
+
+Iterate over the headers in each mail messages. The </i><tt><i>Head()</i></tt><i>
+
+method of the </i><tt><i>POP3Client</i></tt><i>
+
+module returns the header lines one at a time in the </i><tt><i>$_
+
+</i></tt><i>variable.<br>
+
+Store the author's name if looking at the From header line.<br>
+
+Store the subject if looking at the Subject line.<br>
+
+This is the filter test. It checks to see if the word &quot;EarthDawn&quot;
+
+is in the subject line. If so, the </i><tt><i>$earthDawn</i></tt><i>
+
+flag variable is set to true (or 1).<br>
+
+This line is commented out; normally it would copy the text of
+
+the message into the </i><tt><i>@body</i></tt><i>
+
+array.<br>
+
+This line is also commented out; it will delete the current mail
+
+message from the server. <i><b>Use with caution!</b> ONCe deleleted,
+
+you can't recover the messages.<br>
+
+Set the flag variable, </i></i><tt><i>$earthDawn</i></tt><i>,
+
+to true.<br>
+
+Write a detail line to the report if the flag variable is true.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 18.3&nbsp;&nbsp;18LST03.PL-Creating a Mail Filter<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+#!/usr/bin/perl -w
+
+
+
+use Mail::POP3Client;
+
+use strict;
+
+
+
+my($i, $from, $subject);
+
+
+
+
+
+format main::STDOUT_TOP =
+
+    @|||||||||||||||||||||||||||||||||||||||||||||||||  Pg @&lt;
+
+    &quot;Waiting Mail Regarding EarthDawn&quot;,                    $%
+
+
+
+    Sender                  Subject
+
+    ----------------------  --------------------------------
+
+.
+
+
+
+format main::STDOUT =
+
+    @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;  @&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+
+           $from,                    $subject
+
+.
+
+
+
+my($username)   = 'medined';
+
+my($password)   = 'XXXXXXXX';
+
+my($mailServer) = 'mailhost2.planet.net';
+
+
+
+my($pop) = Mail::POP3Client-&gt;new($username, $password, $mailServer);
+
+
+
+for ($i = 1; $i &lt;= $pop-&gt;Count; $i++) {
+
+    my($earthDawn) = 0;
+
+
+
+    foreach ($pop-&gt;Head($i)) {
+
+        $from = $1 if /From:\s(.+)/;
+
+
+
+$subject = $1 if /Subject:\s(.+)/;
+
+
+
+        if (/Subject: .*EarthDawn/) {
+
+#           @body = $pop-&gt;Body($i);
+
+#           $pop-&gt;Delete($i);
+
+            $earthDawn = 1;
+
+        }
+
+    }
+
+
+
+    if ($earthDawn) {
+
+        write();
+
+    }
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+Waiting Mail Regarding EarthDawn           Pg 1
+
+
+
+    Sender                  Subject
+
+    ----------------------  ---------------------------------
+
+    Bob.Schmitt             [EarthDawn] NethermaNCer
+
+    Doug.Stoechel           [EarthDawn] Weaponsmith
+
+    Mindy.Bailey            [EarthDawn] Troubador
+
+</pre>
+
+</blockquote>
+
+<p>
+
+When you run this script, you should change <tt>$username</tt>,
+
+<tt>$password</tt>, and <tt>$mailServer</tt>
+
+and the filter test to whatever is appropriate for your system.
+
+<p>
+
+You could combine the filter program with the send mail program
+
+(from Listing 18.2) to create an automatic mail-response program.
+
+For example, if the subject of a message is &quot;Info,&quot;
+
+you can automaticallly send a predefined message with information
+
+about a given topic. You could also create a program to automatically
+
+forward the messages to a covering person while you are on vacation.
+
+I'm sure that with a little thought you can come up with a half-dozen
+
+ways to make your life easier by automatically handling some of
+
+your iNComing mail.
+
+<h2><a NAME="CheckingforUpnessEcho"><font SIZE="5" COLOR="#FF0000">
+
+Checking for Upness (Echo)</font></a></h2>
+
+<p>
+
+Occasionally it's good to know if a server is up and fuNCtioning.
+
+The echo service is used to make that determination. Listing 18.4
+
+shows a program that checks the upness of two servers.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Caution</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Windows 95 (and perhaps other operating systems) can't use the SIGALRM interrupt signal. This might cause problems if you use this script on those systems because the program will wait forever when a server does not respond.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Turn on the warning compiler option.<br>
+
+Load the  </i><tt><i>Socket</i></tt><i>
+
+module.<br>
+
+Turn on the strict pragma.<br>
+
+Display a message if the </i><tt><i>red.planet.net</i></tt><i>
+
+server is reachable.<br>
+
+Display a message if the </i><tt><i>saturn.planet.net</i></tt><i>
+
+server is reachable.<br>
+
+Declare the </i><tt><i>echo()</i></tt><i>
+
+fuNCtion.<br>
+
+Get the host and timeout parameters from the paramter array. If
+
+no timeout parameter is specified, 5 seconds wil be used.<br>
+
+Declare some local variables.<br>
+
+Get the tcp protocol and echo port numbers.<br>
+
+Get the server's Internet address.<br>
+
+If </i><tt><i>$serverAddr</i></tt><i>
+
+is undefined then the name of the server was probably iNCorrect
+
+and an error message is displayed.<br>
+
+Check to see if the script is running under Windows 95.<br>
+
+If not under Windows 95, store the old alarm handler fuNCtion,
+
+set the alarm handler to be an anonymous fuNCtion that simply
+
+ends the script, and set an alarm to go off in </i><tt><i>$timeout</i></tt><i>
+
+seconds.<br>
+
+Initialize the status variable to true.<br>
+
+Create a socket called </i><tt><i>ECHO</i></tt><i>.
+
+<br>
+
+Initialize </i><tt><i>$packedFormat</i></tt><i>
+
+with format specifiers.<br>
+
+Connect the socket to the remote server.<br>
+
+Close the socket.<br>
+
+Check to see if the script is running under Windows 95.<br>
+
+If not under Windows 95, reset the alarm and restore the old alarm
+
+handler fuNCtion.<br>
+
+Return the status.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 18.4&nbsp;&nbsp;18LST04.PL-Using the Echo Service<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+#!/usr/bin/perl -w
+
+
+
+use Socket;
+
+use strict;
+
+
+
+print &quot;red.planet.net is up.\n&quot; if echo('red.planet.net');
+
+print &quot;saturn.planet.net is up.\n&quot; if echo('saturn.planet.net');
+
+
+
+sub echo {
+
+    my($host)    = shift;
+
+    my($timeout) = shift || 5;
+
+
+
+    my($oldAlarmHandler, $status);
+
+
+
+    my($proto)      = getprotobyname(&quot;tcp&quot;)        || 6;
+
+    my($port)       = getservbyname(&quot;echo&quot;, &quot;tcp&quot;) || 7;
+
+    my($serverAddr) = (gethostbyname($host))[4];
+
+
+
+    return(print(&quot;echo: $host could not be found, sorry.\n&quot;), 0)
+
+        if ! defined($serverAddr);
+
+
+
+    if (0 == Win32::IsWin95) {
+
+        $oldAlarmHandler = $SIG{'ALRM'};
+
+        $SIG{'ALRM'} = sub { die(); };
+
+        alarm($timeout);
+
+    }
+
+
+
+    $status = 1;    # assume the connection will work.
+
+
+
+    socket(ECHO, AF_INET(), SOCK_STREAM(), $proto)
+
+        or die(&quot;socket: $!&quot;);
+
+    $packFormat = 'S n a4 x8';   # Windows 95, SunOs 4.1+
+
+    #$packFormat = 'S n c4 x8';   # SunOs 5.4+ (Solaris 2)
+
+
+
+    connect(ECHO, pack($packFormat, AF_INET(), $port, $serverAddr))
+
+        or $status = 0;
+
+
+
+    close(ECHO);
+
+
+
+    if (0 == Win32::IsWin95) {
+
+        alarm(0);
+
+        $SIG{'ALRM'} = $oldAlarmHandler;
+
+    }
+
+
+
+    return($status);
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program will display:
+
+<blockquote>
+
+<pre>
+
+echo: red.planet.net could not be found, sorry.
+
+saturn.planet.net is up.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+When dealing with the echo service, you only need to make the
+
+connection in order to determine that the server is up and running.
+
+As soon as the connection is made, you can close the socket.
+
+<p>
+
+Most of the program should be pretty familiar to you by now. However,
+
+you might not immediately realize what return statement in the
+
+middle of the <tt>echo()</tt> fuNCtion
+
+does. The return statement is repeated here:
+
+<blockquote>
+
+<pre>
+
+return(print(&quot;echo: $host could not be found, sorry.\n&quot;), 0)
+
+        if ! defined($serverAddr);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The statement uses the comma operator to execute two statements
+
+where normally you would see one. The last statement to be evaluated
+
+is the value for the series of statements. In this case, a zero
+
+value is returned. I'm not recommending this style of coding,
+
+but I thought you should see it a least oNCe. Now, if you see
+
+this technique in another programmer's scripts you'll understand
+
+it better. The return statement could also be done written like
+
+this:
+
+<blockquote>
+
+<pre>
+
+if (! defined($serverAddr) {
+
+    print(&quot;echo: $host could not be found, sorry.\n&quot;)
+
+    return(0);
+
+}
+
+</pre>
+
+</blockquote>
+
+<h2><a NAME="TransferringFilesFTP"><font SIZE="5" COLOR="#FF0000">
+
+Transferring Files (FTP)</font></a></h2>
+
+<p>
+
+One of the backbones of the Internet is the ability to transfer
+
+files. There are thousands of fcservers from which you can download
+
+files. For the latest graphic board drivers to the best in shareware
+
+to the entire set of UNIX sources, ftp is the answer.
+
+<p>
+
+The program in Listing 18.5 downloads the Perl FAQ in compressed
+
+format from ftp.cis.ufl.edu and displays a directory in two formats.
+
+<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Caution</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+The ftplib.pl file can be found on the CD-ROM that accompanies this book. Please put it into your Perl library directory. I have modified the standard ftplib.pl that is available from the Internet to allow the library to work under Windows 95 and Windows 
+NT.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Turn on the warning compiler option.<br>
+
+Load the </i><tt><i>ftplib</i></tt><i>
+
+library.<br>
+
+Turn on the strict pragma.<br>
+
+Declare a variable to hold directory listings.<br>
+
+Turn debugging mode on. This will display all of the protocol
+
+commands and responses on </i><tt><i>STDERR</i></tt><i>.
+
+<br>
+
+Connect to the ftp server providing a </i><tt><i>userid</i></tt><i>
+
+of anonymous and your email address as the password.<br>
+
+Use the </i><tt><i>list()</i></tt><i>
+
+fuNCtion to get a directory listing without first changing to
+
+the directory.<br>
+
+Change to the </i><tt><i>/pub/perl/faq</i></tt><i>
+
+directory.<br>
+
+Start binary mode. This is very important when getting compressed
+
+files or executables.<br>
+
+Get the Perl FAQ file.<br>
+
+Use </i><tt><i>list()</i></tt><i>
+
+to find out which files are in the current directory and then
+
+print the list.<br>
+
+Use </i><tt><i>dir()</i></tt><i> to
+
+find out which files are in the current directory andthen print
+
+the list.<br>
+
+Turn debugging off.<br>
+
+Change to the </i><tt><i>/pub/perl/faq</i></tt><i>
+
+directory.<br>
+
+Use </i><tt><i>list()</i></tt><i>
+
+to find out which files are in the current directory and then
+
+print the list.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 18.5&nbsp;&nbsp;18LST05.PL-Using the ftplib Library
+
+<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+#!/usr/bin/perl -w
+
+
+
+require('ftplib.pl');
+
+use strict;
+
+
+
+my(@dirList);
+
+
+
+ftp::debug('ON');
+
+ftp::open('ftp.cis.ufl.edu', 'anonymous', 'medined@planet.net') or die($!);
+
+
+
+@dirList = ftp::list('pub/perl/faq');
+
+
+
+ftp::cwd('/pub/perl/faq');
+
+ftp::binary();
+
+ftp::gets('FAQ.gz');
+
+
+
+@dirList = ftp::list();
+
+print(&quot;list of /pub/perl/faq\n&quot;);
+
+foreach (@dirList) {
+
+    print(&quot;\t$_\n&quot;);
+
+
+
+}
+
+@dirList = ftp::dir();
+
+print(&quot;list of /pub/perl/faq\n&quot;);
+
+foreach (@dirList) {
+
+    print(&quot;\t$_\n&quot;);
+
+}
+
+ftp::debug();
+
+ftp::cwd('/pub/perl/faq');
+
+@dirList = ftp::list();
+
+print(&quot;list of /pub/perl/faq\n&quot;);
+
+foreach (@dirList) {
+
+    print(&quot;\t$_\n&quot;);
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+&lt;&lt; 220 flood FTP server (Version wu-2.4(21) Tue Apr 9 17:01:12 EDT 1996) 
+
+ready.
+
+&gt;&gt; user anonymous
+
+&lt;&lt; 331 Guest login ok, send your complete e-mail address as password.
+
+&gt;&gt; pass .....
+
+&lt;&lt; 230-                     Welcome to the
+
+&lt;&lt; 230-                  University of Florida
+
+.
+
+
+
+.
+
+
+
+.
+
+&lt;&lt; 230 Guest login ok, access restrictions apply.
+
+&gt;&gt; port 207,3,100,103,4,135
+
+&lt;&lt; 200 PORT command successful.
+
+&gt;&gt; nlst pub/perl/faq
+
+&lt;&lt; 150 Opening ASCII mode data connection for file list.
+
+&lt;&lt; 226 Transfer complete.
+
+&gt;&gt; cwd /pub/perl/faq
+
+&lt;&lt; 250 CWD command successful.
+
+&gt;&gt; type i
+
+&lt;&lt; 200 Type set to I.
+
+&gt;&gt; port 207,3,100,103,4,136
+
+&lt;&lt; 200 PORT command successful.
+
+&gt;&gt; retr FAQ.gz
+
+&lt;&lt; 150 Opening BINARY mode data connection for FAQ.gz (75167 bytes).
+
+&lt;&lt; 226 Transfer complete.
+
+&gt;&gt; port 207,3,100,103,4,138
+
+&lt;&lt; 200 PORT command successful.
+
+&gt;&gt; nlst
+
+&lt;&lt; 150 Opening BINARY mode data connection for file list.
+
+&lt;&lt; 226 Transfer complete.
+
+list of /pub/perl/faq
+
+     FAQ
+
+     FAQ.gz
+
+&gt;&gt; port 207,3,100,103,4,
+
+139
+
+&lt;&lt; 200 PORT command successful.
+
+&gt;&gt; list
+
+&lt;&lt; 150 Opening BINARY mode data connection for /bin/ls.
+
+&lt;&lt; 226 Transfer complete.
+
+list of /pub/perl/faq
+
+     total 568
+
+     drwxrwxr-x   2 1208     31           512 Nov  7  1995 .
+
+     drwxrwxr-x  10 1208     68           512 Jun 18 21:32 ..
+
+     -rw-rw-r--   1 1208     31        197446 Nov  4  1995 FAQ
+
+     -rw-r--r--   1 1208     31         75167 Nov  7  1995 FAQ.gz
+
+list of /pub/perl/faq
+
+     FAQ
+
+     FAQ.gz
+
+</pre>
+
+</blockquote>
+
+<p>
+
+I'm sure that you can pick out the different ftp commands and
+
+responses in this output. Notice that the ftp commands and responses
+
+are only displayed when the debugging feature is turned on.
+
+<h2><a NAME="ReadingtheNewsNNTP"><font SIZE="5" COLOR="#FF0000">
+
+Reading the News (NNTP)</font></a></h2>
+
+<p>
+
+One of the most valuable services offered on the net is Usenet
+
+newsgroups. Most newsgroups are question and answer forums. You
+
+post a message-perhaps asking a question. And, usually, you get
+
+a quick response. In addition, a small number of newsgroups are
+
+used to distribute information. <a HREF="ch22.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm">Chapter 22</a>, &quot;Internet Resources,&quot;
+
+describes some specific newsgroups that you might want to read.
+
+<p>
+
+Like most services, NNTP uses a client/server model. You connect
+
+to a news server and request information using NNTP. The protocol
+
+consists of a series of commands and replies. I think NNTP is
+
+a bit more complicated than the other because the variety of things
+
+you might want to do with news articles is larger.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Caution</b></font></b></td>
+
+</tr>
+
+<tr><td>
+
+<blockquote>
+
+Some of the NNTP commands will result in very large responses. For example, the <tt>LIST</tt> command will retrieve the name of every newsgroup that your server knows about. Because there are over 10,000 newsgroups it might take a lot of time for the 
+response to be received.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+I suggest using Perl to filter newsgroups or to retrieve all the
+
+articles available and create reports or extracts. Don't use Perl
+
+for a full-blown news client. Use Java, Visual Basic, or another
+
+language that is designed with user interfaces in mind. In addition,
+
+there are plenty of great free or inexpensive news clients available,
+
+why reinvent the wheel?
+
+<p>
+
+Listing 18.6 contains an object-oriented program that eNCapsulates
+
+a small number of NNTP commands so that you can experiment with
+
+the protocol. Only the simplest of the commands have been implemented
+
+to keep the example small and uNCluttered.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Turn on the warning compiler option.<br>
+
+Load the </i><tt><i>Socket</i></tt><i>
+
+module.<br>
+
+Turn on the </i><tt><i>strict</i></tt><i>
+
+pragma.<br>
+
+Begin the News package. This also started the definition of the
+
+News class.<br>
+
+Define the </i><tt><i>new()</i></tt><i>
+
+fuNCtion2-the constructor for the News class.<br>
+
+Get the class name from the parameter array.<br>
+
+Get the name of the news server from the parameter array.<br>
+
+Declare a hash with two entries-the class properties.<br>
+
+Bless the hash.<br>
+
+Call the </i><tt><i>initialize()</i></tt><i>
+
+fuNCtion that connects to the server.<br>
+
+Define a signal handler to gracefully handle Ctrl+C and Ctrl+Break.
+
+<br>
+
+Return a refereNCe to the hash-the class object.<br>
+
+Define the </i><tt><i>initialize()</i></tt><i>
+
+fuNCtion-connects to the news server.<br>
+
+Get the class name from the parameter array.<br>
+
+Get the protocol number, port number, and server address.<br>
+
+Create a socket.<br>
+
+Initialize the format for the </i><tt><i>pack()</i></tt><i>
+
+fuNCtion.<br>
+
+Connect to the news server.<br>
+
+Modify the socket to use non-buffered I/O.<br>
+
+Call the </i><tt><i>getInitialResponse()</i></tt><i>
+
+fuNCtion.<br>
+
+Define </i><tt><i>getInitialResponse()</i></tt><i>-receive
+
+response from connection.<br>
+
+Get the class name from the parameter array.<br>
+
+Initialize a buffer to hold the reponse.<br>
+
+Get the reponse from the server.<br>
+
+Print the response if debugging is turned on.<br>
+
+Define </i><tt><i>closeSocket()</i></tt><i>-signal
+
+handler.<br>
+
+Close the socket.<br>
+
+End the script.<br>
+
+Define </i><tt><i>DESTROY()</i></tt><i>-the
+
+deconstructor for the class.<br>
+
+Close the socket.<br>
+
+Define </i><tt><i>debug()</i></tt><i>-turns
+
+debugging on or off.<br>
+
+Get the class name from the parameter array.<br>
+
+Get the state (on or off) from the parameter array.<br>
+
+Turn debugging on if the state is on or 1.<br>
+
+Turn debugging off if the state is off or 0.<br>
+
+Define </i><tt><i>send()</i></tt><i>-send
+
+a NNTP command and get a response.<br>
+
+Get the class name from the parameter array.<br>
+
+Get the command from the parameter array.<br>
+
+Print the command if debugging is turned on.<br>
+
+Send the command to the news server.<br>
+
+Get a reply from the news server.<br>
+
+Print the reply if debugging is turned on.<br>
+
+Return the reply to the calling routine.<br>
+
+Define </i><tt><i>article()</i></tt><i>-gets
+
+a news article from the server.<br>
+
+Get the class name from the parameter array.<br>
+
+Get the article number from the parameter array.<br>
+
+Return the response to the </i><tt><i>ARTICLE</i></tt><i>
+
+command. No processing of the reponse is needed.<br>
+
+Define </i><tt><i>group()</i></tt><i>-gets
+
+information about a specific newsgroup.<br>
+
+Get the class name from the parameter array.<br>
+
+Get the newsgroup name from the parameter array.<br>
+
+Split the response using space characters as a delimiter.<br>
+
+Define </i><tt><i>help()</i></tt><i>-gets
+
+a list of commands and descriptions from server.<br>
+
+Return the response to the </i><tt><i>HELP</i></tt><i>
+
+command.<br>
+
+Define </i><tt><i>quit()</i></tt><i>-ends
+
+the session with the server.<br>
+
+Send the </i><tt><i>QUIT</i></tt><i>
+
+command.<br>
+
+Close the socket.<br>
+
+Start the main package or namespace.<br>
+
+Declare some local variables.<br>
+
+Create a </i><tt><i>News</i></tt><i>
+
+object.<br>
+
+Turn debugging on.<br>
+
+Get information about the </i><tt><i>comp.lang.perl.misc</i></tt><i>
+
+newsgroup.<br>
+
+If the reply is good, display the newgroup information.<br>
+
+Turn debugging off.<br>
+
+Initialize some loop variables. The loop will execute 5 times.
+
+<br>
+
+Start looping through the article numbers.<br>
+
+Read an article, split the response using newline as the delimiter.
+
+<br>
+
+Search through the lines of the article for the From and Subject
+
+lines.<br>
+
+Display the article number, author, and subject.<br>
+
+Turn debugging on.<br>
+
+Get help from the server. They will be displayed because debugging
+
+is on.<br>
+
+Stop the </i><tt><i>NNTP</i></tt><i>
+
+session.<br>
+
+Define the </i><tt><i>min() </i></tt><i>fuNCtion-find
+
+smallest element in parameter array.<br>
+
+Store the first element into </i><tt><i>$min</i></tt><i>.
+
+<br>
+
+Iterate over the parameter array.<br>
+
+If the current element is smaller than </i><tt><i>$min</i></tt><i>,
+
+set </i><tt><i>$min</i></tt><i> equal
+
+to it.<br>
+
+Return </i><tt><i>$min</i></tt>.
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 18.6&nbsp;&nbsp;18LST06.PL-Using the NNTP Protocol
+
+to Read Usenet News<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+#!/usr/bin/perl -w
+
+
+
+use Socket;
+
+use strict;
+
+
+
+package News;
+
+
+
+    sub new {
+
+        my($class)      = shift;
+
+        my($server)     = shift || 'news';
+
+ my($self) = {
+
+            'DEBUG'  =&gt; 0,
+
+            'SERVER' =&gt; $server,
+
+        };
+
+        bless($self, $class);
+
+
+
+        $self-&gt;initialize();
+
+
+
+        $main::SIG{'INT'} = 'News::closeSocket';
+
+
+
+        return($self);
+
+    }
+
+
+
+    sub initialize {
+
+        my($self)   = shift;
+
+
+
+        my($proto)      = getprotobyname('tcp')        || 6;
+
+        my($port)       = getservbyname('nntp', 'tcp') || 119;
+
+        my($serverAddr) = (gethostbyname($self-&gt;{'SERVER'}))[4];
+
+
+
+        socket(SOCKET, main::AF_INET(), main::SOCK_STREAM(), $proto)
+
+            or die(&quot;socket: $!&quot;);
+
+
+
+        my($packFormat) = 'S n a4 x8';   # Windows 95, SunOs 4.1+
+
+        #my($packFormat) = 'S n c4 x8';   # SunOs 5.4+ (Solaris 2)
+
+
+
+        connect(SOCKET, pack($packFormat, main::AF_INET(), $port, $serverAddr))
+
+            or die(&quot;connect: $!&quot;);
+
+
+
+        select(SOCKET);
+
+        $| = 1;
+
+select(main::STDOUT);
+
+        
+
+        $self-&gt;getInitialResponse();
+
+    }
+
+
+
+    sub getInitialResponse {
+
+        my($self)   = shift;
+
+        my($inpBuf) = '';
+
+
+
+        recv(SOCKET, $inpBuf, 200, 0);
+
+        print(&quot;&lt;$inpBuf\n&quot;) if $self-&gt;{'DEBUG'};
+
+    }
+
+
+
+    sub closeSocket {     # close smtp socket on error
+
+        close(SOCKET);
+
+        die(&quot;\nNNTP socket closed due to SIGINT\n&quot;);
+
+    }
+
+
+
+    sub DESTROY {
+
+        close(SOCKET);
+
+
+
+    
+
+
+
+ }
+
+    sub debug {
+
+        my($self) = shift;
+
+        my($state) = shift;
+
+
+
+        $self-&gt;{'DEBUG'} = 1 if $state =~ m/on|1/i;
+
+        $self-&gt;{'DEBUG'} = 0 if $state =~ m/off|0/i;
+
+    }
+
+
+
+    sub send {
+
+        my($self)   = shift;
+
+        my($buffer) = @_;
+
+
+
+        print(&quot;&gt; $buffer&quot;) if $self-&gt;{'DEBUG'};
+
+        send(SOCKET, $buffer, 0);
+
+
+
+        # Use a large number to receive because some articles
+
+        # can be huge.
+
+        recv(SOCKET, $buffer, 1000000, 0);
+
+        print(&quot;&lt; $buffer&quot;) if $self-&gt;{'DEBUG'};
+
+
+
+        return($buffer);
+
+    }
+
+
+
+    # NNTP Commands
+
+
+
+    sub article {
+
+        my($self)          = shift;
+
+        my($articleNumber) = shift;
+
+        return($self-&gt;send(&quot;ARTICLE $articleNumber\n&quot;));
+
+    }
+
+
+
+    sub group {
+
+        my($self)      = shift;
+
+        my($newsgroup) = shift;
+
+
+
+        split(/ /, $self-&gt;send(&quot;GROUP $newsgroup\n&quot;));
+
+    }
+
+
+
+    sub help {
+
+        return($_[0]-&gt;send(&quot;HELP\n&quot;));
+
+    }
+
+
+
+    sub quit {
+
+        $_[0]-&gt;send(&quot;QUIT\n&quot;);
+
+        close(SOCKET);
+
+    }
+
+
+
+package main;
+
+    my(@lines, $from, $help, $subject);
+
+    my($obj) = News-&gt;new('jupiter.planet.net');
+
+    $obj-&gt;debug('ON');
+
+    my($replyCode, $numArticles, $firstArticle, $lastArticle) =
+
+        $obj-&gt;group('comp.lang.perl.misc');
+
+    if (211 == $replyCode ) {
+
+        printf(&quot;\nThere are %d articles, from %d to %d.\n\n&quot;,
+
+            $numArticles, $firstArticle, $lastArticle);
+
+    }
+
+    $obj-&gt;debug('OFF');
+
+
+
+    my($loopVar);
+
+    my($loopStart) = $firstArticle;
+
+    my($loopEnd)   = min($lastArticle, $firstArticle+5);
+
+
+
+    for ($loopVar = $loopStart; $loopVar &lt;= $loopEnd; $loopVar++) {
+
+        @lines = split(/\n/, $obj-&gt;article($loopVar));
+
+        foreach (@lines) {
+
+            $from    = $1 if (/From:\s(.*?)\s/);
+
+            $subject = $1 if (/Subject:\s(.*)/);
+
+        }
+
+        print(&quot;#$loopVar\tFrom:    $from\n\tSubject: $subject\n\n&quot;);
+
+    }
+
+
+
+    $obj-&gt;debug('ON');
+
+    $help    = $obj-&gt;help();
+
+
+
+    $obj-&gt;quit();
+
+
+
+sub min {
+
+    my($min) = shift;
+
+    foreach (@_) {
+
+        $min = $_ if $_ &lt; $min;
+
+    }
+
+    return($min);
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+&lt;200 jupiter.planet.net InterNetNews NNRP server INN 1.4 22-Dec-93 ready (post
+
+
+
+<b>&gt; GROUP comp.lang.perl.misc
+
+</b>&lt; 211 896 27611 33162 comp.lang.perl.misc
+
+
+
+There are 896 articles, from 27611 to 33162.
+
+
+
+#27611  From:    rtvsoft@clearlight.com
+
+
+
+    Subject: Re: How do I suppress this error message
+
+#27612  From:    aml@world.std.com
+
+    Subject: Re: find and replace
+
+
+
+#27613  From:    hallucin@netvoyage.net
+
+    Subject: GRRRR!!!! Connect error!
+
+
+
+#27614  From:    mheins@prairienet.org
+
+    Subject: Re: Why does RENAME need parens?
+
+
+
+#27615  From:    merlyn@stonehenge.com
+
+    Subject: Re: Date on Perl 2ed moved?
+
+#27616  From:    Tim
+
+    Subject: Re: How do I suppress this error message
+
+
+
+<b>&gt; HELP
+
+</b>&lt; 100 Legal commands
+
+  authinfo user Name|pass Password
+
+  article [MessageID|Number]
+
+  body [MessageID|Number]
+
+  date
+
+  group newsgroup
+
+  head [MessageID|Number]
+
+  help
+
+  ihave
+
+  last
+
+  list [active|newsgroups|distributions|schema]
+
+  listgroup newsgroup
+
+  mode reader
+
+  newgroups yymmdd hhmmss [&quot;GMT&quot;] [&lt;distributions&gt;]
+
+  newnews newsgroups yymmdd hhmmss [&quot;GMT&quot;] [&lt;distributions&gt;]
+
+  next
+
+  post
+
+  slave
+
+  stat [MessageID|Number]
+
+  xgtitle [group_pattern]
+
+  xhdr header [range|MessageID]
+
+  xover [range]
+
+  xpat header range|MessageID pat [morepat...]
+
+  xpath xpath MessageID
+
+Report problems to &lt;usenet@earth.planet.net&gt;
+
+.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The program previously listed is very useful for hacking but it
+
+is not ready for professional use in several respects. The first
+
+problem is that it pays no attention to how large the iNComing
+
+article is. It will read up to one million characters. This is
+
+probably not good. You might consider a different method. The
+
+second problem is that it ignores error messages sent from the
+
+server. In a professional program, this is a bad thing to do.
+
+Use this program as a lauNChpad to a more robust application.
+
+<h2><a NAME="TheWorldWideWebHTTP"><font SIZE="5" COLOR="#FF0000">
+
+The World Wide Web (HTTP)</font></a></h2>
+
+<p>
+
+Unfortunately, the HTTP protocol is a bit extensive to cover in
+
+this introductory book. However, if you've read and understood
+
+the examples in this chapter then, you'll have little problem
+
+downloading some modules from the CPAN archives and quickly writing
+
+your own Web crawling programs. You can find out more about CPAN
+
+in <a HREF="ch22.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm">Chapter 22</a>, &quot;Internet Resources.&quot;
+
+<p>
+
+In order to get you started, there are two files on the CD-ROM,
+
+URL.PL and URL-GET.PL. These libraries will retrieve Web documents
+
+when given a specific URL. Place them into your Perl directory
+
+and run the program in Listing 18.7. It will download the Perl
+
+home page into the <tt>$perlHomePage</tt>
+
+variable.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Load the </i><tt><i>url_get</i></tt><i>
+
+library.<br>
+
+Initialize </i><tt><i>$perlhomePage</i></tt><i>
+
+with the contents of the Perl home page.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 18.7&nbsp;&nbsp;18LST07.PL-Retrieving the Perl Home
+
+Page<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+require 'url_get.pl';
+
+
+
+$perlHomePage = url_get('http://www.perl.com');
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+The HTTP standard is kept on the <b>http://info.cern.ch/hypertext/www/
+
+protocols/HTTP/HTTP2.html</b> Web page. 
+
+<h2><a NAME="Summary"><font SIZE="5" COLOR="#FF0000">
+
+Summary</font></a></h2>
+
+<p>
+
+Learning Internet protocols will give you a very valuable skill
+
+and enable you to save time by automating some of the more mundane
+
+tasks you do. I'm sure you'll be able to come up with some fascinating
+
+new tools to make yourself more productive. For example, the other
+
+day I stumbled across a Web site that searched a newsgroup for
+
+all URLs mentioned in the messages and stored them on a Web page
+
+sorted by date. This is an obvious time saver. That Webmaster
+
+no longer needs to waste time reading the message to find interesting
+
+sites to visit.
+
+<p>
+
+You started this chapter off with a list of some protocols or
+
+services that are available. Then you learned that protocols are
+
+a set of commands and responses that both a server and a client
+
+understand. The high-level protocols (like mail and file-transfer)
+
+rest on top of the TCP/IP protocol. TCP/IP was ignored because,
+
+like any good foundation, you don't need to know its details in
+
+order to use it.
+
+<p>
+
+Servers and clients use a different set of fuNCtions. Servers
+
+use <tt>socket()</tt>, <tt>bind()</tt>,
+
+<tt>listen()</tt>, <tt>accept()</tt>,
+
+<tt>close()</tt>, and a variety of
+
+I/O fuNCtions. Client use <tt>socket()</tt>,
+
+<tt>connect()</tt>, <tt>close()</tt>,
+
+and a variety of I/O fuNCtions.
+
+<p>
+
+On the server side, every socket must have an address that consists
+
+of the server's address and a port number. The port number can
+
+be any number greater than 1024. The name and port are combined
+
+using a colon as a delimiter. For example, www.foo.com:4000.
+
+<p>
+
+Next, you looked at an example of the time service. This service
+
+is useful for syNChronizing all of the machines on a network.
+
+<p>
+
+SMTP or Simple Mail Transport Protocol is used for sending mail.
+
+There are only five basic commands: <tt>HELO</tt>,
+
+<tt>MAIL</tt>, <tt>RCPT</tt>,
+
+<tt>DATA</tt>, and <tt>QUIT</tt>.
+
+These commands were discussed and then a mail sending program
+
+was shown in Listing 18.2.
+
+<p>
+
+The natural corollary  to sending mail is receiving mail-done
+
+with the POP or Post Office Protocol. Listing 18.3 contained a
+
+program to filter iNComing mail looking for a specific string.
+
+It produced a report of the messages that contained that string
+
+in the subject line.
+
+<p>
+
+After looking at POP, you saw how to use the Echo service to see
+
+if a server was running. This service is of marginal use in Windows
+
+operating systems because they now handle the SIGALRM signal.
+
+So a process might wait forever for a server to respond.
+
+<p>
+
+Then, you looked at ftp or File Transfer Protocol. This protocol
+
+is used to send files between computers. The example in Listing
+
+18.5 used object-oriented techniques to retrieve the Perl Frequently
+
+Asked Questions file.
+
+<p>
+
+NNTP was next. The news protocol can retrieve articles from a
+
+news server. While the example was a rather large program, it
+
+still only covered a few of the commands that are available.
+
+<p>
+
+Lastly, the http protocol was mentioned. A very short-two line-program
+
+was given to retrieve a single Web page.
+
+<h2><a NAME="ReviewQuestions"><font SIZE="5" COLOR="#FF0000">
+
+Review Questions</font></a></h2>
+
+<blockquote>
+
+Answers to Review Questions are in Appendix A.
+
+</blockquote>
+
+<ol>
+
+<li>What is a protocol?
+
+<li>What is a socket?
+
+<li>What is the POP?
+
+<li>Will client programs use the <tt>bind()</tt>
+
+fuNCtion?
+
+<li>Do newly created sockets have an address?
+
+<li>What is a port?
+
+<li>When sending the body or text of an e-mail message, will the
+
+server response after each line?
+
+<li>Why shouldn't the echo service by used by Windows operating
+
+systems?
+
+<li>What is the largest NNTP reponse in terms of bytes?
+
+</ol>
+
+<h2><a NAME="ReviewExercises"><font SIZE="5" COLOR="#FF0000">
+
+Review Exercises</font></a></h2>
+
+<ol>
+
+<li>Send an e-mail message to m<b>edined@planet.net.</b> Use a
+
+subject of &quot;Perl By Example&quot; and let me know your opinion
+
+of the book so far.
+
+<li>Modify the mail filter program in Listing 18.3 to search the
+
+From line instead of the Subject line.
+
+<li>Change the news program into filter so that you will only
+
+print the author and subject of interesting news articles.
+
+</ol>
+
+<hr>
+
+
+
+<center><p><a HREF="ch17.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch17.htm"><img SRC="pc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="#CONTENTS"><img SRC="cc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/cc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="index-1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/index-1.htm"><img SRC="hb.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/hb.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="ch19.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm"><img SRC="nc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/nc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<hr WIDTH="100%"></p></center>
+
+</body>
+
+</html>
+

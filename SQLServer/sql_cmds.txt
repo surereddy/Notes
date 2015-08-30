@@ -1,0 +1,18 @@
+|- commit 
+USE AdventureWorks;
+GO
+BEGIN TRANSACTION;
+GO
+DELETE FROM HumanResources.JobCandidate
+    WHERE JobCandidateID = 13;
+GO
+COMMIT TRANSACTION;
+GO
+
+
+|— Shrink database
+DBCC SHRINKDATABASE (DirectReach, 10)
+GO
+
+#Note: Shrink database and leave 10% free space of the data file for log.
+This works for sql server 8.0.

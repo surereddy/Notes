@@ -1,0 +1,60 @@
+BODY {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 12px; BACKGROUND: #fefefe fixed; PADDING-BOTTOM: 0px; MARGIN: 0px 12%; WIDTH: 729px; COLOR: #333333; LINE-HEIGHT: 12pt; PADDING-TOP: 0px; FONT-FAMILY: Tahoma,verdana,sans-serif, arial, Helvetica, '新宋体'
+}
+TD {
+	FONT-FAMILY: Tahoma, Georgia; LIST-STYLE-TYPE: square
+}
+TH {
+	FONT-FAMILY: Tahoma, Georgia
+}
+A {
+	COLOR: #0000cc; TEXT-DECORATION: none
+}
+A:link {
+	COLOR: #0000cc
+}
+A:visited {
+	COLOR: #0000cc
+}
+A:hover {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #0000cc; BORDER-BOTTOM: #0000cc 1px dotted; TEXT-DECORATION: none
+}
+A:active {
+	BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #0000cc; BORDER-BOTTOM: #0000cc 1px dotted; TEXT-DECORATION: none
+}
+.common {
+	FONT: 12px Tahoma,Verdana, Georgia, sans-serif, "新宋体"; TEXT-TRANSFORM: none; WHITE-SPACE: normal; LIST-STYLE-TYPE: circle; TEXT-ALIGN: left
+}
+.new {
+	FONT: small-caps 11px Verdana, Tahoma, Georgia, sans-serif, "新宋体"; TEXT-TRANSFORM: capitalize; COLOR: #ff0000
+}
+PRE {
+	FONT-WEIGHT: normal; FONT-SIZE: 12px; WORD-SPACING: normal; WIDTH: 70%; FONT-FAMILY: "Courier New", Courier, mono; WHITE-SPACE: pre; LETTER-SPACING: normal
+}
+HR {
+	BORDER-LEFT-COLOR: black; VISIBILITY: visible; BORDER-BOTTOM-COLOR: black; WIDTH: 100%; BORDER-TOP-STYLE: dotted; BORDER-TOP-COLOR: black; BORDER-RIGHT-STYLE: dotted; BORDER-LEFT-STYLE: dotted; POSITION: relative; HEIGHT: 1px; BORDER-RIGHT-COLOR: black; BORDER-BOTTOM-STYLE: dotted
+}
+ADDRESS {
+	FONT-STYLE: normal
+}
+H1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 12px; FONT-FAMILY: Tahoma,Verdana, Arial, Helvetica, sans-serif, "新宋体"; FONT-VARIANT: small-caps; TEXT-DECORATION: underline
+}
+H2 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; FONT: bold 100% Tahoma,Verdana,sans-serif,Arial,Helvetica,"新宋体"; PADDING-TOP: 0px; TEXT-DECORATION: none
+}
+H3 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; FONT: bold 100% Verdana,sans-serif,Arial,Helvetica,"新宋体"; PADDING-TOP: 0px
+}
+TABLE {
+	BORDER-LEFT: black 1px dotted; BORDER-TOP-COLOR: black; BORDER-BOTTOM: black 1px dotted; BORDER-RIGHT-COLOR: black
+}
+TD {
+	BORDER-RIGHT: black 1px dotted; PADDING-RIGHT: 5px; BORDER-TOP: black 1px dotted; PADDING-LEFT: 5px; BORDER-LEFT-COLOR: black; BORDER-BOTTOM-COLOR: black; PADDING-BOTTOM: 1px; PADDING-TOP: 1px
+}
+.imp {
+	FONT-WEIGHT: bold; FONT-SIZE: 11px; FONT-STYLE: normal; FONT-FAMILY: Verdana, Tahoma, Georgia, sans-serif, "新宋体"
+}
+ACRONYM {
+	BORDER-BOTTOM: black 1px dotted
+}

@@ -1,0 +1,447 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0067)http://www.51testing.com/?uid-124415-action-viewspace-itemid-132203 -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>（转）MAC Address for Virtual Machines - 逍遥客 - 51Testing软件测试网 - Powered by X-Space</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gbk">
+<META content="微软,文章 " name=keywords>
+<META 
+content="虚拟世界的MAC地址先看一下真实世界的MAC地址是如何分配，如何保证没有重复的。每块网卡都有一个MAC地址，MAC地址是一个6字节、也即48bit的数据。前3字节称为OUI，是由IEEE组织注册给网络设备生产商的；每个厂商拥. " 
+name=description><LINK title=逍遥客 
+href="http://www.51testing.com/?uid-124415-action-rss-type-blog" 
+type=application/rss+xml rel=alternate><LINK title=RSD 
+href="http://www.51testing.com/xmlrpc.php?rsd=124415" type=application/rsd+xml 
+rel=EditURI><LINK id=commonstyle 
+href="MAC Address for Virtual Machines_files/space.css" type=text/css 
+rel=stylesheet><LINK id=themestyle 
+href="MAC Address for Virtual Machines_files/css_124415.cache.css" type=text/css 
+rel=stylesheet>
+<SCRIPT type=text/javascript>
+var siteUrl = "http://www.51testing.com";
+</SCRIPT>
+
+<SCRIPT language=javascript src="MAC Address for Virtual Machines_files/ajax.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT language=javascript 
+src="MAC Address for Virtual Machines_files/common.js" 
+type=text/javascript></SCRIPT>
+
+<META content="MSHTML 6.00.2900.5848" name=GENERATOR></HEAD>
+<BODY>
+<DIV id=wrap>
+<DIV id=header>
+<DIV id=spacename>
+<DIV id=xspace-spacename><STRONG>逍遥客</STRONG> 
+<P><A class=xspace-copyurl title=复制地址 
+onclick="javascript:setCopy('http://www.51testing.com/?124415');" 
+href="javascript:;">copy</A> <A class=xspace-add2fav title=加入收藏 
+onclick="javascript:addBookmark('逍遥客','http://www.51testing.com/?124415');return false;" 
+href="http://www.51testing.com/?124415">Bookmark</A> 
+http://www.51testing.com/?124415 </P></DIV></DIV>
+<DIV id=menu>
+<UL id=xspace-menu>
+  <LI class=xspace-active><A class=xspace-blog 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-blog">日志</A> 
+  </LI>
+  <LI><A class=xspace-image 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-image">相册</A> 
+  </LI>
+  <LI><A class=xspace-file 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-file">文件</A> 
+  </LI>
+  <LI><A class=xspace-link 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-link">书签</A> 
+  </LI>
+  <LI><A class=xspace-friend 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-friend">好友</A> 
+  </LI>
+  <LI><A class=xspace-mybbs 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-bbs">论坛</A> 
+  </LI>
+  <LI><A class=xspace-guestbook 
+  href="http://www.51testing.com/?uid-124415-action-viewpro">留言</A> 
+</LI></UL></DIV></DIV>
+<DIV class=xspace-layout1 id=content>
+<DIV class=mainarea-side id=mainarea>
+<DIV id=xspace-guide><A class=xspace-spacecp 
+href="http://www.51testing.com/batch.manage.php?uid=124415" 
+target=_blank>空间管理</A> 您的位置: <A href="http://www.51testing.com/" 
+target=_blank>51Testing软件测试网</A> &raquo; <A 
+href="http://www.51testing.com/?uid-124415">逍遥客</A> &raquo; <A 
+href="http://www.51testing.com/?uid-124415-action-spacelist-type-blog">日志</A> 
+</DIV>
+<DIV id=announcement>醉里乾坤大，壶中日月长 </DIV>
+<DIV id=show>
+<H1 class=xspace-title>（转）MAC Address for Virtual Machines</H1>
+<P class=xspace-smalltxt><A 
+href="http://www.51testing.com/batch.common.php?action=viewspace&amp;op=up&amp;itemid=132203&amp;uid=124415">上一篇</A> 
+/ <A 
+href="http://www.51testing.com/batch.common.php?action=viewspace&amp;op=next&amp;itemid=132203&amp;uid=124415">下一篇</A> 
+&nbsp;2009-06-16 10:26:50 / 个人分类：<A 
+href="http://www.51testing.com/?uid-124415-action-spacelist-type-blog-itemtypeid-11273">网络相关</A> 
+</P>
+<DIV class=xspace-itemdata><A 
+href="http://www.51testing.com/?uid-124415-action-viewspace-itemid-132203#xspace-tracks">查看( 
+28 )</A> / <A 
+href="http://www.51testing.com/?uid-124415-action-viewspace-itemid-132203#xspace-itemreply">评论( 
+0 )</A> / <A 
+href="http://www.51testing.com/?uid-124415-action-viewspace-itemid-132203#xspace-itemform">评分( 
+<SPAN class=xspace-rategood title=好评>0</SPAN> / <SPAN class=xspace-ratebad 
+title=差评>0</SPAN> )</A> </DIV>
+<DIV class=xspace-itemmessage id=xspace-showmessage>
+<H3>虚拟世界的MAC地址</H3>
+<P>先看一下真实世界的MAC地址是如何分配，如何保证没有重复的。</P>
+<P>每块网卡都有一个MAC地址，MAC地址是一个6字节、也即48bit的数据。前3字节称为<A 
+href="http://en.wikipedia.org/wiki/Organizationally_Unique_Identifier">OUI</A>，是由IEEE组织注册给网络设备生产商的；每个厂商拥有一个或多个OUI，彼此不同。后三字节则是由网络设备生产商分配给自己生产的每一个拥有MAC地址的设备，互不重复。</P>
+<P>在VM的世界中，每一台拥有虚拟NIC（网卡）的设备当然也拥有MAC地址。这虚拟网卡的MAC地址，当然也是按照规定，前三字节为OUI，后三字节逐一分配给每个设备。</P>
+<P>由于虚拟网卡的”制造商“是VMware，XenSource，<A 
+onclick="javascript:tagshow(event, '%CE%A2%C8%ED');" href="javascript:;" 
+target=_self><U><STRONG>微软</STRONG></U></A>等虚拟平台软件的生产商，OUI当然就分配给了他们。</P>
+<P>&nbsp;</P>
+<H3>VMware VM所使用的OUI</H3>
+<P>按照VMware ESX 3的[<A 
+href="http://www.vmware.com/support/pubs/vi_pubs.html">Server Configuration 
+Guide</A>]的说法，VMware的使用下面的三个OUI作为VM的MAC地址：</P>
+<UL>
+  <LI>00:0C:29 – 用于自动生成的MAC地址
+  <LI>00:50:56 – 用于手动设置的MAC地址
+  <LI>00:05:69 – 曾经用于旧版本的VM（大约是在ESX 1.5的时代），在ESX 3中已经不再使用</LI></UL>
+<P>但是在实际应用上，我发现00:50:56这一MAC地址段并不是完全用于手动设置的MAC地址：</P>
+<UL>
+  <LI>00:50:56:00:00:00 – 00:50:56:3F:FF:FF<BR>这一段MAC地址可以用于手动设置的MAC地址
+  <LI>00:50:56:40:00:00 – 00:50:56:FF:FF:FF<BR>这一段（我的推测，不一定准确），则是用于ESX 
+  3上的自动生成的MAC地址（包括VM和Service Console）</LI></UL>
+<P>&nbsp;</P>
+<H3>MAC地址的生成</H3>
+<P>OUI有了，后三字节如何生成呢？要知道虚拟机是经常被创建和销毁的，这一点不像实体PC。网卡生产商可以计算每年生产多少块网卡，从而为每块网卡分配不同的MAC地址； 
+VMware却不可能计算出每年有多少台VM、有多少块虚拟网卡被创建。</P>
+<P>VMware ESX 
+Server的算法是，使用散列算法，通过VM的UUID来生成MAC地址。VM的UUID是每一台VM特有的、128bit的ID，是由ESX 
+Server硬件SMBIOS的UUID、加上VM的路径生成的。因此，一台虚拟机的虚拟网卡的MAC地址就与下面四个因素有关：</P>
+<UL>
+  <LI>VMware的OUI
+  <LI>Host (ESX Server)的SMBIOS中的UUID
+  <LI>VM在服务器上的路径
+  <LI>网卡的实体名 (Entity Name)，用来确保同一VM上的不同网卡有不同的MAC地址</LI></UL>
+<P>&nbsp;</P>
+<H3>MAC地址冲突的检测与解决</H3>
+<P>MAC地址一旦生成，就不会再有变化，除非上面所述的四项因素发生改变（最可能发生的就是第三项，VM在服务器上的路径改变）。</P>
+<P>尽管如此，由于散列算法本身的特征，还是有万一发生MAC地址冲突的可能（可能性极小，和年末ジャンボ中头彩的几率差不多）。ESX 
+Server会不断跟踪和检测运行中和挂起(Suspend)的VM，以保证没有MAC地址冲突。但是已经关闭电源的VM是不在检查对象之内的。</P>
+<P>因此，万一一台VM启动时ESX检测到MAC地址冲突，它会分配给VM的虚拟网卡一个新的MAC地址。所以从这个意义上说，VM的MAC地址是可能发生变化的——只是这个概率实在太小。</P>
+<P>&nbsp;</P>
+<H3>手动指定MAC地址</H3>
+<P>手动指定MAC地址仅用于一些极其特殊的情况，通常是进行P2V的时候。例如，某物理服务器上的软件，其License已经与该服务器的MAC地址绑定，如果MAC地址改变则软件无法运行；再如，某些底层网络软件以MAC地址来鉴别机器时，为了不做更改能够继续使用，在P2V的时候也要手动指定 
+MAC地址。</P>
+<P>打开一个VM的.vmx文件，可以看到如下设置：（如果有多块NIC的话，那么就会有ethernet0、ethernet1、ethernet2……）</P>
+<DIV>ethernet0.addressType = "generated"<BR>ethernet0.generatedAddress = 
+"00:0c:29:9b:fb:18"</DIV>
+<P>这说明该NIC是自动生成的MAC地址。只需如下更改即可变为手动分配的MAC地址：</P>
+<DIV>ethernet0.addressType = "static"<BR>ethernet0.address = 
+"00:50:56:00:00:01"</DIV>
+<P>其中的00:50:56:00:00:01就是手动指定的MAC地址。</P>
+<P><BR></P>原文链接：http://blog.notsobad.cn/?p=154<BR><BR>前阵子哥们说他在公司宿舍经常用虚拟机上黄网，而且网络上有的朋友也说有虚拟机上网躲避公司的网络监控设备，突然想起，就想找到虚拟机和本机的关系，从而能够监控虚拟机的网络行为。<BR><BR>先转上面的<A 
+onclick="javascript:tagshow(event, '%CE%C4%D5%C2');" href="javascript:;" 
+target=_self><U><STRONG>文章</STRONG></U></A>，目前MAC地址可以伪造，IP地址就更别说了，等待继续处理。。。<BR>
+<DIV></DIV><BR>
+<DIV class=xspace-imginlog></DIV></DIV>
+<DIV class=xspace-msgmodule id=xspace-tracks>
+<H5><A class=xspace-smalltxt title=查看全部脚印 style="FLOAT: right" 
+href="http://www.51testing.com/batch.track.php?itemid=132203" 
+target=_blank>全部脚印</A> <A class=xspace-smalltxt title=清除我的脚印 
+style="FLOAT: right; MARGIN-RIGHT: 0.5em" 
+onclick=javascript:deletetrack(132203); href="javascript:;" 
+target=_self>不留脚印</A> 留下脚印: </H5>
+<UL class=xspace-list>
+  <LI class="xspace-avatarlist xspace-imgstyle"><A 
+  title=231423曾经在2009-8-24访问过该主题 href="http://www.51testing.com/?uid-231423" 
+  target=_blank><IMG alt=231423曾经在2009-8-24访问过该主题 
+  src="MAC Address for Virtual Machines_files/space_noface.gif"></A>
+  <P><A href="http://www.51testing.com/?uid-231423" 
+  target=_blank>231423</A></P></LI></UL></DIV>
+<P class=xspace-itemlinks><A 
+href="http://bbs.51testing.com/post.php?action=import&amp;itemid=132203" 
+target=_blank>导入论坛</A> <A onclick=joinfavorite(132203); 
+href="javascript:;">收藏</A> <A 
+onclick="showajaxdiv('http://www.51testing.com/batch.common.php?action=emailfriend&amp;itemid=132203', 400);" 
+href="javascript:;">分享给好友</A> <A 
+href="http://www.51testing.com/batch.manage.php?itemid=132203" 
+target=_blank>管理</A> <A onclick=report(132203); href="javascript:;">举报</A> </P>
+<P class=xspace-itemtag>TAG: </P>
+<DIV id=xspace-itemreply>
+<DIV class=xspace-multipage id=xspace-multipage-div><A 
+onclick=javascript:showcomment(1); href="javascript:;">查看全部评论</A></DIV></DIV>
+<DIV id=xspace-itemform>
+<FORM id=xspace-commentform action=http://www.51testing.com/batch.comment.php 
+method=post target=xspace-phpframe>
+<FIELDSET id=xspace-rates>
+<DIV id=xspace-rates-bg>
+<DIV class=xspace-rates0 id=xspace-rates-star></DIV>
+<DIV id=xspace-rates-a><A onmouseover=rateHover(-5); 
+onclick="setRate('-5', '132203');" onmouseout=rateOut(); 
+href="javascript:;">-5</A> <A onmouseover=rateHover(-3); 
+onclick="setRate('-3', '132203');" onmouseout=rateOut(); 
+href="javascript:;">-3</A> <A onmouseover=rateHover(-1); 
+onclick="setRate('-1', '132203');" onmouseout=rateOut(); 
+href="javascript:;">-1</A> <A onmouseover=rateHover(0); 
+onclick="setRate('0', '132203');" onmouseout=rateOut(); 
+href="javascript:;">-</A> <A onmouseover=rateHover(1); 
+onclick="setRate('1', '132203');" onmouseout=rateOut(); 
+href="javascript:;">+1</A> <A onmouseover=rateHover(3); 
+onclick="setRate('3', '132203');" onmouseout=rateOut(); 
+href="javascript:;">+3</A> <A onmouseover=rateHover(5); 
+onclick="setRate('5', '132203');" onmouseout=rateOut(); 
+href="javascript:;">+5</A> </DIV><INPUT id=xspace-rates-value type=hidden 
+value=0 name=rates> </DIV>
+<P>评分：<SPAN id=xspace-rates-tip>0</SPAN></P></FIELDSET> 
+<FIELDSET><LEGEND>我来说两句</LEGEND>
+<P><SPAN class=xspace-moresmilies onclick=moresmilies();>显示全部</SPAN> </P>
+<DIV id=xspace-smilies><IMG id=smilie_0 onclick=insertSmilies(0) 
+alt=:loveliness: src="MAC Address for Virtual Machines_files/loveliness.gif" 
+border=0> <IMG id=smilie_1 onclick=insertSmilies(1) alt=:handshake 
+src="MAC Address for Virtual Machines_files/handshake.gif" border=0> <IMG 
+id=smilie_2 onclick=insertSmilies(2) alt=:victory: 
+src="MAC Address for Virtual Machines_files/victory.gif" border=0> <IMG 
+id=smilie_3 onclick=insertSmilies(3) alt=:funk: 
+src="MAC Address for Virtual Machines_files/funk.gif" border=0> <IMG id=smilie_4 
+onclick=insertSmilies(4) alt=:time: 
+src="MAC Address for Virtual Machines_files/time.gif" border=0> <IMG id=smilie_5 
+onclick=insertSmilies(5) alt=:kiss: 
+src="MAC Address for Virtual Machines_files/kiss.gif" border=0> <IMG id=smilie_6 
+onclick=insertSmilies(6) alt=:call: 
+src="MAC Address for Virtual Machines_files/call.gif" border=0> <IMG id=smilie_7 
+onclick=insertSmilies(7) alt=:hug: 
+src="MAC Address for Virtual Machines_files/hug.gif" border=0> <IMG id=smilie_8 
+onclick=insertSmilies(8) alt=:lol 
+src="MAC Address for Virtual Machines_files/lol.gif" border=0> <IMG id=smilie_9 
+onclick=insertSmilies(9) alt=":'(" 
+src="MAC Address for Virtual Machines_files/cry.gif" border=0> <IMG id=smilie_10 
+onclick=insertSmilies(10) alt=:Q 
+src="MAC Address for Virtual Machines_files/mad.gif" border=0> <IMG id=smilie_11 
+onclick=insertSmilies(11) alt=:L 
+src="MAC Address for Virtual Machines_files/sweat.gif" border=0> <IMG 
+id=smilie_12 onclick=insertSmilies(12) alt=;P 
+src="MAC Address for Virtual Machines_files/titter.gif" border=0> <IMG 
+id=smilie_13 onclick=insertSmilies(13) alt=:$ 
+src="MAC Address for Virtual Machines_files/shy.gif" border=0> <IMG id=smilie_14 
+onclick=insertSmilies(14) alt=:P 
+src="MAC Address for Virtual Machines_files/tongue.gif" border=0> <IMG 
+id=smilie_15 onclick=insertSmilies(15) alt=:o 
+src="MAC Address for Virtual Machines_files/shocked.gif" border=0> <IMG 
+id=smilie_16 onclick=insertSmilies(16) alt=:@ 
+src="MAC Address for Virtual Machines_files/huffy.gif" border=0> <IMG 
+id=smilie_17 onclick=insertSmilies(17) alt=:D 
+src="MAC Address for Virtual Machines_files/biggrin.gif" border=0> <IMG 
+id=smilie_18 onclick=insertSmilies(18) alt=:( 
+src="MAC Address for Virtual Machines_files/sad.gif" border=0> <IMG id=smilie_19 
+onclick=insertSmilies(19) alt=:) 
+src="MAC Address for Virtual Machines_files/smile.gif" border=0> </DIV>
+<P></P>
+<P><LABEL for=xspace-commentmsg>内容</LABEL> <TEXTAREA id=xspace-commentmsg name=message></TEXTAREA> </P>
+<P><LABEL for=xspace-nickname>昵称</LABEL> <INPUT id=xspace-nickname 
+name=nickname> </P>
+<P id=xspace-seccodeline><LABEL for=xspace-seccode>验证</LABEL> <INPUT 
+id=xspace-seccode size=10 name=seccode> <LABEL for=xspace-seccode><IMG 
+id=xspace-imgseccode title=看不清？点击换一个 onclick=javascript:newseccode(this); 
+alt=seccode 
+src="MAC Address for Virtual Machines_files/batch.seccode.png"></LABEL> </P>
+<P><INPUT type=hidden value=132203 name=itemid><BUTTON id=xspace-btncomment 
+name=submitcomment type=submit value="true">提交评论</BUTTON> </P></FIELDSET> 
+</FORM></DIV>
+<SCRIPT language=javascript type=text/javascript>
+<!--
+function showcomment(page) {
+var x = new Ajax('statusid', 'XML');
+x.get('http://www.51testing.com/batch.comment.php?action=view&itemid=132203&page='+page, function(s) {
+getbyid("xspace-itemreply").innerHTML = s.lastChild.firstChild.nodeValue;
+});
+}
+function deletecomment(cid) {
+var x = new Ajax('statusid', 'XML');
+x.get('http://www.51testing.com/batch.comment.php?action=delete&cid='+cid, function(s) {
+alert(s.lastChild.firstChild.nodeValue);
+});
+}
+
+function moresmilies() {
+var smilies = document.getElementById('xspace-smilies');
+if (smilies.style.height=='auto') {
+smilies.style.height = '';
+} else {
+smilies.style.height = 'auto';
+}
+}
+addImgLink("xspace-showmessage");
+addMediaAction('xspace-showmessage');
+//-->
+</SCRIPT>
+<IFRAME id=xspace-phpframe name=xspace-phpframe marginWidth=0 src="about:blank" 
+frameBorder=0 width=0 height=0></IFRAME></DIV></DIV>
+<DIV class=sidearea id=sideleft>
+<DIV class=xspace-sideblock id=avatar>
+<DIV id=xspace-avatar><IMG class=xspace-imgstyle alt=xiaoyaoke 
+src="MAC Address for Virtual Machines_files/space_noface.gif">
+<P><A 
+href="http://www.51testing.com/?uid-124415-action-viewpro-showpro-1">xiaoyaoke</A></P>
+<P class=xspace-selfintro></P></DIV></DIV>
+<DIV class=xspace-sideblock id=action>
+<H3 class=xspace-blocktitle>用户菜单</H3>
+<UL id=xspace-action>
+  <LI><A class=xspace-message 
+  href="http://www.51testing.com/?uid-124415-action-viewpro">给我留言</A> </LI>
+  <LI><A class=xspace-addfriend onclick="javascript:joinfriend('124415');" 
+  href="javascript:;">加入好友</A> </LI>
+  <LI><A class=xspace-sendpm 
+  href="http://bbs.51testing.com/pm.php?action=send&amp;uid=124415" 
+  target=_blank>发短消息</A> </LI>
+  <LI><A class=xspace-profile 
+  href="http://www.51testing.com/?uid-124415-action-viewpro-showpro-1">我的介绍</A> 
+  </LI>
+  <LI><A class=xspace-profile 
+  href="http://bbs.51testing.com/viewpro.php?uid=124415">论坛资料</A> </LI>
+  <LI><A class=xspace-ctrlpannel 
+  href="http://www.51testing.com/batch.manage.php?uid=124415">空间管理</A> 
+</LI></UL></DIV>
+<DIV class=xspace-sideblock id=itemtype>
+<H3 class=xspace-blocktitle>我的栏目</H3>
+<UL class=xspace-list>
+  <LI><A 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-blog-itemtypeid-11272" 
+  target=_blank>闲言碎语</A>
+  <LI><A 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-blog-itemtypeid-11273" 
+  target=_blank>网络相关</A>
+  <LI><A 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-blog-itemtypeid-11274" 
+  target=_blank>操作系统配置-Linux</A>
+  <LI><A 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-blog-itemtypeid-11423" 
+  target=_blank>plink</A>
+  <LI><A 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-blog-itemtypeid-11537" 
+  target=_blank>python</A>
+  <LI><A 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-type-blog-itemtypeid-11881" 
+  target=_blank>编码基础</A></LI></UL></DIV>
+<DIV class=xspace-sideblock id=search>
+<H3 class=xspace-blocktitle>标题搜索</H3>
+<FORM id=xspace-search 
+action=http://www.51testing.com/index.php?uid/124415/action/spacelist/php/1 
+method=post><INPUT id=xspace-searchkey name=searchkey> <INPUT type=hidden 
+value=yes name=searchsubmit> <INPUT id=xspace-dosearch type=submit value=搜索 name=xspace-dosearch> 
+</FORM></DIV>
+<DIV class=xspace-sideblock id=calendar>
+<H3 class=xspace-blocktitle>日历</H3>
+<TABLE id=xspace-calendar cellSpacing=2 cellPadding=2 width="100%" 
+summary=xspace-Calendar border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle colSpan=7>
+      <TABLE class=xspace-datenav cellSpacing=3 cellPadding=3 
+      summary="xspace-Date nav">
+        <TBODY>
+        <TR>
+          <TD align=middle><A 
+            href="http://www.51testing.com/?action-spacelist-uid-124415-type-blog-itemtypeid-11273-starttime-1246377600-endtime-1249056000">&laquo;</A></TD>
+          <TD noWrap align=middle><A 
+            href="http://www.51testing.com/?action-spacelist-uid-124415-type-blog-itemtypeid-11273-starttime-1249056000-endtime-1251734400">2009-08-28</A></TD>
+          <TD align=middle>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR class=xspace-week align=middle>
+    <TD>日</TD>
+    <TD>一</TD>
+    <TD>二</TD>
+    <TD>三</TD>
+    <TD>四</TD>
+    <TD>五</TD>
+    <TD>六</TD></TR>
+  <TR align=middle>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>1</TD></TR>
+  <TR align=middle>
+    <TD>2</TD>
+    <TD>3</TD>
+    <TD>4</TD>
+    <TD>5</TD>
+    <TD>6</TD>
+    <TD>7</TD>
+    <TD>8</TD></TR>
+  <TR align=middle>
+    <TD>9</TD>
+    <TD>10</TD>
+    <TD>11</TD>
+    <TD>12</TD>
+    <TD>13</TD>
+    <TD>14</TD>
+    <TD>15</TD></TR>
+  <TR align=middle>
+    <TD>16</TD>
+    <TD>17</TD>
+    <TD>18</TD>
+    <TD>19</TD>
+    <TD>20</TD>
+    <TD>21</TD>
+    <TD>22</TD></TR>
+  <TR align=middle>
+    <TD>23</TD>
+    <TD>24</TD>
+    <TD>25</TD>
+    <TD><A title=" 2 " 
+      href="http://www.51testing.com/?action-spacelist-uid-124415-type-blog-itemtypeid-11273-starttime-1251244800-endtime-1251331200"><B>26</B></A></TD>
+    <TD>27</TD>
+    <TD>28</TD>
+    <TD>29</TD></TR>
+  <TR align=middle>
+    <TD>30</TD>
+    <TD>31</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD>
+    <TD>&nbsp;</TD></TR></TBODY></TABLE></DIV>
+<DIV class=xspace-sideblock id=archive>
+<H3 class=xspace-blocktitle>我的存档</H3>
+<UL class=xspace-list>
+  <LI><A 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-starttime-1249056000-endtime-1251734400">2009年08月</A>
+  <LI><A 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-starttime-1246377600-endtime-1249056000">2009年07月</A>
+  <LI><A 
+  href="http://www.51testing.com/?uid-124415-action-spacelist-starttime-1243785600-endtime-1246377600">2009年06月</A></LI></UL></DIV>
+<DIV class=xspace-sideblock id=infomation>
+<H3 class=xspace-blocktitle>数据统计</H3>
+<UL class=xspace-list>
+  <LI>访问量: 951
+  <LI>日志数: 21
+  <LI>建立时间: 2009-06-05 
+  <LI>更新时间: 2009-08-26 </LI></UL></DIV>
+<DIV class=xspace-sideblock id=rss>
+<H3 class=xspace-blocktitle>RSS订阅</H3>
+<UL class=xspace-list>
+  <LI class=xspace-logo><A 
+  href="http://www.51testing.com/?uid-124415-action-rss-type-blog"><IMG 
+  alt=RSS订阅 src="MAC Address for Virtual Machines_files/rss.gif" border=0></A> 
+  </LI></UL></DIV></DIV></DIV></DIV>
+<DIV id=xspace-footer>
+<P id=xspace-footer-ad></P>
+<P id=xspace-footer_menu><A 
+href="http://www.51testing.com/batch.login.php?action=logout">清空Cookie</A> - <A 
+href="mailto:webmaster@51testing.com">联系我们</A> - <A 
+href="http://www.51testing.com/" target=_blank>51Testing软件测试网</A> - <A 
+href="http://bbs.51testing.com/" target=_blank>交流论坛</A> - <A 
+href="http://www.51testing.com/?action/spaces">空间列表</A> - <A 
+href="http://www.51testing.com/archiver/" target=_blank>站点存档</A> - <A 
+href="http://www.51testing.com/?action/register" target=_blank>升级自己的空间</A> </P>
+<P id=xspace-copyright>Powered by <A href="http://www.supesite.com/" 
+target=_blank><STRONG>X-Space</STRONG></A> <EM>4.0Final</EM> &copy; 2001-2008 <A 
+href="http://www.comsenz.com/" target=_blank>Comsenz Inc.</A> <BR><A 
+href="http://www.miibeian.gov.cn/" 
+target=_blank>沪ICP备05003035号</A><BR></P></DIV>
+<DIV id=toolbarshowbtn><A onmouseover=showtoolbar(); href="javascript:;">Open 
+Toolbar</A></DIV>
+<DIV id=toolbarframe><IFRAME 
+src="MAC Address for Virtual Machines_files/batch.toolbar.htm" frameBorder=0 
+width="100%" scrolling=no></IFRAME></DIV></BODY></HTML>

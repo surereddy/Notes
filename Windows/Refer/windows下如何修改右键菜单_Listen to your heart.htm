@@ -1,0 +1,745 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://hi.baidu.com/xdz0611/blog/item/a55650a9146a81f81e17a200.html -->
+<!--STATUS OK--><HTML><HEAD><TITLE>windows下如何修改右键菜单_Listen to your heart</TITLE>
+<META http-equiv=content-type content="text/html; charset=gb2312">
+<STYLE>.error {
+	FONT-SIZE: 12px; COLOR: #ff0000
+}
+</STYLE>
+
+<SCRIPT language=javascript 
+src="windows下如何修改右键菜单_Listen to your heart.files/popup.js"></SCRIPT>
+
+<SCRIPT language=JavaScript 
+src="windows下如何修改右键菜单_Listen to your heart.files/g_spjs.js"></SCRIPT>
+
+<SCRIPT language=javascript>
+<!--
+
+var allkey="";
+var i=0;
+var flag=0;
+function setpv(allnum)
+{
+	var num = allnum.split('_');
+	document.getElementById("result").innerHTML=num[0];
+}
+		 
+function checkMail(s) 
+{ 
+  	var pattern=/\w+@\w+\.[a-z]+/; 
+  	if(pattern.test(s)) 
+    { 
+       return true; 
+    } 
+  	else 
+   { 
+      return false; 
+   } 
+} 
+
+
+function checkeandu(eanduid)
+{
+	var eanduvalue=G(eanduid).value;
+	var len=bytes(eanduvalue);
+	if(len>128)
+	{
+		showErr(2,"您输入的网址或邮箱太长，请保持在128字节以内。");
+		return false;
+	}
+	else
+	{ 
+		 return true;
+	}
+		
+}
+
+function cmtdel(str)
+{
+	var pop=new Popup({ contentType:3,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title","删除评论");
+	pop.setContent("confirmCon","您确定要彻底删除这条评论吗？");
+	pop.setContent("callBack",delCallback2);
+	pop.setContent("parameter",{fid:str,popup:pop});
+	pop.build();
+	pop.show();
+	return false;
+}
+function delCallback2(para)
+{
+	var o_pop=para["popup"];
+	o_pop.config.contentType=1;
+	o_pop.setContent("contentUrl","");
+	o_pop.reBuild();
+	G(para["fid"]).target=o_pop.iframeIdName;
+	eval("document."+para["fid"]).submit();
+}
+
+
+
+function checkname(strid)
+{
+	var ele=document.getElementById(strid);
+	var len=bytes(ele.value);
+	if(len>49)
+	{
+		showErr(1,"您输入的姓名太长，请保持在49字节以内。");
+		return false;
+	}
+	else 
+	{		
+		if(len==0)
+		{
+			document.getElementById(strid).value="匿名网友";
+		}
+		 return true;
+	}	
+	
+}
+
+function checktext(textid)
+{
+		document.getElementById(textid).value=trimlr(textid);
+		var str=trimrn(textid);
+		len=str.length;
+		if(len==0 || ((/^[\s,　]+$/gi).test(str)) )
+		{
+			showErr(3,"您必须输入评论内容，请检查。");
+			return false;
+		}
+		else 
+		{
+				if(len>1000)
+				{
+					showErr(3,"您输入的评论内容太长，请保持在500字以内。");
+					return false;
+				}
+			return true;
+		}	
+}
+
+function showErr(index,str)
+{
+	G(index+"_err").style.display="";
+	G(index+"_err_con").innerHTML=str;
+}
+function hidErr(index)
+{
+	G(index+"_err").style.display="none";
+	G(index+"_err_con").innerHTML="";
+}
+
+function alertPop(tit,con)
+{
+	var pop=new Popup({ contentType:4,isReloadOnClose:false,width:340,height:80});
+	pop.setContent("title",tit);
+	pop.setContent("alertCon",con);
+	pop.build();
+	pop.show();
+}
+
+function cmtfull()
+{
+	var cnum=0;
+	if(cnum>=50000)
+	{
+		alertPop("发表评论","单篇日志评论数最多为50000条.");
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function checkcmtform()
+{
+	if(checkname("spBlogCmtor")&&checkeandu("spBlogCmtURL")&&checktext("spBlogCmtText")&&cmtfull())
+	{
+		submitForm();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+var g_pop=null;
+function submitForm()
+{
+	g_pop=new Popup({ contentType:1,isReloadOnClose:false,width:340,height:80});
+	g_pop.setContent("title","添加评论");
+	g_pop.setContent("contentUrl","");
+	g_pop.setContent("someDisabledBtn","btn_ok");
+	g_pop.build();
+	G("popFormSubmit").target=g_pop.iframeIdName;
+	g_pop.show();
+}
+
+function g_close_pop()
+{
+	g_pop.close();
+}
+
+function formatonlinpic()
+{
+var picobj=document.getElementsByName("onlinepic");
+var picnum=picobj.length;
+	
+	for(var i=0;i<picnum;i++)
+	{
+		if(picobj[i].width>200)
+		{
+			picobj[i].width=200;
+		}
+		if(picobj[i].height>200)
+		{
+			picobj[i].height=200;
+		}
+	}
+
+}
+
+function addToFavor(){
+var blogTitle='windows下如何修改右键菜单'.replace(/&#39;/g,'\'');
+window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(blogTitle+'_百度空间')+'&iu='+encodeURIComponent(location.href)+'&fr=sp#nw=1','_s','scrollbars=no,width=600,height=450,right=75,top=20,status=no,resizable=yes'); 
+return false;
+}
+//-->
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+/*<![CDATA[*/
+var RelatedDocData = null, GetAndEval = false;
+(function(){
+	var getXhr = function(){
+		var xhr = null;
+        try{
+            return (xhr = new XMLHttpRequest());
+        }catch(e){}
+
+		for(var i = 0, a = ['MSXML3','MSXML2','Microsoft']; i < a.length; i ++){
+			try{
+				xhr = new ActiveXObject(a[i]+'.XMLHTTP');
+				break;
+			}catch(ex){}
+		}
+
+		return xhr;
+	}
+
+	var xhr = getXhr();
+	if(xhr == null){
+		RelatedDocData = -1;
+		return;
+	}
+
+	xhr.open("GET", "/sys/search?type=8&word=windows%CF%C2%C8%E7%BA%CE%D0%DE%B8%C4%D3%D2%BC%FC%B2%CB%B5%A5&item=a55650a9146a81f81e17a200&t=" + new Date().getTime(), true);	
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			if(xhr.status == 0 || xhr.status == 200){
+				if(GetAndEval){
+					eval(xhr.responseText);
+				}else{
+					RelatedDocData = xhr.responseText;
+				}
+			}
+		}
+	}
+	xhr.send(null);
+})();
+/*]]>*/
+</SCRIPT>
+
+<META content="MSHTML 6.00.2900.2873" name=GENERATOR></HEAD>
+<BODY onload=formatonlinpic();>
+<CENTER>
+<SCRIPT language=JavaScript>
+<!--
+if (top.location != self.location) 
+{
+	top.location=self.location;
+}
+//-->
+</SCRIPT>
+<LINK 
+href="windows下如何修改右键菜单_Listen to your heart.files/a10f94014ace89d6277fb53d.css" 
+type=text/css rel=stylesheet><LINK 
+href="windows下如何修改右键菜单_Listen to your heart.files/space.css" type=text/css 
+rel=stylesheet>
+<STYLE>.stage {
+	BACKGROUND: url(http://img.baidu.com/hi/img/tempbg6b.jpg)
+}
+</STYLE>
+
+<STYLE type=text/css>#usrbar {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 0px; FONT-SIZE: 12px; BACKGROUND: #ffffff; FILTER: alpha(opacity=65); PADDING-BOTTOM: 3px; WIDTH: 100%; COLOR: #000000; LINE-HEIGHT: 19px; PADDING-TOP: 4px; FONT-FAMILY: Arial; LETTER-SPACING: normal; HEIGHT: 19px; TEXT-ALIGN: right; moz-opacity: 0.5
+}
+#usrbar A {
+	COLOR: #0000cc; TEXT-DECORATION: underline
+}
+#usrbar A:link {
+	COLOR: #0000cc; TEXT-DECORATION: underline
+}
+#usrbar A:visited {
+	COLOR: #0000cc; TEXT-DECORATION: underline
+}
+#ft {
+	CLEAR: both; FONT-SIZE: 12px; COLOR: #666666; LINE-HEIGHT: 20px; FONT-FAMILY: Arial; HEIGHT: 20px; TEXT-ALIGN: center
+}
+#ft A {
+	COLOR: #7777cc; TEXT-DECORATION: underline
+}
+#ft A:link {
+	COLOR: #7777cc; TEXT-DECORATION: underline
+}
+#ft A:visited {
+	COLOR: #7777cc; TEXT-DECORATION: underline
+}
+#usrbar {
+	LETTER-SPACING: normal
+}
+#usrbar A {
+	LETTER-SPACING: normal
+}
+#usrbar A:link {
+	LETTER-SPACING: normal
+}
+#usrbar A:visited {
+	LETTER-SPACING: normal
+}
+#ft {
+	LETTER-SPACING: normal
+}
+#ft A {
+	LETTER-SPACING: normal
+}
+#ft A:link {
+	LETTER-SPACING: normal
+}
+#ft A:visited {
+	LETTER-SPACING: normal
+}
+</STYLE>
+
+<DIV id=usrbar><NOBR>
+<SCRIPT> var myref = encodeURI("http://hi.baidu.com/xdz0611/blog/item/a55650a9146a81f81e17a200%2Ehtml");</SCRIPT>
+<A href="http://www.baidu.com/" target=_blank>百度首页</A> | <A 
+href="http://hi.baidu.com/" target=_blank>百度空间</A>
+<SCRIPT language=JavaScript>
+        document.write(" | <a href='http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u="+myref+"'>登录</a>");
+        </SCRIPT>
+ </NOBR></DIV>
+<DIV id=main align=left><!--[if IE]>
+<SCRIPT>
+var objmain = document.getElementById("main");
+function updatesize(){ var bodyw = window.document.body.offsetWidth; if(bodyw <= 790) objmain.style.width="772px"; else if(bodyw >= 1016) objmain.style.width="996px"; else objmain.style.width="100%"; }
+updatesize(); window.onresize = updatesize;
+</SCRIPT>
+<![endif]-->
+<DIV id=header>
+<DIV class=lc>
+<DIV class=rc></DIV></DIV>
+<DIV class=tit><A class=titlink title="菲菲菲比寻常的空间 http://hi.baidu.com/xdz0611" 
+href="http://hi.baidu.com/xdz0611">Listen to your heart</A></DIV>
+<DIV class=desc>生活，对一些人来说永远都是精彩的，对另一些人来说，却是如此的平淡无奇！</DIV>
+<DIV id=tabline></DIV>
+<DIV id=tab><A href="http://hi.baidu.com/xdz0611">主页</A><A class=on 
+href="http://hi.baidu.com/xdz0611/blog">博客</A><A 
+href="http://hi.baidu.com/xdz0611/album">相册</A><SPAN>|</SPAN><A 
+href="http://hi.baidu.com/xdz0611/profile">个人档案</A> <SPAN>|</SPAN><A 
+href="http://hi.baidu.com/xdz0611/friends">好友</A> </DIV></DIV>
+<DIV class=stage>
+<DIV class=stagepad>
+<DIV style="WIDTH: 100%">
+<TABLE class=modth cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=modtl width=7>&nbsp;</TD>
+    <TD class=modtc noWrap>
+      <DIV class=modhead><SPAN class=modtit>查看文章</SPAN></DIV></TD>
+    <TD class=modtc noWrap align=right></TD>
+    <TD class=modtr width=7>&nbsp;</TD></TR></TBODY></TABLE>
+<DIV class=modbox id=m_blog>
+<DIV class=tit>windows下如何修改右键菜单</DIV>
+<DIV class=date>2008-01-21 17:25</DIV>
+<TABLE style="TABLE-LAYOUT: fixed">
+  <TBODY>
+  <TR>
+    <TD>
+      <DIV class=cnt id=blog_text>为文件类对象添加右键菜单项，需要通过修改<A class=qs_highlight1 
+      style="FONT-SIZE: 1em" 
+      target=_blank>注册</A>表来实现。举一个简单的例子，为文件类对象增加一个“设为隐藏属性”的菜单项，具体操作方法如下： 
+      <BR>　　运行Regedit, 
+      在注册表HKEY_CLASSES_ROOT\*分支下新建一项“Shell”，并在该项下级再创建一个新项“AttHide”，修改右侧窗格中“默认”键值为“设为隐藏属性”，然后在“AttHide”下级再创建一新项，命名为“Command”。　<BR>　　在注册表HKEY_CLASSES_ROOT\*\shell\AttHide\Command右侧窗格中双击“默认”键值，弹出“编辑字符串”对话框，在“数值数据”框中输入“attrib.exe 
+      +h 
+      %1”（注意引号不要输入），确定后退出注册表编辑器（如图2）。现在用鼠标右键单击任意一个文件，可以看到在弹出的快捷菜单中增加了一项“设为隐藏属性”，选中它就可以为该文件指定隐藏属性。<BR>　　文件夹类对象的右键选单　<BR>　　为文件夹类对象添加右键菜单项，可以在注册表HKEY_CLASSES_ROOT\Directory\Shell分支下，用下面的方法进行同样的设置。<BR>　 
+      例如要在文件夹的右键菜单中添加“命令提示符”选项。在注册表HKEY_CLASSES_ROOT\Directory\shell分支下新建一项“CommandPrompt”，修改右侧窗格中的“默认”键值为“命令提示符”，并在该项下级再建一个新项“Command”，将右侧窗格中“默认”键值设为“cmd.exe 
+      /k cd %1”。现在我们就可以不需要输入长长的CD命令就切换到指定的目录了。<BR>　　驱动器类对象的右键选单<BR>　　要<A 
+      class=qs_highlight1 style="FONT-SIZE: 1em" 
+      href="http://clk.qunsee.com/click/click.php?cpid=12&amp;ads_id=150&amp;pid=99000124&amp;cid=124&amp;url=http%3A//www.king-long.com.cn/discovery/index.html&amp;k=%u5FEB%u901F&amp;s=http%3A//www.xker.com/edu/os/021/06101510463686453.html&amp;rn=521331&amp;v=1&amp;ref=http%3A//www.google.cn/search%3Fcomplete%3D1%26hl%3Dzh-CN%26newwindow%3D1%26q%3D%25E5%258F%25B3%25E9%2594%25AE%25E6%2589%2593%25E5%25BC%2580%25E6%2596%25B9%25E5%25BC%258F%26meta%3D%26aq%3Df&amp;province=%u56DB%u5DDD&amp;city=%u6210%u90FD" 
+      target=_blank>快速</A><A class=qs_highlight1 style="FONT-SIZE: 1em" 
+      target=_blank>激活</A>屏保，我们可以将屏保请进驱动器的右键菜单中，具体方法如下：在注册表HKEY_CLASSES_ROOT\Drive\shell分支下新建一项“LoadSCR”，修改右侧窗格的“默认”键值为“屏幕保护”，并在该项下级再创建一个新项“Command”，将右侧窗格中“默认”键值设为“C:\windows\system32\logon.scr 
+      /s %1”，刷新后退出注册表编辑器。这时用右键单击任意驱动器，从菜单中选择“屏幕保护”，就可以直接运行屏幕保护程序了。 
+      <BR>　　为所有文件和文件夹添加右键选单　<BR>　　如果想要在所有的文件和文件夹的右键菜单中加入特定的菜单项，可以在注册表编辑器中展开HKEY_CLASSES_ROOT\AllFilesystemObjects，然后依次新建“Shell\命令\Command”，其他操作类似前面。<BR>　　右键级联菜单的扩展　<BR>　　“打开方式”菜单 
+      <BR>　　Windows XP中的“打开方式”是一个很有用的菜单项。例如对于同一个<A href="http://tv.xker.com/" 
+      target=_blank>视频</A>文件，我们可以通过“打开方式”菜单快速调用不同的播放器进行播放，而无需修改文件的关联。当我们通过“打开方式”　“选择程序”调用某个程序打开文件后（如图3），该程序就会自动添加到“打开方式”项目中。　　 
+
+      <P>　 <A href="http://www.xker.com/edu/os/" 
+      target=_blank>系统</A>使用一段时间后，会造成“打开方式”菜单中的项目增多，这时就有必要进行清理了。以清理avi格式文件的“打开方式”菜单为例：运行Regedit，打开注册表编辑器，依次展开HKEY_CURRENT_USER\Software\Microsoft 
+      <BR>　　\Windows\CurrentVersion\Explorer\FileExts\.avi，我们可以看到下级有一子项“OpenWithList”，选中它，在右侧窗格中就可以看到AVI格式文件的“打开方式”菜单所关联的各种应用程序。选中需要清理的项目，按下“DEL”键删除，刷新后退出注册表编辑器即可。<BR>　　“发送到”菜单　<BR>　　“发送到”菜单对应的是一个“SendTo”文件夹，它位于Windows 
+      XP中“C:\Documents and 
+      Settings\&lt;用户名&gt;”目录下，这个文件夹中的内容就是“发送到”级联菜单中的项目。<BR>　　我们可以利用此项功能来快速备份文件，甚至可以直接备份到压缩包中。首先，创建一个备份文件夹D:\Bak2004，然后用鼠标右键拖动它到“SendTo”目录中，松开鼠标，创建一个快捷方式，并将其重命名为“备份文件夹”。这时在资源管理器中用鼠标右键单击文件，就会出现“发送到”　“备份文件夹”，又快又方便。</P>
+      <P>特殊的右键菜单命令　</P>
+      <P></P>
+      <P>　　● 添加“清空回收站”选项　<BR>　　在<A class=qs_highlight1 style="FONT-SIZE: 1em" 
+      href="http://clk.qunsee.com/click/click.php?cpid=12&amp;ads_id=229&amp;pid=99000124&amp;cid=124&amp;url=http%3A//www.chanet.com.cn/click.cgi%3Fa%3D59068%26d%3D20615%26u%3D%26e%3D&amp;k=%u6CE8%u518C&amp;s=http%3A//www.xker.com/edu/os/021/06101510463686453_2.html&amp;rn=601200&amp;v=1&amp;ref=http%3A//www.xker.com/edu/os/021/06101510463686453.html&amp;province=%u56DB%u5DDD&amp;city=%u6210%u90FD" 
+      target=_blank>注册</A>表HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers分支下创建一新项“{645FF040-5081-101B-9F08-00AA002F954E}”，确定后退出，当右击任意文件时，快捷菜单中都会有一个“清空回收站”的选项。<BR>　　● 
+      添加“在新窗口中打开”选项　<BR>　　在注册表HKEY_CLASSES_ROOT\Directory\shell分支下，创建一个新项“NewWindow”，将右侧窗格中“默认”键值改为“在新窗口中打开”，并在“NewWindow”下再建一新项“Command”，修改右侧窗格中“默认”键值为“explorer.exe 
+      %1”。　<BR>　　● 添加“<A class=qs_highlight1 style="FONT-SIZE: 1em" 
+      href="http://clk.qunsee.com/click/click.php?cpid=12&amp;ads_id=150&amp;pid=99000124&amp;cid=124&amp;url=http%3A//www.king-long.com.cn/discovery/index.html&amp;k=%u5FEB%u901F&amp;s=http%3A//www.xker.com/edu/os/021/06101510463686453_2.html&amp;rn=133677&amp;v=1&amp;ref=http%3A//www.xker.com/edu/os/021/06101510463686453.html&amp;province=%u56DB%u5DDD&amp;city=%u6210%u90FD" 
+      target=_blank>快速</A>重启”选项<BR>　　在注册表HKEY_CLASSES_ROOT\Directory\shell分支下，创建一个新项“Reboot”，将右侧窗格中“默认”键值改为“快速重启”，并在“Reboot”下再建一个新项“Command”，修改右侧窗格中“默认”键值为“ShutDown 
+      -r -t 00”即可。 <BR>　　● 
+      添加“复制到”选项　<BR>　　在注册表HKEY_CLASSES_ROOT\AllFile-systemObjects\shellex\ContextMenuHandlers分支下，创建一新项“Copy 
+      To”，修改右侧窗格中“默认”键值为“{C2FBB630-2971-11D1-A18C-00C04FD75D13}”即可。<BR>　　● 
+      添加“移动到”选项<BR>　　在注册表HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenu-Handlers分支下，创建一新项“Move 
+      To”，修改右侧窗格中“默认”键值为“{C2FBB631-2971-11D1-A18C-00C04FD75D13}”即可。 <BR>tennicse 
+      2005-9-28 03:51 <BR>“新建”菜单<BR>&nbsp;&nbsp;&nbsp; 对于任何已经在Windows 
+      注册的文件类型，我们可以在相应的扩展键名中加入“ShellNew”新项，然后为其指定Windows 
+      如何创建新文件的设置，最常用的是加入“NullFile”和“Command”值，这样就可以将这种文件类型添加到“新建”级联菜单中。<BR>&nbsp;&nbsp;&nbsp; 
+      在注册表编辑器展开HKEY_CLASSES\ROOT\.htm,创建一新项“ShellNew”，然后新建字符串值“NullFile”，键值为空，按F5键刷新后退出。这时在桌面上单击鼠标右键，打开“新建”级联菜单，就会看到多出了一项“HTML 
+      Document”（如图4）。当需要将“新建”菜单中无用的文件类型删除时，只要在注册表中找到相应的文件扩展名，然后将其下的“ShellNew”子项删除即可。<BR>方式”|“选择程序”调用某个程序打开文件后（如图3），该程序就会自动添加到“打开方式”项目中。<BR>tennicse 
+      2005-9-28 03:51 <BR><A href="http://www.xker.com/edu/os/" 
+      target=_blank>系统</A>使用一段时间后，会造成“打开方式”菜单中的项目增多，这时就有必要进行清理了。以清理avi格式文件的“打开方式”菜单为例：运行Regedit，打开注册表编辑器，依次展开HKEY_CURRENT_USER\Software\Microsoft<BR>\Windows\CurrentVersion\Explorer\FileExts\.avi，我们可以看到“OpenWithList”，选中它，在右侧窗格中就可以看到AVI格式文件的“打开方式”菜单所关联的各种应用程序。选中需要清理的项目，按下“DEL”键删除，刷新后退出注册表编辑器即可。<BR>“发送到”菜单<BR>&nbsp;&nbsp;&nbsp; 
+      “发送到”菜单对应的是一个“SendTo”文件夹，它位于Windows XP中“C:\Documents and 
+      Settings\”目录下，这个文件夹中的内容就是“发送到”级联菜单中的项目。<BR>&nbsp;&nbsp;&nbsp; 
+      我们可以利用此项功能来快速备份文件，甚至可以直接备份到压缩包中。首先，创建一个备份文件夹D:\Bak2004，然后用鼠标右键拖动它到“SendTo”目录中，松开鼠标，创建一个快捷方式，并将其重命名为“备份文件夹”。这时在资源管理器中用鼠标右键单击文件，就会出现“发送到”|“备份文件夹”，又快又方便。 
+      <BR>为驱动器的右键菜单增加“整理磁盘碎片”的选项 
+      <BR>在HKEY_LOCAL_MACHINE\Software\CLASSES\Drive\shell 下 
+      <BR>创建一个主键“Defrag”在右边窗口中把“默认”的值改为：“整理磁盘碎片” ,并在此主键“NewWindow”下 
+      创建一个主键“command”，单击“command”,在右边窗口中把“默认”的值改为 “C:\WINDOWS\defrag.exe 
+      %1”。（注：C:\WINDOWS为操作<A href="http://www.xker.com/edu/os/" 
+      target=_blank>系统</A>的目录） <BR>减少鼠标右键菜单中“新建”菜单的长度 <BR>当我们使用了<A 
+      href="http://www.xker.com/edu/os/" 
+      target=_blank>系统</A>一段时间，装了很多的程序，常常会造成鼠标右键菜单中“新建”菜单的长度增加，这时，我们想减轻“新建”菜单的负担，我们可以修改<A 
+      class=qs_highlight1 style="FONT-SIZE: 1em" 
+      href="http://clk.qunsee.com/click/click.php?cpid=12&amp;ads_id=230&amp;pid=99000124&amp;cid=124&amp;url=http%3A//www.chanet.com.cn/click.cgi%3Fa%3D59068%26d%3D21648%26u%3D%26e%3D&amp;k=%u6CE8%u518C&amp;s=http%3A//www.xker.com/edu/os/021/06101510463686453_3.html&amp;rn=606584&amp;v=1&amp;ref=http%3A//www.xker.com/edu/os/021/06101510463686453_2.html&amp;province=%u56DB%u5DDD&amp;city=%u6210%u90FD" 
+      target=_blank>注册</A>表，现举例说明：如修改注册表前右键“新建”菜单如图一 图一 
+      <BR>如果我们想删除右键菜单中的一些目，首先，我们要知道欲删除的这个项目新建的是什么类型的文件，如WinZip 
+      File新建的文件的扩展名是.zip,要删除“新建”菜单中的“WinZip 
+      File”，我们可以运行注册表编辑器，然后查找“.zip”，找到.zip这个主键后我们<A class=qs_highlight1 
+      style="FONT-SIZE: 1em" 
+      href="http://clk.qunsee.com/click/click.php?cpid=12&amp;ads_id=230&amp;pid=99000124&amp;cid=124&amp;url=http%3A//www.chanet.com.cn/click.cgi%3Fa%3D59068%26d%3D21648%26u%3D%26e%3D&amp;k=%u53D1%u73B0&amp;s=http%3A//www.xker.com/edu/os/021/06101510463686453_3.html&amp;rn=423045&amp;v=1&amp;ref=http%3A//www.xker.com/edu/os/021/06101510463686453_2.html&amp;province=%u56DB%u5DDD&amp;city=%u6210%u90FD" 
+      target=_blank>发现</A>它的下面还有名称为“ShellNew”的主键，把这个键删除后，即可删除“新建”菜单中的“WinZip 
+      File”，删除后的效果如图二图二</P>
+      <P></P>
+      <P>为右键菜单增加“在新窗口中打开”的命令我们往往在“文件夹选项”中选择了在同一窗口中打开文件夹 
+      ，但我们在浏览文件夹的时候，有时想比较一下两个文件夹的不同，或想开多个窗口浏览文件夹内容，可用到下面的方法。逐渐展开到HKEY_LOCAL_MACHINE\Software\CLASSES\Directory\shell 
+      下， 创建一个主键“NewWindow” 在右边窗口中把“默认”的值改为：“在新窗口中打开” ,并在此主键“NewWindow”下创建一个主键 
+      “command”，单击“command”,在右边窗口中把“默认”的值改为“explorer.exe %1。 
+      <BR>为“回收站”右键菜单中增加“删除”和“重命名”的命令 
+      <BR>在HKEY_CLASSES_ROOT\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\ShellFolder下修改右边的窗口中的二近制值Attributes,设其值为70 
+      01 00 20。 <BR>修改鼠标右键弹出菜单 <BR>我们单击C，D盘，然后点击鼠标右键，会弹出菜单(如图1), <BR>要把Browse 
+      wth ACDSee去掉，打开HKEY_CLASSES_ROOT\Drive\shell 我们可看到有主键Browse with ACDSee， 
+      把该主键删除，即可把菜单中的Browse with ACDSee去掉。 菜单删除后的菜单如下图 
+      <BR>在gif类型的文件名上点击鼠标右键弹出的菜单在HKEY_CLASSES_ROOT\GIFFILE\SHELL中，可按上述方法修改。在cda类型的文件名上点击鼠标右键弹出的菜单在HKEY_CLASSES_ROOT\CDAFILE\SHELL中，可按上述方法修改。要找某种类型的菜单中，可在HKEY_CALSSES_ROOT\???FILE\SHELL，???代表所要找的文件类型。 
+      <BR>为文件夹的右键菜单添加运行DOS的命令 
+      <BR>在HKEY_CLASSES_ROOT\Directory\shell下创建一个主键“CommandPrompt”，在右边窗口中把 
+      “默认”的值改为：“Command”（或你喜欢的字符，此字符将显示在右键菜单中）并在此主键下创建一个主键“command”，在右边窗口中把“默认”的值改为“command.com 
+      /k cd %1。 <BR>输入汉字时自动添加一个空格 
+      <BR>在HKEY_USERS\.DEFAULT\Software\Microsoft\Windows\CurrentVersion下可以看到有全拼，微软拼音，英文，智能ABC等等输入法，单击某个输入法的主键，我们可以看到在右边的窗口中有“插空格”这个 
+      DWORD值，其值为“0”时表示不添加空格，为“1”时则表示输入汉字时自动添加一个空格。 <BR>改变输入法的排列顺序 
+      <BR>我们按Ctrl+Space选择输入法时往往要切换几次才能找到我们所须的输入法,输入法的排列顺序如图 <BR>改变顺序可通过修改注册表。 
+      <BR>在HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Keyboard 
+      Layouts下有关于键盘和输入法的主键，其主键和输入法对应如下： 主键 输入法 <BR>E00E0804 微软拼音输入法 E0040804 
+      智能拼音输入法 E0050804 区位码输入法 E0010804 全拼输入法 00000409 英文输入法 E0030804 郑码输入法 
+      E0020804 双拼输入法 <BR>在HKEY_USERS\.DEFAULT\keyboard 
+      layout\preload下有1,2,3,4......等主键 
+      1,2,3,4.....则代表输入法的排序,单击1,2,3,4....可在右边的窗口中看到相应的输入法的键值,改动键值,可改变输入法的顺序。</P>
+      <P>增加“<A class=qs_highlight1 style="FONT-SIZE: 1em" 
+      href="http://clk.qunsee.com/click/click.php?cpid=12&amp;ads_id=150&amp;pid=99000124&amp;cid=124&amp;url=http%3A//www.king-long.com.cn/discovery/index.html&amp;k=%u5FEB%u901F&amp;s=http%3A//www.xker.com/edu/os/021/06101510463686453_4.html&amp;rn=787963&amp;v=1&amp;ref=http%3A//www.xker.com/edu/os/021/06101510463686453_2.html&amp;province=%u56DB%u5DDD&amp;city=%u6210%u90FD" 
+      target=_blank>快速</A>启动”的选项 
+      <BR>在HKEY_LOCAL_MACHINE\Software\CLASSES\Directory\shell下新建主键“快速启动<A 
+      href="http://www.xker.com/edu/os/" 
+      target=_blank>系统</A>”，在右边的窗口中修改“默认”为“快速启动<A 
+      href="http://www.xker.com/edu/os/" target=_blank>系统</A>” 
+      <BR>在HKEY_LOCAL_MACHINE\SOFTWARE\CLASSES\DIRECTORY\SHELL\快速启动<A 
+      href="http://www.xker.com/edu/os/" target=_blank>系统</A> 
+      下,新建主键COMMAND，在右边的窗口中修改“默认”为C:\WINDOWS\RUNDLL.EXE 
+      USER.EXE,EXITWINDOWSEXEC。 <BR>增加“关闭<A href="http://www.xker.com/edu/os/" 
+      target=_blank>系统</A>”的选项 
+      <BR>在HKEY_LOCAL_MACHINE\SOFTWARE\CLASSES\DIRECTORY\SHELL下新建主键快速关闭电脑,在右边的窗口中默认为快速关闭电脑。 
+      <BR>在HKEY_LOCAL_MACHINE\SOFTWARE\CLASSES\DIRECTORY\SHELL\快速关闭电脑下,新建主键COMMAND，在右边的窗口中修改“默认”为C:\WINDOWS\RUNDLL.EXE 
+      USER.EXE,EXITWINDOWS。</P>
+      <P>转自<A 
+      href="http://www.xker.com/edu/os/021/06101510463686453_1.html">http://www.xker.com/edu/os/021/06101510463686453_1.html</A></P></DIV></TD></TR></TBODY></TABLE><BR>
+<DIV class=opt><A title=查看该分类中所有文章 
+href="http://hi.baidu.com/xdz0611/blog/category/&raquo;&yen;&Aacute;&ordf;&Iacute;&oslash;&Acirc;&ccedil;">类别：互联网络</A> | <A 
+title=将此文章添加到百度搜藏 onclick="return addToFavor();" 
+href="http://cang.baidu.com/do/add" target=_blank>添加到搜藏</A> | 浏览(<SPAN 
+id=result></SPAN>) | <A 
+href="http://hi.baidu.com/xdz0611/blog/item/a55650a9146a81f81e17a200.html#send">评论</A>&nbsp;(0)
+<SCRIPT language=javascript>
+/*<![CDATA[*/
+var pre = [true,'标准答案－－为什么陈绮贞被歌迷称作陈老师（转自科尔沁夫博客）', '标准答案－－为什么陈绮贞被歌迷...','/xdz0611/blog/item/5883e503d26fe3733912bb9e.html'];
+var post = [true,'打开QQ中转等网页出现电信的广告','打开QQ中转等网页出现电信的广告', '/xdz0611/blog/item/50b4ca3348769e47ad4b5f9e.html'];
+if(pre[0] || post[0]){
+	document.write('<div style="height:5px;line-height:5px;">&nbsp;</div><div id="in_nav">');
+	if(pre[0]){
+		document.write('上一篇：<a href="' + pre[3] + '" title="' + pre[1] + '">' +  pre[2] + '</a>&nbsp;&nbsp;&nbsp;&nbsp;');
+	}
+	if(post[0]){
+		document.write('下一篇：<a href="' + post[3] + '" title="' + post[1] + '">' +  post[2] + '</a>');
+	}
+	document.write('</div>');
+}
+/*]]>*/
+</SCRIPT>
+ </DIV>
+<DIV class=line></DIV>
+<STYLE type=text/css>#in_related_doc A {
+	TEXT-DECORATION: none
+}
+</STYLE>
+
+<DIV id=in_related_tmp></DIV>
+<SCRIPT language=javascript type=text/javascript>
+/*<![CDATA[*/
+function HI_MOD_IN_RELATED_DOC_CALLBACK(arg){
+    if(arg.length <= 1) return false;
+    var hasMore = arg[0];
+    var D=function(A,B){A[A.length]=B;}
+    if(arg.length % 2 == 0) D(arg, ["","","",""]);
+
+    var html = ['<div id="in_related_doc"><div class="tit">相关文章：</div>'];
+    D(html, '<table cellpadding="0" cellspacing="3" border="0">');
+    for(var i = 1, j = arg.length; i < j; i += 2){
+        D(html, '<tr>');
+        D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i][3] + '/blog/item/' + arg[i][2] + '.html" target="_blank" title="' + arg[i][0] + '">' + arg[i][1] + '</a>');
+        D(html, new Array(10).join('\u3000'));
+        D(html, '</td>');
+        if(arg[i + 1][0] != "")
+            D(html, '<td width="15px"><a style="font-size:25px" >&#8226;</a></td><td><a href="http://hi.baidu.com/' + arg[i + 1][3] + '/blog/item/' + arg[i + 1][2] + '.html" target="_blank" title="' + arg[i + 1][0] + '">' + arg[i + 1][1] + '</a></td>');
+        else
+            D(html, '<td>&nbsp;</td><td>&nbsp;</td>');
+        D(html, '</tr>');
+    }
+    if(hasMore) D(html, '<tr><td colspan="4"><a target="_blank" href="/sys/search?pageno=1&type=7&sort=1&word=windows%CF%C2%C8%E7%BA%CE%D0%DE%B8%C4%D3%D2%BC%FC%B2%CB%B5%A5&item=a55650a9146a81f81e17a200">更多&gt;&gt;</a></td></tr>');
+    D(html, '</table></div><div class="line">&nbsp;</div>');
+
+    var div = document.getElementById('in_related_tmp');
+    if(div){
+        div.innerHTML = html.join('');
+        while(div.firstChild){
+            div.parentNode.insertBefore(div.firstChild, div);
+        }
+        div.parentNode.removeChild(div);
+    }
+}
+
+if(RelatedDocData == -1){	// not supported xhr
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '/sys/search?type=8&word=windows%CF%C2%C8%E7%BA%CE%D0%DE%B8%C4%D3%D2%BC%FC%B2%CB%B5%A5&item=a55650a9146a81f81e17a200&t=' + new Date().getTime();
+    document.getElementsByTagName('HEAD')[0].appendChild(script);
+}else if(RelatedDocData == null){
+	GetAndEval = true;
+}else{
+	eval(RelatedDocData);
+}
+
+/*]]>*/
+</SCRIPT>
+
+<DIV id=in_reader>
+<DIV class=tit>最近读者：</DIV>
+<SCRIPT>
+
+	var g_spAnnony=true;
+
+
+var g_read=[
+	
+["tarotme","d7307461726f746d65c701","tarotme"],
+
+{}
+];
+g_read.length=g_read.length-1;
+
+var _rh1="";
+var _rh2="";
+
+function wrreader(){
+	_rh1 += '<table width="100%" ><tr>';
+	_rh2+='<tr>';
+	if(g_spAnnony){
+		_rh1+='<td align="center" width="10%" ><img border="0" width="55" height="55" src="http://img.baidu.com/hi/img/portraitn.jpg"></td>';
+		_rh2+='<td>&nbsp;</td>';
+		if(g_read.length>0){
+			_rh1+='<td align="left" width="12%">';
+		}else{
+			_rh1+='<td align="left" width="100%">';
+		}
+		_rh1+="<a href='http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u="+myref+"' target='_self'>登录</a>后，您就出现在这里。</td>";
+		_rh2+='<td>&nbsp;</td>'
+	}
+	if(g_read.length==0){
+		if(!g_spAnnony){
+			_rh1+='<td align=left width="100%">最近还没有登录用户看过这篇文章……</td>';
+			_rh2+='<td>&nbsp;</td>';
+		}
+	}else{
+		for(i=0,len=g_read.length;i<len;i++){
+			_rh1+='<td align="center" valign="bottom" width="10%" class="user"><a href="/'+g_read[i][0]+'" target="_blank"><img border="0" src="http://himg.baidu.com/sys/portraitn/item/'+g_read[i][1]+'.jpg"></a></td>';
+			_rh2+='<td align="center" valign="top" class="user"><a href="/'+g_read[i][0]+'" target="_blank">'+g_read[i][2]+'</a></td>';
+		}
+	}
+	_rh1+='<td width="100%"></td></tr>';
+	_rh2+='<td></td></tr></table>';
+	document.write(_rh1+_rh2);
+}
+
+wrreader();
+</SCRIPT>
+</DIV>
+<DIV class=line></DIV>
+<SCRIPT language=JavaScript>
+allkey=allkey+"8a31610e1ee0c4ca7bcbe142_a55650a9146a81f81e17a200_";
+</SCRIPT>
+
+<DIV id=in_comment><A name=comment></A>
+<DIV class=tit>网友评论：</DIV>
+<SCRIPT>
+function writecmt(type,id,cmtname,cmturl,portraitId){
+	var html1="";
+
+	if(type==1){
+			html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'><img  border='0' src='http://himg.baidu.com/sys/portraitn/item/"+portraitId+".jpg'><br>"+cmtname+"</a>";
+	}else{
+		if(cmtname=="" || cmtname=="匿名网友"){
+			if(cmturl==""){
+				html1="<a>匿名网友</a>";
+			}else{
+				html1="<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a>";
+			}
+		}else{
+			if(cmturl==""){
+				html1="<div class='f14' style='display:inline'>网友:<a>"+cmtname+"</a></div>";
+			}else{
+				html1="<div class='f14' style='display:inline'>网友:<a href='"+cmturl+"' target='_blank' title='"+cmturl+"'>"+cmtname+"</a></div>";
+			}
+		}
+	}
+	document.write(html1);
+}
+
+</SCRIPT>
+
+<DIV id=page></DIV></DIV>
+<DIV id=in_send><A name=send></A>
+<FORM id=popFormSubmit name=form1 onsubmit="return checkcmtform()" 
+action=/xdz0611/commit method=post><INPUT type=hidden value=8 name=ct> <INPUT 
+type=hidden value=1 name=cm> <INPUT type=hidden value=a55650a9146a81f81e17a200 
+name=spBlogID>
+<SCRIPT language=JavaScript>
+	document.write("<input type='hidden' name='spRefURL' value='"+window.location.href+"'>");
+</SCRIPT>
+ 
+<DIV class=tit>发表评论：</DIV>
+<TABLE cellSpacing=5 cellPadding=0 width=620 border=0>
+  <TBODY>
+  <TR>
+    <TD class=f14>姓　名：</TD>
+    <TD><INPUT id=spBlogCmtor style="WIDTH: 220px" onfocus=hidErr(1); 
+      tabIndex=1 maxLength=49 onchange="checkname('spBlogCmtor')" 
+      name=spBlogCmtor>
+      <SCRIPT>
+document.write(" &nbsp;&nbsp; <a href='http://passport.baidu.com/?reg&tpl=sp&return_method=get&skip_ok=1&u=http://hi.baidu.com/sys/reg/' target='_blank'>注册</a>");
+document.write(" | <a href='http://passport.baidu.com/?login&tpl=sp&tpl_reg=sp&u="+myref+"'>登录</a>");
+
+</SCRIPT>
+       
+      <DIV id=nmerror style="DISPLAY: none">*姓名最长为50字节</DIV></TD></TR>
+  <TR id=1_err style="DISPLAY: none">
+    <TD>&nbsp;</TD>
+    <TD>
+      <DIV class=error id=1_err_con></DIV></TD></TR>
+  <TR>
+    <TD class=f14>网址或邮箱：</TD>
+    <TD><INPUT id=spBlogCmtURL style="WIDTH: 360px" onfocus=hidErr(2); 
+      tabIndex=2 maxLength=128 onchange="checkeandu('spBlogCmtURL')" 
+      name=spBlogCmtURL> (选填)</TD>
+    <SCRIPT>
+G("spBlogCmtor").value="";
+G("spBlogCmtURL").value="";
+</SCRIPT>
+  </TR>
+  <TR id=2_err style="DISPLAY: none">
+    <TD>&nbsp;</TD>
+    <TD>
+      <DIV class=error id=2_err_con></DIV></TD></TR>
+  <TR>
+    <TD class=f14 vAlign=top>内　容：</TD>
+    <TD><TEXTAREA id=spBlogCmtText style="WIDTH: 520px; HEIGHT: 155px" onfocus=hidErr(3); tabIndex=3 name=spBlogCmtText></TEXTAREA>
+      <SCRIPT>
+G("spBlogCmtor").value=G("spBlogCmtor").defaultValue;
+G("spBlogCmtText").value="";
+</SCRIPT>
+       </TD></TR>
+  <TR id=3_err style="DISPLAY: none">
+    <TD>&nbsp;</TD>
+    <TD>
+      <DIV class=error id=3_err_con></DIV></TD></TR>
+  <TR id=vercode>
+    <TD class=f14 vAlign=top>验证码：</TD>
+    <TD vAlign=top><INPUT type=hidden 
+      value=65FD9008BD06BBF39C8C7F4A221178D8F5767E8D41DA1D48DB793472B70AC7C25F31BBE1D06364C7D7B45605836AE544F153A2B6FDF08CC3ADA0B16D84B0B5BA 
+      name=spVcode> <INPUT id=spVerifyKey tabIndex=4 maxLength=4 size=6 
+      name=spVerifyKey autocomplete="off">请输入下图中的四位验证码，字母不区分大小写。<BR>
+      <SCRIPT language=JavaScript>
+
+			var imgsrc="http://tieba.baidu.com/cgi-bin/genimg?65FD9008BD06BBF39C8C7F4A221178D8F5767E8D41DA1D48DB793472B70AC7C25F31BBE1D06364C7D7B45605836AE544F153A2B6FDF08CC3ADA0B16D84B0B5BA";
+			document.write("<img id='verifypic' src='"+imgsrc+"' width='120' height='40'>");
+
+			function newverifypic(){
+				document.getElementById("verifypic").src = imgsrc +"&t="+ Math.random();
+			}
+		</SCRIPT>
+      <A title=看不清左边的字符 href="javascript:newverifypic();">看不清?</A> </TD></TR>
+  <TR>
+    <TD class=f14 vAlign=top>&nbsp;</TD>
+    <TD class=f14 vAlign=top><INPUT id=btn_ok tabIndex=5 type=submit value=发表评论 name=btn_ok></TD></TR></TBODY></TABLE></FORM></DIV><BR></DIV>
+<TABLE height=8 cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=modbl width=7>&nbsp;</TD>
+    <TD class=modbc>&nbsp;</TD>
+    <TD class=modbr width=7>&nbsp;</TD></TR></TBODY></TABLE></DIV></DIV></DIV></DIV>
+<SCRIPT language=javascript>
+<!--
+var hstr="/xdz0611/brwstat?key1=1";
+document.write("<script src='"+hstr+"&key2="+allkey+"'><\/script>");
+//-->
+</SCRIPT>
+<BR>
+<CENTER>
+<DIV id=ft>&copy;2008 Baidu</DIV></CENTER>
+<SCRIPT>
+if(document.getElementById("m_blog"))
+{
+	var imgarray = document.getElementById("m_blog").getElementsByTagName('img');
+	var imgw = document.getElementById("m_blog").offsetWidth;
+	imgw =imgw-40;
+	for(var i=0; i<imgarray.length; i++){
+	if(imgarray[i].className=="blogimg" && imgarray[i].width>=imgw) imgarray[i].width=imgw;
+	}
+}
+
+// Fix ff bugs
+var blog_text = document.getElementById('blog_text');
+blog_text.innerHTML = blog_text.innerHTML.replace(/href\s*=\s*("|')?(\.\.\/\.\.\/)/gi,"href=$1../$2");
+
+</SCRIPT>
+</CENTER><IMG style="DISPLAY: none" src=""> </BODY></HTML>

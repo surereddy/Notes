@@ -1,0 +1,5 @@
+
+|-C5/C4局
+C5最低，端局；C1最高,HSTP，省长途局；C4汇接局
+
+当用户利用电话拨号上网时，该用户所联接的CO交换机（C5局）则将通过局间中继线（InterMachineTrunks）到汇接局（Tandem）（C4局），然后由汇接局转到另一个出口端局，该出口端局（C5局）经过数字中继线（MuHi-LineHuntGroup）或ISDNPRI接到网络接入服务器（NAS－NetworkAccessServer）。如果入口端局和联接ISP的出口端局之间建有中继线（InterofficeTrunk），则拨号访问Internet也要经过这两个端局的交换机，只是不需要经过汇接局。总而言之，一个拨号访问Internet的呼叫建立的电路要经过两个以上的端局（C5）交换机和局间的中继线。 

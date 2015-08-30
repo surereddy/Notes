@@ -1,0 +1,1746 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 27 -- Writing Extensions in C</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 27</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Writing Extensions in C</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+<UL>
+<LI><A HREF="#IntroductiontoXS" >Introduction to XS</A>
+<LI><A HREF="#StepsforCreatinganExtension" >Steps for Creating an Extension</A>
+<UL>
+<LI><A HREF="#Step1ChangetothePerlDirectory" >Step 1: Change to the Perl Directory</A>
+<LI><A HREF="#Step2Runh2sx" >Step 2: Run h2sx</A>
+<LI><A HREF="#Step3CreateaMakefile" >Step 3: Create a Makefile</A>
+<LI><A HREF="#Step4AddSomeCode" >Step 4: Add Some Code</A>
+<LI><A HREF="#Step5TestYourExtensionModule" >Step 5: Test Your Extension Module</A>
+<LI><A HREF="#FinalConsiderations" >Final Considerations</A>
+</UL>
+<LI><A HREF="#ThexsubppCompiler" >The xsubpp Compiler</A>
+<LI><A HREF="#InputandOutputParameterstoFunctions" >Input and Output Parameters to Functions</A>
+<UL>
+<LI><A HREF="#ThetypemapFile" >The typemap File</A>
+</UL>
+<LI><A HREF="#ThebootstrapFunction" >The bootstrap Function</A>
+<LI><A HREF="#PassingArguments" >Passing Arguments</A>
+<LI><A HREF="#TheRETVALVariableandtheOUTPUTSecti" >The RETVAL Variable and the OUTPUT Section</A>
+<LI><A HREF="#Keywords" >Keywords</A>
+<UL>
+<LI><A HREF="#TheMODULEKeyword" >The MODULE Keyword</A>
+<LI><A HREF="#ThePACKAGEKeyword" >The PACKAGE Keyword</A>
+<LI><A HREF="#TheCODEKeyword" >The CODE: Keyword</A>
+<LI><A HREF="#TheOUTPUTKeyword" >The OUTPUT: Keyword</A>
+<LI><A HREF="#PpcODEforReturningMoreThanOneValu" >PpcODE: for Returning More Than One Value</A>
+<LI><A HREF="#ReturningUndefandEmptyLists" >Returning Undef and Empty Lists</A>
+<LI><A HREF="#TheBOOTKeyword" >The BOOT: Keyword</A>
+</UL>
+<LI><A HREF="#TheListingsofModules" >The Listings of Modules</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+In this chapter you'll work with the Perl XS<FONT FACE="AGaramond Bold">
+</FONT>language, which is used to create an interface between
+Perl and a C library. Such interfaces are called <I>extensions</I>
+to Perl because they enable your code to look and feel just like
+it is a part of Perl. Extensions are useful in appending extra
+functionality to Perl. This chapter covers the basics of writing
+extensions. The examples are simple enough to build on in order
+to create your own extensions library.
+<H2><A NAME="IntroductiontoXS"><B><FONT SIZE=5 COLOR=#FF0000>Introduction
+to XS</FONT></B></A></H2>
+<P>
+In Perl, XS refers to a programming language interface used to
+create an interface between C code and Perl scripts. Using the
+XS API, you can create a library that can be loaded dynamically
+into Perl.
+<P>
+The XS interface defines language components that wrap around
+Perl constructs. To use the XS language, you need the <TT><FONT FACE="Courier">xsubpp</FONT></TT>
+compiler to embed the constructs for you. The base construct in
+the XS language is the <TT><FONT FACE="Courier">XSUB</FONT></TT>
+function. The <TT><FONT FACE="Courier">XSUB</FONT></TT> function
+is called when calls are made to pass data and control between
+Perl and C code. Basically, Perl scripts call the <TT><FONT FACE="Courier">XSUB</FONT></TT>
+routines to get to the C code in the libraries encapsulated by
+the <TT><FONT FACE="Courier">XSUB</FONT></TT> functions.
+<P>
+To ensure that correct data types are mapped between C and Perl
+scripts, the XS compiler does a mapping of one C type of variable
+to a type in Perl. The mapping is maintained in a file called
+<TT><FONT FACE="Courier">typemap</FONT></TT>. When you're looking
+for extension files, it's often instructive to see how files are
+mapped by using the <TT><FONT FACE="Courier">typemap</FONT></TT>
+file in the same directory as the source file. <TT><FONT FACE="Courier">typemap</FONT></TT>
+files are covered later in this chapter.
+<P>
+You may be asking yourself why someone would want to write an
+extension in C when Perl is a perfectly good working language.
+For one thing, Perl is slow compared to C. Your C compiler can
+generate really tight code. All that power does have drawbacks.
+Another reason is that you might already have source code written
+and working in C, and porting this existing code to Perl would
+not make much sense. Also, it's possible to write code that can
+be accessed with Perl and C if you write the interfaces to your
+core functions correctly.
+<H2><A NAME="StepsforCreatinganExtension"><B><FONT SIZE=5 COLOR=#FF0000>Steps
+for Creating an Extension</FONT></B></A></H2>
+<P>
+The best way to show the creation of an extension is by example.
+This section steps you through the creation of the <TT><FONT FACE="Courier">futureValue</FONT></TT>
+world function for Perl. 
+<H3><A NAME="Step1ChangetothePerlDirectory"><B>Step 1: Change
+to the Perl Directory</B></A></H3>
+<P>
+Go to the directory where you installed the Perl distribution.
+This is important. Do not try this in any other directory or you'll
+get errors.
+<H3><A NAME="Step2Runh2sx"><B>Step 2: Run </B><TT><B><FONT SIZE=4 FACE="Courier">h2sx</FONT></B></TT></A>
+</H3>
+<P>
+For Step 2, you have to run the header to extension program <TT><FONT FACE="Courier">h2xs</FONT></TT>.
+To obtain a list of the options for this program, use the <TT><FONT FACE="Courier">-h</FONT></TT>
+option, as shown here:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>h2xs -h<BR>
+<BR>
+</B>h2xs [-Acfh] [-n module_name] [headerfile [extra_libraries]]
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;-f&nbsp;&nbsp;&nbsp;Force creation of
+the extension even if the C header does not exist.<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;-n&nbsp;&nbsp;&nbsp;Specify a name to
+use for the extension (recommended).<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;-c&nbsp;&nbsp;&nbsp;Omit the constant()
+function and specialised AUTOLOAD from the XS file.<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;-A&nbsp;&nbsp;&nbsp;Omit all autoloading
+facilities (implies -c).<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;-h&nbsp;&nbsp;&nbsp;Display this help
+message<BR>
+extra_libraries<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;are any
+libraries that might be needed for loading the<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extension,
+e.g. -lm would try to link in the math library.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Run <TT><FONT FACE="Courier">h2XS -n Finance</FONT></TT>. This
+creates a directory named <TT><FONT FACE="Courier">Finance</FONT></TT>,
+possibly under the subdirectory <TT><FONT FACE="Courier">ext/</FONT></TT>
+if it exists in the current working directory. Four files are
+created in the <TT><FONT FACE="Courier">Finance</FONT></TT> directory:
+<TT><FONT FACE="Courier">MANIFEST</FONT></TT>, <TT><FONT FACE="Courier">Makefile.PL</FONT></TT>,
+<TT><FONT FACE="Courier">Finance.pm</FONT></TT>, and <TT><FONT FACE="Courier">Finance.xs</FONT></TT>.
+Here's what the output on your terminal will look like:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>h2xs -n Finance<BR>
+</B>Writing ext/Finance/Finance.pm<BR>
+Writing ext/Finance/Finance.xs<BR>
+Writing ext/Finance/Makefile.PL</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">MANIFEST</FONT></TT> file in the
+<TT><FONT FACE="Courier">ext/Finance</FONT></TT> directory contains
+the names of the four files created. You have to change directories
+to <TT><FONT FACE="Courier">./ext/Finance</FONT></TT> to be able
+to work with these four files. Also, depending on who installed
+your Perl distribution, you might have to run as <TT><FONT FACE="Courier">root</FONT></TT>.
+<P>
+The contents of file <TT><FONT FACE="Courier">Makefile.PL</FONT></TT>
+are shown in Listing 27.1.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.1. The contents of </B><TT><B><FONT FACE="Courier">Makefile.PL</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 use ExtUtils::MakeMaker;<BR>
+&nbsp;2 # See lib/ExtUtils/MakeMaker.pm for details of how to
+influence<BR>
+&nbsp;3 # the contents of the Makefile that is written.<BR>
+&nbsp;4 WriteMakefile(<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'NAME'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;
+'Finance',<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'VERSION'&nbsp;&nbsp;&nbsp;&nbsp;=&gt;
+'0.1',<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'LIBS'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;
+['-lm'],&nbsp;&nbsp;&nbsp;# e.g., '-lm'<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'DEFINE'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;
+'',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# e.g., '-DHAVE_SOMETHING'<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Inc'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;
+'',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# e.g., '-I/usr/include/other'
+<BR>
+10&nbsp;);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">h2xs</FONT></TT> script also creates
+a <TT><FONT FACE="Courier">.pm</FONT></TT> file. The contents
+of file <TT><FONT FACE="Courier">Finance.pm</FONT></TT> are shown
+in Listing 27.2. The <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+file is where you add your exports and any Perl code.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.2. The module file: </B><TT><B><FONT FACE="Courier">Finance.pm</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 package Finance;<BR>
+&nbsp;2<BR>
+&nbsp;3 require Exporter;<BR>
+&nbsp;4 require DynaLoader;<BR>
+&nbsp;5 require AutoLoader;<BR>
+&nbsp;6<BR>
+&nbsp;7 @ISA = qw(Exporter DynaLoader);<BR>
+&nbsp;8 # Items to export into callers namespace by default. Note:
+do not export<BR>
+&nbsp;9 # names by default without a very good reason. Use EXPORT_OK
+instead.<BR>
+10 # Do not simply export all your public functions/methods/constants.
+<BR>
+11 @EXPORT = qw(<BR>
+12<BR>
+13 );<BR>
+14 sub AUTOLOAD {<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# This AUTOLOAD is used to 'autoload'
+constants from the constant()<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# XS function.&nbsp;&nbsp;If a
+constant is not found then control is passed<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# to the AUTOLOAD in AutoLoader.
+<BR>
+18<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;local($constname);<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($constname = $AUTOLOAD) =~ s/.*:://;
+<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$val = constant($constname, @_
+? $_[0] : 0);<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($! != 0) {<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ($! =~ /Invalid/) {<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$AutoLoader::AUTOLOAD
+= $AUTOLOAD;<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;goto
+&amp;AutoLoader::AUTOLOAD;<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($pack,$file,$line)
+= caller;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die
+&quot;Your vendor has not defined Finance macro<BR>
+$constname, used at $file line $line.<BR>
+30 &quot;;<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eval &quot;sub $AUTOLOAD { $val
+}&quot;;<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;goto &amp;$AUTOLOAD;<BR>
+35&nbsp;}<BR>
+36<BR>
+37&nbsp;bootstrap Finance;<BR>
+38<BR>
+39 # Preloaded methods go here.<BR>
+40<BR>
+41 # Autoload methods go after _&nbsp;_END_&nbsp;_, and are processed
+by the autosplit program.<BR>
+42<BR>
+43 1;<BR>
+44 _&nbsp;_END_&nbsp;_</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+All scripts which use <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+will now have to tell Perl to use functions in the <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+extension with the following command:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use Finance;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+When Perl sees this <TT><FONT FACE="Courier">use</FONT></TT> command,
+it searches for a <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+file of the same name in the various directories listed in the
+<TT><FONT FACE="Courier">@Inc</FONT></TT> array. If it cannot
+find the file, Perl stops with an error message.
+<P>
+The <TT><FONT FACE="Courier">.pm</FONT></TT> file extension generally
+requests that the Exporter and Dynamic Loader extensions also
+be loaded. You need them for exporting functions and dynamic loading.
+Perl uses the <TT><FONT FACE="Courier">@ISA</FONT></TT> array
+to get any methods that are not found in the current package.
+After this set, the library is loaded as an extension into Perl.
+<P>
+There are two files to look at in the <TT><FONT FACE="Courier">Finance</FONT></TT>
+example we just created. The <TT><FONT FACE="Courier">Finance.xs</FONT></TT>
+file (Listing 27.3) holds the C routines that contain all the
+C code for the extension, and the <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+file (Listing 27.2) contains routines that tell Perl how to load
+this extension and what functions are exported.
+<H3><A NAME="Step3CreateaMakefile"><B>Step 3: Create a </B><TT><B><FONT SIZE=4 FACE="Courier">Makefile</FONT></B></TT></A>
+</H3>
+<P>
+In Step 3, you have to generate a <TT><FONT FACE="Courier">makefile</FONT></TT>.
+Generating and invoking the <TT><FONT FACE="Courier">make</FONT></TT>
+command <TT><FONT FACE="Courier">makefile</FONT></TT> will create
+a working version of the library <TT><FONT FACE="Courier">Finance.so</FONT></TT>
+in the <TT><FONT FACE="Courier">../../lib/ext/Finance</FONT></TT>
+directory. After testing, you can move the finished versions of
+these files to the <TT><FONT FACE="Courier">/usr/lib</FONT></TT>
+or <TT><FONT FACE="Courier">/usr/local/lib</FONT></TT> tree. In
+all further testing in this section, you must point the <TT><FONT FACE="Courier">@Inc</FONT></TT>
+array to the <TT><FONT FACE="Courier">../../lib/ext/Finance</FONT></TT>
+location for this <TT><FONT FACE="Courier">finance.so</FONT></TT>
+file.
+<P>
+You may also see a <TT><FONT FACE="Courier">blib</FONT></TT> directory
+in the <TT><FONT FACE="Courier">ext/Finance</FONT></TT> directory.
+The <TT><FONT FACE="Courier">man</FONT></TT> page templates for
+your extensions are kept here.
+<P>
+Finally, the <TT><FONT FACE="Courier">Finance.xs</FONT></TT> file
+where you place all your code for extension in C is shown in Listing
+27.3.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.3. The initial </B><TT><B><FONT FACE="Courier">Finance.xs</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #ifdef _&nbsp;_cplusplus<BR>
+&nbsp;2 extern &quot;C&quot; {<BR>
+&nbsp;3 #endif<BR>
+&nbsp;4 #include &quot;EXTERN.h&quot;<BR>
+&nbsp;5 #include &quot;perl.h&quot;<BR>
+&nbsp;6 #include &quot;XSUB.h&quot;<BR>
+&nbsp;7 #ifdef _&nbsp;_cplusplus<BR>
+&nbsp;8 }<BR>
+&nbsp;9 #endif<BR>
+10<BR>
+11 static int<BR>
+12 not_here(s)<BR>
+13 char *s;<BR>
+14 {<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;croak(&quot;%s not implemented
+on this architecture&quot;, s);<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;<BR>
+17 }<BR>
+18<BR>
+19 static double<BR>
+20 constant(name, arg)<BR>
+21 char *name;<BR>
+22 int arg;<BR>
+23 {<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errno = 0;<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (*name) {<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errno = EINVAL;<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;<BR>
+29<BR>
+30 not_there:<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errno = ENOENT;<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;<BR>
+33&nbsp;}<BR>
+34<BR>
+35 MODULE = Finance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PACKAGE
+= Finance<BR>
+36<BR>
+37 double<BR>
+38 constant(name,arg)<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name
+<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arg</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<H3><A NAME="Step4AddSomeCode"><B>Step 4: Add Some Code</B></A>
+</H3>
+<P>
+Now that you have created the necessary files for your own Perl
+extension, you can move to Step 3, which involves adding your
+own code to the newly generated extension files. Add some simple
+<TT><FONT FACE="Courier">futureValue</FONT></TT> world application
+code to the <TT><FONT FACE="Courier">Finance.xs</FONT></TT> file.
+Listing 27.4 shows what <TT><FONT FACE="Courier">Finance.xs</FONT></TT>
+looks like with the code addition. Be sure to create this file
+because you'll be using it throughout the rest of the chapter.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.4. After code is added to </B><TT><B><FONT FACE="Courier">Finance.xs</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;1 #ifdef _&nbsp;_cplusplus
+<BR>
+&nbsp;&nbsp;2 extern &quot;C&quot; {<BR>
+&nbsp;&nbsp;3 #endif<BR>
+&nbsp;&nbsp;4 #include &quot;EXTERN.h&quot;<BR>
+&nbsp;&nbsp;5 #include &quot;perl.h&quot;<BR>
+&nbsp;&nbsp;6 #include &quot;XSUB.h&quot;<BR>
+&nbsp;&nbsp;7 #ifdef _&nbsp;_cplusplus<BR>
+&nbsp;&nbsp;8 }<BR>
+&nbsp;&nbsp;9 #endif<BR>
+&nbsp;10<BR>
+&nbsp;11 static int<BR>
+&nbsp;12 not_here(s)<BR>
+&nbsp;13 char *s;<BR>
+&nbsp;14 {<BR>
+&nbsp;15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;croak(&quot;%s not implemented
+on this architecture&quot;, s);<BR>
+&nbsp;16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;<BR>
+&nbsp;17 }<BR>
+&nbsp;18<BR>
+&nbsp;19 static double<BR>
+&nbsp;20 constant(name, arg)<BR>
+&nbsp;21 char *name;<BR>
+&nbsp;22 int arg;<BR>
+&nbsp;23 {<BR>
+&nbsp;24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errno = 0;<BR>
+&nbsp;25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (*name) {<BR>
+&nbsp;26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errno = EINVAL;<BR>
+&nbsp;28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;<BR>
+&nbsp;29<BR>
+&nbsp;30 not_there:<BR>
+&nbsp;31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errno = ENOENT;<BR>
+&nbsp;32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;<BR>
+&nbsp;33&nbsp;}<BR>
+&nbsp;34<BR>
+&nbsp;35 MODULE = Finance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PACKAGE
+= Finance<BR>
+&nbsp;36<BR>
+&nbsp;37 double<BR>
+&nbsp;38 constant(name,arg)<BR>
+&nbsp;39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name
+<BR>
+&nbsp;40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arg
+<BR>
+&nbsp;41<BR>
+&nbsp;42 double<BR>
+&nbsp;43 futureValue(present,rate,time)<BR>
+&nbsp;44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double present<BR>
+&nbsp;45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double rate<BR>
+&nbsp;46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double time<BR>
+&nbsp;47<BR>
+&nbsp;48&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE:<BR>
+&nbsp;49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double d;<BR>
+&nbsp;50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extern double pow(double
+x, double y);<BR>
+&nbsp;51<BR>
+&nbsp;52&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d = present * pow((1.0
++ rate),time);<BR>
+&nbsp;53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* printf(&quot;\n
+Future Value = %f \n&quot;, d); */<BR>
+&nbsp;54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL =&nbsp;&nbsp;d;
+<BR>
+&nbsp;55<BR>
+&nbsp;56&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTPUT:<BR>
+&nbsp;57&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL<BR>
+&nbsp;58<BR>
+&nbsp;59 double<BR>
+&nbsp;60 presentValue(future,rate,time)<BR>
+&nbsp;61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double future<BR>
+&nbsp;62&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double rate<BR>
+&nbsp;63&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double time<BR>
+&nbsp;64<BR>
+&nbsp;65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE:<BR>
+&nbsp;66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double d;<BR>
+&nbsp;67&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extern double pow(double
+x, double y);<BR>
+&nbsp;68<BR>
+&nbsp;69&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d = future / pow((1.0
++ rate),time);<BR>
+&nbsp;70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* printf(&quot;\n
+Present Value = %f \n&quot;, d); */<BR>
+&nbsp;71&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL =&nbsp;&nbsp;d;
+<BR>
+&nbsp;72<BR>
+&nbsp;73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTPUT:<BR>
+&nbsp;74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL<BR>
+&nbsp;75<BR>
+&nbsp;76 void<BR>
+&nbsp;77 Gordon(d,r,g)<BR>
+&nbsp;78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double d<BR>
+&nbsp;79&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double r<BR>
+&nbsp;80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double g<BR>
+&nbsp;81<BR>
+&nbsp;82&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE:<BR>
+&nbsp;83&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*
+Return Gordon Growth Model Value of stock */<BR>
+&nbsp;84&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g = d / (r -g);<BR>
+&nbsp;85&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;\n g
+= %f&quot;, g);<BR>
+&nbsp;86<BR>
+&nbsp;87 void<BR>
+&nbsp;88 depreciateSL(p,s,n)<BR>
+&nbsp;89&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double p<BR>
+&nbsp;90&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double s<BR>
+&nbsp;91&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double n<BR>
+&nbsp;92<BR>
+&nbsp;93&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PpcODE:<BR>
+&nbsp;94&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sum;<BR>
+&nbsp;95&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double value[10];
+<BR>
+&nbsp;96&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double dep;<BR>
+&nbsp;97&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int i;<BR>
+&nbsp;98&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int in;<BR>
+&nbsp;99&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;&nbsp;= (int)n;
+<BR>
+100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((n &lt; 10) &amp;&amp;
+(n &gt; 0))<BR>
+101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXTEND(sp,in);
+<BR>
+103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;&nbsp;=
+p;<BR>
+104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;value
+= %f for %d years \n&quot;, sum,in);<BR>
+105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dep
+= (sum - s)/ n;<BR>
+106&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for
+(i=0; i&lt;n; i++)<BR>
+107&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+108&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum
+-= dep;<BR>
+109&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;value
+= %f \n&quot;, sum);<BR>
+110&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value[i]
+= sum;<BR>
+111&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHs(sv_2mortal(newSViv(sum)));
+<BR>
+112&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+113&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+A function to calculate the future value of an investment is defined
+in line 43. The function to calculate the present value of money
+to be received in the future from an investment is defined starting
+at line 60. Both functions return one value and require three
+arguments, which are defined one per each line following the function
+declaration. For example, for the present value function in line
+60, the three arguments must be defined in one line as
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">double future, rate, time;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+At line 77, I define a Gordon Growth model function for a stock.
+This function only prints something and does not return any values.
+At line 88, I define a straight line depreciation model function
+that returns more than one value on the calling stack.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD><B>Caution</B></TD></TR>
+<TR VALIGN=TOP><TD>
+<BLOCKQUOTE>
+Be careful to put the type of function and the name of the function on separate lines. In other words, do not shorten the two lines into one. The return parameter and the function name must be on two lines for the XS specification. Any arguments to the 
+function would have be to listed one at a time on each line following the function name.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Next, run the command <TT><FONT FACE="Courier">perl Makefile.PL</FONT></TT>.
+This creates a real makefile, which <TT><FONT FACE="Courier">make</FONT></TT>
+needs. The <TT><FONT FACE="Courier">Makefile.PL</FONT></TT> checks
+to see whether your Perl distribution is complete and then writes
+the makefile for you.
+<P>
+If you get any errors at this point, you should check to see whether
+your Perl distribution is complete. As a check, try running the
+<TT><FONT FACE="Courier">Makefile.PL</FONT></TT> script as <TT><FONT FACE="Courier">root</FONT></TT>.
+If your Perl distribution was installed by <TT><FONT FACE="Courier">root</FONT></TT>,
+you may not have permission to overwrite some files. It won't
+hurt to try.
+<P>
+If you do not get any errors, proceed.
+<P>
+Run the makefile on your newly created <TT><FONT FACE="Courier">Makefile</FONT></TT>.
+The following output should be pretty close to what you see:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier"># <B>make<BR>
+<BR>
+</B>umask 0 &amp;&amp; cp Finance.pm ../../lib/Finance.pm<BR>
+../../perl -I../../lib -I../../lib ../../lib/ExtUtils/xsubpp<BR>
+-typemap ../../lib/ExtUtils/typemap Finance.XS<BR>
+&gt;Finance.tc &amp;&amp; mv Finance.tc Finance.c<BR>
+cc -c -D_&nbsp;_USE_BSD_SIGNAL -Dbool=char -DHAS_BOOL<BR>
+-O2&nbsp;&nbsp;&nbsp;&nbsp;-DVERSION=\&quot;0.1\&quot; -fpic -I../..&nbsp;&nbsp;Finance.c
+<BR>
+Running Mkbootstrap for Finance ()<BR>
+chmod 644 Finance.bs<BR>
+LD_RUN_PATH=&quot;&quot; cc -o ../../lib/auto/Finance/Finance.so
+-shared<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-L/usr/local/lib Finance.o<BR>
+chmod 755 ../../lib/auto/Finance/Finance.so<BR>
+cp Finance.bs ../../lib/auto/Finance/Finance.bs<BR>
+chmod 644 ../../lib/auto/Finance/Finance.bs</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Wait! Before you execute this gem of a script shown above, look
+at the output in Listing 27.6. The shared version of <TT><FONT FACE="Courier">Finance.so</FONT></TT>
+is in the directory <TT><FONT FACE="Courier">../../lib/auto/Finance/Finance.so</FONT></TT>.
+It is important that you copy <TT><FONT FACE="Courier">Finance.so</FONT></TT>
+to your <TT><FONT FACE="Courier">@Inc</FONT></TT> path. It's important
+at this point to either modify the <TT><FONT FACE="Courier">@Inc</FONT></TT>
+array in your scripts that use <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+or, by default, point to a known test location where this <TT><FONT FACE="Courier">.so</FONT></TT>
+file will reside. Perl will search the directories listed in <TT><FONT FACE="Courier">@Inc</FONT></TT>
+to load the extension module.
+<H3><A NAME="Step5TestYourExtensionModule"><B>Step 5: Test Your
+Extension Module</B></A></H3>
+<P>
+Now, in the <TT><FONT FACE="Courier">Test1</FONT></TT> directory,
+create the test script shown in Listing 27.5 and name it <TT><FONT FACE="Courier">t.pl</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.5. The test program.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2<BR>
+&nbsp;3 use Finance;<BR>
+&nbsp;4<BR>
+&nbsp;5 Finance::Gordon(50,4,2);<BR>
+&nbsp;6 print &quot;\n&quot;;<BR>
+&nbsp;7<BR>
+&nbsp;8 #<BR>
+&nbsp;9 #<BR>
+10 #<BR>
+11 $pv = 1000.0;<BR>
+12 $time = 10 * 12;<BR>
+13 $rate = 0.05 / 12;<BR>
+14 $fv = Finance::futureValue($pv,$rate,$time);<BR>
+15 printf &quot;\n Future Value of %f after %f periods accruing
+interest &quot;,<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$pv,
+$rate;<BR>
+17 printf &quot;\n for %f months will be r %f \n&quot;,<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$time,
+$fv;<BR>
+19<BR>
+20 printf &quot;\n Let us go backward and see if we get the same
+numbers&quot;;<BR>
+21 $pvBack = Finance::presentValue($fv,$rate,$time);<BR>
+22 printf &quot;\n Present Value &quot;, $pvBack;<BR>
+23<BR>
+24 printf &quot;\n Difference = %f&quot;, ($pv - $pvBack);<BR>
+25<BR>
+26 printf &quot;\n ------- see any difference? --------- \n&quot;
+;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Notice that <TT><FONT FACE="Courier">Finance::Gordon</FONT></TT>
+is used to explicitly call the <TT><FONT FACE="Courier">Gordon
+Growth Model</FONT></TT> function (see line 5). Look up the formula
+in your finance textbook if you don't believe me. It would be
+cumbersome to keep typing in <TT><FONT FACE="Courier">Finance::</FONT></TT>
+to all your functions. Add the declaration to the <TT><FONT FACE="Courier">@EXPORT</FONT></TT>
+array in <TT><FONT FACE="Courier">Finance.pm</FONT></TT> and remake.
+Now you can use the function <TT><FONT FACE="Courier">Gordon</FONT></TT>
+by itself. The <TT><FONT FACE="Courier">@EXPORT</FONT></TT> array
+in the <TT><FONT FACE="Courier">.pm</FONT></TT> file tells Perl
+which of the extension's routines should be placed in the calling
+package's own name space.
+<H3><A NAME="FinalConsiderations"><B>Final Considerations</B></A>
+</H3>
+<P>
+There are some things you should be aware of before you export
+everything in your module. Sure, it saves you typing and makes
+the code easier to read by not having all those <TT><FONT FACE="Courier">Finance::</FONT></TT>
+prefixes everywhere. However, what about the same function name
+residing in both the main and the modules? In this case, the function
+in the main may prevail. Why create an ambiguity when the choice
+of a good name for a function will suffice? Also, it's not a good
+idea to export every function in your extension. After all, the
+idea behind the extension is to hide some of the functionality
+and intricacies in the extension from the application that is
+using this extension module.
+<P>
+Most of the time you do not want to export the names of your extension's
+subroutines because they might accidentally clash with other modules'
+subroutines from other extensions or from the calling program
+itself.
+<H2><A NAME="ThexsubppCompiler"><B><FONT SIZE=5 COLOR=#FF0000>The
+</FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">xsubpp</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Compiler</FONT></B></A></H2>
+<P>
+If you examine the makefile for your extension, you'll see a call
+to a program called <TT><FONT FACE="Courier">xsubpp</FONT></TT>.
+This is a preprocessor compiler for XS code.
+<P>
+The compiler <TT><FONT FACE="Courier">xsubpp</FONT></TT> takes
+the XS code in the <TT><FONT FACE="Courier">.xs</FONT></TT> file,
+converts it into C code, and places it in a file whose suffix
+is <TT><FONT FACE="Courier">.c</FONT></TT>. The C code created
+makes heavy use of the C functions within Perl.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Tip</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Make sure the <TT><FONT FACE="Courier">xsubpp</FONT></TT> compiler is in your path and that the first line in the file points to <TT><FONT FACE="Courier">/usr/bin/perl</FONT></TT> and not to <TT><FONT FACE="Courier">.miniperl</FONT></TT> (if you did not 
+install <TT><FONT FACE="Courier">miniperl</FONT></TT>).
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+An <TT><FONT FACE="Courier">XSUB</FONT></TT> function is just
+like a C function in that it takes arguments and returns one or
+more single values (if not declared void). Values may also be
+returned via pointers to arguments passed to the function.
+<P>
+Now move on to something a little bit more exotic and create a
+function that takes arguments and returns something. This function
+calculates and returns the Julian day given a calendar day. The
+Julian day calculation is very important in astronomical calculations
+since it's a reference counter from all the days since January
+1, 4713 B.C. and was founded by the French scholar Joseph Scaliger
+(1540-1609) in 1583 A.D. The formula for calculating the Julian
+day is given in forms in just as many astronomical texts. One
+version of this formula is:
+<P>
+<BLOCKQUOTE>
+<I>Julian Day = 367 * YEAR - 7 * (YEAR + (M + 9)/12)4 +<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(275
+* M / 9) + 1721013.5;</I>
+</BLOCKQUOTE>
+<P>
+Don't try to shorten the formula by reducing it to an algebraic
+equivalent since the formula relies on dropping bits off the right
+side of the decimal point. One such way of implementing this formula
+is the function for calculating the Julian day, as shown in Listing
+27.6.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.6. The </B><TT><B><FONT FACE="Courier">Julian.c</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #include &lt;math.h&gt;<BR>
+&nbsp;2<BR>
+&nbsp;3 long JulianDay( int month, int day, int year)<BR>
+&nbsp;4 {<BR>
+&nbsp;5 double t1, t2;&nbsp;&nbsp;long jd;<BR>
+&nbsp;6 t1 = 7 * floor((year + floor(month * 9)/12)/4);<BR>
+&nbsp;7 t2 = floor(275 * month / 9);<BR>
+&nbsp;8 jd = (long) (floor(367 * year - t1 + t2 + day + 1721013.5));
+<BR>
+&nbsp;9&nbsp;&nbsp;return(jd);<BR>
+10 }<BR>
+11 /* SAMPLE USAGE<BR>
+12 main(int argc, char *argv[])<BR>
+13 {<BR>
+14 long day1, day2;<BR>
+15 day1 = JulianDay(7,21,1962);<BR>
+16 day2 = JulianDay(2,2,1996);<BR>
+17 printf(&quot;\n Thou are only %d days old&quot;, day2 - day1);
+<BR>
+18 }<BR>
+19 */</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Run <TT><FONT FACE="Courier">h2xs -A -n Julian</FONT></TT> as
+before to get the Julian module started. This creates the <TT><FONT FACE="Courier">ext/Julian</FONT></TT>
+directory with the necessary files. This time, however, you'll
+be adding a lot more code into the functions in <TT><FONT FACE="Courier">Julian.xs</FONT></TT><FONT FACE="AGaramond Bold">,
+</FONT>as shown in Listing 27.7.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.7. Adding functions to </B><TT><B><FONT FACE="Courier">Julian.xs</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #ifdef _&nbsp;_cplusplus<BR>
+&nbsp;2 extern &quot;C&quot; {<BR>
+&nbsp;3 #endif<BR>
+&nbsp;4 #include &quot;EXTERN.h&quot;<BR>
+&nbsp;5 #include &quot;perl.h&quot;<BR>
+&nbsp;6 #include &quot;XSUB.h&quot;<BR>
+&nbsp;7 #ifdef _&nbsp;_cplusplus<BR>
+&nbsp;8 }<BR>
+&nbsp;9 #endif<BR>
+10<BR>
+11 MODULE = Julian&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PACKAGE
+= Julian<BR>
+12<BR>
+13 #include &lt;math.h&gt;<BR>
+14<BR>
+15 long<BR>
+16 JulianDay( month, day, year)<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int month<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int day<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long year<BR>
+20<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE:<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long
+jul;<BR>
+23 double t1, t2;<BR>
+24 t1 = 7 * floor((year + floor(month * 9)/12)/4);<BR>
+25 t2 = floor(275 * month / 9);<BR>
+26 jul = (long) (floor(367 * year - t1 + t2 + day + 1721013.5));
+<BR>
+27<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL
+= jul;<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTPUT:<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Note that each line containing the arguments after the declaration
+of <TT><FONT FACE="Courier">JulianDay</FONT></TT> is indented
+one tab. It is not necessary to have a tab between the type of
+variable and the name of the variable. Also note that that there
+is no semicolon following the declaration of each variable.
+<P>
+Edit the file <TT><FONT FACE="Courier">Makefile.PL</FONT></TT>
+so that the corresponding line looks like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">'LIBS'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt;
+['-lm'],&nbsp;&nbsp;&nbsp;# e.g., '-lm'</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Notice that an extra library to link in has been specified in
+this case, the math library, <TT><FONT FACE="Courier">libm</FONT></TT>.
+You'll learn later in this chapter how to write <TT><FONT FACE="Courier">XSUB</FONT></TT>s
+that can call every routine in a library.
+<P>
+Generate the <TT><FONT FACE="Courier">makefile</FONT></TT> and
+run <TT><FONT FACE="Courier">make</FONT></TT>. A test script for
+running this program is shown in List-ing 27.8.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.8. Testing the </B><TT><B><FONT FACE="Courier">Julian
+Day</FONT></B></TT><B> module.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2<BR>
+&nbsp;3 use Julian;<BR>
+&nbsp;4<BR>
+&nbsp;5 $m1 = 07;<BR>
+&nbsp;6 $d1 = 21;<BR>
+&nbsp;7 $d2 = 22;<BR>
+&nbsp;8<BR>
+&nbsp;9 $yr1 = 1996;<BR>
+10 $yr2 = 1996;<BR>
+11<BR>
+12 $jd1 = &amp;Julian::JulianDay($m1,$d1,$yr1);<BR>
+13 $jd2 = &amp;Julian::JulianDay($m1,$d2,$yr2);<BR>
+14<BR>
+15 print &quot;Day 1: $jd1 \n&quot;;<BR>
+16 print &quot;Day 2: $jd2 \n&quot;;<BR>
+17 print &quot;Delta: &quot;,$jd2 - $jd1, &quot;\n&quot; ;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Now that you've learned some of the ways to create and use C extensions,
+here's how to put them all together. First of all, look at the
+<TT><FONT FACE="Courier">Julian.c</FONT></TT> file in Listing
+27.9, put together by the Perl script.
+<P>
+The function is called <TT><FONT FACE="Courier">XS</FONT></TT>,
+and the arguments are specified via the <TT><FONT FACE="Courier">dXSARGS</FONT></TT>
+keyword.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.9. The </B><TT><B><FONT FACE="Courier">Julian.c</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 /*<BR>
+&nbsp;2&nbsp;&nbsp;* This file was generated automatically by
+xsubpp version 1.923 from the<BR>
+&nbsp;3&nbsp;&nbsp;* contents of Julian.xs. Don't edit this file,
+edit Julian.XS instead.<BR>
+&nbsp;4&nbsp;&nbsp;*<BR>
+&nbsp;5&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANY chANGES
+MADE HERE WILL BE LOST!<BR>
+&nbsp;6&nbsp;&nbsp;*<BR>
+&nbsp;7&nbsp;&nbsp;*/<BR>
+&nbsp;8<BR>
+&nbsp;9 #ifdef _&nbsp;_cplusplus<BR>
+10 extern &quot;C&quot; {<BR>
+11 #endif<BR>
+12 #include &quot;EXTERN.h&quot;<BR>
+13 #include &quot;perl.h&quot;<BR>
+14 #include &quot;XSUB.h&quot;<BR>
+15 #ifdef _&nbsp;_cplusplus<BR>
+16 }<BR>
+17 #endif<BR>
+18<BR>
+19 #include &lt;math.h&gt;<BR>
+20 XS(XS_Julian_JulianDay)<BR>
+21 {<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dXSARGS;<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (items != 3)<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;croak(&quot;Usage:
+Julian::JulianDay(month, day, year)&quot;);<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;month
+= (int)SvIV(ST(0));<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;day
+= (int)SvIV(ST(1));<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long&nbsp;&nbsp;&nbsp;year
+= (long)SvIV(ST(2));<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long&nbsp;&nbsp;&nbsp;RETVAL;
+<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long
+jul;<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double
+t1, t2;<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t1
+= 7 * floor((year + floor(month * 9)/12)/4);<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t2
+= floor(275 * month / 9);<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jul
+= (long) (floor(367 * year - t1 + t2 + day + 1721013.5));<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL
+= jul;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ST(0) = sv_newmortal();
+<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv_setiv(ST(0),
+(IV)RETVAL);<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XSRETURN(1);<BR>
+33 }<BR>
+34<BR>
+35 #ifdef _&nbsp;_cplusplus<BR>
+36 extern &quot;C&quot;<BR>
+37 #endif<BR>
+38 XS(boot_Julian)<BR>
+39 {<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dXSARGS;<BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char* file = _&nbsp;_FILE_&nbsp;_;
+<BR>
+42<BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newXS(&quot;Julian::JulianDay&quot;,
+XS_Julian_JulianDay, file);<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ST(0) = &amp;sv_yes;<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XSRETURN(1);<BR>
+46 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The meaning of keywords such as <TT><FONT FACE="Courier">newXS</FONT></TT>,
+<TT><FONT FACE="Courier">SvIV</FONT></TT>, and so on in the output
+C file are explained in <A HREF="ch25.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch25.htm" >Chapter 25</A>, &quot;Perl
+Internal Files and Structures.&quot; However, for the moment,
+concentrate on the compiler itself and how it expects input.
+<H2><A NAME="InputandOutputParameterstoFunctions"><B><FONT SIZE=5 COLOR=#FF0000>Input
+and Output Parameters to Functions</FONT></B></A></H2>
+<P>
+The functions compiled by the <TT><FONT FACE="Courier">xsubpp</FONT></TT>
+compiler are referred to as <TT><FONT FACE="Courier">XSUB</FONT></TT>.
+You specify the parameters that are passed into the <TT><FONT FACE="Courier">XSUB</FONT></TT>
+just after you declare the function return value and name. The
+list of parameters looks very C-like, but the lines must be indented
+by a tab stop, and each line should not have an ending semicolon.
+<P>
+The list of output parameters occurs after the <TT><FONT FACE="Courier">OUTPUT:</FONT></TT>
+directive. The default value returned is <TT><FONT FACE="Courier">RETVAL</FONT></TT>.
+The use of <TT><FONT FACE="Courier">RETVAL</FONT></TT> tells Perl
+that you want to send this value back as the return value of the
+<TT><FONT FACE="Courier">XSUB</FONT></TT> function. You still
+have set <TT><FONT FACE="Courier">RETVAL</FONT></TT> to something.
+You can also specify which variables used in the <TT><FONT FACE="Courier">XSUB</FONT></TT>
+function should be placed into the respective Perl variables that
+are passed in.
+<H3><A NAME="ThetypemapFile"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">typemap</FONT></B></TT><B><FONT SIZE=4>
+File</FONT></B></A></H3>
+<P>
+The <TT><FONT FACE="Courier">xsubpp</FONT></TT> compiler uses
+rules to convert from Perl's internal data types to C's data types.
+These rules are stored in the <TT><FONT FACE="Courier">typemap</FONT></TT>
+file. The rules in <TT><FONT FACE="Courier">typemap</FONT></TT>
+contain mappings for converting <TT><FONT FACE="Courier">int</FONT></TT>s,
+unsigned <TT><FONT FACE="Courier">int</FONT></TT>s, and so on
+into Perl scalars. Arrays are mapped to <TT><FONT FACE="Courier">char**</FONT></TT>
+or <TT><FONT FACE="Courier">void</FONT></TT> pointers, and so
+on. The <TT><FONT FACE="Courier">typemap</FONT></TT> file with
+all the mappings is located in the <TT><FONT FACE="Courier">ExtUtils</FONT></TT>
+directory under the Perl installation.
+<P>
+The <TT><FONT FACE="Courier">typemap</FONT></TT> file is split
+into three sections. The first section is a mapping of various
+C data types into a tag value. The second section is for converting
+input parameters to C, and the third is for outputting parameters
+from C to Perl.
+<P>
+Take a look at Listing 27.9 again. Note the <TT><FONT FACE="Courier">SvIV</FONT></TT>
+for the <TT><FONT FACE="Courier">month</FONT></TT> declaration.
+Now look in the <TT><FONT FACE="Courier">typemap</FONT></TT> file
+for the declaration of <TT><FONT FACE="Courier">int</FONT></TT>.
+You'll see it defined as <TT><FONT FACE="Courier">T_IV</FONT></TT>.
+Now go to the second <TT><FONT FACE="Courier">INPUT</FONT></TT>
+part in the file to see how <TT><FONT FACE="Courier">T_IV</FONT></TT>
+is mapped for input. You'll see the following lines, which map
+the integer from the Perl variable:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">T_IV<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$var = ($type)SvIV($arg);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Similarly, in the <TT><FONT FACE="Courier">OUTPUT</FONT></TT>
+section of the <TT><FONT FACE="Courier">typemap</FONT></TT> file,
+you'll see the following lines to generate a returned value. This
+fragment places an integer into the <TT><FONT FACE="Courier">ST</FONT></TT>
+array (which is indexed from <TT><FONT FACE="Courier">0</FONT></TT>
+on up for all the incoming and outgoing arguments of a function):
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">T_IV<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv_setif($arg, (IV)$var);<BR>
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Tip</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+With C pointers, the asterisk indirection operator (<TT><FONT FACE="Courier">*</FONT></TT>) defines the type <TT><FONT FACE="Courier">foo</FONT></TT> pointer. When using the address of a variable, the ampersand (<TT><FONT FACE="Courier">&amp;</FONT></TT>) 
+is considered part of the variable, and you should use a pointer type.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+If you forgot to create the <TT><FONT FACE="Courier">typemap</FONT></TT>
+file, you might see output that looks like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Error: 'const char *' not in typemap
+in Julian.xs, line XXX</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This error means that you have used a C data type that <TT><FONT FACE="Courier">xsubpp</FONT></TT>
+doesn't know how to convert between Perl and C. The solution is
+to create a custom <TT><FONT FACE="Courier">typemap</FONT></TT>
+file that tells <TT><FONT FACE="Courier">xsubpp</FONT></TT> how
+to do the conversions.
+<P>
+You can define your own <TT><FONT FACE="Courier">typemap</FONT></TT>
+entries if you find certain parameters in the file that you cannot
+find in the existing <TT><FONT FACE="Courier">typemap</FONT></TT>
+file. For example, the type <TT><FONT FACE="Courier">double</FONT></TT>
+is understood by Perl, but not <TT><FONT FACE="Courier">double
+*</FONT></TT>. In this case you have to make an entry in the <TT><FONT FACE="Courier">typemap</FONT></TT>
+file to convert the pointer to <TT><FONT FACE="Courier">double</FONT></TT>
+to something Perl will understand. Try a <TT><FONT FACE="Courier">void</FONT></TT>
+pointer.
+<H2><A NAME="ThebootstrapFunction"><B><FONT SIZE=5 COLOR=#FF0000>The
+</FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">bootstrap</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Function</FONT></B></A></H2>
+<P>
+All Perl extensions require a Perl module with a call to the <TT><FONT FACE="Courier">bootstrap</FONT></TT>
+function, which loads the extension into Perl. The module's functions
+are two-fold: Export all the extension's functions and global
+references to variables to the Perl script using the extension,
+and load the <TT><FONT FACE="Courier">XSUB</FONT></TT>s into Perl
+using dynamic linking. Thus, you require two modules: the <TT><FONT FACE="Courier">Exporter</FONT></TT>
+to export your functions and the <TT><FONT FACE="Courier">DynaLoader</FONT></TT>
+for dynamic loading. See the following example for the <TT><FONT FACE="Courier">Julian</FONT></TT>
+package:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">package Julian;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+my package<BR>
+<BR>
+require Exporter;&nbsp;&nbsp;&nbsp;# &lt;--- so that I can export
+functions<BR>
+require DynaLoader; # &lt;--- for loading extensions<BR>
+<BR>
+@ISA = qw(Exporter DynaLoader); #inherit functionality.<BR>
+<BR>
+@EXPORT = qw( JulianDay );&nbsp;&nbsp;# to reduce use of Julian::
+in scripts.<BR>
+<BR>
+bootstrap Julian;&nbsp;&nbsp;&nbsp;# Load the extension in to
+Perl<BR>
+1;</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="PassingArguments"><B><FONT SIZE=5 COLOR=#FF0000>Passing
+Arguments</FONT></B></A></H2>
+<P>
+Parameters are passed into an <TT><FONT FACE="Courier">XSUB</FONT></TT>
+function via an argument stack. The same stack is used to store
+the <TT><FONT FACE="Courier">XSUB</FONT></TT>'s return value.
+All Perl functions are stack oriented and use indexes in their
+own stack to access their variables.
+<P>
+The stacks are organized bottom up and can be indexed using the
+<TT><FONT FACE="Courier">ST<I>(index)</I></FONT></TT> macro. The
+first position on that stack that belongs to the active function
+is referred to as index 0 for that function. The positions on
+the stack are referred to as <TT><FONT FACE="Courier">ST(0)</FONT></TT>
+for the first item, <TT><FONT FACE="Courier">ST(1)</FONT></TT>
+for the next, and so on. The incoming parameters and outgoing
+return values for an <TT><FONT FACE="Courier">XSUB</FONT></TT>
+are always position 0. Parameters are pushed left to right.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Caution</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">ST(x)</FONT></TT> is a macro. Be careful not to do something like this when using it: <TT><FONT FACE="Courier">ST(x++)</FONT></TT>. Depending on how the macro is defined, you may increment <TT><FONT FACE="Courier">x</FONT></TT> 
+more than once. It won't now, but it just might. Handle macros with care.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<H2><A NAME="TheRETVALVariableandtheOUTPUTSecti"><B><FONT SIZE=5 COLOR=#FF0000>The
+</FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">RETVAL</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Variable and the </FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">OUTPUT</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Section</FONT></B></A></H2>
+<P>
+The <TT><FONT FACE="Courier">OUTPUT</FONT></TT> section of the
+<TT><FONT FACE="Courier">xs</FONT></TT> file is where you place
+return values. The return value is always <TT><FONT FACE="Courier">ST(0)</FONT></TT>.
+However, this value will not be set unless the <TT><FONT FACE="Courier">OUTPUT</FONT></TT>
+section with <TT><FONT FACE="Courier">RETVAL</FONT></TT> is defined.
+You must have the two lines in a function to get it to return
+a value:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">OUTPUT:<BR>
+RETVAL</FONT></TT>
+</BLOCKQUOTE>
+<P>
+You also have to remember to set <TT><FONT FACE="Courier">RETVAL</FONT></TT>
+somewhere along the code to have a value to return. The type of
+<TT><FONT FACE="Courier">RETVAL</FONT></TT> is the type of the
+function you declared at the top. So, the <TT><FONT FACE="Courier">JulianDay</FONT></TT>
+function has a <TT><FONT FACE="Courier">long</FONT></TT> <TT><FONT FACE="Courier">RETVAL</FONT></TT>,
+whereas the <TT><FONT FACE="Courier">futureValue</FONT></TT> function
+has a <TT><FONT FACE="Courier">double</FONT></TT> <TT><FONT FACE="Courier">RETVAL</FONT></TT>.
+For return types of <TT><FONT FACE="Courier">void</FONT></TT>,
+the <TT><FONT FACE="Courier">RETVAL</FONT></TT> variable is not
+defined and you cannot use it.
+<P>
+Input parameters in an <TT><FONT FACE="Courier">XSUB</FONT></TT>
+are normally initialized with their values from the values pushed
+on the argument stack at the time of the call. Entries in the
+<TT><FONT FACE="Courier">typemap</FONT></TT> file are used to
+map the Perl values into their C counterparts in the <TT><FONT FACE="Courier">XSUB</FONT></TT>
+function. You can use code that would be generated by the <TT><FONT FACE="Courier">xsubpp</FONT></TT>
+compile directly to gain access to a variable. For example, in
+the following function, the first argument is accessed via the
+<TT><FONT FACE="Courier">SvPV</FONT></TT> map function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">GetDayOfWeek(julianDay,dayOfWeek)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long julianDay = (long)SvPV(ST(0),na)
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long dayOfWeek = 0</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In this example, <TT><FONT FACE="Courier">dayOfWeek</FONT></TT>
+is assigned to a value of <TT><FONT FACE="Courier">0</FONT></TT>
+as the default value. This is done so that if nothing is passed
+in for <TT><FONT FACE="Courier">dayOfWeek</FONT></TT>, then it
+will be set to <TT><FONT FACE="Courier">0</FONT></TT>. Defensive
+programming like this makes the package easier to use.
+<P>
+You can even place assignments in the parameter list, like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">DayOfWeek(julianDay,dayOfWeek = 0)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long julianDay = (long)SvPV(ST(0),na)
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long dayOfWeek</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The default values set in the parameters may only be a number
+or a string, not pointers. Also, you can define such values from
+a right-to-left order in the parameter list. Thus, the following
+line would cause unspeakable errors from <TT><FONT FACE="Courier">xsubpp</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">DayOfWeek(dayOfWeek = 0, julianDay)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To allow the <TT><FONT FACE="Courier">XSUB</FONT></TT> for <TT><FONT FACE="Courier">DayOfWeek()</FONT></TT>
+to have a default <TT><FONT FACE="Courier">date</FONT></TT> value,
+you could rearrange the parameters to the <TT><FONT FACE="Courier">XSUB</FONT></TT>.
+A Perl program will then be able to call <TT><FONT FACE="Courier">DayOfWeek()</FONT></TT>
+with either of the following statements:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$status = DayOfWeek( $julianDay );<BR>
+$status = DayOfWeek( );&nbsp;&nbsp;&nbsp;# Force it default to
+jday of 0</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The code in the <TT><FONT FACE="Courier">Julian.xs</FONT></TT>
+file would look like the following:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">int<BR>
+DayOfWeek(jday = 0)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long jday;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE:<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (jday == 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL
+= 0;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL
+= (jday % 7);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTPUT:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">XSUB</FONT></TT> code generated for
+this segment of code would look this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">XS(XS_Julian_DayOfWeek)<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;dXSARGS;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (items &lt; 0 || items &gt; 1)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;croak(&quot;Usage: Julian::DayOfWeek(jday
+= 0)&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long jday;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;RETVAL;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (items &lt; 1)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jday = 0;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jday = (long)SvIV(ST(0));
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (jday == 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL
+= 0;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL = (jday % 7);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ST(0) = sv_newmortal();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv_setiv(ST(0), (IV)RETVAL);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;XSRETURN(1);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In this code fragment, the special variable <TT><FONT FACE="Courier">items</FONT></TT>
+tells the routine how many parameters have been passed into the
+function. The <TT><FONT FACE="Courier">items</FONT></TT> variable
+is tested to see how to initialize <TT><FONT FACE="Courier">jday</FONT></TT>
+in this example. The <TT><FONT FACE="Courier">sv_newmortal()</FONT></TT>
+function is used to clear out the return values for this <TT><FONT FACE="Courier">XSUB</FONT></TT>
+function.
+<P>
+The use of ellipses (<TT><FONT FACE="Courier">...</FONT></TT>)
+for passing variable-length argument lists is also supported in
+<TT><FONT FACE="Courier">XSUB</FONT></TT>s. Your function can
+easily get the number of arguments passed into it by looking at
+the special <TT><FONT FACE="Courier">items</FONT></TT> variable.
+The <TT><FONT FACE="Courier">items</FONT></TT> keyword is a reserved
+variable and the <TT><FONT FACE="Courier">xsubpp</FONT></TT> compiler
+supplies <TT><FONT FACE="Courier">items</FONT></TT> for all <TT><FONT FACE="Courier">XSUB</FONT></TT>s.
+Using the <TT><FONT FACE="Courier">items</FONT></TT> variable
+lets you accept an unknown number of arguments in your <TT><FONT FACE="Courier">XSUB</FONT></TT>
+function.
+<H2><A NAME="Keywords"><B><FONT SIZE=5 COLOR=#FF0000>Keywords</FONT></B></A>
+</H2>
+<P>
+There are several special keywords in the <TT><FONT FACE="Courier">.xs</FONT></TT>
+file that can also be used when writing extensions.
+<H3><A NAME="TheMODULEKeyword"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">MODULE</FONT></B></TT><B><FONT SIZE=4>
+Keyword</FONT></B></A></H3>
+<P>
+The <TT><FONT FACE="Courier">MODULE</FONT></TT> keyword is used
+to start the XS code and to specify the name of the package currently
+being defined. There is only one <TT><FONT FACE="Courier">MODULE</FONT></TT>
+keyword per <TT><FONT FACE="Courier">.xs</FONT></TT> file. All
+text before the <TT><FONT FACE="Courier">MODULE</FONT></TT> keyword
+is not processed in any way by <TT><FONT FACE="Courier">xsubpp</FONT></TT>.
+Do not modify the code before the <TT><FONT FACE="Courier">MODULE</FONT></TT>
+keyword. If you have to add code, it will be passed through to
+the final C file.
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">MODULE</FONT></TT>
+keyword:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">MODULE packageName</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">packageName</FONT></TT> is used as
+the name of the <TT><FONT FACE="Courier">bootstrap</FONT></TT>
+function for this module extension. The <TT><FONT FACE="Courier">MODULE</FONT></TT>
+keyword is generated for you by <TT><FONT FACE="Courier">xsubpp</FONT></TT>.
+<H3><A NAME="ThePACKAGEKeyword"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">PACKAGE</FONT></B></TT><B><FONT SIZE=4>
+Keyword</FONT></B></A></H3>
+<P>
+On occasion, you may have more than one package per module. In
+this case, the <TT><FONT FACE="Courier">PACKAGE</FONT></TT> keyword
+is used to indicate which package within the module contains the
+code that follows. Generally, the name following the <TT><FONT FACE="Courier">PACKAGE</FONT></TT>
+keyword is the same as that following the <TT><FONT FACE="Courier">MODULE</FONT></TT>
+keyword.
+<P>
+The <TT><FONT FACE="Courier">PACKAGE</FONT></TT> keyword is used
+with the <TT><FONT FACE="Courier">MODULE</FONT></TT> keyword and
+must follow on the same line as the <TT><FONT FACE="Courier">MODULE</FONT></TT>
+keyword. You have to edit the <TT><FONT FACE="Courier">.xs</FONT></TT>
+file yourself to make sure which package gets which function.
+<H3><A NAME="TheCODEKeyword"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">CODE:</FONT></B></TT><B><FONT SIZE=4>
+Keyword</FONT></B></A></H3>
+<P>
+The <TT><FONT FACE="Courier">CODE:</FONT></TT> keyword is used
+to indicate where the real C code for a function begins. Use just
+C code until you start a new block with another keyword, such
+as <TT><FONT FACE="Courier">OUTPUT:</FONT></TT>. You can use C
+comments (<TT><FONT FACE="Courier">/*...*/</FONT></TT>), ampersands,
+and so on, and they will not be touched by the <TT><FONT FACE="Courier">xsubpp</FONT></TT>
+compiler.
+<P>
+<TT><FONT FACE="Courier">xsubpp</FONT></TT> matches certain C
+preprocessor directives that are allowed within the <TT><FONT FACE="Courier">CODE:</FONT></TT>
+block. It also matches <TT><FONT FACE="Courier">#</FONT></TT>
+used for Perl comments. The compiler passes the preprocessor directives
+that it recognizes through to the final C file untouched and will
+remove the commented lines. Comments can be added to <TT><FONT FACE="Courier">XSUB</FONT></TT>s
+by placing <TT><FONT FACE="Courier">#</FONT></TT> at the beginning
+of the line, too. Nested comments are not supported.
+<P>
+Be careful not to make the comment look like a C preprocessor
+directive! The <TT><FONT FACE="Courier">xsubpp</FONT></TT> compiler
+could be confused if a Perl comment begins to look like a C preprocessor
+directive. The following is a bad idea:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#define a variable</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Is the above line a comment or a C statement? I do not know how
+this will be interpreted.
+<P>
+If you are going to mess with the argument stack, though, you'll
+want to use the <TT><FONT FACE="Courier">PpcODE</FONT></TT> keyword,
+which will be discussed later in the chapter.
+<H3><A NAME="TheOUTPUTKeyword"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">OUTPUT:</FONT></B></TT><B><FONT SIZE=4>
+Keyword</FONT></B></A></H3>
+<P>
+The <TT><FONT FACE="Courier">OUTPUT:</FONT></TT> keyword specifies
+the return values from a function. You have seen it used earlier
+in the case of the <TT><FONT FACE="Courier">RETVAL</FONT></TT>
+assignment as a return. The <TT><FONT FACE="Courier">OUTPUT:</FONT></TT>
+keyword generates code that does the mapping of the <TT><FONT FACE="Courier">XSUB</FONT></TT>
+function's variables back to those in the Perl program calling
+<TT><FONT FACE="Courier">XSUB</FONT></TT>. This keyword is used
+after the code in the <TT><FONT FACE="Courier">CODE:</FONT></TT>
+area. The <TT><FONT FACE="Courier">RETVAL</FONT></TT> variable
+is not the default return variable in the <TT><FONT FACE="Courier">CODE:</FONT></TT>
+area. Only by specifying it after the <TT><FONT FACE="Courier">OUTPUT:</FONT></TT>
+keyword are you letting <TT><FONT FACE="Courier">xsubpp</FONT></TT>
+know that it's a return variable for this function.
+<P>
+The <TT><FONT FACE="Courier">OUTPUT:</FONT></TT> keyword also
+lists the input parameters for use as output variables. This may
+be necessary when a parameter has been modified within the function
+and the programmer would like the update to be seen by Perl.
+<P>
+Say that you define a function, which returns the day of the week,
+given an <TT><FONT FACE="Courier">isFriday()</FONT></TT> function
+in the <TT><FONT FACE="Courier">Julian</FONT></TT> package. The
+function returns <TT><FONT FACE="Courier">true</FONT></TT> (<TT><FONT FACE="Courier">1</FONT></TT>)
+if the day is a Friday. The day of the week is returned in the
+second parameter passed to the function. The function is shown
+in the <TT><FONT FACE="Courier">Julian.xs</FONT></TT> file as
+this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">int<BR>
+IsFriday(jDay, dayOfWeek)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long jDay<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int dayOfWeek = NO_INIT<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int
+dw;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dw
+= (int)(jDay % 7);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(dw == 3) RETVAL = 1;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+RETVAL = 0;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayOfWeek
+= dw;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTPUT:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayOfWeek<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This example uses a <TT><FONT FACE="Courier">NO_INIT</FONT></TT>
+keyword to show that the <TT><FONT FACE="Courier">dayOfWeek</FONT></TT>
+is an output value. The <TT><FONT FACE="Courier">xsubpp</FONT></TT>
+compiler normally generates code to read the values of all function
+parameters from the argument stack and assign them to C variables
+upon entry to the function. <TT><FONT FACE="Courier">NO_INIT</FONT></TT>
+tells the compiler that these passed parameters are used for output
+rather than for input and that they are assigned before the function
+terminates. Thus, the function <TT><FONT FACE="Courier">isFriday()</FONT></TT>
+uses the <TT><FONT FACE="Courier">dayOfWeek</FONT></TT> variable
+only as an output variable and does not care about its initial
+contents.
+<H3><A NAME="PpcODEforReturningMoreThanOneValu"><TT><B><FONT SIZE=4 FACE="Courier">PpcODE:</FONT></B></TT><B><FONT SIZE=4>
+for Returning More Than One Value</FONT></B></A></H3>
+<P>
+The <TT><FONT FACE="Courier">PpcODE:</FONT></TT> keyword can be
+used instead of the <TT><FONT FACE="Courier">CODE:</FONT></TT>
+keyword. The <TT><FONT FACE="Courier">PpcODE:</FONT></TT> keyword
+tells the <TT><FONT FACE="Courier">xsubpp</FONT></TT> compiler
+that the code in the <TT><FONT FACE="Courier">XSUB</FONT></TT>s
+will be modifying the return stack itself. You'll use the <TT><FONT FACE="Courier">PpcODE:</FONT></TT>
+keyword to return lists instead of values. Only <TT><FONT FACE="Courier">void</FONT></TT>
+functions allow the use of <TT><FONT FACE="Courier">PpcODE:</FONT></TT>
+keywords.
+<P>
+Look at the following section of code from the <TT><FONT FACE="Courier">Finance.pm</FONT></TT>
+module and extension. It returns the straight line depreciation
+list for an asset. The function is called <TT><FONT FACE="Courier">depreciateSL</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void<BR>
+depreciateSL(p,s,n)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double p<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double s<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double n<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PpcODE:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sum;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double value[10];<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double dep;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int i;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int in;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;&nbsp;= (int)n;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((n &lt; 10) &amp;&amp; (n &gt;
+0))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXTEND(sp,in);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;&nbsp;=
+p;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;value
+= %f for %d years \n&quot;, sum,in);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dep
+= (sum - s)/ n;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for
+(i=0; i&lt;n; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum
+-= dep;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;value
+= %f \n&quot;, sum);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value[i]
+= sum;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHs(sv_2mortal(newSViv(sum)));
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Note the use of the <TT><FONT FACE="Courier">PpcODE</FONT></TT>
+variable to show that you will be messing with the stack. The
+<TT><FONT FACE="Courier">EXTEND(sp,n)</FONT></TT> macro is used
+to make room on the argument stack for <TT><FONT FACE="Courier">n</FONT></TT>
+return values with the call to <TT><FONT FACE="Courier">EXTEND(sp,n)</FONT></TT>.
+The <TT><FONT FACE="Courier">PpcODE:</FONT></TT> directive causes
+the <TT><FONT FACE="Courier">xsubpp</FONT></TT> compiler to create
+a stack pointer called <TT><FONT FACE="Courier">sp</FONT></TT>,
+which is conveniently used in the <TT><FONT FACE="Courier">EXTEND()</FONT></TT>
+call. The values are then pushed onto the stack with the <TT><FONT FACE="Courier">PUSHs()</FONT></TT>
+macro, with the value returned from the <TT><FONT FACE="Courier">sv_2mortal()</FONT></TT>
+call to map the value to the stack.
+<P>
+The way to call this function is as follows in Listing 27.10:
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.10. Using the </B><TT><B><FONT FACE="Courier">Julian.xs</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 use Finance;<BR>
+&nbsp;3 #<BR>
+&nbsp;4 #&nbsp;&nbsp;Demonstrate the return value back as list
+from an extension<BR>
+&nbsp;5 #<BR>
+&nbsp;6 $present = 900;<BR>
+&nbsp;7 $time = 5;<BR>
+&nbsp;8 $salvage = 70;<BR>
+&nbsp;9 print &quot;\n -============= first part ===============-
+\n&quot;;<BR>
+10 print &quot;First assign it all back to a list&quot;;<BR>
+11 @deplist =&nbsp;&nbsp;Finance::depreciateSL($present,$salvage,$time);
+<BR>
+12 $n = 0;<BR>
+13 foreach $i (@deplist) {<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;\n Year &quot;, $n,
+&quot; Returned Value = &quot;, $i;<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$n++;<BR>
+16 }<BR>
+17 print &quot;\n -============= second part ===============-
+\n&quot;;<BR>
+18 print &quot;Now with explicit values \n&quot;;<BR>
+19 ($y1,$y2,$y3,$y4,$y5) =&nbsp;&nbsp;Finance::depreciateSL($present,$salvage,$time);
+<BR>
+20 print &quot;Returned 1 &quot; . $y1 . &quot;\n&quot;;<BR>
+21 print &quot;Returned 2&quot; . $y2 . &quot;\n&quot;;<BR>
+22 print &quot;Returned 3 &quot; . $y3 . &quot;\n&quot;;<BR>
+23 print &quot;Returned 4 &quot; . $y4 . &quot;\n&quot;;<BR>
+24 print &quot;Returned 5 &quot; . $y5 . &quot;\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Lines 13 through 15 run a <TT><FONT FACE="Courier">for</FONT></TT>
+loop to test different values for a Julian day. Here's the output
+from this script:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier"> -============= first part ===============-</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">First assign it all back to a listvalue
+= 900.000000 for 5 years<BR>
+value = 734.000000<BR>
+value = 568.000000<BR>
+value = 402.000000<BR>
+value = 236.000000<BR>
+value = 70.000000<BR>
+<BR>
+&nbsp;Year 0 Returned Value = 734<BR>
+&nbsp;Year 1 Returned Value = 568<BR>
+&nbsp;Year 2 Returned Value = 402<BR>
+&nbsp;Year 3 Returned Value = 236<BR>
+&nbsp;Year 4 Returned Value = 70<BR>
+&nbsp;-============= second part ===============-<BR>
+Now with explicit values<BR>
+value = 900.000000 for 5 years<BR>
+value = 734.000000<BR>
+value = 568.000000<BR>
+value = 402.000000<BR>
+value = 236.000000<BR>
+value = 70.000000<BR>
+Returned 1 734<BR>
+Returned 2568<BR>
+Returned 3 402<BR>
+Returned 4 236<BR>
+Returned 5 70</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="ReturningUndefandEmptyLists"><B>Returning </B><TT><B><FONT SIZE=4 FACE="Courier">Undef</FONT></B></TT><B><FONT SIZE=4>
+and Empty Lists</FONT></B></A></H3>
+<P>
+In Perl, there are times when you'll want to return empty or undefined
+lists. You have to use the <TT><FONT FACE="Courier">PpcODE</FONT></TT>
+block, not the <TT><FONT FACE="Courier">CODE:</FONT></TT> block.
+To return empty lists, just return nothing. The Perl code sends
+back a pointer to any empty list.
+<P>
+For return <TT><FONT FACE="Courier">undef</FONT></TT>, you have
+to set the value of <TT><FONT FACE="Courier">ST(0)</FONT></TT>
+to <TT><FONT FACE="Courier">undef</FONT></TT>. You can use the
+<TT><FONT FACE="Courier">sv_newmortal()</FONT></TT> call to initialize
+a return value to <TT><FONT FACE="Courier">undef</FONT></TT> and
+set it to <TT><FONT FACE="Courier">ST(0)</FONT></TT>.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">ST(0) = sv_newmortal();&nbsp;&nbsp;/*
+Undefine the return value. */</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In later sections of the code, you can use the <TT><FONT FACE="Courier">sv_setnv()</FONT></TT>
+function to set the value to something else if you want. Here's
+the syntax for this call:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sv_setnv(ST(index), value);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Alternatively, you can set the <TT><FONT FACE="Courier">ST(<I>index</I>)</FONT></TT>
+value to <TT><FONT FACE="Courier">sv_undef</FONT></TT>, where
+a pointer to list in the <TT><FONT FACE="Courier">ST(<I>index</I>)</FONT></TT>
+was expected. More than likely, the index value is <TT><FONT FACE="Courier">0</FONT></TT>,
+unless you are returning references to arrays. For example, to
+return an undefined list, use this statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">ST(0) = &amp;sv_undef;<BR>
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Remember that if you have to use these constructs you have to use the <TT><FONT FACE="Courier">PpcODE</FONT></TT> block, not the <TT><FONT FACE="Courier">CODE:</FONT></TT> block.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<H3><A NAME="TheBOOTKeyword"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">BOOT:</FONT></B></TT><B><FONT SIZE=4>
+Keyword</FONT></B></A></H3>
+<P>
+The <TT><FONT FACE="Courier">BOOT:</FONT></TT> keyword is used
+to add code to the extension's <TT><FONT FACE="Courier">bootstrap</FONT></TT>
+function. The <TT><FONT FACE="Courier">bootstrap</FONT></TT> function
+is generated by the <TT><FONT FACE="Courier">xsubpp</FONT></TT>
+compiler and normally holds the statements necessary to register
+any <TT><FONT FACE="Courier">XSUB</FONT></TT>s with Perl. With
+the <TT><FONT FACE="Courier">BOOT:</FONT></TT> keyword, the programmer
+can tell the compiler to add extra statements to the <TT><FONT FACE="Courier">bootstrap</FONT></TT>
+function.
+<P>
+This keyword may be used any time after the first <TT><FONT FACE="Courier">MODULE</FONT></TT>
+keyword and should appear on a line by itself. The first blank
+line after the keyword terminates the code block. A sample usage
+is shown here:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">BOOT:<BR>
+# The following message will be printed when the bootstrap function
+<BR>
+# executes.<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;LOADING JULIAN\n&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="TheListingsofModules"><B><FONT SIZE=5 COLOR=#FF0000>The
+Listings of Modules</FONT></B></A></H2>
+<P>
+The listing of <TT><FONT FACE="Courier">Julian.xs</FONT></TT>
+using the <TT><FONT FACE="Courier">BOOT:</FONT></TT> and other
+keywords is shown in Listing 27.11.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 27.11. The </B><TT><B><FONT FACE="Courier">Julian.xs</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #ifdef _&nbsp;_cplusplus<BR>
+&nbsp;2 extern &quot;C&quot; {<BR>
+&nbsp;3 #endif<BR>
+&nbsp;4 #include &quot;EXTERN.h&quot;<BR>
+&nbsp;5 #include &quot;perl.h&quot;<BR>
+&nbsp;6 #include &quot;XSUB.h&quot;<BR>
+&nbsp;7 #ifdef _&nbsp;_cplusplus<BR>
+&nbsp;8 }<BR>
+&nbsp;9 #endif<BR>
+10<BR>
+11 MODULE = Julian&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PACKAGE
+= Julian<BR>
+12<BR>
+13 BOOT:<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;\n LOADING
+JULIAN&quot;);<BR>
+15<BR>
+16 #include &lt;math.h&gt;<BR>
+17<BR>
+18 int<BR>
+19 IsFriday(jDay, dayOfWeek)<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long jDay<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int dayOfWeek = NO_INIT
+<BR>
+22<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE:<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int
+dw;<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dw
+= (int)(jDay % 7);<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(dw == 3) RETVAL = 1;<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+RETVAL = 0;<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayOfWeek
+= dw;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTPUT:<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayOfWeek<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL<BR>
+32<BR>
+33 long<BR>
+34 JulianDay( month, day, year)<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int month<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int day<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long year<BR>
+38<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE:<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long
+jul;<BR>
+23 double t1, t2;<BR>
+24 t1 = 7 * floor((year + floor(month * 9)/12)/4);<BR>
+25 t2 = floor(275 * month / 9);<BR>
+26 jul = (long) (floor(367 * year - t1 + t2 + day + 1721013.5));
+<BR>
+27<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL
+= jul;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTPUT:<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL<BR>
+31<BR>
+32 int<BR>
+33 DayOfWeek(jday = 0)<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long jday;<BR>
+35<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CODE:<BR>
+37<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (jday == 0) {<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL
+= 0;<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL = (jday % 7);<BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+44<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OUTPUT:<BR>
+46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETVAL</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Extensions to Perl are written in the XS language. Templates for
+creating the modules are written by the <TT><FONT FACE="Courier">h2xs</FONT></TT>
+program. Module-specific Perl is kept in the <TT><FONT FACE="Courier">*.pm</FONT></TT>
+file, and the C code is kept in the <TT><FONT FACE="Courier">.xs</FONT></TT>
+file. The <TT><FONT FACE="Courier">xsubpp</FONT></TT> program
+parses the <TT><FONT FACE="Courier">.xs</FONT></TT> file to generate
+a C file, which in turn is compiled and linked to form the shared
+library (with an <TT><FONT FACE="Courier">.so</FONT></TT> extension).
+<TT><FONT FACE="Courier">xsubpp</FONT></TT> expects the <TT><FONT FACE="Courier">.xs</FONT></TT>
+files to follow the XS language syntax and specification. After
+compilation, the <TT><FONT FACE="Courier">.so</FONT></TT> files
+with the extension code can be moved into your installation directory.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch26.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch26.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch28.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch28.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,12 @@
+#device		device		mount		FS	fsck	mount	mount
+#to mount	to fsck		point		type	pass	at boot	options
+#
+#/dev/dsk/c1d0s2 /dev/rdsk/c1d0s2 /usr		ufs	1	yes	-
+fd	-	/dev/fd	fd	-	no	-
+/proc	-	/proc	proc	-	no	-
+/dev/dsk/c1t0d0s1	-	-	swap	-	no	-
+/dev/dsk/c1t0d0s0	/dev/rdsk/c1t0d0s0	/	ufs	1	no	-
+/dev/dsk/c1t0d0s6	/dev/rdsk/c1t0d0s6	/in	ufs	2	yes	-
+/dev/dsk/c1t0d0s4	/dev/rdsk/c1t0d0s4	/in/oracle	ufs	2	yes	-
+/dev/dsk/c1t0d0s5	/dev/rdsk/c1t0d0s5	/indelivery	ufs	2	yes	-
+swap	-	/tmp	tmpfs	-	yes	-

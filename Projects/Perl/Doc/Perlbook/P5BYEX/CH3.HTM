@@ -1,0 +1,1847 @@
+<html>
+
+<head>
+
+<title>Chapter 3 -- Variables</title>
+
+
+
+<meta>
+
+</head>
+
+<body TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<h1><font SIZE="6" COLOR="#FF0000">Chapter&nbsp;3</font></h1>
+
+<h1><font SIZE="6" COLOR="#FF0000">Variables</font></h1>
+
+<hr>
+
+<p>
+
+<center><b><font SIZE="5">CONTENTS</font></b></center>
+
+<ul>
+
+<li><a HREF="#ScalarVariables">
+
+Scalar Variables</a>
+
+<ul>
+
+<li><a HREF="#ExampleAssigningValuestoScalarVariables">
+
+Example: Assigning Values to Scalar Variables</a>
+
+<li><a HREF="#ChangingValuesinScalarVariables">
+
+Changing Values in Scalar Variables</a>
+
+</ul>
+
+<li><a HREF="#ArrayVariables">
+
+Array Variables</a>
+
+<ul>
+
+<li><a HREF="#ExampleAssigningValuestoArrayVariables">
+
+Example: Assigning Values to Array Variables</a>
+
+<li><a HREF="#ExampleUsingArrayElements">
+
+Example: Using Array Elements</a>
+
+<li><a HREF="#ExampleUsingNegativeSubscripts">
+
+Example: Using Negative Subscripts</a>
+
+<li><a HREF="#ExampleDeterminingtheNumberofElementsinanArray">
+
+Example: Determining the Number of Elements in an Array</a>
+
+<li><a HREF="#ExampleHowtoGrabaSliceorPartofanArray">
+
+Example: How to Grab a Slice (or Part) of an Array</a>
+
+</ul>
+
+<li><a HREF="#AssociativeArrayVariables">
+
+Associative Array Variables</a>
+
+<ul>
+
+<li><a HREF="#ExampleAssigningValuestoAssociativeArrayVariables">
+
+Example: Assigning Values to Associative Array Variables</a>
+
+</ul>
+
+<li><a HREF="#DoubleQuotedStringsRevisited">
+
+Double-Quoted Strings Revisited</a>
+
+<ul>
+
+<li><a HREF="#ExampleVariableInterpolation">
+
+Example: Variable Interpolation</a>
+
+<li><a HREF="#ExampleUsingtheIquotISpecialVariable">
+
+Example: Using the <i>$&quot;</i> Special Variable</a>
+
+</ul>
+
+<li><a HREF="#Summary">
+
+Summary</a>
+
+<li><a HREF="#ReviewQuestions">
+
+Review Questions</a>
+
+<li><a HREF="#ReviewExercises">
+
+Review Exercises</a>
+
+</ul>
+
+
+
+<hr>
+
+<p>
+
+In the last chapter, you learned about <i>literals</i>-values
+
+that don't change while your program runs because you represent
+
+them in your source code <i>exactly</i> as they should be used.
+
+Most of the time, however, you will need to change the values
+
+that your program uses. To do this, you need to set aside pieces
+
+of computer memory to hold the changeable values. And, you need
+
+to keep track of where all these little areas of memory are so
+
+you can refer to them while your program runs.
+
+<p>
+
+Perl, like all other computer languages, uses variables to keep
+
+track of the usage of computer memory. Every time you need to
+
+store a new piece of information, you assign it to a variable.
+
+<p>
+
+You've already seen how Perl uses numbers, strings, and arrays.
+
+Now, you'll see how to use variables to hold this information.
+
+Perl has three types of variables:<br>
+
+
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="151"><i>Variable Type</i></td><td WIDTH="439"><i>Description</i>
+
+</td></tr>
+
+<tr><td WIDTH="151">Scalars</td><td WIDTH="439">Holds one number or string value at a time. Scalar variable names always begin with a <tt>$</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="151">Arrays</td><td WIDTH="439">Holds a list of values. The values can be numbers, strings, or even another array. Array variable names always begin with an <tt>@</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="151">Associative Arrays</td><td WIDTH="439">Uses any value as an index into an array. Associative array variable names always begin with an .
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+The different beginning characters help you understand how a variable
+
+is used when you look at someone else's Perl code. If you see
+
+a variable called <tt>@Value</tt>,
+
+you automatically know that it is an array variable.
+
+<p>
+
+They also provide a different <i>namespace</i> for each variable
+
+type. Namespaces separate one set of names from another. Thus,
+
+Perl can keep track of scalar variables in one table of names
+
+(or namespace) and array variables in another. This lets you use
+
+<tt>$name</tt>, <tt>@name</tt>,
+
+and <tt>%name</tt> to refer to different
+
+values.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+I recommend against using identical variable names for different data types unless you have a very good reason to do so. And, if you do need to use the same name, try using the plural of it for the array variable. For example, use <tt>$name</tt> for the 
+scalar variable name and <tt>@names</tt> for the array variable name. This might avoid some confusion about what your code does in the future.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Variable names in Perl are case-sensitive. This means that <tt>$varname</tt>, <tt>$VarName</tt>, <tt>$varName</tt>, and <tt>$VARNAME</tt> all refer to different variables.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Each variable type will be discussed in its own section. You'll
+
+see how to name variables, set their values, and some of the uses
+
+to which they can be put.
+
+<h2><a NAME="ScalarVariables"><font SIZE="5" COLOR="#FF0000">
+
+Scalar Variables</font></a></h2>
+
+<p>
+
+Scalar variables are used to track single pieces of information.
+
+You would use them to hold the title of a book or the number of
+
+rooms in a house. You can use just about any name imaginable for
+
+a scalar variable as long as it begins with a <tt>$</tt>.
+
+<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+If you have programmed in Visual Basic, you need to be especially careful when naming variables. Just remember that <i>all</i> scalars begin with a <tt>$</tt>, not just strings, and that the <tt>$</tt> starts the name; it doesn't end it.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Let's jump right in and look at some variable names.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>This scalar variable will hold the number of rooms.<br>
+
+This scalar variable will hold the title of a book.<br>
+
+This scalar variable conflicts with a Perl special variable that
+
+you'll learn about in <a HREF="ch12.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch12.htm">Chapter 12</a>, &quot;Using Special Variables.&quot;</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+$numberOfRooms
+
+$bookTitle
+
+$0<br>
+
+
+
+</pre>
+
+</blockquote>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+It is generally a good idea to stay away from short variable names. Longer variable names are more descriptive and aid in understanding programs.</blockquote>
+
+<blockquote>
+
+Let me say a quick word about variable names. I always start my variable names with a lowercase letter and then make the first letter of each &quot;word&quot; in the name uppercase. Some programmers like to separate each word with an underscore. For 
+example, <tt>$numberOfRooms</tt> would look like <tt>$number_of_rooms</tt>. Choose a method that you feel comfortable with and then stick with it. Being consistent will make your program more understandable.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Most programmers try to use descriptive names for their variables.
+
+There is no practical limit to the length of a Perl variable name,
+
+but I like to keep them under 15 characters. Anything longer than
+
+that means that it will take a while to type them and iNCreases
+
+the chaNCes of spelling errors.
+
+<h3><a NAME="ExampleAssigningValuestoScalarVariables">
+
+Example: Assigning Values to Scalar Variables</a></h3>
+
+<p>
+
+Now that you know what scalar variable names look like, we'll
+
+look at how you can assign a value to them. Assigning values to
+
+a variable is done with the equals (=) sign.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Assign a value of 23 to a variable called </i><tt><i>$numberOfRooms</i></tt><i>.
+
+<br>
+
+Assign a value of Perl by Example to a variable called </i><tt><i>$bookTitle</i></tt><i>.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+$numberOfRooms = 23;
+
+$bookTitle = &quot;Perl by Example&quot;;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Notice that you are assigning literal values to the variables.
+
+After assigning the values, you then can change them.
+
+<h3><a NAME="ChangingValuesinScalarVariables">
+
+Changing Values in Scalar Variables</a></h3>
+
+<p>
+
+The next example will make a variable assignment and then change
+
+that variable's value using a second assignment. The second assignment
+
+will iNCrement the value by five.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Assign a value of 23 to a variable called </i><tt><i>$numberOfRooms</i></tt><i>.
+
+<br>
+
+Add 5 to the </i><tt><i>$numberOfRooms</i></tt><i>
+
+variable.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+$numberOfRooms = 23;
+
+$numberOfRooms = $numberOfRooms + 5;<br>
+
+
+
+</pre>
+
+</blockquote>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+In Perl, you never have to declare, define, or allocate simple data types (for example: scalars, arrays, or associative arrays). When you use the variable for the first time, Perl either assigns it a zero if you need a number or an empty list if you need 
+an array. Using a variable name is equivalent to defining it.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Caution</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Letting Perl automatically initialize variables is fine for small programs. However, if you write professional programs that need to be maintained, you'll want to explicitly declare variables using the <tt>my()</tt> fuNCtion. Explicitly declaring 
+fuNCtions will reduce errors and improve the internal documentation of your programs. The <tt>my()</tt> fuNCtion is discussed in <a HREF="ch5.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm">Chapter 5</a> &quot;FuNCtions.&quot;
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h2><a NAME="ArrayVariables"><font SIZE="5" COLOR="#FF0000">
+
+Array Variables</font></a></h2>
+
+<p>
+
+You had a short introduction to arrays last chapter when you printed
+
+out entire arrays (with no spaces, remember?) using Perl's <tt>print
+
+</tt>statement. Now, you'll learn about arrays in more
+
+detail. Array variable names always begin with an <tt>@</tt>
+
+character.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+I remember that the <tt>@</tt> sign starts array variables because &quot;at&quot; and &quot;array&quot; start with the same letter. Simple¡­but it works for me.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+The rules for naming array variables are the same as those for
+
+scalar variables. There are no rules. Well, none that you need
+
+to worry about. In fact, let's skip looking at variable names
+
+and get right to assigning arrays to variables, instead.
+
+<h3><a NAME="ExampleAssigningValuestoArrayVariables">
+
+Example: Assigning Values to Array Variables</a></h3>
+
+<p>
+
+You use the equals (=) sign to assign values to array variables
+
+just like scalar values.
+
+<p>
+
+We'll use one of the examples from <a HREF="ch2.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm">Chapter 2</a> &quot;Numeric and
+
+String Literals&quot;-reworked a little-so you'll already be familiar
+
+with part of the example.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+The printing of the newline character is separated from the printing of the array for a reason. It has to do with how Perl interprets variables in different contexts. If you tried to use <tt>print @numberArray . &quot;\n&quot;</tt>; Perl thinks that you 
+want to use <tt>@numberArray</tt> in a scalar context and won't print the elements of the array. It will print the number of elements instead. See the section, &quot;Example: Determine the Number of Elements in an Array,&quot; later in this chapter.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Assign values to array variables.<br>
+
+Print the array variables.</i>
+
+</blockquote>
+
+<p>
+
+Listing 3.1 shows values assigned to array variables.
+
+<hr>
+
+<blockquote>
+
+<b>Listing 3.1&nbsp;&nbsp;03LST01.PL-Assigning Values to Array
+
+Variables<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+@emptyArray = ();
+
+@numberArray = (12, 014, 0x0c, 34.34, 23.3E-3);
+
+@stringArray = (&quot;This&quot;, &quot;is&quot;, 'an', &quot;array&quot;, 'of', &quot;strings&quot;);
+
+@mixedArray = (&quot;This&quot;, 30, &quot;is&quot;, 'a', &quot;mixed array&quot;, 'of', 0x08, &quot;items&quot;);
+
+print &quot;Here is an empty array:&quot; . @emptyArray . &quot;&lt;- Nothing there!\n&quot;;
+
+print @numberArray;  print &quot;\n&quot;;
+
+print @stringArray;  print &quot;\n&quot;;
+
+print @mixedArray;   print &quot;\n&quot;;
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program will display:
+
+<blockquote>
+
+<pre>
+
+Here is an empty array:0&lt;- Nothing there!
+
+12121234.340.0233
+
+Thisisanarrayofstrings
+
+This30isamixed arrayof8items
+
+</pre>
+
+</blockquote>
+
+<p>
+
+In this example, we assign literal values to array variables and
+
+then display them using the <tt>print</tt>
+
+command. This is very similar to what we did in <a HREF="ch1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm">Chapter 1</a> &quot;Getting
+
+Your Feet Wet,&quot; except that we are temporarily storing the
+
+array values into variables before printing them.
+
+<p>
+
+Suppose that you want to create one array from two smaller ones.
+
+You can do this by using the sub-arrays inside the assignment
+
+statement.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Create two small arrays using the range operator.<br>
+
+Create an array that consists of the two small arrays.<br>
+
+Print the array.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+@smallArrayOne = (5..10);
+
+@smallArrayTwo = (1..5);
+
+@largeArray = (@smallArrayOne, @smallArrayTwo);
+
+print @largeArray;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+When run, this program prints the array (5, 6, 7, 8, 9, 10, 1,
+
+2, 3, 4, 5). Notice that the 5 is duplicated in the new array
+
+and that the elements are still in the same order as the sub-arrays.
+
+When you coNCatenate arrays in this manner, Perl does not sort
+
+them or modify their contents in any way.
+
+<h3><a NAME="ExampleUsingArrayElements">
+
+Example: Using Array Elements</a></h3>
+
+<p>
+
+Individual elements of an array are accessed by prefixing the
+
+array name with a <tt>$</tt> and using
+
+an index that indicates to Perl which element you want to use.
+
+<p>
+
+Listing 3.2 creates an array of five elements and then prints
+
+each individual element.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Create an array with five elements.<br>
+
+Print the array.<br>
+
+Print each element of the array.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 3.2&nbsp;&nbsp;03LIST02.PL-Accessing Array Elements
+
+<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+@array = (1..5);
+
+print @array;     print &quot;\n&quot;;
+
+print $array[0];  print &quot;\n&quot;;
+
+print $array[1];  print &quot;\n&quot;;
+
+print $array[2];  print &quot;\n&quot;;
+
+print $array[3];  print &quot;\n&quot;;
+
+print $array[4];  print &quot;\n&quot;;
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+Listing 3.2 will print the following:
+
+<blockquote>
+
+<pre>
+
+12345
+
+1
+
+2
+
+3
+
+4
+
+5
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Perl array indexes start at 0-well, they actually start at <tt>$[</tt>-but
+
+for the moment zero is good enough. Almost every Perl program
+
+uses zero as the base array subscript.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+The special variable, <tt>$[</tt>, is used to hold the base array subscript; usually, it is zero. However, it can be changed to any integer you want, even negative ones. Using a negative base array subscript probably will make your programs hard to 
+understand, and I recommend against it. Other special variables are mentioned in <a HREF="ch12.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch12.htm">Chapter 12</a>, &quot;Using Special Variables.&quot;
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+You can replace the numeric literal indexes in the above example
+
+with scalar variables. You can say:
+
+<blockquote>
+
+<pre>
+
+$index = 2
+
+@array = (1..5);
+
+print $array[$index];  print &quot;\n&quot;;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+which would print <tt>3</tt>.
+
+<h3><a NAME="ExampleUsingNegativeSubscripts">
+
+Example: Using Negative Subscripts</a></h3>
+
+<p>
+
+Perl is definitely a language that will surprise you at times.
+
+In other languages, subscripts must be positive integers. However,
+
+Perl lets you use negative subscripts to access array elements
+
+in reverse order.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Using a negative subscript may come in handy if you need a fast way to get the value of the last element in an array.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+The program in Listing 3.3 assigns a five-element array to <tt>@array</tt>.
+
+Then, it uses the  <tt>print</tt>
+
+statement and negative subscripts to print each array element
+
+in reverse order.
+
+<hr>
+
+<blockquote>
+
+<b>Listing 3.3&nbsp;&nbsp;03LIST03.PL-Accessing Array Elements
+
+Using Negative Subscripts<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+@array = (1..5);
+
+print @array;      print &quot;\n&quot;;
+
+print $array[-1];  print &quot;\n&quot;;
+
+print $array[-2];  print &quot;\n&quot;;
+
+print $array[-3];  print &quot;\n&quot;;
+
+print $array[-4];  print &quot;\n&quot;;
+
+print $array[-5];  print &quot;\n&quot;;
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+Listing 3.3 will print the following:
+
+<blockquote>
+
+<pre>
+
+12345
+
+5
+
+4
+
+3
+
+2
+
+1
+
+</pre>
+
+</blockquote>
+
+<h3><a NAME="ExampleDeterminingtheNumberofElementsinanArray">
+
+Example: Determining the Number of Elements in an Array</a></h3>
+
+<p>
+
+If you need to determine the number of elements that an array
+
+contains, you can assign the array to a scalar variable.
+
+<p>
+
+In fact, anytime that an array is used when a scalar is needed,
+
+the value used will be the number of array elements.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Create an array with five elements.<br>
+
+<i>Assign the array size to the </i></i><tt><i>$numberOfElements</i></tt><i>
+
+scalar variable.<br>
+
+Multiply the array size by 2 and assign that value to </i><tt><i>$doubleTheSize</i></tt><i>.
+
+<br>
+
+Print the scalar variables.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+@array = (1..5);
+
+$numberOfElements = @array;
+
+$doubleTheSize = 2 * @array;
+
+print &quot;The number of array elements is: &quot; . $numberOfElements . &quot;\n&quot;;
+
+print &quot;Double the number of array elements is: &quot; . $doubleTheSize . &quot;\n&quot;;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+When this program runs, it will assign a value of <tt>5</tt>
+
+to <tt>$numberOfElements</tt> and
+
+<tt>10</tt> to <tt>$doubleTheSize</tt>.
+
+<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Perl has the powerful ability to return the number of array elements when the array variable is used in a scalar context. However, this ability can be confusing while looking at someone else's program if you don't remember that there is a differeNCe 
+between scalar contexts and array contexts.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h3><a NAME="ExampleHowtoGrabaSliceorPartofanArray">
+
+Example: How to Grab a Slice (or Part) of an Array</a></h3>
+
+<p>
+
+At times you will need to use some elements of an array and not
+
+others. You might want to assign array elements to scalars or
+
+to another array. Using only part of an array is done with an
+
+array slice. An array <i>slice</i> uses an <tt>@</tt>
+
+character and the square brackets (<tt>[]</tt>)
+
+to create a sub-array consisting of selected individual elements.
+
+For example,
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Create a four-element array and assign it to </i><tt><i>@array</i></tt><i>.
+
+<br>
+
+Use an array slice to assign the first and third elements to </i><tt><i>$first</i></tt><i>
+
+and </i><tt><i>$third</i></tt><i>.
+
+<br>
+
+Use an array slice to assign the second half of the array to </i><tt><i>@half</i></tt><i>.
+
+<br>
+
+Print </i><tt><i>@array</i></tt><i>,
+
+</i><tt><i>$first</i></tt><i>, </i><tt><i>$third</i></tt><i>,
+
+and </i><tt><i>@half</i></tt><i> to
+
+verify their values.<br>
+
+Tranpose the first and last elements in </i><tt><i>@array</i></tt><i>.
+
+<br>
+
+Print </i><tt><i>@array</i></tt><i>
+
+to verify that the elements have been switched.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+@array           = (&quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;, &quot;Four&quot;);
+
+($first, $third) = @array[0, 2];
+
+@half            = @array[2, 3];
+
+
+
+print(&quot;\@array=@array\n&quot;);
+
+print(&quot;\$first=$first  \$third=$third\n&quot;);
+
+print(&quot;\@half=@half\n&quot;);
+
+
+
+@array[0, 3]     = @array[3, 0];
+
+print(&quot;\@array=@array\n&quot;);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This program will display:
+
+<blockquote>
+
+<pre>
+
+@array=One Two Three Four
+
+$first=One  $third=Three
+
+@half=Three Four
+
+@array=Four Two Three One
+
+</pre>
+
+</blockquote>
+
+<p>
+
+You won't really understand the power of array slices until you
+
+learn about fuNCtions in <a HREF="ch5.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm">Chapter 5</a> &quot;FuNCtions.&quot; At
+
+that point, you'll see that fuNCtions (sub- programs that you
+
+invoke using a fuNCtion name) can return a value. When calling
+
+a fuNCtion that returns the time and date in an array, a slice
+
+can be used to &quot;grab&quot; just those elements in which you
+
+are interested. For example, just the year or just the hour.
+
+<h2><a NAME="AssociativeArrayVariables"><font SIZE="5" COLOR="#FF0000">
+
+Associative Array Variables</font></a></h2>
+
+<p>
+
+Now it's time to look at associative arrays. These are definitely
+
+the most complicated of the three data types. And yet, they are
+
+just another type of array. You've already seen that array elements
+
+can be accessed with both positive and negative integer indexes.
+
+Well, with associative arrays you can use <i>any</i> scalar data
+
+type as an index. Associative array names start with the <tt>%</tt>
+
+character.
+
+<p>
+
+You will see associative arrays called <i>hashes </i>at times.
+
+The term &quot;hash&quot; refers to how associative array elements
+
+are stored in memory. &quot;Hash&quot; also is much shorter than
+
+&quot;associative array,&quot; and therefore much easier to type
+
+and talk about.
+
+<h3><a NAME="ExampleAssigningValuestoAssociativeArrayVariables">
+
+Example: Assigning Values to Associative Array Variables</a></h3>
+
+<p>
+
+Before we discuss associative arrays further, let's see how to
+
+assign values to them. When defining a whole array, you can use
+
+the same representation that was used for arrays-just remember
+
+that you need two items for every element in the associative array.
+
+You also can assign values to individual elements of an associative
+
+array by using curly braces (<tt>{}</tt>)
+
+around the index key.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Create an associative array with three elements. Each element
+
+consists of twovalues: the lookup key and its associated value.
+
+<br>
+
+Add a single element to the associative array.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+%associativeArray = (&quot;Jack A.&quot;, &quot;Dec 2&quot;, &quot;Joe B.&quot;,
+
+    &quot;June 2&quot;, &quot;Jane C.&quot;, &quot;Feb 13&quot;);
+
+$associativeArray{&quot;Jennifer S.&quot;} = &quot;Mar 20&quot;;
+
+
+
+print &quot;Joe's birthday is: &quot; . $associativeArray{&quot;Joe B.&quot;} . &quot;\n&quot;;
+
+print &quot;Jennifer's birthday is: &quot; . $associativeArray{&quot;Jennifer S.&quot;} . &quot;\n&quot;;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This program will print the following:
+
+<blockquote>
+
+<pre>
+
+Joe's birthday is: June 2
+
+Jennifer's birthday is: Mar 20
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Perl will extend the associative array as needed when you assign
+
+values to keys. An internal table is used to keep track of which
+
+keys are defined. If you try to access an undefined key, Perl
+
+will return a null or blank string.
+
+<p>
+
+You can do a lot with associative arrays, but first you need more
+
+background in operators, fuNCtions, and statements. We'll handle
+
+these topics in future chapters. In the next section, we look
+
+at string literals and how they interact with variables.
+
+<h2><a NAME="DoubleQuotedStringsRevisited"><font SIZE="5" COLOR="#FF0000">
+
+Double-Quoted Strings Revisited</font></a></h2>
+
+<p>
+
+Perl strings have some additional fuNCtionality that was not mentioned
+
+in <a HREF="ch1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm">Chapter 1</a> &quot;Getting Your Feet Wet,&quot; because you needed
+
+to know a little about variables beforehand. Now that you are
+
+familiar with how Perl handles basic variables, let's look a little
+
+deeper at double-quoted strings.
+
+<h3><a NAME="ExampleVariableInterpolation">
+
+Example: Variable Interpolation</a></h3>
+
+<p>
+
+<i>Interpolation</i> is a big word for a simple coNCept-replacement
+
+of a variable name with its value.You already know that variable
+
+names are a &quot;stand-in&quot; for a value. If <tt>$var</tt>
+
+is equal to <tt>10</tt>, the <tt>$var</tt>
+
++ <tt>20</tt> is really <tt>10
+
++ 20</tt>. In Perl, this coNCept also is used inside strings.
+
+You can combine variables and strings in a very natural way using
+
+Perl. Simply place the variable directly inside a double-quoted
+
+string, and its value automatically will be interpolated as needed.
+
+<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Until now, each time you printed an array, all of the elements were mashed together (coNCatenated). Having the array element printed without delimiting spaces made determining the individual items very difficult. If, when printing, you eNClose the array 
+in quotes, Perl automatically will separate the array elements with a space.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Create a five-element array.<br>
+
+Print the element with spaces between the elements.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+@array = (1..5);
+
+print &quot;@array\n&quot;;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This program will print:
+
+<blockquote>
+
+<pre>
+
+1 2 3 4 5
+
+</pre>
+
+</blockquote>
+
+<p>
+
+ Perl runs into a problem when you want to use a variable and
+
+then append some letters to the end. Let's illustrate this with
+
+scalar variables.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Assign the value </i><tt><i>large</i></tt><i>
+
+to a scalar variable.<br>
+
+Print a string with an embedded variable.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+$word = &quot;large&quot;;
+
+print &quot;He was a $wordr fellow.&quot;;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This program will print:
+
+<blockquote>
+
+<pre>
+
+He was a fellow.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+In this example, Perl looks for the variable <tt>$wordr</tt>-obviously
+
+not what I intended to do. I meant for the string &quot;He was
+
+a larger fellow&quot; to print. This problem can be corrected
+
+by doing the following:
+
+<blockquote>
+
+<pre>
+
+$word = &quot;large&quot;;
+
+print &quot;He was a &quot; . $word . &quot;r fellow.&quot;;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Because the variable is separate, Perl sees the correct variable
+
+name. Then the string coNCatenation operator joins the three strings
+
+together. This method of programming makes it very easy to see
+
+where the variable is.
+
+<p>
+
+Remember when I said that Perl enables you to do something in
+
+many different ways? You also could do the following:
+
+<blockquote>
+
+<pre>
+
+print &quot;He was a ${word}r fellow.&quot;;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The curly braces around the variable name tell Perl where the
+
+name starts and ends.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+If you're ever on IRC and see <tt><b><font FACE="Courier">longhair_</font></b></tt> or Kirby Hughes (<tt><b><font FACE="Courier">khughes@netcom.com</font></b></tt>), tell him I said &quot;thanks.&quot; He remembered that curly braces can be used in this 
+manner.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h3><a NAME="ExampleUsingtheIquotISpecialVariable">
+
+Example: Using the <i>$&quot;</i> Special Variable</a></h3>
+
+<p>
+
+Perl has a number of special variables. These variables each have
+
+a predefined meaning. <a HREF="ch12.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch12.htm">Chapter 12</a>, &quot;Using Special Variables,&quot;
+
+introduces you to quite a few Perl special variables. However,
+
+because we were just looking at strings and arrays, we also should
+
+spend a moment and talk about the <tt>$&quot;</tt>
+
+special variable.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Set the </i><tt><i>$</i></tt><i>&quot;
+
+special variable to the comma character.<br>
+
+Create a five-element array.<br>
+
+Print the element with commas between the elements.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+$&quot; = &quot;,&quot;;
+
+@array = (1..5);
+
+print &quot;@array\n&quot;;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This program will print:
+
+<blockquote>
+
+<pre>
+
+1,2,3,4,5
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Of course, because <tt>$&quot;</tt>
+
+is a scalar variable you also could assign a longer string to
+
+it. For instaNCe, you could use <tt>$&quot;
+
+= &quot;, &quot;</tt> to add both a comma and a space between
+
+the array elements.
+
+<h2><a NAME="Summary"><font SIZE="5" COLOR="#FF0000">
+
+Summary</font></a></h2>
+
+<p>
+
+This chapter introduced you to the coNCept of variables-places
+
+in computer memory that are used to hold values as your program
+
+runs. They are called variables because you can assign different
+
+values to them as needed.
+
+<p>
+
+You read about three types of variables: scalars, arrays, and
+
+associative arrays. Each variable type has its own unique character
+
+that is used to begin a variable name. Scalars use a <tt>$</tt>,
+
+Arrays use an <tt>@</tt>, and associative
+
+arrays use a <tt>%</tt>.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+When I first started to learn Perl, I found it difficult to remember which character begins which variable type. Then, I saw this chart on the Internet and things became clearer:</blockquote>
+
+<blockquote>
+
+<tt>$ = &quot;the&quot; (singular)<br>
+
+@ = &quot;those&quot; (plural)<br>
+
+% = &quot;relationship&quot;</tt>
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Each variable type must start with a different character that
+
+uses a separate namespace. This means that <tt>$varName</tt>
+
+and <tt>@varName</tt> are different
+
+variables. Remember, too, that variable names in Perl are case-sensitive.
+
+<p>
+
+A lot of this chapter looked at assigning values to variables
+
+using the equals (=) sign. We also reviewed how to use positive
+
+and negative subscripts (such as <tt>$array[1]</tt>)
+
+to access array elements. Associative array elements are accessed
+
+a little differently-curly braces are used instead of square braces
+
+(for example, <tt>$associativeArray{&quot;Jack
+
+B.&quot;}</tt>).
+
+<p>
+
+And finally, we took another look at double-quoted strings to
+
+see how variable interpolation works. You saw that Perl automatically
+
+replaces variables inside double-quoted strings. When arrays are
+
+printed inside strings, their elements are separated by the value
+
+of <tt>$&quot;</tt>-which is usually
+
+a space.
+
+<h2><a NAME="ReviewQuestions"><font SIZE="5" COLOR="#FF0000">
+
+Review Questions</font></a></h2>
+
+<p>
+
+Answers to Review Questions are in Appendix A.
+
+<ol>
+
+<li>What are the three basic data types that Perl uses?
+
+<li>How can you determine the number of elements in an array?
+
+<li>What is a namespace?
+
+<li>What is the special variable <tt>$[</tt>
+
+used for?
+
+<li>What is the special variable <tt>$&quot;</tt>
+
+used for?
+
+<li>What is the value of a variable when it is first used?
+
+<li>What is an associative array?
+
+<li>How can you access associative array elements?
+
+</ol>
+
+<h2><a NAME="ReviewExercises"><font SIZE="5" COLOR="#FF0000">
+
+Review Exercises</font></a></h2>
+
+<ol>
+
+<li>Create an array called <tt>@months</tt>.
+
+It should have 12 elements in it with the names of the months
+
+represented as strings.
+
+<li>Create a string that interpolates that value of the variable
+
+<tt>$numberOfBooks</tt>.
+
+<li>Using the range operator (..), create an array with the following
+
+elements: 1, 5, 6, 7, 10, 11, 12.
+
+<li>Using the array created in the last exercise, create a <tt>print</tt>
+
+command to display the last element.
+
+<li>Create an associative array that holds a list of five music
+
+artists and a rating for them. Use &quot;good,&quot; &quot;bad,&quot;
+
+and &quot;indifferent&quot; as the ratings.
+
+<li>Using the array created in the last exercise, create a <tt>print</tt>
+
+command to display the last element.
+
+</ol>
+
+<hr>
+
+
+
+<center><p><a HREF="ch2.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm"><img SRC="pc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="#CONTENTS"><img SRC="cc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/cc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="index-1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/index-1.htm"><img SRC="hb.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/hb.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="ch4.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm"><img SRC="nc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/nc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<hr WIDTH="100%"></p></center>
+
+</body>
+
+</html>
+

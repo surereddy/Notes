@@ -1,0 +1,1862 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 26 -- Writing C Extensions in Perl</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 26</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Writing C Extensions in Perl</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#Introduction" >Introduction</A>
+<LI><A HREF="#CompilingaCProgramThatCallsPerl" >Compiling a C Program That Calls Perl</A>
+<UL>
+<LI><A HREF="#WhatIsExtUtilsembed" >What Is ExtUtils::embed?</A>
+<LI><A HREF="#UsingtheembedpmPackage" >Using the embed.pm Package</A>
+</UL>
+<LI><A HREF="#AddingaPerlInterpreter" >Adding a Perl Interpreter to Your C Program</A>
+<LI><A HREF="#CallingPerlSubroutinesfromWithin" >Calling Perl Subroutines from Within a C Program</A>
+<LI><A HREF="#WorkingwiththePerlStack" >Working with the Perl Stack</A>
+<UL>
+<LI><A HREF="#Theperl_call_svFunction" >The perl_call_sv Function</A>
+<LI><A HREF="#Theperl_call_pvFunction" >The perl_call_pv Function</A>
+<LI><A HREF="#Theperl_call_methodFunction" >The perl_call_method Function</A>
+<LI><A HREF="#Theperl_call_argvFunction" >The perl_call_argv Function</A>
+</UL>
+<LI><A HREF="#TheFlagstoUse" >The Flags to Use</A>
+<UL>
+<LI><A HREF="#TheG_DISCARDFlag" >The G_DISCARD Flag</A>
+<LI><A HREF="#TheG_NOARGSFlag" >The G_NOARGS Flag</A>
+<LI><A HREF="#TheG_SCALARFlag" >The G_SCALAR Flag</A>
+<LI><A HREF="#TheG_ARRAYFlag" >The G_ARRAY Flag</A>
+<LI><A HREF="#TheG_EVALFlag" >The G_EVAL Flag</A>
+</UL>
+<LI><A HREF="#UsingSCALARContext" >Using SCALAR Context</A>
+<LI><A HREF="#ReturningListsfromSubroutines" >Returning Lists from Subroutines</A>
+<LI><A HREF="#UsingG_EVAL" >Using G_EVAL</A>
+<LI><A HREF="#GettingSpecialVariableValues" >Getting Special Variable Values</A>
+<LI><A HREF="#UsingtheSTMacros" >Using the ST Macros</A>
+<LI><A HREF="#EvaluatingPerlExpressions" >Evaluating Perl Expressions</A>
+<LI><A HREF="#PatternMatchesandSubstitutions" >Pattern Matches and Substitutions from Your C Program</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter introduces a way to embed the Perl interpreter into
+a C program. After reading this chapter, you should be able to
+integrate the Perl interpreter or its library code with a C application.
+The information in this chapter relies heavily on the discussion
+of Perl's internal data types from <A HREF="ch25.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch25.htm" >Chapter 25</A>,
+&quot;Perl Internal Files and Structures.&quot;
+<H2><A NAME="Introduction"><B><FONT SIZE=5 COLOR=#FF0000>Introduction</FONT></B></A>
+</H2>
+<P>
+The Perl interpreter is written in C and can therefore be linked
+with C code. The combination process is relatively straightforward.
+However, there are some caveats that you should be aware of. I
+discuss these caveats in this chapter. Also, even though you can
+combine C and Perl code, you might want to rethink the way you
+want to use each language. Both C and Perl have their strong points.
+C code can be optimized to a greater degree than can Perl code.
+Perl is great for processing text files and strings, whereas manipulation
+strings in C is a bit clumsy at times. 
+<P>
+Several alternatives exist for combining C and Perl code. You
+can use extensions, call complete programs, run a background process,
+and so on. For example, if you want to create a library of mathematical
+functions to use in your Perl programs, you can write an extension
+and use it from within your Perl code. If the functionality you
+need from a C program can be encapsulated into an executable program,
+you can call this program from within a system call. The system
+call will force your Perl program to wait until the called program
+terminates. You can start the executable program as a background
+process from the command line or from within a Perl program using
+a <TT><FONT FACE="Courier">fork</FONT></TT> system call. 
+<P>
+If one of these methods will solve your problem, you may not have
+to take the more complicated route of embedding Perl in C code.
+Think through your design thoroughly before deciding which solution
+is best. If you feel that your design requires you to write a
+C program and also use the functionality of Perl from within your
+program, you are left with no alternative except to follow the
+more complicated route.
+<P>
+The first question to answer is Whether the solution you are deriving
+is based for the UNIX platform? Most of the tested situations
+to date for combining C code with Perl are those on the UNIX platform.
+Such a combination is therefore not viable for non-UNIX platforms.
+If you intend to port the combined code to an NT system, it simply
+won't compile, let alone work. Therefore, if you've concluded
+that you must embed the Perl interpreter in your C code, keep
+in mind that you're also limiting your solution to UNIX platforms.
+Embedding Perl in C code on Windows will not work at the moment,
+so you might want to rethink your design to see whether you can
+obtain comparable functionality using extension libraries.
+<P>
+The second question to answer is What exactly is the solution
+you are trying to achieve by combining Perl with C? Again, if
+all you want do is use C code from within Perl, you might want
+to consider writing the C code as a Perl extension. In such an
+event, you should rethink your design to see how to use only portions
+of the C code as parts of an extension library for a Perl program.
+The methods to do just this are covered in <A HREF="ch27.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch27.htm" >Chapter 27</A>,
+&quot;Writing Extensions in C.&quot;
+<P>
+Normally you want to write extensions in C because the compiled
+code is faster. For example, complex mathematical calculations
+are probably best written in C rather than in Perl. The compiled
+C code runs much faster than interpreted code in Perl for specific
+tasks. Also, with the use of extensions, it's possible to send
+in pointers to variables, existing with the Perl program, into
+the extension code. By receiving pointers to the Perl variables,
+code within extensions can modify the contents of variables directly.
+<P>
+Of course, if you are attempting to run another complete C program
+from Perl, consider using the <TT><FONT FACE="Courier">system()</FONT></TT>,
+<TT><FONT FACE="Courier">backtick</FONT></TT>, or <TT><FONT FACE="Courier">exec()</FONT></TT>
+calls. They are convenient ways of calling complete programs.
+With the <TT><FONT FACE="Courier">open()</FONT></TT> call using
+pipes, it's easy to collect the standard output from the executed
+application. However, you are constrained to reading only the
+output from the child process you started. The child process cannot
+manipulate any Perl variables directly. The Perl code and the
+called code run as completely different applications in their
+own address spaces. This is in contrast to working with Perl's
+extensions that run C as part of the calling process. (Of course,
+you can take explicit measures to create a bi-directional pipe
+through which to communicate.)
+<P>
+The flexibility in the two methods outlined up to now in this
+section solves a majority of the problems solved using C and Perl.
+In both methods, though, the calling program is a Perl application.
+What if you want to call Perl code from within a C application?
+You can write the Perl code as an executable script and then make
+a <TT><FONT FACE="Courier">system()</FONT></TT> call from within
+the C code. However, you'll be constrained by the same things
+as you were using the <TT><FONT FACE="Courier">system()</FONT></TT>
+call from within Perl. There is no direct connection between the
+child process started with <TT><FONT FACE="Courier">system()</FONT></TT>
+and the calling application, unless you take explicit measures
+to create a communication channel like a socket or pipe.
+<P>
+Sometimes you just have to call Perl code from within a C program.
+For example, the C language is not designed to process regular
+expressions. The functionality of parsing tokens from a string
+using the <TT><FONT FACE="Courier">strtok()</FONT></TT> function
+may not be sufficient for your problem. There are ways to port
+some regular expression parsers like <TT><FONT FACE="Courier">grep</FONT></TT>
+into C. (A good example is Allen Holub's port of <TT><FONT FACE="Courier">grep</FONT></TT>
+in an article in <I>Dr. Dobbs</I>, October, 1984, and in <I>The
+Dr. Dobbs Toolbox of C</I>, Brady Books, 1986.) Perhaps all you
+need is simple regular expression parsing, in which case using
+a port of <TT><FONT FACE="Courier">grep</FONT></TT> makes sense.
+The <TT><FONT FACE="Courier">grep</FONT></TT> code you link will
+not have the overhead of the entire Perl preprocessor.
+<P>
+However, if all else fails and you do want the Perl interpreter
+in your C program, or at the very least want to call a Perl subroutine
+from within your C program, this chapter might provide the information
+you need. Here are the topics I will cover:
+<UL>
+<LI><FONT COLOR=#000000>How to add a Perl interpreter to a C program</FONT>
+<LI><FONT COLOR=#000000>How to call a Perl subroutine from within
+a C program</FONT>
+<LI><FONT COLOR=#000000>How to use Perl pattern matches and string
+substitutions</FONT>
+</UL>
+<H2><A NAME="CompilingaCProgramThatCallsPerl"><B><FONT SIZE=5 COLOR=#FF0000>Compiling
+a C Program That Calls Perl</FONT></B></A></H2>
+<P>
+First of all, make sure you have read access to the Perl 5 distribution
+including Perl header files and linking Perl libraries. Make sure
+that your Perl 5.002 source code distribution is complete and
+installed correctly. Copying the Perl executable program from
+another machine won't work because you need the whole source tree
+to work with your C program.
+<P>
+Essentially, the files you need are the <TT><FONT FACE="Courier">EXTERN.h</FONT></TT>
+and <TT><FONT FACE="Courier">perl.h</FONT></TT> header files.
+The Perl libraries should exist in a directory using the following
+format:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">/usr/local/lib/perl5/your_architecture_here/CORE</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Execute this statement for a hint about where to find <TT><FONT FACE="Courier">CORE</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -e 'use Config; print $Config{archlib}\n'</FONT></TT>
+</BLOCKQUOTE>
+<P>
+On my Linux system, this program returned the following pathname
+(the path might be completely different for your machine):
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">/usr/lib/perl5/i486-linux/5.002</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The command line to use for compiling and running a program is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">gcc -o filename filename.c -L($LIBS)
+-I($IncS)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">-L</FONT></TT> and <TT><FONT FACE="Courier">-I</FONT></TT>
+flags define the locations of the library and header files. The
+libraries that you are linking with are
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -e 'use Config; print $Config{libs}
+, &quot;\n&quot;;'</FONT></TT>
+</BLOCKQUOTE>
+<P>
+An easier way to find out which libraries you are using is to
+use the <TT><FONT FACE="Courier">ExtUtils::embed</FONT></TT> module
+extensions. This library is available from any CPAN site and is
+in the public domain.
+<H3><A NAME="WhatIsExtUtilsembed"><B>What Is </B><TT><B><FONT SIZE=4 FACE="Courier">ExtUtils::embed</FONT></B></TT><B><FONT SIZE=4>?</FONT></B></A>
+</H3>
+<P>
+<TT><FONT FACE="Courier">ExtUtils::embed</FONT></TT> is a set
+of utility functions used when embedding a Perl interpreter and
+extensions in your C/C++ applications. You do not have to use
+this library, but it does a lot of the basic grunt work (such
+as finding the correct libraries, include files, and definitions)
+for you. The author of the <TT><FONT FACE="Courier">ExtUtils::embed</FONT></TT>
+package is Doug MacEachern (<TT><FONT FACE="Courier">dougm@osf.org</FONT></TT>).
+You can address problems and comments to him directly.
+<P>
+Installing the package is easy. Simply un<TT><FONT FACE="Courier">tar</FONT></TT>
+the archive, which will create a directory called <TT><FONT FACE="Courier">ExtUtils-embed-version_number</FONT></TT>.
+Change directory into this new directory and run these commands:
+<BLOCKQUOTE>
+<TT><B><FONT FACE="Courier">perl Makefile.PL<BR>
+make<BR>
+make test<BR>
+make install</FONT></B></TT>
+</BLOCKQUOTE>
+<H3><A NAME="UsingtheembedpmPackage"><B>Using the </B><TT><B><FONT SIZE=4 FACE="Courier">embed.pm</FONT></B></TT><B><FONT SIZE=4>
+Package</FONT></B></A></H3>
+<P>
+Usually, you'll place a call to the <TT><FONT FACE="Courier">embed.pm</FONT></TT>
+function in a makefile. The instructions on how to do this are
+in the <TT><FONT FACE="Courier">embed.pm</FONT></TT> package itself.
+In practice, however, I just took the values returned from a few
+calls to the <TT><FONT FACE="Courier">embed.pm</FONT></TT> functions
+and placed them directly in a makefile. This way there was a written
+record in the makefile for the explicit pathnames used to build
+the programs I happen to be using. The risk was that if the location
+of the Perl library changed in the future, my makefile would break.
+This change is too unlikely to happen on my machine because I
+administer it. Your case might be different if you are on a multiuser
+system or are writing this makefile for the benefit of a group.
+<P>
+The one-line command to compile and link the <TT><FONT FACE="Courier">ex1.c</FONT></TT>
+file in a makefile is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$gcc -o ex1 ex1.c 'perl -MExtUtils::embed
+-e ccopts -e ldopts'</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In fact, this line can be placed in a shell script like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$gcc -o $1 $1.c 'perl -MExtUtils::embed
+-e ccopts -e ldopts'</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Each execution of the makefile will cause the Perl script to recreate
+the include and link paths. This might slow down each execution
+of <TT><FONT FACE="Courier">make</FONT></TT>. A <TT><FONT FACE="Courier">make</FONT></TT>
+variable set to a constant value will probably let <TT><FONT FACE="Courier">make</FONT></TT>
+process the makefile faster. I discuss this procedure in a moment.
+In any event, the returned values from the call to use the <TT><FONT FACE="Courier">ExtUtils::embed</FONT></TT>
+function are used to define the link libraries and include files.
+The returned values can be used directly in makefiles should the
+Perl <TT><FONT FACE="Courier">-e</FONT></TT> command not work
+or if you prefer to use a <TT><FONT FACE="Courier">make</FONT></TT>
+variable.
+<P>
+Listing 26.1 presents a sample makefile for the Linux machine.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.1. A sample makefile.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 IncK= -D__USE_BSD_SIGNAL -Dbool=char
+-DHAS_BOOL <BR>
+<FONT FACE="ZAPFDINGBATS">&Acirc;</FONT>-I/usr/local/include&nbsp;&nbsp;-rdynamic&nbsp;&nbsp;-I
+/usr/lib/perl5/i486-linux/5.002/CORE<BR>
+2 LIBK =&nbsp;&nbsp;-L/usr/local/lib /usr/lib/perl5/i486-linux/5.002
+<BR>
+<FONT FACE="ZAPFDINGBATS">&Acirc;</FONT>/auto/DynaLoader/DynaLoader.a -L/usr/lib/perl5/i486-linux/5.002/CORE
+<BR>
+<FONT FACE="ZAPFDINGBATS">&Acirc;</FONT>-lperl -lgdbm -ldbm -ldb -ldl -lm -lc -lbsd<BR>
+3 K_LIBS = -lgdbm -ldbm -ldb -ldl -lm -lc -lbsd<BR>
+4 <BR>
+5 ex2 : ex2.c<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(cc) -fno-strict-prototype ex2.c
+-o ex2 -L$(LIBK) -I$(IncK)</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Note the flags for the <TT><FONT FACE="Courier">gcc</FONT></TT>
+compiler. The main problem with the <TT><FONT FACE="Courier">gcc</FONT></TT>
+compiler is how the &quot;safefree&quot; function prototype is
+declared in the <TT><FONT FACE="Courier">proto.h</FONT></TT> and
+<TT><FONT FACE="Courier">handy.h</FONT></TT> files. There is a
+slight difference in the syntax of each declaration, but programmatically
+it makes no difference. To turn off the checking in <TT><FONT FACE="Courier">gcc</FONT></TT>,
+simply use the <TT><FONT FACE="Courier">-fno-strict-prototype</FONT></TT>
+flag at the command line for the <TT><FONT FACE="Courier">gcc</FONT></TT>
+command.
+<P>
+The <TT><FONT FACE="Courier">LIBK</FONT></TT> and <TT><FONT FACE="Courier">IncK</FONT></TT>
+paths are set to values that are derived from running the Perl
+program shown in Listing 26.2. There is one possible problem you
+must be aware of when you run this program: if you get errors
+stating that it cannot find <TT><FONT FACE="Courier">embed.pm</FONT></TT>
+in the <TT><FONT FACE="Courier">@Inc</FONT></TT> array, then modify
+the <TT><FONT FACE="Courier">@Inc</FONT></TT> array to include
+the path where the file is located. The commented lines in Listing
+26.2 are examples.
+<P>
+If all else fails, copy the <TT><FONT FACE="Courier">embed.pm</FONT></TT>
+path to the directory you happen to be in. If you get an error
+stating that <TT><FONT FACE="Courier">embed.pm</FONT></TT> could
+not be included or that it was empty, you have to modify the <TT><FONT FACE="Courier">embed.pm</FONT></TT>
+file. Go to the statement with the <TT><FONT FACE="Courier">_END_</FONT></TT>
+label and add the line <TT><FONT FACE="Courier">1;</FONT></TT>
+before it. This step is only necessary if the <TT><FONT FACE="Courier">ExtUtils::embed</FONT></TT>
+file could not be included.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.2. A sample makefile.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 use ExtUtils::embed;<BR>
+&nbsp;4 <BR>
+&nbsp;5 #<BR>
+&nbsp;6 # unshift(@Inc,&quot;/usr/local/lib/perl5/site_perl&quot;);
+<BR>
+&nbsp;7 #<BR>
+&nbsp;8 <BR>
+&nbsp;9 &amp;ccopts;&nbsp;&nbsp;# Create the path for headers
+<BR>
+10 &amp;ldopts;&nbsp;&nbsp;# Create the path for libraries</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The call to the <TT><FONT FACE="Courier">&amp;ccopts</FONT></TT>
+function creates the include path for use with the <TT><FONT FACE="Courier">-I</FONT></TT>
+flag. The call to <TT><FONT FACE="Courier">&amp;ldopts</FONT></TT>
+creates the path for libraries to be linked with the <TT><FONT FACE="Courier">-L</FONT></TT>
+flag. Pipe the output to a saved file and create the makefile
+as shown in Listing 26.1.
+<H2><A NAME="AddingaPerlInterpreter"><B><FONT SIZE=5 COLOR=#FF0000>Adding
+a Perl Interpreter to Your C Program</FONT></B></A></H2>
+<P>
+A C program using a Perl interpreter is really creating and running
+a <TT><FONT FACE="Courier">PerlInterpreter</FONT></TT> object.
+The <TT><FONT FACE="Courier">PerlInterpreter</FONT></TT> object
+type is defined in the Perl library, and the C program simply
+makes a reference to this library object. Several sample files
+come in the <TT><FONT FACE="Courier">embed.pm</FONT></TT> file
+and are used here as examples.
+<P>
+Listing 26.3 presents a quick example of how to embed a Perl interpreter
+in a C program. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.3. The first example from the </B><TT><B><FONT FACE="Courier">embed.pm</FONT></B></TT><B>
+module.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 /*<BR>
+&nbsp;2 ** Sample program used from embed.pm module package.<BR>
+&nbsp;3 */<BR>
+&nbsp;4 #include &lt;stdio.h&gt;<BR>
+&nbsp;5 #include &lt;EXTERN.h&gt;<BR>
+&nbsp;6 #include &lt;perl.h&gt;<BR>
+&nbsp;7<BR>
+&nbsp;8 static PerlInterpreter *my_perl;<BR>
+&nbsp;9<BR>
+10 main(int argc, char **argv, char **env)<BR>
+11 {<BR>
+12<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_perl
+= perl_alloc();<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_construct(my_perl);
+<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_parse(my_perl,
+NULL, argc, argv, env);<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_run(my_perl);
+<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_destruct(my_perl);
+<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_free(my_perl);
+<BR>
+19 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Lines 3 to 6 are the include headers you have to use to get this
+to work. The <TT><FONT FACE="Courier">EXTERN.h</FONT></TT> and
+<TT><FONT FACE="Courier">perl.h</FONT></TT> files will be picked
+from where the Perl distribution is installed.
+<P>
+At line 8, the C program creates a pointer reference to the <TT><FONT FACE="Courier">PerlInterpreter</FONT></TT>
+object defined in the Perl libraries. The reference will actually
+be resolved in line 13 when the object is created.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">At line 10, the main program interface
+is called. All three arguments are required. Do not use either
+of these lines because they both caused compiler error, even with
+the -fno-strict-prototypes flag set:<BR>
+main(int argc, char **argv);<BR>
+main(int argc, char *argv[], char *env[])</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Lines 14 and 15 construct the <TT><FONT FACE="Courier">PerlInterpreter</FONT></TT>
+object and parse any environment variables and command-line arguments.
+You can read and execute Perl statements from a file at any time
+in a C program by simply placing the name of the file in <TT><FONT FACE="Courier">argv[1]</FONT></TT>
+before calling the <TT><FONT FACE="Courier">perl_run</FONT></TT>
+function. The <TT><FONT FACE="Courier">perl_run </FONT></TT>function
+is called at line 16 in the sample code in Listing 26.2. The function
+can be called repeatedly in the C code before the calls are made
+to destruct and free the object (lines 17 and 18 in the sample
+code).
+<P>
+Now <TT><FONT FACE="Courier">make</FONT></TT> this program, called
+<TT><FONT FACE="Courier">ex2.c</FONT></TT>, and run it. In the
+sample run that follows, note how variables are defined and used
+interactively in this sample run:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>ex2<BR>
+</B>$a = 1;<BR>
+$b = 3;<BR>
+print $a,&quot; &quot;,$b,&quot; &quot;,$a+$b,&quot;\n&quot;;
+<BR>
+^D<BR>
+1 3 4<BR>
+$</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To run a script file, simply redirect the contents of a file into
+the input of the interpreter. The file you are feeding into your
+C mini-interpreter does not have to have its execute bit set in
+its permissions. Here's a sample run.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$<B> cat test.pl<BR>
+</B>$a = 1;<BR>
+$b = 1;<BR>
+print &quot;a + b = &quot;, $a + $b, &quot;\n&quot;;<BR>
+$<BR>
+$ ex2 &lt; test.pl<BR>
+a + b = 2<BR>
+$</FONT></TT>
+</BLOCKQUOTE>
+<P>
+There you have it-a small Perl interpreter embedded in C code.
+Once you have this interpreter embedded in your C code, you can
+evaluate Perl statements by simply feeding them into the interpreter
+one line at a time.
+<P>
+There will be occasions, though, when you simply want to call
+a Perl subroutine directly from within the C code. I show you
+how to do this in the next section.
+<H2><A NAME="CallingPerlSubroutinesfromWithin"><B><FONT SIZE=5 COLOR=#FF0000>Calling
+Perl Subroutines from Within a C Program</FONT></B></A></H2>
+<P>
+In order to call a Perl subroutine by name, simply replace the
+call to <TT><FONT FACE="Courier">perl_run()</FONT></TT> with a
+call to <TT><FONT FACE="Courier">perl_call_argv()</FONT></TT>.
+An example is shown in the code in Listing 26.4.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.4. Calling a subroutine in Perl directly.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #include &lt;stdio.h&gt;<BR>
+&nbsp;2 #include &lt;EXTERN.h&gt;<BR>
+&nbsp;3 #include &lt;perl.h&gt;<BR>
+&nbsp;4<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static PerlInterpreter *my_perl;
+<BR>
+&nbsp;6<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int main(int argc, char **argv,
+char **env)<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_perl
+= perl_alloc();<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_construct(my_perl);
+<BR>
+11<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_parse(my_perl,
+NULL, argc, argv, env);<BR>
+13&nbsp;&nbsp;/* The next line calls a function in the file named
+in<BR>
+14&nbsp;&nbsp;&nbsp;* argv[1] of the program !!*/<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_call_argv(&quot;showUser&quot;,
+G_DISCARD | G_NOARGS, argv);<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_destruct(my_perl);
+<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_free(my_perl);
+<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Look closely at line 15. This is really the only line that is
+different from the code shown in Listing 26.3. A Perl subroutine
+called <TT><FONT FACE="Courier">showUser</FONT></TT> is being
+called here. The <TT><FONT FACE="Courier">showUser</FONT></TT>
+subroutine takes no arguments, so you specify a <TT><FONT FACE="Courier">G_NOARGS</FONT></TT>
+flag, and returns no values, so specify the <TT><FONT FACE="Courier">G_DISCARD</FONT></TT>
+flag. The <TT><FONT FACE="Courier">argv</FONT></TT> vector is
+used to store the filename in  <TT><FONT FACE="Courier">argv[1]</FONT></TT>.
+To invoke this program, type the name of the file (<TT><FONT FACE="Courier">showMe.pl</FONT></TT>,
+in this case) at the command line:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>ex3 showMe.pl<BR>
+</B>Process 2689 : UID is 501 and GID is 501</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">showMe.pl</FONT></TT> file named
+in <TT><FONT FACE="Courier">argv[1]</FONT></TT> is shown in Listing
+26.5.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.5. The file containing the subroutine being called.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!/usr/bin/perl<BR>
+2 sub showUser {<BR>
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;Process $$ : UID is
+$&lt; and GID is $(\n&quot;;<BR>
+4 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Calling Perl functions with arguments and using the return values
+requires manipulation of the Perl stack. When you make the call,
+you push values onto the stack, and upon return from the function
+you get the returned value off the stack. Let's see how to work
+with the calling stack.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+A note to the Perl-savvy reader: You can get the values from Perl special variables directly. See the section titled &quot;Getting Special Variable Values,&quot; later in this chapter.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Here is another Perl subroutine, which prints whatever parameters
+are passed to it:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sub PrintParameters<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my(@args) = @_
+;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for $i (@args)
+{ print &quot;$i\n&quot; }<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here is the function to use when calling this Perl subroutine:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">static char *words[] = {&quot;My&quot;,
+&quot;karma&quot;, &quot;over&quot;, &quot;my&quot;, &quot;dogma&quot;,
+NULL} ;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;static void justDoit()<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dSP;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_call_argv(&quot;PrintParameters&quot;,
+G_DISCARD, words) ;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+As you can see, it's easy to construct parameters and then use
+them directly in C statements to call Perl functions or programs.
+<H2><A NAME="WorkingwiththePerlStack"><B><FONT SIZE=5 COLOR=#FF0000>Working
+with the Perl Stack</FONT></B></A></H2>
+<P>
+Perl has several C functions to use when calling Perl subroutines.
+Here are the most important ones to know:
+<UL>
+<LI><TT><FONT FACE="Courier">perl_call_sv</FONT></TT>
+<LI><TT><FONT FACE="Courier">perl_call_pv</FONT></TT>
+<LI><TT><FONT FACE="Courier">perl_call_method</FONT></TT>
+<LI><TT><FONT FACE="Courier">perl_call_argv</FONT></TT>
+</UL>
+<P>
+The <TT><FONT FACE="Courier">perl_call_sv</FONT></TT> function
+is called by the other three functions in the list. These three
+functions simply fiddle with their arguments before calling the
+<TT><FONT FACE="Courier">perl_call_sv</FONT></TT> function. All
+these functions take a flags parameter to pass options. We'll
+discuss the meaning of these flags shortly.
+<P>
+All these functions return an integer of type <TT><FONT FACE="Courier">I32</FONT></TT>.
+The value returned is the number of items on the Perl stack after
+the call returns. It's a good idea to check this value when using
+unknown code. Calling functions use the return value to determine
+how many returned values to pick up from the stack after the calling
+function returns.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+One important point to note here is that you'll see a lot of types of returned values and arguments passed into functions. These declarations come from the Perl sources and header files starting from <TT><FONT FACE="Courier">perl.h</FONT></TT>. You really 
+do not need to know how <TT><FONT FACE="Courier">I32</FONT></TT> is defined, but its name suggests it's a 32-bit integer. If you are really curious to see how it works or what the definitions are, check out the <TT><FONT FACE="Courier">perl.h</FONT></TT> 
+header file. Please refer to <A HREF="ch25.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch25.htm" >Chapter 25</A> for more information on internal Perl variables.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="Theperl_call_svFunction"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">perl_call_sv</FONT></B></TT><B><FONT SIZE=4>
+Function</FONT></B></A></H3>
+<P>
+The syntax for this function is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">I32 perl_call_sv(SV* sv, I32 flags) ;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">perl_call_sv</FONT></TT> takes two
+arguments. The first argument, <TT><FONT FACE="Courier">sv</FONT></TT>,
+is a pointer to an <TT><FONT FACE="Courier">SV</FONT></TT> structure.
+(The <TT><FONT FACE="Courier">SV</FONT></TT> structure is also
+defined in the header file <TT><FONT FACE="Courier">perl.h</FONT></TT>.)
+The <TT><FONT FACE="Courier">SV</FONT></TT> stands for <I>scalar
+vector</I>. This way you can specify the subroutine to call either
+as a C string by name or by a reference to a subroutine.
+<H3><A NAME="Theperl_call_pvFunction"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">perl_call_pv</FONT></B></TT><B><FONT SIZE=4>
+Function</FONT></B></A></H3>
+<P>
+The function <TT><FONT FACE="Courier">perl_call_pv</FONT></TT>
+is like the <TT><FONT FACE="Courier">perl_call_sv</FONT></TT>
+call except that it expects its first parameter to be a string
+containing the name of the subroutine to call. The syntax to this
+function is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">I32 perl_call_pv(char *subname, I32 flags)
+;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+For example, to specify the name of function, you would make a
+call like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl_call_pv(&quot;showUser&quot;,0);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The function name can be qualified to use a package name. To explicitly
+call a routine in a package, simply prepend the name with a <TT><FONT FACE="Courier">PackageName::</FONT></TT>
+string. For example, to call the function <TT><FONT FACE="Courier">Time</FONT></TT>
+in the <TT><FONT FACE="Courier">Datum</FONT></TT> package, you
+would make this call:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl_call_pv(&quot;Datum::Time&quot;,0);</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="Theperl_call_methodFunction"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">perl_call_method</FONT></B></TT><B><FONT SIZE=4>
+Function</FONT></B></A></H3>
+<P>
+This function is used to call a method from a Perl class. The
+syntax for this call is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">I32 perl_call_method(char *methodName,
+I32 flags) ;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">methodName</FONT></TT> is set to the
+name of the method to be called. The class in which the called
+method is defined is passed on the stack and not in the argument
+list. The class can be specified either by name or by reference
+to an object.
+<H3><A NAME="Theperl_call_argvFunction"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">perl_call_argv</FONT></B></TT><B><FONT SIZE=4>
+Function</FONT></B></A></H3>
+<P>
+This subroutine calls the subroutine specified in the <TT><FONT FACE="Courier">subname</FONT></TT>
+parameter. The values of the flags that are passed in when making
+this function call will be discussed shortly. The <TT><FONT FACE="Courier">argv</FONT></TT>
+pointer is set in the same manner as the <TT><FONT FACE="Courier">ARGV</FONT></TT>
+array to a Perl program: each item in the <TT><FONT FACE="Courier">argv</FONT></TT>
+array is a pointer to <TT><FONT FACE="Courier">NULL</FONT></TT>-terminated
+strings. The syntax for this call is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">I32 perl_call_argv(char *subname, I32
+flags, register char **argv) ;</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="TheFlagstoUse"><B><FONT SIZE=5 COLOR=#FF0000>The
+Flags to Use</FONT></B></A></H2>
+<P>
+The <TT><FONT FACE="Courier">flags</FONT></TT> parameter in all
+the functions discussed in the previous section is a bitmask that
+can consist of the following values:
+<UL>
+<LI><TT><FONT FACE="Courier">G_DISCARD</FONT></TT>
+<LI><TT><FONT FACE="Courier">G_NOARGS</FONT></TT>
+<LI><TT><FONT FACE="Courier">G_SCALAR</FONT></TT>
+<LI><TT><FONT FACE="Courier">G_ARRAY</FONT></TT>
+<LI><TT><FONT FACE="Courier">G_EVAL</FONT></TT>
+</UL>
+<P>
+The following sections detail how each flag affects the behavior
+of the called function.
+<H3><A NAME="TheG_DISCARDFlag"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">G_DISCARD</FONT></B></TT><B><FONT SIZE=4>
+Flag</FONT></B></A></H3>
+<P>
+The <TT><FONT FACE="Courier">G_DISCARD</FONT></TT> flag is used
+to specify whether a function returns a value or not. If the <TT><FONT FACE="Courier">G_DISCARD</FONT></TT>
+flag is set to <TT><FONT FACE="Courier">True</FONT></TT>, no values
+are returned. By default, a returned value or a set of values
+from the <TT><FONT FACE="Courier">perl_call</FONT></TT> functions
+are placed on the stack, and placing these values on the stack
+does take time and processing. If you are not interested in these
+values, set the <TT><FONT FACE="Courier">G_DISCARD</FONT></TT>
+flag to get rid of these items. If this flag is not specified,
+there might be returned values pushed onto the stack that you
+might not be aware of unless you explicitly check the returned
+value of the function call. Therefore, specify the flag explicitly
+if you don't care to even look for returned values.
+<H3><A NAME="TheG_NOARGSFlag"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">G_NOARGS</FONT></B></TT><B><FONT SIZE=4>
+Flag</FONT></B></A></H3>
+<P>
+Normally you'll be passing arguments into a Perl subroutine. The
+default procedure is to create the <TT><FONT FACE="Courier">@_</FONT></TT>
+array for the subroutine to work with. If you are not passing
+any parameters to the Perl subroutine, you can save processing
+cycles by not creating the <TT><FONT FACE="Courier">@_</FONT></TT>
+array. Setting the flag stops the flag from being created.
+<P>
+Be sure that the function you are calling does not use arguments.
+If the called Perl subroutine does use parameters and you do not
+pass any parameters, your program might return totally bogus results.
+In such cases, the last value of <TT><FONT FACE="Courier">@_</FONT></TT>
+is used.
+<H3><A NAME="TheG_SCALARFlag"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">G_SCALAR</FONT></B></TT><B><FONT SIZE=4>
+Flag</FONT></B></A></H3>
+<P>
+The flag specifies that only one scalar value will be expected
+back from this function. The called subroutine might attempt to
+return a list, in which case only the last item in the list will
+be returned. Setting this flag sets the context under which the
+called subroutine will run. <TT><FONT FACE="Courier">G_SCALAR</FONT></TT>
+is the default context if no context is specified.
+<P>
+When this flag is specified, the returned value from the called
+function will either be <TT><FONT FACE="Courier">0</FONT></TT>
+or <TT><FONT FACE="Courier">1</FONT></TT>: <TT><FONT FACE="Courier">0</FONT></TT>
+is returned if the <TT><FONT FACE="Courier">G_DISCARD</FONT></TT>
+flag is set; otherwise, <TT><FONT FACE="Courier">1</FONT></TT>
+is returned. If a <TT><FONT FACE="Courier">1</FONT></TT> is returned,
+you must remove the returned value to restore the stack back to
+what it was before the call was made.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Tip</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The called subroutine can call the <TT><FONT FACE="Courier">wantarray</FONT></TT> function to determine if it was called in scalar or array context. If the call returns <TT><FONT FACE="Courier">false</FONT></TT>, the called function is called in scalar 
+context. If the call returns <TT><FONT FACE="Courier">true</FONT></TT>, the called function is called in array context.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="TheG_ARRAYFlag"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">G_ARRAY</FONT></B></TT><B><FONT SIZE=4>
+Flag</FONT></B></A></H3>
+<P>
+Set this flag when you want to return a list from the called Perl
+subroutine. This flag causes the Perl subroutine to be called
+in a list context. <TT><FONT FACE="Courier">0</FONT></TT> is returned
+when the <TT><FONT FACE="Courier">G_DISCARD</FONT></TT> flag is
+specified along with this flag. If the <TT><FONT FACE="Courier">G_DISCARD</FONT></TT>
+flag is not specified, the number of items on the stack is returned.
+This number is usually the number of items the calling routine
+pushed on the stack when making the function call; however, the
+number of items could be different if the called subroutine has
+somehow manipulated the stack internally. If <TT><FONT FACE="Courier">G_ARRAY</FONT></TT>
+was specified and the returned value is <TT><FONT FACE="Courier">0</FONT></TT>,
+an error has occurred in the called routine.
+<H3><A NAME="TheG_EVALFlag"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">G_EVAL</FONT></B></TT><B><FONT SIZE=4>
+Flag</FONT></B></A></H3>
+<P>
+The called subroutine might crash while processing bogus input
+parameters. It's possible to trap an abnormal termination by specifying
+the <TT><FONT FACE="Courier">G_EVAL</FONT></TT> statement. The
+net effect of this flag is to put the called subroutine in an
+evaluated block from which it's possible to trap all but the more
+shameful errors. Whenever control returns from the function, you
+have to check the contents of the <TT><FONT FACE="Courier">$@</FONT></TT>
+variable for any possible error messages. Remember that any anomaly
+can set the contents of <TT><FONT FACE="Courier">$@</FONT></TT>,
+so check the value as soon as you return from a subroutine call.
+<P>
+The value returned from the <TT><FONT FACE="Courier">perl_call_*</FONT></TT>
+function is dependent on what other flags have been specified
+and whether an error has occurred. Here are all the different
+cases that can occur: If an error occurs when a <TT><FONT FACE="Courier">G_SCALAR</FONT></TT>
+is specified, the value on top of the stack will be <TT><FONT FACE="Courier">undef</FONT></TT>.
+The value of <TT><FONT FACE="Courier">$@</FONT></TT> will also
+be set. Just remember to pop the <TT><FONT FACE="Courier">undef</FONT></TT>
+from the stack.
+<H2><A NAME="UsingSCALARContext"><B><FONT SIZE=5 COLOR=#FF0000>Using
+</FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">SCALAR</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Context</FONT></B></A></H2>
+<P>
+Here is an example of how to call a Perl function that takes three
+arguments and returns an integer. This is an example of using
+a function in a scalar context because it returns a scalar value.
+The code is shown in Listing 26.6.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.6. A function used in a scalar context.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 /* How to call a Perl subroutine
+from C */<BR>
+&nbsp;2 #include &lt;stdio.h&gt;<BR>
+&nbsp;3 #include &lt;EXTERN.h&gt;<BR>
+&nbsp;4 #include &lt;perl.h&gt;<BR>
+&nbsp;5<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static int getSeconds(int
+s, int m, int h);<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static PerlInterpreter *my_perl;
+<BR>
+&nbsp;8<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int main(int argc, char **argv,
+char **env)<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_perl
+= perl_alloc();<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_construct(my_perl);
+<BR>
+13<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_parse(my_perl,
+NULL, argc, argv, env);<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getSeconds(10,30,4);&nbsp;&nbsp;
+/* TIME = 10:30:04 AM */<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_destruct(my_perl);
+<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_free(my_perl);
+<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+19<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static int getSeconds(int s, int
+m, int h)<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dSP ;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*
+init stack pointer */<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count
+;&nbsp;&nbsp;&nbsp;&nbsp;/* keep return value&nbsp;&nbsp;*/<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENTER
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* start
+temporary area */<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAVETMPS;
+<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHMARK(sp)
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* push mark
+for last argument. */<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSViv(s)));
+/* leftmost argument */<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSViv(m)));
+/* go from left to right */<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSViv(h)));
+/* rightmost argument */<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUTBACK
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*
+make stack pointer available */<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count
+= perl_call_pv(&quot;seconds&quot;, G_SCALAR); /* call */<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPAGAIN
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* reset stack pointer
+*/<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (count
+!= 1)&nbsp;&nbsp;&nbsp;&nbsp;/* check return value */<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;croak(&quot;Whoa
+Nelly! This is wrong\n&quot;) ;<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;The number of seconds so far = %f for&nbsp;&nbsp;%d:%d:%d\n&quot;,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;POPi,h,m,s) ;<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUTBACK
+;&nbsp;&nbsp;/* put the popped value on stack again */<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FREETMPS
+;&nbsp;/* free up temporary variables (NOT count) */<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE
+;&nbsp;&nbsp;&nbsp;&nbsp;/* get out and clean up stack */<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Lines 2 through 4 declare the mandatory headers. At line 7 we
+declare the prototype for the function we are going to call. You
+can declare the function here instead if you like. The call to
+this function, <TT><FONT FACE="Courier">getSeconds</FONT></TT>,
+is made at line 15. The function itself is declared static to
+prevent unlikely confusion with any predefined functions in the
+Perl libraries.
+<P>
+At line 22, the call to the <TT><FONT FACE="Courier">dSP</FONT></TT>
+macro initializes the stack. At line 23, the <TT><FONT FACE="Courier">count</FONT></TT>
+variable is declared to be a nontemporary variable on the stack.
+The <TT><FONT FACE="Courier">ENTER</FONT></TT> and <TT><FONT FACE="Courier">SAVETMPS</FONT></TT>
+macros at lines 24 and 25 start the temporary variable area. A
+marker to this stack location is pushed on at line 26.
+<P>
+The <TT><FONT FACE="Courier">ENTER/SAVETMPS</FONT></TT> pair creates
+the start of code for all temporary variables that will be destroyed
+on the return from the C function. The <TT><FONT FACE="Courier">FREETMPS/LEAVE</FONT></TT>
+pair will be used to clean up and destroy the space allocated
+on the calling stack for these temporary variables.
+<P>
+Now the parameters to the Perl subroutine are pushed onto the
+stack one at a time from the leftmost parameter to the rightmost
+parameter. Remember this order because the Perl function expecting
+these parameters will be declared as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sub seconds {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my($h, $m, $s)
+= @_ ;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;my $t;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$t = $s + $m * 60 + $h * 3600;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return
+$t<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The stack pointer is made into a globally available value with
+the <TT><FONT FACE="Courier">PUTBACK</FONT></TT> macro in line
+30. The actual call to the subroutine is made in line 31 with
+the <TT><FONT FACE="Courier">G_SCALAR</FONT></TT> flag. On return
+from the subroutine, we have to reset the stack pointer with the
+<TT><FONT FACE="Courier">SPAGAIN</FONT></TT> (stack pointer again)
+macro. The count must be <TT><FONT FACE="Courier">1</FONT></TT>,
+or else we have an error.
+<P>
+The returned value is in <TT><FONT FACE="Courier">POPi</FONT></TT>.
+The called function returned an integer value. To get other types
+of values, you can use one of the following macros:
+<UL>
+<LI><TT><FONT FACE="Courier">POPs</FONT></TT> for an <TT><FONT FACE="Courier">SV</FONT></TT>
+<LI><TT><FONT FACE="Courier">POPp</FONT></TT> for a pointer (such
+as a pointer to a string)
+<LI><TT><FONT FACE="Courier">POPn</FONT></TT> for a double
+<LI><TT><FONT FACE="Courier">POPi</FONT></TT> for an integer
+<LI><TT><FONT FACE="Courier">POPl</FONT></TT> for a long
+</UL>
+<P>
+The <TT><FONT FACE="Courier">PUTBACK</FONT></TT> macro is used
+to reset the Perl stack back to a consistent state just before
+exiting the function. The <TT><FONT FACE="Courier">POPi</FONT></TT>
+macro call only updated the local copy of the stack pointer. We
+have to set the global value on the stack, too. All parameters
+pushed onto the stack must be bracketed by the <TT><FONT FACE="Courier">PUSHMARK</FONT></TT>
+and <TT><FONT FACE="Courier">PUTBACK</FONT></TT> macros. These
+macros count the number of parameters being pushed and hence let
+Perl know how to size the <TT><FONT FACE="Courier">@_</FONT></TT>
+array. The <TT><FONT FACE="Courier">PUSHMARK</FONT></TT> macro
+tells Perl to mark the stack pointer and must be specified even
+if you are using no parameters. The <TT><FONT FACE="Courier">PUTBACK</FONT></TT>
+macro sets the global copy of the stack pointer to the value of
+the local copy of the stack pointer.
+<P>
+Here's another example of how to use a returned string from a
+function using the <TT><FONT FACE="Courier">POPp</FONT></TT> macro.
+(See Listing 26.7.) Look at lines 23 through 25 to see how strings
+and integers are pushed onto the stack with the <TT><FONT FACE="Courier">XPUSHs(sv_2mortal(newSVpv(str,offset)));</FONT></TT>
+and <TT><FONT FACE="Courier">XPUSHs(sv_2mortal(newSViv(offset)));</FONT></TT>
+functions. The returned value from the actual call to the Perl
+function is retrieved with the <TT><FONT FACE="Courier">POPp</FONT></TT>
+macro.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.7. Using a returned string value.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 /* Using returned strings from
+functions */<BR>
+&nbsp;2 #include &lt;stdio.h&gt;<BR>
+&nbsp;3 #include &lt;EXTERN.h&gt;<BR>
+&nbsp;4 #include &lt;perl.h&gt;<BR>
+&nbsp;5<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static int MySubString(char
+*a, int offset, int len);<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static PerlInterpreter *my_perl;
+<BR>
+&nbsp;8<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int main(int argc, char **argv,
+char **env)<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_perl
+= perl_alloc();<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_construct(my_perl);
+<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_parse(my_perl,
+NULL, argc, argv, env);<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MySubString(&quot;Kamran
+Was Here&quot;,7,3); /* return 'Was' */<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_destruct(my_perl);
+<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_free(my_perl);
+<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+18<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static int MySubString(char *a,
+int offset, int len)<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dSP ;
+<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHMARK(sp)
+;<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSVpv(a,
+0)));<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSViv(offset)));
+<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSViv(len)));
+<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUTBACK
+;<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_call_pv(&quot;Csubstr&quot;,
+G_SCALAR);<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPAGAIN
+;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;The substring is %s\n&quot;,(char *)POPp) ;<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUTBACK
+;<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FREETMPS
+;<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE
+;<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The function <TT><FONT FACE="Courier">Csubstr</FONT></TT> calls
+the Perl <TT><FONT FACE="Courier">substr()</FONT></TT> as shown
+here:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sub Csubstr {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;my ($s,$o,$l) = @_;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return substr($s,$o,$l);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The value of the <TT><FONT FACE="Courier">substr()</FONT></TT>
+function call is returned back from the subroutine call. It's
+this returned value that is used in the C program.
+<H2><A NAME="ReturningListsfromSubroutines"><B><FONT SIZE=5 COLOR=#FF0000>Returning
+Lists from Subroutines</FONT></B></A></H2>
+<P>
+Many Perl functions return lists as their results. C programs
+can retrieve these values as well. Here's a simple Perl function
+that returns the ratio of two numbers. (See Listing 26.8.) The
+C program to call this function is shown in Listing 26.9.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.8. Ratio of numbers in a Perl function.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 sub GetRatio<BR>
+&nbsp;2 {<BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;my($a, $b) = @_ ;<BR>
+&nbsp;4 my $c, $d;<BR>
+&nbsp;5 if ($a == 0) { $c = 1; $d = 0; }<BR>
+&nbsp;6 elsif ($b == 0) { $c = 0; $d = 1; }<BR>
+&nbsp;7 else {<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c = $a/$b;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$d = $b/$a; 
+<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <BR>
+11 ($c,$d);<BR>
+12 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Look at lines 34 and 35 in Listing 26.9. The returned values from
+the Perl function are picked off one at a time using the <TT><FONT FACE="Courier">POPn</FONT></TT>
+macro to get double values from the stack. The global stack is
+readjusted before returning from the C function.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.9. Calling the </B><TT><B><FONT FACE="Courier">GetRatio</FONT></B></TT><B>
+function.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;/* How
+to return lists back from Perl functions */<BR>
+&nbsp;2<BR>
+&nbsp;3 #include &lt;stdio.h&gt;<BR>
+&nbsp;4 #include &lt;EXTERN.h&gt;<BR>
+&nbsp;5 #include &lt;perl.h&gt;<BR>
+&nbsp;6<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static void getRatio(int
+a, int b);<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static PerlInterpreter *my_perl;
+<BR>
+&nbsp;9<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int main(int argc, char **argv,
+char **env)<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_perl
+= perl_alloc();<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_construct(my_perl);
+<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_parse(my_perl,
+NULL, argc, argv, env);<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getRatio(8,3);<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_destruct(my_perl);
+<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_free(my_perl);
+<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+19<BR>
+20<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static void getRatio(int a, int
+b)<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dSP ;
+<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count
+;<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENTER
+;<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAVETMPS;
+<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHMARK(sp)
+;<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSViv(a)));
+<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSViv(b)));
+<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUTBACK
+;<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count
+= perl_call_pv(&quot;GetRatio&quot;, G_ARRAY);<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPAGAIN
+;<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (count
+!= 2) croak(&quot;Whoa! \n&quot;) ;<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;%d / %d = %f\n&quot;, a, b, POPn) ;<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;%d / %d = %f\n&quot;, b, a, POPn) ;<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUTBACK
+;<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FREETMPS
+;<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE
+;<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Placing <TT><FONT FACE="Courier">G_SCALAR</FONT></TT> instead
+of <TT><FONT FACE="Courier">G_ARRAY</FONT></TT> in the code in
+Listing 29.9 would have forced a scalar value to be returned.
+Only the last item of the array would have been returned and the
+value of <TT><FONT FACE="Courier">count</FONT></TT> would be set
+to <TT><FONT FACE="Courier">1</FONT></TT>.
+<P>
+Note how this Perl subroutine takes precautions not to crash by
+first checking the divisor by zero. Now, this time let's not return
+a value. Instead, let's call the <TT><FONT FACE="Courier">die()</FONT></TT>
+function if a bogus value is sent into the function <TT><FONT FACE="Courier">GetRatio</FONT></TT>.
+We'll try to trap the errors caused by calling the function with
+the <TT><FONT FACE="Courier">G_EVAL</FONT></TT> flag set.
+<H2><A NAME="UsingG_EVAL"><B><FONT SIZE=5 COLOR=#FF0000>Using
+</FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">G_EVAL</FONT></B></TT></A>
+</H2>
+<P>
+The <TT><FONT FACE="Courier">G_EVAL</FONT></TT> flag is useful
+when calling functions you think may <TT><FONT FACE="Courier">die()</FONT></TT>.
+The <TT><FONT FACE="Courier">G_EVAL</FONT></TT> flag is <TT><FONT FACE="Courier">OR</FONT></TT>-ed
+in with any other flags to such a call. Listing 26.10 presents
+a Perl function that calls the <TT><FONT FACE="Courier">die</FONT></TT>
+function in case one of the arguments sent into it is zero. Because
+we know that this function can <TT><FONT FACE="Courier">die</FONT></TT>,
+we'll send in a value that causes it to <TT><FONT FACE="Courier">die</FONT></TT>.
+The code to make this fatal call (to illustrate how <TT><FONT FACE="Courier">G_EVAL</FONT></TT>
+is used) is shown in Listing 26.11.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.10. A Perl function that can </B><TT><B><FONT FACE="Courier">die</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 sub GetRatioEval<BR>
+&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my($a,
+$b) = @_ ;<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $c, $d;<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die &quot;Hey! A is 0 \n&quot;
+if ($a == 0);<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die &quot;Hey! B is 0 \n&quot;
+if ($b == 0);<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c = $a/$b;<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$d = $b/$a;<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($c,$d);
+<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.11. A C program to use the </B><TT><B><FONT FACE="Courier">G_EVAL</FONT></B></TT><B>
+flag.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1&nbsp;&nbsp;/* Call the suicidal
+function to use G_EVAL */<BR>
+&nbsp;2<BR>
+&nbsp;3 #include &lt;stdio.h&gt;<BR>
+&nbsp;4 #include &lt;EXTERN.h&gt;<BR>
+&nbsp;5 #include &lt;perl.h&gt;<BR>
+&nbsp;6<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static void getRatio(int
+a, int b);<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static PerlInterpreter *my_perl;
+<BR>
+&nbsp;9<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int main(int argc, char **argv,
+char **env)<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_perl
+= perl_alloc();<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_construct(my_perl);
+<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_parse(my_perl,
+NULL, argc, argv, env);<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getRatio(8,0);
+<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_destruct(my_perl);
+<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_free(my_perl);
+<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+19<BR>
+20<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static void getRatio(int a, int
+b)<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dSP ;
+<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count
+;<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SV
+*svp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*
+New line */<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENTER
+;<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAVETMPS;
+<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHMARK(sp)
+;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSViv(a)));
+<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSViv(b)));
+<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUTBACK
+;<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count
+= perl_call_pv(&quot;GetRatioEval&quot;, G_ARRAY | G_EVAL);<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPAGAIN
+;<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;svp =
+GvSV(gv_fetchpv(&quot;@&quot;, TRUE, SVt_PV));<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (SvTRUE(svp))
+<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;Die by division: %s\n&quot;, SvPV(svp, na)) ;<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;POPs
+;<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (count
+!= 2) croak(&quot;Whoa! \n&quot;) ;<BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;%d / %d = %f\n&quot;, a, b, POPn) ;<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;%d / %d = %f\n&quot;, b, a, POPn) ;<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUTBACK
+;<BR>
+47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FREETMPS
+;<BR>
+48&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE
+;<BR>
+49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+In the code shown in Listing 26.11, the call to the Perl function
+will terminate in a <TT><FONT FACE="Courier">die()</FONT></TT>
+function call. The returned value from this Perl function call
+is checked in line 34. The variable we are looking at is the <TT><FONT FACE="Courier">$@</FONT></TT>
+variable in Perl. The syntax for this call is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">svp = GvSV(gv_fetchpv(&quot;@&quot;,
+TRUE, SVt_PV));</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The value of the variable is checked in the following lines, and
+the stack is adjusted with a call to pop off the string. The string
+is retrieved with a call to the <TT><FONT FACE="Courier">SvPV()</FONT></TT>
+function in line 38.
+<H2><A NAME="GettingSpecialVariableValues"><B><FONT SIZE=5 COLOR=#FF0000>Getting
+Special Variable Values</FONT></B></A></H2>
+<P>
+In Listing 26.7 we recovered values of special variables, <TT><FONT FACE="Courier">$&lt;</FONT></TT>
+and <TT><FONT FACE="Courier">$(</FONT></TT>, to get the UID and
+GID of the calling process via a Perl subroutine. The Perl subroutine
+was simply an example of how to call a routine. Now let's see
+how we can get values of special variables in Perl directly. The
+call to get these values is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">svp = GvSV(gv_fetchpv(variableName, defaultValue,
+SVt_PV));</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Let's look at the function in Listing 26.12 to see how to get
+the UID and GID of a calling C program.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.12. Function for getting the values of </B><TT><B><FONT FACE="Courier">$&lt;</FONT></B></TT><B>
+and </B><TT><B><FONT FACE="Courier">$(</FONT></B></TT><B> directly.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 static int getUserInfo()<BR>
+&nbsp;2 {<BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dSP ;<BR>
+&nbsp;4 int tmp;<BR>
+&nbsp;5 SV *svp;<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHMARK(sp);<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;svp = GvSV(gv_fetchpv(&quot;&lt;&quot;,
+0, SVt_PV));<BR>
+&nbsp;8 tmp =&nbsp;&nbsp;SvIV(svp);<BR>
+&nbsp;9 printf (&quot;\n UID = %d&quot;,tmp);<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;svp = GvSV(gv_fetchpv(&quot;(&quot;,
+0, SVt_PV));<BR>
+11 tmp =&nbsp;&nbsp;SvIV(svp);<BR>
+12 printf (&quot;\n GID = %d&quot;,tmp);<BR>
+13 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">GvSV()</FONT></TT> function returns
+the current value of the variable named in the first parameter.
+The default value is <TT><FONT FACE="Courier">0</FONT></TT> for
+these calls. The returned value from each <TT><FONT FACE="Courier">GvSV</FONT></TT>
+call is a pointer from which an integer is extracted with a call
+to <TT><FONT FACE="Courier">SvIV()</FONT></TT>.
+<H2><A NAME="UsingtheSTMacros"><B><FONT SIZE=5 COLOR=#FF0000>Using
+the </FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">ST</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Macros</FONT></B></A></H2>
+<P>
+The <TT><FONT FACE="Courier">POPi</FONT></TT>, <TT><FONT FACE="Courier">POPp</FONT></TT>,
+and <TT><FONT FACE="Courier">POPn</FONT></TT> macros are great
+for getting items off the stack one at a time. To get the individual
+items in the stack though, you have to use the <TT><FONT FACE="Courier">ST()</FONT></TT>
+macros. Basically, <TT><FONT FACE="Courier">ST(n)</FONT></TT>
+returns the <I>n</I>th item from the top of the stack. However,
+you have to adjust the number of items on the stack yourself.
+<P>
+Listing 26.13 illustrates how the stack will look using the <TT><FONT FACE="Courier">ST</FONT></TT>
+macros with a different function. Line 39 is where the <TT><FONT FACE="Courier">ST(i)</FONT></TT>
+macro is used. The stack length is adjusted in lines 35 and 36.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.13. Using the </B><TT><B><FONT FACE="Courier">ST</FONT></B></TT><B>
+macros.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 /* demonstration C program */
+<BR>
+&nbsp;2 /* Using the ST macros.*/<BR>
+&nbsp;3<BR>
+&nbsp;4 #include &lt;stdio.h&gt;<BR>
+&nbsp;5 #include &lt;EXTERN.h&gt;<BR>
+&nbsp;6 #include &lt;perl.h&gt;<BR>
+&nbsp;7<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static void squares(int a);
+<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static PerlInterpreter *my_perl;
+<BR>
+10<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int main(int argc, char **argv,
+char **env)<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_perl
+= perl_alloc();<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_construct(my_perl);
+<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_parse(my_perl,
+NULL, argc, argv, env);<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getRatio(8);<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_destruct(my_perl);
+<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_free(my_perl);
+<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+20<BR>
+21<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;static void Squares(int a)<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dSP ;
+<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I32 ax;<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int i;<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count
+;<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENTER
+;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAVETMPS;
+<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUSHMARK(sp)
+;<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPUSHs(sv_2mortal(newSViv(a)));
+<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUTBACK
+;<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count
+= perl_call_pv(&quot;squares&quot;, G_ARRAY);<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPAGAIN
+;<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sp -=
+count ;<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ax = (sp
+- stack_base) + 1 ;&nbsp;&nbsp;&nbsp;/* adjust the stack */<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (count
+!= 2) croak(&quot;Whoa! \n&quot;) ;<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i
+= 0; i &lt; count; i++)<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;%d &quot;, SvIV(ST(i))) ;<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PUTBACK
+;<BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FREETMPS
+;<BR>
+42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE
+;<BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">for</FONT></TT> loop recovers only
+as many values as are on the stack. If you do not want to adjust
+the stack, you can remove lines 35 and 36 from this code and replace
+the code in lines 38 and 39 with this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">for (i = 0; i &lt; count; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;%d &quot;, POPi) ;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Of course, the choice of which type of function to use is entirely
+up to you.
+<H2><A NAME="EvaluatingPerlExpressions"><B><FONT SIZE=5 COLOR=#FF0000>Evaluating
+Perl Expressions</FONT></B></A></H2>
+<P>
+In addition to calling Perl code, you can also use the <TT><FONT FACE="Courier">eval</FONT></TT>
+function to directly evaluate a Perl statement. This lets you
+use a C program by itself without having the need to declare the
+code for Perl elsewhere. By using C strings to hold your Perl
+programs, you can create entire applications using one C source
+file. Listing 26.14 presents a sample file.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.14. Using expressions in C.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #include &lt;stdio.h&gt;<BR>
+&nbsp;2 #include &lt;EXTERN.h&gt;<BR>
+&nbsp;3 #include &lt;perl.h&gt;<BR>
+&nbsp;4<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;static PerlInterpreter *my_perl;
+<BR>
+&nbsp;6<BR>
+&nbsp;7<BR>
+&nbsp;8 /*<BR>
+&nbsp;9 ** This is a wrapper around the eval call<BR>
+10 */<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;int evalExpression(char *evaluatedString)
+<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char *argv[2];<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argv[0] = evaluatedString;
+<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argv[1] = NULL;<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_call_argv(&quot;_eval_&quot;,
+0, argv);<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+18<BR>
+19 main (int argc, char **argv, char **env)<BR>
+20 {<BR>
+21<BR>
+22 /*<BR>
+23 ** Plain code to do some parsing.<BR>
+24 */<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char *codeToUse[] = { &quot;&quot;,
+&quot;-e&quot;, &quot;sub _eval_ { eval $_[0] }&quot; };<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STRLEN length;<BR>
+27<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_perl = perl_alloc();
+<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_construct( my_perl
+);<BR>
+30<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;** Fake out the call by creating
+your own argc, argv, and env<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_parse(my_perl, NULL,
+3, codeToUse, env);<BR>
+35<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evalExpression(&quot;$x
+= 3; $y = 2; $rho= sqrt($x * $x + $y * $y);&quot;);<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;x = %d, y =
+%d and rho = %f \n&quot;,<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SvIV(perl_get_sv(&quot;x&quot;,
+FALSE)),<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SvIV(perl_get_sv(&quot;y&quot;,
+FALSE)),<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SvNV(perl_get_sv(&quot;rho&quot;,
+FALSE)));<BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evalExpression(&quot;$wisdom
+<BR>
+42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 'Able was I ere I saw
+Elba'; $wisdom = reverse($wisdom); &quot;);<BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;wisdom = %s\n&quot;,
+SvPV(perl_get_sv(&quot;wisdom&quot;, FALSE), length));<BR>
+44<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evalExpression(&quot;$wisdom
+= 'I ran a mile today, and said \<BR>
+46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Here Lady Take your purse'; $wisdom
+= reverse($wisdom); &quot;);<BR>
+47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot; %s\n&quot;,
+SvPV(perl_get_sv(&quot;wisdom&quot;, FALSE), length));<BR>
+48<BR>
+49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evalExpression(&quot;$joke
+= 'I was walking down the street when something<BR>
+50 caught my eye and dragged it twenty feet'; $joke = uc($joke);
+&quot;);<BR>
+51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;%s\n&quot;,
+SvPV(perl_get_sv(&quot;joke&quot;, FALSE), length));<BR>
+52<BR>
+53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_destruct(my_perl);
+<BR>
+54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_free(my_perl);<BR>
+55&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here's the output from running this program:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">x = 3, y = 2 and rho = 3.605551<BR>
+wisdom = ablE was I ere I saw elbA<BR>
+&nbsp;esrup ruoy ekaT ydaL ereH dias dna ,yadot elim a nar I</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">I WAS WALKING DOWN THE STREET WHEN SOMETHING
+<BR>
+CAUGHT MY EYE AND DRAGGED IT TWENTY FEET</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Now let's look at some of the lines of relevance in the listing.
+Lines 11 through 17 define a function that will serve as the wrapper
+around the Perl <TT><FONT FACE="Courier">eval()</FONT></TT> function.
+Basically, the function <TT><FONT FACE="Courier">evalExpression</FONT></TT>
+takes one string as an argument, creates an argument vector, and
+then calls the <TT><FONT FACE="Courier">_eval_</FONT></TT> function
+with this newly created argument vector.
+<P>
+Then in line 25 we actually define the <TT><FONT FACE="Courier">_eval_</FONT></TT>
+function as if it was typed on the command line. The text is preserved
+in the string variable <TT><FONT FACE="Courier">codeToUse</FONT></TT>.
+The <TT><FONT FACE="Courier">perl_parse</FONT></TT> function is
+then called with the <TT><FONT FACE="Courier">codeToUse</FONT></TT>
+string and a length of <TT><FONT FACE="Courier">3</FONT></TT>
+arguments as <TT><FONT FACE="Courier">argc</FONT></TT>. The environment
+is passed in verbatim.
+<P>
+At line 36 we test out how to use integers and floating point
+numbers in a calculation. Note how the returned values are extracted
+by naming functions without <TT><FONT FACE="Courier">$</FONT></TT>.
+The <TT><FONT FACE="Courier">$</FONT></TT> is automatically prepended
+to the variable name; therefore, you should not use it explicitly.
+If you prepend <TT><FONT FACE="Courier">$</FONT></TT> yourself,
+the value of the variable <TT><FONT FACE="Courier">$$var</FONT></TT>,
+not <TT><FONT FACE="Courier">$var</FONT></TT>, will be extracted.
+<P>
+Strings are probably where you'll benefit the most when using
+Perl functions from within C. Lines 42 through 51 show examples
+of how to call Perl functions to reverse and change the case of
+some strings. Note how the strings can cross multiple lines.
+<P>
+Actually, you can put in entire Perl functions instead of these
+calls and have the <TT><FONT FACE="Courier">eval</FONT></TT> operator
+work on these functions as strings. This enables you to create
+very powerful applications using the power of each of the languages
+(C and Perl).
+<H2><A NAME="PatternMatchesandSubstitutions"><B><FONT SIZE=5 COLOR=#FF0000>Pattern
+Matches and Substitutions from Your C Program</FONT></B></A></H2>
+<P>
+It's possible to use the Perl interpreter to do pattern matches
+and string substitutions from within C code. Pattern matches in
+Perl are easy when compared with the same process in C. This is
+one area where you can use Perl to make up for the lack of pattern
+matching and string substitution features in C. Here's a definition
+of two functions in C that use the Perl interpreter:
+<UL>
+<LI><TT><FONT FACE="Courier">int match(char *inputString, char
+*matchString)</FONT></TT>
+<LI>This function takes an input string, and attempts to match
+it with the pattern in <TT><FONT FACE="Courier">matchString</FONT></TT>.
+The <TT><FONT FACE="Courier">matchString</FONT></TT> is a string
+with a regular pattern in it; for example, <TT><FONT FACE="Courier">&quot;/Gumb[oy]/&quot;</FONT></TT>
+or <TT><FONT FACE="Courier">&quot;/[Dd]onald/&quot;</FONT></TT>.
+Be careful when using double quotes within patterns because you'll
+have to escape them with a backslash (<TT><FONT FACE="Courier">&quot;\&quot;</FONT></TT>).
+<LI><TT><FONT FACE="Courier">int substitute(char *inputString,
+char *substitution)</FONT></TT>
+<LI>This function takes an input string followed by a substitution
+operation such as <TT><FONT FACE="Courier">&quot;s/courage/stupidity/&quot;</FONT></TT>
+or <TT><FONT FACE="Courier">&quot;s/ition/ate/g&quot;</FONT></TT>.
+The <TT><FONT FACE="Courier">inputString</FONT></TT> will be modified
+if any substitution is made.
+</UL>
+<P>
+Listing 26.15 presents the code to define and use these functions.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 26.15. Using pattern matching and substitution in C.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;1 /*<BR>
+&nbsp;&nbsp;2 ** Using the Perl interpreter to do pattern matching
+<BR>
+&nbsp;&nbsp;3 ** and string substitution.<BR>
+&nbsp;&nbsp;4 */<BR>
+&nbsp;&nbsp;5 #include &lt;stdio.h&gt;<BR>
+&nbsp;&nbsp;6 #include &lt;EXTERN.h&gt;<BR>
+&nbsp;&nbsp;7 #include &lt;perl.h&gt;<BR>
+&nbsp;&nbsp;8<BR>
+&nbsp;&nbsp;9 /* Undefine this to see how it all works. */<BR>
+&nbsp;10 #define KDEBUG 1<BR>
+&nbsp;11<BR>
+&nbsp;12 static PerlInterpreter *my_perl;<BR>
+&nbsp;13<BR>
+&nbsp;14 /*<BR>
+&nbsp;15 ** A wrapper around the Perl eval statement<BR>
+&nbsp;16 */<BR>
+&nbsp;17 int doExpression(char *string)<BR>
+&nbsp;18 {<BR>
+&nbsp;19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char *argv[2];<BR>
+&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argv[0] = string;
+<BR>
+&nbsp;21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argv[1] = NULL;<BR>
+&nbsp;22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_call_argv(&quot;_eval_&quot;,
+0, argv);<BR>
+&nbsp;23 }<BR>
+&nbsp;24<BR>
+&nbsp;25 /*<BR>
+&nbsp;26 ** A global to this program since I am too lazy to use
+mallocs<BR>
+&nbsp;27 */<BR>
+&nbsp;28 static char command[256];<BR>
+&nbsp;29<BR>
+&nbsp;30<BR>
+&nbsp;31 /*<BR>
+&nbsp;32 ** Do a pattern match<BR>
+&nbsp;33 */<BR>
+&nbsp;34 char match(char *string, char *pattern)<BR>
+&nbsp;35 {<BR>
+&nbsp;36 sprintf(command, &quot;$string = '%s'; <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $return = $string =~ %s&quot;,
+string, pattern);<BR>
+&nbsp;37 #ifdef KDEBUG<BR>
+&nbsp;38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf (&quot; %s&quot;,
+command);<BR>
+&nbsp;39 #endif<BR>
+&nbsp;40 doExpression(command);<BR>
+&nbsp;41 return SvIV(perl_get_sv(&quot;return&quot;, FALSE));
+<BR>
+&nbsp;42 }<BR>
+&nbsp;43<BR>
+&nbsp;44 /*<BR>
+&nbsp;45 ** Do a string substitution<BR>
+&nbsp;46 */<BR>
+&nbsp;47 int substitute(char *string, char *pattern)<BR>
+&nbsp;48 {<BR>
+&nbsp;49 char&nbsp;&nbsp;&nbsp;*bfptr = command;<BR>
+&nbsp;50 STRLEN length;<BR>
+&nbsp;51 sprintf(command, &quot;$string = '%s'; $ret = ($string
+=~ %s)&quot;,string,pattern);<BR>
+&nbsp;52<BR>
+&nbsp;53 #ifdef KDEBUG<BR>
+&nbsp;54 printf (&quot; %s&quot;, command);<BR>
+&nbsp;55 #endif<BR>
+&nbsp;56<BR>
+&nbsp;57 doExpression(command);<BR>
+&nbsp;58 bfptr = (char *) SvPV(perl_get_sv(&quot;string&quot;,
+FALSE), length);<BR>
+&nbsp;59 strcpy(string,bfptr);<BR>
+&nbsp;60 return SvIV(perl_get_sv(&quot;ret&quot;, FALSE));<BR>
+&nbsp;61 }<BR>
+&nbsp;62<BR>
+&nbsp;63<BR>
+&nbsp;64 /*<BR>
+&nbsp;65 ** The main program itself.<BR>
+&nbsp;66 */<BR>
+&nbsp;67 main (int argc, char **argv, char **env)<BR>
+&nbsp;68 {<BR>
+&nbsp;69 char *embedding[] = { &quot;&quot;, &quot;-e&quot;, &quot;sub
+_eval_ { eval $_[0] }&quot; };<BR>
+&nbsp;70 STRLEN length;<BR>
+&nbsp;71 char *text;<BR>
+&nbsp;72 int i,j;<BR>
+&nbsp;73<BR>
+&nbsp;74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my_perl = perl_alloc();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*
+Allocate the interpreter */<BR>
+&nbsp;75&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_construct( my_perl
+); /* Call the constructor */<BR>
+&nbsp;76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* Fake the call to the
+script to use */<BR>
+&nbsp;77&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_parse(my_perl,
+NULL, 3, embedding, env);<BR>
+&nbsp;78<BR>
+&nbsp;79&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*<BR>
+&nbsp;80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;** Do the loop<BR>
+&nbsp;81&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<BR>
+&nbsp;82<BR>
+&nbsp;83&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (1) {<BR>
+&nbsp;84&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doExpression(&quot;$reply
+= &lt;STDIN&gt;; chop $reply;&quot;);<BR>
+&nbsp;85&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = SvPV(perl_get_sv(&quot;reply&quot;,
+FALSE), length);<BR>
+&nbsp;86&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;reply
+= %s\n&quot;, text);<BR>
+&nbsp;87<BR>
+&nbsp;88&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(match(text, &quot;/[Qq]uit|[Ee]xit/&quot;)) /* Bail out? */<BR>
+&nbsp;89&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+<BR>
+&nbsp;90&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(match(text, &quot;/[Cc]om/&quot;))<BR>
+&nbsp;91&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+<BR>
+&nbsp;92&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;match:
+Text contains the word 'com'\n\n&quot;);<BR>
+&nbsp;93&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;substitute(text,
+&quot;s/com/commercial/g&quot;);<BR>
+&nbsp;94&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;\nAfter
+substitution = %s\n&quot;, text);<BR>
+&nbsp;95&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+&nbsp;96&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+<BR>
+&nbsp;97&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;match:
+Text doesn't contain the word Com.\n\n&quot;);<BR>
+&nbsp;98<BR>
+&nbsp;99&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+/* while loop ends */<BR>
+100<BR>
+101&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*<BR>
+102&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;** Clean up after yourself.<BR>
+103&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<BR>
+104&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_destruct(my_perl);
+<BR>
+105&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;perl_free(my_perl);<BR>
+106 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The program is derived from the code in Listing 26.14. Most of
+the constructs are the same with the exception of the global command
+buffer declared at line 28. You might want to consider using <TT><FONT FACE="Courier">malloc</FONT></TT>s
+within functions for a more complicated application. The <TT><FONT FACE="Courier">KDEBUG</FONT></TT>
+flag is set to 1 so as to show how the command strings are constructed.
+You can comment out the code in line 10 for a less verbose output.
+<P>
+The <TT><FONT FACE="Courier">match</FONT></TT> function is defined
+at line 34. The command string is constructed at line 36 with
+the command executed at line 40. The value of the <TT><FONT FACE="Courier">$return</FONT></TT>
+string is returned. The <TT><FONT FACE="Courier">$return</FONT></TT>
+contains the first matched pattern and will be empty if no matches
+are found. If <TT><FONT FACE="Courier">$return</FONT></TT> is
+empty, <TT><FONT FACE="Courier">0</FONT></TT> will be returned.
+<P>
+The substitute function is defined at line 47. A command string
+is constructed at line 51 using the global &quot;command&quot;
+buffer. At line 58, we retrieve the value of the <TT><FONT FACE="Courier">$ret</FONT></TT>
+variable after the substitution has been made, and we overwrite
+this new string onto the input string. The length of the new string
+is returned at line 60. The bulk of the work in the program is
+being done in lines 83 to 99 during the <TT><FONT FACE="Courier">while</FONT></TT>
+loop. At line 84, we collect an input string from the user and
+point to it with the text <TT><FONT FACE="Courier">char *pointer</FONT></TT>.
+Then we match the incoming string to see whether we have to exit
+in line 88 and break out of the loop if there is a match. At line
+91, we search for another pattern and, if found, substitute a
+string in the input pattern.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+This chapter shows ways of incorporating the Perl interpreter
+into your C code. Writing a makefile involves getting the correct
+paths to the libraries. The <TT><FONT FACE="Courier">ExtUtils::embed</FONT></TT>
+module can help you get these paths. The C code that utilizes
+the Perl functions must initialize and maintain a <TT><FONT FACE="Courier">PerlInterpreter</FONT></TT>
+object. Calls from C into Perl have to maintain a stack on which
+values are sent into and retrieved from functions. Both scalar
+and array values can be returned from Perl functions, and the
+calling routine has to be aware of how to handle these inputs.
+The Perl functions being called can either reside on disk or can
+be embedded in C strings. When combining code from both these
+languages, you have to balance the division to get the most out
+of each language by using their strong points. For example, use
+Perl for string manipulation and use C for coding complex operations
+involving calculations.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch25.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch25.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch27.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch27.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

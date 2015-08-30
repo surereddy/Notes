@@ -1,0 +1,1431 @@
+﻿|-------------------------------
+|- FAQ
+|---------------------------------
+||- How to tell the daemon process by a listening port?
+E.g. How to tell which daemon process is listening in port 8080
+
+ps -ef| awk '{print $2}'| xargs -I '{}' sh -c 'echo examining process {}; pfiles {}| grep 8080'
+
+You will see port 8080 in the output, and the process id before the output is the id you are looking for.
+
+examining process 1434
+examining process 1424
+examining process 1436
+examining process 1438
+examining process 9524
+        sockname: AF_INET 10.250.169.42  port: 8080
+        peername: AF_INET 10.250.169.42  port: 8080
+        sockname: AF_INET 10.250.169.42  port: 8080
+        sockname: AF_INET 10.250.169.42  port: 8080
+        sockname: AF_INET 10.250.169.42  port: 8080
+        sockname: AF_INET 10.250.169.42  port: 8080
+        sockname: AF_INET 10.250.169.42  port: 8080
+        sockname: AF_INET 10.250.169.42  port: 8080
+        sockname: AF_INET 10.250.169.42  port: 8080
+        sockname: AF_INET 10.250.169.42  port: 8080
+        sockname: AF_INET 10.250.169.42  port: 8080
+examining process 5069
+examining process 7690
+examining process 1440
+examining process 1442
+examining process 1444
+...
+
+
+But in linux, it is easy:
+netstat -anp |grep 8080 |grep -i listen
+
+
+||- How to kill pts login sessin (ssh, telnet etc.)
+-bash-3.2# who
+testuser   pts/2        Dec 16 15:35    (szhoulinux.global.tektronix.net)
+geo        pts/8        Dec 25 23:05    (w-shdc-jxie.global.tektronix.net)
+geo        pts/6        Dec 25 22:42    (w-shdc-ljiang1a.global.tektronix.net)
+-bash-3.2#  pkill -9 -t pts/2
+-bash-3.2# who
+testuser   pts/3        Dec 16 15:40    (szhoulinux.global.tektronix.net)
+geo        pts/8        Dec 25 23:05    (w-shdc-jxie.global.tektronix.net)
+geo        pts/6        Dec 25 22:42    (w-shdc-ljiang1a.global.tektronix.net)
+
+||- How to check which process is using a port? 
+more pid.sh 
+cd /proc
+for i in *
+do
+echo ------ process $i ---------
+pfiles $i | grep -i "port: 8643"
+done
+
+- Jianmei
+
+or 
+Step one, getting PID of the process that is listening on port 12182
+iris@plno-gblade4-vms2:/export0/home/iris/tmp/lsof > sudo ./lsof -iTCP:12182
+COMMAND PID USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+java    122 iris   12u  IPv4 0xfffffea14aca1c00      0t0  TCP *:12182 (LISTEN)
+
+Step two, determining what process is running under PID 122:
+iris@plno-gblade4-vms2:/export0/home/iris/tmp/lsof > pargs 122
+122:    java -Dzookeeper.log.dir=/export0/home/iris/irisInstalls/zookeeper/bin/../logs
+argv[0]: java
+argv[1]: -Dzookeeper.log.dir=/export0/home/iris/irisInstalls/zookeeper/bin/../logs
+argv[2]: -Dzookeeper.root.logger=INFO,CONSOLE
+argv[3]: -cp
+argv[4]: /export0/home/iris/irisInstalls/zookeeper/bin/../build/classes:/export0/home/iris/irisInstalls/zookeeper/bin/../build/lib/*.jar:/export0/home/iris/irisInstalls/zookeeper/bin/../lib/slf4j-log4j12-1.6.1.jar:/export0/home/iris/irisInstalls/zookeeper/bin/../lib/slf4j-api-1.6.1.jar:/export0/home/iris/irisInstalls/zookeeper/bin/../lib/netty-3.2.2.Final.jar:/export0/home/iris/irisInstalls/zookeeper/bin/../lib/log4j-1.2.15.jar:/export0/home/iris/irisInstalls/zookeeper/bin/../lib/jline-0.9.94.jar:/export0/home/iris/irisInstalls/zookeeper/bin/../zookeeper-3.4.5.jar:/export0/home/iris/irisInstalls/zookeeper/bin/../src/java/lib/*.jar:/export0/home/iris/irisInstalls/zookeeper/bin/../conf:
+argv[5]: -Xmx2048m
+argv[6]: -Dcom.sun.management.jmxremote
+argv[7]: -Dcom.sun.management.jmxremote.local.only=false
+argv[8]: org.apache.zookeeper.server.quorum.QuorumPeerMain
+argv[9]: /export0/home/iris/irisInstalls/zookeeper/bin/../conf/nameServiceZk.conf
+
+- Maslyakov, Sergey
+
+||- How to configure DNS client in solaris?
+1. Create or modify /etc/resolv.conf
+~~~~~~~
+search global.tektronix.net
+search shpd.tek.com
+
+nameserver 192.158.120.14
+nameserver 128.181.8.62
+nameserver 193.221.132.199
+~~~~~~~
+
+2. Modify /etc/nsswitch.conf.
+Add dns to the line of hosts.
+~~~~~~~~
+# "hosts:" and "services:" in this file are used only if the
+# /etc/netconfig file has a "-" for nametoaddr_libs of "inet" transports.
+
+passwd:     files
+group:      files
+hosts:      files dns
+
+...
+~~~~~~~
+
+3. reboot
+
+4. check
+bash-3.2# nslookup www.google.com
+Server:         128.181.8.62
+Address:        128.181.8.62#53
+
+bash-3.2# ping cdc-hudson
+cdc-hudson is alive
+
+||- How to config NTP client in Solaris 11?
+http://www.c0t0d0s0.org/archives/7453-Configuring-an-NTP-client-in-Solaris-11.html
+
+# echo "server 0.pool.ntp.org" > /etc/inet/ntp.conf
+
+To manually updateL
+ntpdate  128.181.254.1
+ntpdate 10.250.163.247
+
+If it is maintenace mode, disable and enable it again.
+
+bash-3.2# ntpq -p
+ntpq: read: Connection refused
+
+bash-3.2# svcs ntp   
+STATE          STIME    FMRI
+maintenance    Jan_04   svc:/network/ntp:default
+bash-3.2# svcadm disable ntp
+bash-3.2# svcadm enable ntp
+bash-3.2# svcs ntp
+STATE          STIME    FMRI
+online         15:03:31 svc:/network/ntp:default
+
+bash-3.2# ntpq -p
+
+||- manual ntpdate fails
+root@sh-cloud-c2s3-iris4:/export0/home/geo > ntpdate  128.181.254.1
+19 Dec 10:32:45 ntpdate[16086]: the NTP socket is in use, exiting
+
+Resolution:
+Stop ntp first.
+
+bash-3.2# svcs |grep -i ntp
+online         10:32:47 svc:/network/ntp:default
+bash-3.2# svcadmin disalbe svc:/network/ntp:default
+bash-3.2# /usr/sbin/svcadm disable svc:/network/ntp:default
+bash-3.2# ntpdate  128.181.254.1
+19 Dec 15:50:46 ntpdate[21336]: step time server 128.181.254.1 offset 34.901783 sec
+
+Enable ntp service after that.
+svcadmin enable svc:/network/ntp:default
+
+||- Config two or more ip, ip alias, on one interface
+ifconfig bge0:1 plumb 135.251.214.200 netmask 255.255.255.0 up
+
+ifconfig bge0:1 unplumb
+
+||- route add/delete manually
+
+for net:
+route add -net 192.168.1.0 -netmask 255.255.255.0 192.168.50.52
+
+for 1 IP:
+route add 192.168.1.55 -netmask 255.255.255.0 192.168.5.52
+
+
+||- check if OS is 32 bits  or 64 bits
+使用isainfo -v命令
+
+
+　　如果是运行在32位模式下, 则有如下输出：
+
+　　32-bit sparc applications
+
+　　如果是运行在64位模式下, 则有如下输出：
+
+　　64-bit sparcv9 applications 
+
+　　32-bit sparc applications
+
+
+||- change ip
+1. /etc/hosts
+2. /etc/inet/ipnodes ; only needed in solaris 10
+3. /etc/netmasks
+4. /etc/defaultrouter ; Add it if not existing
+5. /etc/hostname.bge*
+6. #pkill -HUP inetd (prefered)
+or
+#shutdown –i6 –g0 –y 
+or
+#fsck –y
+#reboot
+
+
+or 
+ifconfig bge0 plumb
+ifconfig bge0 192.168.50.11 network 255.255.255.0 up
+
+||- solaris 10 interface not found in ifconfig -a
+Reason:
+selecting no network during OS installation.
+
+Solution: 
+ifconfig -a plumb
+
+
+||- Sun 老机器 fsck -y 失败（sylantro）
+
+Type control-d to proceed with normal startup,
+(or give root password for system maintenance): 
+
+mount -F ufs /dev/dsk/c0t1d0s0 /opt
+
+Sep 18 14:00:33 sylantro-cs scsi: WARNING: /pci@1f,4000/scsi@3/sd@1,0 (sd1):
+
+Sep 18 14:00:33 sylantro-cs     Error for Command: load/start/stop         Error Level: Retryable
+
+Sep 18 14:00:33 sylantro-cs scsi:       Requested Block: 0                         Error Block: 0
+
+Sep 18 14:00:33 sylantro-cs scsi:       Vendor: SEAGATE                            Serial Number:             
+
+Sep 18 14:00:33 sylantro-cs scsi:       Sense Key: Not Ready
+
+Sep 18 14:00:33 sylantro-cs scsi:       ASC: 0x4 (LUN not ready), ASCQ: 0x0, FRU: 0x2
+
+Sep 18 14:00:38 sylantro-cs scsi: WARNING: /pci@1f,4000/scsi@3/sd@1,0 (sd1):
+
+Sep 18 14:00:38 sylantro-cs     Error for Command: load/start/stop         Error Level: Retryable
+
+Sep 18 14:00:38 sylantro-cs scsi:       Requested Block: 0                         Error Block: 0
+
+Sep 18 14:00:38 sylantro-cs scsi:       Vendor: SEAGATE                            Serial Number:             
+
+Sep 18 14:00:38 sylantro-cs scsi:       Sense Key: Not Ready
+
+Sep 18 14:00:38 sylantro-cs scsi:       ASC: 0x4 (LUN not ready), ASCQ: 0x0, FRU: 0x2
+
+Sep 18 14:00:43 sylantro-cs scsi: WARNING: /pci@1f,4000/scsi@3/sd@1,0 (sd1):
+
+Solution:
+
+Type control-d to proceed with normal startup,
+(or give root password for system maintenance): 
+
+这里不要进maintenance,control-d就能正常起来。进了maintenance fsck反而不行。
+
+
+||- How to type filename WITH space in between?
+\ ,
+cd local\ setting.
+||- Add two gateways/router
+1. set one in defaultrouter like 192.168.50.1
+2. add another by 'route add 172.24.0.0 172.24.252.1'
+3. You can create a startup script for this command
+   3.1 create /etc/init.d/route_add
+       route add 172.24.0.0 172.24.252.1
+   3.2 ln -s /etc/init.d/route_add /etc/rc3.d/S900route_add
+
+bash-2.05# netstat -r
+
+Routing Table: IPv4
+  Destination           Gateway           Flags  Ref   Use   Interface
+-------------------- -------------------- ----- ----- ------ ---------
+10.10.10.0           mrfasbfsd01_bge1     U         1      0  bge1
+192.168.50.0         mrfasbfsd01          U         1     21  bge0
+224.0.0.0            mrfasbfsd01          U         1      0  bge0
+default              192.168.50.1         UG        1     27
+localhost            localhost            UH       10   1889  lo0
+
+       
+
+
+||-auto start service when system boots 
+
+　现在创建一个简单的服务器进程启动脚本。假设该进程的可执行文件为/sbin/sample_server,该进程将在运行水平3上启动，运行水平2上关闭。 
+　1　在/etc/init.d目录下创建一个启动脚本.将该脚本保存为文件/etc/init.d/my_server. 
+这个脚本如下所示: 
+
+#!/sbin/sh 
+case "$1" in 
+'start') 
+      if [ -f /sbin/sample_server ]; then 
+         /sbin/sample_server 
+      fi 
+      ;; 
+
+'stop') 
+      /usr/bin/pkill -x -u 0 sample_server 
+      ;; 
+
+*) 
+      echo "Usage: $0 { start | stop }" 
+      exit 1 
+      ;; 
+esac 
+exit 0 
+~ 
+~ 
+~ 
+~ 
+~ 
+  2  使用命令将脚本链接至启动和关闭目录 
+
+bash-2.03#ln -s /etc/init.d/sample_server /etc/rc3.d/S900my_server 
+bash-2.03#ln -s /etc/init.d/sample_server /etc/rc2.d/K900my_server 
+
+
+||- How to backup new files by find, tar?
+backup new files not folder
+find /cygdrive/d/projects -newer /cygdrive/i/backups/_project.full ! -type d -print0 | xargs -0 tar czf /cygdrive/i/backups/20070103_project.tgz
+
+||- How to clean all bak files?
+find . -name "*bak" -print0 2>/dev/null | xargs -0 rm
+;find -print0 and xargs -0 is to avoid the space problem is file or folder name. 
+;For example if find command finds peter xie/a.bak, then rm tries to remove folder peter and file xie/a.bak.
+;2>/dev/null is to not show the error like filename with ? or privilege problem. 
+
+||- check hostid
+type cmd
+hostid
+
+||-Mount Problem - error 'CANNOT READ: BLK' | 'BAD SUPER BLOCK: BAD VALUES IN SUPER BLOCK' | 'BAD SUPER BLOCK: MAGIC NUMBER WRONG'
+----------------------------------
+   'CANNOT READ: BLK' means disk error, try to reconfigure the bad partition, 
+   better to begin from another beginning point.
+   After that, maybe there is error 'BAD SUPER BLOCK: MAGIC NUMBER WRONG'. 
+   Then try to make create new file system on that disk by newfs.
+   Solution:
+   -. Login by console and reboot server, then server will stop in Control+d to continue normal startup 
+      or enter maintenance.
+   -. Enter maintenance and run fsck -y, then df -k to check. If failed, try fsck -y some more times
+   		If the partition is mounted, Control+d to continue normal startup, otherwise continue follows:
+   -. umount all directores which are the children path of the directory which can't not mounted.
+   		E.g. for OSP2.4 if /osp can't be mounted in /c1t0d0s6, you need to umount /osp/3rdpty and /osp/delivery. 
+   -.  reconfigure the bad partition
+      root#format
+      format>p ;partition
+      format>p ;print
+      format><bad partition> ;reconfigure
+      format>p ; print to check
+      format>label
+      format>q ;quit partition
+      format>type
+      format>save
+      format>q ;quit format
+    -. creat new file on the partition
+      eg. newfs /dev/dsk/c1t0d0s6
+    -. check /etc/vfstab
+    	cat /etc/vfstab
+    -. root#mount -a 
+    
+
+||-restart network
+;Don't use this. In my case, it configure network unsuccessfully and  changed the hostname to unknown 
+;and some environment and 
+/etc/rcS.d/S30network.sh
+
+||- IP is not stable(Conflict)?
+-ip conflict. There is warning in system log:
+'Hardware address '00:04:76:41:40:e8' trying to be our address 172.024.192.043!'
+
+||-Forget root password
+1. 光盘启动 stop+A or ctrl break进入ok提示后，boot cdrom -s
+2. mount UFS /dev/dsk/c0t0d0s0 /mnt
+3. vi /etc/shadow,删除root密码，新root密码为空
+root:D44QgsPSsbjnU:6445:::::: 
+=>root::6445:::::: 
+
+恢复口令操作如下： 
+采用SUN公司自带的光盘采取引导,建议采取这种方法： 
+1. 按stop＋A，〉boot cdrom -s 
+2. fsck /dev/dsk/c0t0d0s0 (取决于根分区的设备) 
+3. mount -F ufs /dev/dsk/c0t0d0s0 /mnt 
+4. TERM=ansi; export TERM 
+5. 编辑/mnt/etc/shadow文件，把root对应的口令去掉(如：root:8KBpXAc/LxlZI:6445::::::，将8KBpXAc/LxlZI去掉，注意冒号别删！）。 
+6. 重启后的root的口令为空
+
+||-[] not recognized in filename
+Because [] is sepecail character in unix.
+eg. voip321[1].tar.
+Solution: remove it in the filename.
+
+
+
+||- How to change Timezone
+For example, change CST(PRC) to JST(Japan).
+We only need to change from PRC to Japan. System will take care of CST, JST
+
+bluetooth1 root#/Asia.orig /usr/share/lib/zoneinfo/Asia                      
+bluetooth1 root#ls
+Asia        Etc         GMT+5       GMT-6       MET         Singapore
+Asia.orig   Factory     GMT+6       GMT-7       MST         Turkey
+Australia   GB          GMT+7       GMT-8       MST7MDT     UCT
+Brazil      GB-Eire     GMT+8       GMT-9       Mexico      US
+CET         GMT         GMT+9       Greenwich   Mideast     UTC
+CST6CDT     GMT+0       GMT-0       HST         NZ          Universal
+Canada      GMT+1       GMT-1       Hongkong    NZ-CHAT     W-SU
+Chile       GMT+10      GMT-10      Iceland     Navajo      WET
+Cuba        GMT+11      GMT-11      Iran        PRC         Zulu
+EET         GMT+12      GMT-12      Israel      PST8PDT     posixrules
+EST         GMT+13      GMT-2       Jamaica     Poland      src
+EST5EDT     GMT+2       GMT-3       Japan       Portugal
+Egypt       GMT+3       GMT-4       Kwajalein   ROC
+Eire        GMT+4       GMT-5       Libya       ROK
+bluetooth1 root#export TZ=Japan
+bluetooth1 root#date
+Sun Sep 10 16:38:17 JST 2006
+bluetooth1 root#vi /etc/TIMEZONE
+TZ=PRC --> Japan
+CMASK=022
+
+Note:
+If our "Indian Standard Time" zone information is not readily availble in the "/usr/share/lib/zoneinfo".
+So follow the following steps.
+1) As a root execute the following command.
+;asia is a zoneinfo file
+#zic /usr/share/lib/zoneinfo/asia
+This command(Zone Information Compiler)compiles the zone info present in the !!file!! called "asia" and 
+creates a !!directory!! called "/usr/share/lib/zoneinfo/Asia" under which there are files which contain the zone info of different Asian zones. "Calcutta" is what we need.
+2)Edit /etc/TIMEZONE file and set the TZ variable to "Asia/Calcutta" and reboot the system.
+
+||-How to enable history command by using up arrow?
+Actually only need to add following lines to ~/.profile 
+---------------------------
+set -o emacs
+alias __A=`echo "\020"`
+alias __B=`echo "\016"`
+alias __C=`echo "\006"`
+alias __D=`echo "\002"`
+alias __H=`echo "\001"`
+---------------------------
+
+||- How to add banner, welcome or warning message after user login by ssh / telnet / ftp ?
+
+- ssh
+vi /etc/wotd 
+(/etc/motd for linux)
+Oracle Corporation      SunOS 5.10      Generic Patch   January 2005
+
+sh-cloud-c2s4-iris1.shpd.tek.com:       Iris Main, OAM, policy, IPA, ISA(Master/Scheduler/decode), ITA(All models),  ZK
+
+
+- telnet 
+  #banner OSP23-50.7 ; print the banner with banner cmd and copy to issue or ftpd/banner.msg
+  #vi /etc/issue
+ #####  #     # #     #  #####  ####### ######  #     # ####### ######   #####
+#     # ##   ## ##   ## #     # #       #     # #     # #       #     # #     #
+#       # # # # # # # # #       #       #     # #     # #       #     #       #
+#       #  #  # #  #  #  #####  #####   ######  #     # #####   ######   #####
+#       #     # #     #       # #       #   #    #   #  #       #   #   #
+#     # #     # #     # #     # #       #    #    # #   #       #    #  #
+ #####  #     # #     #  #####  ####### #     #    #    ####### #     # #######
+
+WARNING:
+
+This is a private computer system and should only be accessed by authorised
+users. If you do not have prior authorisation to access this system you must
+disconnect immediately or face criminal prosecution for attempting to gain
+confidential information through unauthorised access.
+  
+- ftp
+  # vi /etc/ftpd/banner.msg
+
+||- How to change telnet(actually shell) connection timeout setting?
+  - **telnet(actually shell) connection timeout(inactive problem)**:
+   If you clone through telnet, there will be connection timeout and clone will fail if you 
+   don't touch the telnet windows for a long time.
+   Don't leave your pc for the long time disk clone
+   or use console connection to do it
+   or modify the system shell timeout parameter TMOUT in .profile.
+   You will have following error:
+   -----------------
+   shell will timeout in 60 seconds due to inactivity
+   ksh: timed out waiting for input
+   ------------------
+   If you are using putty, it will quit the window and become inactive if some process is running.
+   If you are using CRT, better, it press enter or reconnect to recover if it's not a very long time.
+   
+   Solution: Add or set TMOUT=360000 in ~/.profile. 
+
+||- How to send messages to other login users?
+cmmserver linus>who
+root       pts/1        Oct 28 21:01    (172.24.201.215)
+root       pts/2        Oct 28 21:05    (172.24.201.215)
+linus      pts/3        Oct 28 21:06    (172.24.201.215)
+cmmserver linus>write root [pts/2] ; message is written after connecting to the receiver.
+I am Jiping. How are you?
+
+The other party will see:
+  Message from linus on cmmserver (pts/3) [ Sat Oct 28 21:09:28 ] ...
+I am Jiping. How are you?
+
+If the other party want to reply, he needs to use command write linus and then they can talk.
+
+mesg
+选择是否接受他人的 messege , 若为 messege no 则他人的 messege 将无法
+传送给你，同时他也无法干扰你的工作。使用方法:
+mesg [-n| -y]
+
+||- Which network interfaces ? 
+vzs101 > cat /etc/path_to_inst | grep '/network' 
+"/node@1/pci@1f,700000/network@2" 0 "bge"   → bge0 
+"/node@1/pci@1f,700000/network@2,1" 1 "bge" → bge1 
+"/node@1/pci@1d,700000/network@2" 2 "bge"   → bge2 
+"/node@1/pci@1d,700000/network@2,1" 3 "bge" → bge3 
+
+||- check disk
+#format
+AVAILABLE DISK SELECTIONS: 
+       0. c1t0d0 <SUN36G cyl 24620 alt 2 hd 27 sec 107> 
+          /pci@1c,600000/scsi@2/sd@0,0 
+       1. c1t1d0 <SUN36G cyl 24620 alt 2 hd 27 sec 107> 
+          /pci@1c,600000/scsi@2/sd@1,0
+Specify disk (enter its number): ^D CTRL-D to quit 
+
+||- How to capture trace in unix in command line?
+snoop -o test.cap
+or 
+./tethereal -i bge0 -w example.cap
+or
+su -root
+tcpdump -w a.cap -i any -s 0 tcp host 192.168.50.15 port 9009
+;i interface 
+;tcp type
+
+||- How to configure the cluster alias
+ scrgadm -a -j psmf-bge1-lh -g smf-rg -h psmf-bge1
+-j resource name
+-g resource group
+-h cluster alias host in /etc/hosts
+
+|-------------------------------
+|-Note
+|-------------------------------
+||- OS version
+root@cmm # uname -a
+SunOS cmm 5.9 Generic_117171-08 sun4u sparc SUNW,Sun-Fire-V240
+root@cmm # cat /etc/release
+                        Solaris 9 4/04 s9s_u6wos_08a SPARC
+           Copyright 2004 Sun Microsystems, Inc.  All Rights Reserved.
+                        Use is subject to license terms.
+                             Assembled 22 March 2004
+
+||- enable remote login(telnet) by root
+vi /etc/default/login
+# If CONSOLE is set, root can only login on that device.
+# Comment this line out to allow remote login by root.
+#CONSOLE=/dev/console
+
+||- enable ftp for root
+for solaris 5.8
+#vi /etc/ftpusers or /etc/ftpd/ftpusers
+comment root
+#root
+
+for solaris 5.9 and 5.10
+#vi /etc/ftpd/ftpusers
+comment root
+#root
+
+||-Set default gateway
+temperary:
+route add default gateway 172.24.192.1
+or 
+route add default 172.24.192.1
+
+permanently:
+ create and vi /etc/defaultrouter
+ ;add the GW's ip, eg
+ 172.24.192.1
+
+
+||-OpenBoot auto boot
+;Enter the OpenBoot PROM:
+# init 0
+ok
+;enable auto boot
+;variable is auto-boot? not auto-boot
+ok setenv auto-boot? true 
+ok printenv auto-boot? ;check
+ok 
+
+
+
+-all (sun v240);reset for lower version. Save the setting.
+; system will reboot ... 
+
+
+
+||-mount cdrom
+/vol/dev/dsk/c0t0d0/sol_9_1203_sparc_2
+                       502M   502M     0K   100%    /cdrom/sol_9_1203_sparc_2
+                       
+#ps -ef|grep vold
+#kill -9 <process_id> ;kill vold if existing.
+#cd /dev/dsk
+#ls ; find the cdrom disk, it used to be c0t0d0s0.
+#mount -F hsfs /dev/dsk/c0t0d0s0 /cdrom
+
+||-eject cdrom
+-quit the cdrom dir
+ cd /
+-try two simple ways first
+ -run command #eject
+ - or press the cdrom pop out button
+-last way
+ -mount cdrom if it's not mounted.
+ -umount it
+ -then press the cdrom pop out button
+ 
+       
+||-mount
+check /etc/vfstab file
+bash-2.05# cat /etc/vfstab
+#device         device          mount           FS      fsck    mount   mount
+#to mount       to fsck         point           type    pass    at boot options
+#
+fd      -       /dev/fd fd      -       no      -
+/proc   -       /proc   proc    -       no      -
+/dev/dsk/c1t0d0s1       -       -       swap    -       no      -
+/dev/dsk/c1t0d0s0       /dev/rdsk/c1t0d0s0      /       ufs     1       no      -
+/dev/dsk/c1t0d0s3       /dev/rdsk/c1t0d0s3      /var    ufs     1       no      -
+/dev/dsk/c1t0d0s6       /dev/rdsk/c1t0d0s6      /osp    ufs     2       yes     -
+/dev/dsk/c1t0d0s5       /dev/rdsk/c1t0d0s5      /osp/3rdpty     ufs     2       yes     -
+/dev/dsk/c1t0d0s4       /dev/rdsk/c1t0d0s4      /osp/delivery   ufs     2       yes     -
+swap    -       /tmp    tmpfs   -       yes     -
+bash-2.05# mount -a
+bash-2.05# df -k
+Filesystem            kbytes    used   avail capacity  Mounted on
+/dev/dsk/c1t0d0s0    4374222 1531635 2798845    36%    /
+/proc                      0       0       0     0%    /proc
+mnttab                     0       0       0     0%    /etc/mnttab
+fd                         0       0       0     0%    /dev/fd
+/dev/dsk/c1t0d0s3    4133838  111627 3980873     3%    /var
+swap                 10067152      40 10067112     1%    /var/run
+swap                 10067160      48 10067112     1%    /tmp
+/dev/dsk/c1t0d0s4    2033311       9 1972303     1%    /osp/delivery
+/dev/dsk/c1t0d0s5    6198606      10 6136610     1%    /osp/3rdpty
+
+
+||-gdb
+bluetooth1 linus>file core
+core:           ELF 64-bit MSB core file SPARCV9 Version 1, from 'new_gnp_sep'
+bluetooth1 linus>ls -l *new_gnp*
+-rw-r--r--   1 linus    in       24784590 Dec  9 09:33 new_gnp_libso.tar
+-rwxrwx---   1 linus    in        199952 Dec  6 19:27 new_gnp_sep
+lrwxrwxrwx   1 linus    in            10 Dec  9 09:34 new_gnp_sep.script -> script.txt
+-rw-r--r--   1 linus    in        183681 Dec  9 09:33 new_gnp_sep.tar
+bluetooth1 linus>gdb new_gnp_sep core
+
+bluetooth1 linus>gdb new_gnp_sep core
+GNU gdb 6.0
+Copyright 2003 Free Software Foundation, Inc.
+
+||-Samba
+start after reboot
+#/usr/local/samba/sbin/nmbd –d
+#/usr/local/samba/sbin/smbd –d
+
+||-packet flow(网络端口流量) inquiry
+我现在找到一个统计Solaris网络端口流量的办法，但是只对输出输入的包大小比较稳定的情况有效，大家如果需要的话可以尝试用一下：
+ 
+第一步，查看特定网络端口的包流量：
+# netstat -I e1000g0 10
+命令的意思是隔10秒统计一下网口的包流量
+ 
+输出：
+    input   bge0      output           input  (Total)    output
+packets errs  packets errs  colls  packets errs  packets errs  colls
+44379   0     412293  0     0      88784   0     829168  0     0     
+44301   0     412139  0     0      88610   0     828804  0     0   
+.....
+ 
+上面的数据中，第一列是从网口e1000g0输入的包数目，第二列是输入的包错误数，第三列是输出的包数目，第四列是输出的包错误数
+如果我们要统计输出的流量，则可以取412139，最好能取平均值
+ 
+ 
+然后看输出的包大小：
+#snoop -S
+ 172.16.1.67 -> SPJKFF1      length: 1078  UDP D=32919 S=8000 LEN=1044
+     SPJKFF1 -> 172.16.2.27  length: 1078  UDP D=37178 S=8001 LEN=1044
+......
+ 
+本机是SPJKFF1，所以输出的包大小为1078 Bytes
+ 
+所以网口的输出流量为：
+（1078×8×412139）/10＝355.5 Mbps
+如果一路视频的带宽为1.67Mbps，则一共约有355.5/1.67=212路并发视频
+
+
+||- Disk Clone(dump)
+Supposed: clone new disk c1t2d0 from original c1t0d0 for OSP23
+******************
+Notes:
+  - For OSP24, /dev/dsk/c*t0d0s3 needs to be clone too, mounted in /var.
+  - !!!Use format to check the id of disk newfs cmd and clone after booting from cdrom, after when
+    the id of disk may be changed. 
+  - **telnet(actually shell) connection timeoute(inactive problem)**:
+   If you clone through telnet, there will be connection timeout and clone will fail if you 
+   don't touch the telnet windows for a long time.
+   Don't leave your pc for the long time disk clone
+   or use console connection to do it
+   or modify the system shell timeout parameter TMOUT in .profile.
+   You will have following error:
+   -----------------
+   shell will timeout in 60 seconds due to inactivity
+   ksh: timed out waiting for input
+   ------------------
+   If you are using putty, it will quit the window and become inactive if some process is running.
+   If you are using CRT, better, it press enter or reconnect to recover if it's not a very long time.
+   
+   Solution: Add or set TMOUT=360000 in ~/.profile. 
+   
+******************
+-| partion new disk with the same partiton as c1t0d0
+  ;size of the partition is not required the same, 
+   but must larger than the size of the content in the same partition of c1t0d0.
+  - format
+    -p->p->0->1->2->...
+    -lable
+    -q
+-| new file system
+  for all needed disks:
+  format ;check id
+  newfs /dev/rdsk/c1t2d0s0
+  newfs /dev/rdsk/c1t2d0s4
+  newfs /dev/rdsk/c1t2d0s5
+  newfs /dev/rdsk/c1t2d0s6
+
+-| boot from cdrom
+  init 0
+  boot cdrom -s
+-| clone disk with dump and restore cmd
+  - check the label id of disks, it may differs from what it is when booting from hard disk.
+    #format
+
+  c1t0d0s0:
+  ---------------------------------------
+  cd
+  mkdir /tmp/root/abc
+  mount /dev/dsk/c1t0d0s0 /tmp/root/abc
+  mount /dev/dsk/c1t2d0s0 /mnt
+  df -k ;check mount
+  cd /tmp/root/abc
+  ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+	cd
+	umount /mnt
+	umount /tmp/root/abc
+
+  c1t0d0s4(Only for OSP24):
+  ---------------------------------------
+  mount /dev/dsk/c1t0d0s3 /tmp/root/abc
+  mount /dev/dsk/c1t2d0s3 /mnt
+  df -k ;check mount
+  cd /tmp/root/abc
+  ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+	cd
+	umount /mnt
+	umount /tmp/root/abc
+	
+  c1t0d0s4:
+  ---------------------------------------
+  mount /dev/dsk/c1t0d0s4 /tmp/root/abc
+  mount /dev/dsk/c1t2d0s4 /mnt
+  df -k ;check mount
+  cd /tmp/root/abc
+  ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+	cd
+	umount /mnt
+	umount /tmp/root/abc
+
+  c1t0d0s5:
+  ---------------------------------------
+  mount /dev/dsk/c1t0d0s5 /tmp/root/abc
+  mount /dev/dsk/c1t2d0s5 /mnt
+  df -k ;check mount
+  cd /tmp/root/abc
+  ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+	cd
+	umount /mnt
+	umount /tmp/root/abc
+
+  c1t0d0s6:
+  ---------------------------------------
+  mount /dev/dsk/c1t0d0s6 /tmp/root/abc
+  mount /dev/dsk/c1t2d0s6 /mnt
+  df -k ;check mount
+  cd /tmp/root/abc
+  ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+	cd
+	umount /mnt
+	umount /tmp/root/abc
+	---------------------------------------
+
+-| modify config files
+;No need to use console line and cdrom
+# installboot /usr/platform/sun4u/lib/fs/ufs/bootblk /dev/rdsk/c1t2d0s0
+# mount /dev/dsk/c1t2d0s0 /mnt
+# df -k|grep /mnt
+# TERM=vt100;export TERM
+# cd /mnt/etc/lvm ; ls
+devpath     md.cf       md.tab      mdlogd.cf
+lock        md.ctlrmap  mddb.cf     runtime.cf
+
+;Modify vfstab and system if the original disk is a mirrored one, while you use only one disk without disk mirror in
+;the new platform.
+;Remove the mirror disk info, otherwise system can't start up withe error like "can't load root at /pseudo/md@0:0,10,blk".
+;But sometimes it works even you don't modify these two files, like original CMM SLEE1 in Japan Willcom project.
+;It has mirror configuration but can works with only one disk. If you type metastat, it will say disk1 ok, disk2 need maintenance.
+# vi /mnt/etc/vfstab ;
+
+    mirrored disk(OSP23):
+    ---------------------------
+    #device         device          mount           FS      fsck    mount   mount
+    #to mount       to fsck         point           type    pass    at boot options
+    #
+    #/dev/dsk/c1d0s2 /dev/rdsk/c1d0s2 /usr          ufs     1       yes     -
+    fd      -       /dev/fd fd      -       no      -
+    /proc   -       /proc   proc    -       no      -
+    /dev/md/dsk/d20 -       -       swap    -       no      -
+    /dev/md/dsk/d10 /dev/md/rdsk/d10        /       ufs     1       no      -
+    /dev/md/dsk/d50 /dev/md/rdsk/d50        /in     ufs     2       yes     -
+    /dev/md/dsk/d30 /dev/md/rdsk/d30        /in/oracle      ufs     2       yes     -
+    /dev/md/dsk/d40 /dev/md/rdsk/d40        /indelivery     ufs     2       yes     -
+    swap    -       /tmp    tmpfs   -       yes     -
+    
+    
+    one disk(OSP23):
+    ---------------------------
+    #device         device          mount           FS      fsck    mount   mount
+    #to mount       to fsck         point           type    pass    at boot options
+    #
+    #/dev/dsk/c1d0s2 /dev/rdsk/c1d0s2 /usr          ufs     1       yes     -
+    fd      -       /dev/fd fd      -       no      -
+    /proc   -       /proc   proc    -       no      -
+    /dev/dsk/c1t0d0s1       -       -       swap    -       no      -
+    /dev/dsk/c1t0d0s0       /dev/rdsk/c1t0d0s0      /       ufs     1       no      
+    -
+    /dev/dsk/c1t0d0s6       /dev/rdsk/c1t0d0s6      /in     ufs     2       yes     
+    -
+    /dev/dsk/c1t0d0s4       /dev/rdsk/c1t0d0s4      /in/oracle      ufs     2       
+    yes     -
+    /dev/dsk/c1t0d0s5       /dev/rdsk/c1t0d0s5      /indelivery     ufs     2       
+    yes     -
+    swap    -       /tmp    tmpfs   -       yes     -
+    -------------
+    
+# vi /mnt/etc/system ;don't modify if you use the same server and same number of disks(hardware).
+
+    mirrored disk(OSP23)
+    -------------------
+    * set:
+    *
+    *       Set an integer variable in the kernel or a module to a new value.
+    *       This facility should be used with caution.  See system(4).
+    * ...
+    *
+    *               set test_module:debug = 0x13
+    
+    * Begin MDD root info (do not edit)
+    forceload: misc/md_trans
+    forceload: misc/md_raid
+    forceload: misc/md_hotspares
+    forceload: misc/md_sp
+    forceload: misc/md_stripe
+    forceload: misc/md_mirror
+    forceload: drv/pcisch
+    forceload: drv/glm
+    forceload: drv/sd
+    rootdev:/pseudo/md@0:0,10,blk
+    * End MDD root info (do not edit)
+    * Begin MDD database info (do not edit)
+    set md:mddb_bootlist1="sd:7:16 sd:7:1050 sd:7:2084 sd:15:16 sd:15:1050"
+    set md:mddb_bootlist2="sd:15:2084"
+    * End MDD database info (do not edit)
+    # Modifications below this line done during C2O solaris install
+    set shmsys:shminfo_shmmax=2147483648
+    set shmsys:shminfo_shmmin=1
+    set shmsys:shminfo_shmmni=1024
+    set shmsys:shminfo_shmseg=256
+    set semsys:seminfo_semmnu=100
+    set semsys:seminfo_semmni=512
+    set semsys:seminfo_semmsl=510
+    set semsys:seminfo_semmns=20700
+    set semsys:seminfo_semopm=100
+    set semsys:seminfo_semvmx=32767
+    set rlim_fd_cur=1024
+    set rlim_fd_max=1024
+    set nopanicdebug=1
+    forceload: misc/obpsym
+    # Modification Ended
+    -------------
+    
+    one disk(OSP23):
+    remove mdd and all forceload info(including the last one in the bottom).
+    -------------------
+    * set:
+    *               set test_module:debug = 0x13
+    
+    * Begin MDD root info (do not edit)
+    *forceload: misc/md_trans
+    *forceload: misc/md_raid
+    *forceload: misc/md_hotspares
+    *forceload: misc/md_sp
+    *forceload: misc/md_stripe
+    *forceload: misc/md_mirror
+    *forceload: drv/pcisch
+    *forceload: drv/glm
+    *forceload: drv/sd
+    *rootdev:/pseudo/md@0:0,10,blk
+    * End MDD root info (do not edit)
+    * Begin MDD database info (do not edit)
+    *set md:mddb_bootlist1="sd:7:16 sd:7:1050 sd:7:2084 sd:15:16 sd:15:1050"
+    *set md:mddb_bootlist2="sd:15:2084"
+    * End MDD database info (do not edit)
+    *Modifications below this line done during C2O solaris install
+    set shmsys:shminfo_shmmax=2147483648
+    set shmsys:shminfo_shmmin=1
+    set shmsys:shminfo_shmmni=1024
+    set shmsys:shminfo_shmseg=256
+    set semsys:seminfo_semmnu=100
+    set semsys:seminfo_semmni=512
+    set semsys:seminfo_semmsl=510
+    set semsys:seminfo_semmns=20700
+    set semsys:seminfo_semopm=100
+    set semsys:seminfo_semvmx=32767
+    set rlim_fd_cur=1024
+    set rlim_fd_max=1024
+    set nopanicdebug=1
+    *forceload: misc/obpsym
+    *Modification Ended
+    ------------
+
+#cd umount /mnt
+
+-| How to change ip address?
+modify :
+ /etc/hosts -> /etc/inet/hosts
+ /etc/netmasks  -> /etc/inet/netmasks
+ /etc/defaultrouter
+ /etc/hostname.bge0 (only if you use different interface) # It writes the hostname.
+
+- backup 
+  # mount /dev/dsk/c1t3d0s0 /mnt
+  # cd /mnt 
+  #ls -l etc/hosts ; It links to the current system's absolute directory.
+  ;/etc/inet/hosts
+  
+  #cp /mnt/etc/inet/hosts /mnt/etc/inet/hosts.orig ; back up the new system's directory, not /etc/inet/hosts!!!
+  #cp /mnt/etc/inet/netmasks /mnt/etc/inet/netmasks.orig
+  #cp /mnt/etc/defaultrouter /mnt/etc/defaultrouter.orig
+  
+- modify the files as follows:
+  #vi /mnt/etc/inet/hosts 
+  #vi /mnt/etc/inet/netmasks 
+  #vi /mnt/etc/defaultrouter
+
+Then reboot server to take effort.
+If you change only IP address, not Gateway, you can run following command to just restart network.
+svcadm restart network/physical
+
+||- Disk clone (dd easy)
+
+boot -s
+
+#dd is clone, dump is data copy
+#copy the whole disk s2
+dd if=/dev/rdsk/c1t0d0s2 of=/dev/rdsk/c1t1d0s2 bs=20480k &
+
+# every 3 seconds
+iostat -xcn 3
+
+
+#shutdown
+; sync executes the sync system primitive. If the system is to
+; be  stopped,  sync  must  be  called  to  insure file system
+; integrity. It will flush  all  previously  unwritten  system
+; buffers  out  to disk, thus assuring that all file modifica-
+; tions up to that  point  will  be  saved. 
+sync
+halt
+
+||- SC(bios)
+Default user: admin
+I set password 12345678 for the spare v240.
+
+||-计划任务
+|||-at
+输入了 at 命令后，它将等待您输入要在指定时间运行的命令。可以输入任意多的命令，这些命令将作为 Shellscript 执行。
+要终止输入，请使用 Control+d。 
+
+voipcmm@cmm $ at 14:55
+at> rm *txt
+at> <EOT>
+commands will be executed using /bin/ksh
+job 1156488900.a at Fri Aug 25 14:55:00 2006
+you have mail in /var/mail/voipcmm
+
+voipcmm@cmm $ at 14:58
+at> rm *txt
+at> <EOT>
+commands will be executed using /bin/ksh
+job 1156489080.a at Fri Aug 25 14:58:00 2006
+
+voipcmm@cmm $ at -l
+1156488900.a    Fri Aug 25 14:55:00 2006
+1156489080.a    Fri Aug 25 14:58:00 2006
+
+voipcmm@cmm $ at -r 1156489080.a
+
+voipcmm@cmm $ at -l
+1156488900.a    Fri Aug 25 14:55:00 2006
+voipcmm@cmm $
+
+|||-cron crontab
+e.g.
+su - voipcmm
+crontab -e
+0 0,12 * * * cd /export/home/voipcmm/cmm/log;rm *eln >>crontab.log
+0 0,12 * * * /export/home/voipcmm/cmm/log/removelog.sh  >>crontab.log
+crontab -l
+
+That's it. If fail, following below steps.
+-----------------
+su - root
+# ps -ef|grep cron
+    root   821     1  0 19:20:40 ?        0:00 cron
+kill -9 821 ;stop cron
+rm /etc/cron.d/FIFO ; optional, delete it before restart cron only if there's FIFO existing error.
+su - voipcmm ; change user
+set EDITOR=/usr/bin/vi ;use vi to edit cron table
+[/usr/bin/]crontab -e ;edit the user's schedule jobs as blow
+############begin############
+0 0,12 * * * cd /export/home/voipcmm/cmm/log;rm *eln >>crontab.log
+############end############
+su - root
+[/usr/sbin/]cron   ;run cron to schedule all users' jobs.
+su - voipcmm ; change to the user to check the jobs, every user has his own jobs.
+crontab -l ; check the user's  jobs
+0 0,12 * * * cd /export/home/voipcmm/cmm/log;rm *eln >>crontab.log
+-----------------
+
+
+计划定期执行的任务
+
+为了定期执行，要设置一个 cron 表（称为 crontab），以定义每个命令执行的间隔和顺序。该文件的格式是这样的，
+每个命令占单独的一行，每行包括六个字段，如下所示：
+minute hour day month dayofweek command
+
+应根据以下规则使用数字进行时间指定：
+Minute：0-59 
+Hour：0-23 
+Day：1-31 
+Month：1-12 
+Day：0-6（其中 0 是星期日） 
+对于任何字段，都可以指定单个数字、用逗号分隔的数字列表或星号（指示应匹配任何值）。 
+通过指定时间，只要匹配当前时间，就会执行命令。例如，通过指定以下时间：0 * * * * do-something，命令将在当前时间的分钟值为 0 时（例如整点时）执行。
+而指定以下时间：0 23 * * * do-something，命令将在每晚 11 点时运行。
+如果指定多个值，则会对每个值进行匹配。例如，要每 15 分钟执行一次命令，请使用以下语句： 
+
+0,15,30,45 * * * * do-something
+或者，可以通过使用以下命令指定命令从星期一到星期五每六个小时运行一次： 
+
+0 0,6,12,18 * * 1,2,3,4,5 do-something
+
+
+上述语句会覆盖信息，因此，如果希望保持较长时间的记录，请使用追加： 
+1 1 * * * do-something >>/var/logs/do-something.log
+要忽略输出，请重定向到特殊的 /dev/null 设备。对于标准输出，请尝试使用以下语句：
+1 1 * * * do-something >/dev/null
+ 
+
+
+||-ip/interface add
+reboot the server to make sure the new interface is configured.
+If only use ifconfig to configure the interface , the configuratin will lost after reboot.
+
+|-------------------------------
+|-CMD
+|-------------------------------
+
+||-common
+
+mkfile 15g /export0/swap15 ; Create a file with specified size
+
+du -sk * ;check all first-level subfolder size 
+ls -F; show executive file with *
+
+echo $# ; 参数个数
+echo $1 ；第一个参数
+echo $? ；上一次函数的返回值
+@cv0008537n1 ~/tmp
+$ cat tmp.txt
+echo $#
+echo $2
+echo test
+
+@cv0008537n1 ~/tmp
+$ sh tmp.txt 1 2t
+2
+2t
+test
+
+
+
+#xntpd
+xntpd:Unix network time protocol deamon
+used to Sychronize the time of server and client
+
+#netstat -r; show router 
+
+# /etc/init.d/inetsvc stop
+# /etc/init.d/inetsvc start
+# fsck -y; (check filesystem, answer yes automaticly for repair)
+
+ok boot cdrom -s 
+# fsck /dev/dsk/c0t0d0s0 (取决于根分区的设备)
+# mount -F ufs /dev/dsk/c0t0d0s0 /mnt 
+
+# shutdown -y -g0 -i6 ; restart system
+
+#init 0
+ok setenv auto-boot? true
+ok reset-all ;save and reboot
+
+#uptime ; show the uptime and login users number         
+
+ 	
+#prtconf|grep Mem ;show memory
+#vmstat -p ;show vm
+#swapon -s ;show swap
+#top ; use top to check memory
+
+
+
+# netstat -anc
+;c continuiously
+sa233@linux-viss1:~/VissApp> netstat -anc|grep 2009
+tcp        0      0 :::2009                 :::*                    LISTEN
+tcp        0      0 :::2009                 :::*                    LISTEN
+tcp        0      0 :::2009                 :::*                    LISTEN
+tcp        0      0 :::2009                 :::*                    LISTEN
+tcp        0      0 :::2009                 :::*                    LISTEN
+
+
+; check process as well
+[root@cmmws openldap]# netstat -lptn
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name
+tcp        0      0 0.0.0.0:389                 0.0.0.0:*                   LISTEN      5291/slapd
+tcp        0      0 192.168.100.240:6666        0.0.0.0:*                   LISTEN      2412/sipsubsystem.b
+
+
+wc - Counts the lines, words, characters, and bytes in a file
+  wc [-c|-m] [-lw] [file...]
+ 	default: lines, words, characters
+ 	-l: lines
+ 	-w: words
+
+
+||- snoop  to dump interface capture
+
+bash-3.2# which snoop
+/usr/sbin/snoop
+bash-3.2# snoop --help
+snoop: illegal option -- help
+
+Usage:  snoop
+        [ -a ]                  # Listen to packets on audio
+        [ -d device ]           # Listen on interface named device
+        [ -s snaplen ]          # Truncate packets
+        [ -c count ]            # Quit after count packets
+        [ -P ]                  # Turn OFF promiscuous mode
+        [ -D ]                  # Report dropped packets
+        [ -S ]                  # Report packet size
+        [ -i file ]             # Read previously captured packets
+        [ -o file ]             # Capture packets in file
+        [ -n file ]             # Load addr-to-name table from file
+        [ -N ]                  # Create addr-to-name table
+        [ -t  r|a|d ]           # Time: Relative, Absolute or Delta
+        [ -v ]                  # Verbose packet display
+        [ -V ]                  # Show all summary lines
+        [ -p first[,last] ]     # Select packet(s) to display
+        [ -x offset[,length] ]  # Hex dump from offset for length
+        [ -C ]                  # Print packet filter code
+        [ -q ]                  # Suppress printing packet count
+        [ -r ]                  # Do not resolve address to name
+
+        [ filter expression ]
+
+Example:
+        snoop -o saved  host fred
+
+        snoop -i saved -tr -v -p19
+
+||- /usr/ucb/ps v.s. /usr/bin/ps (default)
+/usr/ucb/ps -auxww : shows the full command of a process
+/usr/bin/ps -ef :  don't show the full command of a process
+
+e.g. 
+iris@alice-vm4:/export0/home/iris > /usr/ucb/ps -auxww | grep -i irisInstalls/current/isaInstance
+iris     26935  0.1  1.6832996492788 ?        S   Sep 27 21:42 /usr/jdk/iris/usr/jdk/instances/jdk1.6.0/bin/amd64/java -Dnop -DheartbeatConfig=/export0/home/iris/irisInstalls/current/heartbeat.xml -XX:+UseParallelGC -XX:+UseParallelOldGC -XX:MaxTenuringThreshold=31 -XX:+UseBiasedLocking -Xms512m -Xmx1024m -XX:MaxPermSize=512m -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -XX:ErrorFile=/tmp/iris_IRIS_ISA_hserrorpid.log -Djava.awt.headless=true -DirisRootJbossHostname=alice-vm4 -DirisLicensePath=/export0/home/iris/.iris -Disa.instance.hostname=alice-vm4 -Disa.instance.http.port=11300 -Dlog4j.configuration=file:///export0/home/iris/irisInstalls/current/isaInstance/instance1/appconf/log4j.xml -Djava.library.path=/export0/home/iris/irisInstalls/apr/lib:/export0/home/iris/irisInstalls/ssl64/lib:/usr/lib/64:/usr/local/lib -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.endorsed.dirs=/export0/home/iris/irisInstalls/tomcat/apache-tomcat-7.0.23.TEK/endorsed -classpath /export0/home/iris/irisInstalls/current/isaInstance/instance1/appconf:/export0/home/iris/irisInstalls/tomcat/apache-tomcat-7.0.23.TEK/bin/bootstrap.jar:/export0/home/iris/irisInstalls/tomcat/apache-tomcat-7.0.23.TEK/bin/tomcat-juli.jar -Dcatalina.base=/export0/home/iris/irisInstalls/current/isaInstance/instance1 -Dcatalina.home=/export0/home/iris/irisInstalls/tomcat/apache-tomcat-7.0.23.TEK -Djava.io.tmpdir=/export0/home/iris/irisInstalls/current/isaInstance/instance1/temp org.apache.catalina.startup.Bootstrap start
+
+||- How to check when the system is reboot?
+bash-3.2# last |grep -i boot |more
+reboot    system boot                   Tue Oct  9 10:59
+reboot    system down                   Tue Oct  9 10:58
+reboot    system boot                   Tue Oct  2 22:52
+reboot    system down                   Tue Oct  2 22:51
+
+
+||- sum for checksum
+sum filename
+
+||- How to check process memory and CPU usage
+1. prstat
+
+on solaris like top:
+prstat -a ; check all processes with total per user
+prstat -p <process id or id list>
+prstat -s CPU ; sort by CPU, it is default sorting
+prstat -s size ; memory: Sort by size of process image
+prstat -s rss; memory: Sort by resident set size.
+prstat -t; total per user
+prstat -c; Print new reports  below  previous  reports  instead  of overprinting them.
+prstat -u <user id>; print one user only.
+
+
+prstat <interval> <count>, e.g. prstat 60 1 ; print every 60 seconds, and continue 1 time. 
+	Note: without <count> it will never end until a terminal signal (^+C etc.) is received.  
+
+||-check system CPU memory info
+#psrinfo -v ; see CPU
+Status of virtual processor 0 as of: 11/18/05 16:56:03
+  on-line since 11/09/05 16:07:27.
+  The sparcv9 processor operates at 1336 MHz,
+        and has a sparcv9 floating point processor.
+
+#prtconf|grep Mem ;show memory
+         	
+
+
+||- sync
+; sync executes the sync system primitive. If the system is to
+; be  stopped,  sync  must  be  called  to  insure file system
+; integrity. It will flush  all  previously  unwritten  system
+; buffers  out  to disk, thus assuring that all file modifica-
+; tions up to that  point  will  be  saved. 
+sync
+
+||- egrep
+egrep -i "type|ram" text.txt
+ramSize: 4GB
+type: Hornet I
+
+
+||- grep 
+
+The following exit values are returned:
+     0        One or more matches were found.
+     1        No matches were found.
+And the exit values are stored in system variable $?!!!
+
+example:
+PAT=118815-03 ; showrev -p|grep $PAT;echo "$PAT is $?">>checkpatch.log 
+
+If patch is installed, 
+"118815-03 is 0" is appended in checkpatch.log.
+
+ 
+
+
+||-gunzip  *gz
+gunzip  httpd-2.0.59.tar.gz
+
+||- cp -p 
+-p keep original info date right.
+
+||-shell principle "" '' `` $ $()
+- '' means all are character string
+  eg. echo '$PATH'
+      $PATH
+- "" : $, \, `` inside "" have their functions, and others are character string.
+  eg. echo "$PATH\\bin" ;PATH=\usr
+      \usr\bin
+- `` : command input as string
+  eg. echo "asd `hostname`"
+- $ : You "" to enbrace the variable if needed
+  eg. firstname="xie"
+      echo "$firstname"jiping ; no " " for the whole string
+      xiejiping            
+  Note: Wrong examples:
+   echo ""$firstname"jiping" : means "" + $firstname + "jiping"
+   echo ($firstname)jiping or $(firstname)jiping : syntax error
+- $(): same as ``
+
+||- xargs
+see find
+-0 
+Input  items  are  terminated  by a null character instead of by
+whitespace, and the quotes and backslash are not special  (every
+character is taken literally). 
+
+Note that the arguement transmitted by xargs is always thought as the last one in the following command.
+Eg.find . -name "*.txt" |xargz tar cvf newfile.tar      ;tar  cvf newfile.tar *.txt
+   find . -name "file.txt" |xargz mv oldfile.txt   ; = mv oldfile.txt file.txt
+     
+||-find
+\( must separated by space.
+-o: or
+-ctime: change within 1 day (to be confirm)
+su240rd20 linus>find . \( -name '*.log' -o -name '*.TRA' \) -ctime -1 |xargs ls
+./TOC.log
+su240rd20 linus>find . \( -name '*.log' -o -name '*.TRA' \) -ctime -1 |xargs rm
+
+find . -name asb 2>/dev/null
+don't display the error like no right to access.
+NO space between 2 and >.
+
+$ find . -name "*bak" -print0 2>/dev/null | xargs -0 rm
+
+$ find . -name "new2.txt" -newer new.txt
+./new2.txt
+$ ls -l
+total 0
+-rw-rw-rw-    1 jipingxi mkgroup         0 Jan  3 10:41 new.txt
+-rw-rw-rw-    1 jipingxi mkgroup         0 Jan  3 10:42 new2.txt
+
+backup new files
+find /cygdrive/d/projects -newer /cygdrive/i/backups/_project.full ! -type d -print0 | xargs -0 tar czf /cygdrive/i/backups/20070103_project.tgz
+
+||-shutdown
+#init 0 | init 5
+ok power-off
+
+||-ok
+help category-name
+help command-name
+
+||- for
+|||- variable
+for i in $('ls')
+or  $(ls)
+or `ls` ; "`" is not "'".
+
+||-snoop
+snoop -o /in/tmp/ifconfig.eth -d bge0 ;catch ip package on bge0 and save as ifconfig.eth,which can be opened by ethereal.
+snoop -d bge0 > /in/tmp/ifconfig.eth ; output in character lines
+
+
+
+||-replace in batch
+Replace the all string 192.168.100.113 with 192.168.0.112 in all files in current directory.
+
+for i in *
+do
+sed -e 's/192.168.100.113/192.168.0.112/g' $i > tempFile
+
+mv -f tempFile $i
+done
+
+
+||- sum -r 
+sum -r liblib_platform_sli.so.
+
+30695    969 liblib_platform_sli.so
+
+||- locate *xterm*
+much faster and easier than find
+
+||- dos2unix 
+
+||- tcpdump
+If no -w file.cap, it output in windows.
+see 
+su -root
+tcpdump -w a.cap -i any -s 0 tcp host 192.168.50.15 port 9009
+;i interface 
+;tcp type
+
+|-----------
+|-diagnosis
+|-----------
+
+
+||-sys log
+file: /var/adm/messages
+ /dev/sysmsg
+/var/sadm
+
+The directory is configured in /etc/syslog.conf
+
+||-IP
+#netstat -r :router table to check gateway
+traceroute ip: check router
+|-------------------------------
+|-vi /gvim
+|-------------------------------
+||-vi
+ctrl+g: line location
+u: undo
+o: add one line
+yy:copy
+p:paste
+
+||-gvim
+
+better than vi
+can open too long line 

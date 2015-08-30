@@ -1,0 +1,42 @@
+﻿|- 自动登陆Suse，不再提示public key
+
+1.首先产生ssh2的秘匙对,我选择使用RSA加密.
+　　Generate your key in SecureCRT (Global Options -> SSH2 -> Create Identity File) in RSA format
+   passPhase不填。
+　　
+　　2.在linux服务器上建立.ssh目录,如果你以前已经在正常使用ssh1了,那就这一步可以不做,比如我这里要用root帐户使用ssh2
+　　mkdir /root/.ssh
+　　chmod 700 /root/.ssh
+　　
+　　3.把生成的 Identity.pub 传到linux服务器上,如果你已经在用SecureCrt,可以参考《SecureCRT来上传和下载数据》
+　　C:\Documents and Settings\peter_hey\Application Data\VanDyke\Identity.pub
+
+　　4.导入公匙
+　　ssh-keygen -X -f Identity.pub >> /root/.ssh/authorized_keys2 
+　　
+　　ok,就这么简单，大家不妨试验一下。
+
+|- sftp modify local path in realtime
+sftp> lcd D:\Projects\a_UniViSS_CT_SHRI_CDMA_test\Test\trace\OK
+
+|- Chinese charater display issue
+Description:
+UTF-8 cann't be displayed in CRT screen.
+
+Solution：
+session options-> Appearance->Charater
+
+
+|- download and upload through sz, rz
+download from server:
+root# sz <filename>
+The files are downloaded and saved in "D:\Program Files\SecureCRT\upload"
+Notes: It's in upload folder!
+
+Upload to server:
+Menu->Transfer:
+1. Zmodem upload list: add files.
+2. Start Zmodem Upload or type rz in command line:
+   root# rz
+   
+|-    

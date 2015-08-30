@@ -1,0 +1,2523 @@
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="----=_NextPart_01CA1420.3DAD3170"
+
+This document is a Web archive file.  If you are seeing this message, this means your browser or editor doesn't support Web archive files.  For more information on the Web archive format, go to http://officeupdate.microsoft.com/office/webarchive.htm
+
+------=_NextPart_01CA1420.3DAD3170
+Content-Location: file:///C:/AAFACDA9/COMMITTRANSACTION(Transact-SQL).htm
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="us-ascii"
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
+w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml"
+xmlns:o=3D"urn:schemas-microsoft-com:office:office"
+xmlns:w=3D"urn:schemas-microsoft-com:office:word"
+xmlns=3D"http://www.w3.org/TR/REC-html40">
+
+<head id=3D"ctl00_Head1">
+<meta http-equiv=3DContent-Type content=3D"text/html; charset=3Dus-ascii">
+<meta name=3DProgId content=3DWord.Document>
+<meta name=3DGenerator content=3D"Microsoft Word 10">
+<meta name=3DOriginator content=3D"Microsoft Word 10">
+<link rel=3DFile-List href=3D"COMMITTRANSACTION(Transact-SQL)_files/filelis=
+t.xml">
+<link rel=3DEdit-Time-Data
+href=3D"COMMITTRANSACTION(Transact-SQL)_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>COMMIT TRANSACTION (Transact-SQL)</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>peter_hey</o:Author>
+  <o:LastAuthor>peter_hey</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>0</o:TotalTime>
+  <o:Created>2009-08-03T01:53:00Z</o:Created>
+  <o:LastSaved>2009-08-03T01:53:00Z</o:LastSaved>
+  <o:Pages>4</o:Pages>
+  <o:Words>1760</o:Words>
+  <o:Characters>10036</o:Characters>
+  <o:Company>Tektronix, Inc.</o:Company>
+  <o:Lines>83</o:Lines>
+  <o:Paragraphs>23</o:Paragraphs>
+  <o:CharactersWithSpaces>11773</o:CharactersWithSpaces>
+  <o:Version>10.6626</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Compatibility>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Courier;
+	panose-1:2 7 4 9 2 2 5 2 4 4;
+	mso-font-charset:0;
+	mso-generic-font-family:modern;
+	mso-font-format:other;
+	mso-font-pitch:fixed;
+	mso-font-signature:3 0 0 0 1 0;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-alt:\5B8B\4F53;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:3 135135232 16 0 262145 0;}
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:536871559 0 0 0 415 0;}
+@font-face
+	{font-family:"\@SimSun";
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:3 135135232 16 0 262145 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+h1
+	{mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:1;
+	font-size:25.0pt;
+	font-family:"Times New Roman";
+	font-weight:normal;}
+h2
+	{mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:2;
+	font-size:14.0pt;
+	font-family:"Times New Roman";
+	font-weight:bold;}
+h3
+	{mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:3;
+	font-size:13.0pt;
+	font-family:"Times New Roman";
+	font-weight:bold;}
+h4
+	{mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:4;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	font-weight:bold;}
+h5
+	{mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:5;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	font-weight:bold;}
+h6
+	{mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	mso-outline-level:6;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{color:#0033CC;
+	mso-text-animation:none;
+	text-decoration:none;
+	text-underline:none;
+	text-decoration:none;
+	text-line-through:none;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	mso-text-animation:none;
+	text-decoration:none;
+	text-underline:none;
+	text-decoration:none;
+	text-line-through:none;}
+p
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+pre
+	{margin-bottom:0in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:SimSun;}
+p.heading, li.heading, div.heading
+	{mso-style-name:heading;
+	margin-top:13.5pt;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+p.subheading, li.subheading, div.subheading
+	{mso-style-name:subheading;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+p.headercaptiontext, li.headercaptiontext, div.headercaptiontext
+	{mso-style-name:headercaptiontext;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:23.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:SimSun;
+	color:black;
+	font-weight:bold;}
+p.title, li.title, div.title
+	{mso-style-name:title;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:23.0pt;
+	font-family:Arial;
+	mso-fareast-font-family:SimSun;
+	color:black;
+	font-weight:bold;}
+p.proceduresubheading, li.proceduresubheading, div.proceduresubheading
+	{mso-style-name:proceduresubheading;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:13.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+p.parameter, li.parameter, div.parameter
+	{mso-style-name:parameter;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:Verdana;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:"Times New Roman";
+	font-style:italic;}
+p.resizablearea, li.resizablearea, div.resizablearea
+	{mso-style-name:resizablearea;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.rightpanel, li.rightpanel, div.rightpanel
+	{mso-style-name:rightpanel;
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:Verdana;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:"Times New Roman";}
+p.contentbar, li.contentbar, div.contentbar
+	{mso-style-name:contentbar;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.input, li.input, div.input
+	{mso-style-name:input;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+p.sentence, li.sentence, div.sentence
+	{mso-style-name:sentence;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	line-height:15.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.alternates, li.alternates, div.alternates
+	{mso-style-name:alternates;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	background:#CCFFCC;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.sentenceediting, li.sentenceediting, div.sentenceediting
+	{mso-style-name:sentenceediting;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	background:#FFF374;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.sentencechanged, li.sentencechanged, div.sentencechanged
+	{mso-style-name:sentencechanged;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	background:white;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	color:#006600;}
+p.sentencehighlight, li.sentencehighlight, div.sentencehighlight
+	{mso-style-name:sentencehighlight;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	background:#FFCC99;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	color:black;}
+p.topic, li.topic, div.topic
+	{mso-style-name:topic;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+span.selflink
+	{mso-style-name:selflink;
+	font-weight:bold;}
+span.code
+	{mso-style-name:code;
+	mso-ansi-font-size:12.5pt;
+	mso-bidi-font-size:12.5pt;
+	font-family:"Courier New";
+	mso-ascii-font-family:"Courier New";
+	mso-hansi-font-family:"Courier New";
+	mso-bidi-font-family:"Courier New";
+	color:#000066;}
+span.label
+	{mso-style-name:label;
+	font-weight:bold;}
+span.ui
+	{mso-style-name:ui;
+	font-weight:bold;}
+span.sub
+	{mso-style-name:sub;
+	vertical-align:sub;}
+span.sup
+	{mso-style-name:sup;
+	vertical-align:super;}
+span.big
+	{mso-style-name:big;
+	mso-ansi-font-size:13.5pt;
+	mso-bidi-font-size:13.5pt;}
+span.small
+	{mso-style-name:small;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;}
+span.tt
+	{mso-style-name:tt;
+	font-family:Courier;
+	mso-ascii-font-family:Courier;
+	mso-hansi-font-family:Courier;}
+p.NormalWeb1, li.NormalWeb1, div.NormalWeb1
+	{mso-style-name:"Normal \(Web\)1";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.resizablearea1, li.resizablearea1, div.resizablearea1
+	{mso-style-name:resizablearea1;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb2, li.NormalWeb2, div.NormalWeb2
+	{mso-style-name:"Normal \(Web\)2";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb3, li.NormalWeb3, div.NormalWeb3
+	{mso-style-name:"Normal \(Web\)3";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.topic1, li.topic1, div.topic1
+	{mso-style-name:topic1;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	line-height:140%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb4, li.NormalWeb4, div.NormalWeb4
+	{mso-style-name:"Normal \(Web\)4";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb5, li.NormalWeb5, div.NormalWeb5
+	{mso-style-name:"Normal \(Web\)5";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+span.typeparameter1
+	{mso-style-name:typeparameter1;
+	mso-ansi-font-size:23.0pt;
+	mso-bidi-font-size:23.0pt;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;
+	font-weight:bold;
+	font-style:normal;}
+span.cssubtitle1
+	{mso-style-name:cs_subtitle1;
+	mso-hide:none;
+	border:none windowtext 1.0pt;
+	mso-border-alt:none windowtext 0in;
+	padding:0in;}
+span.eclink1
+	{mso-style-name:eclink1;
+	font-family:Verdana;
+	mso-ascii-font-family:Verdana;
+	mso-hansi-font-family:Verdana;
+	mso-hide:none;
+	border:none windowtext 1.0pt;
+	mso-border-alt:none windowtext 0in;
+	padding:0in;}
+p.vb, li.vb, div.vb
+	{mso-style-name:vb;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	display:none;
+	mso-hide:all;}
+p.NormalWeb6, li.NormalWeb6, div.NormalWeb6
+	{mso-style-name:"Normal \(Web\)6";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.resizablearea2, li.resizablearea2, div.resizablearea2
+	{mso-style-name:resizablearea2;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb7, li.NormalWeb7, div.NormalWeb7
+	{mso-style-name:"Normal \(Web\)7";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb8, li.NormalWeb8, div.NormalWeb8
+	{mso-style-name:"Normal \(Web\)8";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.topic2, li.topic2, div.topic2
+	{mso-style-name:topic2;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	line-height:140%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb9, li.NormalWeb9, div.NormalWeb9
+	{mso-style-name:"Normal \(Web\)9";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb10, li.NormalWeb10, div.NormalWeb10
+	{mso-style-name:"Normal \(Web\)10";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+span.typeparameter2
+	{mso-style-name:typeparameter2;
+	mso-ansi-font-size:23.0pt;
+	mso-bidi-font-size:23.0pt;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;
+	font-weight:bold;
+	font-style:normal;}
+p.cs, li.cs, div.cs
+	{mso-style-name:cs;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	display:none;
+	mso-hide:all;}
+p.NormalWeb11, li.NormalWeb11, div.NormalWeb11
+	{mso-style-name:"Normal \(Web\)11";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.resizablearea3, li.resizablearea3, div.resizablearea3
+	{mso-style-name:resizablearea3;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb12, li.NormalWeb12, div.NormalWeb12
+	{mso-style-name:"Normal \(Web\)12";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb13, li.NormalWeb13, div.NormalWeb13
+	{mso-style-name:"Normal \(Web\)13";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.topic3, li.topic3, div.topic3
+	{mso-style-name:topic3;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	line-height:140%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb14, li.NormalWeb14, div.NormalWeb14
+	{mso-style-name:"Normal \(Web\)14";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb15, li.NormalWeb15, div.NormalWeb15
+	{mso-style-name:"Normal \(Web\)15";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+span.typeparameter3
+	{mso-style-name:typeparameter3;
+	mso-ansi-font-size:23.0pt;
+	mso-bidi-font-size:23.0pt;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;
+	font-weight:bold;
+	font-style:normal;}
+p.cpp, li.cpp, div.cpp
+	{mso-style-name:cpp;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	display:none;
+	mso-hide:all;}
+p.NormalWeb16, li.NormalWeb16, div.NormalWeb16
+	{mso-style-name:"Normal \(Web\)16";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.resizablearea4, li.resizablearea4, div.resizablearea4
+	{mso-style-name:resizablearea4;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb17, li.NormalWeb17, div.NormalWeb17
+	{mso-style-name:"Normal \(Web\)17";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb18, li.NormalWeb18, div.NormalWeb18
+	{mso-style-name:"Normal \(Web\)18";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.topic4, li.topic4, div.topic4
+	{mso-style-name:topic4;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	line-height:140%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb19, li.NormalWeb19, div.NormalWeb19
+	{mso-style-name:"Normal \(Web\)19";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb20, li.NormalWeb20, div.NormalWeb20
+	{mso-style-name:"Normal \(Web\)20";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+span.typeparameter4
+	{mso-style-name:typeparameter4;
+	mso-ansi-font-size:23.0pt;
+	mso-bidi-font-size:23.0pt;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;
+	font-weight:bold;
+	font-style:normal;}
+p.nu, li.nu, div.nu
+	{mso-style-name:nu;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb21, li.NormalWeb21, div.NormalWeb21
+	{mso-style-name:"Normal \(Web\)21";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.resizablearea5, li.resizablearea5, div.resizablearea5
+	{mso-style-name:resizablearea5;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb22, li.NormalWeb22, div.NormalWeb22
+	{mso-style-name:"Normal \(Web\)22";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb23, li.NormalWeb23, div.NormalWeb23
+	{mso-style-name:"Normal \(Web\)23";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.topic5, li.topic5, div.topic5
+	{mso-style-name:topic5;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	line-height:140%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb24, li.NormalWeb24, div.NormalWeb24
+	{mso-style-name:"Normal \(Web\)24";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb25, li.NormalWeb25, div.NormalWeb25
+	{mso-style-name:"Normal \(Web\)25";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+span.typeparameter5
+	{mso-style-name:typeparameter5;
+	mso-ansi-font-size:23.0pt;
+	mso-bidi-font-size:23.0pt;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;
+	font-weight:bold;
+	font-style:normal;}
+p.fs, li.fs, div.fs
+	{mso-style-name:fs;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	display:none;
+	mso-hide:all;}
+p.NormalWeb26, li.NormalWeb26, div.NormalWeb26
+	{mso-style-name:"Normal \(Web\)26";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.resizablearea6, li.resizablearea6, div.resizablearea6
+	{mso-style-name:resizablearea6;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb27, li.NormalWeb27, div.NormalWeb27
+	{mso-style-name:"Normal \(Web\)27";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb28, li.NormalWeb28, div.NormalWeb28
+	{mso-style-name:"Normal \(Web\)28";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.topic6, li.topic6, div.topic6
+	{mso-style-name:topic6;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	line-height:140%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb29, li.NormalWeb29, div.NormalWeb29
+	{mso-style-name:"Normal \(Web\)29";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb30, li.NormalWeb30, div.NormalWeb30
+	{mso-style-name:"Normal \(Web\)30";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+span.typeparameter6
+	{mso-style-name:typeparameter6;
+	mso-ansi-font-size:23.0pt;
+	mso-bidi-font-size:23.0pt;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;
+	font-weight:bold;
+	font-style:normal;}
+p.NormalWeb31, li.NormalWeb31, div.NormalWeb31
+	{mso-style-name:"Normal \(Web\)31";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:11.25pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.resizablearea7, li.resizablearea7, div.resizablearea7
+	{mso-style-name:resizablearea7;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb32, li.NormalWeb32, div.NormalWeb32
+	{mso-style-name:"Normal \(Web\)32";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb33, li.NormalWeb33, div.NormalWeb33
+	{mso-style-name:"Normal \(Web\)33";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.topic7, li.topic7, div.topic7
+	{mso-style-name:topic7;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:7.5pt;
+	margin-left:0in;
+	line-height:140%;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb34, li.NormalWeb34, div.NormalWeb34
+	{mso-style-name:"Normal \(Web\)34";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;}
+p.NormalWeb35, li.NormalWeb35, div.NormalWeb35
+	{mso-style-name:"Normal \(Web\)35";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:SimSun;
+	font-weight:bold;}
+span.typeparameter7
+	{mso-style-name:typeparameter7;
+	mso-ansi-font-size:23.0pt;
+	mso-bidi-font-size:23.0pt;
+	font-family:Arial;
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+	color:black;
+	font-weight:bold;
+	font-style:normal;}
+span.ccttitle1
+	{mso-style-name:cct_title1;
+	mso-hide:none;
+	border:none windowtext 1.0pt;
+	mso-border-alt:none windowtext 0in;
+	padding:0in;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:1874417681;
+	mso-list-template-ids:-1663287808;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1
+	{mso-list-id:2077312968;
+	mso-list-template-ids:253643666;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";}
+</style>
+<![endif]-->
+<meta content=3D"NOINDEX,NOFOLLOW" name=3DROBOTS>
+<meta content=3D"E0353D07-6:52:10 PM" name=3DMN>
+<meta content=3Den-us name=3Dms.locale>
+<meta content=3Dms190295 name=3DSearch.ShortId>
+<!-- Looking for metadata? Use the robot view instead http://currentsite/cu=
+rrenturl(robot).aspx -->
+<meta content=3D"/en-us/library(d=3Ddefault)/ms190295(l=3Den-us,v=3DSQL.100=
+).aspx"
+name=3DDCS.dcsuri>
+</LINK>
+<link media=3Dprint
+href=3D"http://msdn.microsoft.com/en-us/library/ms190295(printer).aspx"
+rel=3Dalternate>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body bgcolor=3Dwhite lang=3DEN-US link=3D"#0033CC" vlink=3Dpurple style=3D=
+'tab-interval:
+.5in' id=3D"ctl00_Mtps_body">
+
+<div class=3DSection1>
+
+<form id=3DaspnetForm name=3DaspnetForm>
+
+<div id=3Dcontents>
+
+<div id=3D"ctl00_LibFrame">
+
+<div id=3D"ctl00_raRight">
+
+<div>
+
+<div onmouseover=3D"ResetLanguagesMenuTimer(event);"
+onmouseout=3D"RequestHideLanguagesMenu();"
+id=3D"ctl00_DropDownFilter_Mtps_DropDownPopUp">
+
+<div>
+
+<p class=3DMsoNormal style=3D'vertical-align:top'><span style=3D'font-size:=
+8.0pt;
+font-family:Verdana;color:black'><br style=3D'mso-special-character:line-br=
+eak'>
+<![if !supportLineBreakNewLine]><br style=3D'mso-special-character:line-bre=
+ak'>
+<![endif]><o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+</span>
+
+<div>
+
+<div id=3D"ctl00_ctl00">
+
+<div>
+
+<p class=3DMsoNormal style=3D'vertical-align:top'><span style=3D'font-size:=
+8.0pt;
+font-family:Verdana;color:black'><script  type=3D"text/Javascript">
+var strConstLangFilterAll =3D"All";
+var strConstLangFilterMulti =3D"Multiple";
+var strConstLangFilterNone =3D"None";
+var strConstLangFilterText =3D"Language Filter";
+var oMTPS_DD_ImgArrow =3D document.getElementById("ctl00_DropDownFilter_MTP=
+S_DD_ImageArrow");
+var oMTPS_DD_PanelLink =3D document.getElementById("ctl00_DropDownFilter_Mt=
+ps_DropDownFilterText");
+var oMTPS_DD_Div =3D document.getElementById("ctl00_DropDownFilter_DropDown=
+FilterMain");
+var oMTPS_DD_PopUpDiv =3D document.getElementById("ctl00_DropDownFilter_Mtp=
+s_DropDownPopUp");
+</script><span id=3D"ctl00_altSelector">Other versions are also available f=
+or the
+following: <o:p></o:p></span></p>
+
+</div>
+
+<ul type=3Ddisc>
+ <li class=3DMsoNormal style=3D'color:black;mso-margin-top-alt:auto;margin-=
+bottom:
+     2.25pt;line-height:140%;mso-list:l1 level1 lfo2;tab-stops:list .5in;
+     vertical-align:top'><span style=3D'font-size:8.0pt;line-height:140%;
+     font-family:Verdana'><a
+     href=3D"http://msdn.microsoft.com/en-us/library/ms190295(SQL.90).aspx"
+     id=3D"ctl00_ctl02"
+     onclick=3D"javascript:Track('ctl00_ctl00|ctl00_ctl02',this);">SQL Serv=
+er
+     2005</a><o:p></o:p></span></li>
+</ul>
+
+</div>
+
+</span><!--starting processing-->
+
+<div>
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+SQL
+Server 2008 Books Online (June 2009)<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><b><span
+style=3D'font-size:15.0pt;line-height:140%;font-family:Verdana;mso-bidi-fon=
+t-family:
+Arial;color:black'>COMMIT TRANSACTION (Transact-SQL)<o:p></o:p></span></b><=
+/p>
+
+</div>
+
+<!--Content type: DocStudio. Transform: devdiv2mtps.xslt.--><span
+id=3DchangeHistory></span>
+
+<div id=3DmainSection>
+
+<div id=3DmainBody>
+
+<p style=3D'vertical-align:top'><span style=3D'font-size:8.0pt;font-family:=
+Verdana;
+color:black'>Marks the end of a successful implicit or explicit transaction=
+. If
+@@TRANCOUNT is 1, COMMIT TRANSACTION makes all data modifications performed
+since the start of the transaction a permanent part of the database, frees =
+the
+resources held by the transaction, and decrements @@TRANCOUNT to 0. If
+@@TRANCOUNT is greater than 1, COMMIT TRANSACTION decrements @@TRANCOUNT on=
+ly
+by 1 and the transaction stays active. <o:p></o:p></span></p>
+
+<p style=3D'vertical-align:top'><!--src=3D[..\local\05b1d166-d807-482c-891f=
+-30b3b6b58046.gif]--><span
+style=3D'font-size:8.0pt;font-family:Verdana;color:black'><!--[if gte vml 1=
+]><v:shapetype
+ id=3D"_x0000_t75" coordsize=3D"21600,21600" o:spt=3D"75" o:preferrelative=
+=3D"t"
+ path=3D"m@4@5l@4@11@9@11@9@5xe" filled=3D"f" stroked=3D"f">
+ <v:stroke joinstyle=3D"miter"/>
+ <v:formulas>
+  <v:f eqn=3D"if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn=3D"sum @0 1 0"/>
+  <v:f eqn=3D"sum 0 0 @1"/>
+  <v:f eqn=3D"prod @2 1 2"/>
+  <v:f eqn=3D"prod @3 21600 pixelWidth"/>
+  <v:f eqn=3D"prod @3 21600 pixelHeight"/>
+  <v:f eqn=3D"sum @0 0 1"/>
+  <v:f eqn=3D"prod @6 1 2"/>
+  <v:f eqn=3D"prod @7 21600 pixelWidth"/>
+  <v:f eqn=3D"sum @8 21600 0"/>
+  <v:f eqn=3D"prod @7 21600 pixelHeight"/>
+  <v:f eqn=3D"sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok=3D"f" gradientshapeok=3D"t" o:connecttype=3D"rect"/>
+ <o:lock v:ext=3D"edit" aspectratio=3D"t"/>
+</v:shapetype><v:shape id=3D"_x0000_i1054" type=3D"#_x0000_t75" alt=3D"Topi=
+c link icon"
+ style=3D'width:12pt;height:12pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image001.gif" o:=
+href=3D"http://i.msdn.microsoft.com/ms190295.05b1d166-d807-482c-891f-30b3b6=
+b58046(en-us,SQL.100).gif"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D16 height=3D16
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image001.gif" alt=3D"Topic lin=
+k icon"
+v:shapes=3D"_x0000_i1054"><![endif]><a
+href=3D"http://msdn.microsoft.com/en-us/library/ms177563.aspx"
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl02"
+onclick=3D"javascript:Track('ctl00_MTContentSelector1_mainContentContainer_=
+ctl00|ctl00_MTContentSelector1_mainContentContainer_ctl02',this);">Transact=
+-SQL
+Syntax Conventions</a><o:p></o:p></span></p>
+
+<div><!-- ApplyClick with current id -->
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+<!--[if gte vml 1]><v:shape
+ id=3D"_x0000_i1055" type=3D"#_x0000_t75" alt=3D"" style=3D'width:.75pt;hei=
+ght:.75pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" o:=
+href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" class=3D"LibC_o"=
+ v:shapes=3D"_x0000_i1055"><![endif]>&nbsp;Syntax
+<o:p></o:p></span></p>
+
+</div>
+
+<div><span id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl22_ctl00_=
+ctl00">
+
+<div id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl22_ctl00_ctl00_=
+"><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>COMMIT { TRAN | TRANSACTION } [ t=
+ransaction_name | @tran_name_variable ] ]<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>[ ; ]<o:p></o:p></span></pre></di=
+v>
+
+</div>
+
+</div>
+
+</span>
+
+<div><!-- ApplyClick with current id -->
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+<!--[if gte vml 1]><v:shape
+ id=3D"_x0000_i1056" type=3D"#_x0000_t75" alt=3D"" style=3D'width:.75pt;hei=
+ght:.75pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" o:=
+href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" class=3D"LibC_o"=
+ v:shapes=3D"_x0000_i1056"><![endif]>&nbsp;Arguments
+<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><em><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+transaction_name</span></em><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+ <o:p></o:p></span></p>
+
+<p style=3D'margin-left:.5in;line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+Is
+ignored by the SQL Server Database Engine. <em><span style=3D'font-family:V=
+erdana'>transaction_name</span></em>
+specifies a transaction name assigned by a previous BEGIN TRANSACTION. <em>=
+<span
+style=3D'font-family:Verdana'>transaction_name </span></em>must conform to =
+the
+rules for identifiers, but cannot exceed 32 characters. <em><span
+style=3D'font-family:Verdana'>transaction_name</span></em> can be used as a
+readability aid by indicating to programmers which nested BEGIN TRANSACTION=
+ the
+COMMIT TRANSACTION is associated with.<o:p></o:p></span></p>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><em><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+@tran_name_variable</span></em><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+ <o:p></o:p></span></p>
+
+<p style=3D'margin-left:.5in;line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+Is the
+name of a user-defined variable containing a valid transaction name. The
+variable must be declared with a <strong><span style=3D'font-family:Verdana=
+'>char</span></strong>,
+<strong><span style=3D'font-family:Verdana'>varchar</span></strong>, <stron=
+g><span
+style=3D'font-family:Verdana'>nchar</span></strong>, or <strong><span
+style=3D'font-family:Verdana'>nvarchar</span></strong> data type. If more t=
+han 32
+characters are passed to the variable, only 32 characters will be used; the
+remaining characters are truncated.<o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+<div><!-- ApplyClick with current id -->
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+<!--[if gte vml 1]><v:shape
+ id=3D"_x0000_i1057" type=3D"#_x0000_t75" alt=3D"" style=3D'width:.75pt;hei=
+ght:.75pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" o:=
+href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" class=3D"LibC_o"=
+ v:shapes=3D"_x0000_i1057"><![endif]>&nbsp;Remarks
+<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>It is the responsibility =
+of
+the Transact-SQL programmer to issue COMMIT TRANSACTION only at a point when
+all data referenced by the transaction is logically correct.<o:p></o:p></sp=
+an></p>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>If the transaction commit=
+ted
+was a Transact-SQL distributed transaction, COMMIT TRANSACTION triggers MS =
+DTC
+to use a two-phase commit protocol to commit all of the servers involved in=
+ the
+transaction. If a local transaction spans two or more databases on the same
+instance of the Database Engine, the instance uses an internal two-phase co=
+mmit
+to commit all of the databases involved in the transaction.<o:p></o:p></spa=
+n></p>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>When used in nested
+transactions, commits of the inner transactions do not free resources or ma=
+ke
+their modifications permanent. The data modifications are made permanent and
+resources freed only when the outer transaction is committed. Each COMMIT
+TRANSACTION issued when @@TRANCOUNT is greater than 1 simply decrements
+@@TRANCOUNT by 1. When @@TRANCOUNT is finally decremented to 0, the entire
+outer transaction is committed. Because <em><span style=3D'font-family:Verd=
+ana'>transaction_name</span></em>
+is ignored by the Database Engine, issuing a COMMIT TRANSACTION referencing=
+ the
+name of an outer transaction when there are outstanding inner transactions =
+only
+decrements @@TRANCOUNT by 1.<o:p></o:p></span></p>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>Issuing a COMMIT TRANSACT=
+ION
+when @@TRANCOUNT is 0 results in an error; there is no corresponding BEGIN
+TRANSACTION.<o:p></o:p></span></p>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>You cannot roll back a
+transaction after a COMMIT TRANSACTION statement is issued because the data
+modifications have been made a permanent part of the database.<o:p></o:p></=
+span></p>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>The Database Engine in SQL
+Server 2000 and later increments the transaction count within a statement o=
+nly
+when the transaction count is 0 at the start of the statement. In SQL Server
+version 7.0, the transaction count is always incremented regardless of the
+transaction count at the start of the statement. This can cause the value
+returned by @@TRANCOUNT in triggers to be lower in SQL Server 2000 and later
+than it is in SQL Server version 7.0.<o:p></o:p></span></p>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>In SQL Server 2000 and la=
+ter,
+if a COMMIT TRANSACTION or COMMIT WORK statement is executed in a trigger a=
+nd
+there is no corresponding explicit or implicit BEGIN TRANSACTION statement =
+at
+the start of the trigger, users may see different behavior than in SQL Serv=
+er
+version 7.0. Placing COMMIT TRANSACTION or COMMIT WORK statements in a trig=
+ger
+is not recommended.<o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+<div><!-- ApplyClick with current id -->
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+<!--[if gte vml 1]><v:shape
+ id=3D"_x0000_i1058" type=3D"#_x0000_t75" alt=3D"" style=3D'width:.75pt;hei=
+ght:.75pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" o:=
+href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" class=3D"LibC_o"=
+ v:shapes=3D"_x0000_i1058"><![endif]>&nbsp;Permissions
+<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>Requires membership in th=
+e <strong><span
+style=3D'font-family:Verdana'>public</span></strong> role.<o:p></o:p></span=
+></p>
+
+</div>
+
+</div>
+
+<div><!-- ApplyClick with current id -->
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+<!--[if gte vml 1]><v:shape
+ id=3D"_x0000_i1059" type=3D"#_x0000_t75" alt=3D"" style=3D'width:.75pt;hei=
+ght:.75pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" o:=
+href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" class=3D"LibC_o"=
+ v:shapes=3D"_x0000_i1059"><![endif]>&nbsp;Examples
+<o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>A. To commit a transactio=
+n.<o:p></o:p></span></p>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>This example deletes a job
+candidate.<o:p></o:p></span></p>
+
+<span id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl26_ctl00_ctl00=
+">
+
+<div id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl26_ctl00_ctl00_=
+">
+
+<div>
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+<a
+href=3D"javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_=
+ctl26_ctl00_ctl00');"
+title=3D"Copy Code"><span style=3D'font-size:12.0pt;line-height:140%;font-f=
+amily:
+"Times New Roman";border:none windowtext 1.0pt;mso-border-alt:none windowte=
+xt 0in;
+padding:0in'><o:p></o:p></span></a></span></p>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+class=3DMsoHyperlink><span style=3D'font-size:8.0pt;line-height:140%;font-f=
+amily:
+Verdana;border:none windowtext 1.0pt;mso-border-alt:none windowtext 0in;
+padding:0in'><a
+href=3D"javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_=
+ctl26_ctl00_ctl00');"
+title=3D"Copy Code">Copy Code </a></span></span><span style=3D'color:black'=
+><o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+<pre style=3D'line-height:140%;vertical-align:top;word-break:break-all;
+WORD-WRAP: break-word'
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl26_ctl00_ctl00"
+space=3Dpreserve><span style=3D'font-family:Verdana;color:black'>USE Advent=
+ureWorks;<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>BEGIN TRANSACTION;<o:p></o:p></sp=
+an></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>DELETE FROM HumanResources.JobCan=
+didate<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>&nbsp;&nbsp;&nbsp;&nbsp;WHERE Job=
+CandidateID =3D 13;<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>COMMIT TRANSACTION;<o:p></o:p></s=
+pan></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre></div>
+
+</span>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>B. To commit a nested
+transaction.<o:p></o:p></span></p>
+
+<p style=3D'line-height:140%;vertical-align:top'><span style=3D'font-size:8=
+.0pt;
+line-height:140%;font-family:Verdana;color:black'>This example creates a ta=
+ble,
+generates three levels of nested transactions, and then commits the nested
+transaction. Although each COMMIT TRANSACTION statement has a <em><span
+style=3D'font-family:Verdana'>transaction_name</span></em> parameter, there=
+ is no
+relationship between the COMMIT TRANSACTION and BEGIN TRANSACTION statement=
+s.
+The <em><span style=3D'font-family:Verdana'>transaction_name</span></em>
+parameters are simply readability aids to help the programmer ensure that t=
+he
+proper number of commits are coded to decrement @@TRANCOUNT to 0 and thereby
+commit the outer transaction.<o:p></o:p></span></p>
+
+<span id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl26_ctl00_ctl01=
+">
+
+<div id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl26_ctl00_ctl01_=
+">
+
+<div>
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+<a
+href=3D"javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_=
+ctl26_ctl00_ctl01');"
+title=3D"Copy Code"><span style=3D'font-size:12.0pt;line-height:140%;font-f=
+amily:
+"Times New Roman";border:none windowtext 1.0pt;mso-border-alt:none windowte=
+xt 0in;
+padding:0in'><o:p></o:p></span></a></span></p>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+class=3DMsoHyperlink><span style=3D'font-size:8.0pt;line-height:140%;font-f=
+amily:
+Verdana;border:none windowtext 1.0pt;mso-border-alt:none windowtext 0in;
+padding:0in'><a
+href=3D"javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_=
+ctl26_ctl00_ctl01');"
+title=3D"Copy Code">Copy Code </a></span></span><span style=3D'color:black'=
+><o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+<pre style=3D'line-height:140%;vertical-align:top;word-break:break-all;
+WORD-WRAP: break-word'
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl26_ctl00_ctl01"
+space=3Dpreserve><span style=3D'font-family:Verdana;color:black'>USE Advent=
+ureWorks;<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>IF OBJECT_ID(N'TestTran',N'U') IS=
+ NOT NULL<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>&nbsp;&nbsp;&nbsp;&nbsp;DROP TABL=
+E TestTran;<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>CREATE TABLE TestTran (Cola INT P=
+RIMARY KEY, Colb CHAR(3));<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>-- This statement sets @@TRANCOUN=
+T to 1.<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>BEGIN TRANSACTION OuterTran;<o:p>=
+</o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>PRINT N'Transaction count after B=
+EGIN OuterTran =3D '<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>&nbsp;&nbsp;&nbsp;&nbsp;+ CAST(@@=
+TRANCOUNT AS NVARCHAR(10));<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>INSERT INTO TestTran VALUES (1, '=
+aaa');<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>-- This statement sets @@TRANCOUN=
+T to 2.<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>BEGIN TRANSACTION Inner1;<o:p></o=
+:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>PRINT N'Transaction count after B=
+EGIN Inner1 =3D '<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>&nbsp;&nbsp;&nbsp;&nbsp;+ CAST(@@=
+TRANCOUNT AS NVARCHAR(10));<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>INSERT INTO TestTran VALUES (2, '=
+bbb');<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>-- This statement sets @@TRANCOUN=
+T to 3.<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>BEGIN TRANSACTION Inner2;<o:p></o=
+:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>PRINT N'Transaction count after B=
+EGIN Inner2 =3D '<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>&nbsp;&nbsp;&nbsp;&nbsp;+ CAST(@@=
+TRANCOUNT AS NVARCHAR(10));<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>INSERT INTO TestTran VALUES (3, '=
+ccc');<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>-- This statement decrements @@TR=
+ANCOUNT to 2.<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>-- Nothing is committed.<o:p></o:=
+p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>COMMIT TRANSACTION Inner2;<o:p></=
+o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>PRINT N'Transaction count after C=
+OMMIT Inner2 =3D '<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>&nbsp;&nbsp;&nbsp;&nbsp;+ CAST(@@=
+TRANCOUNT AS NVARCHAR(10));<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>-- This statement decrements @@TR=
+ANCOUNT to 1.<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>-- Nothing is committed.<o:p></o:=
+p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>COMMIT TRANSACTION Inner1;<o:p></=
+o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>PRINT N'Transaction count after C=
+OMMIT Inner1 =3D '<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>&nbsp;&nbsp;&nbsp;&nbsp;+ CAST(@@=
+TRANCOUNT AS NVARCHAR(10));<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>-- This statement decrements @@TR=
+ANCOUNT to 0 and<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>-- commits outer transaction Oute=
+rTran.<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>COMMIT TRANSACTION OuterTran;<o:p=
+></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>PRINT N'Transaction count after C=
+OMMIT OuterTran =3D '<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>&nbsp;&nbsp;&nbsp;&nbsp;+ CAST(@@=
+TRANCOUNT AS NVARCHAR(10));<o:p></o:p></span></pre><pre
+style=3D'line-height:140%;vertical-align:top;word-break:break-all'><span
+style=3D'font-family:Verdana;color:black'>GO<o:p></o:p></span></pre></div>
+
+</div>
+
+</div>
+
+</span>
+
+<div><!-- ApplyClick with current id -->
+
+<div>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+<!--[if gte vml 1]><v:shape
+ id=3D"_x0000_i1060" type=3D"#_x0000_t75" alt=3D"" style=3D'width:.75pt;hei=
+ght:.75pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" o:=
+href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" class=3D"LibC_o"=
+ v:shapes=3D"_x0000_i1060"><![endif]>&nbsp;See
+Also <o:p></o:p></span></p>
+
+</div>
+
+<h4 style=3D'margin:0in;margin-bottom:.0001pt;line-height:140%;vertical-ali=
+gn:
+top'><span style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;
+color:black'>Reference<o:p></o:p></span></h4>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+<a
+href=3D"http://msdn.microsoft.com/en-us/library/ms188386.aspx"
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl27_ctl00_ctl00"
+onclick=3D"javascript:Track('ctl00_MTContentSelector1_mainContentContainer_=
+ctl27_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl27=
+_ctl00_ctl00',this);">BEGIN
+DISTRIBUTED TRANSACTION (Transact-SQL)</a><br>
+<a href=3D"http://msdn.microsoft.com/en-us/library/ms188929.aspx"
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl27_ctl00_ctl01"
+onclick=3D"javascript:Track('ctl00_MTContentSelector1_mainContentContainer_=
+ctl27_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl27=
+_ctl00_ctl01',this);">BEGIN
+TRANSACTION (Transact-SQL)</a><br>
+<a href=3D"http://msdn.microsoft.com/en-us/library/ms178628.aspx"
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl27_ctl00_ctl02"
+onclick=3D"javascript:Track('ctl00_MTContentSelector1_mainContentContainer_=
+ctl27_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl27=
+_ctl00_ctl02',this);">COMMIT
+WORK (Transact-SQL)</a><br>
+<a href=3D"http://msdn.microsoft.com/en-us/library/ms181299.aspx"
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl27_ctl00_ctl03"
+onclick=3D"javascript:Track('ctl00_MTContentSelector1_mainContentContainer_=
+ctl27_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl27=
+_ctl00_ctl03',this);">ROLLBACK
+TRANSACTION (Transact-SQL)</a><br>
+<a href=3D"http://msdn.microsoft.com/en-us/library/ms174973.aspx"
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl27_ctl00_ctl04"
+onclick=3D"javascript:Track('ctl00_MTContentSelector1_mainContentContainer_=
+ctl27_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl27=
+_ctl00_ctl04',this);">ROLLBACK
+WORK (Transact-SQL)</a><br>
+<a href=3D"http://msdn.microsoft.com/en-us/library/ms188378.aspx"
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl27_ctl00_ctl05"
+onclick=3D"javascript:Track('ctl00_MTContentSelector1_mainContentContainer_=
+ctl27_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl27=
+_ctl00_ctl05',this);">SAVE
+TRANSACTION (Transact-SQL)</a><br>
+<a href=3D"http://msdn.microsoft.com/en-us/library/ms187967.aspx"
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl27_ctl00_ctl06"
+onclick=3D"javascript:Track('ctl00_MTContentSelector1_mainContentContainer_=
+ctl27_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl27=
+_ctl00_ctl06',this);">http://msdn.microsoft.com/en-us/library/ms187967.aspx<=
+/a><o:p></o:p></span></p>
+
+<h4 style=3D'margin:0in;margin-bottom:.0001pt;line-height:140%;vertical-ali=
+gn:
+top'><span style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;
+color:black'>Other Resources<o:p></o:p></span></h4>
+
+<p class=3DMsoNormal style=3D'margin-bottom:12.0pt;line-height:140%;vertica=
+l-align:
+top'><span style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;
+color:black'><a href=3D"http://msdn.microsoft.com/en-us/library/ms175523.as=
+px"
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl27_ctl00_ctl07"
+onclick=3D"javascript:Track('ctl00_MTContentSelector1_mainContentContainer_=
+ctl27_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl27=
+_ctl00_ctl07',this);">Controlling
+Transactions (Database Engine)</a><o:p></o:p></span></p>
+
+<h4 style=3D'margin:0in;margin-bottom:.0001pt;line-height:140%;vertical-ali=
+gn:
+top'><span style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;
+color:black'>Help and Information <o:p></o:p></span></h4>
+
+<p class=3DMsoNormal style=3D'line-height:140%;vertical-align:top'><span
+style=3D'font-size:8.0pt;line-height:140%;font-family:Verdana;color:black'>=
+<a
+href=3D"http://msdn.microsoft.com/en-us/library/ms166016.aspx"
+id=3D"ctl00_MTContentSelector1_mainContentContainer_ctl27_ctl00_ctl08"
+onclick=3D"javascript:Track('ctl00_MTContentSelector1_mainContentContainer_=
+ctl27_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl27=
+_ctl00_ctl08',this);">Getting
+SQL Server 2008 Assistance </a><o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<span id=3DCommunityContent></span><span
+id=3D"ctl00_WikiContent_TopicTagEditor_title">
+
+<div id=3D"ctl00_WikiContent_cc">
+
+<div>
+
+<div id=3D"ctl00_WikiContent_TopicTagEditor_panel">
+
+<div id=3DtagsPanel>
+
+<p class=3DMsoNormal><span class=3Dccttitle1><span style=3D'font-size:8.0pt;
+font-family:Verdana;color:black'>Tags</span></span></span><span
+style=3D'font-size:8.0pt;font-family:Verdana;color:black'> <a
+href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/resources/t=
+aghelp.htm"
+id=3D"ctl00_WikiContent_TopicTagEditor_helpLink"
+onclick=3D"CCS_ShowHelp(&quot;/Platform/Controls/CCTagEditor/resources/tagh=
+elp.htm&quot;,800,600);return false;"><span
+style=3D'border:none windowtext 1.0pt;mso-border-alt:none windowtext 0in;
+padding:0in'><!--[if gte vml 1]><v:shape id=3D"ctl00_WikiContent_TopicTagEd=
+itor_helpImage"
+ o:spid=3D"_x0000_i1061" type=3D"#_x0000_t75" alt=3D"What's this?"
+ href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/resources/=
+taghelp.htm"
+ style=3D'width:.75pt;height:.75pt' o:button=3D"t">
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" o:=
+href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+</v:shape><![endif]--><![if !vml]><span style=3D'mso-ignore:vglayout'><img
+border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" alt=3D"What's th=
+is?"
+class=3D"CCT_HelpImage LibC_help" title=3D"What's this?" v:shapes=3D"ctl00_=
+WikiContent_TopicTagEditor_helpImage"></span><![endif]></span></a>:
+<span class=3Dccttitle1></span><a
+href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/"
+title=3D"Add a tag to this topic" id=3D"ctl00_WikiContent_TopicTagEditor_ad=
+dTagLink"
+onclick=3D"return CCT_AddATag(&quot;http://msdn.microsoft.com/en-us/library=
+/Community-Signup.aspx?ru=3Dhttp%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibra=
+ry%2fms190295(SQL.100).aspx&quot;,-1);"><span
+id=3D"ctl00_WikiContent_TopicTagEditor_tags"><span
+id=3D"ctl00_WikiContent_TopicTagEditor_view">Add a tag</a> </span></span><s=
+pan
+class=3Dccttitle1><span style=3D'display:none;mso-hide:all'><INPUT TYPE=3D"=
+TEXT" NAME=3D"ctl00$WikiContent$TopicTagEditor$textbox"
+id=3D"ctl00_WikiContent_TopicTagEditor_textbox" autocomplete=3Doff><span
+id=3D"ctl00_WikiContent_TopicTagEditor_editPanel"><a
+href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/"
+title=3D"Submit the tags for this topic"
+id=3D"ctl00_WikiContent_TopicTagEditor_addLink" onclick=3D"return CCT_AddTa=
+gs(-1);"><span
+style=3D'mso-hide:none'>Add</span></a> &nbsp; <a
+href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/"
+title=3D"Cancel this operation" id=3D"ctl00_WikiContent_TopicTagEditor_canc=
+elLink"
+onclick=3D"return CCT_CancelAddTag(-1);"><span style=3D'mso-hide:none'>Canc=
+el</span></a>
+</span></span></span><o:p></o:p></span></p>
+
+</div>
+
+<span id=3D"ctl00_WikiContent_TopicTagEditor_messagePanel"></span><span
+id=3D"ctl00_WikiContent_TopicTagEditor_flagAsLabel">
+
+<div id=3D"ctl00_WikiContent_TopicTagEditor_flagAsPanel">
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black;
+display:none;mso-hide:all'>Flag as </span><a
+href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/"
+title=3D"Flagging this annotation as a 'ContentBug' will let the author kno=
+w that this topic needs to be reviewed"
+id=3D"ctl00_WikiContent_TopicTagEditor_contentBugLink"
+onclick=3D"return CCT_FlagContentBug(&quot;http://msdn.microsoft.com/en-us/=
+library/Community-Signup.aspx?ru=3Dhttp%3a%2f%2fmsdn.microsoft.com%2fen-us%=
+2flibrary%2fms190295(SQL.100).aspx&quot;,-1);"><span
+style=3D'mso-hide:none;border:none windowtext 1.0pt;mso-border-alt:none win=
+dowtext 0in;
+padding:0in'>ContentBug</span></a> <o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+</div>
+
+<div>
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black'><!--[if gte vml 1]><v:shape
+ id=3D"ctl00_WikiContent_wikiLogo" o:spid=3D"_x0000_i1062" type=3D"#_x0000_=
+t75"
+ alt=3D"" style=3D'width:.75pt;height:.75pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" o:=
+href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" class=3D"LibC_wi=
+ki"
+v:shapes=3D"ctl00_WikiContent_wikiLogo"><![endif]><o:p></o:p></span></p>
+
+</div>
+
+<span id=3D"ctl00_WikiContent_headerTitle">
+
+<div id=3D"ctl00_WikiContent_contentContainer">
+
+<div id=3D"ctl00_WikiContent_headerContainer">
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D"100%"
+ style=3D'width:100.0%;mso-cellspacing:0in;mso-padding-alt:0in 0in 0in 0in'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+  <td style=3D'padding:0in 0in 0in 0in'>
+  <div>
+  <p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;
+  color:black'>Community Content</span>&nbsp;&nbsp; <a
+  href=3D"http://msdn.microsoft.com/Platform/Controls/CCSection/resources/c=
+chelp.htm"
+  id=3D"ctl00_WikiContent_helpLink"
+  onclick=3D"CCS_ShowHelp(&quot;/Platform/Controls/CCSection/resources/cche=
+lp.htm&quot;,400,400);return false;"><span
+  style=3D'border:none windowtext 1.0pt;mso-border-alt:none windowtext 0in;
+  padding:0in'><!--[if gte vml 1]><v:shape id=3D"ctl00_WikiContent_helpImag=
+e"
+   o:spid=3D"_x0000_i1063" type=3D"#_x0000_t75" alt=3D"What is Community Co=
+ntent?"
+   href=3D"http://msdn.microsoft.com/Platform/Controls/CCSection/resources/=
+cchelp.htm"
+   style=3D'width:.75pt;height:.75pt' o:button=3D"t">
+   <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif"
+    o:href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+  </v:shape><![endif]--><![if !vml]><span style=3D'mso-ignore:vglayout'><img
+  border=3D0 width=3D1 height=3D1
+  src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif"
+  alt=3D"What is Community Content?" class=3D"CCS_HelpImage  LibC_help"
+  title=3D"What is Community Content?" v:shapes=3D"ctl00_WikiContent_helpIm=
+age"></span><![endif]></span></a><o:p></o:p></span></p>
+  </div>
+  </td>
+ </tr>
+</table>
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black;
+display:none;mso-hide:all'><o:p>&nbsp;</o:p></span></p>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D"100%"
+ style=3D'width:100.0%;mso-cellspacing:0in;mso-padding-alt:0in 0in 0in 0in'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+  <td width=3D"100%" style=3D'width:100.0%;padding:0in 0in 0in 0in'>
+  <p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;
+  color:black'><a
+  href=3D"javascript:WebForm_DoPostBackWithOptions(new%20WebForm_PostBackOp=
+tions("
+  id=3D"ctl00_WikiContent_Add"><span style=3D'border:none windowtext 1.0pt;
+  mso-border-alt:none windowtext 0in;padding:0in'>Add new content</span></a=
+> <o:p></o:p></span></p>
+  </td>
+  <td width=3D"100%" style=3D'width:100.0%;padding:0in 0in 0in 0in'>
+  <p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;
+  color:black'><a
+  href=3D"http://msdn.microsoft.com/en-us/library/community-edits.rss?topic=
+=3Dms190295|en-us|100"
+  id=3D"ctl00_WikiContent_recentPageLink"><!--[if gte vml 1]><v:shape id=3D=
+"ctl00_WikiContent_imageRSS"
+   o:spid=3D"_x0000_i1064" type=3D"#_x0000_t75" alt=3D"RSS"
+   href=3D"http://msdn.microsoft.com/en-us/library/community-edits.rss?topi=
+c=3Dms190295|en-us|100"
+   style=3D'width:.75pt;height:.75pt' o:button=3D"t">
+   <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif"
+    o:href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+  </v:shape><![endif]--><![if !vml]><span style=3D'mso-ignore:vglayout'><img
+  border=3D0 width=3D1 height=3D1
+  src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" alt=3DRSS
+  class=3D"CCS_RSSImage LibC_rss_button" align=3Dmiddle v:shapes=3D"ctl00_W=
+ikiContent_imageRSS"></span><![endif]></a>&nbsp;
+  <span class=3Dccttitle1><span id=3D"ctl00_WikiContent_recentChangesTitle"=
+>Annotations</span></span>
+  <o:p></o:p></span></p>
+  </td>
+  <td width=3D"100%" style=3D'width:100.0%;padding:0in 0in 0in 0in'>
+  <p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span
+  style=3D'font-size:8.0pt;font-family:Verdana;color:black'><o:p>&nbsp;</o:=
+p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D"100%"
+ style=3D'width:100.0%;mso-cellspacing:0in;mso-padding-alt:0in 0in 0in 0in'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+  <td style=3D'padding:0in 0in 0in 0in'>
+  <p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;
+  color:black'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td style=3D'padding:0in 0in 0in 0in'><span id=3D"ctl00_WikiContent_ctl00=
+_Label2">
+  <p class=3DMsoNormal><span class=3Dccttitle1><span style=3D'font-size:8.0=
+pt;
+  font-family:Verdana;color:black'>&nbsp;&nbsp;&nbsp;&nbsp;</span></span></=
+span><span
+  style=3D'font-size:8.0pt;font-family:Verdana;color:black'> <o:p></o:p></s=
+pan></p>
+  </td>
+  <td width=3D"100%" style=3D'width:100.0%;padding:0in 0in 0in 0in'><span
+  id=3D"ctl00_WikiContent_ctl00_EditInfo"></span>
+  <p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span
+  style=3D'font-size:8.0pt;font-family:Verdana;color:black'><span
+  id=3D"ctl00_WikiContent_ctl00_Separator">&nbsp;&nbsp;|&nbsp;&nbsp; </span=
+><a
+  href=3D"javascript:__doPostBack('ctl00$WikiContent$ctl00$Edit','')"
+  title=3D"Edit this version" id=3D"ctl00_WikiContent_ctl00_Edit"><span
+  id=3D"ctl00_WikiContent_ctl00_EditLabel"><span style=3D'border:none windo=
+wtext 1.0pt;
+  mso-border-alt:none windowtext 0in;padding:0in'>Edit</span></a></span><IN=
+PUT TYPE=3D"TEXT" NAME=3D"ctl00$WikiContent$ctl00$showhistoryFlag" VALUE=3D=
+"false"
+  id=3D"ctl00_WikiContent_ctl00_showhistoryFlag" style=3D"DISPLAY: none"> <=
+o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<!-- 2008.2.723.35 -->
+
+<div style=3D'cursor:default' id=3D"ctl00_WikiContent_ctl00_EditorPanel">
+
+<div
+onkeypress=3D"javascript:return WebForm_FireDefaultButton(event, 'ctl00_Wik=
+iContent_ctl00_Editor_Save')"
+id=3D"ctl00_WikiContent_ctl00_Editor_Container">
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black'><span
+style=3D'display:none;mso-hide:all'><INPUT TYPE=3D"hidden" NAME=3D"ctl00$Wi=
+kiContent$ctl00$Editor$editorData"></span><span
+style=3D'display:none;mso-hide:all'><INPUT TYPE=3D"hidden" NAME=3D"ctl00$Wi=
+kiContent$ctl00$Editor$tagEditorData"
+id=3D"ctl00_WikiContent_ctl00_Editor_tagEditorData"></span><o:p></o:p></spa=
+n></p>
+
+</div>
+
+</div>
+
+<span id=3D"ctl00_WikiContent_ctl00_TagEditor_title">
+
+<div id=3D"ctl00_WikiContent_ctl00_TagEditor_panel">
+
+<div id=3DtagsPanel>
+
+<p class=3DMsoNormal><span class=3Dccttitle1><span style=3D'font-size:8.0pt;
+font-family:Verdana;color:black'>Tags</span></span></span><span
+style=3D'font-size:8.0pt;font-family:Verdana;color:black'> <a
+href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/resources/t=
+aghelp.htm"
+id=3D"ctl00_WikiContent_ctl00_TagEditor_helpLink"
+onclick=3D"CCS_ShowHelp(&quot;/Platform/Controls/CCTagEditor/resources/tagh=
+elp.htm&quot;,800,600);return false;"><span
+style=3D'border:none windowtext 1.0pt;mso-border-alt:none windowtext 0in;
+padding:0in'><!--[if gte vml 1]><v:shape id=3D"ctl00_WikiContent_ctl00_TagE=
+ditor_helpImage"
+ o:spid=3D"_x0000_i1065" type=3D"#_x0000_t75" alt=3D"What's this?"
+ href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/resources/=
+taghelp.htm"
+ style=3D'width:.75pt;height:.75pt' o:button=3D"t">
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" o:=
+href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+</v:shape><![endif]--><![if !vml]><span style=3D'mso-ignore:vglayout'><img
+border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" alt=3D"What's th=
+is?"
+class=3D"CCT_HelpImage LibC_help" title=3D"What's this?" v:shapes=3D"ctl00_=
+WikiContent_ctl00_TagEditor_helpImage"></span><![endif]></span></a>:
+<span class=3Dccttitle1></span><a
+href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/"
+title=3D"Add a tag to this topic"
+id=3D"ctl00_WikiContent_ctl00_TagEditor_addTagLink"><span
+id=3D"ctl00_WikiContent_ctl00_TagEditor_tags"><span
+id=3D"ctl00_WikiContent_ctl00_TagEditor_view">Add a tag</a> </span></span><=
+span
+class=3Dccttitle1><span style=3D'display:none;mso-hide:all'><INPUT TYPE=3D"=
+TEXT" NAME=3D"ctl00$WikiContent$ctl00$TagEditor$textbox"
+id=3D"ctl00_WikiContent_ctl00_TagEditor_textbox" autocomplete=3Doff><span
+id=3D"ctl00_WikiContent_ctl00_TagEditor_editPanel"><a
+href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/"
+title=3D"Submit the tags for this topic"
+id=3D"ctl00_WikiContent_ctl00_TagEditor_addLink"><span style=3D'mso-hide:no=
+ne'>Add</span></a>
+&nbsp; <a href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/"
+title=3D"Cancel this operation" id=3D"ctl00_WikiContent_ctl00_TagEditor_can=
+celLink"><span
+style=3D'mso-hide:none'>Cancel</span></a> </span></span></span><o:p></o:p><=
+/span></p>
+
+</div>
+
+<span id=3D"ctl00_WikiContent_ctl00_TagEditor_messagePanel"></span><span
+id=3D"ctl00_WikiContent_ctl00_TagEditor_flagAsLabel">
+
+<div id=3D"ctl00_WikiContent_ctl00_TagEditor_flagAsPanel">
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black;
+display:none;mso-hide:all'>Flag as </span><a
+href=3D"http://msdn.microsoft.com/Platform/Controls/CCTagEditor/"
+title=3D"Flagging this annotation as a 'ContentBug' will let the author kno=
+w that this topic needs to be reviewed"
+id=3D"ctl00_WikiContent_ctl00_TagEditor_contentBugLink"
+onclick=3D"return CCT_FlagContentBug(&quot;http://msdn.microsoft.com/en-us/=
+library/Community-Signup.aspx?ru=3Dhttp%3a%2f%2fmsdn.microsoft.com%2fen-us%=
+2flibrary%2fms190295(SQL.100).aspx&quot;,-1);"><span
+style=3D'mso-hide:none;border:none windowtext 1.0pt;mso-border-alt:none win=
+dowtext 0in;
+padding:0in'>ContentBug</span></a> <o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+<div id=3D"ctl00_WikiContent_EditorPanel">
+
+<div
+onkeypress=3D"javascript:return WebForm_FireDefaultButton(event, 'ctl00_Wik=
+iContent_Editor_Save')"
+id=3D"ctl00_WikiContent_Editor_Container">
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black;
+display:none;mso-hide:all'><INPUT TYPE=3D"hidden" NAME=3D"ctl00$WikiContent=
+$Editor$editorData"><INPUT TYPE=3D"hidden" NAME=3D"ctl00$WikiContent$Editor=
+$tagEditorData"
+id=3D"ctl00_WikiContent_Editor_tagEditorData"><o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+<div id=3DProgressIndicator>
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black'><!--[if gte vml 1]><v:shape
+ id=3D"ctl00_WikiContent_progressImage" o:spid=3D"_x0000_i1066" type=3D"#_x=
+0000_t75"
+ alt=3D"Processing" style=3D'width:.75pt;height:.75pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" o:=
+href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif" alt=3DProcessing
+class=3D"LibC_spinner" v:shapes=3D"ctl00_WikiContent_progressImage"><![endi=
+f]><o:p></o:p></span></p>
+
+</div>
+
+</div>
+
+</div>
+
+<span title=3D"&copy; 2009  Microsoft Corporation. All rights reserved."
+id=3D"ctl00_mtpsFooter_MSFT_copyright">
+
+<div style=3D'overflow:hidden;position:relative'>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D"100%"
+ style=3D'width:100.0%;mso-cellspacing:0in;mso-padding-alt:0in 0in 0in 0in'>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes;height:8.5in'>
+  <td width=3D"100%" style=3D'width:100.0%;padding:122.25pt 0in 0in 0in;hei=
+ght:
+  8.5in'>
+  <p class=3DMsoNormal><span class=3Dccttitle1><span style=3D'font-size:8.0=
+pt;
+  font-family:Verdana;color:black'>&copy; 2009 Microsoft Corporation. All
+  rights reserved.</span></span></span><span style=3D'font-size:8.0pt;font-=
+family:
+  Verdana;color:black'> <a href=3D"http://msdn.microsoft.com/cc300389.aspx"
+  title=3D"Terms of Use" id=3D"ctl00_mtpsFooter_MSFT_Terms"><span style=3D'=
+border:
+  none windowtext 1.0pt;mso-border-alt:none windowtext 0in;padding:0in'>Ter=
+ms
+  of Use</span></a> <span id=3D"ctl00_mtpsFooter_PipeSpan1">|</span> <a
+  href=3D"http://www.microsoft.com/library/toolbar/3.0/trademarks/en-us.msp=
+x"
+  title=3DTrademarks id=3D"ctl00_mtpsFooter_MSFT_Trademarks"><span
+  style=3D'border:none windowtext 1.0pt;mso-border-alt:none windowtext 0in;
+  padding:0in'>Trademarks</span></a> <span id=3D"ctl00_mtpsFooter_PipeSpan2=
+">|</span>
+  <a href=3D"http://www.microsoft.com/info/privacy.mspx" title=3D"Privacy S=
+tatement"
+  id=3D"ctl00_mtpsFooter_MSFT_PrivacyStatement"><span style=3D'border:none =
+windowtext 1.0pt;
+  mso-border-alt:none windowtext 0in;padding:0in'>Privacy Statement</span><=
+/a> <o:p></o:p></span></p>
+  </td>
+  <td width=3D"100%" style=3D'width:100.0%;padding:122.25pt 0in 0in 0in;hei=
+ght:
+  8.5in' id=3D"ctl00_mtpsFooter_FooterLogoCell">
+  <p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;
+  color:black'><a href=3D"http://www.microsoft.com/" title=3D"Microsoft Cor=
+poration"
+  id=3D"ctl00_mtpsFooter_MSFT_LOGO"><!--[if gte vml 1]><v:shape id=3D"ctl00=
+_mtpsFooter_MSFT_imgLogo"
+   o:spid=3D"_x0000_i1067" type=3D"#_x0000_t75" alt=3D""
+   href=3D"http://www.microsoft.com/" title=3D"&quot;Microsoft Corporation&=
+quot;"
+   style=3D'width:.75pt;height:.75pt' o:button=3D"t">
+   <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif"
+    o:href=3D"http://i.msdn.microsoft.com/Global/Images/clear.gif"/>
+  </v:shape><![endif]--><![if !vml]><span style=3D'mso-ignore:vglayout'><img
+  border=3D0 width=3D1 height=3D1
+  src=3D"COMMITTRANSACTION(Transact-SQL)_files/image002.gif"
+  class=3D"msdn_TabC_mslogo" v:shapes=3D"ctl00_mtpsFooter_MSFT_imgLogo"></s=
+pan><![endif]></a><o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div>
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black;
+display:none;mso-hide:all'><!--[if gte vml 1]><v:shape id=3D"_x0000_i1068"
+ type=3D"#_x0000_t75" alt=3D"Page view tracker" style=3D'width:.75pt;height=
+:.75pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image003.gif" o:=
+href=3D"http://c.microsoft.com/trans_pixel.asp?source=3Dmsdn&amp;TYPE=3DPV&=
+amp;uri=3D%2fen-us%2flibrary(d%3ddefault)%2fms190295(l%3den-us%2cv%3dSQL.10=
+0).aspx&amp;p=3D_en-us_library(d=3Ddefault)_ms190295(l=3Den-us,v=3DSQL.100)=
+.aspx&amp;prd=3Dsqlserver"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image003.gif" alt=3D"Page view=
+ tracker"
+v:shapes=3D"_x0000_i1068"><![endif]><o:p></o:p></span></p>
+
+</div>
+
+<div>
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black;
+display:none;mso-hide:all'><script  src=3D"http://i2.msdn.microsoft.com/Pla=
+tform/Controls/WebTrends/resources/webtrendsscript-bn20090721.js" type=3D"t=
+ext/javascript">
+</script></span><span style=3D'font-size:8.0pt;font-family:Verdana;color:bl=
+ack'><NOSCRIPT><!--[if gte vml 1]><v:shape
+ id=3D"Img1" o:spid=3D"_x0000_i1070" type=3D"#_x0000_t75" alt=3D"DCSIMG" st=
+yle=3D'width:.75pt;
+ height:.75pt'>
+ <v:imagedata src=3D"COMMITTRANSACTION(Transact-SQL)_files/image004.gif" o:=
+href=3D"http://m.webtrends.com/dcsmgru7m99k7mqmgrhudo0k8_8c6m/njs.gif?dcsur=
+i=3D/nojavascript&amp;WT.js=3DNo"/>
+</v:shape><![endif]--><![if !vml]><img border=3D0 width=3D1 height=3D1
+src=3D"COMMITTRANSACTION(Transact-SQL)_files/image004.gif" alt=3DDCSIMG v:s=
+hapes=3D"Img1"><![endif]><o:p></o:p></span></p>
+
+</div>
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black'><script  src=3D"http://i2.msdn.microsoft.com/en-us/library/mtps-b=
+n20090721.js?l=3Den-us&i=3Dlibrary&ct=3DAlternateSelector;CCEditor;CCItem;C=
+CSection;CCTagEditor;CodeSnippet;CollapsibleArea;ContentFallback;Contributi=
+onSummary;DropDownFilter;ExpandCollapseAll;Eyebrow;Footer;InstrumentedLink;=
+InteractiveToolbar;iRootBrand;LibraryLoBandSwitch;LocaleManagementFlyout;Ma=
+sthead;MemberlistFrameworksFilter;MemberlistMembersFilter;MtpsLoginStatus;M=
+tpsRating;MtViewDropDown;Omniture;RedVelvetCodeSnippet;RedVelvetCollapsible=
+Area;RedVelvetInstrumentedLink;RelatedPages;ResizeableAreaD10;Search;Survey=
+Launcher;TabStrip;TagCloud;TemplatedFlyout;Tickler;Toc;UserRecognition;WebM=
+etrix;WebTrends" type=3D"text/javascript">
+</script></NOSCRIPT><script  type=3D"text/javascript">
+        //<![CDATA[
+        setTimeout(function() {
+            var hashElementId =3D document.location.hash.substr(1);
+            var hashElement =3D document.getElementById(hashElementId);
+            if (hashElement !=3D null) {
+                hashElement.scrollIntoView(true);
+            }
+        }, 1);
+        //]]>
+</script><script  type=3D"text/javascript">
+//<![CDATA[
+var CCT_Controls =3D  new Array({id:-1,prefix:'ctl00_WikiContent_TopicTagEd=
+itor_'}, {id:-2,prefix:'ctl00_WikiContent_ctl00_TagEditor_'});
+var CCE_EditorInfo =3D  new Array({i:-2,p:'ctl00_WikiContent_ctl00_Editor_'=
+,c:'ctl00_WikiContent_ctl00_'}, {i:-1,p:'ctl00_WikiContent_Editor_',c:''});
+//]]>
+</script><script  type=3D"text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(CCS_BeginReq=
+uestHandler);Sys.WebForms.PageRequestManager.getInstance().add_endRequest(C=
+CS_EndRequestHandler); RegisterAutoSubmit('ctl00_ib1_Flyout_Rating1','ctl00=
+_ib1_Flyout_btnSend','contentRatingms190295SQL.100en-us');
+
+//]]>
+</script><script language=3D"JavaScript"  type=3D"text/javascript">
+<!--
+ function GetContentWnd(){ return parent; } function OnInitPage(){var oWnd =
+=3D GetContentWnd();} function OnSave(){ var oWnd =3D GetContentWnd(); wind=
+ow.external.addFavorite('http://msdn.microsoft.com/en-us/library/ms190295.a=
+spx', oWnd.document.title ); }
+
+-->
+</script><script  type=3D"text/javascript">
+//<![CDATA[
+document.getElementById('ctl00_ib1_Flyout_rtgContainer').title=3D"Click a s=
+tar and provide feedback";
+CCT_Init("false","http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fms190=
+295.aspx");$addHandler($get("ctl00_WikiContent_TopicTagEditor_editPanel"),"=
+keydown",CCT_KeyDown);Sys.Application.initialize();
+TFly_Init('ctl00$Masthead1$LocaleManagement$ctl00',0,0,1,0,0,'LocaleManagem=
+entFlyoutStaticHover','',0,400,'','','','');
+TFly_Init('ctl00$ib1$Flyout',5,2,1,0,0,'','',0,400,'','TFlyPreAnimate','','=
+');
+MTPS.Controls.MtpsRating.createMtpsRating('ctl00_ib1_Flyout_Rating1','ratin=
+gStar','filledRatingStar','emptyRatingStar','savedRatingStar','5','LeftToRi=
+ghtTopToBottom', false);MTPS.Controls.ResizeableArea =3D new MTPS.Controls.=
+CreateResizeableArea('ctl00_LibFrame','ctl00_raSplitter','ctl00_raLeft','ct=
+l00_raRight','tocwidth','toccollapsed','173');var tocVectorObject;var hostb=
+ase;var closedImg;var openImg;var emptyImg;var loadingImg;var tocVector;var=
+ tocIndex =3D 0;var holder;var tocLoaded =3D false;var tocCollapsed =3D 'Fa=
+lse';tocVectorObject =3D {"nodes": [{"id": "ms310241(n)" ,"url": "/ms310241=
+(n)"},{"id": "aa155072(n)" ,"url": "/aa155072(n)"},{"id": "bb418431(sql.10,=
+n)" ,"url": "/bb418431(SQL.10,n)"},{"id": "bb418432(sql.10,n)" ,"url": "/bb=
+418432(SQL.10,n)"},{"id": "bb418433(sql.10,n)" ,"url": "/bb418433(SQL.10,n)=
+"},{"id": "bb543165(n)" ,"url": "/bb543165(n)"},{"id": "bb528141(n)" ,"url"=
+: "/bb528141(n)"},{"id": "bb528151(n)" ,"url": "/bb528151(n)"},{"id": "bb52=
+8162(n)" ,"url": "/bb528162(n)"},{"id": "ms190295(n)" ,"url": "/ms190295(n)=
+"}]};hostbase =3D"http://msdn.microsoft.com/en-us/library";tocVector =3D ev=
+al(tocVectorObject);closedImg =3D "LibC_c";openImg =3D "LibC_o";emptyImg =
+=3D "LibC_e";var tocDir =3D false;Sys.Application.add_load(LoadToc);TFly_In=
+it('ctl00$eb1$ctl00',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeigh=
+t','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl01',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarS=
+etHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl02',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarS=
+etHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl03',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarS=
+etHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl04',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarS=
+etHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl05',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarS=
+etHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl06',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarS=
+etHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl07',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarS=
+etHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl08',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarS=
+etHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl09',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarS=
+etHeight','ExpEye','','');
+CheckDropDownClientCookie(false);SetFilterText(false);//]]>
+</script><o:p>&nbsp;</o:p></span></p>
+
+</form>
+
+<p class=3DMsoNormal><span style=3D'font-size:8.0pt;font-family:Verdana;col=
+or:black;
+display:none;mso-hide:all'><script language=3D"JavaScript"  src=3D"http://j=
+s.microsoft.com/library/svy/sto/broker.js" type=3D"text/javascript">
+</script></span><o:p>&nbsp;</o:p></p>
+
+</div>
+
+</body>
+
+</html>
+
+------=_NextPart_01CA1420.3DAD3170
+Content-Location: file:///C:/AAFACDA9/COMMITTRANSACTION(Transact-SQL)_files/image001.gif
+Content-Transfer-Encoding: base64
+Content-Type: image/gif
+
+R0lGODlhEAAQAPeqAP3/y/XegDRKYgkkR6m4z///93+Vs1hvjREsTf7/17fE2P//4zVJYjdIYhw3
+WIKVrzlSc//////+6zhSctfh7Uhgf//+2P/+75qqw///6LLC25KkuP//6v7+tP7/952txP7+zLHC
+1v//8zhJZbTB1IGXs1ZujaGxy///5/7+wP3/vv7+8jdIZJyxzam50P7+3KKwxP3///7/9ff+////
+3ZKhts7Y5ZeovREqTZGjt4GXtpKhuP/+6YyfuixFZ6/A2rnH1KOzyv7936Kzx/XhiP7/+/z/8v/+
+8ay70md9mrHB2rTG5P3+7JyrvhkzVClDZLPC16a3yw8qTf3/7d7m8v//zSlBX5GgszZJZ//95qK1
+087W4a6+1f7+2EFWc7XB2Zmpwv//yf7/7///3rLD1/7/xqm81pOiuRIsT5CjwZOit6m5zv//0P7+
+2v//4Iicuam6z/7/6/7/1fH3/7vL5f3+0paluMfX832TsP///ebx/6e40MHM2CpEZP7+toCRq6Wz
+vPPXaqKzzMvW5oicuKm8162/1f//0f//x/3/zZ+zzf7/w3WKp6i0xPTkj//92pOkuC5GZyA7XP3/
+15Cfs9Tj+pKjtzZKY//++f7/u///5f7/+v/+0/z//8jW656xyUxkg6q3yP/+8///1sfW7/7/33OG
+ov//y0hff3iNqv///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAKoALAAAAAAQABAA
+AAjvADVAIaPkSwhDLoJsUcWwIYlOeTYVELFCQpMGjRoy5FIEkwcjU3hk2ACEBSCNSAqIOiKBiSYh
+kBpcGqExigwxcVCUejFplCMiWDQOucBhwZhHCTiBKBNAgMYPWRa46ZIgEYCrTTWCodFGzqGrYLM2
+tGOhThWwYZ02zMHmFKIle0pgKASADwxCqZKoshRmkQ04FOYo+BNqDYUYCkyhqpEikyAqVyJ90tLi
+hyInPk5M2KHCT48IVsxEmKGn0h0pOkg9UdMh0I1BlPCgGUDbi4k0bxycYcCA0QMCdAxAAPXbk3Ac
+Gg9U6OMAgSrlEyQ5DwgAOw==
+
+------=_NextPart_01CA1420.3DAD3170
+Content-Location: file:///C:/AAFACDA9/COMMITTRANSACTION(Transact-SQL)_files/image002.gif
+Content-Transfer-Encoding: base64
+Content-Type: image/gif
+
+R0lGODlhAQABAPMAAAAAAP///////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAACH5BAEAAAIALAAAAAABAAEAAAQCUEQAO0==
+
+------=_NextPart_01CA1420.3DAD3170
+Content-Location: file:///C:/AAFACDA9/COMMITTRANSACTION(Transact-SQL)_files/image003.gif
+Content-Transfer-Encoding: base64
+Content-Type: image/gif
+
+R0lGODlhAQABAIAAAP8zzAAAACH5BAEAAAAALAAAAAABAAEAQAIChFEAOwA=
+
+------=_NextPart_01CA1420.3DAD3170
+Content-Location: file:///C:/AAFACDA9/COMMITTRANSACTION(Transact-SQL)_files/image004.gif
+Content-Transfer-Encoding: base64
+Content-Type: image/gif
+
+R0lGODlhAQABAJH/AP///wAAAP///wAAACH/C0FET0JFOklSMS4wAt7tACH5BAEAAAIALAAAAAAB
+AAEAAAICVAEAOw==
+
+------=_NextPart_01CA1420.3DAD3170
+Content-Location: file:///C:/AAFACDA9/COMMITTRANSACTION(Transact-SQL)_files/filelist.xml
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/xml; charset="utf-8"
+
+﻿<xml xmlns:o=3D"urn:schemas-microsoft-com:office:office">
+ <o:MainFile HRef=3D"../COMMITTRANSACTION(Transact-SQL).htm"/>
+ <o:File HRef=3D"image001.gif"/>
+ <o:File HRef=3D"image002.gif"/>
+ <o:File HRef=3D"image003.gif"/>
+ <o:File HRef=3D"image004.gif"/>
+ <o:File HRef=3D"filelist.xml"/>
+</xml>
+------=_NextPart_01CA1420.3DAD3170--

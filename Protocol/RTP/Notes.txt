@@ -1,0 +1,24 @@
+|- jitter
+statistical variance of the RTP data interarrival time.
+   
+It's caculated and inserted in field Interarrival jitter of receive report.
+Real-time Transport Control Protocol (Receiver Report)
+    [Stream setup by SDP (frame 55)]
+    10.. .... = Version: RFC 1889 Version (2)
+    ..0. .... = Padding: False
+    ...0 0001 = Reception report count: 1
+    Packet type: Receiver Report (201)
+    Length: 17 (72 bytes)
+    Sender SSRC: 0x68c8c1a1 (1757987233)
+    Source 1
+        Identifier: 0x38a8787b (950564987)
+        SSRC contents
+            Fraction lost: 3 / 256
+            Cumulative number of packets lost: 113
+        Extended highest sequence number received: 13137
+            Sequence number cycles count: 0
+            Highest sequence number received: 13137
+        Interarrival jitter: 51 
+        Last SR timestamp: 0 (0x00000000)
+        Delay since last SR timestamp: 0 (0 milliseconds)
+    Profile-specific extension: 0000009B000002450000003C0000003C0000003C00000014...

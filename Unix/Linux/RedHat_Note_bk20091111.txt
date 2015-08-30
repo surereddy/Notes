@@ -1,0 +1,927 @@
+|--------------FAQ-------------------|
+||- reset root password if forget
+reboot your machine and during start up when grub bootloader options appear select linux and prees "e" .
+ Now select line containing kernel options and append "single" at end of line. i.e you are going to boot 
+ your machine in single mode by providing "single" option to your kernel. Now press "b" and your machine 
+ will boot to single mode and take you directly to shell. Use passwd command to change your root password.
+
+||- crontab 
+Two methods to modify cron table:
+Method 1. Modify global file and reboot crond service.
+Step 1: modify /etc/crontab
+[root@localhost ~]# more /etc/crontab
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+HOME=/
+
+# run-parts
+01 * * * * root run-parts /etc/cron.hourly
+02 4 * * * root run-parts /etc/cron.daily
+22 4 * * 0 root run-parts /etc/cron.weekly
+42 4 1 * * root run-parts /etc/cron.monthly
+
+Note:
+01 * * * * represents excecution time.
+minute hour date month week
+minute 0-59
+hour 0-23
+date 1-31
+month 1-12
+week 0-6, 0 sunday
+
+0-59/1 * * * * root /usr/sbin/ntpdate 192.168.50.83
+=>every minute ntpdate.
+
+step 2: restart crond service by root user
+service crond restart
+
+Method 2: crontab -e for a user
+every user can have his owner cron table.
+Usage:
+su - <username>
+crontab -e
+Then add command like in /etc/crontab, but no need to specify the user,root.
+Example:
+0-59/1 * * * * /usr/sbin/ntpdate 192.168.50.83
+=>every minute ntpdate.
+
+||- about sudo and /etc/sudoers
+sudo allows a user to run a command as another user.
+sudo privilege and options are configured in sudoers.
+For password issue, pls also refer to D:\Notes\Unix\Linux\Redhat_Refer\sudo.
+Not that targetpw is by default off in redhat, while it's on in Suse.
+
+/etc/sudoers options examples:
+~~~~~~~
+#Defaults        targetpw
+# Samples
+# %users  ALL=/sbin/mount /cdrom,/sbin/umount /cdrom
+# %users  localhost=/sbin/shutdown -h now
+peter ALL=/sbin/reboot,/sbin/checker.pl
+~~~~~~~
+#Defaults        targetpw 
+=> It requires peter's own password when peter runs a sudo command,
+   instead of target user's password, root's.
+peter ALL=/sbin/reboot,/sbin/checker.pl
+=> peter is only allowed to run root's '/sbin/route,/sbin/checker.pl' commands.
+   Other commands are not allowed.
+
+~~~~~~~
+Defaults        targetpw
+peter ALL=/sbin/reboot
+peter2 ALL=NOPASSWD:/sbin/reboot
+peter3 ALL=(ALL) NOPASSWD:ALL
+~~~~~~~
+It requires the password of target user, e.g. root for peter.
+But peter2 is not required to enter any password because of NOPASSWD option.
+peter3 can run all other users' command with (ALL) option, which peter and peter1 can 
+only run root's command.
+
+sudo cmds:
+peter2: sudo /sbin/reboot
+peter3: sudo /sbin/reboot
+        sudo -u peter2 vi /home/peter2/a.txt  
+   
+
+||- How to install telnet service and make it start after system booting?
+1. Install telnet server
+   Method 1: Through Desktop->add and remove software. search keyword telnet and find 
+             telnet server, and install.
+   Method 2: Download telnet-server-0.17-26.i386.rpm and install.
+
+2. Enable telnet service after system booting.
+   vi /etc/xinetd.d/telnet, and set disable = no.
+
+3. restart xinetd 
+   /etc/init.d/xinetd restart
+   or service xinetd restart
+   Then try ftp the server.
+   Note: telnet service is one part of xinetd.
+   
+4. Check if telnet is set to auto start after system booting.
+   [root@pp-xjp xinetd.d]# chkconfig --list |grep inet
+xinetd          0:off   1:off   2:off   3:on    4:on    5:on    6:off
+   [root@pp-xjp xinetd.d]# chkconfig --list |grep telnet
+        ekrb5-telnet:   off
+        krb5-telnet:    off
+        telnet:         on
+    
+    Actually you can see in the last part of result with grep.
+    #chkconfig --list
+    xinetd based services:
+        chargen-dgram:  off
+        chargen-stream: off
+        daytime-dgram:  off
+        daytime-stream: off
+        discard-dgram:  off
+        discard-stream: off
+        echo-dgram:     off
+        echo-stream:    off
+        eklogin:        off
+        ekrb5-telnet:   off
+        gssftp:         off
+        klogin:         off
+        krb5-telnet:    off
+        kshell:         off
+        rsync:          off
+        tcpmux-server:  off
+        telnet:         on
+        time-dgram:     off
+        time-stream:    off
+
+5. Enable root to telnet.
+vi /etc/pam.d/remote
+commnet follow line:
+#auth       required     pam_securetty.so
+
+||- Start up VNC server manually
+refer to D:\Notes\Unix\Linux\Redhat_Refer\HOWTO - Manually start up Redhat VNCserver.mht.
+Key commands:
+=========================
+start up:
+-------------
+service vncserver start
+vncpasswd
+cd ~/.vnc; vi xstartup
+~~~~~~~~~~~~~~~~~
+# Uncomment the following two lines for normal desktop:
+ unset SESSION_MANAGER
+ exec /etc/X11/xinit/xinitrc
+
+Modify last line to
+#twn &
+startx &
+~~~~~~~~~~~~~~~~
+
+;start at desktop 1, that's at TCP port 5901 
+vncserver :1
+
+Shutdown:
+---------------
+vncserver -kill :1
+service vncserver stop
+
+||- Start up VNC server automaticly after booting
+refer to D:\Notes\Unix\Linux\Redhat_Refer\Configure VNC Server To Auto Start Up In Red Hat Linux.mht
+Key commands:
+=========================
+vi /etc/sysconfig/vncservers 
+~~~~~~~~~~~
+VNCSERVERS="1:root 2:peter"
+~~~~~~~~~~~
+; It means auto startup vnc on desktop 1 or port 5901 for root user and desktop 2 for peter user.
+
+chkconfig --level 5 vncserver on
+or enable through GUI administration->server settings->service.
+
+chkconfig ––list | grep vnc
+vncserver  0:off  1:off  2:off  3:off  4:off  5:on  6:off
+
+||- vsftpd: How to install?
+- after booting, add/remove programmes -> add ftp and install.
+- enable vfsftp in the system setting->service
+
+||- vsftpd: How to enable root login?
+1. check userlist_deny value in vsftpd.conf
+Keep default vaule: userlist_enable=YES.
+# cd /etc/vsftpd
+# ls
+ftpusers  user_list  vsftpd.conf  vsftpd_conf_migrate.sh
+
+# grep -i userlist vsftpd.conf
+userlist_enable=YES
+
+2. modify user_list
+uncomment root:
+vi user_list
+# vsftpd userlist
+# If userlist_deny=NO, only allow users in this file
+# If userlist_deny=YES (default), never allow users in this file, and
+# do not even prompt for a password.
+# Note that the default vsftpd pam config also checks /etc/vsftpd/ftpusers
+# for users that are denied.
+#root
+
+3. modify ftpuser
+uncomment root also.
+vi ftpusers
+#root
+
+4. restart vsftpd
+#service vsftpd restart
+
+
+||- vsftpd 421 Service not available
+Syptoms:
+[peter@pp-xjp ~]$ ftp localhost
+Connected to pp-xjp.tek.com.
+421 Service not available.
+ftp> eixt
+
+[root@pp-xjp vsftpd]# netstat -anp|grep 21 |grep vsftpd
+tcp        0      0 0.0.0.0:21                  0.0.0.0:*                   LISTEN      7387/vsftpd
+
+Solution:
+Add 'vsftpd:ALL' in /etc/hosts.allow
+[root@pp-xjp vsftpd]# cat /etc/hosts.allow
+-----------
+#
+# hosts.allow   This file describes the names of the hosts which are
+#               allowed to use the local INET services, as decided
+#               by the '/usr/sbin/tcpd' server.
+#
+sshd: ALL
+in.telnetd: ALL
+vsftpd:ALL
+-----------
+
+||- Add network interface alias
+ifconfig eth0 add 192.168.0.12 netmask 255.255.255.0 up
+ifconfig eth0:0 del 192.168.0.12
+
+||- How to check 32bits or 64bits
+
+intel64可以安装32位的OS。
+
+看操作系统：
+getconf -a |grep -i LONG_BIT
+LONG_BIT                           32
+or 
+[root@localhost ~]# uname -a
+Linux localhost.localdomain 2.6.9-42.ELsmp #1 SMP Wed Jul 12 23:27:17 EDT 2006 i686 i686 i386 GNU/Linux
+如果有x86_64就是64位的，没有就是32位的
+
+WORD BIT 不是判断标准
+[root@localhost ~]# getconf WORD_BIT
+32
+
+
+
+||- NTP client config
+Manual: ntpdate 192.168.50.83
+Crontab -e
+0-59/1 * * * * /usr/sbin/ntpdate 192.168.50.83
+=>every minute ntpdate.
+
+0-59/10 * * * * /usr/sbin/ntpdate 192.168.50.83
+=>every 10 minute ntpdate.
+
+
+||- Modify default language in prompt
+Temporary: modify env parameter LANG to en_US
+Permanent: vi /etc/sysconfig/i18n
+           LANG="en_US"
+Note: set temporary env first, otherwise vi display problem.           
+mdms # LANG="en_US"
+mdms # export LANG="en_US"
+mdms # vi /etc/sysconfig/i18n
+
+
+||- 修改hostname 和 prompt
+比如由[root@localhost ~]=>  [root@gms ~]
+在/etc/hosts 添加/修改一行:
+本地IP <new hostname>
+如下。并重启机器。
+
+[root@gms ~]# cat /etc/hosts
+# Do not remove the following line, or various programs
+# that require network functionality will fail.
+127.0.0.1               localhost.localdomain localhost
+::1             localhost6.localdomain6 localhost6
+192.168.50.210 gms
+
+
+||- Start service at startup 
+It is possible to load Tomcat at start-up. 
+To do so, modify rc.local as follow.
+- from Roman to startup tomcat and apache after system restart if above method failed
+---------
+cd /etc/rc.d/
+[root@cmmweb rc.d]# vi /etc/rc.d/rc.local
+#!/bin/sh
+#
+# This script will be executed *after* all the other init scripts. 
+# You can put your own initialization stuff in here if you don't 
+# want to do the full Sys V style init stuff.
+
+touch /var/lock/subsys/local
+
+# added by Roman
+# Start CMM webserver after OS restart
+export TOMCAT_HOME="/usr/local/jakarta-tomcat-5.5.9"
+$TOMCAT_HOME/bin/startup.sh
+
+
+||- env setting/alias in profile
+Redhat does't use ~/.profile, but /etc/profile first then shell profile and shell profile includes shell rc, which contains alias
+But Suse use ~/.profile.
+su  - peter
+echo $SHELL
+
+bash shell on redhat 
+$vi .bash_profile
+vi .bashrc
+
+[peter@pvserver peter]$ cat .bash_profile
+===================
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/bin
+SM=/opt
+export PATH SM
+unset USERNAME
+
+[root@pvserver root]# cat .bashrc
+=================================
+# .bashrc
+
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+alias sm='/etc/init.d/sm'
+alias cdsm='cd /opt/pvns/sm'
+alias cdc='cd /opt/pvns/sm/conf'
+alias cdl='cd /opt/pvns/sm/logs'
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+
+●c shell
+%vi .login
+
+
+|----------Installation------------|
+This is only an example mode for installation.
+- select typical package
+- select no firework
+- reboot after finishing installation.
+- enter a wrong Red Hat Login when required for registration 
+  and then registration fail, igore it.
+- create a user other than root when required, say cmm. ; It's useful when you want ftp and telnet.
+- after booting, add/remove programmes -> add ftp and install.
+- disable gssftp and enable vfsftp in the system setting->service
+- try ftp and telnet with the new created user cmm. 
+  Note:root doesn't work in ftp and telnet by default!!!
+
+
+
+|-------------cmd-------------------|
+
+||- find
+find . -iname peter
+-iname: case insensitive and functionally like -name. 
+
+||- system-config-xxx
+system-config-date   (8)  - graphical interface for changing system date and time
+system-config-date  (rpm) - A graphical interface for modifying system date and time
+system-config-display (rpm) - A graphical interface for configuring the X Window System display
+system-config-httpd  (1)  - HTTPD configuration utility
+system-config-httpd (rpm) - Apache configuration tool
+system-config-keyboard (rpm) - A graphical interface for modifying the keyboard
+system-config-language (rpm) - A graphical interface for modifying the system language
+system-config-network (rpm) - The GUI of the NEtwork Adminstration Tool
+system-config-network-tui (rpm) - The NEtwork Adminstration Tool
+system-config-nfs   (rpm) - NFS server configuration tool
+system-config-printer-libs (rpm) - Common code for the graphical and non-graphical pieces.
+system-config-printer (rpm) - A printer administration tool
+system-config-samba (rpm) - Samba server configuration tool
+system-config-securitylevel (rpm) - A graphical interface for modifying the system security level
+system-config-securitylevel-tui (rpm) - A text interface for modifying the system security level
+system-config-services (8)  - Service Configuration Utility
+system-config-services (rpm) - system-config-services is an initscript and xinetd configuration utility
+system-config-soundcard (rpm) - A graphical interface for detecting and configuring soundcards
+system-config-users  (8)  - User and Group Management tool
+system-config-users (rpm) - A graphical interface for administering users and groups
+
+||- dmidecode
+check server hardware module, like DL380 g4
+
+System Information
+                Manufacturer: HP
+                Product Name: ProLiant DL380 G5
+                Version: Not Specified
+                Serial Number: CNG735S0RP      
+                UUID: 34313734-3534-434E-4737-333553305250
+                Wake-up Type: Power SwitchSystem Information
+                Manufacturer: HP
+                Product Name: ProLiant DL380 G5
+                Version: Not Specified
+                Serial Number: CNG735S0RP      
+                UUID: 34313734-3534-434E-4737-333553305250
+                Wake-up Type: Power Switch
+
+||- ctrl+z
+ quit command on force, 强行退出
+||-useradd
+useradd -d /home/pi -m -s /bin/bash -c "Personal Image user"  pi 
+-m, --create-home
+              The user鈥檚 home directory will be created if it does not exist. 
+-c, --comment COMMENT
+              Any text string. It is generally a short description of the login, and is currently used as the field
+              for the user鈥檚 full name.
+-s, --shell SHELL
+
+||- sudo
+
+In Suse, by default global flag targetpw is set on, which 
+means it requires the password of target user, e.g. root.
+In Redhat, by default targetgw is set on and it requires 
+current user's own password,which is meaningless for authentication.
+
+In Redhat, /etc/sudoers
+Follow line doesn't exist or is commented.
+Defaults    targetpw
+
+
+Suse:
+------------
+viss@ViSS:~> sudo tcpdump
+passwd:12345678
+
+viss@ViSS:~> sudo tcpdump
+next time no passwd is needed.
+
+
+||- netstat 
+netstat -rn
+check default GW
+
+netstat -an
+netstat -anp ,can see related process name and pid also.
+
+
+||- socklist
+like "netstat -anp"
+
+||- sftp
+sftp ip
+exit 
+
+||-watch -n 2 -d ls
+隔2秒执行ls，-d 标示输出结果的不同处，Watch命令会一直执行，直到您按下 [Ctrl]-[C] 为止。
+watch -n 2 -d date
+watch -n 2 -d "ps -ef|grep vau.exe"
+
+||- tar, gzip
+
+create a tar file
+
+tar –cvf myfiles.tar mydir/
+
+(add z if you are dealing with or creating .tgz (.tar.gz) files)
+
+gzip myfiles
+
+gzip will create myfiles.gz and remove myfiles itself.
+
+|------------Note-------------------|
+||- service command to start command in /etc/init.d
+[root@pvserver conf]#  /etc/init.d/sm stop / start
+# You can use service command to start command in /etc/init.d
+service sm stop / start
+
+||- /etc/redhat-release to check OS version
+[root@localhost root]# cat /etc/redhat-release 
+Red Hat Enterprise Linux ES release 3 (Taroon Update 8)
+
+||- mount remotely(Other server's share folder)
+
+（2）	Directory  mount
+Logon mdms server as root
+
+$ vi /etc/exports
+
+add those to end of exports(if STI server ip is 192.168.50.133):
+ /opt/mdms/repository/share 192.168.50.133 (rw,insecure,sync,no_wdelay,all_squash,anonuid=502,anongid=701)
+
+$ /etc/rc.d/init.d/portmap start
+$ /etc/rc.d/init.d/nfs start 
+
+
+anonuid=501,anongid=701 be same to uid and gid of STI Server user “stiuser”.
+
+    login  STI Server as root
+
+$ mount -t nfs MDMSServerIP:/opt/mdms/repository/share /opt/stiserver/share
+
+
+||- System Information(Redhat) Help from MMIC  
+lspci
+cat /proc/mdstat
+cat /etc/sysconfig/hwconf
+cat /proc/cpuinfo
+cat /proc/meminfo 
+df -k
+
+注意：
+/proc/cpuinfo
+
+processor       : 1 ＝》处理器（核）id
+model name      : Intel(R) Xeon(R) CPU            5110  @ 1.60GHz
+physical id     : 0 ＝》不同为一个物理CPU
+siblings        : 2=》 
+core id         : 1
+cpu cores       : 2＝》
+sibling/core表示CPU核数。有些用siblings表示，有些用cores。
+
+lspci 
+#lspci is a cmd 
+00:00.0 Host bridge: Intel Corporation E7520 Memory Controller Hub (rev 0c)
+00:02.0 PCI bridge: Intel Corporation E7525/E7520/E7320 PCI Express Port A (rev 0c)
+00:06.0 PCI bridge: Intel Corporation E7520 PCI Express Port C (rev 0c)
+00:1d.0 USB Controller: Intel Corporation 82801EB/ER (ICH5/ICH5R) USB UHCI Controller #1 (rev 02)
+00:1d.1 USB Controller: Intel Corporation 82801EB/ER (ICH5/ICH5R) USB UHCI Controller #2 (rev 02)
+00:1d.2 USB Controller: Intel Corporation 82801EB/ER (ICH5/ICH5R) USB UHCI Controller #3 (rev 02)
+00:1d.3 USB Controller: Intel Corporation 82801EB/ER (ICH5/ICH5R) USB UHCI Controller #4 (rev 02)
+00:1d.7 USB Controller: Intel Corporation 82801EB/ER (ICH5/ICH5R) USB2 EHCI Controller (rev 02)
+00:1e.0 PCI bridge: Intel Corporation 82801 PCI Bridge (rev c2)
+00:1f.0 ISA bridge: Intel Corporation 82801EB/ER (ICH5/ICH5R) LPC Interface Bridge (rev 02)
+00:1f.1 IDE interface: Intel Corporation 82801EB/ER (ICH5/ICH5R) IDE Controller (rev 02)
+01:03.0 VGA compatible controller: ATI Technologies Inc Rage XL (rev 27)
+01:04.0 System peripheral: Compaq Computer Corporation Integrated Lights Out Controller (rev 01)
+01:04.2 System peripheral: Compaq Computer Corporation Integrated Lights Out  Processor (rev 01)
+02:00.0 PCI bridge: Intel Corporation 6700PXH PCI Express-to-PCI Bridge A (rev 09)
+02:00.2 PCI bridge: Intel Corporation 6700PXH PCI Express-to-PCI Bridge B (rev 09)
+03:01.0 Ethernet controller: Broadcom Corporation NetXtreme BCM5704 Gigabit Ethernet (rev 10)
+03:01.1 Ethernet controller: Broadcom Corporation NetXtreme BCM5704 Gigabit Ethernet (rev 10)
+04:03.0 RAID bus controller: Compaq Computer Corporation Smart Array 64xx (rev 01)
+05:00.0 PCI bridge: Intel Corporation 6700PXH PCI Express-to-PCI Bridge A (rev 09)
+05:00.2 PCI bridge: Intel Corporation 6700PXH PCI Express-to-PCI Bridge B (rev 09)
+
+ 
+/proc/mdstat  
+Personalities : 
+unused devices: 
+
+ 
+/etc/sysconfig/hwconf  -
+class: OTHER
+bus: PCI
+detached: 0
+driver: windrvr6
+desc: "Compaq Computer Corporation Integrated Lights Out  Processor"
+vendorId: 0e11
+deviceId: b204
+subVendorId: 0e11
+subDeviceId: b206
+pciType: 1
+pcidom:    0
+pcibus:  1
+pcidev:  4
+pcifn:  2
+-
+......
+-
+class: IDE
+bus: PCI
+detached: 0
+driver: windrvr6
+desc: "Intel Corporation 82801EB/ER (ICH5/ICH5R) IDE Controller"
+vendorId: 8086
+deviceId: 24db
+subVendorId: 0e11
+subDeviceId: 3201
+pciType: 1
+pcidom:    0
+pcibus:  0
+pcidev: 1f
+pcifn:  1
+
+ 
+/proc/cpuinfo  
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 15
+model		: 4
+model name	: Intel(R) Xeon(TM) CPU 3.40GHz
+stepping	: 10
+cpu MHz		: 3401.558
+cache size	: 2048 KB
+physical id	: 0
+siblings	: 2
+core id		: 0
+cpu cores	: 1
+fdiv_bug	: no
+hlt_bug		: no
+f00f_bug	: no
+coma_bug	: no
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe lm pni monitor ds_cpl est cid xtpr
+bogomips	: 6807.65
+
+processor	: 1
+vendor_id	: GenuineIntel
+cpu family	: 15
+model		: 4
+model name	: Intel(R) Xeon(TM) CPU 3.40GHz
+stepping	: 10
+cpu MHz		: 3401.558
+cache size	: 2048 KB
+physical id	: 0
+siblings	: 2
+core id		: 0
+cpu cores	: 1
+fdiv_bug	: no
+hlt_bug		: no
+f00f_bug	: no
+coma_bug	: no
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe lm pni monitor ds_cpl est cid xtpr
+bogomips	: 6799.33
+
+processor	: 2
+vendor_id	: GenuineIntel
+cpu family	: 15
+model		: 4
+model name	: Intel(R) Xeon(TM) CPU 3.40GHz
+stepping	: 10
+cpu MHz		: 3401.558
+cache size	: 2048 KB
+physical id	: 3
+siblings	: 2
+core id		: 3
+cpu cores	: 1
+fdiv_bug	: no
+hlt_bug		: no
+f00f_bug	: no
+coma_bug	: no
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe lm pni monitor ds_cpl est cid xtpr
+bogomips	: 6799.46
+
+processor	: 3
+vendor_id	: GenuineIntel
+cpu family	: 15
+model		: 4
+model name	: Intel(R) Xeon(TM) CPU 3.40GHz
+stepping	: 10
+cpu MHz		: 3401.558
+cache size	: 2048 KB
+physical id	: 3
+siblings	: 2
+core id		: 3
+cpu cores	: 1
+fdiv_bug	: no
+hlt_bug		: no
+f00f_bug	: no
+coma_bug	: no
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 5
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe lm pni monitor ds_cpl est cid xtpr
+bogomips	: 6799.20
+
+
+ 
+/proc/meminfo  MemTotal:      4086484 kB
+MemFree:       2676328 kB
+Buffers:        112160 kB
+Cached:         958260 kB
+SwapCached:          0 kB
+Active:         444136 kB
+Inactive:       881024 kB
+HighTotal:     3211208 kB
+HighFree:      1989312 kB
+LowTotal:       875276 kB
+LowFree:        687016 kB
+SwapTotal:     1020088 kB
+SwapFree:      1020088 kB
+Dirty:             436 kB
+Writeback:           0 kB
+Mapped:         282308 kB
+Slab:            68572 kB
+Committed_AS:   466392 kB
+PageTables:       5192 kB
+VmallocTotal:   106488 kB
+VmallocUsed:      3004 kB
+VmallocChunk:   103148 kB
+HugePages_Total:     0
+HugePages_Free:      0
+Hugepagesize:     2048 kB
+
+ 
+df  Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/cciss/c0d0p3     12096756   9448512   2033760  83% /
+/dev/cciss/c0d0p1       101086     11296     84571  12% /boot
+none                   2043240         0   2043240   0% /dev/shm
+/dev/cciss/c0d0p6      9701036    675372   8532872   8% /slides
+/dev/cciss/c0d0p2     12096756    313840  11168432   3% /var
+
+||- cpu
+cat /proc/cpuinfo
+
+||- Modify ip and gateway and Multi-gateway
+0002 永久更改ip(bjchenxu) 
+；ifconfig eth0 新ip
+然后编辑/etc/sysconfig/network-scripts/ifcfg-eth0	
+
+ 
+[root@cmmws ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0
+# Broadcom Corporation NetXtreme BCM5704 Gigabit Ethernet
+DEVICE=eth0
+BOOTPROTO=none
+BROADCAST=192.168.50.255
+HWADDR=00:18:71:76:59:5F
+IPADDR=192.168.50.244
+NETMASK=255.255.255.0
+NETWORK=192.168.50.0
+ONBOOT=yes
+GATEWAY=192.168.50.1
+TYPE=Ethernet
+USERCTL=no
+IPV6INIT=no
+PEERDNS=yes
+
+/etc/sysconfig/network-scripts/ifcfg-eth0 
+更改GATEWAY 
+并查看 /etc/sysconfig/network/routes or  /etc/sysconfig/network
+/etc/init.d/network restart
+
+
+
+
+0004 手动添加默认网关 
+by default, system will take the gw of the last interface as default,
+the you may have problem on routing of first interface.
+以root用户，执行:
+1. 
+route add default gw 网关的IP 
+2.
+/etc/init.d/network restart 
+3. 
+echo "route add default gw 网关的IP" >> /etc/rc.d/rc.local ; start after reboot
+
+应该直接修改/etc/sysconfig/network/routes就不用/etc/rc.d/rc.local!!!
+
+- 为不同lan增加网关
+1. 
+route add -net 192.168.100.0 netmask 255.255.255.0 gw 192.168.100.1
+route add -net 192.168.100.0 netmask 255.255.255.0 dev eth0
+route add -host 192.168.100.3 netmask 255.255.255.255 gw 192.168.100.1
+
+2. 
+ /etc/init.d/network restart 
+3. 
+netstat -rn
+4. 
+echo "route add default gw 网关的IP" >> /etc/rc.d/rc.local ; start after reboot
+
+- 想更改single interface 网关 
+1 vi
+/etc/sysconfig/network-scripts/ifcfg-eth0 
+更改GATEWAY 
+并查看 /etc/sysconfig/network/routes
+2.
+ /etc/init.d/network restart 
+
+||- delete ip or alias
+rm the configuration file in 	
+and restart network by  /etc/init.d/network restart
+
+||- Bind multiple IP to on one port
+ifconfig ce0:1 <ip> <netmask>
+或 添加network-scripts
+[root@hljmmic1 network-scripts]# cat ifcfg-eth0:1
+        IPADDR=10.0.49.95
+        NETMASK=255.255.255.0
+
+
+
+
+||- Install package 
+here's what I learnt and wrote down to be the standard install routines for rpm and tar.gz files.
+
+you can find out what the switches mean by doing a rpm --help or tar --help from the command line.
+
+1.  Check there is no apache installed on your machine : 
+rpm -qa | grep -i httpd 
+2.  uninstall them if any : 
+rpm -e --nodeps httpd 
+
+3. Install a package
+There ways:
+3.1 install with *.rpm file
+rpm -ivh packagename
+eg.
+rpm -ivh libosip2-2.1.0-2.1.i586.rpm
+
+upgrade a package
+
+rpm -Uvh packagename
+
+3.2 standard install from source
+----------------------
+1. Unpack the distribution into a development directory (I used /tmp/install/cmm)  
+gunzip httpd-2.0.58.tar.gz
+tar xvf httpd-2.0.58.tar
+3. cd into the distribution directory 
+cd /tmp/install/cmm/httpd-2.0.58
+4.  Configure the makefile:  
+./buildconf ; ./buildconf is optional for some packages
+./configure --prefix=/usr/local/apache  
+5. Build Apache:  
+make 
+6.  Install Apache:  
+make install 
+
+Then apache will be installed in /usr/local/apache.
+7.  Note the location of your Apache installation - we will refer to this as $APACHE_HOME
+su - root ;make APACHE_HOME, defined in /etc/profile, take affect.
+
+
+3.3 install rpm bin file
+ chmod u+x jdk-1_5_0_07-linux-i586-rpm.bin
+ ./jdk-1_5_0_07-linux-i586-rpm.bin
+
+
+|||- install iptraf
+/usr/local/bin/iptraf
+
+tar xvfz iptraf-3.0.0.bin.i386.tar.gz
+[root@cmmws tmp]# cd iptraf-3.0.0.bin.i386
+[root@cmmws iptraf-3.0.0.bin.i386]# ls
+CHANGES        INSTALL  README.contact     README.rvnamed  src
+Documentation  LICENSE  README.interfaces  RELEASE-NOTES
+FAQ            README   README.platforms   Setup
+[root@cmmws iptraf-3.0.0.bin.i386]# ls -l
+total 160
+-rw-r--r-- 1 cmmws root 37436 Sep 13  2005 CHANGES
+drwxr-xr-x 4 cmmws root  4096 Aug  4  2005 Documentation
+-rw-r--r-- 1 cmmws root  3801 Aug  6  2002 FAQ
+-rw-r--r-- 1 cmmws root  2189 Dec 30  2002 INSTALL
+-rw-r--r-- 1 cmmws root 18271 Mar  7  2002 LICENSE
+-rw-r--r-- 1 cmmws root  3150 Dec 30  2002 README
+-rw-r--r-- 1 cmmws root  1475 May 10  2001 README.contact
+-rw-r--r-- 1 cmmws root  2623 Aug  6  2002 README.interfaces
+-rw-r--r-- 1 cmmws root   953 Aug  6  2002 README.platforms
+-rw-r--r-- 1 cmmws root  2578 Nov 16  2001 README.rvnamed
+-rw-r--r-- 1 cmmws root  4362 Dec 30  2002 RELEASE-NOTES
+-rwxr-xr-x 1 cmmws root  1549 Jul 12  2002 Setup
+drwxr-xr-x 2 root  root  4096 Sep 13  2005 src
+[root@cmmws iptraf-3.0.0.bin.i386]# ./Setup
+=====================================================================
+ IPTraf Version 3.0.0 Setup
+ Target Platform: Linux/i686
+ Would you like to view the RELEASE-NOTES file now (Y/N)? y
+
+=====================================================================
+
+Thank you for installing IPTraf.  You can now start IPTraf by issuing
+the command
+
+    /usr/local/bin/iptraf
+
+at your shell prompt.  You can also add /usr/local/bin to your PATH environment
+variable to avoid having to type the pathname when invoking the program.
+
+make: Leaving directory `/tmp/iptraf-3.0.0.bin.i386/src'
+[root@cmmws iptraf-3.0.0.bin.i386]# /usr/local/bin/iptraf
+
+
+
+||-  shutdown firework
+
+|||-rt 
+--------------------------------------------------------------------------------
+/etc/rc.d/init.d/iptables stop
+或者setup选择防火墙配置，把防火墙关闭 
+--------------------------------------------------------------------------------
+chkconfig --list|grep iptables
+chkconfig iptables off 
+--------------------------------------------------------------------------------
+redhat :
+chkconfig --level 2345 iptables off
+service iptables stop
+但是不推荐关闭防火墙 
+--------------------------------------------------------------------------------
+service iptables stop
+iptables -F
+iptables -X 
+
+|||- or
+redhat :/etc/sysconfig/iptables,把这个文件删除防火墙就关闭了
+
+

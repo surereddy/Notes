@@ -1,0 +1,9 @@
+program zoey_1;
+   makecall;
+   pause 20;
+   digits <1>;
+   pause 38;
+   digits <9>;
+   pause 5;
+   dropcall;
+stop;

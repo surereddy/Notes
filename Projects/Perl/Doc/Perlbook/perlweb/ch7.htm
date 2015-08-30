@@ -1,0 +1,3893 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Chapter 7 -- Dynamic and Interactive HTML Content in Perl and CGI
+
+</TITLE>
+
+
+
+<META>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Chapter&nbsp;7</FONT></H1>
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Dynamic and Interactive HTML Content
+
+in Perl and CGI</FONT></H1>
+
+<P>
+
+<I><B>by Shelley Powers</B></I>
+
+<HR>
+
+<P>
+
+<CENTER><B><FONT SIZE=5><A NAME="CONTENTS">CONTENTS</A></FONT></B></CENTER>
+
+<UL>
+
+<LI><A HREF="#CreatingUserSpecificPages">
+
+Creating User-Specific Pages</A>
+
+<UL>
+
+<LI><A HREF="#AllowingtheUsertoShopforOptions">
+
+Allowing the User to Shop for Options</A>
+
+<LI><A HREF="#BuildinganHTMLDocumentBasedonOptions">
+
+Building an HTML Document Based on Options</A>
+
+</UL>
+
+<LI><A HREF="#UsingServerSideIncludes">
+
+Using Server-Side Includes</A>
+
+<UL>
+
+<LI><A HREF="#UnderstandingtheSSICommands">
+
+Understanding the SSI Commands</A>
+
+<LI><A HREF="#SettingupanEnvironmentforServerSideIncludes">
+
+Setting up an Environment for Server-Side Includes</A>
+
+<LI><A HREF="#UnderstandingtheCommands">
+
+Understanding the Commands</A>
+
+</UL>
+
+<LI><A HREF="#UnderstandingShoppingCarts">
+
+Understanding Shopping Carts</A>
+
+<UL>
+
+<LI><A HREF="#ShoppingCartUsingHiddenFields">
+
+Shopping Cart Using Hidden Fields</A>
+
+<LI><A HREF="#ShoppingCartUsingHTTPCookies">
+
+Shopping Cart Using HTTP Cookies</A>
+
+</UL>
+
+<LI><A HREF="#FromHere">
+
+From Here   </A>
+
+</UL>
+
+
+
+<HR>
+
+<P>
+
+<A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch4.htm" >Chapter 4</A> &quot;Advanced Page Output,&quot; contained some discussion
+
+of generating HTML content, and <A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch6.htm" >Chapter 6</A> &quot;Using Dynamic
+
+Pages,&quot; extended this description with a detailed description
+
+of Web page redirection, the CGI environment variables, client
+
+pull, and server push. This chapter discusses additional aspects
+
+of using Perl to develop interactive and dynamic Web applications.
+
+<H2><A NAME="CreatingUserSpecificPages"><FONT SIZE=5 COLOR=#FF0000>
+
+Creating User-Specific Pages</FONT></A></H2>
+
+<P>
+
+No matter how dynamic or interesting a page is, no one page can
+
+please all people or provide information that interests all people
+
+at all times. That old adage says you can please some of the people
+
+all of the time or all of the people some of the time, but you
+
+can never please all of the people all of the time. Application
+
+developers have always been acutely aware of this adage, particularly
+
+when they try to get the users of their application to buy off
+
+on a design or a deliverable.
+
+<P>
+
+Recent technology permits most of us to change our environments,
+
+at least on the computer. We have control of features as simple
+
+as what screen saver we use and what background we display; we
+
+can also control more complex features, such as what macros we
+
+install and what features we enable in the applications that we
+
+use.
+
+<P>
+
+In Web application development, the ideal approach is to present
+
+a list of options to a particular Web page reader and allow that
+
+reader to choose what content he or she wants to see and the way
+
+that the content is presented. Both Netscape and Microsoft implement
+
+some version of this approach with their personalized home pages.
+
+<P>
+
+You also can implement this approach by providing a shopping bin
+
+of components and allowing your users to select components from
+
+the bin. After a user makes his choices, the information is stored
+
+under his name or alias. When the user accesses the main document,
+
+such as INDEX.CGI,<I> </I>the application accesses the file that
+
+stores this information and basically builds the user's page,
+
+based on his preferences and including only the components that
+
+he picked. For a new user who does not have a previously defined
+
+preference, the application displays a generic Web page that includes
+
+an option allowing that person to define his own unique Web page.<TT>
+
+</TT>Creating user-specific pages usually implies two types of
+
+processing: one to allow the user to define what he wants on his
+
+page, and the second to actually create the page.
+
+<H3><A NAME="AllowingtheUsertoShopforOptions">
+
+Allowing the User to Shop for Options</A></H3>
+
+<P>
+
+The first technique to implement for the shopping-bin approach
+
+is to build a Web page that lists the options. This page must
+
+be accessible from your main Web site page. You also need to create
+
+the content bins. To do so, examine your Web site and determine
+
+what its major components are. If you are selling a product, you
+
+could organize the components in a catalog layout, or you could
+
+organize by department. If your site provides general information-such
+
+as the current weather, exciting events that are occurring that
+
+week, or major product announcements-you could classify each type
+
+of information as a major component.
+
+<P>
+
+For the example in this chapter, the major components are:
+
+<UL>
+
+<LI><B>Company Announcements.</B> This section includes information
+
+about new products and company changes.
+
+<LI><B>Product Announcements.</B> This section contains information
+
+about new and existing products, such as new releases and cost
+
+changes.
+
+<LI><B>Product Announcements for Product X.</B> This section contains
+
+information that is specific to Product X.
+
+<LI><B>Product Announcements for Product Y.</B> This section contains
+
+information that is specific to Product Y.
+
+</UL>
+
+<P>
+
+Normally, all these components would be available directly in
+
+the main Web page or as links from the main page. In the shopping-bin
+
+approach, part of the information will be listed in the user-specific
+
+Web page, and additional information will be listed as links.
+
+<P>
+
+After you determine the content of each section, the next step
+
+in creating a shopping bin is creating a form that asks for and
+
+processes the Web page reader's user name and password. Chapter
+
+8, &quot;Understanding Basic User Authentication,&quot; covers
+
+user authorization, and this form is covered in that chapter.
+
+After the user name and password have been processed, a second
+
+form opens, allowing the user to pick the options that he or she
+
+wants to see.
+
+<P>
+
+Figure 7.1 displays a form that allows the user to choose among
+
+the components listed earlier in this section. This form is generated
+
+by a CGI application that creates the HTML. The application also
+
+includes the new user name as part of a hidden field. The user
+
+name is sent along with the other form data. Listing 7.1 shows
+
+an example of this form.
+
+<P>
+
+<A HREF="f7-1.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-1.gif"><B> Figure 7.1 : </B><I>This Web document provides a form in which a Web page reader can choose preferences, enter a user name, and enter a password.
+
+
+
+</I></A><P>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.1&nbsp;&nbsp;HTML That Allows Web Readers to Specify
+
+Preferences (binchoose.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# binchoose.cgi
+
+#
+
+# Application will generate an HTML document
+
+# that contains the user name as a hidden
+
+# field.  One method of implementing persistence across
+
+# HTML documents.
+
+#
+
+# Application will also list content choices
+
+#
+
+# add location of CGI.pm
+
+BEGIN {
+
+     push(@INC,'/opt2/web/guide/unix/book-bin');
+
+}
+
+use CGI;
+
+$query = new CGI;
+
+#
+
+# if existing parameters, get value for user_name
+
+if ($query-&gt;param()) {
+
+     $user_name = $query-&gt;param('user_name');
+
+}
+
+#
+
+# print header and heading information
+
+print $query-&gt;header;
+
+print $query-&gt;start_html('Choices');
+
+print $query-&gt;h1('Choices');
+
+print &quot;&lt;hr&gt;&quot;;
+
+print $query-&gt;h3('Choose the contents you want.');
+
+#
+
+# start form
+
+print $query-&gt;start_form(-method=&gt;'POST',
+
+     -action=&gt;'http://unix.yasd.com/book-bin/process_request.cgi');
+
+#
+
+# add hidden field containing user name
+
+print $query-&gt;hidden(-name=&gt;'user_name',-value=&gt;$user_name);
+
+#
+
+# add checkboxes for choices
+
+print $query-&gt;checkbox(-name=&gt;'Company',-label=&gt;'Company Announcements');
+
+print &quot;&lt;br&gt;&quot;;
+
+print $query-&gt;checkbox(-name=&gt;'Products',-label=&gt;'Product Announcements');
+
+print &quot;&lt;br&gt;&quot;;
+
+print $query-&gt;checkbox(-name=&gt;'ProductX',-label=&gt;'ProductX Announcements');
+
+print &quot;&lt;br&gt;&quot;;
+
+print $query-&gt;checkbox(-name=&gt;'ProductY',-label=&gt;'ProductY Announcements');
+
+print &quot;&lt;p&gt;&quot;;
+
+print $query-&gt;submit;
+
+print $query-&gt;end_form;
+
+#
+
+# finish document
+
+print &quot;&lt;hr&gt;&quot;;
+
+print $query-&gt;end_html;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+After the form is submitted, the application uses the user name
+
+and password to create an entry in the password file for the Web
+
+page reader. <A HREF="ch8.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch8.htm" >Chapter 8</A> &quot;Understanding Basic User Authentication,&quot;
+
+goes into detail on this process, so it is not covered here. The
+
+application uses the rest of the contents to add an entry to a
+
+file that contains the user name.
+
+<P>
+
+The program that processes the contents adds an entry to a file
+
+called USERBIN.INP. Following is the format of the entry that
+
+will be added:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+username::option1:option2:option3:   optionn
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The user name is followed by two colons (<TT>::</TT>), which in
+
+turn are followed by a string that contains the options that the
+
+reader chose, with the options separated by single colons (<TT>:</TT>).
+
+<P>
+
+After the entry has been created in the USERBIN.INP file, the
+
+choices are processed. The resulting Web page displays the Web
+
+page reader's choices and a link to the site, as shown in figure
+
+7.2.
+
+<P>
+
+<A HREF="f7-2.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-2.gif"><B> Figure 7.2 : </B><I>This page confirms that the Web page reader's choices have been saved and provides a link to the location that the reader needs to access.
+
+
+
+</I></A><P>
+
+<P>
+
+The application uses the Perl 5.0 library <TT>CGI.pm</TT> to process
+
+the form after the Web page reader submits it. Listing 7.2 shows
+
+the code for this application.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.2&nbsp;&nbsp;CGI to Process the Reader's Choices
+
+for a Dynamic Page (process_request.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# process_request.cgi
+
+#
+
+# Application will access user name and
+
+# check for it in password file.
+
+# If name exists, reader will get a duplicate
+
+# name response and a link back to try again.
+
+#
+
+# If name does not exist, name and choices are
+
+# added to file.
+
+#
+
+BEGIN {
+
+     push(@INC,'/opt2/web/guide/unix/book-bin');
+
+}
+
+use CGI;
+
+$query = new CGI;
+
+#
+
+# if existing parameters, get value for user_name
+
+if ($query-&gt;param()) {
+
+     $user_name = $query-&gt;param('user_name');
+
+}
+
+print $query-&gt;header;
+
+print $query-&gt;start_html('User Name Status');
+
+#
+
+# use grep to check for user name
+
+$grep_string = &quot;grep 'user_name=&quot; . $user_name . &quot;' userbin.inp |&quot;;
+
+open(MASTER, $grep_string);
+
+read(MASTER, $result, 100);
+
+#
+
+# if not found, add, else give message of duplicate
+
+if (index($result, $user_name) &gt; 0) {
+
+     print $query-&gt;h1('Name already exists in system');
+
+     print &quot;&lt;p&gt; That name already exists.&lt;p&gt;&quot;;
+
+     print &quot;To try another go &quot;;
+
+     print $query-&gt;a({href=&gt;&quot;http://unix.yasd.com/unique/add_user.html&quot;},&quot;here&quot;);
+
+} else {
+
+     &amp;add_choices($query);
+
+}
+
+# finish document
+
+print &quot;&lt;hr&gt;&quot;;
+
+print $query-&gt;end_html;
+
+
+
+exit(0);
+
+
+
+#
+
+# Subroutine add_choices
+
+#
+
+# Access query sent from form with options
+
+# Add user_name as first entry, then
+
+# add each of the options, formatted
+
+#
+
+# output line to userbin.inp file
+
+sub add_choices {
+
+     my($query)=@_;
+
+     $name=$query-&gt;param('user_name');
+
+     $query_line = $name . &quot;:&quot;;
+
+     $company = $query-&gt;param('Company');
+
+     if ($company) {
+
+          $query_line = $query_line . &quot;:Company&quot;;
+
+     }
+
+     $products = $query-&gt;param('Products');
+
+     if ($products) {
+
+          $query_line = $query_line . &quot;:Products&quot;;
+
+     }
+
+     $prodx = $query-&gt;param('ProductX');
+
+     if ($prodx) {
+
+          $query_line = $query_line . &quot;:ProductX&quot;;
+
+     }
+
+     $prody = $query-&gt;param('ProductY');
+
+     if ($prody) {
+
+          $query_line = $query_line . &quot;:ProductY&quot;;
+
+     }
+
+     open(USER_FILE, &quot;&gt;&gt; userbin.inp&quot;) || die &quot;Could not process request&quot;;
+
+      $query_line = $query_line . &quot;\n\n&quot;;
+
+     print USER_FILE $query_line;
+
+     close(USER_FILE);
+
+     print $query_line;
+
+     print $query-&gt;h1('Your page information has been added');
+
+     print &quot;&lt;p&gt; To try your page go &quot;;
+
+     print $query-&gt;a({href=&gt;&quot;http://unix.yasd.com/unique/index.cgi&quot;},&quot;here&quot;);
+
+}
+
+The application creates a line in the USERBIN.INP file that looks similar
+
+to any one of the following:
+
+joeg::Company:ProductY
+
+
+
+tester::Products:ProductX
+
+
+
+sallybrown::Company:Products:ProductX
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+An additional enhancement that you could make in this application
+
+would allow the Web page reader to modify his choices. Currently,
+
+the application does not allow modifications after the user makes
+
+his choices.<TT> </TT>
+
+<H3><A NAME="BuildinganHTMLDocumentBasedonOptions">
+
+Building an HTML Document Based on Options</A></H3>
+
+<P>
+
+When accessing his or her user-defined Web pages, the reader really
+
+is accessing the same CGI application as every other person who
+
+defined a user page. This application, called <TT>index.cgi</TT>,<I>
+
+</I>resides in a password-protected subdirectory. As stated previously,
+
+<A HREF="ch8.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch8.htm" >Chapter 8</A> &quot;Understanding Basic User Authentication,&quot;
+
+provides the information necessary to set up this type of subdirectory.
+
+<P>
+
+Because the server is defined to look for certain files-such as
+
+INDEX.htmL, INDEX.htm, INDEX.SHTML, and eventually INDEX.CGI-when
+
+a browser accesses a subdirectory, this application runs as soon
+
+as the subdirectory is accessed. First, the server determines
+
+that the file exists in a protected subdirectory and requests
+
+that the user enter his or her user name and a password. These
+
+entries are verified with the .HTPASSWD file; then the application
+
+runs.
+
+<P>
+
+Because the user's identity was verified by means of authentication,
+
+certain CGI environment variables are set. <A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch6.htm" >Chapter 6</A> &quot;Using
+
+Dynamic Pages,&quot; contains a list and description of several
+
+CGI environment variables. In this case, the one variable that
+
+is of interest is <TT>REMOTE_USER</TT>. This variable contains
+
+the name that the user entered as his user name; it should also
+
+be the name that the user entered when he defined his Web page.
+
+<P>
+
+The <TT>index.cgi</TT> application accesses the <TT>REMOTE_USER</TT>
+
+variable and then accesses the options that the reader specified
+
+for his <TT>other</TT> page. The application parses the options
+
+one at a time and then builds the page by accessing the subroutine
+
+that processes that particular option. Listing 7.3 shows the code
+
+for the main program of <TT>index.cgi</TT>.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.3&nbsp;&nbsp;Application to Access User-Specified
+
+Options and Call the Appropriate Subroutines (index.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# index.cgi
+
+#
+
+# Opens userbin.inp and pulls in user's choices.
+
+#
+
+BEGIN {
+
+     push(@INC,'/opt2/web/guide/unix/book-bin');
+
+}
+
+use CGI;
+
+$query = new CGI;
+
+#
+
+# printer document header
+
+$user_name = $ENV{'REMOTE_USER'};
+
+print $query-&gt;header;
+
+print $query-&gt;start_html('The Unique Page');
+
+print $query-&gt;h1(&quot;Some Software Company&quot;);
+
+#
+
+# use grep to check for user name
+
+$grep_string = &quot;grep '&quot; . $user_name . &quot;' userbin.inp |&quot;;
+
+open(MASTER, $grep_string);
+
+read(MASTER, $result, 100);
+
+close(MASTER);
+
+#
+
+# if not found, return, else give pull in components
+
+if (index($result, $user_name) &gt;= 0) {
+
+     &amp;get_options($user_name);
+
+} else {
+
+     &amp;not_found($user_name);
+
+}
+
+print &quot;&lt;ADDRESS&gt; &lt;a href='mailto:shelleyp\@yasd.com'&gt;Webmaster&lt;/a&gt;&lt;/ADDRESS&gt;&quot;;
+
+print $query-&gt;end_html;
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Notice that the Webmaster <TT>mailto</TT> is added at the bottom
+
+after all the components have been added and the page is complete.
+
+<P>
+
+At least two options determine how to add the components of each
+
+section of the Web page that is being built. One option is to
+
+use Perl to print the component content. The advantage of using
+
+this method is that you could use the same technique to generate
+
+all the sections of the document. The Perl library <TT>CGI.pm</TT>
+
+is particularly suited for this purpose, because it contains defined
+
+objects that can easily create whatever content is needed for
+
+the page.
+
+<P>
+
+Listing 7.4 shows the subroutine that creates the Company Announcements
+
+component.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.4&nbsp;&nbsp;Subroutine That Generates the General
+
+Company Announcements (index.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Sub print_company {
+
+     print &quot;&lt;FONT SIZE=5 COLOR='#FF0000'&gt;RECORD EARNINGS!&lt;/FONT&gt;&quot;;
+
+     print &quot;&lt;p&gt;&quot;;
+
+     print &quot;Some Software Company has announced that they have exceeded all&quot;;
+
+     print &quot;industry experts and have made a whopping $50,000,000.00 this last&quot;;
+
+     print &quot;quarter.  When the news was announced, stockholders, all two of&quot;;
+
+     print &quot;them, collapsed in shock.  Some Software Company CEO Joe Software&quot;;
+
+     print &quot;has stated that this is the beginning only. He is quoted as saying&quot;;
+
+     print &quot;'Software today, the World tomorrow.'  This reporter is assuming&quot;;
+
+     print &quot;he is talking about distribution only.&quot;;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+To pass the CGI object to the function, the first line of the
+
+subroutine is:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+local($query)=@_;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The result of this code is the Web page shown in figure 7.3.
+
+<P>
+
+<A HREF="f7-3.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-3.gif"><B> Figure 7.3 : </B><I>This Web page displays the HTML generated from the majannounce CGI subroutine.
+
+
+
+</I></A><P>
+
+<P>
+
+Another approach is to open a file containing the HTML statements
+
+and basically print the contents out as is. Listing 7.5 shows
+
+the subroutine that generates the Company Announcements section,
+
+using this technique.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.5&nbsp;&nbsp;Subroutine to Read Company Announcements
+
+and Print Directly (index.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#
+
+# subroutine print_company
+
+#
+
+# Open and print the contents of the company announcements file.
+
+sub print_company {
+
+     open(COMPANY, &quot;../book-html/maj_announce.html&quot;);
+
+     print &quot;&lt;HR&gt;&lt;p&gt;&quot;;
+
+     while (&lt;COMPANY&gt;) {
+
+          print $_;
+
+     }
+
+     close(COMPANY);
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The advantage of using this technique is that someone who is not
+
+proficient in using Perl can create the content independent of
+
+the application. Also, this approach is simpler to implement,
+
+because the HTML document basically opens, prints, and then closes
+
+an HTML document.
+
+<P>
+
+The second technique is used for the example presented in this
+
+section. Listing 7.6 shows the code for all the subroutines.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.6&nbsp;&nbsp;Subroutines to Create the User-Defined
+
+HTML Document Contents (index.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#
+
+# subroutine get_options
+
+#
+
+# This subroutine will access the choices for the reader from
+
+# the userbin.inp file. For each option, the subroutine that contains
+
+# the handling of the option is called.
+
+sub get_options {
+
+     my($name)=@_;
+
+     #
+
+     # find options line and load into variable
+
+     open(CHOICES, &quot;userbin.inp&quot;);
+
+     while (&lt;CHOICES&gt;) {
+
+          $line=$_;
+
+          if (index($line,$name) &gt;= 0) {
+
+               $data_string = $line;
+
+               last;
+
+          }
+
+     }
+
+     close(CHOICES);
+
+     #
+
+     # check for each option and call associated subroutine
+
+     $line = $data_string;
+
+     if (index($line, &quot;Company&quot;) &gt;= 0 ) {
+
+          &amp;print_company();
+
+     }
+
+     if (index($line, &quot;Products&quot;) &gt;= 0) {
+
+          &amp;print_products();
+
+     }
+
+     if (index($line, &quot;ProductX&quot;) &gt;= 0) {
+
+          &amp;print_productX();
+
+     }
+
+     if (index($line, &quot;ProductY&quot;) &gt;= 0) {
+
+          &amp;print_productY();
+
+     }
+
+}
+
+
+
+#
+
+# subroutine not_found
+
+#
+
+# If there were no options for this reader, a
+
+# message is output and a link provided to
+
+# allow the reader to add options
+
+sub not_found {
+
+     my($name)=@_;
+
+     print &quot;&lt;HR&gt;&lt;p&gt;&quot;;
+
+     print &quot;There are no options for &quot; . $name . &quot;.&lt;p&gt;&quot;;
+
+     print &quot;set options &lt;a href='http://unix.yasd.com/book-bin/binchoose.cgi'&quot;;
+
+     print &quot;?user_name=&quot; . $name;
+
+     print &quot;&gt;here&lt;/a&gt; to create your dynamic page.&quot;;
+
+}
+
+
+
+#
+
+# subroutine print_company
+
+#
+
+# Open and print the contents of the company announcements file.
+
+sub print_company {
+
+     open(COMPANY, &quot;../book-html/maj_announce.html&quot;);
+
+     print &quot;&lt;HR&gt;&lt;p&gt;&quot;;
+
+     while (&lt;COMPANY&gt;) {
+
+          print $_;
+
+     }
+
+     close(COMPANY);
+
+}
+
+
+
+#
+
+# subroutine print_products
+
+#
+
+# Open and print the contents of the general products
+
+# announcements file.
+
+sub print_products {
+
+     open(PRODUCT, &quot;../book-html/prod_announce.html&quot;);
+
+     print &quot;&lt;HR&gt;&lt;p&gt;&quot;;
+
+     while (&lt;PRODUCT&gt;) {
+
+          print $_;
+
+     }
+
+     close(PRODUCT);
+
+}
+
+
+
+#
+
+# subroutine print_productX
+
+#
+
+# Open and print the contents of the product X file.
+
+sub print_productX {
+
+     open(PRODX, &quot;../book-html/prodx_announce.html&quot;);
+
+     print &quot;&lt;HR&gt;&lt;p&gt;&quot;;
+
+     while (&lt;PRODX&gt;) {
+
+          print $_;
+
+     }
+
+     close(PRODX);
+
+}
+
+
+
+#
+
+# subroutine print_productY
+
+#
+
+# Open and print the contents of the product Y file.
+
+sub print_productY {
+
+     open(PRODY, &quot;../book-html/prody_announce.html&quot;);
+
+     print &quot;&lt;HR&gt;&lt;p&gt;&quot;;
+
+     while (&lt;PRODY&gt;) {
+
+          print $_;
+
+     }
+
+     close(PRODY);
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The last step in creating the user-defined HTML document is creating
+
+the components that are used. Listing 7.7 shows the HTML that
+
+creates the Company Announcements component. This component contains
+
+a headline and an announcement of record earnings for the quarter.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.7&nbsp;&nbsp;Company Announcements HTML Document
+
+(maj announce.html)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;!-- Major company announcement --&gt;
+
+&lt;FONT SIZE=5 COLOR=&quot;#FF0000&quot;&gt;RECORD EARNINGS!&lt;/FONT&gt;
+
+&lt;p&gt;
+
+Some Software Company has announced that they have exceeded all
+
+industry experts and have made a whopping $50,000,000.00 this last
+
+quarter.  When the news was announced, stockholders, all two of
+
+them, collapsed in shock.  Some Software Company CEO Joe Software
+
+has stated that this is the beginning only. He is quoted as saying
+
+&quot;Software today, the World tomorrow.&quot;  This reporter is assuming
+
+he is talking about distribution only.
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The next component to implement is the Product Announcements page.
+
+This page contains an announcement of a new product that is in
+
+production and is expected to be delivered by the end of the year.
+
+Listing 7.8 shows the HTML for this component.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.8&nbsp;&nbsp;Major Product Announcement HTML Document
+
+ (prod_announce.html)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;!-- Product Announcement --&gt;
+
+&lt;H2&gt; New product, Product Z, to be released at year end &lt;/H2&gt;
+
+Some Software Company has announced a new product, Product Z,
+
+that is expected to be ready for distribution. Unlike some
+
+other software programs that do everything &quot;but wash your windows,&quot;
+
+Product Manager Paula Produce states &quot;Product Z will add
+
+extensibility to any existing software products that will add
+
+in window washing capability.&quot; Industry experts are awed.
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The next component contains a product announcement related specifically
+
+to Product X. The announcement states that Product X is being
+
+recalled, because the government has found that it tends to erase
+
+hard drives if it is brought within 25 feet of a computer. Listing
+
+7.9 contains the code for this component.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.9&nbsp;&nbsp;Product X Announcement HTML Document
+
+(prodx_announce.html)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;!-- Product X announcement --&gt;
+
+&lt;H2&gt; Product X recall &lt;/H2&gt;
+
+Product X, also know in the industry as Solv-Ur-Problems, is
+
+being recalled by the Federal Government. Product X is an
+
+all purpose software program guaranteed to solve all your
+
+existing software problems. The government has found, though, that
+
+Product X will erase any and all hard drives that it comes within
+
+25 feet of.
+
+&lt;p&gt;
+
+Paula Product, Product Manager, is quoted as saying &quot;While
+
+we will comply with the government request to pull this product,
+
+we want to re-assure people that Product X does live up to
+
+it's claim of solving any software problem..&quot;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The next component is for Product Y. There are no major announcements
+
+for Product Y, so the file is empty. The application can deal
+
+with empty files.
+
+<P>
+
+The result of all this effort is that a Web page reader with the
+
+user name sallybrown has chosen to read Company Announcements,
+
+Product Announcements, and Product X Announcements only. When
+
+she accesses the dynamic Web page site, her page looks like the
+
+one shown in figure 7.4.
+
+<P>
+
+<A HREF="f7-4.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-4.gif"><B> Figure 7.4 : </B><I>This dynamic Web page was generated for user sallybrown, listing Company and Product Announcements.
+
+
+
+</I></A><P>
+
+<P>
+
+Another Web page reader with the user name joeg chose the Company
+
+Announcements and Product Y Announcements options. His page is
+
+similar to the one shown in figure 7.5.
+
+<P>
+
+<A HREF="f7-5.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-5.gif"><B> Figure 7.5 : </B><I>This dynamic Web page was generated for user joeg, listing Company Announcements only.
+
+
+
+</I></A><P>
+
+<P>
+
+No section is generated for Product Y, because the file that contains
+
+this information is empty. The file could have contained a line
+
+stating that there is no new information, or it could contain
+
+the most recent announcement, regardless of when it was made.
+
+<P>
+
+A Web page reader would follow these steps to set up a dynamic
+
+Web page:
+
+<OL>
+
+<LI>Access the &quot;Add user and password&quot; Web page, which
+
+takes the contents of an HTML form and passes them to a CGI program.
+
+This CGI program adds the user and password to the .HTPASSWD file.
+
+You can find the HTML document and CGI application in Chapter
+
+8, &quot;Understanding Basic User Authentication.&quot;
+
+<LI>After being added as a dynamic-page user, the Web page reader
+
+is presented with another HTML document, which allows him to choose
+
+the content that he prefers to see on his page. This HTML document
+
+is a CGI-generated HTML program, <TT>binchoose.cgi</TT>, with
+
+a hidden variable that contains the user name.
+
+<LI>After making his choices, the reader submits the Choices form.
+
+This form activates a CGI application called <TT>process_request.cgi</TT>,
+
+which appends the user name and the choices to the USERBIN.INP
+
+file. An HTML file is generated and displayed to the reader, confirming
+
+the reader's choices and providing directions for accessing his
+
+dynamic page.
+
+<LI>To access his Web page, the reader accesses a specific subdirectory
+
+that is password-protected. After the user enters his user name
+
+and password, a CGI program called <TT>index.cgi</TT> is run,
+
+and the user name is accessed. This user name is used to access
+
+the choices from the USERBIN.INP file. The application then builds
+
+the Web page by accessing the chosen applicable components and
+
+printing them.
+
+</OL>
+
+<H2><A NAME="UsingServerSideIncludes"><FONT SIZE=5 COLOR=#FF0000>
+
+Using Server-Side Includes</FONT></A></H2>
+
+<P>
+
+<I>Server-side includes</I> (SSI) are directives that are processed
+
+at the server before the HTML document is sent to the client.
+
+The server has to parse the file one line at a time, looking for
+
+something that it should process.
+
+<P>
+
+The good news about SSI is that they are very easy to use. The
+
+bad news about SSI is that they can be a burden on the server
+
+and can also decrease the performance of the Web site. The server
+
+normally adds a response header to a document and then sends the
+
+document to the browser. With SSI, the server then has to scan
+
+each line. Any time that the server has to perform additional
+
+processing or handling of the document before transmission, that
+
+server's task is going to take valuable resources and degrade
+
+the performance of the Web site.
+
+<P>
+
+Some judicious use of this technology, however, can make SSI an
+
+effective Web tool.
+
+<H3><A NAME="UnderstandingtheSSICommands">
+
+Understanding the SSI Commands</A></H3>
+
+<P>
+
+If a site has 50 or 60 Web pages, and each Web page has the same
+
+images or text heading each page, you should consider implementing
+
+SSI. This technique allows the site to create one HTML document
+
+with the header that is then included in all the other documents.
+
+If that header is ever changed, the change would be reflected
+
+in all the documents.
+
+<P>
+
+One of the commands is the <TT>include</TT><I> </I>command, which
+
+accesses a file and adds the contents of that file where the command
+
+is embedded in the document. With this type of command, the Web
+
+page developer for the hypothetical site could create one heading
+
+HTML file and use SSI to include this heading in each of the site's
+
+Web pages. The developer is spared from having to repeat the same
+
+statements again and again, and it is extremely easy to make changes
+
+in the heading and have those changes propagated across the entire
+
+site.
+
+<P>
+
+How difficult is it to use SSI? The format of an SSI command is:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;!-- #SSI_command arguments=&quot;values&quot; --&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+That's it, and that's why SSI is so popular. The following sections
+
+discuss setting up an environment for using SSI commands, the
+
+commands, and their arguments, and provide some examples of their
+
+use.
+
+<H3><A NAME="SettingupanEnvironmentforServerSideIncludes">
+
+Setting up an Environment for Server-Side Includes</A></H3>
+
+<P>
+
+Server-side includes are not implemented for all Web servers,
+
+but they are implemented with NCSA, and there is a workaround
+
+with CERN servers.
+
+<P>
+
+Setting up the site requires the modification of the file named
+
+SRM.CONF, which is the server configuration file. Add the extension
+
+of the file that will contain the HTML to be parsed by adding
+
+a line similar to the following:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+AddType text/x-server-parsed-html .shtml
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+With this line, any file with the extension .SHTML will be parsed
+
+by the Web server to look for SSI commands. The most common file
+
+extension used is .SHTML. This extension prevents the server from
+
+parsing any file with the .htmL extension, which could slow performance
+
+on HTML documents that do not include SSI commands.
+
+<P>
+
+A line needs to be added to the ACCESS.CONF file to enable SSI.
+
+To enable SSI with the <TT>exec</TT><I> </I>command option, add
+
+the following line:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Options Includes
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+To enable SSI without the <TT>exec</TT><I> </I>command, add the
+
+following:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Options IncludesNoExec
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+To enable a CERN Web server, a file called FAKESSI.PL<I> </I>is
+
+used. This file enables the server to emulate server-side includes.
+
+With this file installed, the server can process everything but
+
+the <TT>cmd</TT><I> </I>option on an <TT>exec</TT><I> </I>SSI.
+
+<P>
+
+To install this file, copy it to the /CGI-BIN subdirectory, and
+
+change the permissions on it to make it executable. In the HTTPD.CONF
+
+file (which is located in the Web server configuration file subdirectory,
+
+as it is defined for your system), add the following line:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Exec /*.shtml /users/www/cgi-bin/fakessi.pl
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+After the server is restarted, SSI commands will be enabled.
+
+<H3><A NAME="UnderstandingtheCommands">
+
+Understanding the Commands</A></H3>
+
+<P>
+
+The SSI commands are:
+
+<BLOCKQUOTE>
+
+<TT>include<BR>
+
+config<BR>
+
+flastmod<BR>
+
+fsize<BR>
+
+echo<BR>
+
+exec</TT>
+
+</BLOCKQUOTE>
+
+<P>
+
+The format of an SSI command is:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;!--command arg=&quot;value&quot; --&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+It is extremely important to notice the spacing in this command.
+
+There can be no spaces between the first two dashes and the command,
+
+and there must be a space between the value and the last two dashes.
+
+<P>
+
+<B>The <I>include</I> Command&nbsp;&nbsp;</B>This command has
+
+two arguments: <TT>virtual</TT> and <TT>file</TT>. Using <TT>file</TT>
+
+allows the developer to specify subdirectories relative to the
+
+current directory, where the HTML document is contained. An example
+
+of this command is:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;!--#include file=&quot;/support/top_main.html&quot; --&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+With the <TT>virtual</TT> argument, the command changes to:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;!--#include virtual=&quot;/main_grp/top/support/top_main.html&quot; --&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The <TT>virtual</TT> argument defines the path relative to the
+
+root  directory on the server.
+
+<P>
+
+The included file cannot be a CGI application, but it can be an
+
+HTML document that contains a reference to a CGI application.
+
+<P>
+
+Figure 7.6 shows an example of an <TT>include</TT> SSI. The Web
+
+page displayed in this figure includes an HTML document that in
+
+turn contains a general header that is included in all the documents.
+
+<P>
+
+<A HREF="f7-6.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-6.gif"><B> Figure 7.6 : </B><I>This HTML document contains an SSI include that in turn calls an HTML document containing a header message.
+
+
+
+</I></A><P>
+
+<P>
+
+The main HTML document is called MAIN.SHTML. The .SHTML extension
+
+is the one that is defined for a SSI. Listing 7.10 shows the source
+
+code for this document.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.10&nbsp;&nbsp;HTML Document Containing a Server-Side
+
+Include with the include Command (main.shtml)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Some Software Company - Main Page &lt;/TITLE&gt;
+
+&lt;/HEAD&gt;
+
+&lt;!--#include file=&quot;support/top_main.html&quot; --&gt;
+
+&lt;p&gt;
+
+Welcome to our web page!
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The included file contains the beginning of the <TT>BODY</TT>
+
+section, which also defines the page colors, a header, and a graphic.
+
+Listing 7.11 displays the HTML for this document.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.11&nbsp;&nbsp;HTML Document Containing Header Section
+
+(top_main.html)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;BODY BGCOLOR=&quot;#FFEBCD&quot; TEXT=&quot;#8B4513&quot;&gt;
+
+&lt;H1&gt;Welcome to Some Software Company!&lt;/H1&gt;
+
+&lt;p&gt;
+
+&lt;IMG SRC=&quot;../images/garden2.jpg&quot;&gt;
+
+&lt;p&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+<B>The <I>config</I> Command&nbsp;&nbsp;</B>The <TT>config</TT>
+
+SSI is used to modify the results of other SSI commands. The following
+
+command line modifies the error message that is returned when
+
+an SSI directive fails:
+
+<BLOCKQUOTE>
+
+
+
+&lt;!--#config errmsg=&quot;We're sorry but we are temporarily having difficulty opening this page.&quot; --&gt;
+
+
+
+</BLOCKQUOTE>
+
+<P>
+
+Another argument to use with the <TT>config</TT> command is <TT>sizefmt</TT>.
+
+The following command line modifies the formatting of the size
+
+that is returned when the SSI <TT>fsize</TT> is used:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;!--#config sizefmt=&quot;bytes&quot; --&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This command formats the return result of the <TT>fsize</TT> command
+
+in a display showing the full bytes of the file. An alternative
+
+argument is <TT>sizefmt='abbrev'</TT>, which returns the size
+
+of the file, rounded to the nearest kilobyte.
+
+<P>
+
+The last argument that can be used with the <TT>config</TT> SSI
+
+is <TT>timefmt</TT>, which formats the return result with the
+
+<TT>flastmod</TT><I> </I>SSI command. The <TT>flastmod</TT> command
+
+returns the last-modification date for the document. Following
+
+is an example of this command, which displays the date as the
+
+weekday and the date as abbreviated decimals separated by a slash:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;!--#config timefmt=&quot;%A %m/%d/%y&quot; --&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+<B>The <I>flastmod</I> Command&nbsp;&nbsp;</B>This SSI command
+
+displays the date when the HTML document was last modified. Like
+
+the <TT>include</TT> command, the <TT>flastmod</TT> command can
+
+be specified with the <TT>file</TT> argument or the <TT>virtual</TT>
+
+argument. Figure 7.7 shows an example of this command.
+
+<P>
+
+<A HREF="f7-7.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-7.gif"><B> Figure 7.7 : </B><I>This HTML document contains three SSI commands.
+
+
+
+</I></A><P>
+
+<P>
+
+Listing 7.12 shows the HTML statements that generate this document.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.12&nbsp;&nbsp;HTML Document Containing Three SSI
+
+Commands (main2.html)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Some Software Company - Main Page &lt;/TITLE&gt;
+
+&lt;/HEAD&gt;
+
+&lt;!--#include file=&quot;support/top_main.html&quot; --&gt;
+
+&lt;p&gt;
+
+Welcome to our web page!
+
+&lt;p&gt;
+
+This document was last modified on:
+
+&lt;!--#config timefmt=&quot;%A %m/%d/%y&quot; --&gt;
+
+&lt;!--#flastmod file=&quot;main2.shtml&quot; --&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+<B>The <I>fsize</I> Command&nbsp;&nbsp;</B>The <TT>fsize</TT>
+
+command returns the size of a file. Like the <TT>include</TT>
+
+command, <TT>fsize</TT> can access a file with the <TT>file</TT>
+
+argument or the <TT>virtual</TT> argument. To use this command,
+
+use the following syntax:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;!--#fsize file=&quot;main3.shtml&quot; --&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+<B>The <I>echo</I> Command&nbsp;&nbsp;</B>This command allows
+
+the Web page developer to print certain variables that are specific
+
+to it. Table 7.1 lists these variables.<BR>
+
+<P>
+
+<CENTER><B>Table 7.1&nbsp;&nbsp;The echo SSI Command Variables</B></CENTER>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD WIDTH=240><B>Command Variable</B></TD><TD WIDTH=336><B>Definition</B>
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=240><TT>document_name</TT></TD><TD WIDTH=336>Main HTML document name
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=240><TT>date_gmt</TT></TD><TD WIDTH=336>Current date in GMT (Greenwich Mean Time) format
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=240><TT>date_local</TT></TD><TD WIDTH=336>Current date in local time zone
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=240><TT>Document_uri</TT></TD><TD WIDTH=336>Virtual path of document
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=240><TT>last_modified</TT></TD><TD WIDTH=336>Date document was last modified
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD WIDTH=240><TT>QUERY_STRING UNESCAPED_</TT></TD><TD WIDTH=336>Unescaped version of any search query that the client sent, with all shell-specific characters escaped with a backslash (\)
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+Figure 7.8 shows an example of using <TT>echo</TT> and other SSI
+
+commands, and Listing 7.13 shows the HTML that creates this document.
+
+<P>
+
+<A HREF="f7-8.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-8.gif"><B> Figure 7.8 : </B><I>This HTML document contains examples of the include, echo,  fsize, and config SSI commands.
+
+
+
+</I></A><P>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.13&nbsp;&nbsp;HTML Document Containing Several SSI
+
+Commands (main3.shtml)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Some Software Company - Main Page &lt;/TITLE&gt;
+
+&lt;/HEAD&gt;
+
+&lt;!--#include file=&quot;support/top_main.html&quot; --&gt;
+
+&lt;p&gt;
+
+Welcome to our web page!
+
+&lt;p&gt;
+
+This document was last modified on:
+
+&lt;!--#config timefmt=&quot;%A %m/%d/%y&quot; --&gt;
+
+&lt;!--#flastmod file=&quot;main3.shtml&quot; --&gt;
+
+&lt;p&gt;
+
+The size of the graphic on this page is:
+
+&lt;!--#fsize file=&quot;garden2.jpg&quot; --&gt;
+
+&lt;p&gt;
+
+This document is located at:
+
+&lt;!--#echo var=&quot;document_uri&quot; --&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+<B>The <I>exec</I> Command&nbsp;&nbsp;</B>By now, you may be beginning
+
+to wonder how SSI commands fit in with a book about Perl. Any
+
+good developer uses multiple tools to do a job, and server-side
+
+includes are an effective tool. Additionally, you can include
+
+a Perl-based application by using the <TT>exec</TT><I> </I>command.
+
+This SSI command runs an application and returns the result to
+
+the HTML document. This method is an effective approach to embedding
+
+in an HTML document information such as page access counts, a
+
+list of other people logged in, or any other command or application
+
+that returns a result.
+
+<P>
+
+Based on the power of this little command, this directive involves
+
+all sorts of security risks, and there is a good chance that it
+
+may be disabled for your system. &quot;Setting up an Environment
+
+for Server-Side Includes&quot; earlier in this chapter discussed
+
+how SSI commands are enabled and disabled. If you have access
+
+to <TT>exec</TT><I> </I>in your system, however, this command
+
+provides an easy way to implement an access counter in your Web
+
+page.
+
+<P>
+
+Creating an access counter with SSI starts with creating a simple
+
+CGI program to open a file, get the count, increment the count,
+
+write back out to the file, and print to output. Listing 7.14
+
+contains the Perl code for this application.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.14&nbsp;&nbsp;CGI Application to Increment Access
+
+Counter (accesses.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# accesses.cgi
+
+#
+
+# Application will access a value in a file,
+
+# increment it, write this new value out to the
+
+# file, and print the current value out to
+
+# standard output.
+
+#
+
+# print out content type
+
+print &quot;Content-type: text/html\n\n&quot;;
+
+
+
+# get current count
+
+open(COUNTER, &quot;&lt; access_counter&quot;) || die &quot;BUSY&quot;;
+
+$value = &lt;COUNTER&gt;;
+
+close(COUNTER);
+
+
+
+# increment count and write back out to file
+
+$value++;
+
+open(COUNTER, &quot;&gt; access_counter&quot;) || die &quot;BUSY&quot;;
+
+print COUNTER $value;
+
+close(COUNTER);
+
+#
+
+print $value;
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Next, access the CGI application by using the <TT>exec</TT> SSI
+
+command. Listing 7.15 shows the pertinent HTML statements.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.15&nbsp;&nbsp;Document That Contains Several SSI
+
+Commands (main4.html)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Some Software Company - Main Page &lt;/TITLE&gt;
+
+&lt;/HEAD&gt;
+
+&lt;!--#include file=&quot;support/top_main.html&quot; --&gt;
+
+&lt;p&gt;
+
+Welcome to our web page!
+
+&lt;p&gt;
+
+This document was last modified on:
+
+&lt;!--#config timefmt=&quot;%A %m/%d/%y&quot; --&gt;
+
+&lt;!--#flastmod file=&quot;main3.shtml&quot; --&gt;
+
+&lt;p&gt;
+
+The size of the graphic on this page is:
+
+&lt;!--#fsize file=&quot;garden2.jpg&quot; --&gt;
+
+&lt;p&gt;
+
+This document is located at:
+
+&lt;!--#echo var=&quot;document_uri&quot; --&gt;
+
+&lt;p&gt;
+
+This site has been accessed &lt;!--#exec cgi=&quot;accesses.cgi&quot; --&gt; times.
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Each time the HTML document is accessed, the CGI application <TT>accesses.cgi</TT>
+
+is called. This application increments a count that is then returned
+
+to the HTML document.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>File Locking</B>
+
+</TD></TR>
+
+<TR VALIGN=TOP><TD><BLOCKQUOTE>
+
+Now is a good time to talk about file locking. If the ACCESS_COUNTER file in this example were not locked, two people accessing the site at the same time would get the same number. The first access would result in the existing number's being incremented 
+and output to the counter file. The second access would increment the same number and output it. The result is that one count on the access counter would be lost. Over time, this situation could affect a busy site.</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+One function to use is <TT>flock()</TT>, which locks the file and restricts two users from updating it at the same time. Unfortunately, this function uses the underlying operating-system command of the same name, and this command does not exist on many 
+systems. In such a case, you could create a lock file when the file is opened. The application would test for the presence of this file when it wants to open the counter file. If the file exists, the application sleeps briefly. When the lock file does not 
+exist, the application creates it, opens the target file, does what it needs to do with the file, and closes it. The last thing that the application does is remove the lock file.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><A NAME="UnderstandingShoppingCarts"><FONT SIZE=5 COLOR=#FF0000>
+
+Understanding Shopping Carts</FONT></A></H2>
+
+<P>
+
+<I>Shopping carts</I> are applications that track information
+
+between several HTML documents. These applications usually use
+
+a combination of information stored at the client and information
+
+stored in a database or file at the server.
+
+<P>
+
+There are two approaches to shopping carts: storing information
+
+in form hidden fields or in client-side cookies. <I>Form hidden
+
+fields</I> are fields that store information and are not displayed
+
+to the Web page reader. <I>Client-side cookies</I> are small bits
+
+of information that are stored in a file (usually, COOKIE.TXT)
+
+at the client site. In both cases, the information that is stored
+
+usually is a file name or user name that is used to access the
+
+greater store of information at the server.
+
+<H3><A NAME="ShoppingCartUsingHiddenFields">
+
+Shopping Cart Using Hidden Fields</A></H3>
+
+<P>
+
+As stated in the preceding section, hidden fields are form fields
+
+that are used only for information storage and retrieval. Generating
+
+an HTML document with CGI allows input to these fields. Alternatively,
+
+you can set the fields by using a scripting language such as JavaScript.
+
+<P>
+
+One common use of hidden fields is to store a user name or file
+
+name that then can be used to reference and store information
+
+at the server. The information is passed when the form is submitted,
+
+and the CGI application that processes the form in turn uses the
+
+same information to set hidden fields on the next form that is
+
+displayed.
+
+<P>
+
+You also can send the information passed to the form by appending
+
+that information as name-value pairs in the URL of the document.
+
+<P>
+
+To demonstrate these concepts, the following listings create a
+
+small, simple electronic store called The Cyber Corner Market.
+
+This online store allows users to select fruits and vegetables,
+
+and stores the information in a file at the server. This file
+
+is created with the first order by using the user name and appending
+
+the day, month, and year to the name. The name and the user name
+
+are then passed to each of the documents and stored in hidden
+
+fields or processed directly.
+
+<P>
+
+Listing 7.16 contains code that creates the first HTML document
+
+of the market. The document contains a text field in a Web page
+
+reader can enter his name, as well as two radio buttons that allow
+
+the reader to specify whether he wants to order from the vegetable
+
+department or the fruit department.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.16&nbsp;&nbsp;CGI Application That Creates the Beginning
+
+Market HTML Document (market.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# market.cgi
+
+#
+
+# Creates HTML for beginning market order system.
+
+# Will check to see if user name and file name
+
+# are being passed into application.  If they are
+
+# the values are stored in hidden fields.
+
+#
+
+#
+
+BEGIN {
+
+     push(@INC,'/opt2/web/guide/unix/book-bin');
+
+}
+
+use CGI;
+
+$query = new CGI;
+
+#
+
+# if existing parameters, get value for user_name
+
+if ($query-&gt;param()) {
+
+     $user_name = $query-&gt;param('user_name');
+
+}
+
+
+
+if ($user_name) {
+
+     $file_name = $query-&gt;param('file_name');
+
+} else {
+
+     $user_name = &quot;your_name&quot;;
+
+     $file_name = &quot;your_name100.ord&quot;;
+
+}
+
+
+
+
+
+# print header and heading information
+
+print $query-&gt;header;
+
+print $query-&gt;start_html('Cyber Corner Market');
+
+print $query-&gt;h1('Cyber Corner Market');
+
+print&lt;&lt;end_of_page;
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt; The Cyber Corner Market &lt;/TITLE&gt;
+
+
+
+&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;
+
+&lt;!-- hide script from old browsers
+
+
+
+// this JavaScript function will create the file name
+
+function GenerateFileName(user_name) {
+
+
+
+     var time = new Date()
+
+     var time1 = time.getMonth()
+
+     var time2 = time.getDay()
+
+     var time3 = time.getYear()
+
+     var filename = user_name + time1 + time2 + time3 + &quot;.ord&quot;
+
+
+
+     document.MarketForm.file_name.value = filename
+
+}
+
+
+
+// this JavaScript function will access the appropriate CGI application
+
+function SubmitNow(category) {
+
+
+
+     var suserfile = &quot;user_name=&quot; +
+
+          document.MarketForm.user_name.value
+
+     suserfile = suserfile + &quot;&amp;file_name=&quot; +
+
+          document.MarketForm.file_name.value
+
+
+
+     if (category == &quot;fruit&quot;) {
+
+          window.location.href=
+
+             &quot;http://unix.yasd.com/book-bin/fruit.cgi?&quot; + suserfile
+
+     }
+
+     else {
+
+          window.location.href=
+
+             &quot;http://unix.yasd.com/book-bin/veggies.cgi?&quot; + suserfile
+
+     }
+
+}
+
+
+
+// end hiding from old browsers --&gt;
+
+&lt;/SCRIPT&gt;
+
+
+
+
+
+&lt;/HEAD&gt;
+
+&lt;BODY&gt;
+
+&lt;H1&gt; Welcome to the Cyber Corner Market &lt;/H1&gt;
+
+&lt;p&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;
+
+&lt;H3&gt; Please enter your name below and check which category
+
+you wish to shop from &lt;/H3&gt;
+
+&lt;p&gt;
+
+&lt;FORM name=&quot;MarketForm&quot;&gt;
+
+Your Name: &lt;INPUT TYPE=&quot;text&quot; size=30 name=user_name value=$user_name
+
+     onChange=&quot;GenerateFileName(this.value)&quot;&gt;
+
+&lt;p&gt;
+
+&lt;INPUT TYPE=&quot;hidden&quot; name=&quot;file_name&quot; value=$file_name&gt;
+
+Fruit:&lt;INPUT TYPE=&quot;radio&quot; name=&quot;category&quot;
+
+     onClick=&quot;SubmitNow('fruit')&quot;&gt;
+
+&lt;p&gt;
+
+Veggies:&lt;INPUT TYPE=&quot;radio&quot; name=&quot;category&quot;
+
+     onClick=&quot;SubmitNow('veggies')&quot;&gt;
+
+&lt;p&gt;
+
+&lt;hr&gt;
+
+&lt;ADDRESS&gt;
+
+Webmaster
+
+&lt;/ADDRESS&gt;
+
+
+
+end_of_page
+
+
+
+print $query-&gt;end_html;
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+When the application is run for the first time, a default user
+
+name and file name are entered in the form fields, as shown in
+
+figure 7.9. When the Web page reader changes the user name, as
+
+shown in figure 7.10, a JavaScript function is called to create
+
+the new file name, which is then stored in a hidden field called
+
+file_name.
+
+<P>
+
+<A HREF="f7-9.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-9.gif"><B> Figure 7.9 : </B><I>This figure shows the first form of the Cyber Corner Market application.
+
+
+
+</I></A><P>
+
+<P>
+
+<A HREF="f7-10.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-10.gif"><B> Figure 7.10 : </B><I>This figure shows the Cyber Corner Market after the user name has been changed.
+
+
+
+</I></A><P>
+
+<P>
+
+If the reader chooses the veggies option, the next form (see fig.
+
+7.11) displays a selection of vegetables.
+
+<P>
+
+<A HREF="f7-11.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-11.gif"><B> Figure 7.11 : </B><I>This form allows the reader to select vegetables from the Cyber Corner Market.
+
+
+
+</I></A><P>
+
+<P>
+
+Notice from the Location toolbar that the user name and file name-in
+
+this case, customer and CUSTOMER6696.ORD-are passed to the new
+
+application. The application then stores this information in hidden
+
+fields. As the Web page reader enters the quantity that he wants,
+
+the total is calculated and placed in the Total field for each
+
+item. When the reader finishes and clicks the Send Order button,
+
+the form contents are processed by the next CGI application.
+
+<P>
+
+Listing 7.17 shows the CGI code for creating this form.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.17&nbsp;&nbsp;CGI That Accesses the Passed-In File
+
+Name and User Name, and Generates the Form (veggies.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# veggies.cgi
+
+#
+
+# Application will generate HTML for Cyber Corner Market,
+
+# vegetable section.
+
+#
+
+# Included in form will be hidden field containing
+
+# user_name and a hidden field containing file name.
+
+#
+
+#
+
+BEGIN {
+
+     push(@INC,'/opt2/web/guide/unix/book-bin');
+
+}
+
+use CGI;
+
+$query = new CGI;
+
+#
+
+# if existing parameters, get value for user_name
+
+if ($query-&gt;param()) {
+
+     $user_name = $query-&gt;param('user_name');
+
+     $file_name = $query-&gt;param('file_name');
+
+}
+
+# print header and heading information
+
+print $query-&gt;header;
+
+print $query-&gt;start_html('Cyber Corner Market-Veggies');
+
+print $query-&gt;h1('Cyber Corner Market');
+
+print&lt;&lt;end_of_page;
+
+&lt;p&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;
+
+&lt;FORM name=&quot;veggies&quot; ACTION=&quot;http://unix.yasd.com/book-bin/process_order.cgi&quot;&gt;
+
+&lt;TABLE width=600 cellpadding=5
+
+&lt;STRONG&gt;
+
+&lt;tr&gt;&lt;td&gt;Quantity&lt;/td&gt;&lt;td&gt;Item&lt;/td&gt;&lt;td&gt;Total&lt;/td&gt;&lt;/tr&gt;&lt;/strong&gt;
+
+&lt;p&gt;
+
+&lt;INPUT TYPE=&quot;hidden&quot; name=&quot;user_name&quot; value=$user_name&gt;
+
+&lt;INPUT TYPE=&quot;hidden&quot; name=&quot;file_name&quot; value=$file_name&gt;
+
+&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;carrot_qty&quot; size=5
+
+     onChange=&quot;document.veggies.carrot_total.value=parseFloat(this.value) * 1.10&quot;&gt;
+
+&lt;/td&gt;&lt;td&gt;
+
+Carrots - 1.10 per lb
+
+&lt;/td&gt;&lt;td&gt;
+
+&lt;right&gt;&lt;INPUT TYPE=&quot;text&quot; name=&quot;carrot_total&quot; size=10&gt;&lt;/right&gt;
+
+&lt;/td&gt;&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;tomatoes_qty&quot; size=5
+
+     onChange=&quot;document.veggies.tomato_total.value=parseFloat(this.value) * .90&quot;&gt;
+
+&lt;/td&gt;&lt;td&gt;
+
+Tomatoes - .90 per lb
+
+&lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;tomato_total&quot; size=10&gt;
+
+&lt;/td&gt;&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;potato_qty&quot; size=5
+
+     onChange=&quot;document.veggies.potato_total.value=parseFloat(this.value) * 1.50&quot;&gt;
+
+&lt;/td&gt;&lt;td&gt;
+
+Potatoes - 1.50 per 5 lbs
+
+&lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;potato_total&quot; size=10&gt;
+
+&lt;/td&gt;&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;corn_qty&quot; size=5
+
+     onChange=&quot;document.veggies.corn_total.value=parseFloat(this.value) * .25&quot;&gt;
+
+&lt;/td&gt;&lt;td&gt;
+
+Corn - .25 per ear
+
+&lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;corn_total&quot; size=10&gt;
+
+&lt;/td&gt;&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;beans_qty&quot; size=5
+
+     onChange=&quot;document.veggies.beans_total.value=parseFloat(this.value) * 2.0&quot;&gt;
+
+&lt;/td&gt;&lt;td&gt;
+
+Green Beans - 2.00 per lb
+
+&lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;beans_total&quot; size=10&gt;
+
+&lt;/td&gt;&lt;/tr&gt;
+
+&lt;tr&gt;&lt;td&gt; &lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;submit&quot; value=&quot;Send Order&quot;&gt;
+
+&lt;/td&gt;&lt;/tr&gt;
+
+&lt;/table&gt;
+
+&lt;p&gt;
+
+&lt;hr&gt;
+
+end_of_page
+
+print $query-&gt;end_html;
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+When the Web page reader submits the form, all the information-including
+
+the information in the hidden fields-is passed to the next application.
+
+By default, the application processes the form results, using
+
+the <TT>GET</TT> form-posting method.
+
+<P>
+
+The next component of the Cyber Corner Market application processes
+
+the order by appending it to the file and then provides options
+
+that allow the reader to continue or to finish the order, as shown
+
+in figure 7.12.
+
+<P>
+
+<A HREF="f7-12.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-12.gif"><B> Figure 7.12 : </B><I>This document is displayed after the reader submits a vegetable order.
+
+
+
+</I></A><P>
+
+<P>
+
+Listing 7.18 shows the code to create the HTML and to process
+
+the order.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.18&nbsp;&nbsp;Application to Access the Order Elements
+
+That Are Passed in (process_order.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# process_order.cgi
+
+#
+
+# Application will access user name and
+
+# check for it in password file.
+
+# If name exists, reader will get a duplicate
+
+# name response and a link back to try again.
+
+#
+
+#
+
+BEGIN {
+
+     push(@INC,'/opt2/web/guide/unix/book-bin');
+
+}
+
+use CGI;
+
+$query = new CGI;
+
+#
+
+# if existing parameters, get value for user_name
+
+if ($query-&gt;param()) {
+
+     $user_name = $query-&gt;param('user_name');
+
+     $file_name = $query-&gt;param('file_name');
+
+}
+
+print $query-&gt;header;
+
+print $query-&gt;start_html('Confirm Order');
+
+#
+
+# add order to file
+
+$person = &quot;user_name=&quot; . $user_name;
+
+$person = $person . &quot;&amp;file_name=&quot; . $file_name;
+
+&amp;process_order($query, $file_name);
+
+# finish document
+
+print $query-&gt;h1('Confirming order for ' . $user_name);
+
+print &quot;&lt;p&gt;To continue ordering go &quot;;
+
+print &quot;&lt;a href='http://unix.yasd.com/book-bin/market.cgi?&quot;;
+
+print $person . &quot;'&gt;here.&lt;/a&gt;&quot;;
+
+print &quot;&lt;p&gt;To finish go &quot;;
+
+print &quot;&lt;a href='http://unix.yasd.com/book-bin/finish.cgi?&quot;;
+
+print $person . &quot;'&gt;here.&lt;/a&gt;&quot;;
+
+print $query-&gt;end_html;
+
+
+
+exit(0);
+
+
+
+#
+
+# Subroutine process_order
+
+#
+
+# Access query sent from form with options
+
+# Add user_name as first entry, then
+
+# add each of the options, formatted
+
+#
+
+# output line to userbin.inp file
+
+sub process_order {
+
+     local($query, $file_name)=@_;
+
+     @fruits = (apple_total,grapes_total,pears_total,
+
+          peaches_total,pineapple_total);
+
+     @veggies= (carrot_total, tomato_total,potato_total,
+
+          corn_total,beans_total);
+
+     $name=$query-&gt;param('user_name');
+
+     $output_string = &quot;&quot;;
+
+     @named_param=$query-&gt;param;
+
+     if ($query-&gt;param()) {
+
+          foreach $param_name (@fruits) {
+
+               $val = $query-&gt;param($param_name);
+
+               if ($val) {
+
+                  $output_string = $output_string . $param_name . &quot;=&quot; . $val . &quot;:&quot;;
+
+               }
+
+          }
+
+          foreach $param_name (@veggies) {
+
+               $val = $query-&gt;param($param_name);
+
+               if ($val) {
+
+                  $output_string = $output_string . $param_name . &quot;=&quot; . $val . &quot;:&quot;;
+
+               }
+
+          }
+
+
+
+     }
+
+     open(USER_FILE, &quot;&gt;&gt; &quot; . $file_name) || die &quot;Could not process request&quot;;
+
+      $output_string = $output_string . &quot;\n&quot;;
+
+     print USER_FILE $output_string;
+
+     close(USER_FILE);
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Notice in Listing 7.18 that the possible elements that can be
+
+passed to the application are placed in an array. Then each of
+
+these array elements is checked against the parameters passed
+
+to the application. If a parameter match is found, the value of
+
+the item and the item are output to file. Also notice that the
+
+file-name and user-name values are not maintained in hidden fields.
+
+These values are appended directly to URLs that are created for
+
+the document locations that the reader can access next.
+
+<P>
+
+If the reader were to continue ordering, he would return to the
+
+original document, shown in figure 7.13. This time, however, the
+
+name that the user specified is placed in the text field, and
+
+the created file name is placed in the hidden field.
+
+<P>
+
+<A HREF="f7-13.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-13.gif"><B> Figure 7.13 : </B><I>The application returns to the main Market form after processing the vegetable order.
+
+
+
+</I></A><P>
+
+<P>
+
+Accessing the fruit option next, the reader sees a list of fruits.
+
+As in the vegetable form, the reader types the quantities, and
+
+the total is created from a JavaScript function, as shown in figure
+
+7.14.
+
+<P>
+
+<A HREF="f7-14.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-14.gif"><B> Figure 7.14 : </B><I>This figure shows the Cyber Market fruit form after several quantities have been entered but before the form is submitted.
+
+
+
+</I></A><P>
+
+<P>
+
+Listing 7.19 shows the CGI application for this form.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.19&nbsp;&nbsp;Application That Generates the Fruit-Ordering
+
+Document (fruit.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# fruit.cgi
+
+#
+
+# Application will generate HTML for Cyber Corner Market,
+
+# vegetable section.
+
+#
+
+# Included in form will be hidden field containing
+
+# user_name and a hidden field containing file name.
+
+#
+
+#
+
+BEGIN {
+
+     push(@INC,'/opt2/web/guide/unix/book-bin');
+
+}
+
+use CGI;
+
+$query = new CGI;
+
+#
+
+# if existing parameters, get value for user_name
+
+if ($query-&gt;param()) {
+
+     $user_name = $query-&gt;param('user_name');
+
+     $file_name = $query-&gt;param('file_name');
+
+}
+
+# print header and heading information
+
+print $query-&gt;header;
+
+print $query-&gt;start_html('Cyber Corner Market-Veggies');
+
+print $query-&gt;h1('Cyber Corner Market');
+
+print&lt;&lt;end_of_page;
+
+&lt;p&gt;
+
+&lt;hr&gt;
+
+&lt;p&gt;
+
+&lt;FORM name=&quot;fruit&quot; ACTION=&quot;http://unix.yasd.com/book-bin/process_order.cgi&quot;&gt;
+
+&lt;TABLE width=600 cellpadding=5
+
+&lt;STRONG&gt;
+
+&lt;tr&gt;&lt;td&gt;Quantity&lt;/td&gt;&lt;td&gt;Item&lt;/td&gt;&lt;td&gt;Total&lt;/td&gt;&lt;/tr&gt;&lt;/strong&gt;
+
+&lt;p&gt;
+
+&lt;INPUT TYPE=&quot;hidden&quot; name=&quot;user_name&quot; value=$user_name&gt;
+
+&lt;INPUT TYPE=&quot;hidden&quot; name=&quot;file_name&quot; value=$file_name&gt;
+
+&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;apple_qty&quot; size=5
+
+     onChange=&quot;document.fruit.apple_total.value=parseFloat(this.value) * .80&quot;&gt;
+
+&lt;/td&gt;&lt;td&gt;
+
+Apples - .80 per lb
+
+&lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;apple_total&quot; size=10&gt;
+
+&lt;/td&gt;&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;grapes_qty&quot; size=5
+
+     onChange=&quot;document.fruit.grapes_total.value=parseFloat(this.value) * 1.50&quot;&gt;
+
+&lt;/td&gt;&lt;td&gt;
+
+Seedless Green Grapes - 1.50 per lb
+
+&lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;grapes_total&quot; size=10&gt;
+
+&lt;/td&gt;&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;pears_qty&quot; size=5
+
+     onChange=&quot;document.fruit.pears_total.value=parseFloat(this.value) * 1.80&quot;&gt;
+
+&lt;/td&gt;&lt;td&gt;
+
+Pears - 1.80 per lb
+
+&lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;pears_total&quot; size=10&gt;
+
+&lt;/td&gt;&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;peaches_qty&quot; size=5
+
+     onChange=&quot;document.fruit.peaches_total.value=parseFloat(this.value) * 1.80&quot;&gt;
+
+&lt;/td&gt;&lt;td&gt;
+
+Peaches - 1.80 per lb
+
+&lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;peaches_total&quot; size=10&gt;
+
+&lt;/td&gt;&lt;tr&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;pineapple_qty&quot; size=5
+
+     onChange=&quot;document.fruit.pineapple_total.value=parseFloat(this.value) * 2.0&quot;&gt;
+
+&lt;/td&gt;&lt;td&gt;
+
+Pineapple - 2.00 each
+
+&lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; name=&quot;pineapple_total&quot; size=10&gt;
+
+&lt;/td&gt;&lt;/tr&gt;
+
+&lt;tr&gt;&lt;td&gt; &lt;/td&gt;&lt;td&gt;
+
+&lt;INPUT TYPE=&quot;submit&quot; value=&quot;Send Order&quot;&gt;
+
+&lt;/td&gt;&lt;/tr&gt;
+
+&lt;/table&gt;
+
+&lt;p&gt;
+
+&lt;hr&gt;
+
+end_of_page
+
+print $query-&gt;end_html;
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+As in the vegetable order form, clicking the Send Order button
+
+calls the <TT>process_order.cgi</TT> application, which appends
+
+the order to the file. At this point, the reader can choose to
+
+finish processing the file, which brings up a document listing
+
+his order (see fig. 7.15).
+
+<P>
+
+<A HREF="f7-15.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f7-15.gif"><B> Figure 7.15 : </B><I>The final document of the Cyber Market form lists the items ordered and their totals.
+
+
+
+</I></A><P>
+
+<P>
+
+The application that generates this form accesses the file that
+
+contains the order information and displays the values. The application
+
+then uses the <TT>unlink</TT><I> </I>Perl function to remove the
+
+link to the file. Because there is only one link to the file,
+
+the file is deleted.
+
+<P>
+
+Listing 7.20 shows the code for this component.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 7.20&nbsp;&nbsp;Application to Finish Processing the
+
+Order and to Destroy the Order File (finish.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# finish.cgi
+
+#
+
+# Finalized order for the Corner Cyber Market
+
+#
+
+# opens order file and loads each total into
+
+# array and prints each one out
+
+#
+
+# When done, the file is closed and deleted.
+
+#
+
+BEGIN {
+
+     push(@INC,'/opt2/web/guide/unix/book-bin');
+
+}
+
+use CGI;
+
+$query = new CGI;
+
+#
+
+# if existing parameters, get value for user_name
+
+if ($query-&gt;param()) {
+
+     $user_name = $query-&gt;param('user_name');
+
+     $file_name = $query-&gt;param('file_name');
+
+}
+
+print $query-&gt;header;
+
+print $query-&gt;start_html('Confirm Final Order');
+
+print $query-&gt;h1(&quot;Finalizing order for &quot; . $user_name);
+
+
+
+
+
+# open order file and print out totals
+
+print &quot;&lt;p&gt;&lt;hr&gt;&lt;p&gt; Following are the items and total value for each &lt;p&gt;&quot;;
+
+open(USER_FILE, &quot;&lt; &quot; . $file_name) || die &quot;Could not open order file.&quot;;
+
+print &quot;&lt;CENTER&gt;&lt;TABLE width=200&gt;&quot;;
+
+foreach $line(&lt;USER_FILE&gt;) {
+
+     @order_line = split(/:/,$line);
+
+     print &quot;&lt;tr&gt;&quot;;
+
+     foreach $elem (@order_line) {
+
+          ($object,$value) = split(/=/,$elem);
+
+          if ($value &lt;= 0) {
+
+               last;
+
+          }
+
+          print &quot;&lt;td&gt;&quot; . $object . &quot;&lt;/td&gt;&lt;td&gt;&quot;;
+
+          printf &quot;%7.2f&quot;, $value;
+
+          print &quot;&lt;/td&gt;&lt;/tr&gt;&quot;;
+
+     }
+
+}
+
+print &quot;&lt;/TABLE&gt;&lt;/CENTER&gt;&quot;;
+
+close(USER_FILE);
+
+unlink($file_name);
+
+print &quot;&lt;p&gt;&lt;hr&gt;&lt;p&gt;&lt;h3&gt;Thanks for your order&lt;/h3&gt;&quot;;
+
+print $query-&gt;end_html;
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The application described in this section is an extremely simplified
+
+version of more sophisticated ordering systems. This setup has
+
+several potential problems, including the following:
+
+<UL>
+
+<LI>Entering more than one word as a name results in no file name
+
+being created. The name should be checked in the code.
+
+<LI>The order-entry system is not secure; it should be placed
+
+in a protected environment.
+
+<LI>The user is identified to the operating system as nobody,
+
+which is the standard user name for people accessing a site from
+
+the Web. For this user to create a file, the site where the file
+
+is created must be left open for write from the world.
+
+<LI>There is nothing to prevent the user from leaving while the
+
+ordering process is occurring, leaving extraneous files cluttering
+
+the system. The solution is to have a background application (cron)
+
+running that periodically cleans out the files that have not had
+
+any activity for a certain period.
+
+</UL>
+
+<H3><A NAME="ShoppingCartUsingHTTPCookies">
+
+Shopping Cart Using HTTP Cookies</A></H3>
+
+<P>
+
+<I>Cookies</I> are an HTTP extension that began with Netscape.
+
+The concept is that a little bit of information is passed in the
+
+HTTP response header. The browser then processes the information
+
+and either stores it in a file (usually, COOKIE.TXT) on the client
+
+or accesses information in the same file to pass to the newly
+
+opened document or application.
+
+<P>
+
+The syntax for a cookie is:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Set-Cookie: name=value; expires= ; domain= ; path=\
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+<TT>Name</TT> is the name of the cookie, and <TT>Value</TT> is
+
+the value of the cookie. These values are the only required values.
+
+<TT>Expires</TT> is the expiration of the cookie, and by default,
+
+the cookie expires as soon as the current browser session terminates.
+
+The domain defaults to the server that generated the cookie, and
+
+the path defaults to the path of the Uniform Resource Identifier
+
+that sent the cookie.
+
+<P>
+
+Following is an example of setting a cookie:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Set-Cookie: user_name=test; expires=Tuesday, 12-Jun-96 10:00:00 GMT;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Cookies have limitations. There can be no more than 20 cookies
+
+from a domain or server, a cookie cannot be larger than 4K, and
+
+there can be only 300 cookies at the client.
+
+<P>
+
+When the cookie is set, each time the client requests a document
+
+in the path, it also sends the cookie, as follows:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Cookie: user_name=test
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Using the <TT>CGI.pm</TT> Perl library, you set the cookie by
+
+using the <TT>cookie()</TT> method, as follows:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$cookie1=$query-&gt;cookie(-name=&gt;&quot;user_name&quot;,-value=&gt;$user_name, expires=&gt;&quot;+1h&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The string is then sent in the header request, as follows:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print $query-&gt;header(-cookie=&gt;$cookie1);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Multiple cookies can be sent using an array reference, as follows:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print $query-&gt;header(-cookie=&gt;[$cookie1,$cookie2]);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+To access the cookie, use the same <TT>cookie</TT> method, but
+
+this time pass in the <TT>name</TT> parameter, as follows:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$user_name = $query-&gt;cookie(-name=&gt;'user_name');<BR>
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Although cookies are handy and a highly effective way of passing information between document pages at a site, their biggest limitation is that Netscape Navigator and Microsoft's Internet Explorer are the only browsers that are capable of processing them 
+at this time.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><A NAME="FromHere"><FONT SIZE=5 COLOR=#FF0000>
+
+From Here...</FONT></A></H2>
+
+<P>
+
+For information on related topics, you may want to read the following
+
+chapters:
+
+<UL>
+
+<LI>For more information on form input, check out <A HREF="ch3.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch3.htm" >Chapter 3</A> &quot;Advanced
+
+Form Processing and Data Storage.&quot;
+
+<LI><A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch6.htm" >Chapter 6</A> &quot;Using Dynamic Pages,&quot; discusses other
+
+CGI-based applications.
+
+<LI>For more information on security issues, including setting
+
+and maintaining the password file, see <A HREF="ch8.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch8.htm" >Chapter 8</A> &quot;Understanding
+
+Basic User Authentication.&quot;
+
+</UL>
+
+<HR>
+
+
+
+<CENTER><P><A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch6.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch8.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch8.htm"><IMG SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<HR WIDTH="100%"></P></CENTER>
+
+</BODY>
+
+</HTML>

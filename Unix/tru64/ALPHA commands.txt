@@ -1,0 +1,158 @@
+useradd  -c system -d /usr/user/system -m -s /bin/ksh system
+
+#netstat -rn
+#df -k ;
+#mount; list mounted file system
+#sizer -v ;list system name and OS version
+#disklabel dskx ;
+#voldisk list dm_name; list逻辑卷info
+
+#voldg list dg_name; list逻辑卷组info
+
+**
+|-network configuration and check
+**
+#sysman [networkbasic]
+#sysman route; config gateway. Use netstat -rn to check
+
+
+***
+Tru64 逻辑卷管理
+***
+Disk Media(DM):物理硬盘或其中分区
+SubDisk(SD):硬盘细分
+Plex(PL):卷束，建立在SubDisk之上，多个卷束可以构成镜像卷或Raid5卷
+Volume(V):在DiskGroup上创建
+DiskGroup(DG):
+FileSystem：在逻辑卷上建立，然后mount到一个目录下，这样就可以用此硬盘空间了。
+;In <parameter_name:example> example is the example parameter name.
+
+/*Use disk and create file system*/  
+#voldisksetup -i dskx; initialize disk
+#voldg init <dg_name:data_dg> dskx; 
+;添加文件系统卷
+#volassist -g datadg make <vol_name:vol1> 200m
+#mkfdmm /dev/vol/datadg/vol1 data_dm
+#mkfset data_dm data
+[#mkdir /data]
+#mount data_dm#data /data
+
+;添加非文件系统卷
+#volassist -g datadg make <vol_name:system> 2g
+#将/dev/rvol/datadg/system交给数据库使用
+
+/*删除逻辑卷*/
+;如删除data逻辑卷
+[fuser -v /data];check process running in /data
+[fuser -k /data];kill process running in /data. 可能需要进入单用户模式
+#umout /data
+#rmvol /dev/vol/datadg/data data_dm
+#rmfdmn data_dm
+#volume -g datadg stop data; stop data
+#voledit -g datadg -r rm data ;romove the record of data
+
+/*扩大文件系统*/
+;扩大"/data"到1000m
+#umout /data
+#voldg -g datadg free
+#volassist -g datadg growto data 1000m
+#mount -o extend data_dm#data /data
+
+**
+Commands
+**
+#setld -i ;list installed sofeware
+#dupatch; check installed patch choose 4-1-3 to check all installed patches
+#psrinfo -v ; check CPU
+#vmstat -P; check memory
+#rcinet restart; restart network
+
+
+;file operation cmds
+#find / -size [+|-]100 -print ; show
+#find / -print |wc -l;show numbers of files and directories
+#find . -type d -exec chmod 770 {} \; change the mode of all the directories of current path
+
+***
+/etc/; system config files
+***
+/etc/profile: common environment parameters
+/etc/fstab: auto mounted filesystem
+/etc/rc.config: hostname and network config info，包含运行脚本的配置文件
+
+***
+/var/; 系统启动,运行产生的日志文件目录
+***
+
+**********
+Tru64 Unix 启动与配置模块
+********** 
+此模块包括三部分：
+/sbin/init.d目录下：子系统的启动和停止运行脚本。如/sbin/init.d/cron ;cron is cronograph.计时器控制那些进程应该运行。
+/etc/rc.config:运行脚本的配置文件
+/sbin/rc*.d目录下：控制运行脚本的执行顺序。如S57cron表启动顺序，K20cron停止顺序
+
+
+**********
+Q&A
+**********
+进单用户模式:
+1.>>>boot -flags|-fl s;如在console下
+2.#init s;如在多用户环境下
+
+报错"arg list too long"？
+vi /etc/sysconfigtab
+proc:
+exec_disable_arg_limit=1
+
+忘记超级用户密码？KW:root password
+1).从console下进单用户模式(见上)
+2).#bcheckrc
+3).#passwd 即可修改
+
+root不能ftp和telnet？
+1)vi /etc/ftpusers. 注释root。可ftp
+2)vi /etc/securettys. 文件最后增加ptys.可telnet
+
+更改显示输出？
+>>>show console
+>>>set console serial ;console口
+>>>set console graphics ;显卡
+
+
+[cluster ip config]
+# vi /etc/clu_alias.config
+"/etc/clu_alias.config" 6 lines, 368 characters 
+/usr/sbin/cluamgr -a selw=3,selp=1,join,alias=DEFAULTALIAS
+#/usr/sbin/cluamgr -a alias=gkalias,rpri=1,selw=3,selp=1,join,virtual=f
+#/usr/sbin/cluamgr -a alias=iwfalias,join,selw=3,selp=1
+#/usr/sbin/cluamgr -a alias=gkalias,rpri=1,selw=3,selp=1,join,virtual=f
+/usr/sbin/cluamgr -a alias=gkalias,join,selw=3,selp=1
+/usr/sbin/cluamgr -a alias=iwfalias,join,selw=3,selp=1
+/usr/sbin/cluamgr -a alias=testalias,join,selw=3,selp=1
+
+~
+"/etc/clu_alias.config" 7 lines, 424 characters 
+# /usr/sbin/cluamgr -a alias=testalias,join,selw=3,selp=1
+# /usr/sb                                                
+# cluamgr -r start
+# rcinet restart
+
+
+coredump parameter:
+# ulimit -a
+time(seconds)        unlimited
+file(blocks)         unlimited
+data(kbytes)         524288
+stack(kbytes)        1048576
+memory(kbytes)       489256
+coredump(blocks)     unlimited
+nofiles(descriptors) 4096
+vmemory(kbytes)      1048576
+# ulimit -c unlimited (modify)
+
+[arg too long]
+#find . -name "*.eln" |xargs rm
+
+;see commands
+>>>show auto*

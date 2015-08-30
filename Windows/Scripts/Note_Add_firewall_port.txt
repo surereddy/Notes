@@ -1,0 +1,6 @@
+rem 6006,1,6007: 6006-6007
+rem UDP: udp port
+rem "UDP i": name,e.g. "UDP 6006". Note that don't change to UDP_i or UDP-i etc.
+
+Run the command in cmd window.
+Running bat file will fail. Don't know why yet.

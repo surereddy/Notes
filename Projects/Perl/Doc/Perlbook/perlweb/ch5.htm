@@ -1,0 +1,2680 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Chapter 5 -- Searching</TITLE>
+
+
+
+<META>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Chapter&nbsp;5</FONT></H1>
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Searching</FONT></H1>
+
+<P>
+
+<I><B>by David Harlan</B></I>
+
+<HR>
+
+<P>
+
+<CENTER><B><FONT SIZE=5><A NAME="CONTENTS">CONTENTS</A></FONT></B></CENTER>
+
+<UL>
+
+<LI><A HREF="#SearchingtheFullTextofYourSite">
+
+Searching the Full Text of Your Site</A>
+
+<UL>
+
+<LI><A HREF="#ScanningDirectoriesUsingaRecursiveSubroutine">
+
+Scanning Directories Using a Recursive Subroutine</A>
+
+<LI><A HREF="#UsingRecursiveSubroutines">
+
+Using Recursive Subroutines</A>
+
+<LI><A HREF="#ProcessingtheFilesinEachDirectory">
+
+Processing the Files in Each Directory</A>
+
+</UL>
+
+<LI><A HREF="#UsinganIndexSearch">
+
+Using an Index Search</A>
+
+<UL>
+
+<LI><A HREF="#IndexingYourWebSiteintoaDBMFile">
+
+Indexing Your Web Site into a DBM File</A>
+
+<LI><A HREF="#PerformingaSearchUsingtheIndexFile">
+
+Performing a Search Using the Index File</A>
+
+</UL>
+
+<LI><A HREF="#PrintingtheResultingPages">
+
+Printing the Resulting Pages</A>
+
+<UL>
+
+<LI><A HREF="#ReturningPagesfromtheNonindexSearch">
+
+Returning Pages from the Nonindex Search</A>
+
+<LI><A HREF="#ReturningPagesfromtheIndexSearch">
+
+Returning Pages from the Index Search</A>
+
+</UL>
+
+<LI><A HREF="#FromHere">
+
+From Here   </A>
+
+</UL>
+
+
+
+<HR>
+
+<P>
+
+The first part of this book spent a great deal of time looking
+
+at ways to deal with user input, parse it, view it, and return
+
+it to the user for editing. This chapter and <A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch6.htm" >Chapter 6</A> &quot;Using
+
+Dynamic Pages,&quot; focus more on what CGI can do for pages that
+
+don't contain user data.
+
+<P>
+
+Web creators are always striving to put maximum content on a site.
+
+You know that the best sites out there are full of useful (or
+
+at least interesting) information. You also know that those sites
+
+make that information easy to find. This chapter closely examines
+
+a key feature that can make the data on your site more accessible:
+
+searching.
+
+<H2><A NAME="SearchingtheFullTextofYourSite"><FONT SIZE=5 COLOR=#FF0000>
+
+Searching the Full Text of Your Site</FONT></A></H2>
+
+<P>
+
+If you've used the Web much, you've seen any number of Web-site
+
+search features. You've also discovered that some of these features
+
+are useful and that others aren't. But what makes the difference?
+
+From a user's perspective, the two main factors are speed and
+
+accuracy. A Web programmer has to weigh these two factors against
+
+the available resources to determine what kind of search feature
+
+is best for the site.
+
+<P>
+
+In many cases, simple search functionality is all that's required.
+
+If you have a small site and limited storage space on your server,
+
+for example, you can't afford to add several large files to your
+
+file structure just to support a search feature. But you might
+
+decide that you can afford to have a program search every file
+
+every time a request comes in, which is what you'll be doing in
+
+this first example.
+
+<H3><A NAME="ScanningDirectoriesUsingaRecursiveSubroutine">
+
+Scanning Directories Using a Recursive Subroutine</A></H3>
+
+<P>
+
+When an inexperienced programmer first examines the problem of
+
+scanning every file in a directory tree, he might be tempted to
+
+hard-code all those directories into the search script. You probably
+
+can guess that this action is a bad idea-it would not only make
+
+for ugly code, but also play havoc with the maintainability of
+
+your site. Fortunately, as with <TT>eval()</TT> and dynamic code
+
+in the preceding chapter, other options are available. The most
+
+obvious place to start is the search form, which at its simplest
+
+looks like figure 5.1.
+
+<P>
+
+<A HREF="f5-1.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f5-1.gif"><B> Figure 5.1 : </B><I>The user fills in and submits this form to perform a search of the site.
+
+
+
+</I></A><P>
+
+<P>
+
+When a user enters a word or phrase into this form and presses
+
+Return, he hopes that the script will return the information that
+
+he's looking for. The only way that you can be sure to do this
+
+for the user is to make sure that you check every file on your
+
+site for that term, and fortunately, Perl provides some great
+
+tools that do just that. Listing 5.1 runs through a script that
+
+processes the form shown in figure 5.1.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.1&nbsp;&nbsp;Part I of a Relatively Simple Search
+
+Script (search.pl&nbsp;)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+
+
+require &quot;process_cgi.pl&quot;;
+
+
+
+&amp;parse_input(*fields);
+
+$search=$fields{'word'};
+
+&amp;print_header;
+
+
+
+if (length($search) &lt; 4) {
+
+ print &quot;Search terms of less than four letters are not allowed.&quot;;
+
+ exit 0;
+
+}
+
+
+
+$found=0;
+
+
+
+@tag=split(/\0/,$fields{'tag'});
+
+$tags=join (&quot;::&quot;,@tag);
+
+
+
+$directory='/usr/local/etc/httpd/htdocs/whitehorse';
+
+
+
+print &quot;&lt;pre&gt;&quot;;
+
+&amp;scan_files($directory,$search);
+
+print &quot;&lt;/pre&gt;&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The code shown in Listing 5.1 is the entire main program for our
+
+search function. The first thing that this script does is read
+
+in the ubiquitous <TT>process_cgi</TT> library; it then prints
+
+the page header and reads the data from the form into variables.
+
+If the search term is shorter than four characters, the script
+
+tells the user a polite version of &quot;Sorry, Bud&quot; and
+
+exits; otherwise, it sets <TT>$directory</TT> to the desired starting
+
+point in the directory structure. Finally, the script calls <TT>&amp;scan_files</TT>,
+
+and you can probably guess what goes on there. But instead of
+
+guessing, look at this subroutine in Listing 5.2.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.2&nbsp;&nbsp;Part I of the &amp;scan_files Subroutine
+
+from search.pl<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sub  scan_files {
+
+ my $dir=$_[0];
+
+ my $st=$_[1];
+
+ my (@dirs,@files,@results,$filename,$newdir,$list);
+
+ opendir(dir,$dir);
+
+ @dirs=grep {!(/^\./) &amp;&amp; -d &quot;$dir/$_&quot;} readdir(dir);
+
+ rewinddir(dir);
+
+ @files=grep {!(/^\./) &amp;&amp; /html$/ &amp;&amp; -T &quot;$dir/$_&quot;} readdir(dir);
+
+ closedir (dir);
+
+ for $list(0..$#dirs) {
+
+  if (!($dirs[$list]=[td]/temp/ || $dirs[$list]=[td]/images/)) {
+
+   $newdir=$dir.&quot;/&quot;.$dirs[$list];
+
+   &amp;scan_files ($newdir,$st);
+
+  }
+
+ }
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Right off the bat in Listing 5.2, you see a new piece of Perl.
+
+The first three lines of the subroutine begin with <TT>my</TT>.
+
+These lines aren't really being selfish; <TT>my</TT> actually
+
+is a call to the Perl 5 function by that name. The <TT>my</TT>
+
+function tells Perl that the listed variables should be treated
+
+as though they exist only in the current program block. This function
+
+allows you to set the variable at the same time as well (for example,
+
+<TT>my $dir=$_[0];</TT>) or to simply declare a list of local
+
+variables. The importance of these declarations will become clear
+
+to you soon.
+
+<P>
+
+After the variables are declared, you see a call to the <TT>opendir()</TT>
+
+function. This function creates a directory handle (similar to
+
+a file handle in the <TT>open()</TT> function) pointing to the
+
+specified directory. Directory handles are used by a set of Perl
+
+functions that allow the programmer to process directories in
+
+various ways.
+
+<P>
+
+One of these functions is <TT>readdir(&nbsp;)</TT>, which appears
+
+in the next line. Having never seen the <TT>grep</TT> function,
+
+however, you likely are not too clear about what's going on there,
+
+so the following paragraphs examine that line in detail.
+
+<P>
+
+<TT>grep</TT> is named after a standard function on most UNIX-type
+
+operating systems that scans files for certain specified text.
+
+Perl's <TT>grep()</TT> function performs a similar but perhaps
+
+broader role. The function takes an expression and a list as arguments;
+
+it evaluates the expression for each element in the list and returns
+
+all the items from the list for which the expression evaluated
+
+as true.
+
+<P>
+
+The expression in this case-<TT>!(/^\./) &amp;&amp; -d &quot;$dir/$_&quot;</TT>-has
+
+two parts, connected by Perl's <TT>and</TT> operator (<TT>&amp;&amp;</TT>).
+
+You should be able to decipher the first part; it says that you
+
+want the items from the list that don't start with a period. You
+
+may not recognize the second part of the expression, however.
+
+That part uses one of Perl's file-test operators: <TT>-d</TT>.
+
+This operator evaluates as <TT>true</TT>, if the argument to its
+
+right is a directory. In this case, the argument to the right
+
+is a string that, when the two variables are dereferenced, will
+
+contain each successive item in the list that you are checking,
+
+prepended with (the first time that the subroutine is executed)
+
+<TT>/usr/local/etc/httpd/whitehorse</TT> and a slash.
+
+<P>
+
+So here's what happens: <TT>readdir()</TT> returns an array that
+
+contains each item in the directory in a single element of that
+
+array. Because you are giving <TT>readdir()</TT> as an argument
+
+to the <TT>grep</TT> statement, the entire statement sets the
+
+array <TT>@dir</TT> to the list of all the directories within
+
+the original directory that do not start with a period.
+
+<P>
+
+The statement that follows-<TT>rewinddir (dir)</TT>-resets the
+
+pointer on the specified directory handle to the beginning of
+
+the directory, so that you can scan the listing again in the next
+
+line. This time, you are looking for files that do not begin with
+
+a period, that contain the string <TT>html</TT> at the end, and
+
+that are text files. The first two tests are accomplished by fairly
+
+obvious regular expressions. The third test is accomplished by
+
+another file-test operator: <TT>-T</TT>. The function is identical
+
+to its sibling described earlier in this section, with the obvious
+
+exception that it returns <TT>true</TT> for text files.
+
+<P>
+
+With the two arrays set, you now close the directory handle and
+
+move on to processing the information in the arrays.
+
+<P>
+
+The processing starts with the <TT>@dirs</TT> array, scanning
+
+through it by using a <TT>foreach</TT> loop. Although I could
+
+have accessed the data directly by using <TT>foreach $listitem(@dirs){</TT>,
+
+as you've seen before, in this case I used a different but equally
+
+valid syntax. This time, I told Perl to iterate from zero to the
+
+variable <TT>$#dirs</TT>. This variable is a special Perl variable
+
+that contains the index of the last item of the specified array.
+
+Because the script is iterating over the indices instead of the
+
+data, you'll notice that the code goes through a little more work
+
+within the loop to reference the data in the array itself. This
+
+syntax might be easier for some programmers to read and understand,
+
+however.
+
+<P>
+
+Within the loop itself, the first thing that the script does is
+
+determine whether the current item contains the string <TT>temp</TT>
+
+or the string <TT>images</TT>; if it does, the script skips that
+
+item. Why? Well, I know that in this site's directory structure,
+
+any directory called IMAGES contains only graphics files, and
+
+I don't want to waste processor time on those directories. I also
+
+know that any directories whose names contain the string <TT>temp</TT>
+
+do not have any documents that should be considered in the search.
+
+Any time I adapt this search script to a new site, I change this
+
+conditional accordingly. The new site may call its image directories
+
+by a different name; it might have other places where temporary
+
+documents are stored.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Searching is one good reason why Webmasters and CGI programmers want to pay close attention to their directory structures and what is contained in them. In my sites, I try to be as careful as possible in putting documents that are not intended for public 
+consumption in places that search functions skip. I also like to place images in separate directories, mostly to keep them out of the way, but also so that I can cut (if even slightly) the processor time that a search may require.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+After the first element passes these tests, I set the variable
+
+<TT>$newdir</TT> to that item, combined with the current directory
+
+and a slash. This means that <TT>$newdir</TT> contains the full
+
+directory path to the item. I then call <TT>&amp;scan_files</TT>
+
+with <TT>$newdir</TT> and the same search string.
+
+<H3><A NAME="UsingRecursiveSubroutines">
+
+Using Recursive Subroutines</A></H3>
+
+<P>
+
+This action of a subroutine's calling itself is known as <I>recursion</I>.
+
+Recursion is a common programming concept that is taught in almost
+
+every basic-to-intermediate programming class. If you aren't an
+
+experienced programmer, the concept may seem to be a bit odd,
+
+but trust me-it works. Recursion is most commonly used when a
+
+programmer needs some kind of looping but each successive iteration
+
+of the loop depends on some processing in the preceding iteration.
+
+In this example, you're scanning a directory tree. Obviously,
+
+you want to scan every subdirectory in that tree, but to do that,
+
+you have to scan every subdirectory's subdirectories. You get
+
+the idea. So you need to write a subroutine that keeps calling
+
+itself until it reaches a point at which there are no more subdirectories
+
+to scan.
+
+<P>
+
+When the subroutine is called the second time, it starts back
+
+at the top, just as described at the beginning of this section.
+
+This is where the importance of the <TT>my</TT> declarations comes
+
+in. If I hadn't made those variables local, each successive time
+
+the subroutine was called, the newer version of the subroutine
+
+would overwrite the data in those variables, and the results would
+
+be at best unpredictable and at worst garbage.
+
+<P>
+
+As it is, however, each successive call to the subroutine delves
+
+one branch deeper in the directory tree, creating a new list of
+
+directories and HTML files, and calling itself again for the first
+
+item in each new directory list. When a particular incarnation
+
+of the <TT>&amp;scan_files</TT> subroutine calls itself, nothing
+
+further happens until the call to the subroutine &quot;returns.&quot;
+
+This call can't occur until somewhere down the line the script
+
+finds a directory with no subdirectories. Then the latest incarnation
+
+of the <TT>&amp;scan_files</TT> script moves on to process the
+
+<TT>@files</TT> array, as described later in this chapter. When
+
+that processing is finished, the subroutine returns successfully,
+
+and the preceding incarnation of <TT>&amp;scan_files</TT> can
+
+move on to the next item in its directory list, calling itself
+
+again.
+
+<P>
+
+The processing moves on like this until all the results essentially
+
+cascade up from the bottom of the tree. When all the directories
+
+in <TT>@dirs</TT> from any incarnation of <TT>&amp;scan_files</TT>
+
+are processed, the files from that particular incarnation can
+
+be processed. Finally, the script returns to the preceding <TT>&amp;scan_files</TT>,
+
+and so it goes, back up the tree. When all the subdirectories
+
+in the original directory are finally processed, the files in
+
+that directory are processed-<I>last</I>. Again, it may seem to
+
+be odd at first, but if you take a simple directory tree and a
+
+paper and pencil, and trace out how it works, you'll see what
+
+I mean.
+
+<H3><A NAME="ProcessingtheFilesinEachDirectory">
+
+Processing the Files in Each Directory</A></H3>
+
+<P>
+
+The actual processing of the files is relatively straightforward.
+
+As you can see in Listing 5.3, I use a <TT>foreach</TT> loop to
+
+iterate over the indices of the <TT>@files</TT> array. For each
+
+item in that array, I open the file that it points to and scan
+
+for the desired text by means of the <TT>while (&lt;file&gt;)
+
+{</TT> loop. You'll remember that this syntax places each successive
+
+line of the file in the Perl special variable <TT>$_</TT>. The
+
+first thing that this loop does is find the title of the document.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.3&nbsp;&nbsp;Part II of &amp;scan_files<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+ for $list(0..$#files) {
+
+  $filename=$dir.&quot;/&quot;.$files[$list];
+
+  $title=$files[$list];
+
+  open file, $filename;
+
+  while (&lt;file&gt;) {
+
+   if (/&lt;title&gt;([^&lt;]+)&lt;\/title&gt;/i) {
+
+    $title=$1;
+
+   }
+
+   if (/$st/i) {
+
+    s/&lt;[^&gt;]*(&gt;|$)//ig;
+
+    s/^[^&gt;]*&gt;//i;
+
+    if (/$st/i) {
+
+     my $urlsearch=$st;
+
+     $urlsearch=[td]s/ /+/g;
+
+     print &quot;&lt;a href=\&quot;/cgi-bin/showfoundfile/$filename&quot;.&quot;::&quot;, 
+
+      $urlsearch.&quot;::&quot;.&quot;$tags\&quot;&gt;$title&lt;/a&gt;&lt;br&gt;\n&quot;;
+
+     last;
+
+    }
+
+   }
+
+  }
+
+ }
+
+return 1;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The conditional that accomplishes this task uses a match operator
+
+to check each line. This expression matches on any line that contains
+
+any text surrounded by <TT>&lt;title&gt;</TT> and <TT>&lt;/title&gt;</TT>.
+
+One important thing to notice is that the expression is followed
+
+by <TT>i</TT>. This <TT>i</TT> tells Perl that I want it to perform
+
+a case-insensitive match. So whether the tags look like <TT>&lt;TITLE&gt;</TT>,
+
+<TT>&lt;Title&gt;</TT>, or <TT>&lt;title&gt;</TT>, the expression
+
+returns <TT>true</TT>. The characters between the title tags in
+
+the conditional <TT>([^&lt;]+)</TT> mean that I want to match
+
+one or more characters that <I>are not</I> less-than signs. Also,
+
+because this expression is enclosed in parentheses, this text
+
+is placed in the Perl variable <TT>$1</TT> when the expression
+
+matches. This fact explains <TT>$title=$1;</TT>-the line that
+
+is executed when the expression returns <TT>true</TT>. Thus, <TT>$title</TT>
+
+contains the text between the title tags in each scanned file.
+
+<P>
+
+The second conditional in the loop checks to see whether the current
+
+line contains the search text. If it does, the script does a little
+
+further checking. The two lines following this conditional remove
+
+any HTML tags from the line, using the <TT>s///</TT> substitution
+
+operator. The first of these lines removes any complete tags and
+
+any tag that begins but does not end on this line. The second
+
+line removes a tag that starts on the preceding line and ends
+
+in the current line.
+
+<P>
+
+Again, these expressions are followed by the <TT>i</TT> option
+
+to indicate case-insensitivity. The first expression also invokes
+
+the <TT>g</TT> option, which tells Perl to perform the substitution
+
+on the line as many times as possible. Notice also in the first
+
+substitution that the final element in the pattern that is being
+
+matched is <TT>(&gt;|$)</TT>. The vertical-bar character (<TT>|</TT>)
+
+in a regular expression indicates alternation. This means that
+
+the pattern matches if it finds a <TT>&gt;</TT> character or the
+
+end of the line in this position. This syntax allows you to match
+
+both complete tags and tags that start on this line with one expression.
+
+<P>
+
+After the script removes the tags from the current line, it checks
+
+again to see whether the line contains the search text. If so,
+
+you want the script to return a reference to this document to
+
+the user. Obviously, you could just return the title of the document,
+
+surrounded by an anchor tag and with an <TT>href</TT> attribute
+
+that points directly to the document. But I have a little something
+
+up my sleeve, so I don't do that. I want to refer the user to
+
+a script that processes and prints the document in a special way.
+
+<P>
+
+To do this, first I encode the search string so that any spaces
+
+in it become plus signs. Then I print the title of the document,
+
+with an anchor tag that refers the browser to a script with the
+
+search text and some extra information tacked onto the URL, so
+
+that this information ends up in the <TT>PATH_INFO</TT> variable.
+
+The final section of this chapter explains the method to this
+
+seeming madness.
+
+<P>
+
+The final command in this block, <TT>last;,</TT> simply saves
+
+a little processing time. After the first match in any file, this
+
+<TT>last;</TT> command ends the processing of that file completely.
+
+At this point you only need to know that the string was matched
+
+once in a file, so there's no need to go on after the first match.
+
+Efficient, eh?
+
+<P>
+
+Each file in the <TT>@files</TT> array is processed as described
+
+earlier in this section. A reference to any file that contains
+
+the search text is printed back to the user. When the processing
+
+of the <TT>@files</TT> array is complete, the subroutine returns,
+
+going back to the preceding incarnation of <TT>&amp;scan_files</TT>
+
+to either process the next item in <TT>@dirs</TT> or (if this
+
+happened to be the last item in <TT>@dirs</TT>) to process its
+
+own <TT>@files</TT> array. When all is said and done, the user
+
+is presented with a complete list of files that contain the requested
+
+text.
+
+<H2><A NAME="UsinganIndexSearch"><FONT SIZE=5 COLOR=#FF0000>
+
+Using an Index Search</FONT></A></H2>
+
+<P>
+
+I hope you can see how effective the search that I just explained
+
+is. The search looks at every file on your site every time someone
+
+calls up the search function. You can probably guess one of the
+
+problems with this method: processing power. On a small site,
+
+a Web server running on &quot;average&quot; hardware can run through
+
+this search fairly quickly. But as a site gets bigger, the time
+
+that it would take to go through the each file and directory for
+
+every search request would become intolerable for the user (and,
+
+of course, would also bog down your server). For a bigger site,
+
+you want an alternative. One of the best alternatives is to index
+
+your site. To <I>index</I> means that you build a file that relates
+
+each significant word on your site to a list of the pages on which
+
+the word occurs.
+
+<P>
+
+Instead of scanning each and every file, this search method simply
+
+looks at the index file for its references. With the right structure
+
+for the index file, this process can be lightning-quick, taking
+
+very little processing power. The major processing takes place
+
+in the building of the index file, which would have to occur only
+
+once a day (or less frequently on a less dynamic site).
+
+<H3><A NAME="IndexingYourWebSiteintoaDBMFile">
+
+Indexing Your Web Site into a DBM File</A></H3>
+
+<P>
+
+The process of indexing a Web site is accomplished with a script
+
+that is <I>not</I> technically a CGI script, because it will never
+
+be run by your Web server at the request of some remote user.
+
+The script is run from the command line by a Webmaster or is made
+
+to run automatically at specified times. Many parts of this script
+
+look quite similar to the CGI script described earlier in this
+
+chapter. Listing 5.4 shows how the script works.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.4&nbsp;&nbsp;Part I of the Script to Index a Web
+
+Site (indexsite.pl )<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+
+
+$directory='/usr/local/etc/httpd/htdocs/whitehorse';
+
+
+
+dbmopen (%final, &quot;index&quot;, 0666);
+
+@time=localtime(time);
+
+$time=&quot;$time[2]:$time[1]&quot;;
+
+print &quot;Scan started: $time\n&quot;;
+
+scan_files($directory);
+
+@time=localtime(time);
+
+$time=&quot;$time[2]:$time[1]&quot;;
+
+print &quot;Scan complete: $time\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The first part of this script should be fairly familiar. Like
+
+<TT>search.pl</TT> in Listing 5.1, this script simply initializes
+
+some variables and then launches into its processing by calling
+
+a subroutine. Because you're not searching for any specific text
+
+here, you don't need to set a search string variable, and you
+
+don't need many of the CGI preliminaries. But as in the search
+
+script in Listing 5.1, you do set the starting directory. You
+
+also open a DBM file, which will be used to store the index information.
+
+With that done, the script does some basically unnecessary, but
+
+somewhat useful, printing before calling <TT>&amp;scan_files</TT>.
+
+First, the script calls the <TT>localtime</TT> function, putting
+
+the results in the array <TT>@time</TT>. Then the script prints
+
+the time when the scan started, using two of the values from that
+
+array. This step is not strictly necessary, but it makes me feel
+
+better to see some output from the program as it's running.
+
+<P>
+
+Just like the first part of the script, the <TT>&amp;scan_files</TT>
+
+subroutine in Listing 5.5 should look somewhat familiar.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.5&nbsp;&nbsp;Part I of the</B><I> </I><B>&amp;scan_files
+
+Subroutine of indexsite<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sub  scan_files {
+
+ my $dir=$_[0];
+
+ my (@dirs,@files,@results,$filename,$shortfilename,$newdir,$list, %words);
+
+ print &quot;Scanning: $dir \n&quot;;
+
+ opendir(dir,$dir);
+
+ @dirs=grep {!(/^\./) &amp;&amp; -d &quot;$dir/$_&quot;} readdir(dir);
+
+ rewinddir(dir);
+
+ @files=grep {!(/^\./) &amp;&amp; /html/ &amp;&amp; -T &quot;$dir/$_&quot;} readdir(dir);
+
+ closedir (dir);
+
+ for $list(0..$#dirs) {
+
+  if (!($dirs[$list]=[td]/temp/ || $dirs[$list]=[td]/images/)) {
+
+   $newdir=$dir.&quot;/&quot;.$dirs[$list];
+
+   &amp;scan_files ($newdir);
+
+  }
+
+ }
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+I start the script by setting up my local variables, using the
+
+<TT>my()</TT> function just as I did in <TT>search.pl</TT>. Then,
+
+in an effort to give myself some peace of mind while the script
+
+is running, I print the name of the directory that the script
+
+is currently scanning. Why do this? By nature, I'm a cynic, and
+
+if I can't prove that something is working right, I assume that
+
+it's broken. Without the periodic update from the script, I would
+
+assume that the script is malfunctioning and that any moment,
+
+my server will go up in a ball of flames. Printing each directory
+
+name as I process it is an easy way to keep myself from worrying.
+
+In a more practical vein, if something does go wrong, the output
+
+can help point me to the problem.
+
+<P>
+
+The next few lines initialize the <TT>@files</TT> and <TT>@dirs</TT>
+
+arrays, just as <TT>search.pl</TT> did. With the arrays populated,
+
+the script iterates through <TT>@dirs</TT>, calling <TT>&amp;scan_files</TT>
+
+for each directory found. Again, the only difference from <TT>search.pl</TT>
+
+is the fact that I don't need to look for any specific text, so
+
+I make the recursive call with the directory as the only argument.
+
+After all the directories are processed (refer to the description
+
+of <I>recursion</I> in &quot;Using Recursive Subroutines&quot;
+
+earlier in this chapter, if you haven't read it already), the
+
+script turns its attention to the files listed in the <TT>@files</TT>
+
+array.
+
+<P>
+
+Listing 5.6 shows where this script varies significantly from
+
+<TT>search.pl</TT>. The reason for this variation should be obvious.
+
+Whereas previously I was interested in finding one specific word
+
+or phrase, now I want to find <I>every</I> significant word in
+
+every document on the site.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.6&nbsp;&nbsp;Part II of &amp;scan_files<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+ for $list(0..$#files) {
+
+  undef(%words);
+
+  undef(@results);
+
+  $filename=$dir.&quot;/&quot;.$files[$list];
+
+  $shortfilename=$filename;
+
+  $shortfilename=[td]s/$directory//;
+
+  open file, $filename;
+
+  @file=&lt;file&gt;;
+
+  $file=join(&quot; &quot;,@file);
+
+  $file=[td]s/&lt;[^&gt;]*&gt;/ /gs;
+
+  $file=[td]tr/A-Z/a-z/;
+
+  @results=split (/[^\w-']+/,$file);
+
+  foreach (@results){
+
+   s/^'//;
+
+   s/'$//;
+
+   s/^-//;
+
+   s/-$//;
+
+   if (length($_) &gt; 3) {
+
+    $words{$_}=1;
+
+   }
+
+  }
+
+  foreach (keys(%words)) {
+
+   $final{$_} .= &quot;#$shortfilename&quot;;
+
+  }
+
+ }
+
+return 1;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+To do this, I iterate over the <TT>@files</TT> array. Each time
+
+through the loop, I initialize a few variables. First, I use the
+
+<TT>undef()</TT> function to make sure that the array <TT>@results</TT>
+
+and the hash <TT>%words</TT> are empty before I go any further.
+
+With that task accomplished, I append the directory name to the
+
+file name so that I can tell Perl exactly where to find the file.
+
+Then I set <TT>$shortfilename</TT> to contain the path from the
+
+original directory to the current file. I do this to keep the
+
+data that I will be storing in the DBM file as short as possible.
+
+Because I always know that I started with the directory in <TT>$directory</TT>,
+
+I don't need to put that information into the DBM file.
+
+<P>
+
+With all the necessary variables initialized, I open the specified
+
+file. Instead of using a <TT>while</TT> loop to look at each line,
+
+this time, I dump the entire file into an array. The line <TT>@file=&lt;file&gt;</TT>
+
+accomplishes this feat, putting each line of the current file
+
+(from the file handle <TT>file</TT>) into a field of the array
+
+<TT>@files</TT>. This method is an easy shortcut; use it so that
+
+you don't have to use the more common <TT>while</TT> loop syntax.
+
+From this new array, I then create one big string, using the <TT>join</TT>
+
+command.
+
+<P>
+
+Because I don't want to index any words that occur inside the
+
+actual HTML tags , I want to remove all the tags from the newly
+
+created string. The line <TT>$file=[td]s/&lt;[^&gt;]*&gt;//gs;</TT>
+
+performs this task for me. The regular expression in this substitution
+
+matches anything that looks like an HTML tag. I tell Perl to substitute
+
+a space for each match. The <TT>g</TT> option that follows means
+
+that I want to perform this substitution as many times as possible.
+
+The <TT>s</TT> option tells Perl to treat the string as a single
+
+line. With this option enabled, the substitution operator allows
+
+new lines to match in the <TT>[^&gt;]*</TT> portion of the pattern,
+
+which means that tags that span lines are removed. Finally, I
+
+use <TT>&quot;tr/A-Z/a-z/&quot;</TT> to translate all uppercase
+
+characters in the string to lowercase.
+
+<P>
+
+The <TT>$file</TT> variable now contains only the text of the
+
+document, with all words in lowercase. I now use the <TT>split</TT>
+
+function to put the words into the array <TT>@results</TT>. Although
+
+this is not the first time that you've seen <TT>split()</TT>,
+
+this instance is quite different from what I've shown you before.
+
+In previous uses, I split a string on some known character or
+
+simple string. In this case, I'm splitting based on a regular
+
+expression: <TT>/[^w-']+/</TT>.
+
+<P>
+
+What's going on here? I know that at this point in the processing,
+
+<TT>$file</TT> will contain only the text of the file, but I don't
+
+know exactly what that means. I might be tempted to split just
+
+on spaces, but that wouldn't take punctuation into account. So
+
+my next thought might be to split on any nonword character, using
+
+<TT>/W</TT>. That method would be a good option. I chose to go
+
+a little further, though. I wanted to include hyphenated words
+
+and words with apostrophes in my index; thus, I used the expression
+
+in the preceding paragraph.
+
+<P>
+
+In English, the split translates roughly to this: &quot;Split
+
+the string <TT>$file</TT> on any series of one or more characters
+
+that do <I>not</I> belong to the set of word characters plus apostrophe
+
+and hyphen.&quot; What I end up with, then, is an array that contains
+
+(mostly) words. Of course, this result isn't perfect; I would
+
+end up indexing &quot;words&quot; such as <I>24-30</I> if I happened
+
+to have a document that referred to a week at the end of a month.
+
+But I can live with that result if someone can search for <I>Mason-Dixon</I>
+
+and find what she's expecting.
+
+<P>
+
+After building the array, I need to process it a little more before
+
+putting it in the DBM file. Processing each item in a <TT>foreach</TT>
+
+loop, I begin by deleting any leading or trailing single quotes
+
+or hyphens. With that task accomplished, I check to see whether
+
+the length of the item meets my criterion. If so, I make that
+
+item a key in the <TT>%words</TT> hash, with an arbitrary value
+
+of 1. I perform this processing until I've looked at all the members
+
+of <TT>@results</TT>.
+
+<P>
+
+When I'm done with this loop, <TT>%words</TT> contains keys for
+
+each significant word in the current file. Then I can iterate
+
+over these keys to put the appropriate information in the DBM
+
+file. For each word that occurs in <TT>%words</TT>, I append a
+
+delimiter and the current value of <TT>$shortfilename</TT> to
+
+the value of <TT>%final</TT> (which is the hash that points to
+
+the index DBM file), with the current word as the key. So if the
+
+current word is <I>that</I>, <TT>$_</TT> equals <TT>that</TT>,
+
+and I will append <TT>#</TT> and <TT>$shortfilename</TT> to <TT>$final{'that'}</TT>.
+
+<P>
+
+All this happens for each file that occurs in <TT>@files</TT>,
+
+for each instance of <TT>@files</TT>, and in each instance of
+
+<TT>&amp;scan_files</TT>. The procedure sounds like a great deal
+
+of work, and it is. But when all is said and done, the result
+
+is a DBM file that has a list of words as its keys. Each of these
+
+keys points to a string that contains one or more file names delimited
+
+by the pound-sign character (<TT>#</TT>). Each of these files
+
+contains one or more occurrences of that key. Does that explanation
+
+make sense? I hope so.
+
+<H3><A NAME="PerformingaSearchUsingtheIndexFile">
+
+Performing a Search Using the Index File</A></H3>
+
+<P>
+
+All the work explained in the preceding section will be useless
+
+unless you find some use for this newly created DBM file, so I'd
+
+better show you the search function that goes along with the script.
+
+Assume that you're using the search form shown in figure 5.1 (refer
+
+to &quot;Scanning Directories Using a Recursive Subroutine&quot;
+
+earlier in this chapter). When the user enters some text and presses
+
+Return, he wants to see a list of documents that contain those
+
+words. Listing 5.7 shows the first part of a script that is intended
+
+to do just that.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.7&nbsp;&nbsp;Script to Perform a Search Using a DBM
+
+Index File (indexsearch.pl)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+require &quot;process_cgi.pl&quot;;
+
+&amp;parse_input(*fields);
+
+$search=$fields{'word'};
+
+&amp;print_header;
+
+
+
+@tag=split(/\0/,$fields{'tag'});
+
+$tags=join (&quot;::&quot;,@tag);
+
+
+
+$urlsearch=$search;
+
+$urlsearch=[td]s/ /\+/g;
+
+$words=$search;
+
+$words=[td]s/[^\w-' ]//g;
+
+@words=split(/ +/, $words);
+
+
+
+$directory='/usr/local/etc/httpd/htdocs';
+
+dbmopen (%index,&quot;index&quot;,0666);
+
+$i=0;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The first section of this script performs all the preliminary
+
+steps needed before the bulk of the processing takes place. The
+
+script begins by parsing the input from the form and placing the
+
+search string in <TT>$search</TT>. The script then creates an
+
+array called <TT>@tag</TT> from the check boxes below the search-text
+
+box and then uses <TT>join()</TT> to create a single string that
+
+contains all the selected tags. Next, the script creates a string
+
+called <TT>$urlsearch</TT>. This string will be part of the URL
+
+that links to the returned pages. Then the script removes any
+
+characters from the search string that don't fit the criteria
+
+listed earlier in this chapter: any character that isn't a letter,
+
+a number, a hyphen, or a single quotation mark. After that, the
+
+script splits the search string into individual words in an array
+
+called (not surprisingly, I hope) <TT>@words</TT>.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+You may notice that I silently ignore any illegal characters in the script shown in Listing 5.7. Some users may find this silence confusing or even annoying. Many Web users-particularly longtime Web users-expect to have complete control and knowledge of 
+what's going on; they don't like things to go on behind the scenes (or, as they might say, behind their backs). If your site's target audience includes this type of user, you want to keep this attitude in mind. You probably will want to warn the user that 
+he entered illegal characters in the search form instead of ignoring those characters.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+Finally, the script sets the directory variable and opens the
+
+DBM file, ready to look for the search words. This process begins
+
+in Listing 5.8.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.8&nbsp;&nbsp;Part II of the DBM Search Script<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+foreach $word(@words) {
+
+ undef(%mark);
+
+ undef(@files);
+
+ $files=$index{$word};
+
+ $files=[td]s/^#//;
+
+ @files=split(/#/,$files);
+
+ grep ($mark{$_}++,@files);
+
+ if ($i &gt; 0) {
+
+  @combined=grep($mark{$_},@oldfiles);
+
+  @oldfiles=@combined;
+
+ }
+
+ else {
+
+  @combined=@files;
+
+  @oldfiles=@files;
+
+ }
+
+$i++;
+
+}
+
+dbmclose (%index);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The processing of the <TT>@words</TT> array takes place in a <TT>foreach</TT>
+
+loop. (You should have been able to guess that by now.) The script
+
+begins by undefining two arrays to make sure that they are empty
+
+at the beginning of each iteration of the loop. Then the script
+
+sets <TT>$files</TT> to equal <TT>$index{$word}</TT>, which puts
+
+the list of files from the index DBM file for the current value
+
+of <TT>$word</TT> in <TT>$files</TT>. Next, the script removes
+
+the leading <TT>#</TT> before splitting <TT>$files</TT> into the
+
+array <TT>@files</TT>.
+
+<P>
+
+The following syntax is the key to this entire process. The intention
+
+of this script is to find all the documents that contain <I>all</I>
+
+the words supplied by the user in the form. To do this, the script
+
+needs to compare the <TT>@files</TT> array from each iteration
+
+of the <TT>foreach $word(@words){</TT> loop with all the other
+
+<TT>@files</TT> arrays from all iterations of the loop. Unfortunately,
+
+Perl has no built-in <TT>logical-and</TT> function for arrays,
+
+so we use magic in this listing. Unlike most magicians, though,
+
+I'll explain the trick.
+
+<P>
+
+The first <TT>grep()</TT> creates a key in the hash <TT>%mark</TT>
+
+for each item in <TT>@files</TT>, assigning an arbitrary value
+
+to that key. How? Recall exactly what <TT>grep</TT> does: It evaluates
+
+the first argument for each item in the list in the second argument,
+
+returning an array that contains all the items for which the first
+
+argument evaluated <TT>true</TT>. In this instance, you really
+
+don't care whether the argument evaluates <TT>true</TT>; you're
+
+just using the <TT>grep</TT> as a quick way of giving <TT>%mark</TT>
+
+the appropriate set of key-value pairs, so you don't even assign
+
+the result anywhere. Notice that you could just as easily have
+
+set values for <TT>%mark</TT> by using a <TT>foreach</TT> loop.
+
+<P>
+
+As you can see by the conditional <TT>if ($i &gt; 0) {</TT>, the
+
+first time through the loop, this hash doesn't get used at all.
+
+The script simply sets <TT>@oldfiles</TT> and <TT>@combined</TT>
+
+to equal the current value of <TT>@files</TT>, and moves on to
+
+the next word in <TT>@words</TT>. If the user happened to type
+
+only one word, the script is done. The array <TT>@combined</TT>
+
+contains the list of files that you want to return to the user.
+
+<P>
+
+But if the user typed more than one word, you go through the loop
+
+again. Again, you set the <TT>%mark</TT> as described earlier
+
+in this section. This time, though, you use it. You set <TT>@combined</TT>
+
+to equal the result of <TT>grep($mark{$_},@oldfiles)</TT>. Don't
+
+blink, or you'll miss the slick part of this. Remember that <TT>%mark</TT>
+
+has a key associated with a <TT>1</TT> for each item in the current
+
+<TT>@files</TT> array. The second time through this loop, <TT>@oldfiles</TT>
+
+contains the <TT>@files</TT> array from the <I>preceding</I> iteration
+
+of the loop. So when <TT>grep</TT> evaluates <TT>$mark{$_},</TT>
+
+for each item in <TT>@oldfiles</TT>, the expression is true only
+
+if the current <TT>$_</TT> exists as a key in <TT>%mark</TT>.
+
+The value <TT>$_</TT> exists as a key in <TT>%mark</TT> if that
+
+value was in <TT>@files</TT> this time through the loop. The result
+
+is that <TT>@combined</TT> contains only those values that existed
+
+in both <TT>@files</TT> and <TT>@oldfiles</TT>. Get it?
+
+<P>
+
+Each successive time through the loop, <TT>@oldfiles</TT> becomes
+
+<TT>@combined</TT>, so that when you do the <TT>grep($mark{$_},
+
+@oldfiles)</TT>, you're <TT>and</TT>ing to the proper array. This
+
+process <TT>and</TT>s together arrays until the cows come home.
+
+In the end, when you run out of words in <TT>@words</TT>, <TT>@combined</TT>
+
+contains the list of files that contain all the words in <TT>@words</TT>.
+
+<P>
+
+Now all that is left to do is run through <TT>@combined</TT> so
+
+that the script can return a page to the user. Listing 5.9 shows
+
+this process.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.9&nbsp;&nbsp;Final Section of indexsearch.pl<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+if ($#combined &gt; -1) {
+
+ foreach $list(@combined) {
+
+  $title=&quot;${list}: No Title&quot;;
+
+  $filename=$directory.$list;
+
+  open file, $filename;
+
+  while (&lt;file&gt;) {
+
+   if (/&lt;title&gt;([^&lt;]+)&lt;\/title&gt;/io) {	
+
+    $title=$1;
+
+    last;
+
+   }  
+
+  }
+
+  close file;
+
+  print &quot;&lt;a href=\&quot;/cgi-bin/showfoundfile/$filename&quot;.&quot;::&quot;.$urlsearch.&quot;::&quot;, 
+
+   &quot;$tags\&quot;&gt;$title&lt;/a&gt;&lt;br&gt;\n&quot;;
+
+ }
+
+}
+
+else {
+
+ print &quot;No matching documents found.&quot;;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The script begins by checking to see whether there are any elements
+
+at all in <TT>@combined</TT>. If <TT>$#combined</TT> is greater
+
+than <TT>-1</TT>, there is at least one element, so the script
+
+starts a <TT>foreach</TT> loop over <TT>@combined</TT>. Initially
+
+in this loop, I set a default title for the document, in case
+
+one does not exist in the document itself. Then I set <TT>$filename</TT>
+
+equal to the current element of <TT>@combined</TT> appended to
+
+the value of <TT>$directory</TT>. Remember that the index script
+
+shown earlier in the chapter shortened the file names that it
+
+stored so as to save space. I have to add back here what I removed
+
+earlier so that Perl can find the file.
+
+<P>
+
+When the script has the full path to the file in <TT>$filename</TT>,
+
+it opens that file and searches for the title. This code is identical
+
+to the code that found the title of the documents in the preceding
+
+search script. Now, with the title of the document in hand, the
+
+script prints that title hyper-linked to a URL that sends the
+
+user to that document. This process occurs for each file found
+
+in <TT>@combined</TT>, so the result is a page that lists all
+
+the titles for the documents that met the user's search criteria.
+
+<P>
+
+There is one major functional difference between this search and
+
+the one that you saw earlier in this chapter. In this search,
+
+the text that the user enters is treated as a list of words. This
+
+search returns all documents that contain all the listed words
+
+anywhere in the document. By contrast, the first search treated
+
+the entered text as a string; it returned only those documents
+
+that contained the entire string, spaces, punctuation, and all.
+
+You will want to take this fact into consideration when you decide
+
+which search to implement on your site.
+
+<H2><A NAME="PrintingtheResultingPages"><FONT SIZE=5 COLOR=#FF0000>
+
+Printing the Resulting Pages</FONT></A></H2>
+
+<P>
+
+You may wonder why printing the resulting pages deserves its own
+
+section. As I said earlier, I have a bit of a trick up my sleeve
+
+that has the potential to enhance any search function significantly.
+
+Many times, when I have searched a site, I ended up going to pages
+
+where I couldn't even find the text that I searched for. I realize
+
+that most modern browsers have a command that allows the user
+
+to find text. But as a programmer, I wondered whether I could
+
+build this functionality into the search. The answer, of course,
+
+was yes. The following sections explain how.
+
+<H3><A NAME="ReturningPagesfromtheNonindexSearch">
+
+Returning Pages from the Nonindex Search</A></H3>
+
+<P>
+
+The first search function described in this chapter searched for
+
+a single word or phrase. A list of pages returned from that search
+
+might look like the page shown in figure 5.2.
+
+<P>
+
+<A HREF="f5-2.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f5-2.gif"><B> Figure 5.2 : </B><I>This page results from a user-initiated search.
+
+
+
+</I></A><P>
+
+<P>
+
+Figure 5.2 shows what is obviously a simple page-just a list of
+
+files. Select one of those links, however, and see what happens.
+
+<P>
+
+Figure 5.3 clearly shows the additional feature of this search
+
+function. The number of occurrences of the search term is indicated
+
+at the top of the page, and there is a link to each occurrence.
+
+Notice, also, that each occurrence in the text is marked with
+
+the tags that the user chose on the form shown in figure 5.1.
+
+Finally, a back link takes the user from the current occurrence
+
+back to the top of the page, should she want to go back. With
+
+this feature, the user gets not only the pages that contain her
+
+search term, but also direct links to every occurrence of that
+
+search term on every returned page. Listing 5.10 shows the first
+
+part of the script that accomplishes this minor miracle.
+
+<P>
+
+<A HREF="f5-3.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f5-3.gif"><B> Figure 5.3 : </B><I>This page displays the information returned from the search.
+
+
+
+</I></A><P>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.10&nbsp;&nbsp;Part I of a Script to Return a File
+
+from a Simple Search</B> <B>(showfoundfile.pl)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+
+
+require &quot;process_cgi.pl&quot;;
+
+&amp;print_header;
+
+$temp=&amp;path_info;
+
+($file,$st,$tag1,$tag2,$tag3)=split (&quot;::&quot;,$temp);
+
+
+
+$file=~m#/usr/local/etc/httpd/htdocs/whitehorse(/.*)/#;
+
+$urlstart=$1;
+
+
+
+$starttag=&quot;&lt;$tag1&gt;&lt;$tag2&gt;&lt;$tag3&gt;&quot;;
+
+$endtag=&quot;&lt;/$tag3&gt;&lt;/$tag2&gt;&lt;/$tag1&gt;&quot;;
+
+$starttag=~s/&lt;&gt;//g;
+
+$endtag=~s/&lt;\/&gt;//g;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+You shouldn't have too much trouble figuring out what's going
+
+on in Listing 5.10. The script begins by calling in the <TT>process_cgi</TT>
+
+library, printing the header, and grabbing the <TT>PATH_INFO</TT>
+
+variable; it then splits that variable into its components. Next,
+
+the script sets the variable <TT>$urlstart</TT> to contain the
+
+path to this file from the document root of the Web server. You
+
+may not recognize the <TT>m##</TT> pattern-match operator that
+
+I use for this purpose, but you have used this feature many times
+
+before. In those previous uses, you employed the standard delimiter,
+
+<TT>/</TT>. In such cases, you can (and normally do) leave off
+
+the <TT>m</TT>. I chose to perform this match in this fashion
+
+so that I wouldn't have to put backslashes in front of all the
+
+slashes in the string that I'm matching.
+
+<P>
+
+The final bit of processing in this section of the script sets
+
+up <TT>$starttag</TT> and <TT>$endtag</TT>. These variables function
+
+as their names indicate that they will: they contain the beginning
+
+and ending tags that mark the found text. You'll notice that the
+
+two substitutions that follow the initial assignments are necessary,
+
+because I don't know that any of the tag variables will contain
+
+any text at all. If any or all of the variables are empty, I have
+
+to get rid of the empty tags from the strings.
+
+<P>
+
+The code shown in Listing 5.11 begins by initializing <TT>$page</TT>
+
+for later use and decoding the search text. Next, the script opens
+
+the file that the user selected and initializes a couple more
+
+variables. Then the script walks through the file, using the standard
+
+<TT>while</TT> loop. The first thing that this loop does is check
+
+to see whether the line contains the flag text <TT>EEENNNDDD</TT>.
+
+If so, the script sets <TT>$dontmark</TT> equal to <TT>y</TT>.
+
+You'll notice in the line that follows that if <TT>$dontmark</TT>
+
+equals anything but <TT>n</TT>, the script doesn't do any processing
+
+on the current line. This flag feature allows you to mark the
+
+ending portions of certain files as being off-limits to marking.
+
+This feature can be helpful if, for example, you have a footer
+
+on a page that might get mangled if you start pasting new anchors
+
+into it. To activate this feature, I simply put <TT>EEENNNDDD</TT>
+
+in an HTML comment at the point in the document where I wanted
+
+the marking to stop.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.11&nbsp;&nbsp;Part II of showfoundfile<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$page=' ';
+
+$st =~ s/\+/ /g;
+
+open (f,$file) || print &quot;couldn't open file ${file}:$!&quot;;;
+
+$iteration=1;
+
+$dontmark='n';
+
+while (&lt;f&gt;) {
+
+ $dontmark='y' if /EEENNNDDD/;
+
+ if ((!(/&lt;[^&gt;]*$st/i)) &amp;&amp; (!(/[^&gt;&lt;]*$st[^&gt;]*&gt;/i)) &amp;&amp; (!(/&lt;title&gt;[^&lt;]+&lt;\/title&gt;/i)) &amp;&amp; 
+
+ ($dontmark 
+
+ eq 'n')) {
+
+  if (/$st/i) {
+
+   s/($st)/&lt;a name=search${iteration}&gt;${1}&lt;\/a&gt;(&lt;a href=#searchtop&gt;back&lt;\/a&gt;)/gio;
+
+   s/($st)/${starttag}${1}${endtag}/gio;
+
+   $iteration++;
+
+  }
+
+ }
+
+ s#(&lt;[^&gt;]+)(href|src)(= *&quot;*)(../)#$1$2$3$urlstart/$4#gi;
+
+ s#(&lt;[^&gt;]+)(href|src)(= *&quot;*)(http:)#$1$2$3/$4#gi;
+
+ s#(&lt;[^&gt;]+)(href|src)(= *&quot;*)([\w+])#$1$2$3$urlstart/$4#gi;
+
+ s#(&lt;[^&gt;]+)(href|src)(= *&quot;*)(/)(http:)#$1$2$3$5#gi;
+
+ push (@page,$_);
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+In addition to passing the <TT>$dontmark</TT> flag, the line has
+
+to pass three other tests before going on. The first two tests
+
+make sure that the line doesn't contain HTML tags that contain
+
+the search text. I choose to skip those lines that contain HTML
+
+tags, because they can cause significant confusion. I also don't
+
+want to do any additional marking inside the title tag, so I skip
+
+the line that contains the title.
+
+<P>
+
+After the line passes these tests, the script checks to see whether
+
+it contains the search text. If so, the script marks each occurrence
+
+of that text with a named anchor; it also adds a link that will
+
+take the user back to the top of the page. Finally, the script
+
+marks the found text with the tags that the user selected in the
+
+form. When the additional markup is complete, the script increments
+
+the <TT>$iteration</TT> variable, so that the next time the script
+
+finds the search text, the named anchor will have a unique identifier.
+
+<P>
+
+The next four lines are needed to change any URLs on the original
+
+page that are relative to that page's location into absolute URLs.
+
+If an image on the requested page is contained in the same directory
+
+as the page, for example, and is referred to by only its file
+
+name, without these substitutions, that picture would show up
+
+as a broken image on the page that this script outputs.
+
+<P>
+
+The first substitution takes care of any references to documents
+
+that are higher up in the directory structure. The second substitution
+
+temporarily puts a slash before any URLs that start with <TT>http:</TT>,
+
+so they are not affected by the line that follows. This line adds
+
+<TT>$urlstart</TT> before any references that begin with alphanumeric
+
+characters. (This situation would solve the problem in the example
+
+in the preceding paragraph.) The fourth substitution removes any
+
+slashes that were put before <TT>http:</TT> two lines earlier.
+
+<P>
+
+When all the appropriate substitutions are complete, the script
+
+adds the current line to the <TT>@page</TT> array, using the <TT>push</TT>
+
+function. When all the lines of the file have been processed,
+
+the script moves on to the code shown in Listing 5.12.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.12&nbsp;&nbsp;Final Section of the showfoundfile
+
+Script<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$header=&quot;&lt;p&gt;&quot;;
+
+for ($i=1;$i &lt; $iteration;$i++) {
+
+ push (@header,&quot;&lt;a href=#search$i&gt;$i&lt;/a&gt;&quot;);
+
+}
+
+$iteration-;
+
+$header=join(&quot; &quot;,@header);
+
+$header=&quot;&lt;a name=searchtop&gt;&lt;hr&gt;\&quot;$st\&quot; was found in $iteration lines. 
+
+Click on the numbers below to go to each occurrence.&lt;p&gt;&quot;.$header.&quot;&lt;hr&gt;&quot; if $iteration &gt; 1;
+
+$header=&quot;&lt;a name=searchtop&gt;&lt;hr&gt;\&quot;$st\&quot; was found once.
+
+Click on the 1 below to find it.&lt;p&gt;&quot;.$header.&quot;&lt;hr&gt;&quot; if $iteration == 1;
+
+foreach $page(@page) {
+
+ $page=[td]s/(&lt;body[^&gt;]*&gt;)/$1$header/i;
+
+ print $page;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The final section of <TT>showfoundfile</TT> begins by creating
+
+a header for the document. This header contains the links to each
+
+occurrence of the search text on the page. This process begins
+
+with a <TT>for</TT> loop that creates the list of numbered links,
+
+pushing each one into the <TT>@header</TT> array. When that task
+
+is finished, the script <TT>join(&nbsp;)</TT>s <TT>@header</TT>
+
+into a single string and then adds the explanatory text and formatting.
+
+You'll notice that if the search text occurs only once in the
+
+document, I use different text. Although this step isn't strictly
+
+necessary, it didn't cost much effort, and the result is better-looking
+
+output.
+
+<P>
+
+When it's done with the header, the script runs through the <TT>@page</TT>
+
+array created earlier and prints each line back to the user. When
+
+the script runs into the <TT>&lt;body&gt;</TT> tag for the document,
+
+it adds the <TT>$header</TT> text immediately after. The result
+
+is a page like the one shown in figure 5.3 earlier in this section.
+
+<P>
+
+As I described this script, you may have noticed that it is not
+
+perfect. The script requires all the HTML files to have a <TT>body</TT>
+
+tag, for example; it needs <TT>img</TT> and <TT>a</TT> tags to
+
+start on the same line as their <TT>src</TT> and <TT>href</TT>
+
+attributes. The script also may behave poorly if the search text
+
+was an HTML tag or an attribute to a tag. In the applications
+
+in which I've employed this system, these facts didn't matter,
+
+because the sites had solid HTML code to begin with-and also were
+
+sites whose users were extremely unlikely to search for HTML tags
+
+and attributes. You will want to take these limitations into consideration
+
+before you implement a search of this kind; you may need to modify
+
+it to fit your needs.
+
+<H3><A NAME="ReturningPagesfromtheIndexSearch">
+
+Returning Pages from the Index Search</A></H3>
+
+<P>
+
+As in the nonindex search described earlier in this chapter, I
+
+want to be able to show the user where her search terms occurred
+
+in the returned documents. Unfortunately, I can't use the same
+
+<TT>showfoundfile</TT> script, because in the index search, the
+
+search string is interpreted as a list of words, rather than a
+
+single phrase. When a user executes a search and selects a file
+
+from the resulting list, figure 5.4 shows what she would see.
+
+<P>
+
+<A HREF="f5-4.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f5-4.gif"><B> Figure 5.4 : </B><I>This page shows  the information  returned from the  index search through showfoundindexfile.
+
+
+
+</I></A><P>
+
+<P>
+
+The first part of the <TT>showfoundindexfile</TT> script is identical
+
+to the code shown in Listing 5.10. The next section varies, as
+
+you might expect, because this script looks at the search text
+
+as a list of words. You can see the differences in Listing 5.13.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.13&nbsp;&nbsp;Partial Listing of showfoundindexfile.pl
+
+<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$page=' ';
+
+$search =~ s/\+/ /g;
+
+@words=split(/ +/,$search);
+
+foreach (@words) {$iteration{$_}=1;};
+
+open f,$file;
+
+$dontmark='n';
+
+while (&lt;f&gt;) {
+
+ $dontmark='y' if /EEENNNDDD/;
+
+ $i=1;
+
+ foreach $st(@words) {
+
+  if ((!(/&lt;[^&gt;]*$st/i)) &amp;&amp; (!(/[^&gt;&lt;]*$st[^&gt;]*&gt;/i)) &amp;&amp; (!(/&lt;title&gt;[^&lt;]+&lt;\/title&gt;/i)) &amp;&amp; 
+
+  ($dontmark eq 'n')) {
+
+   if (/$st/i) {
+
+    s/($st)/&lt;a name=&quot;search${i}$iteration{$st}&quot;&gt;${1}&lt;\/a&gt;(&lt;a 
+
+     href=#searchtop&gt;back&lt;\/a&gt;)/gi;
+
+    s/($st)/${starttag}${1}${endtag}/gi;
+
+    $iteration{$st}++;
+
+   }
+
+  }
+
+ $i++
+
+ }
+
+ s#(&lt;[^&gt;]+)(href|src)(= *&quot;*)(../)#$1$2$3$urlstart/$4#gi;
+
+ s#(&lt;[^&gt;]+)(href|src)(= *&quot;*)(http:)#$1$2$3/$4#gi;
+
+ s#(&lt;[^&gt;]+)(href|src)(= *&quot;*)([\w+])#$1$2$3$urlstart/$4#gi;
+
+ s#(&lt;[^&gt;]+)(href|src)(= *&quot;*)(/)(http:)#$1$2$3$5#gi;
+
+ push (@page,$_);
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The first change that you'll notice is the splitting of the <TT>$st</TT>
+
+variable into the array <TT>@words</TT>. Immediately thereafter,
+
+the script initializes the hash <TT>%iteration</TT>. This hash
+
+performs the same function in this script that <TT>$iteration</TT>
+
+does in <TT>showfoundfile</TT>. After opening the file and setting
+
+<TT>$dontmark</TT>, the script runs through each line of the file
+
+with a <TT>while</TT> loop, just as the preceding script did.
+
+<P>
+
+Now, for each line, the script has to check for any occurrences
+
+of each word in <TT>@words</TT>. The code that checks for and
+
+marks the words is identical to that in <TT>showfoundfile</TT>;
+
+it's just embedded in a <TT>foreach</TT> loop that iterates over
+
+<TT>@words</TT>. The only change in the marking is the addition
+
+of the variable <TT>$i</TT> to the anchor name for each reference.
+
+This variable will contain one for the first word in <TT>@words</TT>,
+
+two for the second word, and so on. This makes each anchor name
+
+unique.
+
+<P>
+
+When the markup is complete, the script again has to resolve any
+
+partial URLs with the same four lines of code from <TT>showfoundfile</TT>.
+
+When that task is accomplished, the script pushes the line into
+
+the <TT>@page</TT> array and moves on. Listing 5.14 shows what
+
+goes on after the entire file has been processed.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 5.14&nbsp;&nbsp;End of the Partial Listing of showfoundindexfile
+
+<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$j=1;
+
+$header=&quot;&lt;a name=searchtop&gt;&quot;;
+
+foreach $st(@words) {
+
+ undef(@header);
+
+ for ($i=1;$i &lt; $iteration{$st};$i++) {
+
+  push (@header,&quot;&lt;a href=#search$j$i&gt;$i&lt;/a&gt;&quot;);
+
+ }
+
+ $newheader = join(&quot; &quot;,@header);
+
+ $iteration{$st}-;
+
+ $newheader=&quot;&lt;hr&gt;\&quot;$st\&quot; was found $iteration{$st} times. 
+
+ Click on the numbers below to go to each occurrence.&lt;p&gt;&quot;.$newheader.&quot;&lt;hr&gt;&quot;
+
+ if $iteration{$st} &gt; 1;
+
+ $newheader=&quot;&lt;hr&gt;\&quot;$st\&quot; was found once. 
+
+ Click on the 1 below to find it.&lt;p&gt;&quot;.$newheader.&quot;&lt;hr&gt;&quot; if $iteration{$st} == 1;
+
+ $j++;
+
+ $header .= $newheader;
+
+}
+
+foreach $page(@page) {
+
+ $page=[td]s/(&lt;body[^&gt;]*&gt;)/$1$header/i;
+
+ print $page;
+
+}
+
+print $header
+
+print @words;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+After initializing <TT>$header</TT>, the script scans through
+
+<TT>@words</TT>. The processing that takes place in the loop builds
+
+the header for each word in <TT>@words</TT>. This process should
+
+look familiar. The major differences between this code and the
+
+same section in <TT>showfoundfile</TT> are the use of the hash
+
+<TT>%iteration</TT> in place of the scalar <TT>$iteration</TT>
+
+and the fact that I had to put the <TT>$j</TT> in front of <TT>$iteration{$st}</TT>
+
+in the anchor <TT>href</TT> for each occurrence of the current
+
+word. As soon as the header for each word is complete, I append
+
+it to the variable <TT>$heade</TT>r. So when this loop is finished,
+
+<TT>$header</TT> will contain a header for each word that the
+
+user searched for.
+
+<P>
+
+The end of this script is identical to <TT>showfoundfile</TT>.
+
+The script loops through the <TT>@page</TT> array, printing each
+
+line and adding the header text where appropriate.
+
+<H2><A NAME="FromHere"><FONT SIZE=5 COLOR=#FF0000>
+
+From Here...</FONT></A></H2>
+
+<P>
+
+This chapter exposed you to two effective methods for searching
+
+a Web site. For smaller sites, I demonstrated a full-text search
+
+that looks for a user-provided word or phrase in every file on
+
+a site. As an alternative for larger sites, you saw a method to
+
+index every significant word in the server's document structure.
+
+I also demonstrated a search method to go along with this indexing.
+
+Finally, I showed you an alternative method for returning pages
+
+from these searches to the user.
+
+<P>
+
+With these tools, you can implement your own search feature on
+
+your site. You may want to branch out in a different direction.
+
+Following are some suggested destinations:
+
+<UL>
+
+<LI><A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch6.htm" >Chapter 6</A> &quot;Using Dynamic Pages.&quot; Netscape and Microsoft
+
+have implemented several innovative features in their browsers
+
+recently. This chapter demonstrates a few ways to take advantage
+
+of advanced features such as plug-ins, client pull, and server
+
+push.
+
+<LI><A HREF="ch11.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch11.htm" >Chapter 11</A>, &quot;Database Interaction.&quot; Many people
+
+say that databases are key to the future of the Web. I agree.
+
+You may wonder how the average Webmaster can implement database
+
+technology on his or her site. <A HREF="ch11.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch11.htm" >Chapter 11</A> will help you take that
+
+leap.
+
+<LI><A HREF="ch14.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch14.htm" >Chapter 14</A>, &quot;Operators.&quot; This chapter introduces
+
+several new Perl operators, but there are still many that you
+
+haven't seen yet. Head to <A HREF="ch14.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch14.htm" >Chapter 14</A> for the full details on all
+
+those nifty operators.
+
+</UL>
+
+<HR>
+
+
+
+<CENTER><P><A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch4.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch6.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch6.htm"><IMG SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<HR WIDTH="100%"></P></CENTER>
+
+</BODY>
+
+</HTML>

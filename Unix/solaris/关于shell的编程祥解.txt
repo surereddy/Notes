@@ -1,0 +1,968 @@
+关于shell的编程祥解，望版主加入精品内。
+
+作者：yurenyahe     发表时间：2002/12/31 09:36am
+
+*Shell是什么?
+　　任何发明都具有供用户使用的界面。UNIX供用户使用的界面就是Shell(DOS的command熟悉吧，但UNIX的要强大的多)。 Shell为用户提供了输入命令和参数并可得到命令执行结果的环境。
+　　为了不同的需要，UNIX提供了不同的Shell。现在的UNIX大部分都支持BourneShell，以下教程就以BourneShell(Bsh)为例，一步步的领略UNIX Shell的强大功能，占先其强大魅力，达到更方便灵活的管理、应用UNIX的目的。
+　　1.UNIX内核和Shell的交互方法
+　　启动UNIX时，程序UNIX(内核)将被调入计算机内存，并一直保留在内存中直到机器关闭。在引导过程中，程序 init将进入后台运行一直到机器关闭。该程序查询文件/etc/inittab，该文件列出了连接终端的各个端口及其特征。当发现一个活动的终端时， init程序调用getty程序在终端上显示login等登陆信息。(username和passwd)，在输入密码后， getty调用login进程，该进程根据文件/etc/passwd的内容来验证用户的身份。若用户通过身份验证，login进程把用户的home目录设置成当前目录并把控制交给一系列setup程序。setup程序可以是指定的应用程序，通常setup程序为一个Shell程序，如:/bin/sh 即Bourne Shell（command出来了，呵呵）。
+　　得到控制后，Shell程序读取并执行文件/etc/.profile以及.profile。这两个文件分别建立了系统范围内的和该用户自己的工作环境。最后Shell显示命令提示符，如$。(这是以bsh为例，若是csh,为.cshrc,ksh为.kshrc,bash为. bashrc等等) 　　　
+　　注:(不妨把/etc/.profile和.profile看成DOS的autoexec.bat 或 config.sys文件)
+　　当shell退出时，内核把控制交给init程序,该程序重新启动自动登陆过程。有两种方法使shell退出，一是用户执行exit命令，二是内核(例如root用kill命令)发出一个kill命令结束shell进程。shell退出后，内核回收用户及程序使用的资源。
+　　用户登陆后，用户命令同计算机交互的关系为:命令进程--->Shell程序--->UNIX内核--->计算机硬件。当用户输入一个命令，如$ls, Shell将定位其可执行文件/bin/ls并把其传递给内核执行。内核产生一个新的子进程调用并执行/bin/ls。当程序执行完毕后，内核取消该子进程并把控制交给其父进程，即Shell程序。例如执行:
+　　　　$ps
+　　　　该命令将会列出用户正在执行的进程，即Shell程序(下来详细说说，别急现在)和ps程序。若执行:
+　　　　$sleep 10 &
+　　　　$ps
+　　其中第一条命令将产生一个在后台执行的sleep子进程。ps命令执行时会显示出该子进程。
+　　每当用户执行一条命令时，就会产生一个子进程。该子进程的执行与其父进程或Shell完全无关，这样可以使Shell去做其他工作。(Shell只是把用户的意图告诉内核，然后该干嘛干嘛:)) 现在windows有个计划任务(在固定的时间，日期自动执行某任务),其实UNIX很早就有这个功能了，也就是所谓的Shell的自动执行。一些 UNIX 资源，如cron可以自动执行Shell程序而无需用户的参与，(这个功能好象在/var/spool/crotab目录里)。 Crontab 程序对于系统管理员来说是非常有用的。Cron 服务用于计划程序在特定时间（月、日、周、时、分）运行。我们以root的crontab 为例。根用户的 crontab 文件放在 /var/spool/crontab/root 中，其格式如下：
+　　(1) 　(2) 　(3) 　(4) 　(5)　 (6)
+　　 0　　 0 　　*　　 * 　　3　　 /usr/bin/updatedb
+　　　　　　1. 分钟 (0-60)
+　　　　　　2. 小时 (0-23)
+　　　　　　3. 日 (1-31)
+　　　　　　4. 月 (1-12)
+　　　　　　5. 星期 (1-7)
+　　　　　　6. 所要运行的程序
+　　2.Shell的功能和特点
+　　1>命令行解释
+　　2>使用保留字
+　　3>使用Shell元字符(通配符)
+　　4>可处理程序命令
+　　5>使用输入输出重定向和管道
+　　6>维护一些变量
+　　7>运行环境控制
+　　8>支持Shell编程
+　　对于"命令行解释"就不多说了，就是在shell提示符(例如:"$","%","#"等)后输入一行unix命令，Shell将接收用户的输入。
+　　"使用保留字":Shell有一些具有特殊意义的字，例如在Shell脚本中，do,done,for等字用来控制循环操作，if,then等控制条件操作。 保留字随Shell环境的不同而不同。
+　　"通配符"：* 匹配任何位置
+　　　　　　　? 匹配单个字符
+　　　　　　　[] 匹配的字符范围或列表 例如:
+　　　　　　　
+　　　　　　　　　 $ls [a-c]*
+　　　　　　　　　
+　　　　　　　　　 将列出以a-c范围内字符开头的所有文件
+　　　　　　　　　 $ls [a,m,t]*
+　　　　　　　　　将列出以e,m或t开头的所有文件
+　　"程序命令" ：当用户输入命令后，Shell读取环境变量$path(一般在用户自己的.profile中设置)，该变量包含了命令可执行文件可能存在的目录列表。 shell从这些目录中寻找命令所对应的可执行文件，然后将该文件送给内核执行。
+　　"输入输出重定向及管道" ：重定向的功能同DOS的重定向功能：
+　　　　 ">" 重定向输出
+　　　　 "<" 重定向输入
+　　而管道符号，是unix功能强大的一个地方,符号是一条竖线:"|"，用法: command 1 | command 2 他的功能是把第一个命令command 1执行的结果作为command 2的输入传给command 2，例如:
+　　　　$ls -s|sort -nr|pg
+　　该命令列出当前目录中的所有文件，并把输出送给sort命令作为输入，sort命令按数字递减的顺序把ls的输出排序。然后把排序后的 内容传送给pg命令，pg命令在显示器上显示sort命令排序后的内容。
+　　"维护变量" ：Shell可以维护一些变量。变量中存放一些数据供以后使用。用户可以用"="给变量赋值，如:
+　　　　　　　　　$lookup=/usr/mydir
+该命令建立一个名为lookup的变量并给其赋值/usr/mydir,以后用户可以在命令行中使用lookup来代替/usr/mydir，例如: 　　　　　　　　　
+　　　　　　　　　$echo $lookup
+　　　　　　　　　结果显示:/usr/mydir
+　　　　　　　　　为了使变量能被子进程使用,可用exprot命令，例如:
+　　　　　　　　　$lookup=/usr/mydir
+　　　　　　　　　$export lookup
+　　"运行环境控制" ：当用户登陆启动shell后，shell要为用户创建一个工作的环境，如下:
+　　1>当login程序激活用户shell后，将为用户建立环境变量。从/etc/profile和.profile文件中读出，在这些文件中一般都用$TERM 变量设置终端类型，用$PATH变量设置Shell寻找可执行文件的路径。
+　　2>从/etc/passwd文件或命令行启动shell时，用户可以给shell程序指定一些参数，例如"-x"，可以在命令执行前显示该命令及其参数。后面详细介绍这些参数。
+　　"shell编程" ：本文主要介绍的内容。
+　　shell本身也是一种语言(*可以先理解为unix命令的组合，加上类C的条件，循环等程序控制语句,类似dos批处理，但要强大的多),用户可以 通过shell编程(脚本,文本文件)，完成特定的工作。
+SHELL变量
+　　下面我们详细的介绍Bourne Shell的编程:
+　　自从贝尔实验室设计了Bourne Shell。从那时起许多厂商根据不同的硬件平台设计了许多版本得unix。但在众多版本的unix中，Bourne Shell 一直保持一致。
+　　1>Bsh的启动：用户在登陆后，系统根据文件/etc/passwd中有关该用户的信息项启动Shell。例如某用户在passwd中 的信息项为:
+　　　　ice_walk:!:411:103:Imsnow ,ice_walk:/home/ice_walk:/bin/bsh
+　　则表明，用户名是ice_walk等信息，在最后一项"/bin/bsh"表明用户的sh环境类型是bsh,于是系统启动之。在启动或执行(包括下面我们要讲 的shell程序--脚本）过程中可以使用以下一些参数，我们一一说明:
+　　-a 将所有变量输出
+　　-c "string"从string中读取命令
+　　-e 使用非交互式模式
+　　-f 禁止shell文件名产生
+　　-h 定义
+　　-i 交互式模式
+　　-k 为命令的执行设置选项
+　　-n 读取命令但不执行
+　　-r 受限模式
+　　-s 命令从标准输入读取
+　　-t 执行一命令，然后退出shell
+　　-u 在替换时，使用未设置的变量将会出错
+　　-v 显示shell的输入行
+　　-x 跟踪模式，显示执行的命令
+许多模式可以组合起来用,您可以试试了，但-ei好象不行，你说why呢？
+　　使用set可以设置或取消shell的选项来改变shell环境。打开选项用"-",关闭选项用"+",多数unix允许打开或关闭a、f、e、h、k、n、 u、v和x选项。若显示Shell中已经设置的选项，执行:
+　　　　$echo $-
+　　Bsh中每个用户的home目录下都有一个.profile文件，可以修改该文件来修改shell环境。为了增加一个可执行文件的路径(例如/ice_walk/bin)， 可以把下面代码加入.profile中
+　　　　PATH=$PATH:/ice_walk/bin;exprot PATH
+　　 .profile中shell的环境变量意思如下:
+　　　　CDPATH 执行cd命令时使用的搜索路径
+　　　　HOME 用户的home目录
+　　　　IFS 内部的域分割符，一般为空格符、制表符、或换行符
+　　　　MAIL 指定特定文件(信箱)的路径，有UNIX邮件系统使用
+　　　　PATH 寻找命令的搜索路径(同dos的config.sys的 path)
+　　　　PS1 主命令提示符，默认是"$"
+　　　　PS2 从命令提示符，默认是">"
+　　　　TERM 使用终端类型
+　　2>Bsh里特殊字符及其含义
+　　在Bsh中有一组非字母字符。这些字符的用途分为四类:作为特殊变量名、产生文件名、数据或程序控制以及引用和逃逸字符控制。他们 可以让用户在Shell中使用最少的代码完成复杂的任务。
+　　　　　*> Shell变量名使用的特殊字符
+　　　　　　　　$# 传送给命令Shell的参数序号
+　　　　　　　　$- 在Shell启动或使用set命令时提供选项
+　　　　　　　　$? 上一条命令执行后返回的值
+　　　　　　　　$$ 当前shell的进程号
+　　　　　　　　$! 上一个子进程的进程号
+　　　　　　　　$@ 所有的参数，每个都用双括号括起
+　　　　　　　　$* 所有参数，用双括号括起
+　　　　　　　　$n 位置参数值，n表示位置
+　　　　　　　　$0 当前shell名
+　　　　　*>产生文件名的特殊字符
+　　　　　　　　包括"*","?","[]"，上面讲过，不再多说。
+　　　　　*>数据或程序控制使用的特殊字符
+　　　　　　　　>(file) 输出重定向到文件中(没有文件则创建，有则覆盖)
+　　　　　　　　>>(file) 输出重定向到文件中(没有则创建，有则追加到文件尾部)
+　　　　　　　　<(file) 输入重定向到文件
+　　　　　　　　; 命令分割符
+　　　　　　　　| 管道符
+　　　　　　　　& 后台运行(例如:sleep 10 &)
+　　　　　　　　` ` 命令替换，重定向一条命令的输出作为另一命令的参数
+　　　　　*>对于引用或逃逸的特殊字符
+　　Bsh用单引号' '和双引号" "将特殊字符或由空白分隔的字引用起来组成一个简单的数据串.使用单引号和双引号的区别是双引号中的内容可进行参数和变量替换.逃逸字符也一样.
+　　　　　　　　$echo "$HOME $PATH"
+　　　　 　　　 结果显示$/u/ice_walk/bin:/etc:/usr/bin
+　　　　　　　　而$echo '$HOME $PATH' 结果显示$HOME $PATH
+　　shell的逃逸符是一个"\",表示其后的字符不具有特殊的含义或不是shell的函数
+　　　　　　　　$echo \$HOME $PATH
+　　　　　　　　结果显$$HOME /bin:/etc:/usr/bin:
+3>Bsh的变量
+　　前面我们在多个地方引用了变量,当Shell遇到一个"$"符时(没有被引用或逃逸)，它将认为其后为一变量。不论该变量是环境变量还是用户自定义的变量，在命令行中变量名要被变量值替换。例如命令:ls $HOME将列出变量HOME对应目录下的文件。用户可以在命令行中的任何地方进行变量替换。包括命令名本身，例如：
+　　　　$dir=ls
+　　　　$$dir f*
+　　将列出以f开头的文件。
+　　现在详细的介绍下Bsh的变量。Bsh中有四类变量:用户定义的变量、位置变量(shell参数)、预定义变量及环境变量。
+　　用户定义的变量：
+　　用户定义的变量由字母和下划线组成，并且变量名的第一个字符不能为数字(0~9)。与其他UNIX名字一样，变量名是大小写敏感的。用户可以在命令行上用"="给变量赋值，例如:
+　　　　$NAME=ice_walk
+　　给变量NAME赋值为ice_walk,在应用变量NAME的时候，在NAME前加"$"即可，前面已说，不再废话(别说我废话多，关键是没当过老师:()。可以用变量和其他字符组成新的字，例如:
+　　　　$SUN=sun
+　　　　$echo ${SUN}day
+　　在应用shell变量时候，可以在变量名字两边$后面加上{}，以更加清楚的显示给shell,哪个是真正的变量，以实现字符串的合并等功能。
+　
+　　结果显示:sunday(注意不能echo $SUNday,因为SUNday变量没定义，读者试下执行结果) 用户也可以在命令行上同时对多个变量赋值，赋值语句之间用空格分开:
+　　　　$X=x Y=y
+　　　　注意变量赋值是从右到左进行的
+　　　　$X=$Y Y=y
+　　　　X的值是y
+　　　　$X=z Y=$Z
+　　　　Y的值是空(变量未赋值时，shell不报错，而是赋值为空)
+　　用户可以使用"unset <变量>"命令清除给变量赋的值
+　　用户使用变量时要在其前面加一"$"符，使变量名被变量值所替换。Bsh可以进行变量的条件替换，即只有某种条件发生时才进行替换。替换条件放在一对大括号{}中，如:
+　　　　${variable: -value} variable是一变量值，value是变量替换使用的默认值
+　　　　$echo Hello $UNAME
+　　　　结果显示:Hello
+　　　　$echo Hello ${UNAME: -there}
+　　　　结果显示:Hello there
+　　　　$echo $UNAME
+　　　　结果显示: (空)
+　　　　$UNAME=John
+　　　　$echo Hello ${UNAME: -there}
+　　　　结果显示:Hello John
+　　可以看出，变量替换时将使用命令行中定义的默认值，但变量的值并没有因此而改变。另外一种替换的方法是不但使用默认值进行替换，而且将默认值赋给该变量。其形式如下:
+　　　　${variable:=value}
+　　该形式在变量替换后同时把值value符给变量variable。
+　　　　$echo Hello $UNAME
+　　　　结果显示:Hello
+　　　　$echo Hello ${UNAME:=there}
+　　　　结果显示:Hello there
+　　　　$echo $UNAME
+　　　　结果显示:there
+　　　　$UNAME=John
+　　　　$echo Hello ${UNAME:-there}
+　　　　结果显示:Hello John
+　　变量替换的值也可以是` `括起来的命令:
+　　　　$USERDIR={$Mydir: -`pwd`}
+　　第三种变量的替换方法是只有当变量已赋值时才用指定值替换形式:
+　　　　${variable: +value}
+　　　　只有变量variable已赋值时，其值才用value替换，否则不进行任何替换，例如:
+　　　　$ERROPT=A
+　　　　$echo ${ERROPT: +"Error tracking is acitive"}
+　　　　结果显示:Error tracking is acitive
+　　　　$ERROPT=
+　　　　$echo ${ERROPT: +"Error tracking is acitive"}
+　　　　结果显示: (空)
+　　我们还可以使用错误检查的条件进行变量替换:
+　　　　${variable:?message}
+当变量variable已设置时，正常替换。否则消息message将送到标准错误输出(若此替换出现在shell程序中,那么该程序将终止)。　例如：
+　　　　$UNAME=
+　　　　$echo $ {UNAME:?"UNAME HAS NOT BEEN SET"}
+　　　　结果显示:UNAME HAS NOT BEEN SET
+　　　　$UNAME=Stephanie
+　　　　$echo $ {UNAME:?"UNAME HAS NOT BEEN SET"}
+　　　　结果显示:Stephanie
+　　　　当没有指定message时，shell将显示一条默认的消息，例如:
+　　　　$UNAME=
+　　　　$echo $ {UNAME:?}
+　　　　结果显示:sh:UNAME:parameter null or not set
+4>位置变量或Shell参数
+　　在shell解释用户的命令时，将把命令行的第一个字作为命令，而其他的字作为参数。当命令对应的可执行文件为Shell程序时，这些参数将作为位置变量传送给该程序。第一个参数记为$1,第二个为$2....第九个为$9。其中1到9是真正的参数名，"$"符只是用来标识变量的替换。
+　　位置变量$0指命令对应的可执行文件名。在后面将详细介绍位置变量。
+　　1.只读变量
+　　用户将变量赋值后，为了防止以后对该变量的修改，可以用以下命令将该变量设置为只读变量：
+　　　　readonly variable
+　　2.export命令
+　　shell执行一个程序时，首先为该程序建立一个新的执行环境，称为子shell。在Bourne Shell中变量都是局部的，即他们只在创建他们的Shell中有意义。用户可以用export命令让变量被其他子Shell识别。但某用户的变量是没法让其他用户使用的。
+　　当用户启动一个新shell时,该shell将使用默认的提示符。因为赋给变量PS1的值只在当前shell中有效。为了让子Shell使用当前Shell中定义的提示符号，可以使用export命令：
+　　　　$PS1="Enter command:"
+　　　　Enter command:export PS1
+　　　　Enter command:sh
+　　　　Enter command:
+　　　　此时变量PS1变成了全局变量。它可以被其子Shell使用。当变量被设置成全局的以后，将一直保持有效直到用户退出该变量所在的Shell。用户可以在文件.profile中给一个变量永久赋值。详见"规范Shell"。
+基本语句
+　　从本节起，我们将详细介绍Shell程序设计的基本知识，通过编写Shell脚本，用户可以根据自己的需要有条件的或者重复的执行命令。通过Shell程序，可以把单个的UNIX命令组合成一个完全实用的工具，完成用户的任务。
+　　1>什么是Shell程序
+　　当用户在UNIX Shell中输入了一条复杂的命令，如:
+　　　　$ls -R /|greo myname |pg
+　　我们可以称用户在对Shell编程，当把这条语句写在一个文件里，并且符给该文件可执行权限，那么该文件就是我们传统上说的Shell程序。
+　　2>简单的Shell程序
+　　假设用户每天使用下述命令备份自己的数据文件:
+　　　　$cd /usr/icewalk;ls * |cpio -o > /dev/fd0
+　　我们可以把它写在一个文件，如:ba.sh中:
+　　　　$cat >ba.sh
+　　　　cd /usr/icewalk
+　　　　ls * |cpio -o > /dev/fd0
+　　　　^D 　(ctrl_d)
+　　程序ba.sh就是Shell脚本，用户可以用vi或其他编辑工具编写更复杂的脚本。
+　　此时用户备份文件只需要执行Shell程序ba.sh,执行时需在当前Shell中创建一个子Shell:
+　　　　$sh ba.sh
+　　程序sh与用户登陆时执行的Bourne Shell相同，但当Sh命令带参数ba.sh后，它将不再是一个交互式的Shell，而是直接从文件ba.sh中读取命令。
+　　执行ba.sh中命令的另一方法是给文件ba.sh执行权限：
+　　　　$chmod +x ba.sh
+　　此时，用户可以输入文件名ba.sh做为一个命令来备份自己的数据，需要注意的是，用这种方法执行命令的时候，文件ba.sh必须存在于环境变量$PATH所指定的路径上。
+3>在Shell中使用数据变量
+　　用户可以在Shell中使用数据变量，例如ba.sh程序:
+　　　　cd/usr/icewalk
+　　　　ls|cpio -o > /dev/fd0
+　　该程序中要备份的目录为一常量，即该程序只能用来备份一个目录。若在该程序中使用变量，则会使其更通用:
+　　　　workdir=$1
+　　　　cd $workdir
+　　　　ls * |cpio -o > /dev/fd0
+　　通过这一改变，用户可以使用程序备份变量$workdir指定的目录。例如我们要备份/home/www的内容，只要运行ba.sh /home/www即可实现。(若不明白 $1，下面将详细介绍shell参数的传递，$1代表本sh程序-ba.sh的第一个参数)
+　　4>在Shell程序中加上注释
+　　为了增加程序的可读性，我们提倡加入注释。在Shell程序中注释将以"#"号开始。当Shell解释到"#"时，会认为从"#"号起一直到该行行尾为注释。
+　　5>对Shell变量进行算术运算
+　　高级语言中变量是具有类型的，即变量将被限制为某一数据类型，如整数或字符类型。Shell变量通常按字符进行存储，为了对Shell变量进行算术运算，必须使用expr命令。
+　　expr命令将把一个算术表达式作为参数，通常形式如下:
+　　　　expr [数字] [操作符] [数字]
+　　由于Shell是按字符形式存储变量的，所以用户必须保证参加算术运算的操作数必须为数值。下面是有效的算术操作符:
+　　　　+　　　两个整数相加
+　　　　-　　　第一个数减去第二个数
+　　　　*　　　两整数相乘
+　　　　/　　　第一个整数除以第二个整数
+　　　　%　　　两整数相除，取余数
+　　例如:
+　　　　$expr 2 + 1
+　 　　 结果显示：3
+　　　　$expr 5 - 3
+　 　　 结果显示：2若expr的一个参数是变量，那么在表达式计算之前用变量值替换变量名。
+　　　　$int=3
+　　　　$expr $int + 4
+　　　　结果显示:7
+　　用户不能单纯使用"*"做乘法,若输入:
+　　　　$expr 4*5
+　　系统将会报错，因为Shell看到"*"将会首先进行文件名替换。正确形式为:
+　　　　$expr 4 \* 5
+　 　　 结果显示:20
+　　多个算术表达式可以组合在一起，例如:
+　　　　$expr 5 + 7 / 3
+　　　　结果显示:7
+　　运算次序是先乘除后加减，若要改变运算次序，必须使用"`"号,如:
+　　　　$int=`expr 5 + 7`
+　　　　$expr $int/3
+　　 　 结果显示:4
+　　　　或者：
+　　　　$expr `expr 5+7`/3
+　　　　结果显示:4
+　　6>向Shell程序传递参数
+　　一个程序可以使用两种方法获得输入数据。一是执行时使用参数。另一种方法是交互式地获得数据。vi编辑程序可以通过交互式的方法获得数据，而ls和 expr则从参数中取得数据。以上两种方法Shell程序都可以使用。在"交互式读入数据"一节中将介绍Shell程序通过交互式的方法获得参数。
+　　通过命令行给Shell程序传递参数可以扩大程序的用途。以前面提到的ba.sh程序为例:
+　　$cat >re.sh
+　　cd $workdir
+　　cpio -i < /dev/fd0
+　　^d
+　　程序re.sh恢复了ba.sh程序备份的所有文件。若只从软盘上恢复一个指定的文件，可以用该文件名作为参数，传递给Shell程序re.sh:
+　　程序改写如下:
+　　$cat >re2.sh
+　　cd $workdir
+　　cpio -i $1 < /dev/fd0
+　　^d
+　　用户可以指定要恢复的文件，例如fname
+　　$re2.sh fname
+此时文件fname作为第一个位置参数传递给re2.sh,re2.sh的缺点是要恢复两个或多个文件要重复运行，我们可以用$*变量传递不确定的参数给程序:
+　　$cat >re3.sh
+　　cd $workdir
+　　cpio -i $* < /dev/fd0
+　　^d
+　　我们就可以恢复多个文件，例如fname1,fname2,fname3
+　　$re3.sh fname1 fname2 fname3
+　　(以上程序re.sh,re2.sh,re3.sh，假设用户已经chmod了可执行权利)
+　　因为没有赋值的变量可以作为NULL看待，所以若是程序re3.sh在执行时候没赋予参数，那么一个空值将被插入到cpio命令中。该命令将恢复所有保存的文件。
+条件判断语句
+　　条件判断语句是程序设计语言中十分重要的语句，该语句的含义是当某一条件满足时，执行指定的一组命令。
+1>if - then语句
+　　格式: if command1
+　　　　　then
+　　　　　　　command2
+　　　　　　　command3
+　　　　　fi　　　　　　---(if 语句结束)
+　　　　　　　command4
+　　每个程序或命令执行结束后都有一个返回的状态，用户可以用Shell变量$?获得这一状态。if语句检查前面命令执行的返回状态，若该命令成功执行，那么在then和fi之间的命令都将被执行。在上面的命令序列中，command1和command4总要执行。若command1成功执行, command2和command3也将执行。
+　　请看下面程序:
+　　　　#unload -program to backup and remove files
+　　　　cd $1
+　　　　ls -a | cpio -o > /dev/mnt0
+　　　　rm *
+　　该程序在备份资料后，删除档案，但当cpio命令不能成功执行时，rm命令还是把资料删除了，我们可不希望这样，为了避免此情况，可以用if - then语句:
+　　　　#--卸载和判断删除程序
+　　　　cd $1
+　　　　if ls -a | cpio > /dev/mnt0
+　　　　then
+　　　　　　rm *
+　　　　fi
+　　上面程序在cpio执行成功后才删除档案
+同时，若执行没有成功，我们希望得到提示，sh中的echo命令可以向用户显示消息，并显示后换行，上面程序可以写成:
+　　 　 #--卸载和判断删除程序
+　　　　cd $1
+　　　　if ls -a | cpio > /dev/mnt0
+　　　　then
+　　　　　　echo "正删除文件资料... ..."
+　　　　　　rm *
+　　　　fi
+　　echo命令可以使用一些特殊的逃逸字符进行格式化输出，下面是这些字符及其含义:
+　　　　\b　　Backspace
+　　　　\c　　显示后不换行
+　　　　\f　　在终端上屏幕的开始处显示
+　　　　\n　　换行
+　　　　\r　　回车
+　　　　\t　　制表符
+　　　　\v　　垂直制表符
+　　　　\　　 反斜框
+　　　　\0nnn 用1,2或3位8进制整数表示一个ASCII码字符
+2>if - then - else语句
+　　不用多说它的作用，别的高级语言中都有，格式为:
+　　if command1
+　　then
+　　　　command2
+　　　　command3
+　　else
+　　　　command4
+　　　　command5
+　　fi
+　　在此结构中，command1中是先执行，当command1成功执行时，将执行command2和command3，否则执行command4和command5
+　　注意看下面程序:
+　　　　#备份程序
+　　　　cd $1
+　　　　if ls -a |cpio -o > /dev/mnt0
+　　　　then
+　　　　　　echo "删除源资料... ..."
+　　　　　　rm *
+　　　　else
+　　　　　　echo "磁带备份失败!"
+　　　　fi
+3>test命令进行条件测试
+　　if语句可以通过测试命令执行的返回状态来控制命令的执行，若要测试其他条件，在bsh中可以使用test命令。该命令检测某一条件，当条件为真时返回 0，否则返回非0值。test命令可以使Shell程序中的if语句象其他程序语言中的条件判断语句一样，具有很强的功能。
+　　test命令的使用方法为:
+　　　　test condition
+　　可测试的条件分为4类:
+　　1)测试两个字符串之间的关系。
+　　2)测试两个整数之间关系。
+　　3)测试文件是否存在或是否具有某种状态或属性。
+　　4)测试多个条件的与(and)或(or)组合。
+1、条件语句>>test语句
+1>测试字符串间的关系
+　　bsh把所有的命令行和变量都看作字符串。一些命令如expr和test可以把字符当作数字进行操作。
+　　同样任何数字也可以作为字符串进行操作。
+　　用户可以比较两个字符串相等或不等，也可以测试一个串是否赋了值。有关串的操作符如下:
+　　　　str1 = str2　　　　　　当两个串有相同内容、长度时为真
+　　　　str1 != str2　　　　　 当串str1和str2不等时为真
+　　　　-n str1　　　　　　　  当串的长度大于0时为真(串非空)
+　　　　-z str1　　　　　　　  当串的长度为0时为真(空串)
+　　　　str1　　　　　　　　   当串str1为非空时为真
+　　不但Shell程序可以使用test进行条件判断，test命令也可以独立执行，如:
+　　　　$str1=abcd
+　　　　$test $str1 = abcd
+　　　　$echo $?
+　　　　结果显示:0
+与上例中第一行赋值语句中的等号不同，test命令中的等号两边必须要有空格。本例test命令共有3个参数。注意两个串相等必须是长度和内容都相等。
+　　　　$str1="abcd "
+　　　　$test "$str1" = abcd
+　　　　$echo $?
+　　　　结果显示:1
+　　上面str1包含5个字符，其中最后一个为空格符。而test命令中的另一个串只有4个字符，所以两串不等，test返回1。
+　　不带任何操作符和使用-n操作符测试一个串结果是一样的，例如:
+　　　　$str1=abce
+　　　　$test $str1
+　　　　$echo $?
+　　　　结果显示:0　　　　
+　　　　$test -n $str1
+　　　　$echo $?
+　　　　结果显示:0
+　　但是，上面两条命令也有一点差别，反映出了使用test命令潜在的问题，请看下例:
+　　　　$str1="　　　"
+　　　　$test $str1
+　　　　$echo $?
+　　　　结果显示:1
+　　　　$test -n "$str1"
+　　　　$echo $?
+　　　　结果显示:0
+　　　　$test -n $str1
+　　　　结果显示:test:argument expected
+　　上例中，第一次测试为假因为Shell在执行命令行之前首先要进行变量替换，即把$str1换成空格，然后shell又将命令行上的空格删除，故 test命令测试到的为空串。而在第二次测试中，变量替换后空格位于括号内，故不会被删除，test测试到的是一个包含空格的串，在第三次测试中， shell把空格删除，只把-n传个test命令，所以显示参数错。
+2>测试两个整数之间关系
+　　test命令与expr命令一样，也可以把字符转变成整数，然后对其操作。test命令对两个数进行比较，使用的操作符如下:
+　　　　int1 -eq int2　　　　两数相等为真
+　　　　int1 -ne int2　　　　两数不等为真
+　　　　int1 -gt int2　　　　int1大于int2为真
+　　　　int1 -ge int2　　　　int1大于等于int2为真
+　　　　int1 -lt int2　　　　int1小于int2为真
+　　　　int1 -le int2　　　　int1小于等于int2为真
+　　下面的例子反映了字符串比较与数字比较的不同:
+　　　　$str1=1234
+　　　　$str2=01234
+　　　　$test $str1 = $str2
+　　　　$echo $?
+　　　　结果显示:1
+　　　　$test $str1 -eq $str2
+　　　　$echo $?
+　　　　结果显示:0
+3>有关文件的测试
+　　使用test进行的第三类测试是测试文件的状态，用户可以测试文件是否存在，是否可写以及其他文件属性。下面是文件测试时使用的选项。注意只有文件存在时，才有可能为真。
+　　-r file　　　　　用户可读为真
+　　-w file　　　　　用户可写为真
+　　-x file　　　　　用户可执行为真
+　　-f file　　　　　文件为正规文件为真
+　　-d file　　　　　文件为目录为真
+　　-c file　　　　　文件为字符特殊文件为真
+　　-b file　　　　　文件为块特殊文件为真
+　　-s file　　　　　文件大小非0时为真
+　　-t file　　　　　当文件描述符(默认为1)指定的设备为终端时为真
+4>复杂的条件测试(and 、or 、not)
+　　-a 　 　　　　　 与
+　　-o　　　　　　　 或
+　　!　　　　　　　　非
+　　就是组合条件了，任何高级语言中都有的(NOT 、AND 、OR)，例如:
+　　　　$test -r em.null -a -s em.null
+　　　　$echo $?
+　　　　结果显示:1
+　　　　说明了em.null并不是可读并且非空的文件
+5>另一种执行test的方法
+　　bsh中还有另一种执行test命令的方法，就是把测试条件放到一对[ ]中，例如:
+　　　　$int1=4
+　　　　$[ $int1 -gt 2 ]
+　　　　$echo $?
+　　　　结果显示:0
+要注意在[ 的后面和 ]符号的前面要有一个空格。
+　　下面我们用test命令写个简单但比较完善的程序:
+　　　　#-- 备份程序
+　　
+　　　　#-- 检查参数
+　　　　if [ $# -ne 1 ]
+　　　　then
+　　　　　　echo "请在程序名后面指出要备份文件所在目录!"
+　　　　　　exit 1
+　　　　fi
+　　　　#-- 检查目录名是否有效
+　　　　if [ !-d "$1" ]
+　　　　then
+　　　　　　echo "$1 不是一个目录!"
+　　　　　　exit 2
+　　　　fi
+　　　　cd $1
+　　　　ls -a | cpio -o >/dev/mnt0
+　　　　if [ $? -eq 0 ]
+　　　　then
+　　　　　　rm *
+　　　　else
+　　　　　　echo "cpio执行不成功!备份失败..."
+　　　　　　exit 3
+　　　　fi
+6>空命令
+　　在Bsh中用 : 代表空命令，就是充个数，什么都不做
+7>嵌套if语句和elif结构
+　　检查条件1
+　　A:当条件1为真，则执行一部分操作
+　　B:若条件1为假，检查条件2
+　　　　1)若条件2为真，执行另外一部分操作
+　　　　2)若条件2为假，检查条件3
+　　　　3)若条件3为真，执行其他一部分操作
+　　语法如下:
+　　　　if command
+　　　　then
+　　　　　　command
+　　　　else
+　　　　　　if command
+　　　　　　then
+　　　　　　　　command
+　　　　　　else
+　　　　　　　　if command
+　　　　　　　　then
+　　　　　　　　　　command
+　　　　　　　　fi
+　　　　　　fi
+　　　　fi
+8>elif语句
+　　嵌套if语句有时会给用户带来混乱，特别是什么时候fi语句很难判断。因此Bourne Shell又提供了elif语句。elif是else-if的缩写，它表示是if语句的继续。格式为:
+　　　　if command
+　　　　then
+　　　　　　command
+　　　　elif command
+　　　　then
+　　　　　　command
+　　　　elif command
+　　　　then
+　　　　　　command
+　　　　fi
+　　上面介绍的嵌套if语句和elif语句完成相同的功能，用户可以根据自己的喜好选择一种使用。
+9>case语句
+　　前面说的elif语句替代if-then-else语句，但有时在编程时还会遇到对同一变量进行多次的测试，该情况可以用多个elif语句实现,但还有一种更简单的方法就是用case语句。
+　　case语句不但取代了多个elif和then语句，还可以用变量值对多个模式进行匹配，当某个模式与变量值匹配后，其后的一系列命令将被执行，下面是case语句使用的语句。
+　　case value in
+　　　pattem 1)
+　　　　command
+　　　　command;;
+　　　pattem 2)
+　　　　command
+　　　　command;;
+　　　....
+　　　pattem)
+　　　　command;
+　　esac
+　　case语句只执行其中的一组命令，当变量值与多个模式相匹配时，只有第一个匹配的模式对应的命令被执行。";;"表示该模式对应的命令部分程序。
+　　通过学习下面的read语句，我们们再举例子说明case语句的用法。
+10>read语句
+　　Shell程序不但可以通过命令行参数得到输入数据，还可以使用read命令提示用户输入数据，其语法格式为：
+　　read var1 var2... ...varn
+当Bsh 遇到一个read语句时，在标准输入文件中读取数据直到一个换行符。此时Shell在解释输入行时，不进行文件名或变量的替换，只是简单地删除多余的空格。然后Shell将输入行的第一个字的内容给变量1,第二个给变量2,直到所有变量都赋上值或是输入行为空。若输入行中字的个数超过变量个数， Shell将把输入行中剩余的所有字的内容都赋给最后一个变量。当变量个数多于输入行字的个数时候，多于的变量将赋一个空值。输入行的每一个字是由空格分隔的一个字母和数字组成的字符串。
+　　$read var1 var2 var3
+　　 　输入:Hello my friend
+　　
+　　$echo $var1 $var2 $var3
+　　　 结果显示:Hello my friend
+　　$echo $var2
+　　　 结果显示:my
+下面用个read和case的例子结束本部分的学习:
+　　#--交互式备份，恢复程序
+　　echo "输入要备份文件所在目录:\c"
+　　read WORKDIR
+　　if [ !-d $WORKDIR ]
+　　then
+　　　　echo "Sorry,$WORKDIR is not a directory"
+　　　　exit 1
+　　fi
+　　cd $WORKDIR
+　　echo "输入选择:"
+　　echo _
+　　echo "1.恢复到 $WORKDIR"
+　　echo "2.备份 $WORKDIR"
+　　echo "0.退出"
+　　echo
+　　echo "\c"
+　　read CHOICE
+　　case "$CHOICE" in
+　　　1)echo "恢复中... ..."
+　　　　cpio -i < /dev/mnt0;;
+　　　2)echo "备份中... ..."
+　　　　ls | cpio -o > /dev/mnt0;;
+　　　0)exit 1
+　　　*)exit 1
+　　esac
+　　if [ $? -ne 0 ]
+　　then
+　　　echo "程序运行中出现错误!"
+　　else
+　　　echo "操作成功!"
+　　fi 　
+　
+　　在上面代码中，"*"定义了其他模式下不匹配时的默认操作。
+循环语句
+　　前面介绍的程序和所学的语句都是从头到尾成一条主线下来，或是成分支结构，在日常管理UNIX的过程中，经常要重复的做一些操作，处理批量的问题，这就涉及到了循环结构，同高级语言相似，UNIX的Shell也提供了强大的循环处理语句。
+　　Bsh语言中有三种循环语句-while循环、until循环、for循环，下面通过具体的例子分别介绍这三种结构。
+　　While循环
+　　在while循环语句中，当某一条件为真时，执行指定的命令。语句的结构如下：
+while command
+do
+　　command
+　　command
+　　… …
+done
+示例代码如下：
+#测试while循环小程序
+x_t=1
+　　while [  $x_t -lt 5 ]
+　　do
+　　　　　mm=` expr $x_t \* $int `　　#注意"\"的作用
+　　　　　echo "$mm"
+　　　　　x_t=` expr $x_t + 1 `　　　#注意expr的用法
+　　done
+　　echo "THE WHILE IS END!\n"
+程序的执行结果如下:
+1
+4
+9
+16
+THE WHILE IS END
+　　在上述程序中，当变量x_t的值小于5的时候，执行while循环中的语句。在第五次循环时， [ $x_t-lt5]命令返回非零值，于是程序执行done后面的代码。
+现在利用while循环，可以改进我们早些时候用的备份数据的例子，当用户指定的目录备份完毕后，使用while循环使程序执行一次可以备份多个用户指定的目录。代码如下：
+echo "欢迎使用备份小程序"
+　　ANS=Y
+　　while [ $ANS = Y -o $ANS = y ]
+　　do
+　　　　echo _
+　　　　#读目录名
+　　　　echo "输入要备份的目录名：\c"
+　　　　read DIR
+　　　　if [ ! -d $DIR ]
+　　　　then
+　　　　　　　　echo "$DIR不是一个目录!"
+　　　　　　　　exit 1
+　　　　fi
+　　　　cd $DIR
+　　　　echo "请选择:"
+　　　　echo _
+　　　　echo "1 恢复数据到 $DIR"
+　　　　echo "2 备份$DIR的数据"
+　　　　echo
+　　　　echo "请选择:\c"
+　　　　read CHOICE
+　　　　case "$CHOICE" in
+　　　　　　　1) echo "恢复中… …"
+　　　　　　　　cpio -i 　　　　　　　2) echo "备份中… …"
+　　　　　　　　cpio -o >/dev/rmt0;;
+　　　　　　　*) echo "选择无效"
+　　　　esac
+　　　　if [ $? -ne 0 ]
+　　　　then
+　　　　　　　echo "cpio执行过程中出现问题"
+　　　　　　　exit 2
+　　　　fi
+　　　　echo "继续别的目录吗？(Y/y)\c"
+　　　　read ANS
+　　done
+　　在程序开始，我们给变量ANS符值为Y,根据whlie的判断条件，程序进入while循环，执行do-done中的语句，每次循环都要求用户输入 ANS的值用来判断是否进行下次重复执行do-done中的语句。如果用户输入的条件不满足while语句条件，循环结束，程序执行done后面的语句。
+Until语句
+　　While语句中，只要某条件为真，则重复执行循环代码，until语句正好同while相反，该语句使循环代码重复执行，直到遇到某一条件为真才停止。
+Until语句的结构如下：
+until command
+　　do
+　　　　command
+　　　　command
+　　　　… …
+　　done
+　　可以用until语句替换上面备份程序的while语句，完成同样的功能:
+until [ $ANS != Y -a $ANS != y ]
+for 循环
+　　在介绍for循环之前，我们要学个非常有用的unix命令:shift。我们知道，对于位置变量或命令行参数，其个数必须是确定的，或者当Shell程序不知道其个数时，可以把所有参数一起赋值给变量$*。若用户要求Shell在不知道位置变量个数的情况下，还能逐个的把参数一一处理，也就是在$1后为 $2,在$2后面为$3等。在 shift命令执行前变量$1的值在shift命令执行后就不可用了。
+示例如下：
+#测试shift命令(x_shift.sh)
+  until [ $# -eq 0 ]
+  do
+       echo "第一个参数为: $1 参数个数为: $#"
+       shift
+  done
+执行以上程序x_shift.sh：
+  $./x_shift.sh 1 2 3 4
+结果显示如下：
+  第一个参数为: 1 参数个数为: 3
+  第一个参数为: 2 参数个数为: 2
+  第一个参数为: 3 参数个数为: 1
+  第一个参数为: 4 参数个数为: 0
+从上可知shift命令每执行一次，变量的个数($#)减一，而变量值提前一位，下面代码用until和shift命令计算所有命令行参数的和。
+#shift上档命令的应用(x_shift2.sh)
+  if [ $# -eq 0 ]
+  then
+      echo "Usage:x_shift2.sh 参数"
+      exit 1
+  fi
+  sum=0
+  until [ $# -eq 0 ]
+  do
+      sum=`expr $sum + $1`
+      shift
+  done
+  echo "sum is: $sum"
+执行上述程序:
+  $x_shift2.sh 10 20 15
+其显示结果为：
+  45
+　　shift命令还有另外一个重要用途,Bsh定义了9个位置变量，从$1到$9,这并不意味着用户在命令行只能使用9个参数，借助shift命令可以访问多于9个的参数。
+　　Shift命令一次移动参数的个数由其所带的参数指定。例如当shell程序处理完前九个命令行参数后，可以使用shift 9命令把$10移到$1。
+　　在熟悉了shift命令后，我们一起看看，Bsh程序中非常有用的for循环语句，这种循环同上面说的while和until循环不同，for语句中的循环是否执行并不由某个条件的真和假来决定，决定for循环是否继续的条件是参数表中是否还有未处理的参数。
+For语句的结构如下：
+for variable in arg1 arg2 … argn
+do
+  command
+  command
+  … …
+done
+下面是for循环的简单例子:
+for LETTER in a b c d
+do
+   echo $LETTER
+done
+程序执行结果如下：
+a
+b
+c
+d
+在上面计算参数和的例子中，我们可以用for循环，实现如下：
+#测试 for 程序(x_for.sh)
+if [ $# -eq 0 ]
+then
+　　　echo "Usage:x_for.sh 参数… …"
+　　　exit 1
+fi
+sum=0
+for I in $*
+do
+　　　sum=`expr $sum + $I`
+done
+echo "sum is: $sum"
+中断循环指令
+　　在程序循环语句中，我们有时候希望遇到某中情况时候结束本次循环执行下次循环或结束这个循环，这就涉及到两条语句:continue和break。 continue命令可使程序忽略其后循环体中的其他指令，直接进行下次循环，而break命令则立刻结束循环，执行循环体后面的的语句。
+#测试continue
+I=1
+while [ $I -lt 10 ]
+do
+　　if [ $I -eq 3 ]
+　　then
+　　　　continue
+　　fi
+　　if [ $I -eq 7 ]
+　　then
+　　　　break
+　　fi
+　　echo "$I\c"
+done
+执行上面程序，结果如下：
+12456789
+与或结构
+使用与/或结构有条件的执行命令
+　　Shell程序中可以使用多种不同的方法完成相同的功能，例如until和while语句就可以完成相同的功能，同样，除了if-then-else结构可以使命令有条件的执行外，$$和||操作符也能完成上述功能。在C语言中这两个操作符分别表示逻辑与和逻辑或操作。在Bourne Shell中，用&&连接两条命令的含义只有前面一条命令成功执行了，后面的命令才会执行。
+　　&&操作的形式为:
+　　　　command && command
+　　例如语句:
+　　　　rm $TEMPDIR/* && echo "Files successfully removed"
+　　只有rm命令成功执行以后，才会执行echo命令。若用if-then语句实现上述功能，形式为:
+　　　　if rm $TEMPDIR/*
+　　　　then
+　　　　　　echo "Files successfully removed"
+　　　　fi
+　　相反，用||连接两条命令的含义为只有第一条命令执行失败才执行第二条命令，例如:
+　　　　rm $TEMPDIR/* || echo "File were not removed"
+　　上面语句的等价形式为:
+　　　　if rm $TEMPDIR/*
+　　　　then
+　　　　　　:
+　　　　else
+　　　　　　echo "Files were not removed"
+　　　　fi
+　　这两种操作符可以联合使用，如在下面的命令行中，只有command1和command2执行成功后，command3才会执行:
+　　　　command1 && command2 && command3
+　　下面的命令行表示只有command1成功执行，command2不成功执行时，才会执行command3。
+　　&&和||操作符可以简化命令条件执行的格式，但一般只用于一条命令的条件执行。如果许多命令都使用这两个操作符，那么整个程序的可读性将变的很差，所以在多条命令的条件执行时，最好采用可读性好的if语句。
+函数
+　　现在我们介绍Shell程序中的函数部分，基本上任何高级语言都支持函数这个东西，能让我们胜好多事情的东西，至少省的频繁的敲击相同的东西，好了come on
+Shell程序中的函数
+　　函数又叫做子程序，可以在程序中的任何地方被调用，其格式如下:
+　　函数名字()
+　　{
+　　　　command
+　　　　... ...
+　　　　command;
+　　}
+　　Shell程序的任何地方都可以用命令 "函数名字"　调用，使用函数的好处有两点，一点是使用函数可以把一个复杂的程序化为多个模块，易于管理,符合结构化程序的设计思想，另一个好处是代码的重用。
+　　Shell函数和Shel程序比较相似，它们的区别在于Shell程序在子Shell中运行，而Shell函数在当前Shell中运行。因此，在当前Shell中可以看到Shell函数对变量的修改。在任何Shell中都可以定义函数，包括交互式Shell。
+　　例如:
+　　　　$dir() {ls -l;}
+　　　　结果是我们在$后面打dir,其显示结果同ls -l的作用是相同的。该dir函数将一直保留到用户从系统退出，或执行了如下所示的unset命令：
+　　　　$unset dir
+　　　　下面的例子说明了函数还可以接受位置参数:
+　　　　$dir(){_
+　　　　>echo "permission 　　　ln owner　　　group 　　　file sz last access
+　　　　>ls -l $*;
+　　　　>}
+　　　　运行 dir a* 看产生什么结果
+　　　　参数a*传递到dir函数中并且代替了$*
+　　　　通常Shell程序将在子Shell中执行，该程序对变量的改变只在子Shell中有效而在当前Shell中无效。"."命令可以使Shell程序在当前Shell中执行。用户可以在当前Shell中定义函数和对变量赋值。通常用下面命令来重新初使化.profile对Shell环境的设置。
+　　　　$ . .profile
+　　由于看到这部分相对简单，我们还是顺便说说trap好了
+使用trap命令进行例外处理
+　　用户编写程序在程序运行时可能会发生一些例外情况，比如执行该程序的用户按中断键或使用kill命令，或者控制终端突然与系统断开等。unix系统中的上述情况会使系统向进程发一个信号，通常情况下该信号使进程终止运行。有时侯用户希望进程在接到终止信号时进行一些特殊的操作。若进程在运行时产生一些临时文件，又因接受到的信号而终止。那么该进程产生的临时文件将保留下来。在bsh中，用户可以使用trap命令修改进程接收到终止信号时进行的默认操作。
+　　trap命令格式如下:
+　　　　　trap command_string signals
+多数系统中共有15种发给进程的信号，默认情况下大多数信号都会使程序终止。用户最好查阅自己系统的文挡，看看本系统内使用的信号种类。除了信号为9(真正的kill信号)不能使用trap命令外，其他信号所带来的操作都可以用trap命令进行指定。下面是trap命令中经常使用的几种信号:
+　　　　信号　　　功能
+　　　　
+　　　　 1 　 　　挂起
+　　　　 2　　　　操作中断
+　　　　 15　　　 软终止(kill信号)
+　　若命令串中包含不只一条命令，必须使用引号将整个命令括起来，具体是单引号还是双引号，由用户是否需要变量替换决定。" "替换，' '不替换。
+　　使用下面trap命令可以使程序在接收到挂起、中断或kill信号时，首先把临时文件删除，然后退出:
+　　　　trap "rm $TEMPDIR/* $$;exit" 1 2 15
+　　在上面例子中，当Shell读取trap命令时，首先对$TEMPDIR和$$进行变量替换，替换之后的命令串将被保存在trap表中，若上例中 trap命令使用单引号时，trap命令执行时候，不进行变量替换，而把命令串　rm $TEMPDIR/* $$;exit　放到trap表中，当检测到信号时，程序解释执行trap表中的命令串，此时进行变量替换。前面变量$TEMPDIR和$$的值为执行 trap指令时候的值，后一种情况中变量的值为程序接收到信号时候的值，所以 "、'一定要区分仔细。
+　　下面命令的含义为用户按二次中断键后，程序才终止:
+　　　　trap 'trap 2' 2
+　　一般trap命令中的命令串中几乎都包含exit语句，上面rm的例子若无exit语句，接收到信号rm命令执行完后程序将挂起。但有时用户也需要程序在接到信号后挂起，例如当终端和系统断开后，用户发出挂起信号，并执行空命令,如下:
+　　　　trap : 1
+　　若用户想取消前trap指令设置的命令串，可以再执行trap命令，在命令中不指定命令串表示接收到信号后进行默认的操作，命令如下:
+　　　　trap 1
+规范Shell
+获取UNIX类型的选项:
+　　unix有一个优点就是标准UNIX命令在执行时都具有相同的命令行格式:
+　　command -options parameters
+　　如果在执行Shell程序也采用上述格式，Bourne Shell中提供了一条获取和处理命令行选项的语句，即getopts语句。该语句的格式为:
+　　getopts option_string variable
+　　其中option_string中包含一个有效的单字符选项。若getopts命令在命令行中发现了连字符，那么它将用连字符后面的字符同 option_string相比较。若有匹配，则把变量variable的值设为该选项。若无匹配，则variable设为?。当getopts发现连字符后面没有字符，会返回一个非零的状态值。Shell程序中可以利用getopts的返回值建立一个循环。
+　　下面代码说明了date命令中怎么使用getopts命令处理各种选项，该程序除了完成unix的标准命令date的功能外，还增加了许多新的选项。
+　　#新date程序
+　　if [ $# -lt 1 ]
+　　then
+　　　　date
+　　else
+　　　　while getopts mdyDHMSTJjwahr OPTION
+　　　　do
+　　　　　　case $OPTION
+　　　　　　in
+　　　　　　　　m)date '+%m';;
+　　　　　　　　d)date '+%d';;
+　　　　　　　　y)date '+%y';;
+　　　　　　　　D)date '+%D';;
+　　　　　　　　H0date '+%H';;
+　　　　　　　　M)date '+%M';;
+　　　　　　　　S)date '+%S';;
+　　　　　　　　T)date '+%T';;
+　　　　　　　　j)date '+%j';;
+　　　　　　　　J)date '+%y%j';;
+　　　　　　　　w)date '+%w';;
+　　　　　　　　a)date '+%a';;
+　　　　　　　　h)date '+%h';;
+　　　　　　　　r)date '+%r';;
+　　　　　　　　\?)echo "无效的选项!$OPTION";;
+　　　　　　esac
+　　　　done
+　　fi
+　　有时侯选项中还带一个值，getopts命令同样也支持这一功能。这时需要在option_string中选项字母后加一个冒号。当getopts命令发现冒号后，会从命令行该选项后读取该值。若该值存在，那么将被存在一个特殊的变量OPTARG中。如果该值不存在，getopts命令将在OPTARG 中存放一个问号，并且在标准错误输出上显示一条消息。
+　　下面的例子，实现拷贝一个文件，并给文件赋一个新的名字。-c选项指定程序拷贝的次数，-v选项要求显示新创建文件的文件名。
+　　#--拷贝程序
+　　COPIES=1
+　　VERBOSE=N
+　　while getopts vc:OPTION
+　　do
+　　　　case $OPTION
+　　　　in
+　　　　　　c)COPIES=$OPTARG;;
+　　　　　　v)VERBOSE=Y;;
+　　　　　　\?)echo "无效参数!"
+　　　　　　　 exit 1;;
+　　　　esac
+　　done
+　　if [ $OPTIND -gt $# ]
+　　then
+　　　　echo "No file name specified"
+　　 　 exit 2
+　　fi
+　　shift 'expr $OPTIND - 1'
+　　FILE=$1
+　　COPY=0
+　　while [ $COPIES -gt $COPY ]
+　　do
+　　　　COPY='expr $COPY + 1'
+　　　　cp $FILE $ {FILE} $ {COPY}
+　　　　if [ VERBOSE = Y }
+　　　　then
+　　　　　　echo ${FILE} $ {COPY}
+　　　　fi
+　　done
+
+规范Shell:
+　　我们知道环境变量PS1是提示符,看下面程序chdir:
+　　if [ ! -d "$!" ]
+　　then
+　　　　echo "$1 is not a directory"
+　　　　exit 1
+　　fi
+　　cd $1
+　　PS1="'pwd'>"
+　　export PS1
+　　我们执行:
+　　 　$chdir /usr/ice666
+　　结果提示符号变成/usr/ice666>了吗？没有，为什么?
+　　原因在于:chdir在子Shell中执行，变量PS1的修改在当前Shell中也不会起作用，若要chdir完成意想中的功能，必须在当前Shell 中执行该命令。最好的方法就是把其改成一个函数并且在.profile文件中定义。但若要把函数放到单个文件中并在当前Shell中执行，则需要使用 . 命令，并将chdir重写成一个函数，把其中的exit改写成return。下面代码是 .ice_ps的内容:
+　　#--提示符
+　　chdir()
+　　{
+　　if [ !-d "$1" ]
+　　then
+　　　　echo " $1 is not a directory"
+　　　　return
+　　fi
+　　cd $1
+　　PS1="'pwd'>"
+　　export PS1;
+　　}
+　　然后我们在.profile文件中加入下面语句
+　　.ice_ps
+　　然后在切换目录的时候，我们用chdir命令，结果是什么呢，自己实验好了! 　
+调试Shell程序
+1>调试shell程序
+　　用户刚编写完Shell程序中，不可避免的会有错误，这时我们可以利用Bsh中提供的跟踪选项，该选项会显示刚刚执行的命令及参数。用户可以通过set命令打开-x选项或在启动Shell使用-x选项将Shell设置成跟踪模式。例如有下面代码ice_tx:
+　　if [ $# -eq 0 ]
+　　then
+　　　　echo "usage:sumints integer list"
+　　　　exit 1
+　　fi
+　　sum=0
+　　until [ $# -eq 0 ]
+　　do
+　　　　sum='expr $sum + $1'
+　　　　shift
+　　done
+　　echo $sum
+　　我们用跟踪模式运行:
+　　$sh -x ice_tx 2 3 4
+　　结果显示:
+　　+[ 3 -eq 0 ]
+　　+sum=0
+　　+[ 3 -eq 0 ]
+　　+expr 0+2
+　　+sum=2
+　　+shift
+　　+[ 2 -eq 0 ]
+　　+expr 2+3
+　　+sum=5
+　　+shift
+　　+[ 1 -eq 0 ]
+　　+expr 5+4
+　　+sum=9
+　　+[ 0 -eq 0 ]
+　　+echo 9
+　　9
+　　从上面可以看出，跟踪模式下Shell显示执行的每一条命令以及该命令使用的变量替换后的参数值。一些控制字如if、then、until等没显示。
+2>命令分组
+　　Shell中若干命令可以组成一个单元一起执行。为了标识一组命令，这些命令必须放到"()"或"{}"中。放在"()"中的命令将在子Shell中运行，而放在"{}"中的命令将在当前Shell中运行。子Shell中运行的命令不影响当前Shell的变量。当前Shell中运行的命令影响当前 Shell的变量。
+　　$NUMBER=2
+　　$(A=2;B=2;NUMBER='expr $A+$B';echo $NUMBER)
+　　结果为:4
+　　$echo $NUMBER
+　　结果为:2
+　　如果把上面的()变成{}，结果会是怎么样的呢？
+3>使用Shell分层管理器shl
+　　UNIX是一个多道程序设计的操作系统，一些UNIX系统利用这一特性提供了Shell层次管理器shl。使用shl用户一次可以打开多个层次的Shell，其中活跃的Shell可以从终端上获得输入。但所有Shell的输出都可在终端上显示，除非显示被禁止。
+　　多个Shell中有一个为shl,当用户在某个Shell中工作时，可以通过使用特殊字符(一般为Ctrl+z)返回shl。为了同其他Shell区别，shl中提示符为">>>"。当用户工作在Shell层次管理器中时，可以创建、激活和删除Shell，下面是shl中使用的命令。
+　　create name　　　　产生名为name的层次
+　　delete name　　　　删除名为name的层次
+　　block name　　　　 禁止名为name的层次的输出
+　　unblock name　　　 恢复名为name的层次的输出
+　　resume name　　　　激活名为name的层次
+　　toggle　　　　　　 激活近来经常使用的层次
+　　name　　　　　　　 激活名为name的层次
+　　layers [-l] name　 对于表中的每个层次，显示其正在运行的进程的进程号，-l选项要求显示详细信息。
+　　help 　　　　　　　显示shl命令的帮助信息
+　　quit　　　　　　　 退出shl以及所有被激活的层次
+
+总结
+　　在前面我们主要介绍了sh的变量、基本语法、程序设计等。如果掌握了这些内容，在学习其他UNIX下编程语言的时候，相信有一定的好处，我们说了，在大多数的UNIX中都提供Bourn Shell，而且很少有象sh这样强大的脚本编辑语言了，是系统管理员和程序员的一笔财富，并且不需要额外的软件环境，对文件等处理借助unix命令，实现起来比c实现还要简单。 

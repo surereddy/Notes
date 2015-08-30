@@ -1,0 +1,175 @@
+**Note**:
+   If you clone through telnet, there will be connection timeout and clone will fail if you 
+   don't touch the telnet windows for a long time.
+   Don't leave your pc for the long time disk clone
+   or use console connection to do it
+   or modify the system shell timeout parameter TMOUT in .profile.
+   You will have following error:
+   -----------------
+   shell will timeout in 60 seconds due to inactivity
+   ksh: timed out waiting for input
+   ------------------
+   If you are using putty, it will quit the window and become inactive if some process is running.
+   If you are using CRT, better, it press enter or reconnect to recover if it's not a very long time.
+   
+   Solution: Add or set TMOUT=360000 in ~/.profile. 
+  
+    
+ 
+
+Part      Tag    Flag     Cylinders         Size            Blocks
+  0       root    wm       0 -   824        4.00GB    (825/0/0)     8395200
+  1       swap    wu     825 -  5771       24.00GB    (4947/0/0)   50340672
+  2     backup    wm       0 - 14086       68.35GB    (14087/0/0) 143349312
+  3 unassigned    wm       0                0         (0/0/0)             0
+  4 unassigned    wm    5772 -  6081        1.50GB    (310/0/0)     3154560
+  5 unassigned    wm    6082 -  6288        1.00GB    (207/0/0)     2106432
+  6 unassigned    wm    6289 - 14079       37.80GB    (7791/0/0)   79281216
+  7 unassigned    wm   14080 - 14086       34.78MB    (7/0/0)         71232
+
+partition>label
+
+
+newfs /dev/rdsk/c1t3d0s0
+newfs /dev/rdsk/c1t3d0s4
+newfs /dev/rdsk/c1t3d0s5
+newfs /dev/rdsk/c1t3d0s6
+
+  c1t0d0s0:
+  ---------------------------------------
+  cd ;  mkdir /tmp/abc
+  mount /dev/dsk/c1t2d0s0 /tmp/abc; mount /dev/dsk/c1t3d0s0 /mnt;  df -k 
+  cd /tmp/abc; ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/abc;echo "-----------\n";ls /mnt 
+	cd ;umount /mnt;umount /tmp/abc;df -k
+	
+	  c1t0d0s4:
+  ---------------------------------------
+  cd ; mount /dev/dsk/c1t2d0s4 /tmp/abc;  mount /dev/dsk/c1t3d0s4 /mnt;  df -k 
+  
+  cd /tmp/abc;ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/abc;echo "-----------\n";ls /mnt
+	cd ;umount /mnt;umount /tmp/abc;df -k
+	
+	  c1t0d0s5:
+  ---------------------------------------
+  cd ; mount /dev/dsk/c1t2d0s5 /tmp/abc;  mount /dev/dsk/c1t3d0s5 /mnt;  df -k 
+  
+  cd /tmp/abc;ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/abc;echo "-----------\n";ls /mnt
+	cd ;umount /mnt;umount /tmp/abc;df -k
+	
+		  c1t0d0s6:
+  ---------------------------------------
+  cd ; mount /dev/dsk/c1t2d0s6 /tmp/abc;  mount /dev/dsk/c1t3d0s6 /mnt;  df -k 
+  cd /tmp/abc;ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/abc;echo "-----------\n";ls /mnt  
+	cd ;umount /mnt;umount /tmp/abc;df -k
+	
+|- modify config files
+# installboot /usr/platform/sun4u/lib/fs/ufs/bootblk /dev/rdsk/c1t3d0s0
+# mount /dev/dsk/c1t3d0s0 /mnt;df -k|grep /mnt
+# cd /mnt/etc/lvm ; ls
+devpath     md.cf       md.tab      mdlogd.cf
+lock        md.ctlrmap  mddb.cf     runtime.cf
+# vi /mnt/etc/vfstab ;
+# vi /mnt/etc/system ;don't modify if you use the same server(hardware).
+# cd; umount /mnt
+
+|- ip change to 50.7
+modify :
+ /etc/hosts -> /etc/inet/hosts
+ /etc/netmasks  -> /etc/inet/netmasks
+ /etc/defaultrouter
+ /etc/hostname.bge0 (only if you use different interface)
+
+- backup 
+  # mount /dev/dsk/c1t3d0s0 /mnt
+  # cd /mnt 
+  #ls -l etc/hosts ; It links to the current system's absolute directory.
+  ;/etc/inet/hosts
+  
+  #cp /mnt/etc/inet/hosts /mnt/etc/inet/hosts.orig ; back up the new system's directory, not /etc/inet/hosts!!!
+  #cp /mnt/etc/inet/netmasks /mnt/etc/inet/netmasks.orig
+  #/mnt/etc/defaultrouter /mnt/etc/defaultrouter.orig
+  
+- modify the files as follows:
+  #vi /mnt/etc/inet/hosts 
+  #vi /mnt/etc/inet/netmasks 
+  #vi /mnt/etc/defaultrouter
+
+
+192.168.50.7:
+-----------------
+orig info(50.7):
+-----------------
+bge0: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 2
+        inet 192.168.50.7 netmask ffffff00 broadcast 192.168.50.255
+        ether 0:3:ba:4f:26:41
+bluetooth root#cat /etc/hosts
+#
+# Internet host table
+#
+127.0.0.1       localhost
+192.168.50.8    bluetooth2
+192.168.50.7 bluetooth bluetooth_bge0 BLUETOOTH PSMF PSMF_net8 PSMF_orb bluetooth_net8 bluetooth_orb
+
+bluetooth root#cat /etc/defaultrouter
+192.168.50.1
+
+bluetooth root#cat /etc/netmasks
+#               128.32.0.0 255.255.255.0
+#
+#10.10.10.0     255.255.255.0
+192.168.50.0    255.255.255.0
+bluetooth root#ls -rlt /etc/host*
+lrwxrwxrwx   1 root     root          12 Aug 17  2004 /etc/hosts -> ./inet/hosts
+-r--r--r--   1 root     other        228 Oct 13 12:26 /etc/hosts.befAAAA_hostrename
+-r--r--r--   1 root     other        175 Oct 13 12:33 /etc/hosts.befAAAA
+-rw-r--r--   1 root     root          15 Oct 13 18:16 /etc/hostname.bge0
+-r--r--r--   1 root     other        186 Oct 13 18:49 /etc/hosts.befABCD
+bluetooth root#cat /etc/hostname.bge0
+bluetooth_bge0
+
+-----------------
+new info:
+-----------------
+bge0: flags=1000843<UP,BROADCAST,RUNNING,MULTICAST,IPv4> mtu 1500 index 2
+        inet 192.168.50.7 netmask ffffff00 broadcast 192.168.50.255
+        ether 0:3:ba:4f:26:41
+cmmserver root#cat /etc/hosts
+#
+# Internet Host Table
+#
+127.0.0.1       localhost
+#
+192.168.50.7      cmmserver cmmserver.com cmmserver_bge0 CMMSERVER_bge0 cmmserver_net8 CMMSERVER_net8 psmf PSMF psmf_bge0 PSMF_bge0 psmf_net8 PSMF_ne
+t8 psmf_orb PSMF_orb cmmserver_orb CMMSERVER_orb loghost
+
+
+cmmserver root#cat /etc/defaultrouter
+192.168.50.1
+
+cmmserver root#cat /etc/netmasks
+#               128.32.0.0 255.255.255.0
+#
+#10.10.10.0     255.255.255.0
+192.168.50.0    255.255.255.0
+cmmserver root#ls -rlt /etc/host*
+lrwxrwxrwx   1 root     root          12 Aug 17  2004 /etc/hosts -> ./inet/hosts
+-r--r--r--   1 root     other        228 Oct 13 12:26 /etc/hosts.befAAAA_hostrename
+-r--r--r--   1 root     other        175 Oct 13 12:33 /etc/hosts.befAAAA
+-rw-r--r--   1 root     root          15 Oct 13 18:16 /etc/hostname.bge0
+-r--r--r--   1 root     other        186 Oct 13 18:49 /etc/hosts.befABCD
+cmmserver root#cat /etc/hostname.bge0
+cmmserver_bge0

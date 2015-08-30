@@ -1,0 +1,21 @@
+1. PRI/E1,media/E1 <-> sip/323,rtp
+
+2. IPDC/megaco/248, media/E1 <-> sip/323,rtp
+	 7515<-> s12: only media/E1
+	 7515<-> MGC: only IPDC/megaco/248
+	 s12<-> MGC: only ISUP
+	 MGC<->CSC: no link
+	 MGC will translate the media link between cic in s12 and slot->ts in 7515.
+	 7515 register to MGC and CSC.
+	 
+3. IPDC/megaco/248, media/E1<-> rtp 
+	 7515<-> s12MGC:  IPDC/megaco/248 and media/E1
+	 7515<-> csc: only rtp
+	 S12MGC<->CSC: SIP
+	 S12MGC is seen as a gateway or proxy in CSC.
+	 7515 only register to S12MGC.
+	 7515 is unseen by CSC and only have rtp connection with CSC.
+	 7515 returns its SDP to S12MGC and then S12MGC extract 7515's SDP and send to CSC.
+	 
+Note: h248 can include SDP and also ss7 link info.
+      So there are two ways,2,3,for 7515.

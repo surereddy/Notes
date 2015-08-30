@@ -1,0 +1,1 @@
+netsh interface ip set dns "本地连接" static 135.251.34.36 primary

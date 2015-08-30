@@ -1,0 +1,602 @@
+[H[J####################################################################
+# AVERAGE-PACKET-SIZE (BYTES)
+####################################################################
+AVERAGE-PACKET-SIZE-Avg:618
+####################################################################
+# PACKETS-PER-SECOND-IIC
+####################################################################
+PACKETS-PER-SECOND-IIC-Avg:59092
+PACKETS-PER-SECOND-IIC-Min:58935
+PACKETS-PER-SECOND-IIC-Max:59150
+#################################################################################################
+# DPI Statistics:
+#################################################################################################
+Total (DPI STATS: Out of Memory Count):0
+####################################################################
+# PACKETS-PER-SECOND-DPI (DPI)
+####################################################################
+PACKETS-PER-SECOND-DPI-Avg:0
+PACKETS-PER-SECOND-DPI-Min:0
+PACKETS-PER-SECOND-DPI-Max:0
+####################################################################
+# DPI-PROCESSOR-CPU-UTILIZATION (%)
+####################################################################
+17 DPI-PROCESSOR-CPU-UTILIZATION-Avg:0.000
+17 DPI-PROCESSOR-CPU-UTILIZATION-Min:0.000
+17 DPI-PROCESSOR-CPU-UTILIZATION-Max:0.000
+####################################################################
+# BITS-PER-SECOND-IIC (IIC)
+####################################################################
+BITS-PER-SECOND-IIC-Avg:292101305
+BITS-PER-SECOND-IIC-Min:288035433
+BITS-PER-SECOND-IIC-Max:296159580
+####################################################################
+# PER-BLADE-PACKETS-PER-SECOND-CRX (CRX)
+####################################################################
+17 PER-BLADE-PACKETS-PER-SECOND-CRX-Avg:57590
+17 PER-BLADE-PACKETS-PER-SECOND-CRX-Min:56411
+17 PER-BLADE-PACKETS-PER-SECOND-CRX-Max:58359
+####################################################################
+# TOTAL-PACKETS-PER-SECOND-CRX (CRX)
+####################################################################
+TOTAL-PACKETS-PER-SECOND-CRX-Avg:57590
+TOTAL-PACKETS-PER-SECOND-CRX-Min:56411
+TOTAL-PACKETS-PER-SECOND-CRX-Max:58359
+####################################################################
+# PER-BLADE CONTROL-PLANE BANDWIDTH - INCLUDING DNS (Kbps)
+# NOTE: Ignore these stats on Stacked Probes.
+####################################################################
+17 PER-BLADE-CONTROL-PLANE-BANDWIDTH-INCLUDING-DNS-Avg:286816
+17 PER-BLADE-CONTROL-PLANE-BANDWIDTH-INCLUDING-DNS-Avg-Min:281685
+17 PER-BLADE-CONTROL-PLANE-BANDWIDTH-INCLUDING-DNS-Avg-Max:290822
+####################################################################
+# TOTAL-CONTROL-PLANE-BANDWIDTH-INCLUDING-DNS (Kbps)
+# NOTE: Ignore these stats on Stacked Probes.
+####################################################################
+TOTAL-CONTROL-PLANE-BANDWIDTH-INCLUDING-DNS-Avg:286816
+TOTAL-CONTROL-PLANE-BANDWIDTH-INCLUDING-DNS-Min:281685
+TOTAL-CONTROL-PLANE-BANDWIDTH-INCLUDING-DNS-Max:290822
+####################################################################
+# PER-BLADE CONTROL-PLANE-BANDWIDTH-EXCLUDING-DNS (Kbps)
+# NOTE: Includes OverHead Headers From IIC
+# NOTE: Ignore these stats on Stacked Probes.
+####################################################################
+17 PER-BLADE CONTROL-PLANE-BANDWIDTH-EXCLUDING-DNS-Avg:329321
+17 PER-BLADE CONTROL-PLANE-BANDWIDTH-EXCLUDING-DNS-Min:323332
+17 PER-BLADE CONTROL-PLANE-BANDWIDTH-EXCLUDING-DNS-Max:334011
+####################################################################
+# TOTAL-CONTROL-PLANE-BANDWIDTH-EXCLUDING-DNS (Kbps)
+# NOTE: Includes OverHead Headers From IIC
+# NOTE: Ignore these stats on Stacked Probes.
+####################################################################
+TOTAL-CONTROL-PLANE-BANDWIDTH-EXCLUDING-DNS-Avg:329321
+TOTAL-CONTROL-PLANE-BANDWIDTH-EXCLUDING-DNS-Min:323332
+TOTAL-CONTROL-PLANE-BANDWIDTH-EXCLUDING-DNS-Max:334011
+####################################################################
+# Per-Blade-Total-Open-Sessions
+####################################################################
+17 Per-Blade-Total-Open-Sessions-Avg:1107906
+17 Per-Blade-Total-Open-Sessions-Min:867478
+17 Per-Blade-Total-Open-Sessions-Max:1344307
+####################################################################
+# TOTAL-OPEN-SESSIONS
+####################################################################
+TOTAL-OPEN-SESSIONS-Avg:1107906
+TOTAL-OPEN-SESSIONS-Min:867478
+TOTAL-OPEN-SESSIONS-Max:1344307
+####################################################################
+# Per-Blade-Total-XDRs-Generated
+####################################################################
+17 Per-Blade-Total-XDRs-Generated-Avg:3631066
+17 Per-Blade-Total-XDRs-Generated-Min:3452590
+17 Per-Blade-Total-XDRs-Generated-Max:3833154
+####################################################################
+# TOTAL-XDRs-Generated
+####################################################################
+TOTAL-XDRs-Generated-Avg:3631066
+TOTAL-XDRs-Generated-Min:3452590
+TOTAL-XDRs-Generated-Max:3833154
+####################################################################
+# Per-Blade-Total-XDRs-Sent
+####################################################################
+17 Per-Blade-Total-XDRs-Sent-Avg:0
+17 Per-Blade-Total-XDRs-Sent-Min:0
+17 Per-Blade-Total-XDRs-Sent-Max:0
+####################################################################
+# TOTAL-XDRs-Sent
+####################################################################
+TOTAL-XDRs-Sent-Avg:0
+TOTAL-XDRs-Sent-Min:0
+TOTAL-XDRs-Sent-Max:0
+####################################################################
+# Per-Blade-Total-XDRs-Dropped
+####################################################################
+17 Per-Blade-Total-XDRs-Dropped-Avg:3631066
+17 Per-Blade-Total-XDRs-Dropped-Min:3452590
+17 Per-Blade-Total-XDRs-Dropped-Max:3833154
+####################################################################
+# TOTAL-XDRs-Dropped
+####################################################################
+TOTAL-XDRs-Dropped-Avg:3631066
+TOTAL-XDRs-Dropped-Min:3452590
+TOTAL-XDRs-Dropped-Max:3833154
+####################################################################
+# Per-Blade-XDRs-Per-Second
+####################################################################
+17 Per-Blade-XDRs-Per-Second-Avg:0
+17 Per-Blade-XDRs-Per-Second-Min:0
+17 Per-Blade-XDRs-Per-Second-Max:0
+####################################################################
+# TOTAL-XDRs-Per-Sec
+####################################################################
+TOTAL-XDRs-Per-Sec-Avg:0
+TOTAL-XDRs-Per-Sec-Min:0
+TOTAL-XDRs-Per-Sec-Max:0
+####################################################################
+# Per-Blade-XDRs-Dropped-Per-Second
+####################################################################
+17 Per-Blade-XDRs-Dropped-Per-Second-Avg:12104
+17 Per-Blade-XDRs-Dropped-Per-Second-Min:11509
+17 Per-Blade-XDRs-Dropped-Per-Second-Max:12777
+####################################################################
+# TOTAL-XDRs-Dropped-Per-Sec
+####################################################################
+TOTAL-XDRs-Dropped-Per-Sec-Avg:12104
+TOTAL-XDRs-Dropped-Per-Sec-Min:11509
+TOTAL-XDRs-Dropped-Per-Sec-Max:12777
+####################################################################
+# Per-Blade TrafficProcessor-CPU-UTILIZATION (%)
+####################################################################
+17 Per-Blade TrafficProcessor-CPU-UTILIZATION-Avg:65.222
+17 Per-Blade TrafficProcessor-CPU-UTILIZATION-Min:58.100
+17 Per-Blade TrafficProcessor-CPU-UTILIZATION-Max:70.400
+####################################################################
+# TrafficProcessor-Virtual-Memory-Utilization (GigaBytes)
+####################################################################
+17 TrafficProcessor-Virtual-Memory-Utilization-Avg:31.267
+17 TrafficProcessor-Virtual-Memory-Utilization-Min:30.687
+17 TrafficProcessor-Virtual-Memory-Utilization-Max:31.840
+####################################################################
+# TrafficProcessor-Current-Memory-Utilization (GigaBytes)
+####################################################################
+17 TrafficProcessor-Current-Memory-Utilization-Avg:22.084
+17 TrafficProcessor-Current-Memory-Utilization-Min:15.575
+17 TrafficProcessor-Current-Memory-Utilization-Max:29.369
+#################################################################################################
+# IIC (EzChip-TPrs-CPU-Utilization (%)
+# TOPparse - Parses and verifies the packet.
+# Collects state for the OPPL to use later (l2Type, l3Type, l4Type, tunnelType, fragment, etc).
+# Generates key information for the table and tree searches.
+# (Avg) should not exceed 85%.
+#################################################################################################
+EzChip-TPrs-CPU-Utilization-Avg:0
+EzChip-TPrs-CPU-Utilization-Min:0
+EzChip-TPrs-CPU-Utilization-Max:0
+#################################################################################################
+# IIC (EzChip-TRsv-CPU-Utilization (%)
+# TOPresolve - Takes the results from all the table and tree lookups and classifies the packet.
+# Adds entries to the flow table.
+# (Avg) should not exceed 85%.
+#################################################################################################
+EzChip-TRsv-CPU-Utilization-Avg:0.0
+EzChip-TRsv-CPU-Utilization-Min:0.0
+EzChip-TRsv-CPU-Utilization-Max:0.0
+##############################################################################################################
+# IIC (EzChip-TMdf-CPU-Utilization (%)
+# TOPmodify - Adds a descriptor to the front of the packet with all the packet information needed by the OPPL.
+# Generates key information for the table and tree searches.
+# (Avg) should not exceed 85%.
+##############################################################################################################
+EzChip-TMdf-CPU-Utilization-Avg:0.0
+EzChip-TMdf-CPU-Utilization-Min:0.0
+EzChip-TMdf-CPU-Utilization-Max:0.0
+####################################################################
+# IIC (Hornet-OPPL-CPU-Utilization (%)
+# OPPL: Processing Code on the Hornet.
+# (Avg) should not exceed 85%.
+####################################################################
+Hornet-OPPL-CPU-Utilization-Avg:2.0
+Hornet-OPPL-CPU-Utilization-Min:2.0
+Hornet-OPPL-CPU-Utilization-Max:2.0
+####################################################################
+# IIC (Hornet-DDM-CPU-Utilization (%)
+# DDM: Distribution Code on the Hornet.
+# (Avg) should not exceed 85%.
+####################################################################
+Hornet-DDM-CPU-Utilization-Avg:9.0
+Hornet-DDM-CPU-Utilization-Min:8.9
+Hornet-DDM-CPU-Utilization-Max:9.0
+#################################################################################################
+# Dropped-Packets: (Packets)
+#################################################################################################
+Total (EzChip) :0
+Total (Cavium) :0
+Total (Bcm) :0
+Total (BackPlane) :0
+#################################################################################################
+# FSPP (Flow State Packet Processing) Statistics:
+#################################################################################################
+Total (FSPP: DASA Allocation Failures):0
+Total (FSPP: Flow Record Allocation Failures):0
+Total (FSPP: FSB (Flow State Block) Protocol Allocation Failures):0
+Total (FSPP: Number of FSBs Create No Class):0
+Total (FSPP: PDU Class Alloc Error):0
+Total (FSPP: Protocol Message Allocation Failures):0
+Total (FSPP: Timer Failures):0
+Total (FSPP: Non TCP Flows):5876
+Total (FSPP: Packets):529741206
+Total (FSPP: TCP Flows):0
+#################################################################################################
+# Tunnel FSPP (Flow State Packet Processing) Active Flows:
+#################################################################################################
+FSPP-Active-flows-Avg:0
+FSPP-Active-flows-Min:0
+FSPP-Active-flows-Max:0
+#################################################################################################
+# Tunnel FSPP (Flow State Packet Processing) FSPP-Flow-Record-Alloc-Failures:
+#################################################################################################
+FSPP-Flow-Record-Alloc-Failures:-Avg:0
+FSPP-Flow-Record-Alloc-Failures:-Min:0
+FSPP-Flow-Record-Alloc-Failures:Max:0
+#################################################################################################
+# Tunnel FSPP (Flow State Packet Processing) FSPP-FSB-Alloc-Failures:
+#################################################################################################
+FSPP-FSB-Alloc-Failures-Avg:0
+FSPP-FSB-Alloc-Failures-Min:0
+FSPP-FSB-Alloc-Failures-Max:0
+#################################################################################################
+# Tunnel FSPP (Flow State Packet Processing) FSPP-FSB-Out-Of-Sync:
+#################################################################################################
+FSPP-FSB-Out-Of-Sync-Avg:0
+FSPP-FSB-Out-Of-Sync-Min:0
+FSPP-FSB-Out-Of-Sync-Max:0
+#################################################################################################
+# Tunnel FSPP (Flow State Packet Processing) FSP-FSB-Search-Failures:
+#################################################################################################
+FSP-FSB-Search-Failures-Avg:0
+FSP-FSB-Search-Failures-Min:0
+FSP-FSB-Search-Failures-Max:0
+#################################################################################################
+# Tunnel FSPP (Flow State Packet Processing) FSPP-Hash-Table-Insert-Fails:
+#################################################################################################
+FSPP-Hash-Table-Insert-Fails-Avg:0
+FSPP-Hash-Table-Insert-Fails-Min:0
+FSPP-Hash-Table-Insert-Fails-Max:0
+#################################################################################################
+# Tunnel FSPP (Flow State Packet Processing) FSPP-Hash-Table-Remove-Fails:
+#################################################################################################
+FSPP-Hash-Table-Remove-Fails-Avg:0
+FSPP-Hash-Table-Remove-Fails-Min:0
+FSPP-Hash-Table-Remove-Fails-Max:0
+#################################################################################################
+# Tunnel FSPP (Flow State Packet Processing) FSPP-Timer-Failures:
+#################################################################################################
+FSPP-Timer-Failures-Avg:0
+FSPP-Timer-Failures-Min:0
+FSPP-Timer-Failures-Max:0
+#################################################################################################
+# Tunnel FSPP (Flow State Packet Processing) FSPP-Tunnel-Update-Fails:
+#################################################################################################
+ FSPP-Tunnel-Update-Fails-Avg:0
+ FSPP-Tunnel-Update-Fails-Min:0
+ FSPP-Tunnel-Update-Fails-Max:0
+#################################################################################################
+# Tunnel FSPP (Flow State Packet Processing) FSPP-Total-Packets:
+#################################################################################################
+Total (Tunnel FSPP: Packets):0
+Total (Tunnel FSPP: Stats Msgs):0
+Total (Tunnel FSPP: Tunnel Errors):0
+####################################################################
+# RTP-ACTIVE-STREAMS
+####################################################################
+RTP-ACTIVE-STREAMS-Avg:0
+RTP-ACTIVE-STREAMS-Min:0
+RTP-ACTIVE-STREAMS-Max:0
+####################################################################
+# RTP-ACTIVE-FLOWS
+####################################################################
+RTP-ACTIVE-FLOWS-Avg:0
+RTP-ACTIVE-FLOWS-Min:0
+RTP-ACTIVE-FLOWS-Max:0
+#################################################################################################
+# RTP-Statistics:
+#################################################################################################
+Total (RTP: Bad Timestamp):0
+Total (RTP: Variable Bitrate Overflow):0
+#################################################################################################
+# RTSP Statistics:
+#################################################################################################
+Total (RTSP: Aborts):0
+Total (RTSP: Ascii Messages):0
+Total (RTSP: Binary Messages):0
+Total (RTSP: Into Sync):0
+#################################################################################################
+# PPP Statistics:
+#################################################################################################
+Total (PPP: Discarded Packets):0
+Total (PPP: Loopback Buffer Allocation Failed) :0
+Total (PPP: Loopback Buffer Tx Failed):0
+Total (PPP: Loopback Packets):0
+Total (PPP: Max Buffer-Size Exceeded Packets):0
+Total (PPP: Reassembly Create Failed Packets):0
+Total (PPP: Total Complete Packets):0
+Total (PPP: Total Fragments ):0
+Total (PPP: Total Synthetic Packets ):0
+Total (PPP: Total UnClassified Packets ):0
+Total (PPP: Total UnsupportedType Packets ) :0
+#################################################################################################
+# IP Defrag: Active-Defrags
+#################################################################################################
+Active-Defrags-Avg:0
+Active-Defrags-Min:0
+Active-Defrags-Max:0
+#################################################################################################
+# IP-Defrag-Aged-Out-Contexts
+#################################################################################################
+IP-Defrag-Aged-Out-Contexts-Avg:0
+IP-Defrag-Aged-Out-Contexts-Min:0
+IP-Defrag-Aged-Out-Contexts-Max:0
+#################################################################################################
+# IP-Defrag-Buffers-In-Use
+#################################################################################################
+IP-Defrag-Buffers-In-Use-Avg:0
+IP-Defrag-Buffers-In-Use-Min:0
+IP-Defrag-Buffers-In-Use-Max:0
+#################################################################################################
+# IP-Defrag-Frag-List-Insert-Fails
+#################################################################################################
+IP-Defrag-Frag-List-Insert-Fails-Avg:0
+IP-Defrag-Frag-List-Insert-Fails-Min:0
+IP-Defrag-Frag-List-Insert-Fails-Max:0
+#################################################################################################
+# IP-Defrag-Hash-Table-Insert-Fails
+#################################################################################################
+IP-Defrag-Hash-Table-Insert-Fails-Avg:0
+IP-Defrag-Hash-Table-Insert-Fails-Min:0
+IP-Defrag-Hash-Table-Insert-Fails-Max:0
+#################################################################################################
+# IP-Defrag-IP-Frag-Aborts
+#################################################################################################
+IP-Defrag-IP-Frag-Aborts-Avg:0
+IP-Defrag-IP-Frag-Aborts-Min:0
+IP-Defrag-IP-Frag-Aborts-Max:0
+#################################################################################################
+# IP-Defrag-IP Fragments
+#################################################################################################
+IP-Defrag-IP Fragments-Avg:0
+IP-Defrag-IP Fragments-Min:0
+IP-Defrag-IP Fragments-Max:0
+#################################################################################################
+# IP-Defrag-IP-Packet-Aborts
+#################################################################################################
+IP-Defrag-IP-Packet-Aborts-Avg:0
+IP-Defrag-IP-Packet-Aborts-Min:0
+IP-Defrag-IP-Packet-Aborts-Max:0
+#################################################################################################
+# IP-Defrag-Reallocated-Contexts
+#################################################################################################
+IP-Defrag-Reallocated-Contexts-Avg:0
+IP-Defrag-Reallocated-Contexts-Min:0
+IP-Defrag-Reallocated-Contexts-Max:0
+#################################################################################################
+# IP-Defrag-Reallocated-No-Buffers
+#################################################################################################
+IP-Defrag-Reallocated-No-Buffers-Avg:0
+IP-Defrag-Reallocated-No-Buffers-Min:0
+IP-Defrag-Reallocated-No-Buffers-Max:0
+#################################################################################################
+# IP-Defrag-Successful-Defrags
+#################################################################################################
+IP-Defrag-Successful-Defrags-Avg:0
+IP-Defrag-Successful-Defrags-Min:0
+IP-Defrag-Successful-Defrags-Max:0
+#################################################################################################
+# IP-Defrag-Too-Many-Fragments
+#################################################################################################
+IP-Defrag-Too-Many-Fragments-Avg:0
+IP-Defrag-Too-Many-Fragments-Min:0
+IP-Defrag-Too-Many-Fragments-Max:0
+#################################################################################################
+# A11CDMA Statistics:
+#################################################################################################
+Total (A11CDMA: Add Failed ):0
+Total (A11: Dropped Messages ):0
+Total (A11: Max GRE Keys Exceeded):0
+Total (A11: A11 Messages):0
+Total (A11CDMA: CDMA Add GRE Fail):0
+Total (A11CDMA: CDMA Add Master GRE Fail):0
+Total (A11CDMA: CDMA Add Session Fail):0
+Total (A11CDMA: CDMA Search):0
+Total (A11CDMA: CDMA Search Fail):0
+Total (A11CDMA: CDMA Sessions Added):0
+Total (A11CDMA: CDMA Sessions Deleted):0
+Total (A11CDMA: CDMA Timer Start Errors):0
+Total (A11CDMA: CDMA Tunnels Added):0
+Total (A11CDMA: CDMA Tunnels Deleted):0
+#################################################################################################
+# GTP Control Plane Statistics:
+#################################################################################################
+Total (GTPC: Aborted Sessions):0
+Total (GTPC: Lookup Adds):0
+Total (GTPC: Lookup Insert Fails):0
+Total (GTPC: Lookup Removes):0
+Total (GTPC: Number of GsnId Allocation Fails):0
+Total (GTPC: Number of GsnIds):0
+Total (GTPC: SequenceLookupAdd Fails):0
+Total (GTPC: SequenceLookupAdds):0
+Total (GTPC: SequenceLookupInsert Fails):0
+Total (GTPC: SequenceLookupRemoves):0
+Total (GTPC: Session Allocations):0
+Total (GTPC: Session Allocations Failed):0
+Total (GTPC: Session Frees):0
+Total (GTPC: Timer Failures):0
+Total (GTPC: Transaction Allocation Fails):0
+Total (GTPC: Transaction Ended Success):0
+Total (GTPC: Transactions Started):0
+Total (GTPC: Version0 Packets):0
+Total (GTPC: Version1 Packets):0
+Total (GTPC: Version2 Packets):0
+#################################################################################################
+# DIAMETER Statistics:
+#################################################################################################
+Total (DIAMETER: Bad Diameter Packets):0
+Total (DIAMETER: Discard Cmd Code):0
+Total (DIAMETER: Into Sync):0
+Total (DIAMETER: Messages):0
+#################################################################################################
+# LDAP Statistics:
+#################################################################################################
+Total (LDAP: Aborts):0
+Total (LDAP: Into Sync):0
+Total (LDAP: Messages):0
+#################################################################################################
+# MSRP Statistics:
+#################################################################################################
+Total (MSRP: Aborted):0
+Total (MSRP: Capacity Packets Dropped):0
+Total (MSRP: Capacity Packets to DDM):0
+Total (MSRP: Capacity Streams):0
+Total (MSRP: Clone Errors):0
+Total (MSRP: Max Seg Link):0
+Total (MSRP: Messages):0
+#################################################################################################
+# PmipV6 Statistics:
+#################################################################################################
+Total (PmipV6: Dropped Messages):0
+Total (PmipV6: Messages):0
+#################################################################################################
+# RADIUS Statistics:
+#################################################################################################
+Total (RADIUS: Dropped Messages):0
+Total (RADIUS: Messages):0
+Total (RADIUS: Table Allocation Errors):0
+Total (RADIUS: Table Insert Errors):0
+#################################################################################################
+# WSP/WTP Statistics:
+#################################################################################################
+Total (WSP: Invalid Header Length):0
+Total (WTP: Allocation Fail):0
+#################################################################################################
+# SCTP Statistics:
+#################################################################################################
+Total (SCTP: Association Allocation Failures):0
+Total (SCTP: Association Table Entries):1604
+Total (SCTP: Association Table Insert Fails):0
+Total (SCTP: Bitmap Allocation Failures):0
+Total (SCTP: Bundled Packets):0
+Total (SCTP: Chunks Lost Reassembly):0
+Total (SCTP: Clone Failed):0
+Total (SCTP: Disregarded Packets):5164
+Total (SCTP: Dropped Addresses):0
+Total (SCTP: Dropped Detection):153573
+Total (SCTP: Dropped Packets):0
+Total (SCTP: Fragments Dropped):0
+Total (SCTP: Fragments Held):0
+Total (SCTP: Incomplete Inits):0
+Total (SCTP: Incomplete Reassemblies):0
+Total (SCTP: Inconsistent Associations):92
+Total (SCTP: Link Table Entries):5729
+Total (SCTP: Link Table Insert Fails):0
+Total (SCTP: Monitored Paths):1998
+Total (SCTP: Overrun Resets):6190
+Total (SCTP: Overruns):419719
+Total (SCTP: Paths With No Association):1176
+Total (SCTP: Processed Packets):103384170
+Total (SCTP: Reassembly Create Failed):0
+Total (SCTP: Retransmission Resets):6015
+Total (SCTP: Retransmissions):12096894
+Total (SCTP: Sack Out Of Range):0
+Total (SCTP: Sequence Create Failed):0
+Total (SCTP: Sequence Errors):1
+Total (SCTP: Stream Add Failed):0
+Total (SCTP: Timer Failures):0
+Total (SCTP: Total Packets):103542907
+Total (SCTP: TSN Out Of Range):0
+Total (SCTP: VTAG Resets):0
+#################################################################################################
+# Sigtran Statistics:
+#################################################################################################
+Total (SIGTRAN: ISUP Messages):0
+Total (SIGTRAN: M3UA Dropped Messages):0
+Total (SIGTRAN: M3UA Fragmented Messages):0
+Total (SIGTRAN: M3UA Messages):0
+Total (SIGTRAN: M3UA Not Classified):0
+Total (SIGTRAN: SCCP Dropped):0
+Total (SIGTRAN: SCCP Table Insert Errors):0
+Total (SIGTRAN: SCCP Total Segments):0
+Total (SIGTRAN: SUA Dropped Messages):0
+Total (SIGTRAN: SUA Fragmented Messages):0
+Total (SIGTRAN: SUA Messages):0
+Total (SIGTRAN: Table Entry Allocation Failures):0
+Total (SIGTRAN: Table Insert Failures):0
+Total (SIGTRAN: TCAP Cont Not Supported):0
+Total (SIGTRAN: TCAP Dropped):0
+#################################################################################################
+# TCP Statistics:
+#################################################################################################
+Total (TCP: OOS Clone Failures):0
+Total (TCP: OOS Insert Count):0
+Total (TCP: OOS Insert Failures):0
+Total (TCP: OOS Remove Count):0
+Total (TCP: RSM Clone Errors):0
+Total (TCP: RSM Max Seg Link):0
+Total (TCP: RSM Max Seg Link):0
+Total (TCP: Seq Node Alloc Error):0
+Total (TCP: TCP Segments to RSM):0
+Total (TCP: TCP SM Resets):0
+#################################################################################################
+# VoIP: H225 Statistics:
+#################################################################################################
+Total (VoIP: H225 Errors):0
+Total (VoIP: H225 Good):0
+#################################################################################################
+# VoIP: Megaco Statistics:
+#################################################################################################
+Total (VoIP: Megaco Clone Errors):0
+Total (VoIP: Megaco Create Errors):0
+Total (VoIP: Megaco Errors):0
+Total (VoIP: Megaco Good Ascii):0
+Total (VoIP: Megaco Good Binary):0
+Total (VoIP: Megaco Max Contexts Exceeded):0
+Total (VoIP: Megaco State Alloc Error):0
+Total (VoIP: Megaco Table Insert Error):0
+Total (VoIP: Megaco Table Req Added):0
+Total (VoIP: Megaco Table Req Alloc Error):0
+Total (VoIP: Megaco Table Req Removed):0
+#################################################################################################
+# VoIP: MGCP Statistics:
+#################################################################################################
+Total (VoIP: MGCP Clone Errors):0
+Total (VoIP: MGCP Dropped Messages):0
+Total (VoIP: MGCP Messages):0
+Total (VoIP: MGCP Table Insert Error):0
+#################################################################################################
+# VoIP: SIP Statistics:
+#################################################################################################
+Total (VoIP: SIP Errors):0
+Total (VoIP: SIP Msg Messages):399459247
+Total (VoIP: SIP Msg Nat):0
+Total (VoIP: SIP Msg Sig Comp):0
+Total (VoIP: SIP Msg Stun):0
+Total (VoIP: SIP Stream KeepAlives):0
+Total (VoIP: SIP Stream Messages):0
+Total (VoIP: SIP Stream SigComp):0
+#################################################################################################
+# LTE: IPM (Inter-Processing-Messaging) Statistics:
+#################################################################################################
+Total (LTE IPM: Num IPM Failed Sent):0
+Total (LTE IPM: Num IPM Received):0
+Total (LTE IPM: Num IPM Sent):0
+Total (LTE IPM: Num IPM Sent):0
+Total (LTE IPM: S10 IPM Received):0
+Total (LTE IPM: S10 IPM Sent):0
+Total (LTE IPM: S1 IPM Received):0
+Total (LTE IPM: S1 IPM Sent):0
+Total (LTE IPM: S6 IPM Received):0
+Total (LTE IPM: S6 IPM Sent):0
+#################################################################################################
+# LTE Mapper Client Statistics:
+#################################################################################################
+Total (LTE Mapper Client Stats: Number of Record Creates Sent to LTE Mapper):0
+Total (LTE Mapper Client Stats: Number of Record Updates Sent to LTE Mapper):0
+Total (LTE Mapper Client Stats: Number of Records In LTE Mapper Client):0

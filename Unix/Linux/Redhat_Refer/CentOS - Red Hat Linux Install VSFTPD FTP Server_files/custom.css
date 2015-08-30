@@ -1,0 +1,168 @@
+BODY.custom {
+	FONT-SIZE: 10px; BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/bodybg.gif) #f2f2f2 repeat-x
+}
+.custom .format_text H2 {
+	FONT-SIZE: 1.8em; LINE-HEIGHT: 1.26em
+}
+.custom #container {
+	MARGIN-TOP: 0px; BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/masthead.gif) #ffffff no-repeat center top; MARGIN-BOTTOM: 20px; OVERFLOW: hidden; WIDTH: 1002px
+}
+.custom #container #page {
+	BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/bottomcorners.gif) no-repeat center bottom; PADDING-TOP: 75px
+}
+.custom #header {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; WIDTH: 960px
+}
+.custom #header DIV#crumbslogo {
+	MARGIN-LEFT: 8px; MARGIN-RIGHT: 0px
+}
+.custom #header {
+	BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/headerbg.gif) no-repeat center top; PADDING-BOTTOM: 0px; MARGIN: 8px 0px 0px; PADDING-TOP: 0px; POSITION: relative; HEIGHT: 144px
+}
+.custom #crumbslogo {
+	LEFT: 8px; OVERFLOW: hidden; WIDTH: 185px; TEXT-INDENT: -1000em; POSITION: absolute; TOP: 20px; HEIGHT: 70px
+}
+.custom #crumbslogo A {
+	DISPLAY: block; WIDTH: 185px; HEIGHT: 70px
+}
+.custom #header DIV#leaderboard {
+	MARGIN-TOP: 12px; DISPLAY: inline; BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/lbbottom.gif) #f1f1f1 no-repeat center bottom; FLOAT: right; MARGIN-BOTTOM: 12px; PADDING-BOTTOM: 5px; WIDTH: 740px; MARGIN-RIGHT: 10px; HEIGHT: 100px
+}
+.custom #header DIV#leaderboard DIV#lbtop {
+	BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/lbtop.gif) no-repeat center top; WIDTH: 740px; PADDING-TOP: 8px; TEXT-ALIGN: center
+}
+.custom #custom_box {
+	PADDING-RIGHT: 1.1em; PADDING-LEFT: 1.1em; BACKGROUND: #fff 0px 0px; PADDING-BOTTOM: 1.1em; PADDING-TOP: 1.1em; BORDER-BOTTOM: #dddddd 1px solid
+}
+.custom UL#tabs LI {
+	FONT-WEIGHT: bold; FONT-FAMILY: arial
+}
+.custom UL#tabs LI A {
+	COLOR: #006699
+}
+.custom A {
+	COLOR: #006699
+}
+.custom A:visited {
+	COLOR: #006699
+}
+.custom DIV.textwidget {
+	PADDING-TOP: 10px
+}
+.custom DIV.widget_box {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BACKGROUND-COLOR: #fff; BORDER-RIGHT-WIDTH: 0px
+}
+.custom .widget_box H3 {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; PADDING-BOTTOM: 4px; FONT: bold 12px arial; PADDING-TOP: 4px; BACKGROUND-COLOR: #ffffff; TEXT-ALIGN: center
+}
+.custom .idglogo {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FLOAT: left; PADDING-BOTTOM: 0px; PADDING-TOP: 10px
+}
+.custom DIV#subscribebox {
+	BORDER-RIGHT: #addde6 0px solid; PADDING-RIGHT: 12px; BORDER-TOP: #addde6 0px solid; PADDING-LEFT: 12px; BACKGROUND: #f9f7e4; PADDING-BOTTOM: 12px; OVERFLOW: auto; BORDER-LEFT: #addde6 0px solid; WIDTH: auto; LINE-HEIGHT: 18px; PADDING-TOP: 12px; BORDER-BOTTOM: #addde6 0px solid
+}
+.custom DIV#subscribebox #leftbox {
+	MARGIN-TOP: 8px; FLOAT: left; MARGIN-BOTTOM: 8px; MARGIN-LEFT: 8px; WIDTH: 55%
+}
+.custom DIV#subscribebox FORM {
+	MARGIN-TOP: 8px
+}
+.custom INPUT.form_submit {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 1px; PADDING-TOP: 1px
+}
+.custom DIV#subscribebox UL#utilitylinks {
+	FLOAT: right; FONT: 12px arial; BORDER-LEFT: #dddddd 1px solid; WIDTH: 35%; LIST-STYLE-TYPE: none
+}
+.custom DIV#subscribebox UL#utilitylinks LI {
+	PADDING-RIGHT: 8px; PADDING-LEFT: 8px; PADDING-BOTTOM: 8px; MARGIN-LEFT: 10px; PADDING-TOP: 8px
+}
+.custom DIV#subscribebox UL#utilitylinks LI#email {
+	PADDING-LEFT: 22px; BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/icon-email.gif) no-repeat left center
+}
+.custom DIV#subscribebox UL#utilitylinks LI#print {
+	PADDING-LEFT: 22px; BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/icon-print.gif) no-repeat left center
+}
+.custom DIV#subscribebox UL#utilitylinks LI#rss {
+	PADDING-LEFT: 22px; BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/icon-rss.gif) no-repeat left center
+}
+.custom DIV#subscribebox UL#utilitylinks LI#download {
+	PADDING-LEFT: 22px; BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/icon-disk.gif) no-repeat left center
+}
+.custom DIV#subscribebox UL#utilitylinks LI#lastupdated {
+	PADDING-LEFT: 22px; BACKGROUND: url(http://c.cyberciti.biz/cbzcache/images/icon-date.gif) no-repeat left center
+}
+.custom CODE {
+	BORDER-RIGHT: #dddddd 1px solid; PADDING-RIGHT: 0.84em; BORDER-TOP: #dddddd 1px solid; DISPLAY: block; PADDING-LEFT: 0.84em; FONT-SIZE: 0.92em; BACKGROUND: #eeeeee 0px 0px; MARGIN-BOTTOM: 1.69em; PADDING-BOTTOM: 0.61em; OVERFLOW: auto; BORDER-LEFT: #dddddd 1px solid; LINE-HEIGHT: 1.38em; PADDING-TOP: 0.61em; BORDER-BOTTOM: #dddddd 1px solid; FONT-FAMILY: Consolas,"Andale Mono",Courier,"Courier New"
+}
+.custom PRE {
+	BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; BORDER-BOTTOM-STYLE: none
+}
+.custom CODE {
+	CLEAR: both; BORDER-RIGHT: #dddddd 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #dddddd 1px solid; DISPLAY: block; PADDING-LEFT: 5px; BACKGROUND: #eeeeee 0px 0px; PADDING-BOTTOM: 5px; OVERFLOW: auto; BORDER-LEFT: #dddddd 1px solid; LINE-HEIGHT: 1em; PADDING-TOP: 5px; BORDER-BOTTOM: #dddddd 1px solid; FONT-FAMILY: Consolas,"Andale Mono",Courier,"Courier New"; TEXT-ALIGN: left
+}
+.tabbedwidget {
+	BORDER-RIGHT: #dddddd 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #dddddd 1px solid; MARGIN-TOP: 3em; PADDING-LEFT: 5px; BACKGROUND: #eeeeee; PADDING-BOTTOM: 5px; BORDER-LEFT: #dddddd 1px solid; PADDING-TOP: 10px; BORDER-BOTTOM: #dddddd 1px solid; moz-border-radius-bottomleft: 4px; moz-border-radius-bottomright: 4px; moz-border-radius-topleft: 4px; moz-border-radius-topright: 4px
+}
+.tabnav {
+	MARGIN-BOTTOM: 10px
+}
+.tabnav LI {
+	PADDING-RIGHT: 5px; DISPLAY: inline; LIST-STYLE-TYPE: none
+}
+.tabnav LI A {
+	BORDER-RIGHT: #ddd 1px solid; PADDING-RIGHT: 6px; BORDER-TOP: #ddd 1px solid; PADDING-LEFT: 6px; BACKGROUND: #ffffff; PADDING-BOTTOM: 4px; BORDER-LEFT: #ddd 1px solid; COLOR: #006699; PADDING-TOP: 4px; BORDER-BOTTOM: #ddd 1px solid; TEXT-DECORATION: none
+}
+.tabnav LI A:hover {
+	BORDER-RIGHT: #dddddd 1px solid; BORDER-TOP: #dddddd 1px solid; BACKGROUND: #ffffff; BORDER-LEFT: #dddddd 1px solid; BORDER-BOTTOM: #dddddd 1px solid; moz-border-radius-bottomleft: 4px; moz-border-radius-bottomright: 4px; moz-border-radius-topleft: 4px; moz-border-radius-topright: 4px
+}
+.tabnav LI A:active {
+	BORDER-RIGHT: #dddddd 1px solid; BORDER-TOP: #dddddd 1px solid; BACKGROUND: #ffffff; BORDER-LEFT: #dddddd 1px solid; BORDER-BOTTOM: #dddddd 1px solid; moz-border-radius-bottomleft: 4px; moz-border-radius-bottomright: 4px; moz-border-radius-topleft: 4px; moz-border-radius-topright: 4px
+}
+.tabnav LI.ui-tabs-selected A {
+	BORDER-RIGHT: #dddddd 1px solid; BORDER-TOP: #dddddd 1px solid; BACKGROUND: #ffffff; BORDER-LEFT: #dddddd 1px solid; BORDER-BOTTOM: #dddddd 1px solid; moz-border-radius-bottomleft: 4px; moz-border-radius-bottomright: 4px; moz-border-radius-topleft: 4px; moz-border-radius-topright: 4px
+}
+.tabdiv {
+	BORDER-RIGHT: #dddddd 1px solid; PADDING-RIGHT: 7px; BORDER-TOP: #dddddd 1px solid; MARGIN-TOP: 2px; PADDING-LEFT: 7px; BACKGROUND: #fff; PADDING-BOTTOM: 7px; BORDER-LEFT: #dddddd 1px solid; PADDING-TOP: 7px; BORDER-BOTTOM: #dddddd 1px solid; moz-border-radius-bottomleft: 4px; moz-border-radius-bottomright: 4px; moz-border-radius-topleft: 4px; moz-border-radius-topright: 4px
+}
+.tabdiv LI {
+	MARGIN-BOTTOM: 0.66em; LIST-STYLE-TYPE: none
+}
+.ui-tabs-hide {
+	DISPLAY: none
+}
+.custom #image_box {
+	FONT-SIZE: 1.3em; BACKGROUND: #ffffff
+}
+.custom #video_box {
+	FONT-SIZE: 1.3em; BACKGROUND: #ffffff
+}
+.custom #custom_box {
+	FONT-SIZE: 1.3em; BACKGROUND: #ffffff
+}
+UNKNOWN {
+	PADDING-RIGHT: 0.3em; PADDING-LEFT: 0.3em; PADDING-BOTTOM: 0.3em; PADDING-TOP: 0.3em; FONT-FAMILY: Georgia,"Times New Roman",Times,serif
+}
+.custom #custom_box INPUT {
+	FONT-FAMILY: Georgia,"Times New Roman",Times,serif
+}
+TEXTAREA {
+	FONT-FAMILY: Georgia,"Times New Roman",Times,serif
+}
+.custom #custom_box INPUT {
+	BORDER-RIGHT: #dddddd 1px solid; BORDER-TOP: #aaaaaa 1px solid; FONT-SIZE: 1em; BACKGROUND: #eeeeee 0px 0px; BORDER-LEFT: #aaaaaa 1px solid; COLOR: #444444; LINE-HEIGHT: 1.38em; BORDER-BOTTOM: #dddddd 1px solid
+}
+TEXTAREA {
+	BORDER-RIGHT: #dddddd 1px solid; BORDER-TOP: #aaaaaa 1px solid; FONT-SIZE: 1em; BACKGROUND: #eeeeee 0px 0px; BORDER-LEFT: #aaaaaa 1px solid; COLOR: #444444; LINE-HEIGHT: 1.38em; BORDER-BOTTOM: #dddddd 1px solid
+}
+.custom #custom_box INPUT.form_submit {
+	BORDER-RIGHT: #999999 3px double; BORDER-TOP: #cccccc 3px double; FONT-WEIGHT: bold; BACKGROUND: url(http://c.cyberciti.biz/cbzcache/css/images/submit-bg.gif) 0px 0px; OVERFLOW: visible; BORDER-LEFT: #cccccc 3px double; WIDTH: auto! important; CURSOR: pointer; COLOR: #111111; BORDER-BOTTOM: #999999 3px double
+}
+.custom #custom_box INPUT.form_submit {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 1px; PADDING-TOP: 1px
+}
+.custom #custom_box INPUT.form_submit:hover {
+	COLOR: #009900
+}
+.custom DIV#bashsearchbox INPUT.form_submit:hover {
+	COLOR: #009900
+}

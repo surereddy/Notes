@@ -1,0 +1,24 @@
+.menu {
+	WIDTH: 100%
+}
+INPUT.form_submit {
+	OVERFLOW: visible; WIDTH: auto
+}
+.menu A:hover {
+	HEIGHT: auto
+}
+.menu TABLE TD {
+	FONT-SIZE: 10px
+}
+#content {
+	OVERFLOW: hidden
+}
+.sidebar {
+	OVERFLOW: hidden
+}
+DL#comment_list DD {
+	BORDER-BOTTOM: #bbb 1px dotted
+}
+DL#comment_list DL.children DD {
+	BORDER-BOTTOM-WIDTH: 0px
+}

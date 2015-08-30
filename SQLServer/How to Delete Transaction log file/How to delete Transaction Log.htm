@@ -1,0 +1,623 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0047)http://database.51cto.com/art/200905/122647.htm -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>讲解删除SQL Server日志的具体方法 - 51CTO.COM</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META 
+content="作者总结了自己是如何删除SQL Server日志的，主要方法是先分离数据库，删除log文件等等，以避免log文件无限制增长直到占满空间的问题。" 
+name=description>
+<META content="SQL Server,日志,log" name=keywords><LINK 
+href="How to delete Transaction Log_files/master_top.css" type=text/css 
+rel=stylesheet><LINK href="How to delete Transaction Log_files/master.css" 
+type=text/css rel=stylesheet>
+<SCRIPT language=javaScript 
+src="How to delete Transaction Log_files/validate2.js"></SCRIPT>
+
+<SCRIPT language=javaScript 
+src="How to delete Transaction Log_files/fb_words_list.htm"></SCRIPT>
+
+<SCRIPT language=javaScript 
+src="How to delete Transaction Log_files/base5.js"></SCRIPT>
+
+<SCRIPT language=javaScript 
+src="How to delete Transaction Log_files/dialog_utf8.js"></SCRIPT>
+
+<SCRIPT language=javaScript 
+src="How to delete Transaction Log_files/mail.js"></SCRIPT>
+
+<SCRIPT language=javascript 
+src="How to delete Transaction Log_files/article.js"></SCRIPT>
+
+<SCRIPT src="How to delete Transaction Log_files/index_1_down.js"></SCRIPT>
+
+<SCRIPT>
+var thistid=122647;
+</SCRIPT>
+
+<META content="MSHTML 6.00.2900.6036" name=GENERATOR></HEAD>
+<BODY>
+<DIV class=top>
+<DIV class=top_nav>
+<DIV class=top_nav_logo title="51CTO.COM - 技术成就梦想 -  中国领先的IT技术网站"></DIV>
+<DIV class=top_nav_r><A href="http://www.51cto.com/">51CTO首页</A> | <A 
+href="http://news.51cto.com/">新闻</A> | <A 
+href="http://www.51cto.com/col/35">专题</A> | <A 
+href="http://bbs.51cto.com/">论坛</A> | <A href="http://blog.51cto.com/">博客</A> | 
+<A href="http://down.51cto.com/">下载</A> | <A href="http://g.51cto.com/">技术圈</A> 
+| <A href="http://book.51cto.com/">读书</A> | <A class=top_nav_r1 
+onmouseover=show(1,this) onmouseout=popupClose() 
+href="http://www.51cto.com/col/35/">技术频道 </A>| <A 
+href="http://www.cioage.com/">CIO </A>| <A href="http://www.watchstor.com/">存储 
+</A>| <A href="http://www.hc3i.cn/">HC3i </A>| <A 
+href="http://www.51cto.com/about/map.htm">地图</A> | </DIV></DIV></DIV>
+<DIV class=subMenu1 id=s1 onmouseover=popupNoClose() onmouseout=popupClose()>
+<UL>
+  <LI><A href="http://network.51cto.com/">组网</A> 
+  <LI><A href="http://netsecurity.51cto.com/">安全</A> 
+  <LI><A href="http://developer.51cto.com/">开发</A> 
+  <LI><A href="http://database.51cto.com/">数据库</A> 
+  <LI><A href="http://server.51cto.com/">服务器</A> 
+  <LI><A href="http://os.51cto.com/">系统</A> 
+  <LI><A href="http://virtual.51cto.com/">虚拟化</A> 
+  <LI><A href="http://cloud.51cto.com/">云计算</A> 
+  <LI><A href="http://developer.51cto.com/embed/">嵌入式</A> </LI></UL></DIV>
+<DIV class=banner>
+<DIV class=banner_l id=tonglanad></DIV>
+<DIV class=banner_r>
+<UL>
+  <LI id=wordlinkad1>
+  <LI id=wordlinkad2>
+  <LI id=wordlinkad3>
+  <LI id=wordlinkad4></LI></UL></DIV></DIV>
+<DIV class=subNav>
+<DIV class=subNav_logo><IMG 
+src="How to delete Transaction Log_files/shujuku_logo.gif"></DIV>
+<DIV class=subNav_l><A href="http://database.51cto.com/" target=_blank>首页</A> | 
+<A href="http://database.51cto.com/col/579/" target=_blank>新闻</A> | <A 
+href="http://database.51cto.com/col/477/" target=_blank>Oracle</A> | <A 
+href="http://database.51cto.com/col/478/" target=_blank>DB2</A> | <A 
+href="http://database.51cto.com/col/480/" target=_blank>SQL Server</A> | <A 
+href="http://database.51cto.com/col/484/" target=_blank>MySQL</A> | <A 
+href="http://database.51cto.com/col/589/" target=_blank>企业应用</A> | <A 
+href="http://database.51cto.com/col/587/" target=_blank>数据库开发</A> | <A 
+href="http://database.51cto.com/col/578/" target=_blank>教程</A> | <A 
+href="http://publish.51cto.com/list/475/" target=_blank>全部文章</A></DIV>
+<DIV class=subNav_r>
+<FORM 
+style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px" 
+name=searchform action=http://www.51cto.com/php/search.php method=post>
+<DIV class=subNav_r_l><INPUT class=text name=keyword></DIV>
+<DIV class=subNav_r_BTn><INPUT type=image height=24 width=50 
+src="How to delete Transaction Log_files/BTn_so.gif"></DIV></FORM></DIV></DIV>
+<DIV class=wrap>
+<DIV class=m_l>
+<DIV class=m_l_menu>您所在的位置： <A href="http://www.51cto.com/" target=_blank>首页</A> 
+&gt; <A href="http://database.51cto.com/">数据库</A> &gt; <A 
+href="http://database.51cto.com/col/589/">数据库管理</A> &gt; </DIV>
+<DIV class=m_l_cont>
+<DIV class=m_l_cont_title>
+<H3>讲解删除SQL Server日志的具体方法</H3></DIV>
+<DIV class=m_l_cont_note><A 
+href="http://database.51cto.com/">http://database.51cto.com/</A> 
+&nbsp;2009-05-06 14:03 &nbsp;李海军 &nbsp;blog.stnn.cc &nbsp;<A 
+href="http://www.51cto.com/php/feedbackt.php?id=122647">我要评论(<SPAN 
+id=feedback>0</SPAN>)</A></DIV>
+<DIV class=m_l_cont_note1>
+<UL>
+  <LI><SPAN class=fa>摘要：</SPAN>作者总结了自己是如何删除SQL 
+  Server日志的，主要方法是先分离数据库，删除log文件等等，以避免log文件无限制增长直到占满空间的问题。 
+  <LI><SPAN class=fa>标签：</SPAN><A 
+  href="http://www.51cto.com/php/search.php?keyword=SQL%20Server" 
+  target=_blank>SQL Server</A>&nbsp;&nbsp;<A 
+  href="http://www.51cto.com/php/search.php?keyword=%C8%D5%D6%BE" 
+  target=_blank>日志</A>&nbsp;&nbsp;<A 
+  href="http://www.51cto.com/php/search.php?keyword=log" target=_blank>log</A> 
+  <LI class=m_l_cont_note1_r>
+  <SCRIPT src="How to delete Transaction Log_files/keywords_ad.js"></SCRIPT>
+  </LI></UL></DIV>
+<DIV class=m_l_cont_text>
+<P>
+<P>
+<P>SQL Server 的每一个数据库，无论是系统数据库（master,model, sybsystemprocs, 
+tempdb），还是用户数据库，都有自己的transaction log，每个库都有syslogs表。Log记录用户对数据库修改的操作，所以如果不用命令清除， 
+log会一直增长直至占满空间。清除log可用dump transaction 命令；或者开放数据库选项trunc log on 
+chkpt，数据库会每隔一段间隔自动清除log。管理好数据库log是用户操作数据库必须考虑的一面。 </P>
+<P><STRONG>一、删除LOG</STRONG> </P>
+<P>1：分离数据库 企业管理器－＞服务器－＞数据库－＞右键－＞分离数据库 </P>
+<P>2：删除LOG文件 </P>
+<P>3：附加数据库 企业管理器－＞服务器－＞数据库－＞右键－＞附加数据库 </P>
+<P>此法生成新的LOG，大小只有520多K </P>
+<P>再将此数据库设置自动收缩 </P>
+<P>或用代码： </P>
+<P>下面的示例分离 77169database，然后将 77169database 中的一个文件附加到当前服务器。 </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>EXEC sp_detach_db @dbname = '77169database' <P></P><P>EXEC sp_attach_single_file_db @dbname = '77169database',</P><P>@physname = 'c:\Program Files\Microsoft SQL Server\MSSQL\Data\77169database.mdf' </P></PRE></TD></TR></TBODY></TABLE></P>
+<P><STRONG>二、清空日志</STRONG> </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>DUMP TRANSACTION 库名 WITH NO_LOG </PRE></TD></TR></TBODY></TABLE></P>
+<P>再操作： </P>
+<P>企业管理器--右键你要压缩的数据库--所有任务--收缩数据库--收缩文件--选择日志文件--在收缩方式里选择收缩至XXM,这里会给出一个允许收缩到的最小M数,直接输入这个数,确定就可以了 
+</P>
+<P><STRONG>三、如果想以后不让它增长</STRONG> </P>
+<P>企业管理器－＞服务器－＞数据库－＞属性－＞事务日志－＞将文件增长限制为2M </P>
+<P>自动收缩日志,也可以用下面这条语句: </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>ALTER DATABASE 数据库名 <P></P><P>SET AUTO_SHRINK ON </P></PRE></TD></TR></TBODY></TABLE></P>
+<P>故障还原模型改为简单,用语句是: </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>USE MASTER <P></P><P>GO 
+</P><P>ALTER DATABASE 数据库名 SET RECOVERY SIMPLE 
+</P><P>GO 
+</P><P>------------------------------------------ 
+</P><P><BR>截断事务日志： 
+</P><P><BR>BACKUP LOG { database_name | @database_name_var }</P><P>{ 
+</P><P>[ WITH 
+</P><P>{ NO_LOG | TRUNCATE_ONLY } ] 
+</P><P>} 
+</P><P><BR>--压缩日志及数据库文件大小 
+</P><P><BR>/*--特别注意 
+</P><P>请按步骤进行,未进行前面的步骤,请不要做后面的步骤，否则可能损坏你的数据库. 
+</P><P>--*/</P></PRE></TD></TR></TBODY></TABLE></P>
+<P><STRONG><EM>1.清空日志</EM></STRONG> </P>
+<P>DUMP TRANSACTION 库名 WITH NO_LOG </P>
+<P><STRONG><EM>2.截断事务日志：</EM></STRONG> </P>
+<P>BACKUP LOG 数据库名 WITH NO_LOG </P>
+<P><STRONG><EM>3.收缩数据库文件</EM></STRONG>(如果不压缩,数据库的文件不会减小 </P>
+<P>企业管理器--右键你要压缩的数据库--所有任务--收缩数据库--收缩文件 </P>
+<P>--选择日志文件--在收缩方式里选择收缩至XXM,这里会给出一个允许收缩到的最小M数,直接输入这个数,确定就可以了 </P>
+<P>--选择数据文件--在收缩方式里选择收缩至XXM,这里会给出一个允许收缩到的最小M数,直接输入这个数,确定就可以了 </P>
+<P>也可以用SQL语句来完成 </P>
+<P>--收缩数据库 </P>
+<P>DBCC SHRINKDATABASE(客户资料) </P>
+<P><BR>--收缩指定数据文件,1是文件号,可以通过这个语句查询到: </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>select * from sysfiles <P></P>
+<P>DBCC SHRINKFILE(1) </P></PRE></TD></TR></TBODY></TABLE></P>
+<P><STRONG><EM>4.为了最大化的缩小日志文件</EM></STRONG>(如果是sql 7.0,这步只能在查询分析器中进行) </P>
+<P>a.分离数据库: </P>
+<P>企业管理器--服务器--数据库--右键--分离数据库 </P>
+<P>b.在我的电脑中删除LOG文件 </P>
+<P>c.附加数据库: </P>
+<P>企业管理器--服务器--数据库--右键--附加数据库 此法将生成新的LOG，大小只有500多K </P>
+<P>或用代码： </P>
+<P>下面的示例分离 77169database，然后将 77169database 中的一个文件附加到当前服务器。 </P>
+<P>a.分离 </P>
+<P>EXEC sp_detach_db @dbname = '77169database' </P>
+<P>b.删除日志文件 </P>
+<P>c.再附加 </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>EXEC sp_attach_single_file_db @dbname = '77169database', <P></P>
+<P>@physname = 'c:\Program Files\Microsoft SQL Server\MSSQL\Data\77169database.mdf' </P></PRE></TD></TR></TBODY></TABLE></P>
+<P><STRONG><EM>5.为了以后能自动收缩,做如下设置:</EM></STRONG> </P>
+<P>企业管理器--服务器--右键数据库--属性--选项--选择"自动收缩" </P>
+<P>--SQL语句设置方式: </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>EXEC sp_dboption '数据库名', 'autoshrink', 'TRUE' </PRE></TD></TR></TBODY></TABLE></P>
+<P><STRONG><EM>6.如果想以后不让它日志增长得太大</EM></STRONG> </P>
+<P>企业管理器--服务器--右键数据库--属性--事务日志 </P>
+<P>--将文件增长限制为xM(x是你允许的最大数据文件大小) </P>
+<P>--SQL语句的设置方式: </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>alter database 数据库名 modify file(name=逻辑文件名,maxsize=20) <P></P><P>-------------------------------------------------------------- 
+</P><P>/*--压缩数据库的通用存储过程 
+</P><P><BR>压缩日志及数据库文件大小，因为要对数据库进行分离处理，所以存储过程不能创建在被压缩的数据库中。 
+</P><P><BR>/*--调用示例 
+</P><P>exec p_compdb 'test' 
+</P><P>--*/ <BR>use master --注意,此存储过程要建在master数据库中
+</P><P>go <BR>if exists (select * from dbo.sysobjects where id </P><P>= object_id(N'[dbo].[p_compdb]') and OBJECTPROPERTY(id, N'IsProcedure') = 1) </P><P>drop procedure [dbo].[p_compdb] 
+</P><P>GO <BR>create proc p_compdb 
+</P><P>@dbname sysname, --要压缩的数据库名 
+</P><P>@bkdatabase bit=1, --因为分离日志的步骤中,可能会损坏数据库,所以你可以选择是否自动数据库 
+</P><P>@bkfname nvarchar(260)='' --备份的文件名,如果不指定,自动备份到默认备份目录,</P><P>备份文件名为:数据库名+日期时间 
+</P><P>as</P></PRE></TD></TR></TBODY></TABLE></P>
+<P>--1.清空日志 </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>exec('DUMP TRANSACTION ['+@dbname+'] WITH NO_LOG')</PRE></TD></TR></TBODY></TABLE></P>
+<P>--2.截断事务日志： </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>exec('BACKUP LOG ['+@dbname+'] WITH NO_LOG')</PRE></TD></TR></TBODY></TABLE></P>
+<P>--3.收缩数据库文件(如果不压缩,数据库的文件不会减小 </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>exec('DBCC SHRINKDATABASE(['+@dbname+'])') </PRE></TD></TR></TBODY></TABLE></P>
+<P>--4.设置自动收缩 </P>
+<P>
+<TABLE cellSpacing=0 borderColorDark=#ffffff cellPadding=2 width=400 
+align=center borderColorLight=#999999 border=1>
+  <TBODY>
+  <TR>
+    <TD class=code bgColor=#e6e6e6><PRE>exec('EXEC sp_dboption '''+@dbname+''',''autoshrink'',''TRUE''') </PRE></TD></TR></TBODY></TABLE></P>
+<P>--后面的步骤有一定危险,你可以可以选择是否应该这些步骤 </P>
+<P>--5.分离数据库 </P>
+<P>
+<DIV align=center>
+<DIV 
+style="BORDER-RIGHT: #cccccc 1px solid; PADDING-RIGHT: 0px; BORDER-TOP: #cccccc 1px solid; PADDING-LEFT: 10px; PADDING-BOTTOM: 6px; MARGIN-LEFT: auto; OVERFLOW: auto; BORDER-LEFT: #cccccc 1px solid; WIDTH: 517px; MARGIN-RIGHT: auto; PADDING-TOP: 0px; BORDER-BOTTOM: #cccccc 1px solid; HEIGHT: 166px">
+<P align=left>
+<DIV align=left><PRE>if @bkdatabase=1 <P></P><P>begin 
+</P><P>if isnull(@bkfname,'')='' 
+</P><P>set @bkfname=@dbname+'_'+convert(varchar,getdate(),112) 
+</P><P>+replace(convert(varchar,getdate(),108),':','') 
+</P><P>select 提示信息='备份数据库到SQL 默认备份目录,备份文件名:'+@bkfname 
+</P><P>exec('backup database ['+@dbname+'] to disk='''+@bkfname+'''') 
+</P><P>end 
+</P><P><BR>--进行分离处理 
+</P><P>create table #t(fname nvarchar(260),type int) 
+</P><P>exec('insert into #t select filename,type=status&amp;0x40 from ['+@dbname+']..sysfiles') 
+</P><P>exec('sp_detach_db '''+@dbname+'''') 
+</P><P><BR>--删除日志文件 
+</P><P>declare @fname nvarchar(260),@s varchar(8000) 
+</P><P>declare tb cursor local for select fname from #t where type=64 
+</P><P>pen tb 
+</P><P>fetch next from tb into @fname 
+</P><P>while @@fetch_status=0 
+</P><P>begin 
+</P><P>set @s='del "'+rtrim(@fname)+'"' 
+</P><P>exec master..xp_cmdshell @s,no_output 
+</P><P>fetch next from tb into @fname 
+</P><P>end 
+</P><P>close tb 
+</P><P>deallocate tb 
+</P><P><BR>--附加数据库 
+</P><P>set @s='' 
+</P><P>declare tb cursor local for select fname from #t where type=0 
+</P><P>open tb 
+</P><P>fetch next from tb into @fname
+</P><P>while @@fetch_status=0 
+</P><P>begin 
+</P><P>set @s=@s+','''+rtrim(@fname)+'''' 
+</P><P>fetch next from tb into @fname 
+</P><P>end 
+</P><P>close tb 
+</P><P>deallocate tb 
+</P><P>exec('sp_attach_single_file_db '''+@dbname+''''+@s) 
+</P><P>go</P></PRE></DIV>
+<P align=left></P></DIV></DIV>
+<P>【编辑推荐】</P>
+<OL>
+  <LI><A href="http://database.51cto.com/art/200512/13116.htm" 
+  target=_blank><FONT size=+0>SQL Server非正常删除日志文件（ldf）恢复方法</FONT></A> 
+  <LI><A href="http://database.51cto.com/art/200904/121763.htm" 
+  target=_blank><FONT size=+0>SQL Server群集的几个关键技巧</FONT></A> 
+  <LI><A href="http://database.51cto.com/art/200904/121636.htm" 
+  target=_blank><FONT size=+0>详解升级到SQL Server 2008的步骤</FONT></A><A 
+  href="http://developer.51cto.com/art/200902/110254.htm"> </A></LI></OL>
+<DIV align=right>【责任编辑：<A class=ln href="mailto:pengfan@51cto.com">彭凡</A> 
+TEL：（010）68476606】</DIV><BR></DIV></DIV>
+<DIV class=m_l_cont_tips>上一篇： <A 
+href="http://database.51cto.com/art/200905/122601.htm" 
+target=_self>浅谈Oracle中的物化视图</A> 下一篇： <A 
+href="http://database.51cto.com/art/200905/122655.htm" 
+target=_self>利用函数解决DB2中日期时间问题</A></DIV>
+<DIV class=m_l_list>
+<DIV class=m_l_list_l>
+<UL>
+  <LI class=m_l_list_l1><IMG height=9 
+  src="How to delete Transaction Log_files/ico1.gif" width=5> 相关文章 
+  <LI>·<A title=警惕数据库自增长导致系统宕机 
+  href="http://database.51cto.com/art/200903/114366.htm">警惕数据库自增长导致系统宕机</A>
+  <LI>·<A title="Sybase SQL Server日志问题普及" 
+  href="http://database.51cto.com/art/200901/105037.htm">Sybase SQL 
+  Server日志问题普及</A>
+  <LI>·<A title=Liunx系统的LOG日志文件 
+  href="http://os.51cto.com/art/200711/61187.htm">Liunx系统的LOG日志文件</A>
+  <LI>·<A title="如何维护SQL Server的交易日志" 
+  href="http://database.51cto.com/art/200711/60240.htm">如何维护SQL Server的交易日志</A>
+  <LI>·<A title="1.5.2 日志备份传送" 
+  href="http://book.51cto.com/art/200710/57890.htm">1.5.2 日志备份传送</A> 
+</LI></UL></DIV>
+<DIV class=m_l_list_r>
+<UL>
+  <LI class=m_l_list_r1><IMG height=9 
+  src="How to delete Transaction Log_files/ico1.gif" width=5> 频道热门 
+  <LI>·<A title="抛弃关系数据库 PHP程序员应了解MongoDB的五件事" 
+  href="http://database.51cto.com/art/201003/187379.htm">抛弃关系数据库 
+  PHP程序员应了解MongoDB的五件..</A> 
+  <LI>·<A title="MySQL等开源数据库受热捧 传统数据库何去何从" 
+  href="http://database.51cto.com/art/201003/187517.htm">MySQL等开源数据库受热捧 
+  传统数据库何去何从</A> 
+  <LI>·<A title="详解Oracle RAC在Linux下的安装" 
+  href="http://database.51cto.com/art/201003/186231.htm">详解Oracle 
+  RAC在Linux下的安装</A> 
+  <LI>·<A title="SQL Server 2008行数据和页数据压缩解密" 
+  href="http://database.51cto.com/art/201003/186664.htm">SQL Server 
+  2008行数据和页数据压缩解密</A> 
+  <LI>·<A title=实例讲解.NET应用访问数据库的开销问题 
+  href="http://database.51cto.com/art/201003/187274.htm">实例讲解.NET应用访问数据库的开销问题</A> 
+  </LI></UL></DIV></DIV>
+<DIV class=m_l_list_hot>
+<DIV class=m_l_list_hot1><A title="SQL Server 2008深度应用" 
+href="http://database.51cto.com/art/200904/120687.htm"><IMG height=80 
+alt="SQL Server 2008深度应用" 
+src="How to delete Transaction Log_files/151013836.jpg" width=100 
+border=0></A></DIV>
+<DIV class=m_l_list_hot1><A title="深入SQL Server 2008" 
+href="http://database.51cto.com/art/200808/85823.htm"><IMG height=80 
+alt="深入SQL Server 2008" src="How to delete Transaction Log_files/smallsql.jpg" 
+width=100 border=0></A></DIV>
+<DIV class=m_l_list_hot1><A title=系统应用日志分析管理 
+href="http://os.51cto.com/art/200712/62417.htm"><IMG height=80 alt=系统应用日志分析管理 
+src="How to delete Transaction Log_files/155546532.gif" width=100 
+border=0></A></DIV>
+<DIV class=m_l_list_hot1><A title="SQL Server 2008/2005全解" 
+href="http://database.51cto.com/art/200602/21558.htm"><IMG height=80 
+alt="SQL Server 2008/2005全解" 
+src="How to delete Transaction Log_files/162545930.gif" width=100 
+border=0></A></DIV>
+<DIV class=m_l_list_hot1><A title="SQL Server入门到精通" 
+href="http://database.51cto.com/art/200511/12708.htm"><IMG height=80 
+alt="SQL Server入门到精通" src="How to delete Transaction Log_files/164912453.jpg" 
+width=100 border=0></A></DIV></DIV>
+<DIV class=m_l_comm>
+<DIV class=m_l_comm_l><A 
+href="http://www.51cto.com/php/feedbackt.php?id=122647"><SPAN 
+class=m_l_comm_l1>查看所有评论</SPAN></A>(<SPAN class=fd 
+id=pinglun2></SPAN>)</DIV></DIV>
+<DIV class=m_l_Comments id=artcomments>
+<TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#dadada border=0>
+  <SCRIPT src="How to delete Transaction Log_files/artcomment.htm"></SCRIPT>
+
+  <TBODY></TBODY></TABLE></DIV>
+<DIV class=m_l_Comments1>
+<DIV>
+<SCRIPT src="How to delete Transaction Log_files/authart.htm"></SCRIPT>
+</DIV>
+<SCRIPT src="How to delete Transaction Log_files/nomal.htm"></SCRIPT>
+</DIV></DIV></DIV>
+<DIV class=m_r>
+<DIV class=m_r_news><SPAN class=m_r_news_l>
+<H2><A href="http://database.51cto.com/click/589">频道推荐</A></H2></SPAN><SPAN 
+class=m_r_news_r><A 
+href="http://database.51cto.com/click/589">更多&gt;&gt;</A></SPAN></DIV>
+<DIV class=m_r_news_list>
+<UL>
+  <LI>·<A title="抛弃关系数据库 PHP程序员应了解MongoDB的五件事" 
+  href="http://database.51cto.com/art/201003/187379.htm">抛弃关系数据库 
+  PHP程序员应了解MongoDB的五件..</A> 
+  <LI>·<A title="MySQL等开源数据库受热捧 传统数据库何去何从" 
+  href="http://database.51cto.com/art/201003/187517.htm">MySQL等开源数据库受热捧 
+  传统数据库何去何从</A> 
+  <LI>·<A title="详解Oracle RAC在Linux下的安装" 
+  href="http://database.51cto.com/art/201003/186231.htm">详解Oracle 
+  RAC在Linux下的安装</A> </LI></UL></DIV>
+<DIV class=m_r_banner id=hzhad>
+<SCRIPT language=JavaScript 
+src="How to delete Transaction Log_files/ad.js"></SCRIPT>
+</DIV><!--here-->
+<DIV class=m_r_news><SPAN class=m_r_news_l>
+<H2><A href="http://www.51cto.com/">热点标签</A></H2></SPAN><SPAN 
+class=m_r_news_r></SPAN></DIV>
+<DIV class=m_r_news_list><A title=刀片服务器专区 href="http://server.51cto.com/Blade" 
+target=_blank>刀片服务器</A>&nbsp;&nbsp; <A title=云计算频道全新上线 
+href="http://cloud.51cto.com/" target=_blank>云计算</A>&nbsp;&nbsp; <A 
+title=ARP攻击与防御 href="http://netsecurity.51cto.com/art/200609/31897.htm" 
+target=_blank>ARP攻防</A>&nbsp;&nbsp; <A title=思科培训技术专区 
+href="http://training.51cto.com/cisco" target=_blank>思科培训</A>&nbsp;&nbsp; </DIV>
+<DIV class=m_r_news><SPAN class=m_r_news_l>
+<H2><A href="http://www.51cto.com/">全站热点</A></H2></SPAN><SPAN 
+class=m_r_news_r><A href="http://www.51cto.com/">更多&gt;&gt;</A></SPAN></DIV>
+<DIV class=m_r_news_im>
+<DIV class=m_r_news_im_l>
+<DIV class=m_r_news_im_l1><A title=ARP攻击防范与解决方案 
+href="http://netsecurity.51cto.com/art/200609/31897.htm"><IMG height=80 
+alt=ARP攻击防范与解决方案 src="How to delete Transaction Log_files/110058602.jpg" 
+width=100></A></DIV>
+<DIV class=m_r_news_im_l2><A title=ARP攻击防范与解决方案 
+href="http://netsecurity.51cto.com/art/200609/31897.htm">ARP攻击防范与..</A></DIV></DIV>
+<DIV class=m_r_news_im_r>
+<DIV class=m_r_news_im_l1><A title=2009年下半年软考最新试题与答案 
+href="http://training.51cto.com/art/200804/71335.htm"><IMG height=80 
+alt=2009年下半年软考最新试题与答案 src="How to delete Transaction Log_files/164504232.jpg" 
+width=100></A></DIV>
+<DIV class=m_r_news_im_l2><A title=2009年下半年软考最新试题与答案 
+href="http://training.51cto.com/art/200804/71335.htm">2009年下半年..</A></DIV></DIV></DIV>
+<DIV class=m_r_news_list>
+<UL>
+  <LI>·<A title="黑客日薪一万二 IT企业受苦难" 
+  href="http://netsecurity.51cto.com/art/201003/187429.htm">黑客日薪一万二 IT企业受苦难</A> 
+  <LI>·<A title=2010年3月编程语言排行榜：Fortran归来 
+  href="http://developer.51cto.com/art/201003/187414.htm">2010年3月编程语言排行榜：Fortran归来</A> 
+
+  <LI>·<A title="上海家庭用户宽带将免费升速至2M 谁得到了实惠" 
+  href="http://network.51cto.com/art/201003/186245.htm">上海家庭用户宽带将免费升速至2M 
+  谁得到了实惠</A> 
+  <LI>·<A title=寻找成为开发高手的密匙 
+  href="http://developer.51cto.com/art/201003/186170.htm">寻找成为开发高手的密匙</A> 
+  <LI>·<A title="IDC：服务器OS逆转 Windows击败Linux" 
+  href="http://os.51cto.com/art/201003/186761.htm">IDC：服务器OS逆转 
+  Windows击败Linux</A> </LI></UL></DIV>
+<DIV class=m_r_news><SPAN class=m_r_news_l>
+<H2><A href="http://fellow.51cto.com/">技术人</A></H2></SPAN><SPAN 
+class=m_r_news_r><A href="http://fellow.51cto.com/">更多&gt;&gt;</A></SPAN></DIV>
+<DIV class=m_r_news_im>
+<DIV class=m_r_news_im_l>
+<DIV class=m_r_news_im_l1><A title=Junos：网络工程师必选的认证 
+href="http://training.51cto.com/art/200912/170996.htm"><IMG height=80 
+src="How to delete Transaction Log_files/155404548.jpg" width=100 
+border=0></A></DIV>
+<DIV class=m_r_news_im_l2><A title=Junos：网络工程师必选的认证 
+href="http://training.51cto.com/art/200912/170996.htm">Junos：网络工程..</A></DIV></DIV>
+<DIV class=m_r_news_im_r>
+<DIV class=m_r_news_im_l1><A title="IT十大死对头：Linux单挑Windows 谷歌对抗所有人" 
+href="http://fellow.51cto.com/art/200907/140965.htm"><IMG height=80 
+src="How to delete Transaction Log_files/172755665.jpg" width=100 
+border=0></A></DIV>
+<DIV class=m_r_news_im_l2><A title="IT十大死对头：Linux单挑Windows 谷歌对抗所有人" 
+href="http://fellow.51cto.com/art/200907/140965.htm">IT十大死对头：L..</A></DIV></DIV></DIV>
+<DIV class=m_r_news_list>
+<UL>
+  <LI>·<A title="苏州IT代工企业大幅加薪 用工荒3月将缓解" 
+  href="http://fellow.51cto.com/art/201003/186234.htm">苏州IT代工企业大幅加薪 用工荒3月将缓解</A> 
+
+  <LI>·<A title="微软81%员工喜欢目前工作 1/3欲离开IT业" 
+  href="http://job.51cto.com/art/201003/187511.htm">微软81%员工喜欢目前工作 1/3欲离开IT业</A> 
+  <LI>·<A title="[第148期] 从细微处做起 全面打造系统安全" 
+  href="http://training.51cto.com/art/201003/187424.htm">[第148期] 从细微处做起 
+  全面打造系统安全</A> 
+  <LI>·<A title=华为总裁任正非：让听得见炮声的人决策 
+  href="http://fellow.51cto.com/art/201003/186238.htm">华为总裁任正非：让听得见炮声的人决策</A> 
+  <LI>·<A title=微软张亚勤谈谷歌事件:成熟企业须有长远眼光 
+  href="http://fellow.51cto.com/art/201003/186675.htm">微软张亚勤谈谷歌事件:成熟企业须有长远眼光</A> 
+  </LI></UL></DIV>
+<DIV class=m_r_news><SPAN class=m_r_news_l>
+<H2><A href="http://book.51cto.com/">读书</A></H2></SPAN><SPAN class=m_r_news_r><A 
+href="http://book.51cto.com/">更多&gt;&gt;</A></SPAN></DIV>
+<DIV class=m_r_book_im>
+<DIV class=m_r_book_im_l><A title=高效程序员的45个习惯：敏捷开发修炼之道 
+href="http://book.51cto.com/art/201003/186171.htm"><IMG height=144 
+src="How to delete Transaction Log_files/084534992.gif" width=98 
+border=0></A></DIV>
+<DIV class=m_r_book_im_r>
+<UL>
+  <LI>
+  <H2><A 
+  href="http://book.51cto.com/art/201003/186171.htm">高效程序员的45个习惯：敏捷开发修炼之道</A></H2>
+  <LI>作者：钱安川 郑柯 译 
+  <LI class=m_r_book_im_r1>本书总结并生动地阐述了成为高效的开发人员所需具备的 
+  45个习惯、思想观念和方法，涵盖了软件开发进程、编程和调试工作、开发者..</LI></UL></DIV></DIV>
+<DIV class=m_r_news_list>
+<UL>
+  <LI>·<A title=实用IT英语 
+  href="http://book.51cto.com/art/201002/185076.htm">实用IT英语</A> 
+  <LI>·<A title=Java程序员职场全攻略：从小工到专家 
+  href="http://book.51cto.com/art/201003/185912.htm">Java程序员职场全攻略：从小工到专家</A> 
+  <LI>·<A title=高效程序员的45个习惯：敏捷开发修炼之道 
+  href="http://book.51cto.com/art/201003/186171.htm">高效程序员的45个习惯：敏捷开发修炼之道</A> 
+  <LI>·<A title=设计模式之禅 
+  href="http://book.51cto.com/art/201002/184613.htm">设计模式之禅</A> </LI></UL></DIV>
+<DIV class=m_r_news><SPAN class=m_r_news_l>
+<H2><A href="http://blog.51cto.com/">优秀博文</A></H2></SPAN><SPAN 
+class=m_r_news_r><A href="http://blog.51cto.com/">更多&gt;&gt;</A></SPAN></DIV>
+<DIV class=m_r_news_list>
+<UL>
+  <SCRIPT src="How to delete Transaction Log_files/art_blog.htm"></SCRIPT>
+</UL></DIV>
+<DIV class=m_r_news><SPAN class=m_r_news_l>
+<H2><A href="http://bbs.51cto.com/hotthreads.php">最新热帖</A></H2></SPAN><SPAN 
+class=m_r_news_r><A 
+href="http://bbs.51cto.com/hotthreads.php">更多&gt;&gt;</A></SPAN></DIV>
+<DIV class=m_r_news_list>
+<UL>
+  <SCRIPT src="How to delete Transaction Log_files/art_bbshot.htm"></SCRIPT>
+</UL></DIV>
+<DIV class=m_r_news>
+<H2><A href="http://www.51cto.com/col/1323/">技术快讯</A></H2></DIV>
+<FORM 
+style="PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px" 
+onsubmit="return mail_process(email.value)" 
+action=http://newsletter.51cto.com/newsletter/mail.php method=post>
+<DIV class=m_r_Alerts>
+<DIV class=m_r_Alerts1><INPUT class=test1 onfocus=this.select() 
+onclick="this.value=''" name=email><INPUT type=hidden name=mailsub> </DIV>
+<DIV class=m_r_Alerts2><A href="http://www.51cto.com/col/1323/">查看样刊</A> </DIV>
+<DIV class=m_r_Alerts3><INPUT onclick="mailsub.value='ding'" type=image 
+height=18 width=40 src="How to delete Transaction Log_files/dingyue.gif" 
+value=ding> </DIV>
+<DIV class=m_r_Alerts3><INPUT onclick="mailsub.value='tui'" type=image height=18 
+width=40 src="How to delete Transaction Log_files/tuiding.gif" value=tui> 
+</DIV></DIV></FORM><!--here-->
+<CENTER style="PADDING-BOTTOM: 4px"><IFRAME 
+src="How to delete Transaction Log_files/9.htm" frameBorder=0 width=300 
+height=250></IFRAME></CENTER></DIV>
+<DIV class=cle></DIV>
+<DIV></DIV>
+<DIV class=foot>
+<SCRIPT src="How to delete Transaction Log_files/copy_right.js"></SCRIPT>
+</DIV><SPAN id=pinglunnum>
+<SCRIPT language=JavaScript 
+src="How to delete Transaction Log_files/getArtCount.htm"></SCRIPT>
+</SPAN>
+<SCRIPT>
+	document.getElementById('feedback').innerHTML=document.getElementById('pinglunnum').innerHTML;
+	document.getElementById('pinglun2').innerHTML=document.getElementById('pinglunnum').innerHTML;
+	document.getElementById('pinglunnum').innerHTML="";
+	document.getElementById('feedback').innerHTML = trim(document.getElementById('feedback').innerHTML);
+	//去左空格; 
+	function ltrim(s){ 
+		return s.replace( /^\s*/, ""); 
+	} 
+	//去右空格; 
+	function rtrim(s){ 
+		return s.replace( /\s*$/, ""); 
+	} 
+	//去左右空格; 
+	function trim(s){ 
+		return rtrim(ltrim(s)); 
+	}
+	function refimg(){
+		var randval = Math.random();
+		document.getElementById('secunum').src='http://www.51cto.com/php/seccode.php?rnum='+randval;
+	}
+</SCRIPT>
+<IFRAME src="D:\Notes\SQLServer\How to delete Transaction Log_files\9(1).htm" 
+frameBorder=0 width=0 scrolling=no height=0></IFRAME>
+<DIV style="DISPLAY: none"><SPAN id=wordlink_1>
+<SCRIPT src="How to delete Transaction Log_files/wordlink1.js"></SCRIPT>
+</SPAN><SPAN id=wordlink_2>
+<SCRIPT src="How to delete Transaction Log_files/wordlink2.js"></SCRIPT>
+</SPAN><SPAN id=wordlink_3>
+<SCRIPT src="How to delete Transaction Log_files/wordlink3.js"></SCRIPT>
+</SPAN><SPAN id=wordlink_4>
+<SCRIPT src="How to delete Transaction Log_files/wordlink4.js"></SCRIPT>
+</SPAN>
+<SCRIPT 
+src="D:\Notes\SQLServer\How to delete Transaction Log_files\ad(1).js"></SCRIPT>
+<SPAN id=tonglan>
+<SCRIPT language=JavaScript 
+src="D:\Notes\SQLServer\How to delete Transaction Log_files\ad(2).js"></SCRIPT>
+</SPAN><SPAN id=wordlink>
+<SCRIPT language=JavaScript 
+src="D:\Notes\SQLServer\How to delete Transaction Log_files\ad(1).js"></SCRIPT>
+</SPAN></DIV>
+<SCRIPT>
+	document.getElementById('tonglanad').innerHTML=document.getElementById('tonglan').innerHTML;
+    document.getElementById('tonglan').innerHTML="";
+</SCRIPT>
+
+<SCRIPT src="How to delete Transaction Log_files/count.js"></SCRIPT>
+
+<SCRIPT language=javascript 
+src="How to delete Transaction Log_files/count.htm"></SCRIPT>
+</BODY></HTML>

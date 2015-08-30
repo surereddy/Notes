@@ -1,0 +1,103 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0780)http://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-7825705102693166&output=html&h=60&slotname=0179538809&w=468&lmt=1288592041&flash=10.0.32.18&url=http%3A%2F%2Fwww.cyberciti.biz%2Ffaq%2Flinux-force-fsck-on-the-next-reboot-or-boot-sequence%2F&dt=1288592041567&shv=r20101027&jsv=r20101028_2&correlator=1288592041567&jscb=1&frm=0&adk=691933646&ga_vid=1148662686.1288592042&ga_sid=1288592042&ga_hid=429260186&ga_fc=0&u_tz=480&u_his=0&u_java=1&u_h=864&u_w=1152&u_ah=800&u_aw=1152&u_cd=32&u_nplug=0&u_nmime=0&biw=1131&bih=634&ref=http%3A%2F%2Fwww.google.com.hk%2Fsearch%3Fhl%3Dzh-CN%26newwindow%3D1%26safe%3Dstrict%26q%3DHow%2Bto%2Brun%2Bfsck%2Bon%2Bbooting%26meta%3D%26aq%3Do%26aqi%3D%26aql%3D%26oq%3D%26gs_rfai%3D&fu=0&ifi=1&dtd=16&xpc=VBTyp3Q5jZ&p=http%3A//www.cyberciti.biz -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<STYLE>A:link {
+	COLOR: #000000
+}
+A:visited {
+	COLOR: #000000
+}
+A:hover {
+	COLOR: #000000
+}
+A:active {
+	COLOR: #000000
+}
+</STYLE>
+
+<SCRIPT><!--
+(function(){window.ss=function(a){window.status=a;return true};})();function cs(){window.status='';}function st(id) {var a = document.getElementById(id);if (a) {}return true;}function ha(a){  }function ca(a) {  window.open(document.getElementById(a).href);}function ga(o,e) {if (document.getElementById) {a=o.id.substring(1);p="";r="";g=e.target;if (g) {t=g.id;f=g.parentNode;if (f) {p=f.id;h=f.parentNode;if (h)r=h.id;}} else {h=e.srcElement;f=h.parentNode;if (f)p=f.id;t=h.id;}if (t==a||p==a||r==a)return true;window.open(document.getElementById(a).href);}}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 6.00.2900.6036" name=GENERATOR></HEAD>
+<BODY style="BACKGROUND: none transparent scroll repeat 0% 0%" leftMargin=0 
+topMargin=0 marginheight="0" marginwidth="0">
+<DIV id=google_flash_inline_div 
+style="Z-INDEX: 1001; WIDTH: 468px; POSITION: relative">
+<DIV id=google_flash_div style="Z-INDEX: 1001; LEFT: 0px; POSITION: absolute">
+<OBJECT id=google_flash_obj 
+codeBase=http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0 
+height=60 width=468 classid=clsid:D27CDB6E-AE6D-11cf-96B8-444553540000><PARAM NAME="movie" VALUE="http://static.googleadsserving.cn/pagead/imgad?id=COblkIa45smIfhDUAxg8MgiIumNCzFzbqA"><PARAM NAME="quality" VALUE="high"><PARAM NAME="AllowScriptAccess" VALUE="never"><PARAM NAME="wmode" VALUE="opaque"><PARAM NAME="FlashVars" VALUE="clickTAG=http://googleads.g.doubleclick.net/aclk%3Fsa%3Dl%26ai%3DBArCGqVrOTJeCKaPUjQSoje3GA9f54YoCr6WKkxjAjbcBsJrsARABGAEgocuPAjgAUN-ls68BYJ3R1IGwBbIBEXd3dy5jeWJlcmNpdGkuYml6ugEJNDY4eDYwX2FzyAEE2gFSaHR0cDovL3d3dy5jeWJlcmNpdGkuYml6L2ZhcS9saW51eC1mb3JjZS1mc2NrLW9uLXRoZS1uZXh0LXJlYm9vdC1vci1ib290LXNlcXVlbmNlL6kCpIc4_oQShD64AhjIAufVgBqoAwHoA-AF6AOvAugD8AP1AwIAAMQ%26num%3D1%26sig%3DAGiWqtxk2F2ZQ9URw0zaXTaBvzKuJlOmFQ%26client%3Dca-pub-7825705102693166%26adurl%3Dhttp://www.kowa-dental.com/en/team/">
+<EMBED 
+src="http://static.googleadsserving.cn/pagead/imgad?id=COblkIa45smIfhDUAxg8MgiIumNCzFzbqA" 
+id="google_flash_embed" WIDTH="468" HEIGHT="60" WMODE="opaque" 
+FlashVars="clickTAG=http://googleads.g.doubleclick.net/aclk%3Fsa%3Dl%26ai%3DBArCGqVrOTJeCKaPUjQSoje3GA9f54YoCr6WKkxjAjbcBsJrsARABGAEgocuPAjgAUN-ls68BYJ3R1IGwBbIBEXd3dy5jeWJlcmNpdGkuYml6ugEJNDY4eDYwX2FzyAEE2gFSaHR0cDovL3d3dy5jeWJlcmNpdGkuYml6L2ZhcS9saW51eC1mb3JjZS1mc2NrLW9uLXRoZS1uZXh0LXJlYm9vdC1vci1ib290LXNlcXVlbmNlL6kCpIc4_oQShD64AhjIAufVgBqoAwHoA-AF6AOvAugD8AP1AwIAAMQ%26num%3D1%26sig%3DAGiWqtxk2F2ZQ9URw0zaXTaBvzKuJlOmFQ%26client%3Dca-pub-7825705102693166%26adurl%3Dhttp://www.kowa-dental.com/en/team/" 
+TYPE="application/x-shockwave-flash" AllowScriptAccess="never" 
+PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer"></EMBED></OBJECT></DIV></DIV>
+<DIV 
+style="Z-INDEX: 1000; WIDTH: 468px; POSITION: relative; HEIGHT: 60px"></DIV><!--[if IE]>
+<SCRIPT language=javascript src="CARVAEF3_files/inject_object_div.js"> </SCRIPT>
+<![endif]-->
+<STYLE>DIV {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+#att {
+	Z-INDEX: 9020; POSITION: absolute
+}
+#att UL {
+	WIDTH: 112px; LIST-STYLE-TYPE: none; HEIGHT: 18px
+}
+#att UL LI {
+	FLOAT: left
+}
+#abgf {
+	FILTER: alpha(opacity=80); WIDTH: 94px; HEIGHT: 18px; BACKGROUND-COLOR: #666
+}
+#abgt {
+	FILTER: alpha(opacity=80); WIDTH: 18px; POSITION: relative; HEIGHT: 18px
+}
+#abgc {
+	Z-INDEX: 9010; FILTER: alpha(opacity=80); LEFT: 442px; OVERFLOW: hidden; WIDTH: 112px; POSITION: absolute; TOP: 42px; HEIGHT: 18px
+}
+#abgi {
+	Z-INDEX: 9030; LEFT: 12px; OVERFLOW: hidden; WIDTH: 100px; POSITION: absolute
+}
+#abgb {
+	FLOAT: left; MARGIN: 2px 1px
+}
+#abgs {
+	MARGIN: 1px; OVERFLOW: hidden
+}
+</STYLE>
+
+<DIV id=abgc>
+<DIV id=att>
+<UL>
+  <LI id=abgt></LI>
+  <LI id=abgf></LI></UL></DIV>
+<DIV id=abgi>
+<DIV id=abgb><SPAN 
+style="DISPLAY: inline-block; FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://static.googleadsserving.cn/pagead/images/i.png'); WIDTH: 12px; HEIGHT: 12px"><IMG 
+style="FILTER: progid:DXImageTransform.Microsoft.Alpha(opacity=0)" height=12 
+alt=(i) src="CARVAEF3_files/i.png" width=12 border=0></SPAN></DIV>
+<DIV id=abgs><A 
+href="http://www.google.com/url?ct=abg&amp;q=https://www.google.com/adsense/support/bin/request.py%3Fcontact%3Dabg_afc%26url%3Dhttp://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/%26hl%3Den%26client%3Dca-pub-7825705102693166%26adU%3Dwww.kowa-dental.com%26adT%3DImageAd%26gl%3DCN&amp;usg=AFQjCNHfq0-a7YO40X6VDqxNsuVQVH4heg" 
+target=_blank><SPAN 
+style="DISPLAY: inline-block; FILTER: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://static.googleadsserving.cn/pagead/abglogo/abg-en-100c-ffffff.png'); WIDTH: 78px; HEIGHT: 16px"><IMG 
+style="FILTER: progid:DXImageTransform.Microsoft.Alpha(opacity=0)" height=16 
+alt="Ads by Google" src="CARVAEF3_files/abg-en-100c-ffffff.png" width=78 
+border=0></SPAN></A></DIV></DIV></DIV>
+<SCRIPT>var sc=['abgt',18,18,'#666',false,false];  var abgp={el:document.getElementById('abgc'),h:'442',s:'356'};</SCRIPT>
+
+<SCRIPT src="CARVAEF3_files/graphics.js"></SCRIPT>
+
+<SCRIPT src="CARVAEF3_files/abg.js"></SCRIPT>
+</BODY></HTML>

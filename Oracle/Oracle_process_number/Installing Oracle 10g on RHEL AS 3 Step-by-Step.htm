@@ -1,0 +1,320 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0058)http://www.dbanotes.net/Oracle/Install-Oracle10g-RHEL3.htm -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>Installing Oracle 10g on RHEL AS 3 Step-by-Step</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META content="Oracle10g,Install,Red Hat Linux, RHEL 3,FAQ" name=KEYWORDS>
+<META content="Installing Oracle 10g on RHEL AS 3 Step-by-Step in Chinese." 
+name=description><LINK 
+href="Installing Oracle 10g on RHEL AS 3 Step-by-Step.files/Articles.css" 
+type=text/css rel=stylesheet>
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR></HEAD>
+<BODY><BR>
+<DIV>
+<H1>[Oracle] Installing Oracle 10g on RHEL AS 3 Step-by-Step</H1>整理：Fenng 
+<BR>日期：06-Apr-2004 　<BR>出处：<A 
+href="http://www.dbanotes.net/">http://www.dbanotes.net/</A><BR>版本：1.01<BR></DIV>
+<HR>
+
+<P>不久前,Oracle(甲骨文)公司在美国加州的总部宣布, Oracle 10g 数据库 与 Oracle RAC 在 TPC-H 
+基准测试中创造了新的世界纪录.这是个令人震惊的消息.因为这个测试是在 Linux ( Red Hat Enterprise Linux Advanced 
+Server 3) 的平台上进行的. 这充分显示了 Oracle 在低成本 Linux 集群服务器上高效管理大规模数据仓库的能力, 也表明 Linux 
+在性能价格比上显而易见的优势,标志着Linux在大规模企业应用上已经成熟. </P>
+<P>相信很多朋友已经对10g跃跃欲试了,现在从这里让我们开始10g之旅. </P>
+<P>本文描述了在Red Hat Enterprise Linux Advanced Server 3 (RHEL 3)上安装Oracle 10g 
+必要的步骤和相关知识. 本文假定你的Linux 操作系统已经安装完毕,并且您应该具有一定的 Unix 操作系统背景知识.</P>
+<H2>配置RedHat AS 3</H2><BR>操作系统版本： 
+<BLOCKQUOTE>Red Hat Enterprise Linux AS release 3 (Taroon)<BR>Kernel 
+  2.4.21-4.EL on an i686 </BLOCKQUOTE>
+<P>按照常规来安装操作系统,记得要安装开发工具(gcc等必要工具). </P>
+<H2>必要的硬件信息检查</H2><BR>
+<BLOCKQUOTE>
+  <TABLE>
+    <TBODY>
+    <TR>
+      <TD><STRONG>检查内容</STRONG></TD>
+      <TD><STRONG>最小值</STRONG></TD>
+      <TD><STRONG>检查命令参考</STRONG></TD></TR>
+    <TR>
+      <TD>物理内存</TD>
+      <TD>512M</TD>
+      <TD># grep MemTotal /proc/meminfo </TD></TR>
+    <TR>
+      <TD>交换空间</TD>
+      <TD>1.0 GB或者2倍内存大小</TD>
+      <TD># grep SwapTotal /proc/meminfo </TD></TR>
+    <TR>
+      <TD>/tmp 空间</TD>
+      <TD>400 MB </TD>
+      <TD># df -k /tmp </TD></TR>
+    <TR>
+      <TD>软件所需空间</TD>
+      <TD>2.5 GB </TD>
+      <TD># df -k (空间越大越好,如果是正式系统,应该进行详尽的规划) </TD></TR>
+    <TR>
+      <TD>数据库文件</TD>
+      <TD>1.2 GB </TD>
+      <TD># df -k (空间越大越好,如果是正式系统,应该进行详尽的规划) </TD></TR></TBODY></TABLE></BLOCKQUOTE>
+<P>检查完如上各项之后, 应该修改核心参数.执行如下命令:</P>
+<BLOCKQUOTE><PRE>#vi /etc/sysctl.conf
+</PRE></BLOCKQUOTE>
+<P>#注释:<BR>#表示使用root用户操作,$表示使用oracle 用户进行操作.提示符后面的蓝色部分表示需要输入的命令，以下同． 
+</P>在该文件末尾加入如下内容: 
+<BLOCKQUOTE><PRE>kernel.shmall = 2097152 
+kernel.shmmax = 2147483648 
+kernel.shmmni = 4096 
+kernel.sem = 250 32000 100 128 
+fs.file-max = 65536 
+net.ipv4.ip_local_port_range = 1024 65000
+</PRE></BLOCKQUOTE>编辑完之后,保存,执行 # /sbin/sysctl -p 命令操作来使我们所做的变更生效. 
+<P>注:上面kernel.shmmax/kernel.sem等是典型的核心参数配置.您可能需要根据您的实际环境进行适当的变动. </P>
+<P>关于这些核心参数的说明在Oracle的 <A 
+href="http://download-west.oracle.com/docs/html/A96167_01/toc.htm">Oracle9i 
+Installation Guide Release 2 (9.2.0.1.0) for UNIX Systems</A> 中有很详细的说明.( 
+http://download-west.oracle.com/docs/html/A96167_01/toc.htm ) 
+</P>然后,应该检查一下上面的操作是否正确: 
+<BLOCKQUOTE><PRE># /sbin/sysctl -a | grep sem 
+# /sbin/sysctl -a | grep shm
+# /sbin/sysctl -a | grep file-max
+# /sbin/sysctl -a | grep ip_local_port_range
+</PRE></BLOCKQUOTE>
+<H2>为Oracle用户设定Shell的限制</H2>
+<P>一般来说，出于性能上的考虑,还需要需要进行如下的设定，以便改进Oracle用户的有关 
+nofile(可打开的文件描述符的最大数)和nproc(单个用户可用的最大进程数量)</P>
+<BLOCKQUOTE><PRE># vi /etc/security/limits.conf 
+# 添加如下的行
+
+*               soft    nproc   2047
+*               hard    nproc   16384
+*               soft    nofile  1024
+*               hard    nofile  65536
+</PRE></BLOCKQUOTE>添加如下的行到/etc/pam.d/login 文件： 
+<BLOCKQUOTE><PRE>session    required     /lib/security/pam_limits.so 
+</PRE></BLOCKQUOTE>编辑 /etc/profile 文件,添加如下部分： 
+<BLOCKQUOTE><PRE>if [ $USER = "oracle" ]; then  
+	if [ $SHELL = "/bin/ksh" ]; then  
+		ulimit -p 16384  
+		ulimit -n 65536  
+	else  
+		ulimit -u 16384 -n 65536  
+	fi  
+fi</PRE></BLOCKQUOTE>
+<P>之后，执行$ unlimit 验证一下.</P>
+<H2>检查并安装相关补丁</H2>
+<P>在这个版本的RHEL上安装Oracle,必须要有几个软件包. 确认以下 rpm包都已经安装: </P>
+<BLOCKQUOTE><PRE>make-3.79
+binutils-2.11
+openmotif-2.2.2-16
+setarch-1.3-1 
+compat-db-4.0.14.5
+compat-gcc-7.3-2.96.122
+compat-gcc-c++-7.3-2.96.122
+compat-libstdc++-7.3-2.96.122
+compat-libstdc++-devel-7.3-2.96.122
+
+# rpm -qa | grep compat 
+# 在我的机器上输出如下:
+
+compat-gcc-c++-7.3-2.96.122
+compat-libstdc++-7.3-2.96.122
+compat-libstdc++-devel-7.3-2.96.122
+compat-glibc-7.x-2.2.4.32.5
+compat-db-4.0.14-5
+compat-gcc-7.3-2.96.122
+
+# rpm -qa | grep openmotif 
+openmotif-devel-2.2.2-16
+openmotif-2.2.2-16
+
+# rpm -qa | grep setarch
+setarch-1.3-1
+
+</PRE></BLOCKQUOTE>上面显示的内容是在笔者已经安装了具体的RPM包之后的结果.一般情况下,你的系统上的输出结果和这个不同.如果个别包没有安装,把系统安装光盘mount上,找到具体的软件包(大多数在第三张光盘上),然后利用如下的命令来安装相应的包: 
+
+<BLOCKQUOTE><PRE># rpm -ivh compat.....rpm 
+</PRE></BLOCKQUOTE>要额外注意的是,这些软件包之间是有依赖性的,先后的顺序要找好.否则会报告不能安装的错误. 此外，最好验证一下 
+gcc和glibc的版本(要求是gcc-3.2.3-2 或者更高): 
+<BLOCKQUOTE><PRE>#gcc -v 
+#rpm -q glibc
+</PRE></BLOCKQUOTE><BR>
+<H2>创建用户和相关的组</H2>
+<BLOCKQUOTE><PRE># /usr/sbin/groupadd oinstall
+# /usr/sbin/groupadd dba
+# /usr/sbin/useradd -g oinstall -G dba oracle　
+</PRE></BLOCKQUOTE>
+<P>如果只是测试目的的话，不创建oinstall组也没什么. 不过还是规范一点比较好.如果oracle 用户和dba组等已经存在，作适当的调整即可. </P>
+<H2>检查并调整环境变量 </H2>
+<P>登录为oracle用户</P>
+<BLOCKQUOTE><PRE># su - oracle
+$ cd 
+$ vi .bash_profile
+</PRE></BLOCKQUOTE>#添加如下内容,你的具体值应该不会和这个完全相同. 
+<BLOCKQUOTE><PRE>export ORACLE_BASE=/u/app/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/10.1.0/db_1
+export ORACLE_SID=TEST
+export PATH=$PATH:$HOME/bin:$ORACLE_HOME/bin
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/usr/lib
+export LC_CTYPE=en_US.UTF-8 
+</PRE></BLOCKQUOTE>然后执行 
+<BLOCKQUOTE><PRE>$ source .bash_profile
+</PRE></BLOCKQUOTE>
+<P>使环境变量生效. /u/app/oracle 等目录应该建立好并做合适的授权. </P>
+<H2>开始安装10g</H2>
+<P>mount你的安装盘.(我一般都是把文件拷贝到系统中一个具体的位置,比如/u/install ) .执行:</P>
+<BLOCKQUOTE><PRE>$ sh /u/install/runInstaller 
+</PRE></BLOCKQUOTE>
+<P>如果不能出现安装画面，查看本文后面的FAQ。</P>非常值得称道的是,10g的安装相比以前的多了一个 Checking operating system 
+certification 的步骤。特别实用。安装文件会自动检测所需的条件。如果有不符合的地方，安装程序会报告给你.并会给出具体原因。大大减少了出错的可能. 
+下面是检查成功输出的内容 : 
+<BLOCKQUOTE><PRE>Checking operating system certification 
+Expected result: One of redhat-2.1,redhat-3,UnitedLinux-1.0 
+Actual Result: redhat-3 
+Check complete. The overall result of this check is: Passed 
+======================================================================= 
+
+Checking kernel parameters 
+Checking for VERSION=2.4.9.25; found VERSION=2.4.21. Passed 
+Checking for shmall=2097152; found shmall=2097152. Passed 
+Checking for shmseg=10; found shmseg=4096. Passed 
+Checking for semmsl=250; found semmsl=250. Passed 
+Checking for semmni=128; found semmni=128. Passed 
+Checking for filemax=65536; found filemax=65536. Passed 
+Checking for shmmni=4096; found shmmni=4096. Passed 
+Checking for semmns=32000; found semmns=32000. Passed 
+Checking for semopm=100; found semopm=100.Passed 
+Checking for shmmin=1; found shmmin=1. Passed 
+Checking for shmmax=2147483648; found shmmax=2147483648. Passed
+Check complete. The overall result of this check is: Passed 
+======================================================================= 
+
+Checking recommended operating system packages 
+Checking for make-3.79; found make-3.79.1-17. Passed 
+Checking for binutils-2.11.90.0.8-12; found binutils-2.14.90.0.4-26. Passed 
+Checking for gcc-2.96; found gcc-3.2.3-20. Passed 
+Checking for openmotif-2.1.30-11; found openmotif-2.2.2-16. Passed 
+Check complete. The overall result of this check is: Passed 
+======================================================================= 
+
+Checking recommended glibc version 
+Expected result: 2.2.4.31.7 
+Actual Result: 2.3.2.95.3 
+Check complete. The overall result of this check is: Passed 
+======================================================================= 
+
+Validating ORACLE_BASE location (if set) 
+Check complete. The overall result of this check is: Passed 
+======================================================================= 
+</PRE></BLOCKQUOTE>
+<P>其他的步骤比较清晰，不再赘述.</P>
+<P>最后系统会提示你运行root.sh文件.按照提示做即可. </P>
+<H2>FAQ (在Linux平台安装Oracle比较常见的问题) </H2>
+<BLOCKQUOTE>
+  <H2>1. 不能启动安装界面</H2>
+  <P>运行runInstaller提示信息类似如下:</P>
+  <BLOCKQUOTE><PRE>xlib:connection to "localhost:0.0" refused by server 
+xlib:client is not authorized to connect to server 
+
+Exception in thread "main" java.lang.InternalError:
+can't connect to x11 window server using "localhost:0.0" at ....... 
+</PRE></BLOCKQUOTE>
+  <P>解决办法: 设定你的DISPLAY环境参数.</P>
+  <BLOCKQUOTE><PRE># export DISPLAY= your_IPaddress :0.0</PRE></BLOCKQUOTE>
+  <P>把your_IPaddress换成你的IP.或者用root简单的执行一下# xhost + (要注意这样会有安全上的隐患) </P>
+  <H2>2.安装界面显示很多"口口"样子的乱码</H2>
+  <P>解决办法:查看locale输出</P>
+  <BLOCKQUOTE><PRE># locale
+LANG=en_US.UTF-8
+LC_CTYPE=zh_CN.GB18030
+LC_NUMERIC="en_US.UTF-8"
+LC_TIME="en_US.UTF-8"
+LC_COLLATE="en_US.UTF-8"
+LC_MONETARY="en_US.UTF-8"
+LC_MESSAGES="en_US.UTF-8"
+LC_PAPER="en_US.UTF-8"
+LC_NAME="en_US.UTF-8"
+LC_ADDRESS="en_US.UTF-8"
+LC_TELEPHONE="en_US.UTF-8"
+LC_MEASUREMENT="en_US.UTF-8"
+LC_IDENTIFICATION="en_US.UTF-8"
+LC_ALL=
+</PRE></BLOCKQUOTE>
+  <P>执行#export LC_CTYPE=en_US.UTF-8 然后重新调用安装程序. </P>
+  <H2>3. 用IE登录Linux服务器上的em出现乱码</H2><BR>
+  <P>在Linux(Unix) 环境下成功安装了Oracle 10g,从windows下用IE浏览器登录 10g 的em, 按钮是"口口"这样的方框. 
+  </P>解决办法: 参考: <PRE>http://www.dbanotes.net/Oracle/Oracle-10g-font.properties.htm </PRE><BR>
+  <H2>4.创建数据库的时候出现ORA-03113的错误</H2>
+  <P>解决办法: 查看核心参数是否调整正确.参考:</P>
+  <BLOCKQUOTE>http://www.dbanotes.net/Oracle/ORA-03113.htm</BLOCKQUOTE>
+  <H2>5. RedHat 9 / 
+  FC1等系统10g不支持如何安装?</H2><BR>解决办法：在10g不支持的Linux发行版上安装10g的解决方法<BR><BR>1). 
+  运行runInstaller -ignoreSysPrereqs，这样会跳过检查. <BR>2). 摘自 <A 
+  href="http://www.puschitz.com/">http://www.puschitz.com/</A> 
+  修改/etc/redhat-release文件：<BR>
+  <BLOCKQUOTE><PRE>#su - root 
+#cp /etc/redhat-release /etc/redhat-release.backup 
+#cat &gt; /etc/redhat-release &lt;&lt;   EOF 
+Red Hat Enterprise Linux AS release 3 (Taroon) 
+EOF 
+</PRE></BLOCKQUOTE>安装完毕，执行如下操作： 
+  <BLOCKQUOTE><PRE>#su - root 
+#cp /etc/redhat-release.backup /etc/redhat-release 
+</PRE></BLOCKQUOTE>3). <A 
+  href="http://www.dbanotes.net/Oracle/10G-Beta-Install-Bug.htm">http://www.dbanotes.net/Oracle/10G-Beta-Install-Bug.htm</A>
+  <P>同样的思路，我们可以修改Oracle 的install/oraparam.ini文件达到目的. </P>
+  <H2>6.如何关掉那些 ocssd.bin 进程？</H2>
+  <P>解决办法:编辑/etc/inittab文件(做好备份) </P>注释掉这一行: 
+  <BLOCKQUOTE><PRE>h1:3:respawn:/etc/init.d/init.cssd run &gt;/dev/null 2&gt;................
+</PRE></BLOCKQUOTE></BLOCKQUOTE>
+<H2>参考信息</H2>
+<P><A href="http://www.puschitz.com/InstallingOracle10g.shtml">Werner Puschitz 的 
+10g 安装指南</A> - http://www.puschitz.com/InstallingOracle10g.shtml<BR>Werner 
+Puschitz 的站点的文章很翔实,如果您遇到了本文没有说清的问题,可以去看看那里.本文借鉴了该站点不少内容． </P>
+<P><A href="http://www.google.com/">http://www.google.com/</A> - 
+http://www.google.com <BR>关于核心参数等信息一定要用Google查找． </P>
+<P><A href="http://download-west.oracle.com/docs/html/B10813_01/toc.htm">Oracle 
+Database Quick Installation Guide 10g Release 1 (10.1) for Linux x86 
+</A><BR>http://download-west.oracle.com/docs/html/B10813_01/toc.htm </P>
+<P><A href="http://download-west.oracle.com/docs/html/B10811_02/toc.htm">Oracle 
+Database Installation Guide 10g Release 1 (10.1) for UNIX Systems 
+</A>http://download-west.oracle.com/docs/html/B10811_02/toc.htm </P>
+<P><A href="http://www.dbanotes.net/">DBAnotes.net</A> 我的站点 包括不少和Oracle有关的信息　- 
+http://www.dbanotes.net </P><BR><BR>
+<SCRIPT type=text/javascript><!--
+google_ad_client = "pub-2198040673582211";
+google_alternate_ad_url = "http://www.dbanotes.net/blog/google_adsense_script.html";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_channel ="4565376735";
+google_ad_type = "text";
+google_color_border = "003366";
+google_color_bg = "003366";
+google_color_link = "FFFFFF";
+google_color_url = "99CCFF";
+google_color_text = "FFFFFF";
+//--></SCRIPT>
+
+<SCRIPT src="Installing Oracle 10g on RHEL AS 3 Step-by-Step.files/show_ads.js" 
+type=text/javascript>
+</SCRIPT>
+
+<HR>
+
+<H2>本文作者</H2>Fenng，某美资公司DBA，业余时间混迹于各数据库相关的技术论坛且乐此不疲。目前关注如何利用ORACLE数据库有效地构建企业应用。对Oracle 
+tuning、troubleshooting有一点研究。<BR>个人技术站点:<A 
+href="http://www.dbanotes.net/">http://www.dbanotes.net/</A> 。可以通过电子邮件 
+dbanotes@gmail.com 联系到他。 
+<HR>
+
+<H2>原文出处</H2><A 
+href="http://www.dbanotes.net/Oracle/Install-Oracle10g-RHEL3.htm">http://www.dbanotes.net/Oracle/Install-Oracle10g-RHEL3.htm</A> 
+<BR><BR><A href="http://www.dbanotes.net/OracleTech.htm">回上页</A>&lt;-|-&gt;<A 
+href="http://www.dbanotes.net/">回首页</A> <BR>
+<HR>
+All Articles (by Fenng) are licensed under a <A 
+href="http://creativecommons.org/licenses/by-nc-sa/2.0/" rel=license>Creative 
+Commons License</A>.<BR>I would welcome any feedback. Please send questions, 
+comments or corrections to dbanotes@gmail.com <BR><A 
+href="http://validator.w3.org/check?uri=http://www.dbanotes.net/Oracle/Install-Oracle10g-RHEL3.htm">Valid 
+XHTML 4.01</A> / <A 
+href="http://jigsaw.w3.org/css-validator/validator?uri=http://www.dbanotes.net/Oracle/Install-Oracle10g-RHEL3.htm">Valid 
+CSS</A><BR></BODY></HTML>

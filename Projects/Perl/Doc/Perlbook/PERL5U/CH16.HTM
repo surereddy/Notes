@@ -1,0 +1,2145 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 16 -- Command-line Interface with Perl</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 16</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Command-line Interface with Perl</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#TheCommandlineOptionstoPerl" >The Command-line Options to Perl</A>
+<UL>
+<LI><A HREF="#SendingOptionsviatheCommandLine" >Sending Options via the Command Line</A>
+<LI><A HREF="#SpecifyinganOptionwithintheProgram" >Specifying an Option within the Program</A>
+<LI><A HREF="#ThecandwSyntaxCheckingandWarnin" >The -c and -w Syntax Checking and Warning Options</A>
+<LI><A HREF="#TheeOptionExecutingaSinglelineP" >The -e Option: Executing a Single-line Program</A>
+<LI><A HREF="#ThesOptiontoSupplyCustomCommandl" >The -s Option to Supply Custom Command-line Options</A>
+<LI><A HREF="#TheIOptiontoIncludeOtherFiles" >The -I Option to Include Other Files</A>
+<LI><A HREF="#ThePOptionforUsingtheCPreprocess" >The -P Option for Using the C Preprocessor</A>
+<LI><A HREF="#UsingthenandpOptionsforHandling" >Using the -n and -p Options for Handling Multiple Files</A>
+<LI><A HREF="#TheiOptiontoEditFiles" >The -i Option to Edit Files</A>
+<LI><A HREF="#UsingtheaOption" >Using the -a Option</A>
+<LI><A HREF="#UsingtheFOption" >Using the -F Option</A>
+<LI><A HREF="#Usingthe0Option" >Using the -0 Option</A>
+<LI><A HREF="#UsingthelOption" >Using the -l Option</A>
+<LI><A HREF="#UsingthexOptiontoGetaPerlProgra" >Using the -x Option to Get a Perl Program from Another File</A>
+<LI><A HREF="#UsingtheSOption" >Using the -S Option</A>
+<LI><A HREF="#ThevOptionPrintingthePerlVersion" >The -v Option: Printing the Perl Version Number</A>
+<LI><A HREF="#UsingConditionalCodewiththeCPrepro" >Using Conditional Code with the C Preprocessor</A>
+</UL>
+<LI><A HREF="#ReadingInputfromSTDIN" >Reading Input from STDIN</A>
+<UL>
+<LI><A HREF="#TheTermQueryModule" >The Term::Query Module</A>
+<LI><A HREF="#UsingtheTermQueryModule" >Using the Term::Query Module</A>
+<LI><A HREF="#ExtendingtheQuerypmModule" >Extending the Query.pm Module</A>
+<LI><A HREF="#Usingquerytable" >Using query_table()</A>
+</UL>
+<LI><A HREF="#TheGetoptsPackage" >The Getopts Package</A>
+<UL>
+<LI><A HREF="#UsingStdpm" >Using Std.pm</A>
+<LI><A HREF="#TheLongpmmodule" >The Long.pm module</A>
+<LI><A HREF="#ExamplesofOptionsSettings" >Examples of Options Settings</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter introduces you to handling the options available
+from the command-line interface to the Perl interpreter, handling
+user input, and writing interactive Perl scripts. 
+<P>
+By using the command-line options in Perl, you can determine how
+to best use the Perl interpreter to take care of details such
+as handling loops on the input, creating and destroying temporary
+files, and handling multiple files. 
+<P>
+Of course, you would want to be able to process the incoming options
+to your own programs as well. Writing scripts to handle user responses
+takes an inordinate amount of time and effort given the infinite
+number of responses you can receive. When passing installation
+scripts for a software package, it would be nice if the scripts
+were intelligent enough to filter out most of the incorrect responses.
+In this chapter, you work with Perl modules that eliminate some
+of the grunt work.
+<H2><A NAME="TheCommandlineOptionstoPerl"><FONT SIZE=5 COLOR=#FF0000>The
+Command-line Options to Perl</FONT></A></H2>
+<P>
+Perl's command-line options provide many features, such as checking
+syntax, printing warnings, using the C preprocessor, and modifying
+the way output is printed in a Perl document. There are two ways
+to provide options to a Perl program: either by passing them in
+the command line along with the command you enter to start the
+Perl program or in the comment header of your Perl program script.
+<H3><A NAME="SendingOptionsviatheCommandLine">Sending Options
+via the Command Line</A></H3>
+<P>
+You can always enter options for a Perl program on the command
+line. The syntax for specifying options on the command line is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl <I>options programName</I></FONT></TT>
+</BLOCKQUOTE>
+<P>
+where <TT><I><FONT FACE="Courier">programName</FONT></I></TT>
+ is the name of the Perl program to run, and <TT><I><FONT FACE="Courier">options</FONT></I></TT>
+is the list of options to provide to the program being run. For
+example, the command
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -d -w test1</FONT></TT>
+</BLOCKQUOTE>
+<P>
+runs the Perl program named <TT><FONT FACE="Courier">test1</FONT></TT>
+and passes it the options <TT><FONT FACE="Courier">-d</FONT></TT>
+and <TT><FONT FACE="Courier">-w</FONT></TT>. You'll learn about
+the actions of these options in the following sections. Some options
+require an additional value. For example, the <TT><FONT FACE="Courier">-I</FONT></TT>
+option requires a pathname for include files. 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -I /usr/local/include/special  something</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">/usr/local/include/special</FONT></TT>
+path is also searched for a file if it is not found via the <TT><FONT FACE="Courier">@Inc</FONT></TT>
+path. It is not necessary to put a space between the option and
+its argument.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -I/usr/local/include/special  something
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In all cases, any value associated with an option must always
+immediately follow the option.
+<P>
+Options that do not require an associated value can be grouped
+without the use of an additional dash (-) character or space.
+For example, the following two commands do the same thing:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -d -w  test1<BR>
+perl -dw  test1</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The last option in a group can have additional values. For example,
+the following two commands do the same thing:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -w -I/usr/local/include/special
+ something <BR>
+perl -wI/usr/local/include/special  something </FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="SpecifyinganOptionwithintheProgram">Specifying an
+Option within the Program</A></H3>
+<P>
+The command line at the start of a program that includes a header
+comment (a comment beginning with the <TT><FONT FACE="Courier">#!</FONT></TT>
+characters) can be used to pass options to Perl. For example,
+the following line:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#!perl -w</FONT></TT>
+</BLOCKQUOTE>
+<P>
+will pass the <TT><FONT FACE="Courier">-w</FONT></TT> option to
+Perl. Historically, only one argument could be passed to Perl
+this way, but now you can pass several options. A word of caution
+is necessary here: Options specified on the command line will
+override options specified in the header comment. For example,
+if your header comment is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#!perl -d</FONT></TT>
+</BLOCKQUOTE>
+<P>
+and you start your program with the following command, the program
+will run with the <TT><FONT FACE="Courier">-w</FONT></TT> option
+specified but not the <TT><FONT FACE="Courier">-d</FONT></TT>
+option:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -w test1</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Table 16.1 lists some of the command-line options to Perl. <BR>
+<P>
+<CENTER><B>Table 16.1. Command-line options to Perl.</B> </CENTER>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><I>Option</I></CENTER></TD><TD WIDTH=524><I>Meaning</I>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-c</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Do syntax checking only.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-d</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Start the debugger.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-e</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Execute a program from the command line.</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-i</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Insert line back into the input file.</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-I</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Specify the paths to search for included files.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-p</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Echo each line of input.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-P</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Use the C preprocessor.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-s</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Parse very basic command-line switches to the program.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-T</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Used for writing secure programs. Using this option forces data obtained from outside the program to not be used in any command that affects your file system. This feature lets you write secure programs for system administration tasks. 
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-u</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Generate a core dump.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-U</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Run in unprotected mode (full access to file system).
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-v</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Print the version number.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-w</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Print warning labels.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=66><CENTER><TT><FONT FACE="Courier">-W</FONT></TT></CENTER>
+</TD><TD WIDTH=524>Print warnings.</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The following sections cover each option in more detail. The options
+are presented in the order in which they are most likely to be
+found in Perl scripts rather than in alphabetical order. 
+<H3><A NAME="ThecandwSyntaxCheckingandWarnin">The <TT><FONT SIZE=4 FACE="Courier">-c</FONT></TT><FONT SIZE=4>
+and </FONT><TT><FONT SIZE=4 FACE="Courier">-w</FONT></TT><FONT SIZE=4>
+Syntax Checking and Warning Options</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">-c</FONT></TT> option asks the Perl
+interpreter to check the syntax of your Perl program without actually
+running it. All other options except for <TT><FONT FACE="Courier">-v</FONT></TT>
+and <TT><FONT FACE="Courier">-w</FONT></TT> are ignored by the
+Perl interpreter when it sees the <TT><FONT FACE="Courier">-c</FONT></TT>
+option. The <TT><FONT FACE="Courier">-w</FONT></TT> option prints
+warnings instead of errors. An error will certainly crash your
+program. A warning is issued when attempting to parse an ambiguous
+operation. Both the <TT><FONT FACE="Courier">-c</FONT></TT> and
+the <TT><FONT FACE="Courier">-w</FONT></TT> options can be used
+together with the flag, like this: <TT><FONT FACE="Courier">-cw</FONT></TT>.
+<P>
+If the program you provide is syntactically correct, the Perl
+interpreter will print the message
+<BLOCKQUOTE>
+<TT><I><FONT FACE="Courier">filename</FONT></I><FONT FACE="Courier">
+syntax OK</FONT></TT>
+</BLOCKQUOTE>
+<P>
+where <TT><I><FONT FACE="Courier">filename</FONT></I></TT> is
+the name of your program. If any errors are detected, you'll see
+the following message where <TT><I><FONT FACE="Courier">filename</FONT></I></TT>
+is the name of your program: 
+<BLOCKQUOTE>
+<TT><I><FONT FACE="Courier">filename</FONT></I><FONT FACE="Courier">
+had compilation errors</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">-w</FONT></TT> option prints a warning
+every time the Perl interpreter sees something that might cause
+a problem. Here are some of the potential problems:  
+<UL>
+<LI><FONT COLOR=#000000>Having more than one subroutine with the
+same name. Both functions will be called, and the program won't
+crash. Use the </FONT><TT><FONT FACE="Courier">-w</FONT></TT>
+option to warn about this problem.
+<LI><FONT COLOR=#000000>Using the value of a variable that has
+not been defined.</FONT>
+<LI><FONT COLOR=#000000>Using the </FONT><TT><FONT FACE="Courier">==</FONT></TT>
+operator to compare strings instead of <TT><FONT FACE="Courier">eq</FONT></TT>
+operators.
+</UL>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+A number is converted to a string when compared with a string using the <TT><FONT FACE="Courier">eq</FONT></TT> operator. However, a string when used with the <TT><FONT FACE="Courier">==</FONT></TT> operator is always converted to the numeric value of 
+<TT><FONT FACE="Courier">0</FONT></TT>.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="TheeOptionExecutingaSinglelineP">The <TT><FONT SIZE=4 FACE="Courier">-e</FONT></TT><FONT SIZE=4>
+Option: Executing a Single-line Program</FONT></A></H3>
+<P>
+You can execute Perl statements at the command line with the <TT><FONT FACE="Courier">-e</FONT></TT>
+option. Here is an example of a command that prints a string:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>perl -e 'print (&quot;Kamran Wuz
+Here\n&quot;);'<BR>
+</B>Kamran Wuz Here</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Don't forget to type the semicolon (<TT><FONT FACE="Courier">;</FONT></TT>)
+at the end of each statement. You can specify more than one statement
+by using either semicolons to separate them or using multiple
+<TT><FONT FACE="Courier">-e</FONT></TT> options. For example,
+the following two statements both print the string <TT><FONT FACE="Courier">Howdy
+folks</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>perl -e 'print (&quot;Howdy\n&quot;);'
+-e 'print (&quot; folks\n&quot;);'<BR>
+</B>Howdy folks<BR>
+$ <B>perl -e 'print (&quot;Howdy\n&quot;); print (&quot; folks\n&quot;);'
+<BR>
+</B>Howdy folks</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In the case of multiple <TT><FONT FACE="Courier">-e</FONT></TT>
+options, the Perl interpreter executes them from left to right.
+Here's an example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ perl -e 'print (&quot;Donald&quot;);'
+-e 'print (&quot; Duck&quot;);'<BR>
+Donald Duck</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="ThesOptiontoSupplyCustomCommandl">The <TT><FONT SIZE=4 FACE="Courier">-s</FONT></TT><FONT SIZE=4>
+Option to Supply Custom Command-line Options</FONT></A></H3>
+<P>
+Generally, you'll specify the command line in a Perl script with
+execute permissions in the first line of a script file, as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#!/usr/bin/perl </FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first line is the complete pathname to the Perl interpreter.
+<P>
+You can run the same script using the following command at the
+command line, as follows: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl <I>scriptFile</I></FONT></TT>
+</BLOCKQUOTE>
+<P>
+where <TT><I><FONT FACE="Courier">scriptFile</FONT></I></TT> is
+the name of the script file. Any command-line options specified
+before the script file's name will be passed to the Perl interpreter
+and not to your script file. 
+<P>
+To pass options to the script that you run, you have to use the
+<TT><FONT FACE="Courier">-s</FONT></TT> option. 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -s scriptFile -w</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This command starts the Perl program <TT><FONT FACE="Courier">scriptFile</FONT></TT>
+and passes it the <TT><FONT FACE="Courier">-w </FONT></TT>option.
+If you do not specify the <TT><FONT FACE="Courier">-s</FONT></TT>
+option, your <TT><FONT FACE="Courier">-w</FONT></TT> will be sent
+as part of the <TT><FONT FACE="Courier">@ARGV</FONT></TT> array
+to the program being run. For programs that are run from the command
+line with the Perl command, it's best to include <TT><FONT FACE="Courier">-s</FONT></TT>
+as part of your header comment:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#!perl -s</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This way you are guaranteed that the program always will check
+for options provided that no other Perl options were specified
+on the command line when you invoked the program.
+<P>
+A scalar variable with the same name as the name of any specified
+option is created and automatically set to <TT><FONT FACE="Courier">1</FONT></TT>
+before the Perl interpreter executes a program. For example, if
+a Perl program named <TT><FONT FACE="Courier">scriptFile</FONT></TT><I>
+</I>is called with the <TT><FONT FACE="Courier">-x</FONT></TT>
+option, as in
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -s scriptFile -x</FONT></TT>
+</BLOCKQUOTE>
+<P>
+the scalar variable <TT><FONT FACE="Courier">$x </FONT></TT>is
+automatically set to <TT><FONT FACE="Courier">1</FONT></TT>. This
+lets you test the <TT><FONT FACE="Courier">$x</FONT></TT> variable
+in a conditional expression to see whether the option has been
+set. The named variable will not appear in the <TT><FONT FACE="Courier">@ARGV</FONT></TT>
+array. Options do not have to be a single character. For example,
+the following command sets the value of the scalar variable <TT><FONT FACE="Courier">$surge</FONT></TT>
+to <TT><FONT FACE="Courier">1</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -s scriptFile -surge</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Options can be set to a value other than <TT><FONT FACE="Courier">1</FONT></TT>
+by simply assigning a value at the command line. For example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -s scriptFile -surge=&quot;power&quot;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This command sets the value of <TT><FONT FACE="Courier">$surge</FONT></TT>
+to <TT><FONT FACE="Courier">power</FONT></TT> in the program specified
+in <TT><FONT FACE="Courier">scriptFile</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">-s</FONT></TT> option lets you supply
+both options and command-line arguments based on these rules:
+<UL>
+<LI><FONT COLOR=#000000>All arguments that start with a dash (</FONT><TT><FONT FACE="Courier">-</FONT></TT>)
+and immediately follow the program name are assumed to be options.
+<LI><FONT COLOR=#000000>Any argument not starting with a dash
+(</FONT><TT><FONT FACE="Courier">-</FONT></TT>) is assumed to
+be an ordinary argument. All subsequent arguments, even if they
+start with a <TT><FONT FACE="Courier">-</FONT></TT> , are then
+assumed to be ordinary arguments and not options.
+<LI><FONT COLOR=#000000>A double dash (</FONT><TT><FONT FACE="Courier">--</FONT></TT>)
+will end Perl's parsing of command-line switches.
+</UL>
+<P>
+This means, for example, that the command
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -s scriptFile -arg1 -arg2 -arg3</FONT></TT>
+</BLOCKQUOTE>
+<P>
+treats <TT><FONT FACE="Courier">-arg1</FONT></TT> as an option
+to <TT><FONT FACE="Courier">scriptFile</FONT></TT>, and <TT><FONT FACE="Courier">-arg2</FONT></TT>
+and <TT><FONT FACE="Courier">-arg3</FONT></TT> are ordinary arguments
+that are placed in <TT><FONT FACE="Courier">@ARGV</FONT></TT>.
+<H3><A NAME="TheIOptiontoIncludeOtherFiles">The <TT><FONT SIZE=4 FACE="Courier">-I</FONT></TT><FONT SIZE=4>
+Option to Include Other Files</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">-I</FONT></TT> option is used with
+the <TT><FONT FACE="Courier">-P</FONT></TT> option (which is described
+in the next section). The <TT><FONT FACE="Courier">-I</FONT></TT>
+option lets you specify the pathnames to search for include files
+to be processed by the C preprocessor. For example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -P -I /usr/local/other <I>scriptFile</I></FONT></TT>
+</BLOCKQUOTE>
+<P>
+This command tells the Perl interpreter to search the directory
+<TT><FONT FACE="Courier">/usr/local/other</FONT></TT> for include
+files if the file is not found in its default paths. The default
+path is the current directory and, if the file is not found, the
+<TT><FONT FACE="Courier">/usr/local/lib/perl</FONT></TT> directory.
+The <TT><FONT FACE="Courier">-I</FONT></TT> option can be repeated
+on the same command line to specify more than one include-file
+path. 
+<P>
+Using the <TT><FONT FACE="Courier">-I</FONT></TT> option also
+adds the path or paths to the <TT><FONT FACE="Courier">@Inc</FONT></TT>
+variable. The paths are then made available to the Perl interpreter
+when it uses the <TT><FONT FACE="Courier">require</FONT></TT>
+function to find its modules. 
+<H3><A NAME="ThePOptionforUsingtheCPreprocess">The <TT><FONT SIZE=4 FACE="Courier">-P</FONT></TT><FONT SIZE=4>
+Option for Using the C Preprocessor</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">-P</FONT></TT> option is helpful
+only if you have a C compiler on your system. Although all UNIX
+systems come with a C compiler, DOS and Windows NT systems don't;
+you have to purchase your own. The <TT><FONT FACE="Courier">cpp</FONT></TT>
+preprocessor is the default C preprocessor in UNIX. The C preprocessor
+is a program that takes code written in C which does basic string
+substitution based on the values of variables. To enable the use
+of <TT><FONT FACE="Courier">cpp</FONT></TT> with the <TT><FONT FACE="Courier">-P</FONT></TT>
+option, use the following statement to start your Perl program:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -P <I>scriptFile</I></FONT></TT>
+</BLOCKQUOTE>
+<P>
+The Perl program <TT><I><FONT FACE="Courier">scriptFile</FONT></I></TT>
+is first run through the C preprocessor, and then the resulting
+output is executed by the Perl interpreter. You can also specify
+the use of the C preprocessor in the header comment like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#!perl -P</FONT></TT>
+</BLOCKQUOTE>
+<P>
+All C preprocessor statements have the following syntax:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#<I>command</I> <I>value</I></FONT></TT>
+</BLOCKQUOTE>
+<P>
+The hash (<TT><FONT FACE="Courier">#</FONT></TT>) is interpreted
+by Perl as a comment, and so any statements intended for the C
+preprocessor are ignored by Perl even if the <TT><FONT FACE="Courier">-P</FONT></TT>
+option is not used. The <TT><I><FONT FACE="Courier">command</FONT></I></TT>
+is the preprocessor operation to perform, and <TT><I><FONT FACE="Courier">value</FONT></I></TT>,
+which is optional, is associated with this operation.
+<P>
+The <TT><FONT FACE="Courier">#define</FONT></TT> operator is the
+most common preprocessor statement. It tells the preprocessor
+to replace every occurrence of a particular character string with
+a specified value. The syntax for <TT><FONT FACE="Courier">#define</FONT></TT>
+is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#define<I> item value</I></FONT></TT>
+</BLOCKQUOTE>
+<P>
+This statement replaces all occurrences of the character string
+<TT><I><FONT FACE="Courier">item</FONT></I></TT> with <TT><I><FONT FACE="Courier">value</FONT></I></TT>.
+This substitution operation is known as <I>macro substitution</I>.
+The item being substituted can contain a combination of letters,
+digits, and underscores. The value specified in a <TT><FONT FACE="Courier">#define</FONT></TT>
+statement can be any character string or number. For example,
+the following statement will replace all occurrences of <TT><FONT FACE="Courier">DOCTOR</FONT></TT>
+with <TT><FONT FACE="Courier">quack</FONT></TT>, and <TT><FONT FACE="Courier">Donald</FONT></TT>
+with <TT><FONT FACE="Courier">&quot;Duck&quot;</FONT></TT> including
+the quotation marks:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#define DOCTOR  QUACK<BR>
+#define Donald &quot;Duck&quot;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Any expressions are treated as strings. For example, the following
+statement: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#define AREA  (3.141 * 2)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+replaces <TT><FONT FACE="Courier">AREA</FONT></TT> with the string
+<TT><FONT FACE="Courier">(3.141 * 2)</FONT></TT>, including the
+parentheses and not the value of 6.282. 
+<P>
+When using <TT><FONT FACE="Courier">#define</FONT></TT> with expressions,
+don't forget to enclose the value in parentheses. For example,
+consider the following Perl statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$result = ITEM * 10;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If the statement you use in your preprocessor command is this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#define ITEM  1 + 2</FONT></TT>
+</BLOCKQUOTE>
+<P>
+the resulting Perl statement is this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$result = 1 + 2 * 10;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This statement assigns 21 to <TT><FONT FACE="Courier">$result</FONT></TT>
+instead of 30, which would be the result if you used this expression
+instead:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#define ITEM  (1 + 2)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+to get this statement as a result:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$result = (1 + 2) * 10;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+You can even specify multiple parameters with a <TT><FONT FACE="Courier">#define</FONT></TT>
+statement thus enabling you to use a preprocessor command like
+a simple function that also accepts arguments. For example, this
+preprocessor statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#define SQUARE(val)  ((val) * (val))</FONT></TT>
+</BLOCKQUOTE>
+<P>
+will return the square of a passed value. This statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$result = SQUARE(4) </FONT></TT>
+</BLOCKQUOTE>
+<P>
+will generate the following statement: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$result = ((4) * (4));</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Multiple parameters are specified using a syntax similar to a
+Perl program. For example, consider the following statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#define POW(base, power) ((base) ** (power))
+<BR>
+$result = POW(2,3);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+It produces this result:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$result = ((2) ** (3));</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Macros can be reused. For example,
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#define PI  3.141<BR>
+#define AREA(rad)  (2* (rad) * PI)<BR>
+$result = 43 + AREA($radius);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here, the macro <TT><FONT FACE="Courier">PI</FONT></TT> is defined
+first, the macro <TT><FONT FACE="Courier">AREA</FONT></TT> uses
+<TT><FONT FACE="Courier">PI</FONT></TT> to return an area for
+a given radius in <TT><FONT FACE="Courier">$</FONT></TT>. 
+<H3><A NAME="UsingthenandpOptionsforHandling">Using the <TT><FONT SIZE=4 FACE="Courier">-n</FONT></TT><FONT SIZE=4>
+and </FONT><TT><FONT SIZE=4 FACE="Courier">-p</FONT></TT><FONT SIZE=4>
+Options for Handling Multiple Files</FONT></A></H3>
+<P>
+When processing input from multiple files, it's often convenient
+to put the processing function in a <TT><FONT FACE="Courier">while(&lt;&gt;)</FONT></TT>
+loop so that each line in each file is sequentially processed.
+For example, you'll see code of the following form: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">while ($line = &lt;&gt;) {<BR>
+&nbsp;&nbsp;&amp;processMe($line)<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Use the <TT><FONT FACE="Courier">-n</FONT></TT> option to not
+specify the <TT><FONT FACE="Courier">while</FONT></TT> loop. This
+option forces Perl to take your program and execute it once for
+each line of input in each of the files specified on the command
+line. Here's an example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#!perl -n<BR>
+$line = $_;<BR>
+chop ($line);<BR>
+printf (&quot;%d %-52s *\n&quot;, $ctr++, $line);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">-n</FONT></TT> option encloses this
+program in an invisible <TT><FONT FACE="Courier">while</FONT></TT>
+loop. Each line of input is stored in the system variable <TT><FONT FACE="Courier">$_</FONT></TT>
+by the Perl interpreter, which then calls this program. The same
+program could be rewritten as follows: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#!perl<BR>
+while (&lt;&gt;) {<BR>
+$line = $_;<BR>
+chop ($line);<BR>
+printf (&quot;%d %-52s *\n&quot;, $ctr++, $line);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">-n</FONT></TT> and <TT><FONT FACE="Courier">-e</FONT></TT>
+options can be used together to perform a function on each line
+of input of all input files. For example, the following statements
+both search for the word <TT><FONT FACE="Courier">param</FONT></TT>
+in all files whose names end with <TT><FONT FACE="Courier">.pl</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -n -e &quot;print $_ if (/param/);&quot;
+*.pl<BR>
+<BR>
+grep &quot;param&quot; *.pl</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">print $_ if (/param/);</FONT></TT>
+argument supplied with the <TT><FONT FACE="Courier">-e</FONT></TT>
+option is a one-line Perl program that prints the current line
+if the word<I> </I><TT><FONT FACE="Courier">param</FONT></TT>
+is found in it. The <TT><FONT FACE="Courier">-n</FONT></TT> option
+executes the one-line program once for each input line that is
+set into the system variable <TT><FONT FACE="Courier">$_</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">-p</FONT></TT> option is like the
+<TT><FONT FACE="Courier">-n </FONT></TT>option except that it
+prints each line as it reads each line. The <TT><FONT FACE="Courier">-p</FONT></TT>
+option is designed for use with the <TT><FONT FACE="Courier">-i</FONT></TT>
+option, which is described in the following section. If both the
+<TT><FONT FACE="Courier">-p</FONT></TT> and the <TT><FONT FACE="Courier">-n</FONT></TT>
+options are specified, the <TT><FONT FACE="Courier">-n</FONT></TT>
+option is ignored.
+<H3><A NAME="TheiOptiontoEditFiles">The <TT><FONT SIZE=4 FACE="Courier">-i</FONT></TT><FONT SIZE=4>
+Option to Edit Files</FONT></A></H3>
+<P>
+Both the <TT><FONT FACE="Courier">-n</FONT></TT> and <TT><FONT FACE="Courier">-p</FONT></TT>
+options read lines from the files whose names are listed on the
+command line. When the <TT><FONT FACE="Courier">-i</FONT></TT>
+option is used with the <TT><FONT FACE="Courier">-p</FONT></TT>
+option, the Perl interpreter takes the input lines being read
+and writes them back out to the files from which they came. For
+example, consider the following command:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -p -i -e &quot;s/Costa/Rica/g;&quot;
+*.txt</FONT></TT>
+</BLOCKQUOTE>
+<P>
+It replaces every instance of <TT><FONT FACE="Courier">Costa</FONT></TT>
+with <TT><FONT FACE="Courier">Rica</FONT></TT> in all the files
+whose names end with <TT><FONT FACE="Courier">.txt</FONT></TT>.
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Caution</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Do not use the <TT><FONT FACE="Courier">-i</FONT></TT> option with the <TT><FONT FACE="Courier">-n</FONT></TT> option. The following command:
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -n -i -e &quot;s/Stock/Option/g;&quot; *.txt</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+also changes all occurrences of <TT><FONT FACE="Courier">Stock</FONT></TT> to <TT><FONT FACE="Courier">Option</FONT></TT>. However, it does <I>not</I> write out the input lines after it changes them! Because the <TT><FONT FACE="Courier">-i</FONT></TT> 
+option forces the input files to be written to and nothing is printed, you'll erase the contents of all the files with <TT><FONT FACE="Courier">.txt</FONT></TT> extensions!
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">-i</FONT></TT> option does not have
+to work in conjunction with the <TT><FONT FACE="Courier">-p</FONT></TT>
+option if the program that uses the option contains the <TT><FONT FACE="Courier">&lt;&gt;</FONT></TT>
+operator inside a loop. For example, consider the following command:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -i *.txt</FONT></TT>
+</BLOCKQUOTE>
+<P>
+It will copy the content of each input file to a temporary file
+and then open it for reading. The input file is closed and then
+reopened for writing. This process is repeated for all input files.
+<P>
+Listing 16.1 presents a simple example of a program using both
+the <TT><FONT FACE="Courier">-i</FONT></TT> option and the <TT><FONT FACE="Courier">&lt;&gt;</FONT></TT>
+operator. This program replaces all occurrences of <TT><FONT FACE="Courier">Wall</FONT></TT>
+with <TT><FONT FACE="Courier">Brick</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.1. A program that edits files using the </B><TT><B><FONT FACE="Courier">-i</FONT></B></TT><B>
+option.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!perl -I<BR>
+2 while ($line = &lt;&gt;) {<BR>
+3 $line =~ s/Wall/Brick/g;<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print ($line);
+<BR>
+5 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+No output is sent to the screen because the output is redirected
+to each input file. 
+<P>
+The <TT><FONT FACE="Courier">-i</FONT></TT> option can be used
+to back up input files, too. By specifying a new file extension
+to the <TT><FONT FACE="Courier">-i</FONT></TT> option, you can
+ask that the new extension be appended to the filename being written
+to. For example, the following command: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -i .bak dog mouse</FONT></TT>
+</BLOCKQUOTE>
+<P>
+will result in two extra files, <TT><FONT FACE="Courier">dog.bak</FONT></TT>
+and <TT><FONT FACE="Courier">mouse.bak</FONT></TT>, being written
+to disk. The <TT><FONT FACE="Courier">.bak</FONT></TT> file extension
+specified with <TT><FONT FACE="Courier">-i</FONT></TT> will force
+the Perl interpreter to copy each <TT><I><FONT FACE="Courier">file</FONT></I></TT>
+to <TT><I><FONT FACE="Courier">file.bak</FONT></I></TT> before
+overwriting it. 
+<H3><A NAME="UsingtheaOption">Using the <TT><FONT SIZE=4 FACE="Courier">-a</FONT></TT><FONT SIZE=4>
+Option</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">-a</FONT></TT> option is used for
+extracting words from files. The <TT><FONT FACE="Courier">-a</FONT></TT>
+option is designed to be used with the <TT><FONT FACE="Courier">-n</FONT></TT>
+or <TT><FONT FACE="Courier">-p</FONT></TT> option to split incoming
+lines into a list of items in the <TT><FONT FACE="Courier">@F</FONT></TT>
+array. Each item in the <TT><FONT FACE="Courier">@F</FONT></TT>
+array is a word derived by applying the <TT><FONT FACE="Courier">split('
+',$_)</FONT></TT> function to each input line. For example, if
+your input file contains the following line:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">My name is&nbsp;&nbsp;&nbsp;&nbsp; Kamran
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+the result of the <TT><FONT FACE="Courier">-a</FONT></TT> option
+that reads this line sets the contents of the array <TT><FONT FACE="Courier">@F</FONT></TT>
+to be the following list:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">(&quot;My&quot;, &quot;name&quot;, &quot;is&quot;,
+&quot;Kamran&quot;)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Note that extraneous spaces and tabs from the input line have
+not been added to the <TT><FONT FACE="Courier">@F</FONT></TT>
+array. 
+<P>
+Listing 16.2 shows a sample program of how to use the <TT><FONT FACE="Courier">-a</FONT></TT>
+option to extract all numeric values that are the first word of
+an input line. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.2. Sample use of the </B><TT><B><FONT FACE="Courier">-a</FONT></B></TT><B>
+option.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1&nbsp;&nbsp;#!perl -a -n<BR>
+2&nbsp;&nbsp;while ($F[0] =~ /[^\d.]/) {<BR>
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shift
+(@F);<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next
+if (!defined($F[0]));<BR>
+5&nbsp;&nbsp;}<BR>
+6&nbsp;&nbsp;print (&quot;$F[0] \n&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Note that this program prints every line and prints only the first
+word that does not contain a digit or a <TT><FONT FACE="Courier">.</FONT></TT>
+character.
+<H3><A NAME="UsingtheFOption">Using the <TT><FONT SIZE=4 FACE="Courier">-F</FONT></TT><FONT SIZE=4>
+Option</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">-F</FONT></TT> option is designed
+to be used along with the <TT><FONT FACE="Courier">-a</FONT></TT>
+option. It is used to specify the pattern to use when splitting
+input lines into words. For example, if the input fields on each
+line that is input to a program are separated by a colon, you
+would use the following statement: 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -a -n -F: textfile</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In this case, the words in the input file are assumed to be separated
+by a colon. You can use opening and closing slashes as pattern
+delimiters. This means that both the following programs do the
+same thing:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">prog -a -n -F: *.txt<BR>
+<BR>
+prog -a -n -F/:/ *.txt</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="Usingthe0Option">Using the <TT><FONT SIZE=4 FACE="Courier">-0</FONT></TT><FONT SIZE=4>
+Option</FONT></A></H3>
+<P>
+The default end-of-input for one line of text in Perl is the newline.
+That is, the Perl interpreter reads a line from an input file
+or from the keyboard until it sees a newline character. You can
+specify an end-of-line input character other than the newline
+character by using the <TT><FONT FACE="Courier">-0<I> OOO</I></FONT></TT>
+option. The <TT><FONT FACE="Courier">0</FONT></TT> here is the
+digit zero for the option, and the letter <TT><FONT FACE="Courier">O</FONT></TT>
+is the octal number to replace the newline character. For example,
+the following command:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">perl -0 07 program *.bin</FONT></TT>
+</BLOCKQUOTE>
+<P>
+will let the named <TT><FONT FACE="Courier">program</FONT></TT>
+use the bell character (7 octal) as the end-of-line character
+when it reads the input files that have a <TT><FONT FACE="Courier">.bin</FONT></TT>
+extension. 
+<P>
+For example, the following header comment line will set the end-of-line
+character to a space, (octal 40): 
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#!perl -0 040</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To read one paragraph at a time, specify <TT><FONT FACE="Courier">00</FONT></TT>
+as the input to the <TT><FONT FACE="Courier">-0</FONT></TT> option.
+This will let the Perl interpreter read input until it sees two
+newlines together, and thus you will be able to read in one paragraph
+at a time. If you do not specify a value with the <TT><FONT FACE="Courier">-0</FONT></TT>
+option, the Perl interpreter assumes the null character (ASCII
+0).
+<H3><A NAME="UsingthelOption">Using the <TT><FONT SIZE=4 FACE="Courier">-l</FONT></TT><FONT SIZE=4>
+Option</FONT></A><FONT SIZE=4> </FONT></H3>
+<P>
+The <TT><FONT FACE="Courier">-l</FONT></TT> option lets you use
+a new output end-of-line character for printing statements. Like
+the <TT><FONT FACE="Courier">-0</FONT></TT> option, the <TT><FONT FACE="Courier">-l</FONT></TT>
+option takes an octal number instead of an ASCII character for
+use in place of the newline. This is a one, not the letter &quot;el.&quot;
+When the <TT><FONT FACE="Courier">-l</FONT></TT> option is specified,
+the Perl interpreter always replaces the end-of-line character
+in print statements with the newer version. Also, in the case
+of <TT><FONT FACE="Courier">-n</FONT></TT> or <TT><FONT FACE="Courier">-p</FONT></TT>
+options, the end-of-line character is removed after reading the
+input. 
+<P>
+The Perl interpreter uses the character specified by the <TT><FONT FACE="Courier">-0</FONT></TT>
+option, if it is defined, in case you do not specify the <TT><FONT FACE="Courier">-I</FONT></TT>
+option. If <TT><FONT FACE="Courier">-0</FONT></TT> also has not
+been specified, the end-of-line character is set to the newline
+character.
+<P>
+When using both the <TT><FONT FACE="Courier">-l</FONT></TT> and
+the <TT><FONT FACE="Courier">-0</FONT></TT> option, specify the
+<TT><FONT FACE="Courier">-1</FONT></TT> option first, then <TT><FONT FACE="Courier">-0</FONT></TT>
+option. Recall that options are processed from left to right.
+If the <TT><FONT FACE="Courier">-l</FONT></TT> option appears
+first, the output end-of-line character is set to the newline
+character. If the <TT><FONT FACE="Courier">-0</FONT></TT> option
+appears first, the output end-of-line character (set by <TT><FONT FACE="Courier">-l</FONT></TT>)
+becomes the same as the input end-of-line character (set by <TT><FONT FACE="Courier">-0</FONT></TT>).
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+It's probably easier to control the input and output end-of-line characters also by using the system variables <TT><FONT FACE="Courier">$/</FONT></TT> and <TT><FONT FACE="Courier">$\</FONT></TT>, respectively. 
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="UsingthexOptiontoGetaPerlProgra">Using the <TT><FONT SIZE=4 FACE="Courier">-x</FONT></TT><FONT SIZE=4>
+Option to Get a Perl Program from Another File</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">-x</FONT></TT> option enables you
+to process a Perl program that appears in the middle of a file.
+When the <TT><FONT FACE="Courier">-x</FONT></TT> option is specified,
+the Perl interpreter ignores every line in the program until it
+sees a header comment. The Perl interpreter then processes the
+program as usual until the bottom of the program file is reached
+or the <TT><FONT FACE="Courier">__END__</FONT></TT> statement
+is reached. Everything after the <TT><FONT FACE="Courier">__END__</FONT></TT>
+statement is ignored by the Perl interpreter. 
+<H3><A NAME="UsingtheSOption">Using the <TT><FONT SIZE=4 FACE="Courier">-S</FONT></TT><FONT SIZE=4>
+Option</FONT></A></H3>
+<P>
+You need to use <TT><FONT FACE="Courier">-S</FONT></TT> only if
+you run your Perl program using the <TT><FONT FACE="Courier">Perl
+</FONT></TT>command. If you run a program directly using a script,
+the <TT><FONT FACE="Courier">-S</FONT></TT> option is meaningless
+because the shell will hunt for your program in the directories
+specified in your <TT><FONT FACE="Courier">PATH</FONT></TT> environment
+variable. The <TT><FONT FACE="Courier">-S</FONT></TT> option simply
+tells the Perl interpreter that your program might be contained
+in any of the directories specified by your <TT><FONT FACE="Courier">PATH</FONT></TT>
+environment variable. 
+<H3><A NAME="ThevOptionPrintingthePerlVersion">The <TT><FONT SIZE=4 FACE="Courier">-v</FONT></TT><FONT SIZE=4>
+Option: Printing the Perl Version Number</FONT></A></H3>
+<P>
+You might be curious as to which version of Perl you are running.
+The <TT><FONT FACE="Courier">-v</FONT></TT> option prints a string
+with the version information for the Perl interpreter you are
+running. The Perl interpreter will not run any scripts, nor will
+it honor any other options when this <TT><FONT FACE="Courier">-v</FONT></TT>
+option is specified. Here is sample output from the <TT><FONT FACE="Courier">-v</FONT></TT>
+command:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>perl -v<BR>
+</B>This is perl, version 5.002<BR>
+<BR>
+Copyright 1987-1996, Larry Wall<BR>
+<BR>
+Perl may be copied only under the terms of either the Artistic
+License or the<BR>
+GNU General Public License, which may be found in the Perl 5.0
+source kit.</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Now that you've learned the command-line options for the Perl
+interpreter, you're ready to learn how to process input in your
+Perl applications.
+<H3><A NAME="UsingConditionalCodewiththeCPrepro">Using Conditional
+Code with the C Preprocessor</A></H3>
+<P>
+The C preprocessor also provided five statements, <TT><FONT FACE="Courier">#ifdef</FONT></TT>,
+<TT><FONT FACE="Courier">#ifndef</FONT></TT>,<TT><FONT FACE="Courier">
+#if</FONT></TT>, <TT><FONT FACE="Courier">#else</FONT></TT>, and
+<TT><FONT FACE="Courier">#endif</FONT></TT>, for conditional statements
+to include or exclude parts of your Perl program. The syntax for
+the <TT><FONT FACE="Courier">#ifdef</FONT></TT> and <TT><FONT FACE="Courier">#endif</FONT></TT>
+statements is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#ifdef <I>cond<BR>
+<I>...code if cond is defined...<BR>
+</I></I>#else <BR>
+<I>...code if cond is NOT defined...<BR>
+</I>#endif</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><I><FONT FACE="Courier">cond</FONT></I></TT> is a character
+string that can be used in a <TT><FONT FACE="Courier">#define</FONT></TT>
+statement. If the character string has been defined to a value,
+the first set of code (above the <TT><FONT FACE="Courier">#else</FONT></TT>
+clause) is inserted in your program; otherwise, the second part
+of code (after the <TT><FONT FACE="Courier">#else</FONT></TT>
+and before the <TT><FONT FACE="Courier">#endif</FONT></TT> clause)
+is inserted in your program. Because the <TT><FONT FACE="Courier">#else</FONT></TT>
+clause is optional, you can also have statements of the form
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#ifdef <I>cond<BR>
+<I>...code if cond is defined...<BR>
+</I></I>#endif</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">#ifndef</FONT></TT> lets you define
+code that is to be executed when a particular string is not defined.
+Thus, <TT><FONT FACE="Courier">#ifndef</FONT></TT> takes the opposite
+action of the <TT><FONT FACE="Courier">#ifdef</FONT></TT> statement.
+For example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#ifdef SOMBER<BR>
+print (&quot;Hello, Cruel world!\n&quot;);<BR>
+#else<BR>
+print (&quot;Hello, Beautiful world!\n&quot;);<BR>
+#endif</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This code prints a sad message (<TT><FONT FACE="Courier">Hello,
+Cruel world!</FONT></TT>) if <TT><FONT FACE="Courier">SOMBER</FONT></TT>
+was defined earlier, or a happy message (<TT><FONT FACE="Courier">Hello,
+Beautiful world!</FONT></TT>) if <TT><FONT FACE="Courier">SOMBER</FONT></TT>
+was not defined earlier. 
+<P>
+Code enclosed by <TT><FONT FACE="Courier">#ifdef</FONT></TT> and
+<TT><FONT FACE="Courier">#endif</FONT></TT> does not have to be
+a complete Perl statement. For example, the following code will
+set the value of <TT><FONT FACE="Courier">$result</FONT></TT>
+to different settings based on the whether or not <TT><FONT FACE="Courier">METRIC</FONT></TT>
+was defined:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$area =&nbsp;&nbsp;$radius * PI * 2<BR>
+#ifdef METRIC<BR>
+* 2.54<BR>
+#endif<BR>
+;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here, <TT><FONT FACE="Courier">$result</FONT></TT> is assigned
+a value in centimeters if <TT><FONT FACE="Courier">METRIC</FONT></TT>
+is defined or in inches if it's not.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Tip</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Don't overuse the C preprocessor because it might make your program hard to read, especially by people who are not familiar with the C programming language.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">#if</FONT></TT> statement in the
+C preprocessor is similar to the <TT><FONT FACE="Courier">#ifdef</FONT></TT>
+statement. The <TT><FONT FACE="Courier">#if</FONT></TT> statement
+uses the value of a variable, whereas the <TT><FONT FACE="Courier">#ifdef</FONT></TT>
+statement simply checks to see whether a variable is defined.
+The syntax for the <TT><FONT FACE="Courier">#if</FONT></TT> statement
+is as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#if <I>expr<BR>
+<I>...code...<BR>
+</I></I>#endif</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><I><FONT FACE="Courier">expr</FONT></I></TT> is the expression
+that is evaluated by the C preprocessor, and <TT><I><FONT FACE="Courier">code</FONT></I></TT>
+is the code to be executed if <TT><I><FONT FACE="Courier">expr</FONT></I></TT>
+is nonzero. For example, the following statements will set the
+value of <TT><FONT FACE="Courier">$result</FONT></TT> to <TT><FONT FACE="Courier">&quot;hello&quot;</FONT></TT>
+if the sum of <TT><FONT FACE="Courier">S1</FONT></TT> and <TT><FONT FACE="Courier">S2</FONT></TT>
+is nonzero:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#if S1 + S2<BR>
+$result = &quot;hello&quot;;<BR>
+#endif</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If you want to set the value of <TT><FONT FACE="Courier">$result</FONT></TT>
+if either <TT><FONT FACE="Courier">S1</FONT></TT> or <TT><FONT FACE="Courier">S2</FONT></TT>
+is set to a nonzero value, you can use the following statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#if S1 || S2<BR>
+$result = &quot;hello&quot;;<BR>
+#endif</FONT></TT>
+</BLOCKQUOTE>
+<P>
+By specifying <TT><FONT FACE="Courier">0</FONT></TT> to the <TT><FONT FACE="Courier">#if</FONT></TT>
+statement, you can easily prevent lines of code from being interpreted
+without having to put a hash (<TT><FONT FACE="Courier">#</FONT></TT>)
+in front of each line:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#if 0<BR>
+$result = &quot;hello&quot;;<BR>
+print (&quot;I will not be printed if the -P option is used.\n&quot;);
+<BR>
+#endif</FONT></TT>
+</BLOCKQUOTE>
+<P>
+You can also use <TT><FONT FACE="Courier">#else</FONT></TT> with
+the <TT><FONT FACE="Courier">#if</FONT></TT> operator:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#if S1 || S2<BR>
+$result = &quot;hello&quot;;<BR>
+#else<BR>
+$result = &quot;goodbye&quot;; <BR>
+#endif</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In this case, the value of <TT><FONT FACE="Courier">$result</FONT></TT>
+will be <TT><FONT FACE="Courier">&quot;hello&quot;</FONT></TT>
+if either <TT><FONT FACE="Courier">S1</FONT></TT> or <TT><FONT FACE="Courier">S2</FONT></TT>
+has a nonzero value; otherwise, the value will be <TT><FONT FACE="Courier">&quot;goodbye&quot;</FONT></TT>.
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The C preprocessor does not support the exponent operator, so you cannot evaluate <BR>
+<TT><FONT FACE="Courier">(x ** y)</FONT></TT> with the <TT><FONT FACE="Courier">#if</FONT></TT> statement.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+You can embed <TT><FONT FACE="Courier">#ifdef</FONT></TT>/<TT><FONT FACE="Courier">#else</FONT></TT>/<TT><FONT FACE="Courier">#endif</FONT></TT>
+constructs inside one another. Just make sure that you match all
+the <TT><FONT FACE="Courier">#ifdef</FONT></TT> and <TT><FONT FACE="Courier">#endif</FONT></TT>
+statements so that there is one <TT><FONT FACE="Courier">#endif</FONT></TT>
+for each <TT><FONT FACE="Courier">#ifdef</FONT></TT> and <TT><FONT FACE="Courier">#ifndef</FONT></TT>
+statement. For example, here is a snippet of code that illustrates
+how the nesting is done with two <TT><FONT FACE="Courier">#ifdef</FONT></TT>
+blocks:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#ifdef S1<BR>
+#ifdef S2<BR>
+print (&quot;Both S1 and S2 are defined \n&quot;);<BR>
+#else<BR>
+print (&quot;S1 yes but not S2\n&quot;);<BR>
+#endif<BR>
+#else<BR>
+#ifdef S2<BR>
+print (&quot;S2 yes but not S1\n&quot;);<BR>
+#else<BR>
+print (&quot;neither S1 nor S2\n&quot;);<BR>
+#endif<BR>
+#endif</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Normally, you would include other Perl programs and modules with
+the <TT><FONT FACE="Courier">require</FONT></TT> and <TT><FONT FACE="Courier">use</FONT></TT>
+statements. You can also use the <TT><FONT FACE="Courier">#include</FONT></TT>
+directive of the C preprocessor to include the contents of another
+file. The syntax for the <TT><FONT FACE="Courier">#include</FONT></TT>
+command is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#include <I>filename</I></FONT></TT>
+</BLOCKQUOTE>
+<P>
+where <TT><I><FONT FACE="Courier">filename</FONT></I></TT> is
+the name of the file to be included.
+<P>
+For example, the following command includes the contents of <TT><FONT FACE="Courier">math.h</FONT></TT>
+as part of the program:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#include &lt;math.h&gt;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The contents of <TT><FONT FACE="Courier">math.h</FONT></TT> will
+also be run through the C preprocessor before it's included. The
+C preprocessor searches for the included file in the current directory
+and, if not found, in the <BR>
+<TT><FONT FACE="Courier">/usr/local/lib/perl</FONT></TT> directory.
+You can use the <TT><FONT FACE="Courier">-I</FONT></TT> option
+to search in other directories for source and include files. 
+<H2><A NAME="ReadingInputfromSTDIN"><FONT SIZE=5 COLOR=#FF0000>Reading
+Input from </FONT><TT><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">STDIN</FONT></TT></A>
+</H2>
+<P>
+In a Perl script, you can easily read the standard input for responses
+with the <TT><FONT FACE="Courier">&lt;STDIN&gt;</FONT></TT> file
+handle. The following three lines of code show you how to get
+a number from a user and return the square root of the number:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">print &quot;\nEnter a number:&quot;;
+<BR>
+$answer = &lt;STDIN&gt;;<BR>
+print &quot;Sq. root of $answer = &quot;, sqrt($answer), &quot;\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This little gem of code works great as long you are careful enough
+to enter only positive numbers. Enter a negative number, and the
+script bombs. Therefore, before taking the square root, you have
+to check to see if the number is greater than or equal to zero;
+otherwise, you have to bail out with an error message.
+<P>
+Another annoying fact is that reading <TT><FONT FACE="Courier">$answer=&lt;STDIN&gt;</FONT></TT>
+also brings along the <TT><FONT FACE="Courier">\n</FONT></TT>
+end-of-line character. Therefore, to remove this appendage from
+<TT><FONT FACE="Courier">$answer</FONT></TT>, you have to call
+the function <TT><FONT FACE="Courier">chop($answer)</FONT></TT>.
+<P>
+<TT><FONT FACE="Courier">The &lt;STDIN&gt;</FONT></TT> operation
+is used to read from the <TT><FONT FACE="Courier">STDIN</FONT></TT>
+file handle for reading from standard input. To read each line
+one at a time from the standard input <TT><FONT FACE="Courier">&lt;STDIN&gt;</FONT></TT>,
+you use a program like this one:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">while ($_ = &lt;STDIN&gt;) {<BR>
+chop($_);<BR>
+print $_;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Because <TT><FONT FACE="Courier">$_</FONT></TT> is the default
+storage area for the last line read in a Perl script, any references
+to <TT><FONT FACE="Courier">$_</FONT></TT> can be removed when
+implicitly implied. For example, the previous excerpt of code
+could be written as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">while (&lt;STDIN&gt;) {<BR>
+chop;<BR>
+print;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To read complete files by specifying the filename from the command
+line, you can use the <TT><FONT FACE="Courier">&lt;&gt;</FONT></TT>
+operator. For example, the following code reads and prints the
+contents of the files specified on the command line:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">while (&lt;&gt;) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+$_;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In this way, you are reading all the files specified on the command
+line and then processing the contents of the files one line at
+time by simply printing the contents of each. Think of this as
+an equivalent to saying <TT><FONT FACE="Courier">cat file1 file2
+file3 &#133;</FONT></TT> and so on. The <TT><FONT FACE="Courier">&lt;&gt;</FONT></TT>
+is equivalent to <TT><FONT FACE="Courier">&lt;ARGV&gt;</FONT></TT>
+where <TT><FONT FACE="Courier">ARGV</FONT></TT> is either <TT><FONT FACE="Courier">STDIN</FONT></TT>
+if no files were specified or the contents of all the files in
+the order they were specified at the command line. 
+<H3><A NAME="TheTermQueryModule">The <TT><FONT SIZE=4 FACE="Courier">Term::Query</FONT></TT><FONT SIZE=4>
+Module</FONT></A></H3>
+<P>
+The previous example for getting the square root of a number is
+a very simple example of what you normally run into when getting
+user responses to questions. Your query expects a response of
+<I>Y</I> for Yes and <I>N</I> for No, but the user's response
+might be a firm <I>M</I> for Maybe. If you have twenty questions,
+the last thing you want to do is to have to verify the responses.
+This is when it's nice to have modules that do the work for you.
+<P>
+<TT><FONT FACE="Courier">Term::Query</FONT></TT> is a Perl 5 module
+written by Alan K. Stebbens. The module is used to provide a set
+of questions, a default response, a set of expected responses
+per question, and a help string to assist the end user. Not all
+of these items have to be specified; only the query is required.
+<P>
+If you do not specify a set of expected return values to a query,
+the module will accept anything as input. On the other hand, if
+you do specify a set of parameters, the module will validate the
+responses for you.
+<P>
+The default response to a query can also be set. The default response
+is displayed between square brackets. If no default is specified,
+there will be no such response displayed for the user.
+<P>
+Finally, you can specify a help string for the input question.
+This string is displayed if the user types <B>?</B> at the prompt.
+You can disable the display of the help string if you want ? to
+be an acceptable response to a query. The help messages can also
+be based on expected input types. There are built-in help messages
+for some types of input that are displayed even if you do not
+explicitly specify a help message. The built-in help strings are
+quite verbose and may be enough for most general cases.
+<P>
+If at any time during the entry and validation process a bizarre
+response is given, the module can stop and ask the same question
+again. This capability to ask the same query again until a correct
+response is received (or the user types the Ctrl+C key combination)
+is great for ensuring that the right user responses get into your
+Perl script.
+<P>
+The module itself contains more details about its internal operations.
+The documenation is located in the module in the Perl 5 &quot;pod&quot;
+format. You can convert a pod file into a man page with the following
+command:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">pod2man Query.pm | nroff -man - | less</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">pod2man</FONT></TT> code was developed
+in version 5.001m  and requires at least <TT><FONT FACE="Courier">Perl5.001m</FONT></TT>.
+This is because the <TT><FONT FACE="Courier">pod2man</FONT></TT>
+code uses references in the <TT><FONT FACE="Courier">Carp.pm</FONT></TT>
+module to diagnose itself and in the <TT><FONT FACE="Courier">PrintArray.pm</FONT></TT>
+module. (Both modules are written by Alan Stebbens.)
+<P>
+Installing the module is easy. First check to see whether you
+have the module already in your distribution. Go to your <TT><FONT FACE="Courier">/usr/lib/perl5,
+/usr/local/lib/perl5/site_perl</FONT></TT>, or <TT><FONT FACE="Courier">/usr/local/lib/perl5</FONT></TT>
+directory (or wherever you have installed Perl) and look for the
+file <TT><FONT FACE="Courier">Query.pm</FONT></TT>. The file will
+most likely be in the directory <TT><FONT FACE="Courier">/usr/lib/perl5/Term</FONT></TT>.
+<P>
+If you cannot find the file, you can get it from the ftp sites
+at <TT><FONT FACE="Courier">hubs.ucsb.edu/pub</FONT></TT> and
+<TT><FONT FACE="Courier">ikra.com:/pub/perl/modules</FONT></TT>.
+Here's a list of the modules you need:
+<UL>
+<LI><TT><FONT FACE="Courier">Term-Query-1.15.tar.gz</FONT></TT>
+for the <TT><FONT FACE="Courier">Term</FONT></TT> module
+<LI><TT><FONT FACE="Courier">PrintArray-1.1.tar.gz</FONT></TT>,
+a required module for <TT><FONT FACE="Courier">Term</FONT></TT>
+</UL>
+<P>
+Unzip and un<TT><FONT FACE="Courier">tar</FONT></TT> these files
+in a place away from the <TT><FONT FACE="Courier">PERLLIBDIR</FONT></TT>
+directory.
+<P>
+You have to set the environment variable <TT><FONT FACE="Courier">PERLLIBDIR</FONT></TT>
+to either <TT><FONT FACE="Courier">/usr/lib/perl5</FONT></TT>
+or <TT><FONT FACE="Courier">/usr/local/lib/perl5</FONT></TT>.
+<P>
+Copy the <TT><FONT FACE="Courier">Query.pm</FONT></TT> file into
+the <TT><FONT FACE="Courier">$PERLLIBDIR/Term</FONT></TT> directory.
+You have to be superuser to do this. Create the directory if you
+do not already have it. Copy the <TT><FONT FACE="Courier">PrintArray.pm</FONT></TT>
+file into the location <TT><FONT FACE="Courier">PERLLIBDIR</FONT></TT>.
+You can use the Makefiles that come with the modules, but the
+copying method has proved to work without having to edit any pathnames
+in the Makefiles. It's worth taking a look at the test target
+in the Makefile to see how the regression tests are done in the
+test directory.
+<P>
+There is one primary subroutine, called <TT><FONT FACE="Courier">query</FONT></TT>,
+which is called to process one interaction with the user. The
+subroutine <TT><FONT FACE="Courier">query()</FONT></TT> is passed
+a prompt and some flags, optionally followed by additional arguments,
+depending on the particular flags. Each flag is a single character
+and indicates the following values:
+<UL>
+<LI><FONT COLOR=#000000>The input type: integer, real, string,
+yes/no, keyword, or non-keyword</FONT>
+<LI><FONT COLOR=#000000>What default input to use in the absence
+of user input</FONT>
+<LI><FONT COLOR=#000000>An optional help string to be displayed
+for errors or input of a question mark (</FONT><TT><FONT FACE="Courier">?</FONT></TT>)
+<LI><FONT COLOR=#000000>Any required input validation, such as
+regular expression or pattern matching, maximum length, and so
+on</FONT>
+<LI><FONT COLOR=#000000>Any use of </FONT><TT><FONT FACE="Courier">chop()</FONT></TT>
+or white space removal
+</UL>
+<P>
+I'll cover these options with some samples. The following sections
+describe how you can use the module.
+<H3><A NAME="UsingtheTermQueryModule">Using the <TT><FONT SIZE=4 FACE="Courier">Term::Query</FONT></TT><FONT SIZE=4>
+Module</FONT></A></H3>
+<P>
+Here's the syntax for the call to the <TT><FONT FACE="Courier">query</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$result = query($prompt, $flags, [optional
+fields]);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">$prompt</FONT></TT> string is displayed,
+and the response entered is interpreted on the value in <TT><FONT FACE="Courier">$flags</FONT></TT>.
+The optional fields may be <TT><FONT FACE="Courier">NULL</FONT></TT>
+but must be at least as large as required by the flags.
+<P>
+What are these flags and how did they get interpreted by <TT><FONT FACE="Courier">query()</FONT></TT>?
+The flags indicate the type or attribute of the value. Each flag
+may have parameters associated with it. The order in which the
+flags are listed must be the same order in which the parameters
+are listed. Therefore, if you list flags <TT><FONT FACE="Courier">rdh</FONT></TT>,
+then you'll have two more strings in the argument list in the
+order of a default string and a help message string.
+<P>
+There are several flags you can use with the <TT><FONT FACE="Courier">Query</FONT></TT>
+package. Some of these you have already seen, some are described
+in Table 16.2. There is more documentation on other esoteric flags
+included in the module.<BR>
+<P>
+<CENTER><B>Table 16.2. Flags for the interpretation of input variables.</B></CENTER>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><I>Flag</I></CENTER></TD><TD WIDTH=540><I>Interpretation</I>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">d</FONT></TT></CENTER>
+</TD><TD WIDTH=540>The default response to use if you get no input from the question.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">H</FONT></TT></CENTER>
+</TD><TD WIDTH=540>Ignores the question mark as a request for help. Treats it as a response to a question.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">h</FONT></TT></CENTER>
+</TD><TD WIDTH=540>The help string.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">i</FONT></TT></CENTER>
+</TD><TD WIDTH=540>Accepts Integer input only.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">I</FONT></TT></CENTER>
+</TD><TD WIDTH=540>Specifies a reference to a function to use instead of read <TT><FONT FACE="Courier">&lt;STDIN&gt;</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">k</FONT></TT></CENTER>
+</TD><TD WIDTH=540>Specifies a table reference of allowed responses to the question.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">K</FONT></TT></CENTER>
+</TD><TD WIDTH=540>Specifies a table reference of disallowed responses to the question.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">l</FONT></TT></CENTER>
+</TD><TD WIDTH=540>Limits the length of the input.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">m</FONT></TT></CENTER>
+</TD><TD WIDTH=540>Uses the argument as a regular expression for processing responses.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">n</FONT></TT></CENTER>
+</TD><TD WIDTH=540>Accepts Real or Integer.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">N</FONT></TT></CENTER>
+</TD><TD WIDTH=540>Requires a Yes/No response only. The default is N.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">r</FONT></TT></CENTER>
+</TD><TD WIDTH=540>An answer is required at the prompt.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><CENTER><TT><FONT FACE="Courier">Y</FONT></TT></CENTER>
+</TD><TD WIDTH=540>Requires a Yes/No response only. The default is Y.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Now, let's see how the flag <TT><FONT FACE="Courier">ridh</FONT></TT>
+is interpreted by the module. The first two flags, <TT><FONT FACE="Courier">r</FONT></TT>
+and <TT><FONT FACE="Courier">i</FONT></TT>, translate to &quot;required,
+integer value.&quot; No extra parameters are needed. The <TT><FONT FACE="Courier">d</FONT></TT>
+flag specifies that the next argument (<TT><FONT FACE="Courier">$_[1]</FONT></TT>)
+is used as the default value. The <TT><FONT FACE="Courier">h</FONT></TT>
+flag specifies that the next argument (<TT><FONT FACE="Courier">$_[2]</FONT></TT>)
+is used as the help string for the prompt.
+<P>
+The best way to start is to use an example. A sample script using
+the <TT><FONT FACE="Courier">query()</FONT></TT> subroutine is
+shown in Listing 16.3. 
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.3. Using the query subroutine.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;#!perl
+<BR>
+&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;# A sample usage of the query subroutine.
+<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;use Term::Query qw( query query_table
+query_table_set_defaults );<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;# Tell him what happened.<BR>
+&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;sub processReply {<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $reply =
+query @_; # &lt;&lt;&lt;&lt; The call to the query function &gt;&gt;&gt;
+<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Bail out?
+<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exit if $reply
+=~ /^\s*(later|bye)\s*$/;<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;You
+said = [%s]\n&quot;,$reply;<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $reply;
+<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n ------------------------------------------
+&quot;;<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n&nbsp;&nbsp;Application
+to join da rest of da boys -- &quot;;<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n ------------------------------------------
+&quot;;<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;# This will require a response.<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;$nameh = &amp;processReply(&quot;\nWhazza
+u name-h?&quot;,'rh',<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Whazza
+matah, u too stoopid to fouget yo name-h?');<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n Okay $nameh, lemme talk
+to u about it... \n&quot;;<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;# This subroutine will NOT require a
+response before proceeding.<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;$liveh = &amp;processReply(&quot;\nWheh
+you live-h&quot;);<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;# This will only accept a response of
+Y or N, the default being Y<BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;$wannbe = &amp;processReply(&quot;\nU
+wanna be amobstah?&quot;,'Y');<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;# This will only accept a response of
+Y or N, the default being N<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;$house = &amp;processReply(&quot;\nU
+bin to da Big Haus?&quot;,'N');<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;&nbsp;This one requires an integer,
+with a default reply and<BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;&nbsp;has help text for the question
+mark.<BR>
+42&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+43&nbsp;&nbsp;&nbsp;&nbsp;$iq = &amp;processReply (&quot;\nEnter
+your IQ:&quot;,<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ridh',
+<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# the default IQ<BR>
+46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Whazza
+matah? Give you shoe size-h');<BR>
+47&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+48&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;&nbsp;Use a list of keyowrds
+<BR>
+49&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+50&nbsp;&nbsp;&nbsp;&nbsp;$gunnh = &amp;processReply(&quot;\nWhat
+weapon you like?&quot;,<BR>
+51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'rkd',
+['GUN','38','lugah','mace','BO'],'GUN');<BR>
+52&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n Okay $nameh, lemme think
+about it... \n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The imports in line 5 are a bit extraneous for this simple example.
+The line could easily have been rewritten because none of the
+other three functions in the <TT><FONT FACE="Courier">Query.pm</FONT></TT>
+module are being used. Here's the line that would work:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">5&nbsp;&nbsp;&nbsp;&nbsp; use Term::Query
+qw( query );</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here's the function that processes each reply:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp; sub processReply
+{<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;my $reply =
+query @_;<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Bail out?<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exit if $reply
+=~ /^\s*(later|bye)\s*$/;<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;You
+said = [%s]\n&quot;,$reply;<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $reply;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Lines 9 through 16 are a subroutine to process the reply from
+the first parameter passed in. This subroutine simply calls the<TT><FONT FACE="Courier">
+query</FONT></TT> function, checks to see whether the user wants
+to exit and, if the user is not exiting, prints the reply. The
+reply is returned back to the caller.
+<P>
+Lines 24 and 25 process replies to the name question. In case
+the applicant does not know how to answer this one correctly,
+a help string is provided. The processed reply is echoed in the
+following <TT><FONT FACE="Courier">print</FONT></TT> statement:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">24&nbsp;&nbsp;&nbsp;&nbsp;$nameh = &amp;processReply(&quot;\nWhazza
+u name-h?&quot;,'rh',<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Whazza
+matah, u fouget yo name-h?');<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n Okay $nameh, lemme talk
+to u about it... \n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Line 30 requests input and even accepts a carriage return. No
+help string is given, nor is there any default response. If only
+a carriage return is entered, the reply back is set to <TT><FONT FACE="Courier">undef</FONT></TT>.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">30&nbsp;&nbsp;&nbsp;&nbsp;$liveh = &amp;processReply(&quot;\nWheh
+you live-h&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In Line 34, the <TT><FONT FACE="Courier">$wannabe</FONT></TT>
+variable is something like, y, Y, n, or N. The responses in this
+module are not case-sensitive.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">34&nbsp;&nbsp;$wannbe = &amp;processReply(&quot;\nU
+wanna be amobstah?&quot;,'Y');</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Line 38 does the reverse of Line 34 in that the default response
+is No instead of Yes. This is also not case-sensitive. Thus, nO
+is the same as No is the same as NO.
+<P>
+For case-sensitive comparisions between the response and a known
+string, set the variable <TT><FONT FACE="Courier">$Query::Case_sensitive</FONT></TT>
+to 1. By default, this value is set to 0 for case-insensitive
+comparisons.
+<P>
+Lines 43 through 46 require an input integer with the <TT><FONT FACE="Courier">ridh</FONT></TT>
+flag.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">43&nbsp;&nbsp;&nbsp;&nbsp;$iq = &amp;processReply
+(&quot;\nEnter your IQ:&quot;,<BR>
+44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ridh',
+<BR>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+# the default IQ<BR>
+46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Whazza
+matah? Give you shoe size-h');</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In line 50, a list of keywords to use is specified. Only the responses
+listed in the table are allowed:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">50&nbsp;&nbsp;&nbsp;&nbsp;$gunnh = &amp;processReply(&quot;\nWhat
+weapon you like?&quot;,<BR>
+51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'rkd',
+['GUN','38','lugah','mace','BO'],'GUN');<BR>
+52&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;\n Okay $nameh, lemme think
+about it... \n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The order of flags specified in the input to <TT><FONT FACE="Courier">query</FONT></TT>
+is also important because this also sets the order in which input
+validation is done. All input is validated in the order of the
+flags. When the first test fails, an error message is displayed
+and the testing stops:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">query &quot;Really format the disk? (yn)&quot;,
+'NV', \$ans;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To add a long help message, you can use the following example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ans = &amp;query(&quot;Are you sure??
+(yn)&quot;,'Nh',&lt;&lt;'MESSAGE');<BR>
+This is the time to back out. If you answer &quot;y&quot;, I will
+format the<BR>
+partition in $partitionName, any existing data on the partition
+will<BR>
+be lost. If you answer 'no' now, you can back out of the routine
+to<BR>
+specify another partition.<BR>
+MESSAGE</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Note the use of the variable <TT><FONT FACE="Courier">$partitionName</FONT></TT>
+in the string to print a value.
+<P>
+You can even use regular expressions to specify an input variable
+collection. Consider Listing 16.4, which uses regular expressions
+to match incoming words with the <TT><FONT FACE="Courier">m</FONT></TT>
+flag and does not allow certain words.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.4. Using regular expressions.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!perl<BR>
+&nbsp;2 #<BR>
+&nbsp;3 # A sample usage of the query subroutine.<BR>
+&nbsp;4 #<BR>
+&nbsp;5 use Term::Query qw( query query_table query_table_set_defaults
+);<BR>
+&nbsp;6 <BR>
+&nbsp;7 $names = &quot;itsy bitsy bambi&quot;;<BR>
+&nbsp;8 <BR>
+&nbsp;9 @fields = split(' ',$names); # existing fields<BR>
+10 $newNode = &amp;query('New node name:','rKmh',\@fields,'^\w+$',&lt;&lt;MSG);
+<BR>
+11 Enter a node name to add to the existing list:<BR>
+12 $names<BR>
+13 MSG<BR>
+14 <BR>
+15 $names .= &quot; &quot; . $newNode;<BR>
+16<BR>
+17 print &quot;The names are now:\n&quot;;<BR>
+18 print $names . &quot;\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<H3><A NAME="ExtendingtheQuerypmModule">Extending the <TT><FONT SIZE=4 FACE="Courier">Query.pm</FONT></TT><FONT SIZE=4>
+Module</FONT></A></H3>
+<P>
+There are two other routines in the <TT><FONT FACE="Courier">Query.pm</FONT></TT>
+module that allow easier processing of the question/answer sequences:
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=272><TT><FONT FACE="Courier">query_table()</FONT></TT>
+</TD><TD WIDTH=318>This function can be passed an array of arguments that are interactively passed to <TT><FONT FACE="Courier">query()</FONT></TT>. This is an easy way to get all your answers up front if you do not have to do any processing between 
+responses.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=272><TT><FONT FACE="Courier">query_table_set_defaults()</FONT></TT>
+</TD><TD WIDTH=318>This can be used on a query table array to cause any mentioned variables to be initialized with any mentioned default values. This is handy for having a single table define variables, default values, and validation criteria for setting 
+new values.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="Usingquerytable">Using <TT><FONT SIZE=4 FACE="Courier">query_table()</FONT></TT></A>
+</H3>
+<P>
+The <TT><FONT FACE="Courier">query_table()</FONT></TT> function
+is useful when you want to collect all the user input at one time
+without having to do any processing in between inputs. Basically,
+you pass in list of prompts, flags, and optional arguments to
+the <TT><FONT FACE="Courier">query_table</FONT></TT> function.
+The <TT><FONT FACE="Courier">query_table()</FONT></TT> function
+calls <TT><FONT FACE="Courier">query()</FONT></TT> on the list,
+collects the responses, and returns them in an array.
+<P>
+Here's the way to use <TT><FONT FACE="Courier">query_table</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">@array = query_table(<I> $prompt1, $flags,
+[ $arguments, ... </I>],<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;<I>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$prompt2,
+$flags, [ $arguments, ... ],<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;</I>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;<I>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$promptN,
+$flags, [ $arguments, ... ]</I> );</FONT></TT>
+</BLOCKQUOTE>
+<P>
+There are three items per query: a prompt string, a flags string,
+and an array of arguments. Note that the syntax specifies the
+use of the square brackets to show that the <TT><FONT FACE="Courier">arguments</FONT></TT>
+array is a variable length array. The array can be <TT><FONT FACE="Courier">empty</FONT></TT>
+if no arguments are needed for a set of flags for the entry.
+<P>
+A <TT><FONT FACE="Courier">query-table</FONT></TT> can be created
+with a set of variables, their default values, input validation
+parameters, and help strings. The <TT><FONT FACE="Courier">query_table_set_defaults()</FONT></TT>
+subroutine sets the default values in the table. The subroutine
+<TT><FONT FACE="Courier">query_table()</FONT></TT> processes each
+entry in this table to get the responses from the user.
+<P>
+Listing 16.5 contains a sample script using <TT><FONT FACE="Courier">query-table</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.5. Using </B><TT><B><FONT FACE="Courier">query<B>-table</B></FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1&nbsp;&nbsp;#!perl<BR>
+&nbsp;2&nbsp;&nbsp;#<BR>
+&nbsp;3&nbsp;&nbsp;# A sample usage of the query subroutine.<BR>
+&nbsp;4&nbsp;&nbsp;#<BR>
+&nbsp;5&nbsp;&nbsp;use Term::Query qw( query query_table query_table_set_defaults
+);<BR>
+&nbsp;6&nbsp;&nbsp;#<BR>
+&nbsp;7&nbsp;&nbsp;# Snagged straight out of the test module with
+this package.<BR>
+&nbsp;8&nbsp;&nbsp;#<BR>
+&nbsp;9&nbsp;&nbsp;sub qa {<BR>
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$ans = query @_;<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exit if $ans =~ /^\s*(exit|quit|abort)\s*$/;
+<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf &quot;Your Response
+= \&quot;%s\&quot;\n&quot;,(length($ans) ? $ans :<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defined($ans)
+? 'NULL' : 'undef');<BR>
+14 }<BR>
+15 @interrogator = ( &quot;What is your name?&quot;, 'Vrh',<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ 'name', 'Who are you?'
+]&nbsp;&nbsp;,<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;What is your age?&quot;,
+'Vrih',<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [ 'age', 32 , 'Please be
+honest are you?' ]&nbsp;&nbsp;,<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;Do you have carrots?&quot;,
+'VY',<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ 'carrots',
+'Y'&nbsp;&nbsp;]&nbsp;&nbsp;);<BR>
+21 #------------------------------------------------------------------
+<BR>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The
+variables $name, $age and $carrots will be set to default<BR>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# values
+(if any).<BR>
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#------------------------------------------
+<BR>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+query_table_set_defaults&nbsp;&nbsp;\@interrogator;<BR>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+foreach $var ( qw( name age carrots ) ) {<BR>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$val = $$var;<BR>
+29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;&nbsp;&nbsp;\$$var = \&quot;$val\&quot;\n&quot;;<BR>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#<BR>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# The
+variables $name, $age and $carrots will <BR>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# be set
+to default (if any) or the response values <BR>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# from
+the processing of the query table.<BR>
+35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$ret = query_table \@interrogator;<BR>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;queryTable returned $ret\n&quot;;<BR>
+37&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Echo
+them out.<BR>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+foreach $var ( qw( name age carrots ) ) {<BR>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+$val = $$var;<BR>
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print &quot;&nbsp;&nbsp;\$$var = \&quot;$val\&quot;\n&quot;;<BR>
+41&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+With typical usage, given <TT><FONT FACE="Courier">$prompt</FONT></TT>
+and <TT><FONT FACE="Courier">$flags</FONT></TT>, <TT><FONT FACE="Courier">query()</FONT></TT>
+prints <TT><FONT FACE="Courier">$prompt</FONT></TT> and then waits
+for input from the user. The handling of the response depends
+on the flag characters given in the <TT><FONT FACE="Courier">$flags</FONT></TT>
+string.
+<P>
+In Listing 16.5 the table has three prompt strings and three variables
+to which the received responses are assigned. See Lines 15 through
+20. You can just as easily have 50 entries in the table. This
+modular procedure makes it easy to set up a series of questions
+when no processing is required between responses. That is, you
+can collect your information all at once and then parse the collected
+information.
+<P>
+Note the use of the <TT><FONT FACE="Courier">V</FONT></TT> flag
+on all of the flags in the table in Listing 16.5, lines 17, 19,
+and 20. The <TT><FONT FACE="Courier">V</FONT></TT> flag forces
+the reference to the name of the variable to the level above its
+current execution level. Therefore, <TT><FONT FACE="Courier">$name</FONT></TT>,
+<TT><FONT FACE="Courier">$age</FONT></TT>, and <TT><FONT FACE="Courier">$carrot</FONT></TT>
+are defined in the calling module once the <TT><FONT FACE="Courier">query_table_set_defaults</FONT></TT>
+or <TT><FONT FACE="Courier">query_table</FONT></TT> call is made.
+Not setting the <TT><FONT FACE="Courier">V</FONT></TT> flag forces
+the variable to be local to the <TT><FONT FACE="Courier">Query</FONT></TT>
+module itself, and any responses in the named variables are lost.
+<P>
+The <TT><FONT FACE="Courier">Term::Query</FONT></TT> module is
+an excellent tool for prompting and collecting user responses
+to commands. If you would like more detailed information, please
+read the documentation in the <TT><FONT FACE="Courier">Query.pm</FONT></TT>
+module. The author Alan K. Stebbens can be reached via e-mail
+at <TT><FONT FACE="Courier">aks@hub.ucsb.edu</FONT></TT> at the
+College of Engineering, University of California, Santa Barbara.
+<H2><A NAME="TheGetoptsPackage"><FONT SIZE=5 COLOR=#FF0000>The
+</FONT><TT><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">Getopts</FONT></TT><FONT SIZE=5 COLOR=#FF0000>
+Package</FONT></A></H2>
+<P>
+The <TT><FONT FACE="Courier">Getopts</FONT></TT> package is designed
+to help you parse the input options into your shell scripts. This
+package comes standard with the Perl 5 distributions, so you do
+not have to get it from anywhere.
+<P>
+Options to Perl scripts you write can be sent in one at a time
+or can be clustered. For example, options <TT><FONT FACE="Courier">x</FONT></TT>,<TT><FONT FACE="Courier">v</FONT></TT>,
+and <TT><FONT FACE="Courier">t</FONT></TT> can be sent in as <TT><FONT FACE="Courier">-x
+-v -t</FONT></TT>, <TT><FONT FACE="Courier">-xvt</FONT></TT>,
+<TT><FONT FACE="Courier">-xt -v</FONT></TT>, and so on. Your script
+should be able to recognize these options. The type of work involved
+in this type of option recognition is common enough that more
+than one module is available for you to work with: for example,
+the <TT><FONT FACE="Courier">Std.pm</FONT></TT> module, which
+is a simple module that recognizes only certain options, and the
+<TT><FONT FACE="Courier">Long.pm</FONT></TT> module, which also
+recognizes the states and default values of options.
+<H3><A NAME="UsingStdpm">Using <TT><FONT SIZE=4 FACE="Courier">Std.pm</FONT></TT></A>
+</H3>
+<P>
+You use the <TT><FONT FACE="Courier">Std.pm</FONT></TT> module
+by including the following line in your shell script:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use Getopt::Std.pm;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The options that you want the module to list are passed in a string
+of the form <TT><FONT FACE="Courier">xyz</FONT></TT>. The call
+to the <TT><FONT FACE="Courier">getopts</FONT></TT> function then
+attempts to look for <TT><FONT FACE="Courier">-x</FONT></TT>,
+<TT><FONT FACE="Courier">-y</FONT></TT>, or <TT><FONT FACE="Courier">-z</FONT></TT>,
+or a combination of these options in the command-line string.
+For each option found, it sets the variable <TT><FONT FACE="Courier">$opt_x</FONT></TT>,
+<TT><FONT FACE="Courier">$opt_y</FONT></TT>, or <TT><FONT FACE="Courier">$opt_z</FONT></TT>
+with either the value of <TT><FONT FACE="Courier">1</FONT></TT>
+(for found) or <TT><FONT FACE="Courier">undef</FONT></TT> (for
+not found). For example, the following two lines of code set up
+the command-line options for <TT><FONT FACE="Courier">x</FONT></TT>,
+<TT><FONT FACE="Courier">y</FONT></TT>, or <TT><FONT FACE="Courier">z</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use Getopt::Std.pm;<BR>
+getopt(&quot;xyz&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The returned values for <TT><FONT FACE="Courier">x</FONT></TT>,<TT><FONT FACE="Courier">
+y</FONT></TT>, and <TT><FONT FACE="Courier">z</FONT></TT> do not
+have to be <TT><FONT FACE="Courier">1</FONT></TT> or <TT><FONT FACE="Courier">0</FONT></TT>.
+Assigned values can be collected by appending a colon to each
+option with which you expect to pass a parameter. For example,
+the following line takes arguments for <TT><FONT FACE="Courier">-f</FONT></TT>
+and <TT><FONT FACE="Courier">-c</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getopt(&quot;vf:c:&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+A sample usage of this module is shown in Listing 16.6.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.6. Using the </B><TT><B><FONT FACE="Courier">Std.pm</FONT></B></TT><B>
+module.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!perl<BR>
+&nbsp;2 <BR>
+&nbsp;3 use Getopt::Std;<BR>
+&nbsp;4 <BR>
+&nbsp;5 $result = getopt('wx:yz');<BR>
+&nbsp;6 print &quot;\n Options:\n&quot;;<BR>
+&nbsp;7 printf &quot; w :--&gt;&nbsp;&nbsp;$opt_w&nbsp;&nbsp;\n&quot;;
+<BR>
+&nbsp;8 printf &quot; x :--&gt;&nbsp;&nbsp;$opt_x&nbsp;&nbsp;\n&quot;;
+<BR>
+&nbsp;9 printf &quot; y :--&gt;&nbsp;&nbsp;$opt_y&nbsp;&nbsp;\n&quot;;
+<BR>
+10 printf &quot; z :--&gt;&nbsp;&nbsp;$opt_z&nbsp;&nbsp;\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The use <TT><FONT FACE="Courier">Getopt::Std; getopt();</FONT></TT> call completely replaces the original Perl 4, <TT><FONT FACE="Courier">&quot;require 'getopts.pl'; &amp;Getopts();&quot;</FONT></TT> statements. The old library is still included for 
+compatibility reasons. 
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="TheLongpmmodule">The <TT><FONT SIZE=4 FACE="Courier">Long.pm</FONT></TT><FONT SIZE=4>
+module</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">Long.pm</FONT></TT> module is a bit
+bigger than the <TT><FONT FACE="Courier">Std.pm</FONT></TT> module,
+both in size and in functionality. The primary functional interface
+to this module is via the <TT><FONT FACE="Courier">GetOptions()</FONT></TT>
+function, which is basically a souped-up version of the <TT><FONT FACE="Courier">getopts()</FONT></TT>
+function found in the C library. Each description of the options
+your script is looking for should designate a valid Perl identifier,
+optionally followed by a specification designating the type of
+option. 
+<P>
+Here's the syntax to use when calling <TT><FONT FACE="Courier">GetOptions()</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">use Getopt::Long;<BR>
+$result = GetOptions (<I>name=opt1, name=opt2, .. name=optN</I>);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+You should specify the option <TT><FONT FACE="Courier">name</FONT></TT>
+because this name is used by Perl to set the variable <TT><FONT FACE="Courier">$opt_name</FONT></TT>
+to the value specified by the option. Here are the values for
+the <TT><FONT FACE="Courier">opt1</FONT></TT>, <TT><FONT FACE="Courier">opt2</FONT></TT>,&#133;<TT><FONT FACE="Courier">opt<I>N</I></FONT></TT>
+specifiers:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=80><CENTER><TT><I><FONT FACE="Courier">&lt;none&gt;</FONT></I></TT></CENTER>
+</TD><TD WIDTH=404><CENTER><I>This option does not take an argument.</I></CENTER>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=80><CENTER><TT><FONT FACE="Courier">!</FONT></TT></CENTER>
+</TD><TD WIDTH=404>This option does not take an argument and may be negated.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=80><CENTER><TT><FONT FACE="Courier">=s</FONT></TT></CENTER>
+</TD><TD WIDTH=404>This option takes a mandatory string argument.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=80><CENTER><TT><FONT FACE="Courier">:s</FONT></TT></CENTER>
+</TD><TD WIDTH=404>This option takes an optional (<TT><FONT FACE="Courier">:</FONT></TT>) string argument.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=80><CENTER><TT><FONT FACE="Courier">=i</FONT></TT></CENTER>
+</TD><TD WIDTH=404>This option takes a mandatory (<TT><FONT FACE="Courier">=</FONT></TT>) integer argument.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=80><CENTER><TT><FONT FACE="Courier">:i</FONT></TT></CENTER>
+</TD><TD WIDTH=404>This option takes an optional (<TT><FONT FACE="Courier">:</FONT></TT>) integer argument.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=80><CENTER><TT><FONT FACE="Courier">=f</FONT></TT></CENTER>
+</TD><TD WIDTH=404>This option takes a mandatory (<TT><FONT FACE="Courier">=</FONT></TT>) real number argument.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=80><CENTER><TT><FONT FACE="Courier">:f</FONT></TT></CENTER>
+</TD><TD WIDTH=404>This option takes an optional (<TT><FONT FACE="Courier">:</FONT></TT>) real number argument.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Please read the <TT><FONT FACE="Courier">Long.pm</FONT></TT> file
+in the subroutine <TT><FONT FACE="Courier">GetOptions()</FONT></TT>
+header documentation for details on these options.
+<P>
+For options that do not take an argument, their value will be
+set to <TT><FONT FACE="Courier">1</FONT></TT> or nothing. Options
+that do take an optional argument will cause the corresponding
+variable to be defined in the name space of the module they are
+being called from. If no value is specified at the command prompt,
+the value of the variable will be set to the empty string.
+<P>
+Boolean options are also possible. Use <TT><FONT FACE="Courier">!</FONT></TT>
+after the option name to indicate that an option can also be negated.
+Then, you can negate options of the form <TT><FONT FACE="Courier">html</FONT></TT>
+and <TT><FONT FACE="Courier">nohtml</FONT></TT>. Thus, <TT><FONT FACE="Courier">-html</FONT></TT>
+causes the variable <TT><FONT FACE="Courier">$opt_html</FONT></TT>
+to be set to <TT><FONT FACE="Courier">1</FONT></TT>, and <TT><FONT FACE="Courier">-nohtml</FONT></TT>
+causes the variable <TT><FONT FACE="Courier">$opt_html</FONT></TT>
+to be set to <TT><FONT FACE="Courier">0</FONT></TT>.
+<P>
+Dashes in option names are allowed (<TT><FONT FACE="Courier">ice-cream</FONT></TT>)
+but are translated to underscores in the corresponding Perl variable
+(<TT><FONT FACE="Courier">$ice_cream</FONT></TT>). A lone dash
+is translated to the Perl identifier of <TT><FONT FACE="Courier">$opt_</FONT></TT>.
+Double dashes (<TT><FONT FACE="Courier">--</FONT></TT>) by themselves
+signal the end of the options list to the package. Options that
+start with <TT><FONT FACE="Courier">--</FONT></TT> can have an
+assignment after them. For example, <TT><FONT FACE="Courier">--topping=nuts</FONT></TT>.
+<H3><A NAME="ExamplesofOptionsSettings">Examples of Options Settings</A>
+</H3>
+<P>
+Listing 16.7 provides a small example of how to use options. In
+this example, you can specify a string for the value of the variable
+<TT><FONT FACE="Courier">$opt_flavor</FONT></TT>. The variable
+<TT><FONT FACE="Courier">$opt_vanilla</FONT></TT> is either 1
+or 0, depending on how the <TT><FONT FACE="Courier">-vanilla</FONT></TT>
+or <TT><FONT FACE="Courier">-novanilla</FONT></TT> options are
+set. The value of <TT><FONT FACE="Courier">-cost</FONT></TT>,
+if specified, will be set in <TT><FONT FACE="Courier">$opt_cost</FONT></TT>.
+The variable <TT><FONT FACE="Courier">$opt_cost</FONT></TT> will
+not be set, because it does not have to be set to a value.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.7. Using the </B><TT><B><FONT FACE="Courier">Getopts::Long</FONT></B></TT><B>
+package.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!perl<BR>
+&nbsp;2 use Getopt::Long;<BR>
+&nbsp;3 <BR>
+&nbsp;4 #<BR>
+&nbsp;5 # This allows you to specify a string for the flavor,
+<BR>
+&nbsp;6 # either -vanilla or -novanilla<BR>
+&nbsp;7 # The value of -cost is a required integer value, but
+<BR>
+&nbsp;8 # -topping value is optional<BR>
+&nbsp;9 #<BR>
+10 $result = GetOptions ('flavor=s','vanilla!', 'cost=i','topping:s');
+<BR>
+11 <BR>
+12 printf &quot; flavor :--&gt;&nbsp;&nbsp;$opt_flavor&nbsp;&nbsp;\n&quot;;
+<BR>
+13 printf &quot; vanilla :--&gt;&nbsp;&nbsp;$opt_vanilla&nbsp;&nbsp;\n&quot;;
+<BR>
+14 printf &quot; cost :--&gt;&nbsp;&nbsp;$opt_cost&nbsp;&nbsp;\n&quot;;
+<BR>
+15 printf &quot; topping :--&gt;&nbsp;&nbsp;$opt_topping&nbsp;&nbsp;\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here is sample input and output for this listing.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>test.pl -flavor weird -novanilla
+-cost 2 -topping nuts<BR>
+</B>&nbsp;flavor :--&gt;&nbsp;&nbsp;weird<BR>
+&nbsp;vanilla :--&gt;&nbsp;&nbsp;0<BR>
+&nbsp;cost :--&gt;&nbsp;&nbsp;2<BR>
+&nbsp;topping :--&gt; nuts<BR>
+<BR>
+$ <B>test.pl -flavor marmalade -vanilla -cost 1 -topping bugs
+<BR>
+</B>&nbsp;flavor :--&gt;&nbsp;&nbsp;marmalade<BR>
+&nbsp;vanilla :--&gt;&nbsp;&nbsp;1<BR>
+&nbsp;cost :--&gt;&nbsp;&nbsp;1<BR>
+&nbsp;topping :--&gt;&nbsp;&nbsp;bugs</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Some important variables, to keep in mind when working with the
+29 <TT><FONT FACE="Courier">Getopts::</FONT></TT> modules, appear
+in the following list. Check the <TT><FONT FACE="Courier">Long.pm</FONT></TT>
+file itself for other variables not listed here if you need more
+functionality. You can set one or more of the following variables
+in your script to get the desired result:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=147><TT><FONT FACE="Courier">$autoabbrev</FONT></TT>
+</TD><TD WIDTH=443>This allows option names to be uniquely abbreviated. So, if no other variable begins with the first three letters <TT><FONT FACE="Courier">che</FONT></TT>, the variable <TT><FONT FACE="Courier">chewable</FONT></TT> would be referred to 
+as <TT><FONT FACE="Courier">che</FONT></TT>. The default value of this variable is <TT><FONT FACE="Courier">1</FONT></TT>. The value of this variable can be overridden by setting the environment variable <TT><FONT 
+FACE="Courier">POSIXLY_CORRECT</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=147><TT><FONT FACE="Courier">$option_start</FONT></TT>
+</TD><TD WIDTH=443>This is the regular expression of the start of the option identifier character strings. The default value is <TT><FONT FACE="Courier">(--|-|\+);</FONT></TT> that is, it allows the use of <TT><FONT FACE="Courier">-</FONT></TT>, <TT><FONT 
+FACE="Courier">--</FONT></TT>, and even <TT><FONT FACE="Courier">+</FONT></TT>. If the environment variable <TT><FONT FACE="Courier">POSIXLY_CORRECT</FONT></TT> is set, the value is set to <TT><FONT FACE="Courier">(--|-)</FONT></TT>, thereby not allowing 
+the <TT><FONT FACE="Courier">+</FONT></TT> option.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=147><TT><FONT FACE="Courier">$ignorecase</FONT></TT>
+</TD><TD WIDTH=443>When set, this variable ignores case when matching options. The default value of this variable is <TT><FONT FACE="Courier">1</FONT></TT>.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=147><TT><FONT FACE="Courier">$debug</FONT></TT>
+</TD><TD WIDTH=443>This variable enables debugging output. The default is <TT><FONT FACE="Courier">0</FONT></TT>. By setting this value, you can view debugging information.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+By passing command-line options to the Perl interpreter you can
+control how input is read into a program, whether the code internally
+can be considered a loop, how input is parsed by changing the
+end-of-line character, where to look for files, and so on. Perl
+has several options to control execution. Options can be specified
+on the command line or in the header comment of the program you
+are running. An option is simply a dash (-) followed by one or
+more characters. An option can have parameters too, such as pathnames
+for where to look for included files, or what to use as the end-of-line
+character, or what to use in place of a space character, and so
+on. Options that do not require any parameters can be grouped
+together behind one dash. The command-line options override values
+set in the header comment.
+<P>
+Your Perl programs can have their own options as well. For simple
+options into programs, it's possible to parse incoming arguments
+manually. In order to get arguments manually, you'd have to start
+with the skeletal code shown below and then work yourself up adding
+recognized switches as you went:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">foreach (@ARGV) {<BR>
+last if $_ eq &quot;--&quot;;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$opt_x
+= 1 if /^-x/;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$opt_y
+= 1 if /^-y/;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$opt_z
+= 1 if /^-z/;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Okay, now how about handling options that are clustered, such
+as <TT><FONT FACE="Courier">-xyz</FONT></TT>? This is where these
+packages help you out. Obviously, using the <TT><FONT FACE="Courier">Getopts</FONT></TT>
+package is far more efficient and easier to use when it comes
+to parsing the command-line arguments. Then, after you have read
+the options, the <TT><FONT FACE="Courier">Query.pm</FONT></TT>
+module can help with the user interaction.
+<P>
+This chapter has also been a very quick introduction to using
+Perl modules to handle interactive user input and command-line
+arguments. Using the <TT><FONT FACE="Courier">Term::Query</FONT></TT>
+module, you can set up one or more query/response prompt and reply
+strings. You can use tables to automate the interrogations. The
+code to handle responses from the user can be set to verify or
+accept the user response. The <TT><FONT FACE="Courier">Getopt::Std</FONT></TT>
+and <TT><FONT FACE="Courier">Getopt::Long</FONT></TT> packages
+can be used to pick up arguments specified on the command line.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch15.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch15.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch17.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch17.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,1592 @@
+<html>
+
+<head>
+
+<title>Chapter 2 -- Numeric and String Literals</title>
+
+
+
+<meta>
+
+</head>
+
+<body TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<h1><font SIZE="6" COLOR="#FF0000">Chapter&nbsp;2</font></h1>
+
+<h1><font SIZE="6" COLOR="#FF0000">Numeric and String Literals</font>
+
+</h1>
+
+<hr>
+
+<p>
+
+<center><b><font SIZE="5">CONTENTS</font></b></center>
+
+<ul>
+
+<li><a HREF="#NumericLiterals">
+
+Numeric Literals</a>
+
+<ul>
+
+<li><a HREF="#ExampleNumbers">
+
+Example: Numbers</a>
+
+</ul>
+
+<li><a HREF="#StringLiterals">
+
+String Literals</a>
+
+<ul>
+
+<li><a HREF="#ExampleSingleQuotedStrings">
+
+Example: Single-Quoted Strings</a>
+
+<li><a HREF="#ExampleDoubleQuotedStrings">
+
+Example: Double-Quoted Strings</a>
+
+<li><a HREF="#ExampleBackQuotedStrings">
+
+Example: Back-Quoted Strings</a>
+
+</ul>
+
+<li><a HREF="#ArrayLiterals">
+
+Array Literals</a>
+
+<ul>
+
+<li><a HREF="#ExamplePrintinganArray">
+
+Example: Printing an Array</a>
+
+<li><a HREF="#ExampleNestingArrays">
+
+Example: Nesting Arrays</a>
+
+<li><a HREF="#ExampleUsingaRangeofValues">
+
+Example: Using a Range of Values</a>
+
+</ul>
+
+<li><a HREF="#Summary">
+
+Summary</a>
+
+<li><a HREF="#ReviewQuestions">
+
+Review Questions</a>
+
+<li><a HREF="#ReviewExercises">
+
+Review Exercises</a>
+
+</ul>
+
+
+
+<hr>
+
+<p>
+
+In this chapter, we'll take a look at some of the ways that Perl
+
+handles data. All computer programs use data in some way. Some
+
+use it to personalize the program. For example, a mail program
+
+might need to remember your name so that it can greet you upon
+
+starting. Another program-say one that searches your hard disk
+
+for files-might remember your last search parameters in case you
+
+want to perform the same search twice.
+
+<p>
+
+A <i>literal</i> is a value that is represented &quot;as is&quot;
+
+or hard-coded in your source code. When you see the four characters
+
+45.5 in programs it really refers to a value of forty-five and
+
+a half. Perl uses four types of literals. Here is a quick glimpse
+
+at them:
+
+<ul>
+
+<li>Numbers-This is the most basic data type.
+
+<li>Strings-A string is a series of characters that are handled
+
+as one unit.
+
+<li>Arrays-An array is a series of numbers and strings handled
+
+as a unit. You can also think of an array as a list.
+
+<li>Associative Arrays-This is the most complicated data type.
+
+Think of it as a list in which every value has an associated lookup
+
+item.
+
+</ul>
+
+<p>
+
+Associative arrays will be discussed in <a HREF="ch3.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm">Chapter 3</a> &quot;Variables.&quot;
+
+Numbers, strings, and regular arrays will be discussed in the
+
+following sections.
+
+<h2><a NAME="NumericLiterals"><font SIZE="5" COLOR="#FF0000">
+
+Numeric Literals</font></a></h2>
+
+<p>
+
+Numeric literals are frequently used. They represent a number
+
+that your program will need to work with. Most of the time you
+
+will use numbers in base ten-the base that everyone uses. However,
+
+Perl will also let you use base 8 (octal) or base 16 (hexadecimal).
+
+<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+For those of you who are not familiar with non-decimal numbering systems, here is a short explanation.</blockquote>
+
+<blockquote>
+
+In decimal notation-or base ten- when you see the value 15 it signifies (1 * 10) + 5 or 15<font SIZE="1">10</font>. The subscript indicates which base is being used.
+
+</blockquote>
+
+<blockquote>
+
+In octal notation-or base eight-when you see the value 15 it signifies  (1 * 8) + 5 or 13<font SIZE="1">10</font>.
+
+</blockquote>
+
+<blockquote>
+
+In hexadecimal notation-or base 16-when you see the value 15 it signifies (1 * 16) + 5 or 21<font SIZE="1">10</font>. Base 16 needs an extra six characters in addition to 0 to 9 so that each position can have a total of 16 values. The letters A-F are used 
+to represent 11-16. So the value BD<font SIZE="1">16</font> is equal to (B<font SIZE="1">16</font> * 16) + D<font SIZE="1">16</font> or (11<font SIZE="1">10</font> * 16) + 13<font SIZE="1">10</font> which is 176<font SIZE="1">10</font>.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+If you will be using very large or very small numbers, you might
+
+also find scientific notation to be of use.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+If you're like me, you probably forgot most of the math you learned in high school. However, scientific notation has always stuck with me. Perhaps because I liked moving decimal points around. Scientific notation looks like 10.23E+4, which is equivalent 
+to 102,300. You can also represent small numbers if you use a negative sign. For example, 10.23E-4 is .001023. Simply move the decimal point to the right if the exponent is positive and to the left if the exponent is negative.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h3><a NAME="ExampleNumbers">
+
+Example: Numbers</a></h3>
+
+<p>
+
+Let's take a look at some different types of numbers that you
+
+can use in your program code.
+
+<p>
+
+First, here are some integers.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>An integer. Integers are numbers with no decimal components.
+
+<br>
+
+<i>An integer in octal format. This number is 35, or (4 *
+
+8) + 3, in base 10.<br>
+
+An integer in hexadecimal format. This number is also 35, or (2
+
+* 16) + 3 in base 10.</i></i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+123
+
+043
+
+0x23
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Now, some numbers and fractions-also <i>called floating point
+
+values</i>. You will frequently see these values referred to as
+
+a <i>float value</i> for simplicity's sake.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>A float with a value in the tenths place. You can also say
+
+100 and <font SIZE="1">5</font>/<font SIZE="1">10</font>.<br>
+
+<i>A float with a fraction value out to the thousandths place.
+
+You can also say 54 and <font SIZE="1">534</font>/<font SIZE="1">1000.</font></i></i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+100.5
+
+54.534
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Here's a very small number.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>A very small float value. You can represent this value in scientific
+
+notation as 3.4E-5.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+.000034
+
+</pre>
+
+</blockquote>
+
+<h2><a NAME="StringLiterals"><font SIZE="5" COLOR="#FF0000">
+
+String Literals</font></a></h2>
+
+<p>
+
+<i>String Literals</i> are groups of characters surrounded by
+
+quotes so that they can be used as a single datum. They are frequently
+
+used in programs to identify filenames, display messages, and
+
+prompt for input. In Perl you can use single quotes ('), double
+
+quotes(&quot;), and back quotes (`).
+
+<h3><a NAME="ExampleSingleQuotedStrings">
+
+Example: Single-Quoted Strings</a></h3>
+
+<p>
+
+The following examples show you how to use string literals. String
+
+literals are widely used to identify filenames or when messages
+
+are displayed to users. First, we'll look at single-quoted strings,
+
+then double-quoted strings.
+
+<p>
+
+A single-quoted string is pretty simple. Just surround the text
+
+that you'd like to use with single quotes.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+The real value of single-quoted strings won't become apparent until you read about variable interpolation in the section &quot;Examples: Variable Interpolation&quot; in <a HREF="ch3.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm">Chapter 3</a> &quot;Variables.&quot;</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>A literal that describes one of my favorite role-playing characters.
+
+<br>
+
+A literal that describes the blessed cleric that frequently helps
+
+WasWaldo stay alive.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+'WasWaldo the Illusionist'
+
+'Morganna the Fair'
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Strings are pretty simple, huh? But what if you wanted to use
+
+a single quote inside the literal? If you did this, Perl would
+
+think you wanted to end the string early and a compiler error
+
+would result. Perl uses the backslash (\) character to indicate
+
+that the normal fuNCtion of the single quote-ending a literal-should
+
+be ignored for a moment.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+The backslash character is also called <i>an escape character</i>-perhaps because it lets the next character escape from its normal interpretation
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>A literal that comments on WasWaldo's fighting ability. Notice
+
+how the single quote is used.<br>
+
+Another comment from the peanut gallery. Notice that double quotes
+
+can be used directly inside single-quoted strings.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+ 'WasWaldo can\'t hit the broad side of a barn.'
+
+'Morganna said, &quot;WasWaldo can\'t hit anything.&quot;'
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The single-quotes are used here specifically so that the double-quotes
+
+can be used to surround the spoken words. Later in the section
+
+on double-quoted literals, you'll see that the single-quotes can
+
+be replaced by double-quotes if you'd like.You must know only
+
+one more thing about single-quoted strings. You can add a line
+
+break to a single-quoted string simply by adding line breaks to
+
+your source code-as demonstrated by Listing 2.1.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>Tell Perl to begin printing.<br>
+
+More Lines for Perl to display.<br>
+
+The single quote ends the string literal.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 2.1&nbsp;&nbsp;02LST01.PL-Using Embedded Line Breaks
+
+to Skip to a New Line<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+print 'Bill of Goods
+
+Bread:    $34 .45
+
+Fruit:    $45.00
+
+          ======
+
+          $79.45';
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+Figure 2.1 shows a bill of goods displayed on one long, single-quoted
+
+literal.
+
+<p>
+
+<a HREF="f2-1.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/f2-1.gif"><b>Figure 2.1 : </b><i>A bill of goods displayed one long single-quoted
+
+literal</i>.</a>
+
+<p>
+
+You can see that with single-quoted literals, even the line breaks
+
+in your source code are part of the string.
+
+<h3><a NAME="ExampleDoubleQuotedStrings">
+
+Example: Double-Quoted Strings</a></h3>
+
+<p>
+
+Double-quoted strings start out simple, then become a bit more
+
+involved than single-quoted strings. With double-quoted strings,
+
+you can use the backslash to add some special characters to your
+
+string. <a HREF="ch3.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm">Chapter 3</a> &quot;Variables,&quot; will talk about how
+
+double-quoted strings and variables interact.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+<i>Variables</i>-which are described in <a HREF="ch3.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm">Chapter 3</a> &quot;Variables&quot;-are simply locations in the computer's memory where Perl holds the various data types. They're called variables because the content of the memory can change as 
+needed.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+The basic double-quoted string is a series of characters surrounded
+
+by double quotes. If you need to use the double quote inside the
+
+string, you can use the backslash character.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>This literal is similar to one you've already seen. Just the
+
+quotes are different.<br>
+
+Another literal that uses double quotes inside a double-quoted
+
+string.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+&quot;WasWaldo the Illusionist&quot;
+
+&quot;Morganna said, \&quot;WasWaldo can't hit anything.\&quot;&quot;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Notice how the backslash in the second line is used to escape
+
+the double quote characters. And the single quote can be used
+
+without a backslash.
+
+<p>
+
+One major differeNCe between double- and single-quoted strings
+
+is that double-quoted strings have some special <i>escape sequeNCes</i>
+
+that can be used. Escape sequeNCes represent characters that are
+
+not easily entered using the keyboard or that are difficult to
+
+see inside an editor window. Table 2.1 shows all of the escape
+
+sequeNCes that Perl understands. The examples following the table
+
+will illustrate some of them.<br>
+
+<p>
+
+<center><b>Table 2.1&nbsp;&nbsp;Escape SequeNCes</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="127"><center><i>Escape SequeNCes</i></center></td>
+
+<td WIDTH="463"><i>Description or Character</i></td></tr>
+
+<tr><td WIDTH="127"><center>\a</center></td><td WIDTH="463">Alarm\bell
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\b</center></td><td WIDTH="463">Backspace
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\e</center></td><td WIDTH="463">Escape
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\f</center></td><td WIDTH="463">Form Feed
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\n</center></td><td WIDTH="463">Newline
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\r</center></td><td WIDTH="463">Carriage Return
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\t</center></td><td WIDTH="463">Tab</td>
+
+</tr>
+
+<tr><td WIDTH="127"><center>\v</center></td><td WIDTH="463">Vertical Tab
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\$</center></td><td WIDTH="463">Dollar Sign
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\@</center></td><td WIDTH="463">Ampersand
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\0nnn</center></td><td WIDTH="463">Any Octal byte
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\xnn</center></td><td WIDTH="463">Any Hexadecimal byte
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\cn</center></td><td WIDTH="463">Any Control character
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\l</center></td><td WIDTH="463">Change the next character to lowercase
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\u</center></td><td WIDTH="463">Change the next character to uppercase
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\L</center></td><td WIDTH="463">Change the following characters to lowercase until a \E sequeNCe is eNCountered. Note that you need to use an uppercase E here, lowercase will not work.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\Q</center></td><td WIDTH="463">Quote meta-characters as literals. See <a HREF="ch10.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm">Chapter 10</a>, &quot;Regular Expressions,&quot; for more information on meta-characters.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\U</center></td><td WIDTH="463">Change the following characters to uppercase until a \E sequeNCe is eNCountered. Note that you need to use an uppercase E here, lowercase will not work.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\E</center></td><td WIDTH="463">Terminate the \L, \Q, or \U sequeNCe. Note that you need to use an uppercase E here, lowercase will not work.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center>\\</center></td><td WIDTH="463">Backslash
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+In the next chapter, &quot;Variables,&quot; you'll see why you might need to use a backslash when using the $ and @ characters.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>This literal represents the following: WasWaldo is 34 years
+
+old. The \u is used twice in the first word to capitalize the
+
+w characters. And the hexadecimal notation is used to represent
+
+the age using the ASCII codes for 3 and 4.<br>
+
+This literal represents the following: The kettle was HOT!. The
+
+\U capital-izes all characters until a \E sequeNCe is seen.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+ &quot;\uwas\uwaldo is \x33\x34 years old.&quot;
+
+&quot;The kettle was \Uhot\E!&quot;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+For more information about ASCII codes, see Appendix E, &quot;ASCII
+
+Table.&quot; 
+
+<p>
+
+Actually, this example isn't too difficult, but it does involve
+
+looking at more than one literal at oNCe and it's been a few pages
+
+siNCe our last advaNCed example. Let's look at the \t and \n escape
+
+sequeNCes. Listing 2.2-a program displaying a bill with several
+
+items-will produce the output shown in Figure 2.2.
+
+<p>
+
+<a HREF="f2-2.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/f2-2.gif"><b>Figure 2.2 : </b><i>A bill of goods displayed using newline
+
+and tab characters</i>.</a>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>Display a literal as the first line, second and third of the
+
+output.<br>
+
+Display literals that show what was purchased<br>
+
+Display a separator line.<br>
+
+Display the total.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 2.2&nbsp;&nbsp;02LST02.PL-Using Tabs and Newline Characters
+
+to Print<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+print &quot;Bill of Goods
+
+
+
+Bread:\t\$34.45\n&quot;;
+
+print &quot;Fruit:\t&quot;;
+
+print &quot;\$45.00\n&quot;;
+
+print &quot;\t======\n&quot;;
+
+print &quot;\t\$79.45\n&quot;;
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Tip</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Notice that Figure 2.1 and 2.2 look identical. This illustrates a cardinal rule of Perl-there's <i>always</i> more than one way to do something.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+This program uses two methods to cause a line break.
+
+<ul>
+
+<li>The first is simply to iNClude the line break in the source
+
+code.
+
+<li>The second is to use the \n or newline character.
+
+</ul>
+
+<p>
+
+I recommend using the \n character so that when looking at your
+
+code in the future, you can be assured that you meant to cause
+
+a line break and did not simply press the ENTER key by mistake.
+
+<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Caution</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+If you are a C/C++ programmer, this material is not new to you. However, Perl strings are <i>not identical</i> to C/C++ strings because they have no ending NULL character. If you are thinking of converting C/C++ programs to Perl, take care to modify any 
+code that relies on the NULL character to end a string.
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h3><a NAME="ExampleBackQuotedStrings">
+
+Example: Back-Quoted Strings</a></h3>
+
+<p>
+
+It might be argued that back-quoted strings are not really a data
+
+type. That's because Perl uses back-quoted strings to execute
+
+system commands. When Perl sees a back-quoted string, it passes
+
+the contents to Windows, UNIX, or whatever operating system you
+
+are using.
+
+<p>
+
+Let's see how to use the back-quoted string to display a directory
+
+listing of all text files in the perl5 directory. 
+
+<p>
+
+Figure 2.3 shows what the output of such a program might look
+
+like.
+
+<p>
+
+<a HREF="f2-3.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/f2-3.gif"><b>Figure 2.3 : </b><i>Using a back-quoted string to display a
+
+directory</i>.</a>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>Print the directory listing.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+print &quot;dir *.txt&quot;;
+
+</pre>
+
+</blockquote>
+
+<p>
+
+All of the escape sequeNCes used with double-quoted strings can
+
+be used with back-quoted strings.
+
+<h2><a NAME="ArrayLiterals"><font SIZE="5" COLOR="#FF0000">
+
+Array Literals</font></a></h2>
+
+<p>
+
+Perl uses <i>arrays</i>-or lists-to store a series of items. You
+
+could use an array to hold all of the lines in a file, to help
+
+sort a list of addresses, or to store a variety of items. We'll
+
+look at some simple arrays in this section. In the next chapter,
+
+&quot;Variables,&quot; you'll see more examples of how useful
+
+arrays can be.
+
+<h3><a NAME="ExamplePrintinganArray">
+
+Example: Printing an Array</a></h3>
+
+<p>
+
+In this section, we'll look at printing an array and see how arrays
+
+are represented in Perl source code.
+
+<p>
+
+This example shows an empty array, an array of numbers and an
+
+array of strings. 
+
+<p>
+
+Figure 2.4 shows the output of Listing 2.3.
+
+<p>
+
+<a HREF="f2-4.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/f2-4.gif"><b>Figure 2.4 : </b><i>The output from Listing 2.3, showing different
+
+array literals</i>.</a>
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>Print the contents of an empty array.<br>
+
+<i>Print the contents of an array of numbers.<br>
+
+<i>Print the contents of an array of strings.<br>
+
+<i>Print the contents of an array with different data types.</i></i></i></i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 2.3&nbsp;&nbsp;02LST03.PL-Printing Some Array Literals
+
+<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+print &quot;Here is an empty array:&quot; . () . &quot;&lt;-- Nothing there!\n&quot;;
+
+print (12, 014, 0x0c, 34.34, 23.3E-3);
+
+print &quot;\n&quot;;
+
+print (&quot;This&quot;, &quot;is&quot;, 'an', &quot;array&quot;, 'of', &quot;strings&quot;);
+
+print &quot;\n&quot;;
+
+print (&quot;This&quot;, 30, &quot;is&quot;, 'a', &quot;mixed array&quot;, 'of', 0x08, &quot;items&quot;);.
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+The fourth line of this listing shows that you can mix single-
+
+and double-quoted strings in the same array. You can also mix
+
+numbers and strings interchangeably, as shown in the last line.
+
+<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+Listing 2.3 uses the period, or <i>coNCatenation</i>, operator to join a string representation of the empty array with the string <tt>&quot;Here is an empty array:&quot;</tt> and the string <tt>&quot;&lt;-- Nothing there!\n&quot;</tt>. You can read more 
+about operators in <a HREF="ch4.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm">Chapter 4</a> &quot;Operators.&quot;
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+In this and other examples in this chapters, the elements of an array will be printed with no spaces between them. You will see how to print with spaces in the section &quot;Strings Revisited&quot; in <a HREF="ch3.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm">Chapter 3</a> 
+&quot;Variables.&quot;</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<h3><a NAME="ExampleNestingArrays">
+
+Example: Nesting Arrays</a></h3>
+
+<p>
+
+Many times a simple list is not enough. If you're a painter, you
+
+might have one array that holds the names of orange hues and one
+
+that holds the names of yellow hues. To print them, you can use
+
+Perl's ability to specify a sub-array inside your main array definition.
+
+<p>
+
+While this example is not very &quot;real-world,&quot; it gives
+
+you the idea behind specifying an array by using sub-arrays.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>Print an array that consists of two sub-arrays.<br>
+
+<i>Print an array that consists of an array, a string, and another
+
+array.</i></i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+print ((&quot;Bright Orange&quot;, &quot;Burnt&quot;), (&quot;Canary Yellow&quot;, &quot;Sunbeam&quot;));
+
+print ((&quot;Bright Orange&quot;, &quot;Burnt&quot;), &quot; Middle &quot;, (&quot;Canary Yellow&quot;, 
+
+&nbsp;&quot;Sunbeam&quot;));
+
+</pre>
+
+</blockquote>
+
+<p>
+
+So far, we haven't talked about the internal representations of
+
+data types. That's because you almost never have to worry about
+
+such things with Perl. However, it is important to know that,
+
+internally, the sub-arrays are merged into the main array. In
+
+other words, the <tt>array:</tt>
+
+<blockquote>
+
+<pre>
+
+((&quot;Bright Orange&quot;, &quot;Burnt&quot;), (&quot;Canary Yellow&quot;, &quot;Sunbeam&quot;))
+
+</pre>
+
+</blockquote>
+
+<p>
+
+is exactly equivalent to
+
+<blockquote>
+
+<pre>
+
+(&quot;Bright Orange&quot;, &quot;Burnt&quot;, &quot;Canary Yellow&quot;, &quot;Sunbeam&quot;)
+
+</pre>
+
+</blockquote>
+
+<h3><a NAME="ExampleUsingaRangeofValues">
+
+Example: Using a Range of Values</a></h3>
+
+<p>
+
+At times you might need an array that consists of sequential numbers
+
+or letters. Instead of making you list out the entire array, Perl
+
+has a shorthand notation that you can use.
+
+<p>
+
+Perl uses two periods (..) to replace a consecutive series of
+
+values. Not only is this method quicker to type-and less prone
+
+to error-it is easier to understand. Only the end points of the
+
+series are specified; you don't need to manually verify that every
+
+value is represented. If the .. is used, then automatically you
+
+know that a range of values will be used.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>Print an array consisting of the numbers from 1 to 15.<br>
+
+<i>Print an array consisting of the numbers from 1 to 15 using
+
+the shorthand method.</i></i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+print (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
+
+print &quot;\n&quot;;
+
+print (1..15);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The two arrays used in the previous example are identical, but
+
+they were specified differently.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+The double periods in the array specification are called the <i>range </i>operator. The range operator is also discussed in <a HREF="ch4.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm">Chapter 4</a> &quot;Operators.&quot;
+
+</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+You can also use the shorthand method to specify values in the
+
+middle of an array.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34">
+
+<blockquote>
+
+<i>Print an array consisting of the numbers 1, 2, 7, 8, 9, 10,
+
+14, and 15.Print an array consisting of the letters A, B, F, G,
+
+H, Y, Z</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+print (1, 2, 7..10, 14, 15);
+
+print &quot;\n&quot;
+
+print (&quot;A&quot;, &quot;B&quot;, &quot;F&quot;..&quot;H&quot;, &quot;Y&quot;, &quot;Z&quot;);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The range operator works by taking the lefthand value, adding
+
+one to it, then appending that new value to the array. Perl continues
+
+to do this until the new value reaches the righthand value. You
+
+can use letters with the range operator because the ASCII table
+
+uses consecutive values to represent consecutive letters.
+
+<p>
+
+For more information about ASCII codes, see Appendix E, &quot;ASCII
+
+Table.&quot;
+
+<h2><a NAME="Summary"><font SIZE="5" COLOR="#FF0000">
+
+Summary</font></a></h2>
+
+<p>
+
+This chapter introduced you to both numeric and string literals.
+
+You learned that literals are values that are placed directly
+
+into your source code and never changed by the program. They are
+
+sometimes referred to as hard-coded values.
+
+<p>
+
+You read about numbers and the three different bases that can
+
+be used to represent them-decimal, octal, and hexadecimal. Very
+
+large or small numbers can also be described using scientific
+
+notation.
+
+<p>
+
+Strings were perhaps a bit more involved. Single-, double-, and
+
+back-quoted strings are used to hold strings of characters. Back-quoted
+
+strings have an additional purpose. They tell Perl to send the
+
+string to the operating system for execution.
+
+<p>
+
+Escape sequeNCes are used to represent characters that are difficult
+
+to enter through the keyboard or that have more than one purpose.
+
+For example, using a double quote inside a double-quoted string
+
+would end the string before you really intended. The backslash
+
+character was introduced to escape the double quote and change
+
+its meaning.
+
+<p>
+
+The next chapter, &quot;Variables,&quot; will show you how Perl
+
+uses your computer memory to store data types and also will show
+
+you ways that you can manipulate data.
+
+<h2><a NAME="ReviewQuestions"><font SIZE="5" COLOR="#FF0000">
+
+Review Questions</font></a></h2>
+
+<p>
+
+Answers to Review Questions are in Appendix A.
+
+<ol>
+
+<li>What are the four types of literals?
+
+<li>What is a numeric literal?
+
+<li>How many types of string literals are there?
+
+<li>What is the major differeNCe between single- and double-quoted
+
+strings?
+
+<li>What are three escape sequeNCes and what do they mean?
+
+<li>What would the following one-line program display?<br>
+
+<br>
+
+<tt>print 'dir /*.log';<br>
+
+</tt>
+
+<li>What is scientific notation?
+
+<li>How can you represent the number 64 in hexadecimal inside
+
+a double-quoted string?
+
+<li>What is the easiest way to represent an array that iNCludes
+
+the numbers 56 to 87?
+
+</ol>
+
+<h2><a NAME="ReviewExercises"><font SIZE="5" COLOR="#FF0000">
+
+Review Exercises</font></a></h2>
+
+<ol>
+
+<li>Write a program that prints the decimal number 32. However,
+
+in the print command, specify the value of 32 using hexadecimal
+
+notation.
+
+<li>Create program that uses the tab character in three literals
+
+to align text.
+
+<li>Write a program that prints using embedded new lines in a
+
+single-quoted literal.
+
+<li>Convert the number 56,500,000 into scientific notation.
+
+<li>Write a program that prints an array that uses the range operator.
+
+The left value should be AA and the right value should be BB.
+
+What happens and why?
+
+<li>Write a program that prints its own source code using a back-quoted
+
+string.
+
+</ol>
+
+<hr>
+
+
+
+<center><p><a HREF="ch1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm"><img SRC="pc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="#CONTENTS"><img SRC="cc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/cc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="index-1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/index-1.htm"><img SRC="hb.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/hb.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="ch3.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm"><img SRC="nc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/nc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<hr WIDTH="100%"></p></center>
+
+</body>
+
+</html>
+

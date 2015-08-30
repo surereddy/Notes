@@ -1,0 +1,1362 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0053)http://msdn.microsoft.com/en-us/library/ms190669.aspx -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD id=ctl00_Head1><TITLE>Creating Stored Procedures (Database Engine)</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=utf-8"><LINK 
+id=ctl00_HeaderLink1 
+href="Creating Stored Procedures (Database Engine)_files/Global-bn20090821.css" 
+type=text/css rel=stylesheet><LINK id=ctl00_HeaderLink2 
+href="Creating Stored Procedures (Database Engine)_files/Library-bn20090821.css" 
+type=text/css rel=stylesheet>
+<META 
+content=http://msdn.microsoft.com/en-us/library(d=default)/ms190669(l=en-us,v=SQL.100).aspx 
+name=NormalizedUrl>
+<META content=NOINDEX,NOFOLLOW name=ROBOTS>
+<META content="BD8B9FF1-7:10:42 PM" name=MN>
+<META content=en-us name=ms.locale>
+<META content=ms190669 name=Search.ShortId><!-- Looking for metadata? Use the robot view instead http://currentsite/currenturl(robot).aspx -->
+<META content=/en-us/library(d=default)/ms190669(l=en-us,v=SQL.100).aspx 
+name=DCS.dcsuri><LINK 
+href="Creating Stored Procedures (Database Engine)_files/CA030DE9.css" 
+type=text/css rel=stylesheet></LINK><LINK media=print 
+href="/en-us/library/ms190669(printer).aspx" rel=alternate>
+<META content="MSHTML 6.00.2900.5848" name=GENERATOR></HEAD>
+<BODY id=ctl00_Mtps_body dir=ltr>
+<FORM id=aspnetForm name=aspnetForm action=ms190669.aspx method=post>
+<DIV><INPUT id=flag type=hidden value=false name=flag> <INPUT id=__EVENTTARGET 
+type=hidden name=__EVENTTARGET> <INPUT id=__EVENTARGUMENT type=hidden 
+name=__EVENTARGUMENT> <INPUT id=__VIEWSTATE type=hidden 
+value=/wEPDwUBMGQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgEFImN0bDAwJE1hc3RoZWFkMSRjdGwwMCRTZWFyY2hCdXR0b275xmcowsp6eperqf2RJKnFAf2Lhw== 
+name=__VIEWSTATE> </DIV>
+<SCRIPT type=text/javascript>
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</SCRIPT>
+
+<SCRIPT src="Creating Stored Procedures (Database Engine)_files/WebResource.axd" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT type=text/javascript>
+//<![CDATA[
+var CurUserId="AxUFAAAAAAB5CAAA9DeZvuBHXol/tKmhCzcq/w!!";var ClientURL="http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary(d%3ddefault)%2fms190669(l%3den-us%2cv%3dSQL.100).aspx";var maxRating=5;var RatingObjId="ctl00_ib1_Flyout_Rating1";var tbCommentsId="ctl00_ib1_Flyout_tbComments";var PageId="ms190669";var pageTag="contentRatingms190669SQL.100en-us";var sendBtnId="ctl00_ib1_Flyout_btnSend";var curRating="4";var contentRated=false;var RatingTooltipText="Click a star and provide feedback";var RatedTooltipText="You have already rated this content. Thank you for your feedback.";var userIPAddress="210.13.99.234";var MtpsPageDirection="ltr";var RatingFlyoutID="ctl00$ib1$Flyout";var CCI_DeleteConfirmationText="Are you sure you want to delete?";function wkAddNewItemClick(){CCE_EditAnnotation(-1);};
+var CCS_AddLinkID="ctl00_WikiContent_Add";var CCS_User="";var CCS_ContentUrl="http://msdn.microsoft.com/en-us/library/ms190669.aspx";//]]>
+</SCRIPT>
+
+<SCRIPT 
+src="Creating Stored Procedures (Database Engine)_files/jquery-1.2.6-bn20090821.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT 
+src="Creating Stored Procedures (Database Engine)_files/Silverlight-bn20090821.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT type=text/javascript>
+//<![CDATA[
+var wt_nvr_ru = "WT_NVR_RU";var wt_fpcdom = ".microsoft.com";var wt_domlist = "msdn.microsoft.com";var wt_pathlist = "";var wt_paramlist = "DCSext.mtps_devcenter";var wt_siteid = "MSDN";var gDomain="m.webtrends.com";
+var gDcsId="dcsmgru7m99k7mqmgrhudo0k8_8c6m";
+var gFpc="WT_FPC";
+/*<![CDATA[*/
+if(document.cookie.indexOf(gFpc+"=")==-1){document.write("<scr"+"ipt type='text/javascript' src='"+"http"+(window.location.protocol.indexOf('https:')==0?'s':'')+"://"+gDomain+"/"+gDcsId+"/wtid.js"+"'><\/scr"+"ipt>");}
+/*]]>*/
+var detectedLocale = 'en-us';
+var wtsp="msdnlib_es_dev";
+var gTrackEvents = 0;
+var omni_guid='ae91fbc6-0295-4df6-82ba-319f328da7fa';//]]>
+</SCRIPT>
+
+<SCRIPT language=JavaScript 
+src="Creating Stored Procedures (Database Engine)_files/omni_rsid_msdn-bn20090821.js"></SCRIPT>
+<NOSCRIPT><A title="Web Analytics" href="http://www.omniture.com/"><IMG height=1 
+alt="" src="Creating Stored Procedures (Database Engine)_files/0.gif" width=1 
+border=0></A></NOSCRIPT>
+<SCRIPT type=text/javascript>
+//<![CDATA[
+var CCT_Browse="Browse other topics containing this tag";var CCT_Remove="Remove the tag from this topic";var CCT_NoTags="No tags entered";var CCT_Error="An error has occurred";var CCT_BugTag="contentbug";var CCE_ErrSameContent = "Content has not changed";
+var CCE_ErrEmptyTitle = "Title can not be empty";
+var CCE_ErrEmptyContent = "Content cannot be empty";
+var CCE_ErrTitleTooLong = "Title is limited to 100 characters";
+var CCE_ErrContentTooLong = "Content is limited to 50,000 characters";
+var CCE_ErrServerError = "Error occurred while saving your data.";
+var CCE_IsEditing=false;var CCE_IsTaggingEnabled=true;var CCE_TitleMaxLen=100;var CCE_ContentMaxLen=50000;var CCE_UpdateText="Please Wait"; $(document).ready(function() {$('A[rel="sitefeedback"]').click(function() {   var t = $(this).attr('targetUrl');   window.open(t,'SiteFeedback','width=670,resizable=no,height=700,toolbar=no,location=no,scrollbars=yes,directories=no,status=no,menubar=no'); return false; }); });//]]>
+</SCRIPT>
+
+<SCRIPT 
+src="Creating Stored Procedures (Database Engine)_files/compositejscript2.js" 
+type=text/javascript></SCRIPT>
+ 
+<DIV><INPUT id=__PREVIOUSPAGE type=hidden 
+value=6btbzqXkJe3SBu48mmqIhrS_50wkKKd5-QvqF4c49tI1 name=__PREVIOUSPAGE> </DIV>
+<SCRIPT type=text/javascript>
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$ScriptManager1', document.getElementById('aspnetForm'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tctl00$ContributionSummary1$ctl00','fctl00$WikiContent$ctl00$ItemUpdatePanel'], [], [], 90);
+//]]>
+</SCRIPT>
+
+<DIV id=rheader>
+<DIV class=mastheadfontbase>
+<DIV>
+<DIV class=GlobalBar>
+<DIV class=Teaser><SPAN id=ticklerWrapper><A class=slLink 
+id=ctl00_Masthead1_Tickler1_InstallLink 
+onclick="javascript:Track('ctl00_Masthead1_Tickler1|_InstallLink',this);" 
+href="http://clk.atdmt.com/MRT/go/141489558/direct/01/">Upgrade your Internet 
+Experience</A> </SPAN></DIV>
+<DIV class=GlobalBarRight>
+<DIV class=LocaleFlyout>
+<DIV class=LocaleManagementFlyoutStatic 
+id=ctl00$Masthead1$LocaleManagement$ctl00 style="POSITION: relative"><A 
+class=LocaleManagementFlyoutStaticLink href="javascript:void(0)">United States - 
+English&nbsp;</A><IMG class="LocaleManagementFlyoutPopArrow LibC_popdownarrow" 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: 7px; HEIGHT: 4px; BORDER-RIGHT-WIDTH: 0px" 
+alt="Dropdown Arrow" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif">
+<DIV class=LocaleManagementFlyoutPopup 
+id=ctl00$Masthead1$LocaleManagement$ctl00_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute">
+<TABLE style="WIDTH: 175px" border=0>
+  <TBODY>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl05','')">Argentina 
+      (Español)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl06','')">Australia 
+      (English)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl07','')">Brasil 
+      (Português)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl08','')">Canada 
+      (English)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl09','')">Canada 
+      (Français)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl10','')">中国 
+      (简体中文)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl11','')">Colombia 
+      (Español)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl12','')">Deutschland 
+      (Deutsch)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl13','')">España 
+      (Español)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl14','')">France 
+      (Français)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl15','')">India 
+      (English)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl16','')">Italia 
+      (Italiano)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl17','')">日本 
+      (日本語)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl18','')">México 
+      (Español)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl19','')">Perú 
+      (Español)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl20','')">Россия 
+      (Pусский)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl21','')">United 
+      Kingdom (English)</A></TD></TR>
+  <TR>
+    <TD><A 
+      href="javascript:__doPostBack('ctl00$Masthead1$LocaleManagement$ctl00$ctl22','')">United 
+      States (English)</A></TD></TR>
+  <TR>
+    <TD class=LocaleManagementFlyoutPopupHr></TD></TR>
+  <TR>
+    <TD><A 
+  href="http://msdn.microsoft.com/en-us/ms376822.aspx">More...</A></TD></TR></TBODY></TABLE></DIV>
+<DIV class=TFlyPopupAnimate 
+id=ctl00$Masthead1$LocaleManagement$ctl00_Anim></DIV></DIV></DIV>
+<DIV class=SiteMap><A class=SiteMapLink id=ctl00_Masthead1_MSFT_Site 
+title=Microsoft.com href="http://www.microsoft.com/">Microsoft.com</A> </DIV>
+<DIV class=PassportScarab><SPAN class=UserRecognitionStaticText 
+id=ctl00_Masthead1_UserRecognitionFlyout_lbwelcom>Welcome</SPAN> <A 
+id=idPPScarab 
+onclick="MtpsLoginStatus.OverlayImagePath = &quot;http://i.msdn.microsoft.com:80/Platform/Controls/MtpsLoginStatus/resources/veil.gif&quot;; return MtpsLoginStatus.DoPassportSignIn('https://login.live.com/login.srf?wa=wsignin1.0&amp;rpsnv=11&amp;ct=1251684642&amp;rver=6.0.5276.0&amp;wp=MCLBI&amp;wlcxt=msdn%24msdn%24msdn&amp;wreply=http:%2F%2Fmsdn.microsoft.com%2FPlatform%2FControls%2FMtpsLoginStatus%2FPassport%2Fppsignin.htm&amp;lc=1033&amp;id=254354');" 
+href="https://login.live.com/login.srf?wa=wsignin1.0&amp;rpsnv=11&amp;ct=1251684643&amp;rver=6.0.5276.0&amp;wp=MCLBI&amp;wlcxt=msdn%24msdn%24msdn&amp;wreply=http:%2F%2Fmsdn.microsoft.com%2Fen-us%2Flibrary%2Fms190669.aspx&amp;lc=1033&amp;id=254354"><SPAN 
+class=MTPS_GlobalToolbarLinks_msdn id=idPPScarabSIT>Sign in</SPAN></A> 
+<DIV id=idPPMWOverlay style="DISPLAY: none"></DIV></DIV></DIV></DIV></DIV>
+<DIV class=ThinNavBox><A id=ctl00_Masthead1_brandlink 
+href="http://msdn.microsoft.com/en-us/default.aspx">
+<DIV class=BrandLogo id=ctl00_Masthead1_BrandLogo></DIV></A>
+<DIV class=SearchBox id=ctl00_Masthead1_ctl00_SearchBox><INPUT 
+id=ctl00_Masthead1_ctl00_returnSubmit style="DISPLAY: none; VISIBILITY: hidden" 
+name=ctl00$Masthead1$ctl00$returnSubmit> <INPUT class=TextBoxSearchActive 
+id=ctl00_Masthead1_ctl00_SearchTextBox title="Search MSDN" 
+name=ctl00$Masthead1$ctl00$SearchTextBox> <INPUT 
+class="SearchButton LibC_search" id=ctl00_Masthead1_ctl00_SearchButton 
+title="Click here to search" 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+type=image alt="Click here to search" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif" 
+name=ctl00$Masthead1$ctl00$SearchButton> <INPUT class=WebButton id=ctl00_Masthead1_ctl00_WebButton title="Search Web" onclick="dolivesearch('ctl00_Masthead1_ctl00_SearchTextBox');" type=submit value=Web name=ctl00$Masthead1$ctl00$WebButton> 
+<INPUT id=go type=hidden value=true name=go>
+<SCRIPT id=mscom.srch.searchBox 
+src="Creating Stored Procedures (Database Engine)_files/SearchBox.jss" defer 
+type=text/javascript></SCRIPT>
+ </DIV>
+<DIV class=evergreenLinks><A id=ctl00_Masthead1_eventlink>
+<DIV class=EventLogo id=ctl00_Masthead1_EventLogo></DIV></A></DIV></DIV>
+<DIV class=Clear></DIV>
+<DIV class=NavigationBox>
+<DIV class=HeaderTitle id=ctl00_Masthead1_tabs_CenterTitle>SQL Server Developer 
+Center</DIV>
+<DIV class=Sponsor></DIV>
+<DIV class=ClearLeft></DIV>
+<DIV class=SiteNavigation id=ctl00_Masthead1_tabs_manTabsHolder>
+<DIV class="SiteNavTabOffLeft msdn_TabC_msdn_SiteNavTabOff1Left"></DIV>
+<DIV class=TabOff><A id=ctl00_Masthead1_tabs_ctl01 
+onclick="javascript:Track('|TabStrip Link|ctl00_Masthead1_tabs_ctl00|ctl00_Masthead1_tabs_ctl01',this);" 
+href="http://msdn.microsoft.com/en-us/sqlserver/default.aspx">Home</A></DIV>
+<DIV class="SiteNavTabOffRight msdn_TabC_msdn_SiteNavTabOff1Right"></DIV>
+<DIV class="SiteNavTabOnLeft msdn_TabC_msdn_SiteNavTabOnLeft"></DIV>
+<DIV class=TabOn><A id=ctl00_Masthead1_tabs_ctl03 
+onclick="javascript:Track('|TabStrip Link|ctl00_Masthead1_tabs_ctl02|ctl00_Masthead1_tabs_ctl03',this);" 
+href="http://msdn.microsoft.com/en-us/library/bb545450.aspx">Library</A></DIV>
+<DIV class="SiteNavTabOnRight msdn_TabC_msdn_SiteNavTabOnRight"></DIV>
+<DIV class="SiteNavTabOffLeft msdn_TabC_msdn_SiteNavTabOff1Left"></DIV>
+<DIV class=TabOff><A id=ctl00_Masthead1_tabs_ctl05 
+onclick="javascript:Track('|TabStrip Link|ctl00_Masthead1_tabs_ctl04|ctl00_Masthead1_tabs_ctl05',this);" 
+href="http://msdn.microsoft.com/en-us/sqlserver/bb895927.aspx">Learn</A></DIV>
+<DIV class="SiteNavTabOffRight msdn_TabC_msdn_SiteNavTabOff1Right"></DIV>
+<DIV class="SiteNavTabOffLeft msdn_TabC_msdn_SiteNavTabOff1Left"></DIV>
+<DIV class=TabOff><A id=ctl00_Masthead1_tabs_ctl07 
+onclick="javascript:Track('|TabStrip Link|ctl00_Masthead1_tabs_ctl06|ctl00_Masthead1_tabs_ctl07',this);" 
+href="http://msdn.microsoft.com/en-us/sqlserver/bb671149.aspx">Downloads</A></DIV>
+<DIV class="SiteNavTabOffRight msdn_TabC_msdn_SiteNavTabOff1Right"></DIV>
+<DIV class="SiteNavTabOffLeft msdn_TabC_msdn_SiteNavTabOff1Left"></DIV>
+<DIV class=TabOff><A id=ctl00_Masthead1_tabs_ctl09 
+onclick="javascript:Track('|TabStrip Link|ctl00_Masthead1_tabs_ctl08|ctl00_Masthead1_tabs_ctl09',this);" 
+href="http://msdn.microsoft.com/en-us/sqlserver/bb895923.aspx">Troubleshooting</A></DIV>
+<DIV class="SiteNavTabOffRight msdn_TabC_msdn_SiteNavTabOff1Right"></DIV>
+<DIV class="SiteNavTabOffLeft msdn_TabC_msdn_SiteNavTabOff1Left"></DIV>
+<DIV class=TabOff><A id=ctl00_Masthead1_tabs_ctl11 
+onclick="javascript:Track('|TabStrip Link|ctl00_Masthead1_tabs_ctl10|ctl00_Masthead1_tabs_ctl11',this);" 
+href="http://msdn.microsoft.com/en-us/sqlserver/bb671050.aspx">Community</A></DIV>
+<DIV class="SiteNavTabOffRight msdn_TabC_msdn_SiteNavTabOff1Right"></DIV>
+<DIV class="SiteNavTabOffLeft msdn_TabC_msdn_SiteNavTabOff1Left"></DIV>
+<DIV class=TabOff><A id=ctl00_Masthead1_tabs_ctl13 
+onclick="javascript:Track('|TabStrip Link|ctl00_Masthead1_tabs_ctl12|ctl00_Masthead1_tabs_ctl13',this);" 
+href="http://social.msdn.microsoft.com/Forums/en-US/category/sqlserver/">Forums</A></DIV>
+<DIV 
+class="SiteNavTabOffRight msdn_TabC_msdn_SiteNavTabOff1Right"></DIV></DIV></DIV>
+<DIV class=Clear></DIV>
+<DIV class=LocalNavigation id=ctl00_Masthead1_tabs_LocalNavigation 
+style="HEIGHT: 2px"><IMG class=LibC_space 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=1 src="Creating Stored Procedures (Database Engine)_files/clear.gif" 
+width="100%"></DIV>
+<DIV class=cleartabstrip></DIV>
+<DIV class=LocalNavBottom id=ctl00_Masthead1_tabs_LocalNavBottom><IMG 
+class=LibC_space 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=1 src="Creating Stored Procedures (Database Engine)_files/clear.gif" 
+width="100%"></DIV></DIV>
+<DIV class=Clear></DIV>
+<DIV class=miniRatings id=ctl00_ib1_Panel1>
+<DIV class=miniRatings_left id=ctl00_ib1_miniRatings_left><A class=itPrint 
+id=ctl00_ib1_hlPrint title="Print This Content" 
+onclick="javascript:SubmitRateAction('printerFriendlyPage');" 
+href="http://msdn.microsoft.com/en-us/library/ms190669(printer).aspx"><IMG 
+class=LibC_rtg_print id=ctl00_ib1_imgPrint 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif">&nbsp;Printer 
+Friendly Version</A>&nbsp;&nbsp; <A class=itFav id=ctl00_ib1_hlFav 
+title="Add To Favorites" 
+onclick="javascript:SubmitRateAction('addToFavorites');" 
+href="javascript:OnSave();"><IMG class=LibC_rtg_save id=ctl00_ib1_imgFav 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif">&nbsp;Add To 
+Favorites</A>&nbsp;&nbsp; <A class=itSend id=ctl00_ib1_hlSendCont 
+title="Send This Content" onclick="javascript:SubmitRateAction('sendThisPage');" 
+href="mailto:?subject=Creating Stored Procedures (Database Engine)&amp;body=This URL points to a page on MSDN that may interest you: http://msdn.microsoft.com/en-us/library/ms190669.aspx"><IMG 
+class=LibC_rtg_email id=ctl00_ib1_imgSendCont 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif">&nbsp;Send</A>&nbsp;&nbsp; 
+<A class=itComCon id=ctl00_ib1_hlComCon 
+title="Click here to jump to the Community Content section on this page." 
+href="http://msdn.microsoft.com/en-us/library/Community-Signup.aspx?ru=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fms190669(SQL.100).aspx%3fwbi%3dnew"><IMG 
+class=LibC_rtg_comCon id=ctl00_ib1_imgComCon 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif">&nbsp;Add 
+Content...</A>&nbsp;&nbsp; </DIV>
+<DIV class=miniRatings_right id=ctl00_ib1_miniRatings_right>
+<DIV class=ratingFlyoutStatic id=ctl00$ib1$Flyout style="POSITION: relative">
+<DIV id=ctl00_ib1_Flyout_rtgContainer 
+title="Turn scripting on  to submit a rating and send feedback." 
+style="DISPLAY: block; TEXT-ALIGN: right">
+<TABLE>
+  <TBODY>
+  <TR>
+    <TD style="LINE-HEIGHT: 70%; TEXT-ALIGN: right"><SPAN class=tbFont 
+      id=ctl00_ib1_Flyout_rateTitleLabel>Click to Rate and Give Feedback</SPAN> 
+    </TD>
+    <TD id=ctl00_ib1_Flyout_tdRtg style="WIDTH: 85px" 
+    onclick="if($get('ctl00_ib1_Flyout_tbComments')!=null &amp;&amp; $get('ctl00_ib1_Flyout_tbComments').visible == 'true') $get('ctl00_ib1_Flyout_tbComments').focus();">
+      <DIV id=ctl00_ib1_Flyout_Rating1 dir=ltr 
+      title="Click a star and provide feedback" style="HEIGHT: 16px"><A 
+      id=ctl00_ib1_Flyout_Rating1_A title="Click a star and provide feedback" 
+      style="TEXT-DECORATION: none" 
+      href="http://msdn.microsoft.com/en-us/library/ms190669.aspx#"><SPAN 
+      class="ratingStar filledRatingStar" id=ctl00_ib1_Flyout_Rating1_Star_1 
+      style="FLOAT: left">&nbsp;</SPAN><SPAN class="ratingStar filledRatingStar" 
+      id=ctl00_ib1_Flyout_Rating1_Star_2 style="FLOAT: left">&nbsp;</SPAN><SPAN 
+      class="ratingStar filledRatingStar" id=ctl00_ib1_Flyout_Rating1_Star_3 
+      style="FLOAT: left">&nbsp;</SPAN><SPAN class="ratingStar filledRatingStar" 
+      id=ctl00_ib1_Flyout_Rating1_Star_4 style="FLOAT: left">&nbsp;</SPAN><SPAN 
+      class="ratingStar emptyRatingStar" id=ctl00_ib1_Flyout_Rating1_Star_5 
+      style="FLOAT: left">&nbsp;</SPAN></A> </DIV></TD></TR></TBODY></TABLE></DIV>
+<DIV style="CLEAR: both; DISPLAY: block; FLOAT: none"></DIV>
+<DIV class=ratingFlyoutPopup id=ctl00$ib1$Flyout_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+class=OptionalText id=ctl00_ib1_Flyout_lbOptText>Give feedback on this 
+content</SPAN><TEXTAREA class=Comment id=ctl00_ib1_Flyout_tbComments name=ctl00$ib1$Flyout$tbComments></TEXTAREA><INPUT class=Button id=ctl00_ib1_Flyout_btnClose onclick='CloseFLY("ctl00$ib1$Flyout") ' type=button value=Close name=ctl00$ib1$Flyout$btnClose><INPUT class=Button id=ctl00_ib1_Flyout_btnSend onclick="return IsPageRated(&quot;ctl00_ib1_Flyout_Rating1&quot;,&quot;ctl00_ib1_Flyout_lbOptText&quot;,'Please rate the page first.', &quot;ctl00$ib1$Flyout&quot;,this)" type=button value=Send name=ctl00$ib1$Flyout$btnSend></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$ib1$Flyout_Anim></DIV></DIV></DIV>
+<DIV id=intercleardiv 
+style="CLEAR: both; DISPLAY: block; VISIBILITY: hidden"></DIV></DIV></DIV>
+<DIV id=contents>
+<DIV class=resizableArea id=ctl00_LibFrame>
+<DIV class=leftSection id=ctl00_raLeft style="WIDTH: 487px"><IMG class=hidden 
+id=ctl00_TocVector1_o 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"> <IMG 
+class=hidden id=ctl00_TocVector1_c 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"> <IMG 
+class=hidden id=ctl00_TocVector1_e 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"> 
+<DIV id=holder onclick=TocClick(event)>
+<DIV class=rootToc id=ctl00_TocVector1_root>
+<UL class=toc id=tocVectorTreeId>
+  <LI name="ms310241(n)"><IMG class=LibC_c 
+  src="Creating Stored Procedures (Database Engine)_files/clear.gif"><A 
+  href="http://msdn.microsoft.com/en-us/library/ms123401.aspx" target=_top>MSDN 
+  Library</A></LI></UL></DIV></DIV></DIV>
+<DIV class=splitter id=ctl00_raSplitter 
+title="Click and drag to resize. Double click or press 't' to toggle visibility." 
+style="LEFT: 487px">
+<DIV class=LibC_lib_grippy style="POSITION: absolute; TOP: 50%"></DIV></DIV>
+<DIV class=rightSection id=ctl00_raRight>
+<DIV>
+<DIV class=EyebrowMenuBar id=ctl00_eb1_Panel1>
+<DIV class=stat id=ctl00$eb1$ctl00 style="POSITION: relative"><A title=MSDN 
+href="http://msdn.microsoft.com/en-us/ms348103.aspx">MSDN</A>
+<DIV class=popup id=ctl00$eb1$ctl00_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/36cf08ac-18d1-4fe0-abc8-466852a0f9c7(n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl00_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl01 style="POSITION: relative"><A 
+title="MSDN Library" 
+href="http://msdn.microsoft.com/en-us/library/ms123401.aspx">MSDN Library</A>
+<DIV class=popup id=ctl00$eb1$ctl01_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/ms310241(n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl01_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl02 style="POSITION: relative"><A 
+title="Servers and Enterprise Development" 
+href="http://msdn.microsoft.com/en-us/library/aa155072.aspx">Servers and 
+Enterprise Development</A>
+<DIV class=popup id=ctl00$eb1$ctl02_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/aa155072(n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl02_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl03 style="POSITION: relative"><A 
+title="SQL Server" 
+href="http://msdn.microsoft.com/en-us/library/bb545450.aspx">SQL Server</A>
+<DIV class=popup id=ctl00$eb1$ctl03_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/bb418431(SQL.10,n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl03_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl04 style="POSITION: relative"><A 
+title="SQL Server 2008" 
+href="http://msdn.microsoft.com/en-us/library/bb418439(SQL.10).aspx">SQL Server 
+2008</A>
+<DIV class=popup id=ctl00$eb1$ctl04_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/bb418439(SQL.10,n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl04_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl05 style="POSITION: relative"><A 
+title="Product Documentation" 
+href="http://msdn.microsoft.com/en-us/library/bb418440(SQL.10).aspx">Product 
+Documentation</A>
+<DIV class=popup id=ctl00$eb1$ctl05_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/bb418440(SQL.10,n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl05_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl06 style="POSITION: relative"><A 
+title="SQL Server 2008 Books Online" 
+href="http://msdn.microsoft.com/en-us/library/ms130214.aspx">SQL Server 2008 
+Books Online</A>
+<DIV class=popup id=ctl00$eb1$ctl06_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/bb543165(n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl06_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl07 style="POSITION: relative"><A 
+title="Database Engine" 
+href="http://msdn.microsoft.com/en-us/library/ms187875.aspx">Database Engine</A>
+<DIV class=popup id=ctl00$eb1$ctl07_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/bb528141(n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl07_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl08 style="POSITION: relative"><A 
+title=Development 
+href="http://msdn.microsoft.com/en-us/library/bb500155.aspx">Development</A>
+<DIV class=popup id=ctl00$eb1$ctl08_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/bb528146(n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl08_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl09 style="POSITION: relative"><A 
+title="Querying and Changing Data" 
+href="http://msdn.microsoft.com/en-us/library/bb510440.aspx">Querying and 
+Changing Data</A>
+<DIV class=popup id=ctl00$eb1$ctl09_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/bb934922(n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl09_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl10 style="POSITION: relative"><A 
+title="Stored Procedures" 
+href="http://msdn.microsoft.com/en-us/library/ms190782.aspx">Stored 
+Procedures</A>
+<DIV class=popup id=ctl00$eb1$ctl10_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/bb965647(n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl10_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl11 style="POSITION: relative"><A 
+title="Implementing Stored Procedures" 
+href="http://msdn.microsoft.com/en-us/library/ms187451.aspx">Implementing Stored 
+Procedures</A>
+<DIV class=popup id=ctl00$eb1$ctl11_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/bb965650(n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl11_Anim></DIV></DIV>
+<DIV class=stat id=ctl00$eb1$ctl12 style="POSITION: relative"><A 
+title="Creating Stored Procedures (Database Engine)" 
+href="http://msdn.microsoft.com/en-us/library/ms190669.aspx">Creating Stored 
+Procedures (Databas...</A>
+<DIV class=popup id=ctl00$eb1$ctl12_Popup 
+style="LEFT: -1000px; VISIBILITY: hidden; POSITION: absolute"><SPAN 
+name="http://msdn.microsoft.com/en-us/library/bb965654(n).aspx">Please 
+Wait</SPAN></DIV>
+<DIV class=TFlyPopupAnimate id=ctl00$eb1$ctl12_Anim></DIV></DIV><SPAN 
+style="CLEAR: both; DISPLAY: block; FLOAT: none"></SPAN></DIV></DIV>
+<DIV><BR>&nbsp;&nbsp;<A 
+href="http://msdn.microsoft.com/en-us/library/ms190669(loband).aspx" 
+alt="Switch on low bandwidth view">Switch on low bandwidth view</A> </DIV>
+<DIV class=CS_Container>
+<DIV class=CS_Header>
+<DIV class=CS_Title><SPAN 
+id=ctl00_ContributionSummary1_MainTitle>Community&nbsp;Content</SPAN> <A 
+id=ctl00_ContributionSummary1_RssLink 
+href="http://msdn.microsoft.com/en-us/library/community-edits.rss?toc=bb965654|en-us|100"><IMG 
+class=CS_RssLogo id=ctl00_ContributionSummary1_rssButton title=RSS 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/rss_button.gif"></A><BR><SPAN 
+class=CS_SubTitle id=ctl00_ContributionSummary1_SubTitle>In this section</SPAN> 
+</DIV>
+<DIV class=CS_wikiLogo><IMG id=ctl00_ContributionSummary1_wikiLogo 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/wiki.gif"></DIV></DIV>
+<DIV class=CS_Body id=ctl00_ContributionSummary1_body>
+<DIV id=ctl00_ContributionSummary1_ctl00>
+<DIV class=CS_ItemsHeader id=ctl00_ContributionSummary1_Statistics>
+<DIV class=CS_RssTitle 
+id=ctl00_ContributionSummary1_StatisticsTitle>Statistics&nbsp;<SPAN 
+class=CS_TextItem>Annotations</SPAN>&nbsp;(<SPAN 
+class=CS_TextValue>0</SPAN>)</DIV></DIV>
+<DIV class=CS_Expand id=ctl00_ContributionSummary1_expandPanel><A class=CS_Link 
+id=ctl00_ContributionSummary1_expandLink 
+href="javascript:__doPostBack('ctl00$ContributionSummary1$expandLink','')">Click 
+here to expand</A> </DIV></DIV></DIV></DIV>
+<DIV class=RightPanel>
+<DIV class=ContentBar>
+<DIV class=ECPanel id=ECDiv><IMG class=LibC_o id=ECImg 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+alt="Collapse All/Expand All" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif" align=middle> 
+<SPAN class=ECLink id=ECCollapse>Collapse All</SPAN> <SPAN class=ECLink 
+id=ECExpand style="DISPLAY: none">Expand All</SPAN> </DIV>
+<SCRIPT type=text/Javascript>
+</SCRIPT>
+
+<STYLE type=text/css>.vb {
+	DISPLAY: none
+}
+.cs {
+	DISPLAY: none
+}
+.cpp {
+	DISPLAY: none
+}
+.nu {
+	DISPLAY: none
+}
+.fs {
+	DISPLAY: none
+}
+</STYLE>
+
+<STYLE id=LanguageSpecificTextStyle type=text/css>.nu {
+	DISPLAY: inline
+}
+</STYLE>
+
+<DIV class=DropDownFilterStyle id=ctl00_DropDownFilter_DropDownFilterMain><IMG 
+class="MTPS_DropDownImage LibC_arrow-off" 
+id=ctl00_DropDownFilter_MTPS_DD_ImageArrow 
+onmouseover=ChangeDropDownImage(true);ResetLanguagesMenuTimer(event); 
+title="Language Filter" 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+onclick=DDFilterOn(event); 
+onmouseout=ChangeDropDownImage(false);RequestHideLanguagesMenu(); 
+alt="Language Filter" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"><A 
+class=DropDownFilterOff id=ctl00_DropDownFilter_Mtps_DropDownFilterText 
+onmouseover=ChangeDropDownImage(true); title="Language Filter" 
+onclick=DDFilterOn(event); onmouseout=ChangeDropDownImage(false); 
+href="http://msdn.microsoft.com/en-us/library/ms190669.aspx#Mtps_DropDownFilterText">Language 
+Filter</A>
+<DIV class=MTPS_PopupDivPanel id=ctl00_DropDownFilter_Mtps_DropDownPopUp 
+onmouseover=ResetLanguagesMenuTimer(event); style="DISPLAY: none" 
+onmouseout=RequestHideLanguagesMenu();>
+<DIV class=DivCbxLabelLanguage><INPUT 
+id=ctl00_DropDownFilter_DropDownLngFilterCtrl onclick=SetLangFilter(null,false); 
+type=checkbox CHECKED value="Visual Basic" 
+name=ctl00$DropDownFilter$DropDownLngFilterCtrl arrayValue="visualbasic"><SPAN 
+id=ctl00_DropDownFilter_ctl00_DropDownFilter_DropDownLngFilterCtrl_0 
+title="Visual Basic">Visual Basic<BR></SPAN></DIV>
+<DIV class=DivCbxLabelLanguage><INPUT 
+id=ctl00_DropDownFilter_DropDownLngFilterCtrl onclick=SetLangFilter(null,false); 
+type=checkbox CHECKED value=C# name=ctl00$DropDownFilter$DropDownLngFilterCtrl 
+arrayValue="csharp"><SPAN 
+id=ctl00_DropDownFilter_ctl00_DropDownFilter_DropDownLngFilterCtrl_1 
+title=C#>C#<BR></SPAN></DIV>
+<DIV class=DivCbxLabelLanguage><INPUT 
+id=ctl00_DropDownFilter_DropDownLngFilterCtrl onclick=SetLangFilter(null,false); 
+type=checkbox CHECKED value=C++ name=ctl00$DropDownFilter$DropDownLngFilterCtrl 
+arrayValue="managedcplusplus"><SPAN 
+id=ctl00_DropDownFilter_ctl00_DropDownFilter_DropDownLngFilterCtrl_2 
+title=C++>C++<BR></SPAN></DIV>
+<DIV class=DivCbxLabelLanguage><INPUT 
+id=ctl00_DropDownFilter_DropDownLngFilterCtrl onclick=SetLangFilter(null,false); 
+type=checkbox CHECKED value=J# name=ctl00$DropDownFilter$DropDownLngFilterCtrl 
+arrayValue="jsharp"><SPAN 
+id=ctl00_DropDownFilter_ctl00_DropDownFilter_DropDownLngFilterCtrl_3 
+title=J#>J#<BR></SPAN></DIV>
+<DIV class=DivCbxLabelLanguage><INPUT 
+id=ctl00_DropDownFilter_DropDownLngFilterCtrl onclick=SetLangFilter(null,false); 
+type=checkbox CHECKED value=JScript 
+name=ctl00$DropDownFilter$DropDownLngFilterCtrl arrayValue="jscript"><SPAN 
+id=ctl00_DropDownFilter_ctl00_DropDownFilter_DropDownLngFilterCtrl_4 
+title=JScript>JScript<BR></SPAN></DIV>
+<DIV class=DivCbxLabelLanguage><INPUT 
+id=ctl00_DropDownFilter_DropDownLngFilterCtrl onclick=SetLangFilter(null,false); 
+type=checkbox CHECKED value=XAML name=ctl00$DropDownFilter$DropDownLngFilterCtrl 
+arrayValue="xaml"><SPAN 
+id=ctl00_DropDownFilter_ctl00_DropDownFilter_DropDownLngFilterCtrl_5 
+title=XAML>XAML<BR></SPAN></DIV>
+<DIV class=DivCbxLabelLanguage><INPUT 
+id=ctl00_DropDownFilter_DropDownLngFilterCtrl onclick=SetLangFilter(null,false); 
+type=checkbox CHECKED value=F# name=ctl00$DropDownFilter$DropDownLngFilterCtrl 
+arrayValue="fsharp"><SPAN 
+id=ctl00_DropDownFilter_ctl00_DropDownFilter_DropDownLngFilterCtrl_6 
+title=F#>F#<BR></SPAN></DIV></DIV>
+<SCRIPT type=text/Javascript>
+var strConstLangFilterAll ="All";
+var strConstLangFilterMulti ="Multiple";
+var strConstLangFilterNone ="None";
+var strConstLangFilterText ="Language Filter";
+var oMTPS_DD_ImgArrow = document.getElementById("ctl00_DropDownFilter_MTPS_DD_ImageArrow");
+var oMTPS_DD_PanelLink = document.getElementById("ctl00_DropDownFilter_Mtps_DropDownFilterText");
+var oMTPS_DD_Div = document.getElementById("ctl00_DropDownFilter_DropDownFilterMain");
+var oMTPS_DD_PopUpDiv = document.getElementById("ctl00_DropDownFilter_Mtps_DropDownPopUp");
+</SCRIPT>
+</DIV></DIV>
+<DIV class=ContentArea><SPAN id=ctl00_altSelector>
+<DIV class=AlterPart>
+<DIV>Other versions are also available for the following: </DIV>
+<DIV id=ctl00_ctl02>
+<UL>
+  <LI><A id=ctl00_ctl03 
+  onclick="javascript:Track('ctl00_ctl02|ctl00_ctl03',this);" 
+  href="http://msdn.microsoft.com/en-us/library/ms190669(SQL.90).aspx">SQL 
+  Server 2005</A></LI></UL></DIV></DIV></SPAN><!--starting processing-->
+<DIV class=topic>
+<DIV class=majorTitle>SQL Server 2008 Books Online (July 2009)<!----></DIV>
+<DIV class=title>Creating Stored Procedures (Database Engine)<!----></DIV><!--Content type: DocStudio. Transform: devdiv2mtps.xslt.-->
+<DIV id=mainSection>
+<DIV id=mainBody>
+<P><!----></P><SPAN id=changeHistory></SPAN>
+<P>You can create stored procedures using the CREATE PROCEDURE Transact-SQL 
+statement.</P>
+<P>Before creating a stored procedure, consider that: </P>
+<UL>
+  <LI>CREATE PROCEDURE statements cannot be combined with other SQL statements 
+  in a single batch.<BR>
+  <LI>To create procedures, you must have CREATE PROCEDURE permission in the 
+  database and ALTER permission on the schema in which the procedure is being 
+  created. For CLR stored procedures, you must either own the assembly 
+  referenced in &lt;method_specifier&gt;, or have REFERENCES permission on that 
+  assembly.<BR>
+  <LI>Stored procedures are schema-scoped objects, and their names must follow 
+  the rules for identifiers.<BR>
+  <LI>You can create a stored procedure only in the current 
+database.<BR></LI></UL>
+<P>When creating a stored procedure, you should specify: </P>
+<UL>
+  <LI>Any input parameters and output parameters to the calling procedure or 
+  batch.<BR>
+  <LI>The programming statements that perform operations in the database, 
+  including calling other procedures.<BR>
+  <LI>The status value returned to the calling procedure or batch to indicate 
+  success or failure (and the reason for failure).<BR>
+  <LI>Any error handling statements needed to catch and handle potential errors. 
+  <BR>Error handing functions such as ERROR_LINE and ERROR_PROCEDURE can be 
+  specified in the stored procedure. For more information, see <A 
+  id=ctl00_MTContentSelector1_mainContentContainer_ctl01 
+  onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl00|ctl00_MTContentSelector1_mainContentContainer_ctl01',this);" 
+  href="http://msdn.microsoft.com/en-us/library/ms179296.aspx">Using TRY...CATCH 
+  in Transact-SQL</A>.<BR></LI></UL><SPAN>
+<DIV class=MTPS_CollapsibleRegion>
+<DIV class=CollapseRegionLink><!-- ApplyClick with current id --><IMG 
+class=LibC_o 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; VERTICAL-ALIGN: middle; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"> &nbsp;Naming 
+Stored Procedures </DIV>
+<DIV class=MTPS_CollapsibleSection style="DISPLAY: block"><A id=sectionToggle0><!----></A>
+<P>We recommend that you do not create any stored procedures using 
+<STRONG>sp_</STRONG> as a prefix. SQL Server uses the <STRONG>sp_</STRONG> 
+prefix to designate system stored procedures. The name you choose may conflict 
+with some future system procedure. If your application uses nonschema qualified 
+name references and your own procedure name conflicts with a system procedure 
+name, your application will break because the name binds to the system 
+procedure, not your own.</P>
+<P>A user-defined stored procedure that has the same name as a system stored 
+procedure and is either nonqualified or is in the <STRONG>dbo</STRONG> schema 
+will never be executed; the system stored procedure will always execute instead. 
+The following example demonstrates this behavior.</P><SPAN 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl37_ctl00_ctl00>
+<DIV class=libCScode 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl37_ctl00_ctl00_>
+<DIV class=CodeSnippetTitleBar>
+<DIV class=CodeDisplayLanguage></DIV>
+<DIV class=CopyCodeButton><A class=copyCode title="Copy Code" 
+href="javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_ctl37_ctl00_ctl00');">
+<DIV class=LibC_copy_off 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: auto; HEIGHT: 9px; BORDER-RIGHT-WIDTH: 0px" 
+align=center></DIV>Copy Code </A></DIV></DIV>
+<DIV dir=ltr style="BACKGROUND-COLOR: #ddd"><PRE class=libCScode id=ctl00_MTContentSelector1_mainContentContainer_ctl37_ctl00_ctl00 style="WORD-BREAK: break-all; WORD-WRAP: break-word" space="preserve">USE AdventureWorks;
+GO
+CREATE PROCEDURE dbo.sp_who
+AS
+    SELECT FirstName, LastName FROM Person.Contact;
+GO
+EXEC sp_who;
+EXEC dbo.sp_who;
+GO
+DROP PROCEDURE dbo.sp_who;
+GO</PRE></DIV></DIV></SPAN>
+<P>Using an explicit schema qualifier also provides a slight performance 
+advantage. Name resolution is slightly faster if the Database Engine does not 
+have to search multiple schemas to find the procedure. For more information, see 
+<A id=ctl00_MTContentSelector1_mainContentContainer_ctl37_ctl00_ctl01 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl37_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl37_ctl00_ctl01',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms189915.aspx">Executing a Stored 
+Procedure</A>.</P></DIV></DIV></SPAN><SPAN>
+<DIV class=MTPS_CollapsibleRegion>
+<DIV class=CollapseRegionLink><!-- ApplyClick with current id --><IMG 
+class=LibC_o 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; VERTICAL-ALIGN: middle; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"> 
+&nbsp;Temporary Stored Procedures </DIV>
+<DIV class=MTPS_CollapsibleSection style="DISPLAY: block"><A id=sectionToggle1><!----></A>
+<P>Private and global temporary stored procedures, analogous to temporary 
+tables, can be created with the # and ## prefixes added to the procedure name. # 
+denotes a local temporary stored procedure; ## denotes a global temporary stored 
+procedure. These procedures do not exist after SQL Server is shut down.</P>
+<P>Temporary stored procedures are useful when connecting to earlier versions of 
+SQL Server that do not support the reuse of execution plans for Transact-SQL 
+statements or batches. Applications connecting to SQL Server 2000 and higher 
+should use the <A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl38_ctl00_ctl00 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl38_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl38_ctl00_ctl00',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms188001.aspx">sp_executesql</A> 
+system stored procedure instead of temporary stored procedures. Only the 
+connection that created a local temporary procedure can execute it, and the 
+procedure is automatically deleted when the connection is closed.</P>
+<P>Any connection can execute a global temporary stored procedure. A global 
+temporary stored procedure exists until the connection used by the user who 
+created the procedure is closed and any currently executing versions of the 
+procedure by any other connections are completed. Once the connection that was 
+used to create the procedure is closed, no further execution of the global 
+temporary stored procedure is allowed. Only those connections that have already 
+started executing the stored procedure are allowed to complete.</P>
+<P>If a stored procedure not prefixed with # or ## is created directly in the 
+<STRONG>tempdb</STRONG> database, the stored procedure is automatically deleted 
+when SQL Server is shut down because <STRONG>tempdb</STRONG> is re-created every 
+time SQL Server is started. Procedures created directly in 
+<STRONG>tempdb</STRONG> exist even after the creating connection is terminated. 
+</P>
+<DIV class=alert>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TH><!--src=[../local/note.gif]--><IMG 
+      alt=ms190669.note(en-us,SQL.100).gif 
+      src="Creating Stored Procedures (Database Engine)_files/ms190669.note(en-us,SQL.100).gif">Note: 
+    </TH></TR>
+  <TR>
+    <TD>Heavy use of temporary stored procedures can create contention on the 
+      system tables in <STRONG>tempdb</STRONG> and adversely affect performance. 
+      It is recommended that <STRONG>sp_executesql</STRONG> be used instead. 
+      <STRONG>sp_executesql</STRONG> does not store data in the system tables 
+      and therefore avoids the problem.
+      <P><!----></P></TD></TR></TBODY></TABLE>
+<P><!----></P></DIV>
+<P>CLR stored procedures cannot be created as temporary stored 
+procedures.</P></DIV></DIV></SPAN><SPAN>
+<DIV class=MTPS_CollapsibleRegion>
+<DIV class=CollapseRegionLink><!-- ApplyClick with current id --><IMG 
+class=LibC_o 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; VERTICAL-ALIGN: middle; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"> 
+&nbsp;Examples </DIV>
+<DIV class=MTPS_CollapsibleSection style="DISPLAY: block"><A id=sectionToggle2><!----></A>
+<H3 class=subHeading>A. Using a simple procedure with a complex SELECT</H3>
+<DIV class=subSection>
+<P>The following stored procedure returns all employees (first and last names 
+supplied), their titles, and their department names from a view. This stored 
+procedure does not use any parameters.</P><SPAN 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl00>
+<DIV class=libCScode 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl00_>
+<DIV class=CodeSnippetTitleBar>
+<DIV class=CodeDisplayLanguage></DIV>
+<DIV class=CopyCodeButton><A class=copyCode title="Copy Code" 
+href="javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl00');">
+<DIV class=LibC_copy_off 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: auto; HEIGHT: 9px; BORDER-RIGHT-WIDTH: 0px" 
+align=center></DIV>Copy Code </A></DIV></DIV>
+<DIV dir=ltr style="BACKGROUND-COLOR: #ddd"><PRE class=libCScode id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl00 style="WORD-BREAK: break-all; WORD-WRAP: break-word" space="preserve">USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'HumanResources.uspGetAllEmployees', 'P' ) IS NOT NULL 
+    DROP PROCEDURE HumanResources.uspGetAllEmployees;
+GO
+CREATE PROCEDURE HumanResources.uspGetAllEmployees
+AS
+    SET NOCOUNT ON;
+    SELECT LastName, FirstName, JobTitle, Department
+    FROM HumanResources.vEmployeeDepartment;
+GO
+</PRE></DIV></DIV></SPAN>
+<P>The <CODE>uspGetEmployees</CODE> stored procedure can be executed in these 
+ways:</P><SPAN 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl01>
+<DIV class=libCScode 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl01_>
+<DIV class=CodeSnippetTitleBar>
+<DIV class=CodeDisplayLanguage></DIV>
+<DIV class=CopyCodeButton><A class=copyCode title="Copy Code" 
+href="javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl01');">
+<DIV class=LibC_copy_off 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: auto; HEIGHT: 9px; BORDER-RIGHT-WIDTH: 0px" 
+align=center></DIV>Copy Code </A></DIV></DIV>
+<DIV dir=ltr style="BACKGROUND-COLOR: #ddd"><PRE class=libCScode id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl01 style="WORD-BREAK: break-all; WORD-WRAP: break-word" space="preserve">EXECUTE HumanResources.uspGetAllEmployees;
+GO
+-- Or
+EXEC HumanResources.uspGetAllEmployees;
+GO
+-- Or, if this procedure is the first statement within a batch:
+HumanResources.uspGetAllEmployees;
+</PRE></DIV></DIV></SPAN></DIV>
+<H3 class=subHeading>B. Using a simple procedure with parameters</H3>
+<DIV class=subSection>
+<P>The following stored procedure returns only the specified employee (first and 
+last name supplied), her title, and her department name from a view. This stored 
+procedure accepts exact matches for the parameters passed.</P><SPAN 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl02>
+<DIV class=libCScode 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl02_>
+<DIV class=CodeSnippetTitleBar>
+<DIV class=CodeDisplayLanguage></DIV>
+<DIV class=CopyCodeButton><A class=copyCode title="Copy Code" 
+href="javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl02');">
+<DIV class=LibC_copy_off 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: auto; HEIGHT: 9px; BORDER-RIGHT-WIDTH: 0px" 
+align=center></DIV>Copy Code </A></DIV></DIV>
+<DIV dir=ltr style="BACKGROUND-COLOR: #ddd"><PRE class=libCScode id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl02 style="WORD-BREAK: break-all; WORD-WRAP: break-word" space="preserve">USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'HumanResources.uspGetEmployees', 'P' ) IS NOT NULL 
+    DROP PROCEDURE HumanResources.uspGetEmployees;
+GO
+CREATE PROCEDURE HumanResources.uspGetEmployees 
+    @LastName nvarchar(50), 
+    @FirstName nvarchar(50) 
+AS 
+    
+    SET NOCOUNT ON;
+    SELECT FirstName, LastName, JobTitle, Department
+    FROM HumanResources.vEmployeeDepartment
+    WHERE FirstName = @FirstName AND LastName = @LastName;
+GO
+</PRE></DIV></DIV></SPAN>
+<P>The <CODE>uspGetEmployees</CODE> stored procedure can be executed in the 
+following ways:</P><SPAN 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl03>
+<DIV class=libCScode 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl03_>
+<DIV class=CodeSnippetTitleBar>
+<DIV class=CodeDisplayLanguage></DIV>
+<DIV class=CopyCodeButton><A class=copyCode title="Copy Code" 
+href="javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl03');">
+<DIV class=LibC_copy_off 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: auto; HEIGHT: 9px; BORDER-RIGHT-WIDTH: 0px" 
+align=center></DIV>Copy Code </A></DIV></DIV>
+<DIV dir=ltr style="BACKGROUND-COLOR: #ddd"><PRE class=libCScode id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl03 style="WORD-BREAK: break-all; WORD-WRAP: break-word" space="preserve">EXECUTE HumanResources.uspGetEmployees N'Ackerman', N'Pilar';
+-- Or
+EXEC HumanResources.uspGetEmployees @LastName = N'Ackerman', @FirstName = N'Pilar';
+GO
+-- Or
+EXECUTE HumanResources.uspGetEmployees @FirstName = N'Pilar', @LastName = N'Ackerman';
+GO
+-- Or, if this procedure is the first statement within a batch:
+HumanResources.uspGetEmployees N'Ackerman', N'Pilar';
+</PRE></DIV></DIV></SPAN></DIV>
+<H3 class=subHeading>C. Using a simple procedure with wildcard parameters</H3>
+<DIV class=subSection>
+<P>The following stored procedure returns only the specified employees (first 
+and last names supplied), their titles, and their departments from a view. This 
+stored procedure pattern matches the parameters passed or, if not supplied, uses 
+the preset default (last names that start with the letter D).</P><SPAN 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl04>
+<DIV class=libCScode 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl04_>
+<DIV class=CodeSnippetTitleBar>
+<DIV class=CodeDisplayLanguage></DIV>
+<DIV class=CopyCodeButton><A class=copyCode title="Copy Code" 
+href="javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl04');">
+<DIV class=LibC_copy_off 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: auto; HEIGHT: 9px; BORDER-RIGHT-WIDTH: 0px" 
+align=center></DIV>Copy Code </A></DIV></DIV>
+<DIV dir=ltr style="BACKGROUND-COLOR: #ddd"><PRE class=libCScode id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl04 style="WORD-BREAK: break-all; WORD-WRAP: break-word" space="preserve">USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'HumanResources.uspGetEmployees2', 'P' ) IS NOT NULL 
+    DROP PROCEDURE HumanResources.uspGetEmployees2;
+GO
+CREATE PROCEDURE HumanResources.uspGetEmployees2 
+    @LastName nvarchar(50) = N'D%', 
+    @FirstName nvarchar(50) = N'%'
+AS 
+    SET NOCOUNT ON;
+    SELECT FirstName, LastName, JobTitle, Department
+    FROM HumanResources.vEmployeeDepartment
+    WHERE FirstName LIKE @FirstName AND LastName LIKE @LastName;
+GO
+</PRE></DIV></DIV></SPAN>
+<P>The <CODE>uspGetEmployees2 </CODE>stored procedure can be executed in many 
+combinations. Only a few combinations are shown here:</P><SPAN 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl05>
+<DIV class=libCScode 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl05_>
+<DIV class=CodeSnippetTitleBar>
+<DIV class=CodeDisplayLanguage></DIV>
+<DIV class=CopyCodeButton><A class=copyCode title="Copy Code" 
+href="javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl05');">
+<DIV class=LibC_copy_off 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: auto; HEIGHT: 9px; BORDER-RIGHT-WIDTH: 0px" 
+align=center></DIV>Copy Code </A></DIV></DIV>
+<DIV dir=ltr style="BACKGROUND-COLOR: #ddd"><PRE class=libCScode id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl05 style="WORD-BREAK: break-all; WORD-WRAP: break-word" space="preserve">EXECUTE HumanResources.uspGetEmployees2;
+-- Or
+EXECUTE HumanResources.uspGetEmployees2 N'Wi%';
+-- Or
+EXECUTE HumanResources.uspGetEmployees2 @FirstName = N'%';
+-- Or
+EXECUTE HumanResources.uspGetEmployees2 N'[CK]ars[OE]n';
+-- Or
+EXECUTE HumanResources.uspGetEmployees2 N'Hesse', N'Stefen';
+-- Or
+EXECUTE HumanResources.uspGetEmployees2 N'H%', N'S%';
+</PRE></DIV></DIV></SPAN></DIV>
+<H3 class=subHeading>D. Using OUTPUT parameters</H3>
+<DIV class=subSection>
+<P>The following example creates the <CODE>uspGetList</CODE> stored procedure, 
+which returns a list of products that have prices that do not exceed a specified 
+amount. The example shows using multiple SELECT statements and multiple OUTPUT 
+parameters. OUTPUT parameters allow an external procedure, a batch, or more than 
+one Transact-SQL statement to access a value set during the procedure execution. 
+</P><SPAN id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl06>
+<DIV class=libCScode 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl06_>
+<DIV class=CodeSnippetTitleBar>
+<DIV class=CodeDisplayLanguage></DIV>
+<DIV class=CopyCodeButton><A class=copyCode title="Copy Code" 
+href="javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl06');">
+<DIV class=LibC_copy_off 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: auto; HEIGHT: 9px; BORDER-RIGHT-WIDTH: 0px" 
+align=center></DIV>Copy Code </A></DIV></DIV>
+<DIV dir=ltr style="BACKGROUND-COLOR: #ddd"><PRE class=libCScode id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl06 style="WORD-BREAK: break-all; WORD-WRAP: break-word" space="preserve">USE AdventureWorks;
+GO
+IF OBJECT_ID ( 'Production.uspGetList', 'P' ) IS NOT NULL 
+    DROP PROCEDURE Production.uspGetList;
+GO
+CREATE PROCEDURE Production.uspGetList @Product varchar(40) 
+    , @MaxPrice money 
+    , @ComparePrice money OUTPUT
+    , @ListPrice money OUT
+AS
+    SET NOCOUNT ON;
+    SELECT p.[Name] AS Product, p.ListPrice AS 'List Price'
+    FROM Production.Product AS p
+    JOIN Production.ProductSubcategory AS s 
+      ON p.ProductSubcategoryID = s.ProductSubcategoryID
+    WHERE s.[Name] LIKE @Product AND p.ListPrice &lt; @MaxPrice;
+-- Populate the output variable @ListPprice.
+SET @ListPrice = (SELECT MAX(p.ListPrice)
+        FROM Production.Product AS p
+        JOIN  Production.ProductSubcategory AS s 
+          ON p.ProductSubcategoryID = s.ProductSubcategoryID
+        WHERE s.[Name] LIKE @Product AND p.ListPrice &lt; @MaxPrice);
+-- Populate the output variable @compareprice.
+SET @ComparePrice = @MaxPrice;
+GO
+</PRE></DIV></DIV></SPAN>
+<P>Execute <CODE>uspGetList</CODE> to return a list of Adventure Works products 
+(Bikes) that cost less than $700. The OUTPUT parameters <STRONG>@Cost</STRONG> 
+and <STRONG>@ComparePrices</STRONG> are used with control-of-flow language to 
+return a message in the <STRONG>Messages</STRONG> window.</P>
+<DIV class=alert>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TH><!--src=[../local/note.gif]--><IMG 
+      alt=ms190669.note(en-us,SQL.100).gif 
+      src="Creating Stored Procedures (Database Engine)_files/ms190669.note(en-us,SQL.100).gif">Note: 
+    </TH></TR>
+  <TR>
+    <TD>The OUTPUT variable must be defined during the procedure creation as 
+      well as during the use of the variable. The parameter name and variable 
+      name do not have to match; however, the data type and parameter 
+      positioning must match (unless <STRONG>@ListPrice</STRONG> 
+      <STRONG>=</STRONG><EM> variable</EM> is used).
+      <P><!----></P></TD></TR></TBODY></TABLE>
+<P><!----></P></DIV><SPAN 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl08>
+<DIV class=libCScode 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl08_>
+<DIV class=CodeSnippetTitleBar>
+<DIV class=CodeDisplayLanguage></DIV>
+<DIV class=CopyCodeButton><A class=copyCode title="Copy Code" 
+href="javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl08');">
+<DIV class=LibC_copy_off 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: auto; HEIGHT: 9px; BORDER-RIGHT-WIDTH: 0px" 
+align=center></DIV>Copy Code </A></DIV></DIV>
+<DIV dir=ltr style="BACKGROUND-COLOR: #ddd"><PRE class=libCScode id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl08 style="WORD-BREAK: break-all; WORD-WRAP: break-word" space="preserve">DECLARE @ComparePrice money, @Cost money 
+EXECUTE Production.uspGetList '%Bikes%', 700, 
+    @ComparePrice OUT, 
+    @Cost OUTPUT
+IF @Cost &lt;= @ComparePrice 
+BEGIN
+    PRINT 'These products can be purchased for less than 
+    $'+RTRIM(CAST(@ComparePrice AS varchar(20)))+'.'
+END
+ELSE
+    PRINT 'The prices for all products in this category exceed 
+    $'+ RTRIM(CAST(@ComparePrice AS varchar(20)))+'.'
+</PRE></DIV></DIV></SPAN>
+<P>Here is the partial result set:</P><SPAN 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl09>
+<DIV class=libCScode 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl09_>
+<DIV class=CodeSnippetTitleBar>
+<DIV class=CodeDisplayLanguage></DIV>
+<DIV class=CopyCodeButton><A class=copyCode title="Copy Code" 
+href="javascript:CopyCode('ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl09');">
+<DIV class=LibC_copy_off 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; WIDTH: auto; HEIGHT: 9px; BORDER-RIGHT-WIDTH: 0px" 
+align=center></DIV>Copy Code </A></DIV></DIV>
+<DIV dir=ltr style="BACKGROUND-COLOR: #ddd"><PRE class=libCScode id=ctl00_MTContentSelector1_mainContentContainer_ctl39_ctl00_ctl09 style="WORD-BREAK: break-all; WORD-WRAP: break-word" space="preserve">Product                                            List Price
+-------------------------------------------------- ------------------
+Road-750 Black, 58                                 539.99
+Mountain-500 Silver, 40                            564.99
+Mountain-500 Silver, 42                            564.99
+...
+Road-750 Black, 48                                 539.99
+Road-750 Black, 52                                 539.99
+
+(14 row(s) affected)
+
+These items can be purchased for less than $700.00.</PRE></DIV></DIV></SPAN></DIV></DIV></DIV></SPAN><SPAN>
+<DIV class=MTPS_CollapsibleRegion>
+<DIV class=CollapseRegionLink><!-- ApplyClick with current id --><IMG 
+class=LibC_o 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; VERTICAL-ALIGN: middle; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"> &nbsp;See 
+Also </DIV>
+<DIV class=MTPS_CollapsibleSection style="DISPLAY: block"><A id=seeAlsoToggle><!----></A>
+<H4 class=subHeading>Tasks</H4><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl00 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl00',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms345415.aspx">How to: Create a 
+Stored Procedure (SQL Server Management Studio)</A><BR>
+<H4 class=subHeading>Concepts</H4><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl01 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl01',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms187844.aspx">Rollbacks and 
+Commits in Stored Procedures and Triggers</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl02 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl02',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms190790.aspx">Creating CLR Stored 
+Procedures</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl03 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl03',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms189915.aspx">Executing Stored 
+Procedures (Database Engine)</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl04 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl04',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms187001.aspx">Modifying Stored 
+Procedures</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl05 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl05',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms190439.aspx">Recompiling Stored 
+Procedures</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl06 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl06',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms190464.aspx">Viewing Stored 
+Procedures</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl07 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl07',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms189043.aspx">Deleting Stored 
+Procedures</A><BR>
+<H4 class=subHeading>Other Resources</H4><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl08 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl08',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms187926.aspx">CREATE PROCEDURE 
+(Transact-SQL)</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl09 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl09',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms188332.aspx">EXECUTE 
+(Transact-SQL)</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl10 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl10',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms188354.aspx">EXECUTE AS Clause 
+(Transact-SQL)</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl11 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl11',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms178632.aspx">REVERT 
+(Transact-SQL)</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl12 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl12',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms188268.aspx">Context Switching 
+(Database Engine)</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl13 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl13',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms189260.aspx">Specifying 
+Parameters</A><BR><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl14 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl14',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms188655.aspx">Returning Data from 
+a Stored Procedure</A><BR><BR>
+<H4 class=subHeading>Help and Information </H4><A 
+id=ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl15 
+onclick="javascript:Track('ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_contenthere|ctl00_MTContentSelector1_mainContentContainer_ctl40_ctl00_ctl15',this);" 
+href="http://msdn.microsoft.com/en-us/library/ms166016.aspx">Getting SQL Server 
+2008 Assistance </A></DIV></DIV></SPAN></DIV></DIV></DIV></DIV></DIV><SPAN 
+id=CommunityContent></SPAN>
+<DIV class=CCS_Container id=ctl00_WikiContent_cc>
+<DIV class=CCS_TopicTagEditor>
+<DIV class=CCT_Panel id=ctl00_WikiContent_TopicTagEditor_panel>
+<DIV class=CCT_TagsPanel id=tagsPanel><SPAN class=CCT_Title 
+id=ctl00_WikiContent_TopicTagEditor_title>Tags</SPAN> <A class=CCT_HelpLink 
+id=ctl00_WikiContent_TopicTagEditor_helpLink 
+onclick='CCS_ShowHelp("/Platform/Controls/CCTagEditor/resources/taghelp.htm",800,600);return false;' 
+href="http://msdn.microsoft.com/Platform/Controls/CCTagEditor/resources/taghelp.htm"><IMG 
+class="CCT_HelpImage LibC_help" id=ctl00_WikiContent_TopicTagEditor_helpImage 
+title="What's this?" alt="What's this?" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"></A>: <SPAN 
+class=CCT_Text id=ctl00_WikiContent_TopicTagEditor_tags></SPAN><SPAN 
+class=CCT_View id=ctl00_WikiContent_TopicTagEditor_view><A class=CCT_LinkButton 
+id=ctl00_WikiContent_TopicTagEditor_addTagLink title="Add a tag to this topic" 
+onclick='return CCT_AddATag("http://msdn.microsoft.com/en-us/library/Community-Signup.aspx?ru=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fms190669(SQL.100).aspx",-1);' 
+href="http://msdn.microsoft.com/Platform/Controls/CCTagEditor/#">Add a tag</A> 
+</SPAN><SPAN class=CCT_Edit id=ctl00_WikiContent_TopicTagEditor_editPanel 
+style="DISPLAY: none"><INPUT class=CCT_TextBox 
+id=ctl00_WikiContent_TopicTagEditor_textbox 
+name=ctl00$WikiContent$TopicTagEditor$textbox autocomplete="off"> <A 
+class=CCT_LinkButton id=ctl00_WikiContent_TopicTagEditor_addLink 
+title="Submit the tags for this topic" onclick="return CCT_AddTags(-1);" 
+href="http://msdn.microsoft.com/Platform/Controls/CCTagEditor/#">Add</A> &nbsp; 
+<A class=CCT_LinkButton id=ctl00_WikiContent_TopicTagEditor_cancelLink 
+title="Cancel this operation" onclick="return CCT_CancelAddTag(-1);" 
+href="http://msdn.microsoft.com/Platform/Controls/CCTagEditor/#">Cancel</A> 
+</SPAN><SPAN class=CCT_Message 
+id=ctl00_WikiContent_TopicTagEditor_messagePanel></SPAN></DIV>
+<DIV class=CCT_FlagAsPanel id=ctl00_WikiContent_TopicTagEditor_flagAsPanel 
+style="DISPLAY: none"><SPAN id=ctl00_WikiContent_TopicTagEditor_flagAsLabel>Flag 
+as </SPAN><A class=CCT_LinkButton 
+id=ctl00_WikiContent_TopicTagEditor_contentBugLink 
+title="Flagging this annotation as a 'ContentBug' will let the author know that this topic needs to be reviewed" 
+onclick='return CCT_FlagContentBug("http://msdn.microsoft.com/en-us/library/Community-Signup.aspx?ru=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fms190669(SQL.100).aspx",-1);' 
+href="http://msdn.microsoft.com/Platform/Controls/CCTagEditor/#">ContentBug</A> 
+</DIV>
+<DIV style="CLEAR: both"></DIV></DIV></DIV>
+<DIV class=CCS_WikiLogo><IMG class=LibC_wiki id=ctl00_WikiContent_wikiLogo 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"> </DIV>
+<DIV class=CCS_ContentContainer id=ctl00_WikiContent_contentContainer>
+<DIV class=CCS_HeaderContainer id=ctl00_WikiContent_headerContainer>
+<TABLE class=CCS_Header cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <DIV class=CCS_HeaderTitle><SPAN 
+      id=ctl00_WikiContent_headerTitle>Community Content</SPAN>&nbsp;&nbsp; <A 
+      class=CCS_HelpLink id=ctl00_WikiContent_helpLink 
+      onclick='CCS_ShowHelp("/Platform/Controls/CCSection/resources/cchelp.htm",400,400);return false;' 
+      href="http://msdn.microsoft.com/Platform/Controls/CCSection/resources/cchelp.htm"><IMG 
+      class="CCS_HelpImage  LibC_help" id=ctl00_WikiContent_helpImage 
+      title="What is Community Content?" alt="What is Community Content?" 
+      src="Creating Stored Procedures (Database Engine)_files/clear.gif"></A> 
+      </DIV></TD></TR></TBODY></TABLE>
+<TABLE class=CCS_Toolbar cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=CCS_Add><A class=CCS_Link id=ctl00_WikiContent_Add 
+      href='javascript:WebForm_DoPostBackWithOptions(new%20WebForm_PostBackOptions("ctl00$WikiContent$Add",%20"",%20false,%20"",%20"http://msdn.microsoft.com/en-us/library/Community-Signup.aspx?ru=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fms190669(SQL.100).aspx%3fwbi%3dnew", false, true))'>Add 
+      new content</A> </TD>
+    <TD class=CCS_RecentChanges><A id=ctl00_WikiContent_recentPageLink 
+      href="http://msdn.microsoft.com/en-us/library/community-edits.rss?topic=ms190669|en-us|100"><IMG 
+      class="CCS_RSSImage LibC_rss_button" id=ctl00_WikiContent_imageRSS 
+      style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+      alt=RSS src="Creating Stored Procedures (Database Engine)_files/clear.gif" 
+      align=middle></A>&nbsp; <SPAN class=CCS_RecentChangesText 
+      id=ctl00_WikiContent_recentChangesTitle>Annotations</SPAN> </TD>
+    <TD class=CCS_Profile align=right></TD></TR></TBODY></TABLE></DIV>
+<DIV class=CCS_ItemsContainer id=ctl00_WikiContent_wikiItems>
+<DIV id=ctl00_WikiContent_ctl00_ItemUpdatePanel>
+<DIV class=CCI_Container id=ctl00_WikiContent_ctl00_Container 
+style="DISPLAY: none">
+<DIV class=CCI_Header id=ctl00_WikiContent_ctl00_Header>
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD align=left><SPAN class=CCI_Header_Title 
+      id=ctl00_WikiContent_ctl00_HeaderTitle></SPAN></TD>
+    <TD><SPAN class=CCI_Header_Spacer 
+      id=ctl00_WikiContent_ctl00_Label2>&nbsp;&nbsp;&nbsp;&nbsp;</SPAN> </TD>
+    <TD class=CCI_Header_Actions align=right><SPAN 
+      id=ctl00_WikiContent_ctl00_EditInfo></SPAN><SPAN 
+      id=ctl00_WikiContent_ctl00_Separator>&nbsp;&nbsp;|&nbsp;&nbsp; 
+      </SPAN><SPAN id=ctl00_WikiContent_ctl00_EditLabel><A class=CCI_Header_Link 
+      id=ctl00_WikiContent_ctl00_Edit title="Edit this version" 
+      href="javascript:__doPostBack('ctl00$WikiContent$ctl00$Edit','')">Edit</A></SPAN><INPUT 
+      id=ctl00_WikiContent_ctl00_showhistoryFlag style="DISPLAY: none" 
+      value=false name=ctl00$WikiContent$ctl00$showhistoryFlag> 
+</TD></TR></TBODY></TABLE></DIV>
+<DIV class=CCI_Text id=ctl00_WikiContent_ctl00_EditorPanel 
+style="CURSOR: default">
+<DIV 
+onkeypress="javascript:return WebForm_FireDefaultButton(event, 'ctl00_WikiContent_ctl00_Editor_Save')" 
+id=ctl00_WikiContent_ctl00_Editor_Container>
+<DIV class=" CCE_Editor_Disabled" id=ctl00_WikiContent_ctl00_Editor_RadEditor 
+title="Double-click to edit this block" style="WIDTH: auto; HEIGHT: auto"><!-- 2008.2.723.35 --></DIV><INPUT 
+id=ctl00_WikiContent_ctl00_Editor_editorData type=hidden 
+name=ctl00$WikiContent$ctl00$Editor$editorData> <INPUT 
+id=ctl00_WikiContent_ctl00_Editor_tagEditorData type=hidden 
+name=ctl00$WikiContent$ctl00$Editor$tagEditorData> </DIV></DIV>
+<DIV class=CCT_Panel id=ctl00_WikiContent_ctl00_TagEditor_panel>
+<DIV class=CCT_TagsPanel id=tagsPanel><SPAN class=CCT_Title 
+id=ctl00_WikiContent_ctl00_TagEditor_title>Tags</SPAN> <A class=CCT_HelpLink 
+id=ctl00_WikiContent_ctl00_TagEditor_helpLink 
+onclick='CCS_ShowHelp("/Platform/Controls/CCTagEditor/resources/taghelp.htm",800,600);return false;' 
+href="http://msdn.microsoft.com/Platform/Controls/CCTagEditor/resources/taghelp.htm"><IMG 
+class="CCT_HelpImage LibC_help" id=ctl00_WikiContent_ctl00_TagEditor_helpImage 
+title="What's this?" alt="What's this?" 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"></A>: <SPAN 
+class=CCT_Text id=ctl00_WikiContent_ctl00_TagEditor_tags></SPAN><SPAN 
+class=CCT_View id=ctl00_WikiContent_ctl00_TagEditor_view><A class=CCT_LinkButton 
+id=ctl00_WikiContent_ctl00_TagEditor_addTagLink title="Add a tag to this topic" 
+href="http://msdn.microsoft.com/Platform/Controls/CCTagEditor/#">Add a tag</A> 
+</SPAN><SPAN class=CCT_Edit id=ctl00_WikiContent_ctl00_TagEditor_editPanel 
+style="DISPLAY: none"><INPUT class=CCT_TextBox 
+id=ctl00_WikiContent_ctl00_TagEditor_textbox 
+name=ctl00$WikiContent$ctl00$TagEditor$textbox autocomplete="off"> <A 
+class=CCT_LinkButton id=ctl00_WikiContent_ctl00_TagEditor_addLink 
+title="Submit the tags for this topic" 
+href="http://msdn.microsoft.com/Platform/Controls/CCTagEditor/#">Add</A> &nbsp; 
+<A class=CCT_LinkButton id=ctl00_WikiContent_ctl00_TagEditor_cancelLink 
+title="Cancel this operation" 
+href="http://msdn.microsoft.com/Platform/Controls/CCTagEditor/#">Cancel</A> 
+</SPAN><SPAN class=CCT_Message 
+id=ctl00_WikiContent_ctl00_TagEditor_messagePanel></SPAN></DIV>
+<DIV class=CCT_FlagAsPanel id=ctl00_WikiContent_ctl00_TagEditor_flagAsPanel 
+style="DISPLAY: none"><SPAN 
+id=ctl00_WikiContent_ctl00_TagEditor_flagAsLabel>Flag as </SPAN><A 
+class=CCT_LinkButton id=ctl00_WikiContent_ctl00_TagEditor_contentBugLink 
+title="Flagging this annotation as a 'ContentBug' will let the author know that this topic needs to be reviewed" 
+onclick='return CCT_FlagContentBug("http://msdn.microsoft.com/en-us/library/Community-Signup.aspx?ru=http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fms190669(SQL.100).aspx",-1);' 
+href="http://msdn.microsoft.com/Platform/Controls/CCTagEditor/#">ContentBug</A> 
+</DIV>
+<DIV style="CLEAR: both"></DIV></DIV></DIV></DIV></DIV>
+<DIV class=CCI_Container_Edit id=ctl00_WikiContent_EditorPanel 
+style="DISPLAY: none">
+<DIV 
+onkeypress="javascript:return WebForm_FireDefaultButton(event, 'ctl00_WikiContent_Editor_Save')" 
+id=ctl00_WikiContent_Editor_Container>
+<DIV class=" CCE_Editor_Disabled" id=ctl00_WikiContent_Editor_RadEditor 
+title="Double-click to edit this block" 
+style="WIDTH: auto; HEIGHT: auto"></DIV><INPUT 
+id=ctl00_WikiContent_Editor_editorData type=hidden 
+name=ctl00$WikiContent$Editor$editorData> <INPUT 
+id=ctl00_WikiContent_Editor_tagEditorData type=hidden 
+name=ctl00$WikiContent$Editor$tagEditorData> </DIV></DIV>
+<DIV class=CCS_Progress id=ProgressIndicator><IMG class=LibC_spinner 
+id=ctl00_WikiContent_progressImage alt=Processing 
+src="Creating Stored Procedures (Database Engine)_files/clear.gif"> </DIV>
+<DIV class=CCS_Footer></DIV></DIV></DIV>
+<DIV style="DISPLAY: block; OVERFLOW: hidden; POSITION: relative">
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=MTPS_FooterFade id=ctl00_mtpsFooter_FooterFadeCell>
+      <DIV class=MTPS_FooterLinks id=ctl00_mtpsFooter_SiteLinks></DIV><SPAN 
+      class=MTPS_FooterCopyright id=ctl00_mtpsFooter_MSFT_copyright 
+      title="© 2009  Microsoft Corporation. All rights reserved.">© 2009 
+      Microsoft Corporation. All rights reserved.</SPAN> <A 
+      class=MTPS_FooterLinks id=ctl00_mtpsFooter_MSFT_Terms title="Terms of Use" 
+      href="http://msdn.microsoft.com/cc300389.aspx">Terms of Use</A> <SPAN 
+      id=ctl00_mtpsFooter_PipeSpan1>|</SPAN> <A class=MTPS_FooterLinks 
+      id=ctl00_mtpsFooter_MSFT_Trademarks title=Trademarks 
+      href="http://www.microsoft.com/library/toolbar/3.0/trademarks/en-us.mspx">Trademarks</A> 
+      <SPAN id=ctl00_mtpsFooter_PipeSpan2>|</SPAN> <A class=MTPS_FooterLinks 
+      id=ctl00_mtpsFooter_MSFT_PrivacyStatement title="Privacy Statement" 
+      href="http://www.microsoft.com/info/privacy.mspx">Privacy Statement</A> 
+</TD>
+    <TD id=ctl00_mtpsFooter_FooterLogoCell><A id=ctl00_mtpsFooter_MSFT_LOGO 
+      title="Microsoft Corporation" 
+      href="http://www.microsoft.com/en/us/default.aspx"><IMG 
+      class=msdn_TabC_mslogo id=ctl00_mtpsFooter_MSFT_imgLogo 
+      style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+      src="Creating Stored Procedures (Database Engine)_files/clear.gif"></A> 
+  </TD></TR></TBODY></TABLE></DIV></DIV></DIV></DIV>
+<DIV style="DISPLAY: none"><IMG height=0 alt="Page view tracker" hspace=0 
+src="Creating Stored Procedures (Database Engine)_files/trans_pixel.gif" width=0 
+border=0></DIV>
+<SCRIPT 
+src="Creating Stored Procedures (Database Engine)_files/webtrendsscript-bn20090821.js" 
+type=text/javascript></SCRIPT>
+<NOSCRIPT>
+<DIV><IMG id=Img1 height=1 alt=DCSIMG 
+src="Creating Stored Procedures (Database Engine)_files/njs.gif" 
+width=1></DIV></NOSCRIPT>
+<SCRIPT src="Creating Stored Procedures (Database Engine)_files/CAW1YJ4L.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT type=text/javascript>
+        //<![CDATA[
+        setTimeout(function() {
+            var hashElementId = document.location.hash.substr(1);
+            var hashElement = document.getElementById(hashElementId);
+            if (hashElement != null) {
+                hashElement.scrollIntoView(true);
+            }
+        }, 1);
+        //]]>
+    </SCRIPT>
+
+<SCRIPT type=text/javascript>
+//<![CDATA[
+var CCT_Controls =  new Array({id:-1,prefix:'ctl00_WikiContent_TopicTagEditor_'}, {id:-2,prefix:'ctl00_WikiContent_ctl00_TagEditor_'});
+var CCE_EditorInfo =  new Array({i:-2,p:'ctl00_WikiContent_ctl00_Editor_',c:'ctl00_WikiContent_ctl00_'}, {i:-1,p:'ctl00_WikiContent_Editor_',c:''});
+//]]>
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+//<![CDATA[
+Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(CCS_BeginRequestHandler);Sys.WebForms.PageRequestManager.getInstance().add_endRequest(CCS_EndRequestHandler); RegisterAutoSubmit('ctl00_ib1_Flyout_Rating1','ctl00_ib1_Flyout_btnSend','contentRatingms190669SQL.100en-us');
+
+//]]>
+</SCRIPT>
+
+<SCRIPT language=javascript type=text/javascript>
+<!--
+ function GetContentWnd(){ return parent; } function OnInitPage(){var oWnd = GetContentWnd();} function OnSave(){ var oWnd = GetContentWnd(); window.external.addFavorite('http://msdn.microsoft.com/en-us/library/ms190669.aspx', oWnd.document.title ); }
+
+-->
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+//<![CDATA[
+document.getElementById('ctl00_ib1_Flyout_rtgContainer').title="Click a star and provide feedback";
+CCT_Init("false","http%3a%2f%2fmsdn.microsoft.com%2fen-us%2flibrary%2fms190669.aspx");$addHandler($get("ctl00_WikiContent_TopicTagEditor_editPanel"),"keydown",CCT_KeyDown);Sys.Application.initialize();
+TFly_Init('ctl00$Masthead1$LocaleManagement$ctl00',0,0,1,0,0,'LocaleManagementFlyoutStaticHover','',0,400,'','','','');
+TFly_Init('ctl00$ib1$Flyout',5,2,1,0,0,'','',0,400,'','TFlyPreAnimate','','');
+MTPS.Controls.MtpsRating.createMtpsRating('ctl00_ib1_Flyout_Rating1','ratingStar','filledRatingStar','emptyRatingStar','savedRatingStar','5','LeftToRightTopToBottom', false);MTPS.Controls.ResizeableArea = new MTPS.Controls.CreateResizeableArea('ctl00_LibFrame','ctl00_raSplitter','ctl00_raLeft','ctl00_raRight','tocwidth','toccollapsed','173');var tocVectorObject;var hostbase;var closedImg;var openImg;var emptyImg;var loadingImg;var tocVector;var tocIndex = 0;var holder;var tocLoaded = false;var tocCollapsed = 'False';tocVectorObject = {"nodes": [{"id": "ms310241(n)" ,"url": "/ms310241(n)"},{"id": "aa155072(n)" ,"url": "/aa155072(n)"},{"id": "bb418431(sql.10,n)" ,"url": "/bb418431(SQL.10,n)"},{"id": "bb418439(sql.10,n)" ,"url": "/bb418439(SQL.10,n)"},{"id": "bb418440(sql.10,n)" ,"url": "/bb418440(SQL.10,n)"},{"id": "bb543165(n)" ,"url": "/bb543165(n)"},{"id": "bb528141(n)" ,"url": "/bb528141(n)"},{"id": "bb528146(n)" ,"url": "/bb528146(n)"},{"id": "bb934922(n)" ,"url": "/bb934922(n)"},{"id": "bb965647(n)" ,"url": "/bb965647(n)"},{"id": "bb965650(n)" ,"url": "/bb965650(n)"},{"id": "bb965654(n)" ,"url": "/bb965654(n)"}]};hostbase ="http://msdn.microsoft.com/en-us/library";tocVector = eval(tocVectorObject);closedImg = "LibC_c";openImg = "LibC_o";emptyImg = "LibC_e";var tocDir = false;Sys.Application.add_load(LoadToc);TFly_Init('ctl00$eb1$ctl00',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl01',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl02',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl03',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl04',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl05',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl06',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl07',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl08',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl09',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl10',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl11',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+TFly_Init('ctl00$eb1$ctl12',0,-1,-1,0,0,'statHover','',0,0,'EyeBrowMenuBarSetHeight','ExpEye','','');
+CheckDropDownClientCookie(false);SetFilterText(false);//]]>
+</SCRIPT>
+</FORM>
+<SCRIPT language=javascript 
+src="Creating Stored Procedures (Database Engine)_files/broker.js" 
+type=text/javascript></SCRIPT>
+</BODY></HTML>

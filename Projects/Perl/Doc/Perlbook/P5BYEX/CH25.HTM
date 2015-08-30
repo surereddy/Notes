@@ -1,0 +1,7643 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Appendix C -- Function List</TITLE>
+
+
+
+<META>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Appendix&nbsp;C</FONT></H1>
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Function List</FONT></H1>
+
+<HR>
+
+<P>
+
+<CENTER><B><FONT SIZE=5>CONTENTS</FONT></B></CENTER>
+
+<UL>
+
+<LI><A HREF="#FunctionsbyCategory">
+
+FuNCtions by Category</A>
+
+<LI><A HREF="#FunctionsbyName">
+
+FuNCtions by Name</A>
+
+<UL>
+
+<LI><A HREF="#absEXPR">
+
+abs([EXPR])</A>
+
+<LI><A HREF="#acceptNEWSOCKETGENERICSOCKET">
+
+accept (NEWSOCKET, GENERICSOCKET)</A>
+
+<LI><A HREF="#alarmNUMOFSECONDS">
+
+alarm (NUM_OF_SECONDS)</A>
+
+<LI><A HREF="#atanEXPR">
+
+atan2 ([EXPR])</A>
+
+<LI><A HREF="#bindSOCKETNAME">
+
+bind (SOCKET, NAME)</A>
+
+<LI><A HREF="#binmodeFILEHANDLE">
+
+binmode (FILEHANDLE)</A>
+
+<LI><A HREF="#blessREFERENCECLASSNAME">
+
+bless (REFERENCE, [CLASSNAME])</A>
+
+<LI><A HREF="#callerEXPR">
+
+caller ([EXPR])</A>
+
+<LI><A HREF="#chdirDIRNAME">
+
+chdir ([DIRNAME])</A>
+
+<LI><A HREF="#chmodMODELIST">
+
+chmod (MODE, LIST)</A>
+
+<LI><A HREF="#chompSTRINGLIST">
+
+chomp ([STRING | LIST])</A>
+
+<LI><A HREF="#chopSTRINGLIST">
+
+chop ([STRING | LIST])</A>
+
+<LI><A HREF="#chownNUMERICALUIDNUMERICALGIDLIST">
+
+chown (NUMERICAL_UID, NUMERICAL_GID, LIST)</A>
+
+<LI><A HREF="#chrNUMBER">
+
+chr (NUMBER)</A>
+
+<LI><A HREF="#chrootDIRNAME">
+
+chroot (DIR_NAME)</A>
+
+<LI><A HREF="#closeFILEHANDLE">
+
+close (FILEHANDLE)</A>
+
+<LI><A HREF="#closedirDIRHANDLE">
+
+closedir (DIRHANDLE)</A>
+
+<LI><A HREF="#connectSOCKETNAME">
+
+connect (SOCKET, NAME)</A>
+
+<LI><A HREF="#cosEXPR">
+
+cos ([EXPR])</A>
+
+<LI><A HREF="#cryptTEXTSALT">
+
+crypt (TEXT, SALT)</A>
+
+<LI><A HREF="#dbmcloseHASH">
+
+dbmclose (HASH)</A>
+
+<LI><A HREF="#dbmopenHASHDATABASENAMEMODE">
+
+dbmopen (HASH, DATABASE_NAME, MODE)</A>
+
+<LI><A HREF="#definedEXPR">
+
+defined (EXPR)</A>
+
+<LI><A HREF="#deleteEXPR">
+
+delete (EXPR)</A>
+
+<LI><A HREF="#dieLIST">
+
+die ([LIST])</A>
+
+<LI><A HREF="#doSCRIPTNAME">
+
+do (SCRIPTNAME)</A>
+
+<LI><A HREF="#dumpLABEL">
+
+dump ([LABEL])</A>
+
+<LI><A HREF="#eachHASH">
+
+each (HASH)</A>
+
+<LI><A HREF="#endgrent">
+
+endgrent ( )</A>
+
+<LI><A HREF="#endhostent">
+
+endhostent ( )</A>
+
+<LI><A HREF="#endnetent">
+
+endnetent ( )</A>
+
+<LI><A HREF="#endprotoent">
+
+endprotoent ( )</A>
+
+<LI><A HREF="#endpwent">
+
+endpwent ( )</A>
+
+<LI><A HREF="#endservent">
+
+endservent ( )</A>
+
+<LI><A HREF="#eofFILEHANDLE">
+
+eof ([FILEHANDLE])</A>
+
+<LI><A HREF="#evalEXPRBLOCK">
+
+eval ([EXPR | BLOCK])</A>
+
+<LI><A HREF="#execLIST">
+
+exec (LIST)</A>
+
+<LI><A HREF="#existsEXPR">
+
+exists (EXPR)</A>
+
+<LI><A HREF="#exitEXPR">
+
+exit ([EXPR])</A>
+
+<LI><A HREF="#expEXPR">
+
+exp ([EXPR])</A>
+
+<LI><A HREF="#fcntlFILEHANDLEFUNCTIONPACKEDFLAGS">
+
+fcntl (FILEHANDLE, FUNCTION, PACKED_FLAGS)</A>
+
+<LI><A HREF="#filenoFILEHANDLE">
+
+fileno (FILEHANDLE)</A>
+
+<LI><A HREF="#flockFILEHANDLEOPERATIONFLAGS">
+
+flock (FILEHANDLE, OPERATION_FLAGS)</A>
+
+<LI><A HREF="#fork">
+
+fork ( )</A>
+
+<LI><A HREF="#formlinePICTURELIST">
+
+formline (PICTURE, LIST)</A>
+
+<LI><A HREF="#getcFILEHANDLE">
+
+getc ([FILEHANDLE])</A>
+
+<LI><A HREF="#getgrent">
+
+getgrent ( )</A>
+
+<LI><A HREF="#getgrgidGID">
+
+getgrgid (GID)</A>
+
+<LI><A HREF="#getgrnameNAME">
+
+getgrname (NAME)</A>
+
+<LI><A HREF="#gethostbyaddrADDRESSAFINIT">
+
+gethostbyaddr (ADDRESS, AF_INIT)</A>
+
+<LI><A HREF="#gethostbynameNAMEPROTOCOL">
+
+gethostbyname (NAME, [PROTOCOL])</A>
+
+<LI><A HREF="#gethostent">
+
+gethostent ( )</A>
+
+<LI><A HREF="#getlogin">
+
+getlogin ( )</A>
+
+<LI><A HREF="#getnetbyaddrADDRESSADDRTYPE">
+
+getnetbyaddr (ADDRESS, ADDR_TYPE)</A>
+
+<LI><A HREF="#getnetbynameNAME">
+
+getnetbyname (NAME)</A>
+
+<LI><A HREF="#getnetent">
+
+getnetent ( )</A>
+
+<LI><A HREF="#getpeernameSOCKET">
+
+getpeername (SOCKET)</A>
+
+<LI><A HREF="#getpgrpPID">
+
+getpgrp (PID)</A>
+
+<LI><A HREF="#getppid">
+
+getppid ( )</A>
+
+<LI><A HREF="#getpriorityWHICHWHO">
+
+getpriority (WHICH, WHO)</A>
+
+<LI><A HREF="#getprotobynameNAME">
+
+getprotobyname (NAME)</A>
+
+<LI><A HREF="#getprotobynumberNUMBER">
+
+getprotobynumber (NUMBER)</A>
+
+<LI><A HREF="#getprotoent">
+
+getprotoent ( )</A>
+
+<LI><A HREF="#getpwent">
+
+getpwent ( )</A>
+
+<LI><A HREF="#getpwnamNAME">
+
+getpwnam (NAME)</A>
+
+<LI><A HREF="#getpwuidUID">
+
+getpwuid (UID)</A>
+
+<LI><A HREF="#getservbynameNAMEPROTOCOL">
+
+getservbyname (NAME, PROTOCOL)</A>
+
+<LI><A HREF="#getservbyportPORTNUMBERPROTOCOL">
+
+getservbyport (PORT_NUMBER, PROTOCOL)</A>
+
+<LI><A HREF="#getservent">
+
+getservent ( )</A>
+
+<LI><A HREF="#getsocknameSOCKET">
+
+getsockname (SOCKET)</A>
+
+<LI><A HREF="#getsockoptSOCKETLEVELOPTNAME">
+
+getsockopt (SOCKET, LEVEL, OPTNAME)</A>
+
+<LI><A HREF="#globEXPR">
+
+glob (EXPR)</A>
+
+<LI><A HREF="#gmtimeEXPR">
+
+gmtime ([EXPR])</A>
+
+<LI><A HREF="#grepBLOCKEXPRLIST">
+
+grep (BLOCK | EXPR, LIST)</A>
+
+<LI><A HREF="#hexEXPR">
+
+hex (EXPR)</A>
+
+<LI><A HREF="#import">
+
+import ( )</A>
+
+<LI><A HREF="#indexSTRINGSUBSTRINGPOSITION">
+
+index (STRING, SUBSTRING, [POSITION])</A>
+
+<LI><A HREF="#intEXPR">
+
+int ([EXPR])</A>
+
+<LI><A HREF="#ioctlFILEHANDLEFUNCTIONSCALAR">
+
+ioctl (FILEHANDLE, FUNCTION, SCALAR)</A>
+
+<LI><A HREF="#joinEXPRLIST">
+
+join (EXPR, LIST)</A>
+
+<LI><A HREF="#keysHASH">
+
+keys (HASH)</A>
+
+<LI><A HREF="#killSIGNALLIST">
+
+kill (SIGNAL, LIST)</A>
+
+<LI><A HREF="#lcEXPR">
+
+lc (EXPR)</A>
+
+<LI><A HREF="#lcfirstEXPR">
+
+lcfirst (EXPR)</A>
+
+<LI><A HREF="#lengthEXPR">
+
+length ([EXPR])</A>
+
+<LI><A HREF="#linkOLDFILENEWFILE">
+
+link (OLD_FILE, NEW_FILE)</A>
+
+<LI><A HREF="#listenSOCKETQUEUESIZE">
+
+listen (SOCKET, QUEUESIZE)</A>
+
+<LI><A HREF="#localLIST">
+
+local (LIST)</A>
+
+<LI><A HREF="#localtimeEXPR">
+
+localtime ([EXPR])</A>
+
+<LI><A HREF="#logEXPR">
+
+log ([EXPR])</A>
+
+<LI><A HREF="#lstatFILEHANDLEEXPR">
+
+lstat (FILEHANDLE | EXPR)</A>
+
+<LI><A HREF="#mapBLOCKEXPRLIST">
+
+map (BLOCK | EXPR, LIST)</A>
+
+<LI><A HREF="#mkdirFILENAMEMODE">
+
+mkdir (FILENAME, [MODE])</A>
+
+<LI><A HREF="#msgctlIDCOMMANDARG">
+
+msgctl (ID, COMMAND, ARG)</A>
+
+<LI><A HREF="#msggetKEYFLAGS">
+
+msgget (KEY, FLAGS)</A>
+
+<LI><A HREF="#msgrcvQUEUEIDBUFFERBUFFERSIZETYPEFLAGS">
+
+msgrcv (QUEUE_ID, BUFFER, BUFFER_SIZE, TYPE, FLAGS)</A>
+
+<LI><A HREF="#msgsndQUEUEIDBUFFERFLAGS">
+
+msgsnd (QUEUE_ID, BUFFER, FLAGS)</A>
+
+<LI><A HREF="#myLIST">
+
+my (LIST)</A>
+
+<LI><A HREF="#octEXPR">
+
+oct ([EXPR])</A>
+
+<LI><A HREF="#openFILEHANDLEEXPRFILENAME">
+
+open (FILEHANDLE | EXPR | FILENAME)</A>
+
+<LI><A HREF="#opendirDIRHANDLEEXPRDIRNAME">
+
+opendir (DIRHANDLE, EXPR | DIRNAME)</A>
+
+<LI><A HREF="#ordEXPR">
+
+ord ([EXPR])</A>
+
+<LI><A HREF="#packTEMPLATELIST">
+
+pack (TEMPLATE, LIST)</A>
+
+<LI><A HREF="#pipeREADHANDLEWRITEHANDLE">
+
+pipe (READHANDLE, WRITEHANDLE)</A>
+
+<LI><A HREF="#popARRAYVARIABLE">
+
+pop (ARRAY_VARIABLE)</A>
+
+<LI><A HREF="#posSCALAR">
+
+pos ([SCALAR])</A>
+
+<LI><A HREF="#printFILEHANDLELIST">
+
+print [FILEHANDLE] ([LIST])</A>
+
+<LI><A HREF="#printfFILEHANDLEFORMATLIST">
+
+printf [FILEHANDLE] (FORMAT, LIST)</A>
+
+<LI><A HREF="#pushARRAYLIST">
+
+push (ARRAY, LIST)</A>
+
+<LI><A HREF="#qLIST">
+
+q (LIST)</A>
+
+<LI><A HREF="#qqLIST">
+
+qq (LIST)</A>
+
+<LI><A HREF="#quotemetaEXPR">
+
+quotemeta (EXPR)</A>
+
+<LI><A HREF="#qwLIST">
+
+qw (LIST)</A>
+
+<LI><A HREF="#qxLIST">
+
+qx (LIST)</A>
+
+<LI><A HREF="#randEXPR">
+
+rand ([EXPR])</A>
+
+<LI><A HREF="#readFILEHANDLEBUFFERLENGTHOFFSET">
+
+read (FILEHANDLE, BUFFER, LENGTH, [OFFSET])</A>
+
+<LI><A HREF="#readdirDIRHANDLE">
+
+readdir (DIRHANDLE)</A>
+
+<LI><A HREF="#readlinkEXPR">
+
+readlink ([EXPR])</A>
+
+<LI><A HREF="#recvSOCKETBUFFERLENGTHFLAGS">
+
+recv (SOCKET, BUFFER, LENGTH, FLAGS)</A>
+
+<LI><A HREF="#refEXPR">
+
+ref (EXPR)</A>
+
+<LI><A HREF="#renameOLDNAMENEWNAME">
+
+rename (OLDNAME, NEWNAME)</A>
+
+<LI><A HREF="#resetEXPR">
+
+reset ([EXPR])</A>
+
+<LI><A HREF="#reverseLIST">
+
+reverse (LIST)</A>
+
+<LI><A HREF="#rewinddirDIRHANDLE">
+
+rewinddir (DIRHANDLE)</A>
+
+<LI><A HREF="#rindexSTRINGSUBSTRINGPOSITION">
+
+rindex (STRING, SUBSTRING, [POSITION])</A>
+
+<LI><A HREF="#rmdirDIRNAME">
+
+rmdir ([DIRNAME])</A>
+
+<LI><A HREF="#scalarEXPR">
+
+scalar (EXPR)</A>
+
+<LI><A HREF="#seekFILEHANDLEPOSITIONWHENCE">
+
+seek (FILEHANDLE, POSITION, WHENCE)</A>
+
+<LI><A HREF="#seekdirDIRHANDLEPOS">
+
+seekdir (DIRHANDLE, POS)</A>
+
+<LI><A HREF="#selectFILEHANDLE">
+
+select ([FILEHANDLE])</A>
+
+<LI><A HREF="#selectRBITSWBITSEBITSTIMEOUT">
+
+select (RBITS, WBITS, EBITS, TIMEOUT)</A>
+
+<LI><A HREF="#semctlIDSEMNUMCMDARG">
+
+semctl (ID, SEMNUM, CMD, ARG)</A>
+
+<LI><A HREF="#semgetKEYNSEMSFLAGS">
+
+semget (KEY, NSEMS, FLAGS)</A>
+
+<LI><A HREF="#semopKEYOPSTRING">
+
+semop (KEY, OPSTRING)</A>
+
+<LI><A HREF="#sendSOCKETBUFFERFLAGSTO">
+
+send (SOCKET, BUFFER, FLAGS, [TO])</A>
+
+<LI><A HREF="#setgrent">
+
+setgrent ( )</A>
+
+<LI><A HREF="#sethostentSTAYOPEN">
+
+sethostent (STAYOPEN)</A>
+
+<LI><A HREF="#setnetentSTAYOPEN">
+
+setnetent (STAYOPEN)</A>
+
+<LI><A HREF="#setpgrpPIDPGRP">
+
+setpgrp (PID, PGRP)</A>
+
+<LI><A HREF="#setpriorityWHICHWHOPRIORITY">
+
+setpriority (WHICH, WHO, PRIORITY)</A>
+
+<LI><A HREF="#setprotoentSTAYOPEN">
+
+setprotoent (STAYOPEN)</A>
+
+<LI><A HREF="#setpwent">
+
+setpwent</A>
+
+<LI><A HREF="#setserventSTAYOPEN">
+
+setservent (STAYOPEN)</A>
+
+<LI><A HREF="#setsockoptSOCKETLEVELOPTNAMEOPTVAL">
+
+setsockopt (SOCKET, LEVEL, OPTNAME, OPTVAL)</A>
+
+<LI><A HREF="#shiftARRAY">
+
+shift ([ARRAY])</A>
+
+<LI><A HREF="#shmctlIDCMDARG">
+
+shmctl (ID, CMD, ARG)</A>
+
+<LI><A HREF="#shmgetKEYSIZEFLAGS">
+
+shmget (KEY, SIZE, FLAGS)</A>
+
+<LI><A HREF="#shmreadIDBUFFERPOSSIZE">
+
+shmread (ID, BUFFER, POS, SIZE)</A>
+
+<LI><A HREF="#shmwriteIDBUFFERPOSSIZE">
+
+shmwrite (ID, BUFFER, POS, SIZE)</A>
+
+<LI><A HREF="#shutdownSOCKETHOW">
+
+shutdown (SOCKET, HOW)</A>
+
+<LI><A HREF="#sinEXPR">
+
+sin ([EXPR])</A>
+
+<LI><A HREF="#sleepNUMSECONDSTOSLEEP">
+
+sleep ([NUM_SECONDS_TO_SLEEP])</A>
+
+<LI><A HREF="#socketSOCKETDOMAINTYPEPROTOCOL">
+
+socket (SOCKET, DOMAIN, TYPE, PROTOCOL)</A>
+
+<LI><A HREF="#socketpairSOCKETSOCKETDOMAINTYPEPROTOCOL">
+
+socketpair (SOCKET1, SOCKET2, DOMAIN, TYPE, PROTOCOL)</A>
+
+<LI><A HREF="#sortSUBNAMEBLOCKLIST">
+
+sort ([SUBNAME | BLOCK], LIST)</A>
+
+<LI><A HREF="#spliceARRAYOFFSETLENGTHLIST">
+
+splice (ARRAY, OFFSET, [LENGTH], [LIST])</A>
+
+<LI><A HREF="#splitPATTERNEXPRLIMIT">
+
+split ([/PATTERN/], [EXPR], [LIMIT])</A>
+
+<LI><A HREF="#sprintfFORMATLIST">
+
+sprintf (FORMAT, LIST)</A>
+
+<LI><A HREF="#sqrtEXPR">
+
+sqrt ([EXPR])</A>
+
+<LI><A HREF="#srandEXPR">
+
+srand ([EXPR])</A>
+
+<LI><A HREF="#statFILEHANDLEEXPR">
+
+stat (FILEHANDLE | EXPR)</A>
+
+<LI><A HREF="#studySCALAR">
+
+study ([SCALAR])</A>
+
+<LI><A HREF="#substrEXPROFFSETLEN">
+
+substr (EXPR, OFFSET, [LEN])</A>
+
+<LI><A HREF="#symlinkOLDFILENEWFILE">
+
+symlink (OLDFILE, NEWFILE)</A>
+
+<LI><A HREF="#syscallLIST">
+
+syscall (LIST)</A>
+
+<LI><A HREF="#sysopenFILEHANDLEFILENAMEMODEPERMISSIONS">
+
+sysopen (FILEHANDLE, FILENAME, MODE, [PERMISSIONS])</A>
+
+<LI><A HREF="#sysreadFILEHANDLEBUFFERLENGTHOFFSET">
+
+sysread (FILEHANDLE, BUFFER, LENGTH, [OFFSET])</A>
+
+<LI><A HREF="#systemLIST">
+
+system (LIST)</A>
+
+<LI><A HREF="#syswriteFILEHANDLEBUFFERLENGTHOFFSET">
+
+syswrite (FILEHANDLE, BUFFER, LENGTH, [OFFSET])</A>
+
+<LI><A HREF="#tellFILEHANDLE">
+
+tell ([FILEHANDLE])</A>
+
+<LI><A HREF="#telldirDIRHANDLE">
+
+telldir (DIRHANDLE)</A>
+
+<LI><A HREF="#tieVARIABLEPACKAGENAMELIST">
+
+tie (VARIABLE, PACKAGENAME, LIST)</A>
+
+<LI><A HREF="#tiedVARIABLE">
+
+tied (VARIABLE)</A>
+
+<LI><A HREF="#time">
+
+time ( )</A>
+
+<LI><A HREF="#times">
+
+times ( )</A>
+
+<LI><A HREF="#truNCateFILEHANDLEEXPRLENGTH">
+
+truNCate (FILEHANDLE | EXPR, LENGTH)</A>
+
+<LI><A HREF="#ucEXPR">
+
+uc (EXPR)</A>
+
+<LI><A HREF="#ucfirstEXPR">
+
+ucfirst (EXPR)</A>
+
+<LI><A HREF="#umaskEXPR">
+
+umask ([EXPR])</A>
+
+<LI><A HREF="#undefEXPR">
+
+undef ([EXPR])</A>
+
+<LI><A HREF="#unlinkLIST">
+
+unlink (LIST)</A>
+
+<LI><A HREF="#unpackTEMPLATEEXPR">
+
+unpack (TEMPLATE, EXPR)</A>
+
+<LI><A HREF="#unshiftARRAYLIST">
+
+unshift (ARRAY, LIST)</A>
+
+<LI><A HREF="#untieVARIABLE">
+
+untie (VARIABLE)</A>
+
+<LI><A HREF="#utimeAccESSTIMEMODIFICATIONTIMELIST">
+
+utime (AccESS_TIME, MODIFICATION_TIME, LIST)</A>
+
+<LI><A HREF="#valuesHASH">
+
+values (HASH)</A>
+
+<LI><A HREF="#vecEXPROFFSETNUMBITS">
+
+vec (EXPR, OFFSET, NUM_BITS)</A>
+
+<LI><A HREF="#wait">
+
+wait ( )</A>
+
+<LI><A HREF="#waitpidPIDFLAGS">
+
+waitpid (PID, FLAGS)</A>
+
+<LI><A HREF="#wantarray">
+
+wantarray ( )</A>
+
+<LI><A HREF="#warnLIST">
+
+warn ([LIST])</A>
+
+<LI><A HREF="#writeFILEHANDLEEXPR">
+
+write ([FILEHANDLE | EXPR])</A>
+
+</UL>
+
+</UL>
+
+
+
+<HR>
+
+<P>
+
+Perl has a large number of fuNCtions and an even wider range of
+
+additional modules each with its own additional fuNCtions. This
+
+appendix lists all the standard fuNCtions alphabetically for refereNCe.
+
+<P>
+
+Each fuNCtion has been assigned one or more categories to aid
+
+you in finding the fuNCtion that you need. This is a very rough
+
+categorization, as many fuNCtions might overlap in any category
+
+scheme.
+
+<P>
+
+For each fuNCtion, the needed parameters are shown. The parameters
+
+are described in the text where the meaning is not obvious.
+
+<P>
+
+Quite a few of Perl's fuNCtion mirror those available to C programmers
+
+under the UNIX system and are at least moderately complicated
+
+to use. Please look in the UNIX documentation for additional information
+
+if you're interested in the socket, shared memory, or semaphore
+
+fuNCtions.
+
+<H2><A NAME="FuNCtionsbyCategory"><FONT SIZE=5 COLOR=#FF0000>
+
+FuNCtions by Category</FONT></A></H2>
+
+<P>
+
+This section listed Perl's fuNCtions by category.
+
+<UL>
+
+<LI><B>Array:</B> <TT>chomp</TT>,
+
+<TT>join</TT>, <TT>keys</TT>,
+
+<TT>map</TT>, <TT>pop</TT>,
+
+<TT>push</TT>, <TT>reverse</TT>,
+
+<TT>shift</TT>, <TT>sort</TT>,
+
+<TT>splice</TT>, <TT>split</TT>,
+
+<TT>unshift</TT>, <TT>values</TT>
+
+<LI><B>Database:</B> <TT>dbmclose</TT>,
+
+<TT>dbmopen</TT>
+
+<LI><B>Directory:</B> <TT>chdir</TT>,
+
+<TT>closedir</TT>, <TT>mkdir</TT>,
+
+<TT>opendir</TT>, <TT>readdir</TT>,
+
+<TT>rewinddir</TT>, <TT>rmdir</TT>,
+
+<TT>seekdir</TT>, <TT>telldir</TT>
+
+<LI><B>File:</B> <TT>binmode</TT>,
+
+<TT>chdir</TT>, <TT>chmod</TT>,
+
+<TT>chown</TT>, <TT>chroot</TT>,
+
+<TT>close</TT>, <TT>eof</TT>,
+
+<TT>fNCtl</TT>, <TT>fileno</TT>,
+
+<TT>flock</TT>, <TT>getc</TT>,
+
+<TT>glob</TT>, <TT>ioctl</TT>,
+
+<TT>link</TT>, <TT>lstat</TT>,
+
+<TT>open</TT>, <TT>print</TT>,
+
+<TT>printf</TT>, <TT>read</TT>,
+
+<TT>readdir</TT>, <TT>readlink</TT>,
+
+<TT>rename</TT>, <TT>rmdir</TT>,
+
+<TT>seek</TT>, <TT>select</TT>,
+
+<TT>stat</TT>, <TT>symlink</TT>,
+
+<TT>sysopen</TT>, <TT>sysread</TT>,
+
+<TT>syswrite</TT>, <TT>tell</TT>,
+
+<TT>truNCate</TT>, <TT>umask</TT>,
+
+<TT>unlink</TT>, <TT>utime</TT>,
+
+<TT>write</TT>
+
+<LI><B>Group:</B> <TT>endgrent</TT>,
+
+<TT>getgrent</TT>, <TT>getgrgid</TT>,
+
+<TT>getgrname</TT>, <TT>getpgrp</TT>,
+
+<TT>setgrent</TT>, <TT>setpgrp</TT>
+
+<LI><B>Hash:</B> <TT>delete</TT>,
+
+<TT>each</TT>, <TT>exists</TT>,
+
+<TT>keys</TT>, <TT>values</TT>
+
+<LI><B>Host:</B> <TT>endhostent</TT>,
+
+<TT>gethostbyaddr</TT>, <TT>gethostbyname</TT>,
+
+<TT>sethostent</TT>
+
+<LI><B>Input:</B> <TT>getc</TT>, <TT>read</TT>,
+
+<TT>sysread</TT>
+
+<LI><B>Inter-process Communication:</B> <TT>msgctl</TT>,
+
+<TT>msgget</TT>, <TT>msgrcv</TT>,
+
+<TT>msgsnd</TT>, <TT>pipe</TT>,
+
+<TT>semctl</TT>, <TT>semget</TT>,
+
+<TT>semop</TT>, <TT>shmctl</TT>,
+
+<TT>shmget</TT>, <TT>shmread</TT>,
+
+<TT>shmwrite</TT>
+
+<LI><B>Math:</B> <TT>abs</TT>, <TT>atan2</TT>,
+
+<TT>cos</TT>, <TT>exp</TT>,
+
+<TT>hex</TT>, <TT>int</TT>,
+
+<TT>log</TT>, <TT>oct</TT>,
+
+<TT>rand</TT>, <TT>sin</TT>,
+
+<TT>sqrt</TT>, <TT>srand</TT>
+
+<LI><B>Message Queues:</B> <TT>msgctl</TT>,
+
+<TT>msgget</TT>, <TT>msgrcv</TT>,
+
+<TT>msgsnd</TT>
+
+<LI><B>Miscellaneous:</B> <TT>bless</TT>,
+
+<TT>defined</TT>, <TT>do</TT>,
+
+<TT>eval</TT>, <TT>formline</TT>,
+
+<TT>import</TT>, <TT>ref</TT>,
+
+<TT>scalar</TT>, <TT>syscall</TT>,
+
+<TT>tie</TT>, <TT>tied</TT>,
+
+<TT>undef</TT>, <TT>untie</TT>,
+
+<TT>wantarray</TT>
+
+<LI><B>Network:</B> <TT>endnetent</TT>,
+
+<TT>getnetbyaddr</TT>, <TT>getnetbyname</TT>,
+
+<TT>getnetent</TT>, <TT>setnetent</TT>
+
+<LI><B>Output:</B> <TT>die</TT>, <TT>print</TT>,
+
+<TT>printf</TT>, <TT>syswrite</TT>,
+
+<TT>warn</TT>, <TT>write</TT>
+
+<LI><B>Password:</B> <TT>endpwent</TT>,
+
+<TT>getpwent</TT>, <TT>getpwname</TT>,
+
+<TT>getpwuid</TT>, <TT>setpwent</TT>
+
+<LI><B>Process:</B> <TT>alarm</TT>,
+
+<TT>die</TT>, <TT>dump</TT>,
+
+<TT>exec</TT>, <TT>exit</TT>,
+
+<TT>fork</TT>, <TT>getlogin</TT>,
+
+<TT>getpgrp</TT>, <TT>getppid</TT>,
+
+<TT>getpriority</TT>, <TT>kill</TT>,
+
+<TT>setpriority</TT>, <TT>sleep</TT>,
+
+<TT>system</TT>, <TT>times</TT>,
+
+<TT>umask</TT>, <TT>wait</TT>,
+
+<TT>waitpid</TT>
+
+<LI><B>Protocol:</B> <TT>endprotent</TT>,
+
+<TT>getprotobyname</TT>, <TT>getprotobynumber</TT>,
+
+<TT>getprotoent</TT>, <TT>getservbyname</TT>,
+
+<TT>getservbyport</TT>, <TT>getservent</TT>,
+
+<TT>setprotoent</TT>
+
+<LI><B>Regular Expression:</B> <TT>grep</TT>,
+
+<TT>pos</TT>, <TT>quotemeta</TT>,
+
+<TT>reset</TT>, <TT>split</TT>,
+
+<TT>study</TT>
+
+<LI><B>Scope:</B> <TT>caller</TT>,
+
+<TT>local</TT>, <TT>my</TT>
+
+<LI><B>Service:</B> <TT>endservent</TT>,
+
+<TT>getservbyname</TT>, <TT>getservbyport</TT>,
+
+<TT>getservent</TT>, <TT>setservent</TT>
+
+<LI><B>Socket:</B> <TT>accept</TT>,
+
+<TT>bind</TT>, <TT>connect</TT>,
+
+<TT>gethostbyaddr</TT>, <TT>gethostbyname</TT>,
+
+<TT>gethostent</TT>, <TT>getpeername</TT>,
+
+<TT>getservbyname</TT>, <TT>getservbyport</TT>,
+
+<TT>getservent</TT>, <TT>getsockname</TT>,
+
+<TT>getsockopt</TT>, <TT>listen</TT>,
+
+<TT>recv</TT>, <TT>select</TT>,
+
+<TT>send</TT>, <TT>setsockopt</TT>,
+
+<TT>shutdown</TT>, <TT>socket</TT>,
+
+<TT>socketpair</TT>
+
+<LI><B>String:</B> <TT>chop</TT>,
+
+<TT>chr</TT>, <TT>crypt</TT>,
+
+<TT>hex</TT>, <TT>index</TT>,
+
+<TT>join</TT>, <TT>lc</TT>,
+
+<TT>lcfirst</TT>, <TT>length</TT>,
+
+<TT>oct</TT>, <TT>pack</TT>,
+
+<TT>q</TT>, <TT>qq</TT>,
+
+<TT>quotemeta</TT>, <TT>qw</TT>,
+
+<TT>qx</TT>, <TT>reverse</TT>,
+
+<TT>rindex</TT>, <TT>split</TT>,
+
+<TT>sprintf</TT>, <TT>substr</TT>,
+
+<TT>uc</TT>, <TT>ucfirst</TT>,
+
+<TT>unpack</TT>, <TT>vec</TT>
+
+<LI><B>Time:</B> <TT>gmtime</TT>,
+
+<TT>localtime</TT>, <TT>time</TT>
+
+<LI><B>UNIX:</B> <TT>chmod</TT>, <TT>chown</TT>,
+
+<TT>chroot</TT>, <TT>dump</TT>,
+
+<TT>endgrent</TT>, <TT>endhostent</TT>,
+
+<TT>endnetent</TT>, <TT>endprotent</TT>,
+
+<TT>endpwent</TT>, <TT>endservent</TT>,
+
+<TT>fNCtl</TT>, <TT>fork</TT>,
+
+<TT>getgrent</TT>, <TT>getgrgid</TT>,
+
+<TT>getgrname</TT>, <TT>gethostent</TT>,
+
+<TT>getlogin</TT>, <TT>getnetent</TT>,
+
+<TT>getpgrp</TT>, <TT>getppid</TT>,
+
+<TT>getpriority</TT>, <TT>getprotobyname</TT>,
+
+<TT>getprotobynumber</TT>, <TT>getprotoent</TT>,
+
+<TT>getpwent</TT>, <TT>getpwname</TT>,
+
+<TT>getpwuid</TT>, <TT>getservbyname</TT>,
+
+<TT>getservbyport</TT>, <TT>getservent</TT>,
+
+<TT>ioctl</TT>, <TT>link</TT>,
+
+<TT>lstat</TT>, <TT>readlink</TT>,
+
+<TT>select</TT>, <TT>setgrent</TT>,
+
+<TT>sethostent</TT>, <TT>setnetent</TT>,
+
+<TT>setpgrp</TT>, <TT>setpriority</TT>,
+
+<TT>setprotoent</TT>, <TT>setpwent</TT>,
+
+<TT>setservent</TT>, <TT>sleep</TT>,
+
+<TT>syscall</TT>, <TT>times</TT>,
+
+<TT>umask</TT>, <TT>wait</TT>,
+
+<TT>waitpid</TT>
+
+</UL>
+
+<H2><A NAME="FuNCtionsbyName"><FONT SIZE=5 COLOR=#FF0000>
+
+FuNCtions by Name</FONT></A></H2>
+
+<P>
+
+Here is the list of Perl's fuNCtion sorted by name.
+
+<H3><A NAME="absEXPR">
+
+abs([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math<BR>
+
+<B>Return Value:</B> scalar, the absolute value of <TT>EXPR</TT>
+
+or <TT>$_</TT> if no expression is
+
+specified.<BR>
+
+<B>Definition:</B> Calculates an absolute value. For example,
+
+<TT>abs(-10)</TT> is 10.
+
+<H3><A NAME="acceptNEWSOCKETGENERICSOCKET">
+
+accept (NEWSOCKET, GENERICSOCKET)</A></H3>
+
+<P>
+
+<B>Category:</B> Socket<BR>
+
+<B>Return Value:</B> SCALAR, the packed address of the client
+
+or false if a problem occurred.<BR>
+
+<B>Definition:</B> Accepts a socket connection from clients waiting
+
+for a connection. The <TT>GENERICSOCKET</TT>
+
+parameter must have already been opened using the <TT>socket()</TT>
+
+fuNCtion. You can find more information about <TT>accept()</TT>
+
+in section 2 of the UNIX manual pages.
+
+<H3><A NAME="alarmNUMOFSECONDS">
+
+alarm (NUM_OF_SECONDS)</A></H3>
+
+<P>
+
+<B>Category:</B> Process<BR>
+
+<B>Return Value:</B> SCALAR, the number of seconds remaining before
+
+the previous alarm was due to go off.<BR>
+
+<B>Definition:</B> Sends a SIGALARM to your script after NUM_OF_SECONDS.
+
+A call with NUM_OF_SECONDS equal to zero caNCels the current alarm.
+
+You can find more information about <TT>alarm()</TT>
+
+in section 3 of the UNIX manual pages. It is poss-ible for Perl
+
+to trap such signals and call specific signal handling subroutines.
+
+See <A HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm" >Chapter 13</A>, &quot;Handling Errors and Signals.&quot;
+
+<BLOCKQUOTE>
+
+<PRE>
+
+alarm(10);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="atanEXPR">
+
+atan2 ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math<BR>
+
+<B>Return Value:</B> SCALAR, the arc tangent of <TT>EXPR</TT>
+
+or of <TT>$_</TT> if no expression
+
+is specified.<BR>
+
+<B>Definition:</B>  Calculates an arc tangent.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$arcTangent = atan2(60,2);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="bindSOCKETNAME">
+
+bind (SOCKET, NAME)</A></H3>
+
+<P>
+
+<B>Category:</B> Socket<BR>
+
+<B>Return Value:</B> SCALAR, the socket handle or false if an
+
+error occurred.<BR>
+
+<B>Definition:</B> Binds a network address to the socket handle.
+
+You can find more information about <TT>bind()</TT>
+
+in section 2 of the UNIX manual pages.
+
+<H3><A NAME="binmodeFILEHANDLE">
+
+binmode (FILEHANDLE)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or undefined if
+
+not.<BR>
+
+<B>Definition:</B> On systems which distinguish between text and
+
+binary files (like Windows 95 and Windows NT) this fuNCtion forces
+
+binary mode treatment of <TT>FILEHANDLE</TT>.
+
+In systems which do make the distiNCtion, text files have the
+
+end of line characters-carriage return (<TT>'\r'</TT>)
+
+and linefeed(<TT>'\n'</TT>)-automatically
+
+translated into the UNIX end-of-line character (<TT>'\n'</TT>)
+
+when reading from the file and when writing to the file. Binary
+
+mode files do not have this automatic transformation. See &quot;Example:
+
+Binary Files&quot; in <A HREF="ch9.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm" >Chapter 9</A> &quot;Using Files,&quot; for
+
+more information.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+open(FILE, &quot;file.dat&quot;);
+
+binmode(FILE);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="blessREFERENCECLASSNAME">
+
+bless (REFERENCE, [CLASSNAME])</A></H3>
+
+<P>
+
+<B>Category:</B> Object<BR>
+
+<B>Return Value:</B> SCALAR, a refereNCe to the blessed object.
+
+<BR>
+
+<B>Definition:</B> Changes the type of the refereNCed variable
+
+to <TT>CLASSNAME</TT>. It is used
+
+to assign a class name to the refereNCed variable, thus changing
+
+the string returned by the <TT>ref()</TT>
+
+fuNCtion. If <TT>CLASSNAME</TT> is
+
+not specified, the name of the current package is used. See Chapter
+
+8, &quot;RefereNCes,&quot; for more information.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$temp = { }
+
+bless $temp, 'ATMPCLASS';
+
+print(&quot;bless() \$temp is now has type &quot;, ref($temp), &quot;\n&quot;);
+
+<BR>
+
+
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD><B>Tip</B></TD></TR>
+
+<TR><TD>
+
+<BLOCKQUOTE>
+
+Always specify the <TT>CLASSNAME</TT> parameter if the blessing fuNCtion might be inherited.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<H3><A NAME="callerEXPR">
+
+caller ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Scope<BR>
+
+<B>Return Value:</B> in Scalar Context: SCALAR, true if the current
+
+code has been called as a subroutine (this iNCludes code which
+
+is iNCluded using a <TT>require()</TT>
+
+or an <TT>eval() call)</TT>. Otherwise,
+
+false.<BR>
+
+<B>Return Value in Array Context:</B> ARRAY, contains details
+
+of the calling context comprising the package name, file name,
+
+and line of the call.<BR>
+
+<B>Definition:</B> This fuNCtion is used to test the current scope
+
+of a subroutine call.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sub testcaller {
+
+    ($package, $file, $line) = caller;
+
+print(&quot;caller() Package=$package File=$file Line=$line\n&quot;);
+
+}
+
+testcaller();
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="chdirDIRNAME">
+
+chdir ([DIRNAME])</A></H3>
+
+<P>
+
+<B>Category:</B> Directory<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false otherwise.
+
+<BR>
+
+<B>Definition:</B> Changes the current directory to the directory
+
+specified. If no argument is given changes to the home directory
+
+of the current user.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+chdir(&quot;/&quot;) ? print(&quot;It worked.\n&quot;) : print(&quot;It didn't work.\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="chmodMODELIST">
+
+chmod (MODE, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> File, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the number of files changed.<BR>
+
+<B>Definition:</B> <TT>MODE</TT> is
+
+an octal number representing file permissions which are applied
+
+to all the files in <TT>LIST</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+chmod(0744, &quot;test1.txt&quot;, &quot;test2.txt&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="chompSTRINGLIST">
+
+chomp ([STRING | LIST])</A></H3>
+
+<P>
+
+<B>Category:</B> Array, String<BR>
+
+<B>Return Value:</B> SCALAR, the number of characters removed.
+
+<BR>
+
+<B>Definition:</B> This is a safer alternative than the <TT>chop()</TT>
+
+fuNCtion for removing characters at the end of strings. <TT>Chomp()</TT>
+
+only removes characters that correspond to the value of <TT>$/</TT>
+
+(the input line separator). It can be given a list of strings
+
+upon which to perform this operation. When given no arguments
+
+the chomp operation is performed on <TT>$_</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$temp = &quot;AAAAA!\n&quot;;
+
+print(&quot;chomp(\$temp) returned &quot;, chomp($temp), &quot;.\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="chopSTRINGLIST">
+
+chop ([STRING | LIST])</A></H3>
+
+<P>
+
+<B>Category:</B> Array, String<BR>
+
+<B>Return Value:</B> SCALAR, the last character that was removed.
+
+<BR>
+
+<B>Definition:</B> This fuNCtion removes the last character of
+
+<TT>STRING</TT> or the last character
+
+of each element in <TT>LIST</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$tmp = &quot;1234&quot;;
+
+print(&quot;chop(\$tmp) returned &quot;, chop($tmp), &quot;\n&quot;);
+
+<BR>
+
+
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD><B>Tip</B></TD></TR>
+
+<TR><TD>
+
+<BLOCKQUOTE>
+
+Use <TT>chomp()</TT> (with <TT>$/</TT> set to &quot;\n&quot;) rather than <TT>chop()</TT> if you are not sure that the string has a trailing newline.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<H3><A NAME="chownNUMERICALUIDNUMERICALGIDLIST">
+
+chown (NUMERICAL_UID, NUMERICAL_GID, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> File, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the number of files successfully
+
+changed.<BR>
+
+<B>Definition:</B> Changes the ownership of the files in <TT>LIST</TT>
+
+to the user ID and the group ID specified as parameters.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+chown(1, 1, &quot;test1.txt&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="chrNUMBER">
+
+chr (NUMBER)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, the character represented by <TT>NUMBER</TT>.
+
+<BR>
+
+<B>Definition:</B> Returns the ASCII character represented by
+
+<TT>NUMBER</TT>. For example, <TT>chr(69)</TT>
+
+is the letter E. See Appendix E, &quot;ASCII Table&quot; for more
+
+information.
+
+<H3><A NAME="chrootDIRNAME">
+
+chroot (DIR_NAME)</A></H3>
+
+<P>
+
+<B>Category:</B> File, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false otherwise.
+
+<BR>
+
+<B>Definition:</B> Changes the root directory of the current process
+
+to <TT>DIR_NAME</TT>. Which means
+
+that a filename like <TT>/john.dat</TT>
+
+might really refer to <TT>/root/users/~jmiller/john.dat</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+chroot(&quot;/usr/~waters&quot;);<BR>
+
+
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD><B>Tip</B></TD></TR>
+
+<TR><TD>
+
+<BLOCKQUOTE>
+
+Your process must have superuser rights in order to successfully use this fuNCtion. It is used to make processes safer by only allowing them access to the subdirectory tree relevant to their purpose.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<H3><A NAME="closeFILEHANDLE">
+
+close (FILEHANDLE)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, true if the file was closed correctly,
+
+false if not.<BR>
+
+<B>Definition:</B> Closes the file opened with <TT>FILEHANDLE</TT>.
+
+This operation flushes all buffered output. If the file handle
+
+refers to a pipe the Perl program waits until the process being
+
+piped to has finished.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+open(FILE, &quot;test1.txt&quot;);
+
+# some file activity
+
+close(FILE);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="closedirDIRHANDLE">
+
+closedir (DIRHANDLE)</A></H3>
+
+<P>
+
+<B>Category:</B> Directory, Files<BR>
+
+<B>Return Value:</B> SCALAR, true if the directory was closed
+
+correctly, false if not.<BR>
+
+<B>Definition:</B> Closes the directory opened by <TT>opendir()</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+opendir(DIR, &quot;.&quot;);
+
+# some directory activity
+
+closedir(DIR);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="connectSOCKETNAME">
+
+connect (SOCKET, NAME)</A></H3>
+
+<P>
+
+<B>Category:</B> Socket<BR>
+
+<B>Return Value:</B> SCALAR, true if the connection was successful,
+
+otherwise false.<BR>
+
+<B>Definition:</B> Attempts to connect to a remote socket. <TT>NAME</TT>
+
+must be a packed address of the correct type for the socket.
+
+<H3><A NAME="cosEXPR">
+
+cos ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math<BR>
+
+<B>Return Value:</B> SCALAR, the cosine of <TT>EXPR</TT>
+
+or else <TT>$_</TT> is used if no
+
+expression is specified.<BR>
+
+<B>Definition:</B> Calculates a cosine.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$temp = cos(60);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="cryptTEXTSALT">
+
+crypt (TEXT, SALT)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, an eNCrypted string.<BR>
+
+<B>Definition:</B> ENCrypts <TT>TEXT</TT>
+
+using a key (either <TT>SALT</TT>
+
+or the first two letters of <TT>TEXT</TT>).
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$eNCyptedString = crypt(&quot;Password&quot;,&quot;TR&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="dbmcloseHASH">
+
+dbmclose (HASH)</A></H3>
+
+<P>
+
+<B>Category:</B> Database<BR>
+
+<B>Return Value:</B> SCALAR, true if the close was successful,
+
+false otherwise.<BR>
+
+<B>Definition:</B> Undoes the linking of <TT>HASH</TT>
+
+to a dbm file.<BR>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD><B>Tip</B></TD></TR>
+
+<TR><TD>
+
+<BLOCKQUOTE>
+
+This fuNCtion has been superseded by the <TT>untie()</TT> fuNCtion.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<H3><A NAME="dbmopenHASHDATABASENAMEMODE">
+
+dbmopen (HASH, DATABASE_NAME, MODE)</A></H3>
+
+<P>
+
+<B>Category:</B> Database<BR>
+
+<B>Return Value:</B> None<BR>
+
+<B>Definition:</B> Links <TT>HASH</TT>
+
+to <TT>DATABASE_NAME</TT>. If the
+
+database does not exist, a new one with the specified <TT>MODE</TT>
+
+will be created.<BR>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD><B>Tip</B></TD></TR>
+
+<TR><TD>
+
+<BLOCKQUOTE>
+
+This fuNCtion has been superseded by the <TT>tie()</TT> fuNCtion.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<H3><A NAME="definedEXPR">
+
+defined (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> SCALAR, true if <TT>EXPR</TT>
+
+has a real value, false otherwise.<BR>
+
+<B>Definition:</B> There is a subtle distiNCtion between an undefined
+
+null value and a defined null value. Some fuNCtions return undefined
+
+null to indicate errors, while others return a defined null to
+
+indicate a particular result (use a comparison with the null string
+
+to test for this rather than using <TT>defined()</TT>).
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@iexist = (1,2,3);
+
+print(&quot;exists.\n&quot;) if defined(@iexist);
+
+print(&quot;does not exist.\n&quot;) unless defined(@iexist);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="deleteEXPR">
+
+delete (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> Hash<BR>
+
+<B>Return Value:</B> SCALAR, the deleted value or the undefined
+
+value if nothing was deleted.<BR>
+
+<B>Definition:</B> Deletes an entry from an associative array.
+
+<TT>EXPR</TT> is the key for the entry
+
+to delete.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+%Hash = ('Jan' =&gt; 'One', 'Feb' =&gt; 'Two', 'Mar' =&gt; 'Three');
+
+delete($Hash{'Jan'});
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="dieLIST">
+
+die ([LIST])</A></H3>
+
+<P>
+
+<B>Category:</B> Process<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Terminates execution of the Perl script, printing
+
+<TT>LIST</TT> to STDERR. The exit
+
+value is the current value of <TT>$!</TT>
+
+which may have been set by a previous fuNCtion. If <TT>$!</TT>
+
+has a value of zero, <TT>$?</TT> will
+
+be returned instead. If <TT>$?</TT>
+
+is zero, it exits with an exit value of 255. If <TT>LIST</TT>
+
+does not end in a newline, the text similar to &quot;at test.pl
+
+at line 10&quot; will be appended to the end.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+die(&quot;Something fatal has happened and the script must die!&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="doSCRIPTNAME">
+
+do (SCRIPTNAME)</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> None<BR>
+
+<B>Definition:</B> Executes the contents of a file as a Perl script.
+
+It is usually used to iNClude subroutines however it has been
+
+mostly superseded by <TT>use()</TT>
+
+and <TT>require()</TT>.
+
+<H3><A NAME="dumpLABEL">
+
+dump ([LABEL])</A></H3>
+
+<P>
+
+<B>Category:</B> Process, UNIX<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Causes the program to create a binary image
+
+or core dump. You can reload the image using undump program. When
+
+reloaded, the program begins execution from the optional label
+
+specified. So it is possible to set up a program which initializes
+
+data structures to <TT>dump()</TT>
+
+after the initialization so that execution is faster when reloading
+
+the dumped image.
+
+<H3><A NAME="eachHASH">
+
+each (HASH)</A></H3>
+
+<P>
+
+<B>Category:</B> Hash<BR>
+
+<B>Return Value:</B> ARRAY, an entry (the key-value pair) in <TT>HASH</TT>.
+
+<BR>
+
+<B>Definition:</B> Allows iteration over the entries in an associative
+
+array. Each time it is evaluated, another key-value pair is returned.
+
+When all the entries have been returned, it returns an empty array.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+%NumberWord = ('1' =&gt; 'One', '2' =&gt; 'Two', '3' =&gt; 'Three');
+
+while (($key, $value) = each(%NumberWord)) {
+
+    print(&quot;$key: $value\n&quot;);
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="endgrent">
+
+endgrent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Group, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false if not.
+
+<BR>
+
+<B>Definition:</B> Closes the <TT>/etc/group</TT>
+
+file used by <TT>getgrent()</TT> and
+
+other group related fuNCtions.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $pw, $gid, @members) = getgrent();
+
+endgrent();
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="endhostent">
+
+endhostent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Host, Sockets, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false if not.
+
+<BR>
+
+<B>Definition:</B> Closes the TCP socket used by <TT>gethostbyname()</TT>
+
+and host related fuNCtions.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$host = gethostbyname(&quot;lyNCh&quot;);
+
+endhostent();
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="endnetent">
+
+endnetent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Network, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false if not.
+
+<BR>
+
+<B>Definition:</B> Closes the <TT>/etc/networks</TT>
+
+file used by <TT>getnetent()</TT>
+
+and network related fuNCtions.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $aliases, $addrtype, $net) = getnetent();
+
+endnetent();
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="endprotoent">
+
+endprotoent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Protocol, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false if not.
+
+<BR>
+
+<B>Definition:</B> Closes the <TT>/etc/protocols</TT>
+
+file used by <TT>getprotoent()</TT>
+
+and protocol related fuNCtions.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $alias, $protocol) = getprotoent();
+
+endprotoent();
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="endpwent">
+
+endpwent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Password, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false if not.
+
+<BR>
+
+<B>Definition:</B> Closes the <TT>/etc/passwd
+
+file</TT> used by <TT>getpwent()</TT>
+
+and password related fuNCtions.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $pass, $uid, $gid, $quota, $name, 
+
+    $gcos, $logindir, $shell) = getpwent();
+
+endpwent();
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="endservent">
+
+endservent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Server, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false if not.
+
+<BR>
+
+<B>Definition:</B> Closes the <TT>/etc/servers</TT>
+
+file used by <TT>getservent()</TT>
+
+and related fuNCtions.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $aliases, $port, $protocol) = getservent();
+
+endservent();
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="eofFILEHANDLE">
+
+eof ([FILEHANDLE])</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, true if the next read on <TT>FILEHANDLE</TT>
+
+will be at the end of file, false if not.<BR>
+
+<B>Definition:</B> Tests for the end of a file. This is done by
+
+reading the next character and then undoing this operation (so
+
+is only suitable on files where this can be done safely). If no
+
+argument is supplied the file tested is the last file which was
+
+read. If the empty list is supplied then a pseudo file is created
+
+of the files listed on the command line. This lets you test for
+
+the end of the last file on the command line.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+open(FILE, &quot;test1.txt&quot;);
+
+# some file activity
+
+print(&quot;eof() returned &quot;, eof(FILE) ? &quot;TRUE&quot; : &quot;FALSE&quot;, &quot;\n&quot;);
+
+close(FILE);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="evalEXPRBLOCK">
+
+eval ([EXPR | BLOCK])</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> The undefined value if a syntax error, a
+
+runtime error, or a <TT>die()</TT>
+
+fuNCtion occurs. Otherwise, the return value is the value of <TT>EXPR</TT>
+
+or the last statement in <TT>BLOCK</TT>.
+
+The return value can be any type.<BR>
+
+<B>Definition:</B> Treats the expression like a Perl program and
+
+executes it. As the context of this execution is the same as that
+
+of the script itself, variable definitions and subroutine definitions
+
+persist. Syntax errors, runtime errors, and execution of the <TT>die()</TT>
+
+fuNCtion are trapped and an undefined result is returned. If such
+
+an error does occur <TT>$@</TT> is
+
+set. <TT>$@</TT> will be equal to
+
+a defined null string if no errors are found. If no expression
+
+is supplied, <TT>$_</TT> is the default
+
+argument. If the block syntax is used then the expressions in
+
+the block are evaluated only oNCe within the script (which may
+
+be more efficient for certain situations).<BR>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD><B>Tip</B></TD></TR>
+
+<TR><TD>
+
+<BLOCKQUOTE>
+
+<TT>eval()</TT> traps possible error conditions which would otherwise crash a program and so can be used to test if certain features are available which would cause runtime errors if used when not available. See <A HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm" >Chapter 13</A>, 
+&quot;Handling Errors and Signals,&quot; for more information.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$answer = 3;
+
+eval(&quot;$answer = ;&quot;);
+
+if ($@ eq &quot;&quot;) {
+
+    print(&quot;eval() returned success.\n&quot;);
+
+}
+
+else {
+
+    print(&quot;eval() error: $@&quot;);
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="execLIST">
+
+exec (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Process<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> This fuNCtion passes control from the script
+
+to an external system command. <B>There is no return from this
+
+call.</B> Note that <TT>system()</TT>
+
+calls external commands and does return.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+exec(&quot;cat /etc/motd&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="existsEXPR">
+
+exists (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> Hash<BR>
+
+<B>Return Value:</B> SCALAR, true if <TT>EXPR</TT>
+
+is an entry in a hash, false if not.<BR>
+
+<B>Definition:</B> Tests whether a given key value exists in an
+
+associative array.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+%test = ( 'One' =&gt; '1', 'Two' =&gt; '2');
+
+if (exists($test{'One'})) {
+
+    print(&quot;exists() returned success.\n&quot;);
+
+}
+
+else {
+
+    print(&quot;exists() returned an error.\n&quot;);
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="exitEXPR">
+
+exit ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Process<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Evaluates <TT>EXPR</TT>
+
+and exits the program with that value as the exit code. The default
+
+value for the exit code is 0 if no argument is supplied. If an
+
+<TT>END</TT> block <BR>
+
+has been defined, it will be called. Also, object destructors
+
+may be called before the process truly ends.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+exit(16);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="expEXPR">
+
+exp ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math<BR>
+
+<B>Return Value:</B> SCALAR, the natural log base (e) to the power
+
+of <TT>EXPR</TT>.<BR>
+
+<B>Definition:</B> Returns the natural log base (e) to the power
+
+of <TT>EXPR</TT>. If no parameter
+
+is specified, <TT>$_</TT> is used.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;exp() e**1 is &quot;, exp(1), &quot;\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="fcntlFILEHANDLEFUNCTIONPACKEDFLAGS">
+
+fcntl (FILEHANDLE, FUNCTION, PACKED_FLAGS)</A></H3>
+
+<P>
+
+<B>Category:</B> File, UNIX<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> In Perl 5 use the <TT>fntcl</TT>
+
+module. In Perl 4 there should be some mechanism for linking the
+
+perl fuNCtions to the system fuNCtions which is usually executed
+
+when Perl is installed. See the <TT>perlfuNC</TT>
+
+man page for more information.
+
+<H3><A NAME="filenoFILEHANDLE">
+
+fileno (FILEHANDLE)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, the file descriptor for <TT>FILEHANDLE</TT>.
+
+<BR>
+
+<B>Definition:</B> Returns the file descriptor given a file handle.
+
+File descriptors are useful when using bitmaps for the <TT>select()</TT>
+
+fuNCtion.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;fileno() &quot;, fileno(FILE), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="flockFILEHANDLEOPERATIONFLAGS">
+
+flock (FILEHANDLE, OPERATION_FLAGS)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false if not.
+
+<BR>
+
+<B>Definition:</B> Lets you access file locks. You can place an
+
+exclusive lock, place a shared lock, or remove locks. You can
+
+find more information about <TT>flock()</TT>
+
+in section 2 of the UNIX manual pages.
+
+<H3><A NAME="fork">
+
+fork ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Process UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the pid of the child process or <TT>undef</TT>
+
+is unsuccessful.<BR>
+
+<B>Definition:</B> Starts a child process. Both child and parent
+
+processes start executing the line of code immediately following
+
+the <TT>fork()</TT> call. You can
+
+find more information about <TT>fork()</TT>
+
+in section 2 of the UNIX manual pages.
+
+<H3><A NAME="formlinePICTURELIST">
+
+formline (PICTURE, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> This internal fuNCtion is used by the format
+
+mechanism. It allows direct manipulation of the format process
+
+by adding values to the format accumulator (<TT>$^A</TT>).
+
+For more information about formats, see <A HREF="ch11.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm" >Chapter 11</A>, &quot;Creating
+
+Reports.&quot;
+
+<H3><A NAME="getcFILEHANDLE">
+
+getc ([FILEHANDLE])</A></H3>
+
+<P>
+
+<B>Category:</B> File, Input<BR>
+
+<B>Return Value:</B> SCALAR, the inputted character. Null if at
+
+end of file.<BR>
+
+<B>Definition:</B> Returns the next character <TT>FILEHANDLE</TT>
+
+or <TT>STDIN</TT> if no filehandle
+
+is specified.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+open(FILE, &quot;/etc/motd&quot;);
+
+print &quot;getc() &quot;, getc(FILE), &quot;\n&quot;;
+
+close(FILE);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getgrent">
+
+getgrent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Group, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context : Returns the next group
+
+name or the undefined value if no more groups or an error occurred.
+
+<BR>
+
+<B>Return Value in Array Context :</B> (<TT>$name,
+
+$passwd, $gid, $members</TT>) or an empty list.<BR>
+
+<B>Definition:</B> Returns information about groups taken from
+
+the <TT>/etc/group</TT> system file.
+
+If called repeatedly, it will iterate through the entries in the
+
+<TT>/etc/group</TT> file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $pw, $gid, @members) = getgrent();
+
+print(&quot;getgrent() Examines /etc/group [$name,$gid] file.\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getgrgidGID">
+
+getgrgid (GID)</A></H3>
+
+<P>
+
+<B>Category:</B> Group, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: The next group name that
+
+belongs to <TT>GID</TT>.
+
+<P>
+
+<B>Return Value in Array Context:</B> (<TT>$name,
+
+$passwd, $gid, $members</TT>) or an empty list.<BR>
+
+<B>Definition:</B> Returns information about groups taken from
+
+the <TT>/etc/group</TT> system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($grname, $grpw, $gid, @members) = getgrgid(0);
+
+print(&quot;getgrgid() Returns group name given GID [$grname]\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getgrnameNAME">
+
+getgrname (NAME)</A></H3>
+
+<P>
+
+<B>Category:</B> Group, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: The next group id that
+
+belongs to <TT>NAME</TT>.<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name,
+
+$passwd, $gid, $members</TT>) or an empty list.<BR>
+
+<B>Definition:</B> Returns information about groups taken from
+
+the <TT>/etc/group</TT> system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($grname, $grpw, $gid, @members) = getgrnam(&quot;root&quot;);
+
+print(&quot;getgrnam() Returns group GID given name [$gid]\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="gethostbyaddrADDRESSAFINIT">
+
+gethostbyaddr (ADDRESS, AF_INIT)</A></H3>
+
+<P>
+
+<B>Category:</B> Host, Socket<BR>
+
+<B>Return Value: </B>in Scalar Context: Name of host addressed
+
+by <TT>ADDRESS</TT> or undefined if
+
+the host could not be found.<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$addrtype</TT>,
+
+<TT>$length</TT>, <TT>@addrs</TT>)
+
+or an empty list.<BR>
+
+<B>Definition:</B> Looks in the <TT>/etc/hosts</TT>
+
+system file or checks a Domain Name Server for a server with <TT>ADDRESS</TT>.
+
+The value for <TT>AF_INIT</TT> is
+
+always 2.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+use Socket;
+
+$addr = pack('C4', (140,203,7,103));
+
+($name, $alias, $addrtype, $length, @addrs) = gethostbyaddr($addr, AF_INET);
+
+print(&quot;gethostbyaddr() [$alias].\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="gethostbynameNAMEPROTOCOL">
+
+gethostbyname (NAME, [PROTOCOL])</A></H3>
+
+<P>
+
+<B>Category:</B> Host, Socket<BR>
+
+<B>Return Value: </B>in Scalar Context: Address of the host called
+
+<TT>NAME</TT> or undefined if the
+
+host could not be found.<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name,
+
+$aliases, $addrtype, $length, @addrs</TT>) or an empty
+
+list.<BR>
+
+<B>Definition:</B> Looks in the <TT>/etc/hosts</TT>
+
+system file or checks a Domain Name Server for a server called
+
+<TT>NAME</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $alias, $addrtype, $length, @addrs) = gethostbyname(&quot;lyNCh&quot;);
+
+print(&quot;gethostbyname() [$alias].\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="gethostent">
+
+gethostent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Host, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: Name of the next host
+
+in <TT>/etc/hosts</TT>. or the undefined
+
+value.<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$addrtype</TT>,
+
+<TT>$length</TT>, <TT>@addrs</TT>)
+
+or an empty list.<BR>
+
+<B>Definition:</B> Looks in the <TT>/etc/hosts</TT>
+
+system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $alias, $addrtype, $length, @addrs) = gethostent();
+
+print(&quot;gethostent() [$alias].\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getlogin">
+
+getlogin ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Process, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the name of the current login.<BR>
+
+<B>Definition:</B> Gets the current login name from the <TT>/etc/utmp</TT>
+
+system file. Use <TT>getpwuid()</TT>for
+
+more information on the login because the information stored in
+
+<TT>/etc/utmp</TT> is limited.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print (&quot;getlogin() &quot;, getlogin(), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getnetbyaddrADDRESSADDRTYPE">
+
+getnetbyaddr (ADDRESS, ADDR_TYPE)</A></H3>
+
+<P>
+
+<B>Category:</B> Network<BR>
+
+<B>Return Value: </B>in Scalar Context: The network name that
+
+has an address of <TT>ADDRESS</TT>
+
+or undefined.<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$addrtype</TT>,
+
+<TT>$net</TT>) or an empty list.<BR>
+
+<B>Definition:</B> Looks for the network information in the <TT>/etc/networks</TT>
+
+system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($addrtype) = (getnetent())[2];
+
+($name, $alias, $addrtype, $net) = getnetbyaddr($net, $addrtype);
+
+print(&quot;getnetbyaddr() Reads /etc/networks [$name]\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getnetbynameNAME">
+
+getnetbyname (NAME)</A></H3>
+
+<P>
+
+<B>Category:</B> Network<BR>
+
+<B>Return Value: </B>in Scalar Context: The network address of
+
+<TT>NAME</TT> or undefined.<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$addrtype</TT>,
+
+<TT>$net</TT>) or an empty list.<BR>
+
+<B>Definition:</B> Looks for the network information in the <TT>/etc/networks</TT>
+
+system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $alias, $addrtype, $net) = getnetbyname(&quot;localnet&quot;);
+
+print(&quot;getnetbyname() Reads /etc/networks [$name]\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getnetent">
+
+getnetent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Network<BR>
+
+<B>Return Value in Scalar Context:</B> The next network name in
+
+<TT>/etc/networks</TT> or undefined.
+
+<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$addrtype</TT>,
+
+<TT>$net</TT>) or an empty list.<BR>
+
+<B>Definition:</B> When called repeatedly, it iterates over the
+
+information in the <TT>/etc/networks</TT>
+
+system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $alias, $addrtype, $net) = getnetent();
+
+print(&quot;getnetent() Reads /etc/networks [$name, $addrtype]\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getpeernameSOCKET">
+
+getpeername (SOCKET)</A></H3>
+
+<P>
+
+<B>Category:</B> Sockets<BR>
+
+<B>Return Value:</B> SCALAR, the address of the remote side of
+
+a socket connection represented by <TT>SOCKET</TT>.
+
+<BR>
+
+<B>Definition:</B> Gets the packed address of the remote side
+
+of a socket. The address can then be used with the <TT>unpack()</TT>
+
+fuNCtion to retrieve the protocol family, port and ip address
+
+values.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$sockaddr = 'S n a4 x8';
+
+$packedRemoteAddr = getpeername(S);
+
+($family, $port, $remoteAddr) = unpack($sockaddr,$packedRemoteAddr);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getpgrpPID">
+
+getpgrp (PID)</A></H3>
+
+<P>
+
+<B>Category:</B> Groups, Process, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the current process group for <TT>PID</TT>.
+
+If <TT>PID</TT> is not specified or
+
+0 is used, the current group of the current process is returned.
+
+<BR>
+
+<B>Definition:</B> Finds the current process group for a given
+
+<TT>pid</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;getpgrp() &quot;, getpgrp(0), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getppid">
+
+getppid ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Process, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the pid of the parent process.<BR>
+
+<B>Definition:</B> Finds the pid of the parent process.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;getppid() &quot;, getppid(), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getpriorityWHICHWHO">
+
+getpriority (WHICH, WHO)</A></H3>
+
+<P>
+
+<B>Category:</B> Process, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the current priority associated with
+
+the parameters.<BR>
+
+<B>Definition:</B> Returns the current priority of <TT>WHO</TT>
+
+(the pid, group pid, uid, or 0 for the current process). The <TT>WHICH</TT>
+
+parameter can one of <TT>PRIO_PROCESS</TT>
+
+(0), <TT>PRIO_PGGRP</TT> (1), <TT>PRIO_USER</TT>
+
+(2).
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;getpriority() &quot;, getpriority(0, 0), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getprotobynameNAME">
+
+getprotobyname (NAME)</A></H3>
+
+<P>
+
+<B>Category:</B> Protocols, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: The protocol number assigned
+
+to <TT>NAME</TT>.<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$proto</TT>)
+
+or an empty list. <TT>$proto</TT>
+
+is the protocol number.<BR>
+
+<B>Definition:</B> Looks in the <TT>/etc/protocols</TT>
+
+system file for the protocol called <TT>NAME</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $alias, $proto) = getprotobyname(&quot;IP&quot;);
+
+print(&quot;getprotobyname() /etc/proto [$name, $alias, $proto].\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getprotobynumberNUMBER">
+
+getprotobynumber (NUMBER)</A></H3>
+
+<P>
+
+<B>Category:</B> Protocols, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: The protocol name associated
+
+with <TT>NUMBER</TT>.<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$proto</TT>)
+
+or an empty list.<BR>
+
+<B>Definition:</B> Looks in the <TT>/etc/protocols</TT>
+
+system file for <TT>NUMBER</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $alias, $proto) = getprotobynumber(0);
+
+print(&quot;getprotobynumber() /etc/protocols [$name, $alias, $proto].\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getprotoent">
+
+getprotoent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Protocols, UNIX<BR>
+
+<B>Return Value:</B> ARRAY. (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$proto</TT>)
+
+or an empty list.<BR>
+
+<B>Definition:</B> When called repeatedly, <TT>getprotoent()</TT>
+
+iterates over the <TT>/etc/protocols</TT>
+
+system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $alias, $proto) = getprotoent();
+
+print(&quot;getprotoent() Closes /etc/protocols [$name, $alias, $proto].\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getpwent">
+
+getpwent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Password, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: The username.<BR>
+
+<B>Return Value in Array Context:</B> ARRAY. (<TT>$name</TT>,
+
+<TT>$passwd</TT>, <TT>$uid</TT>,
+
+<TT>$gid</TT>, <TT>$quota</TT>,
+
+<TT>$comment</TT>, <TT>$gcos</TT>,
+
+<TT>$dir</TT>, <TT>$shell</TT>)
+
+or an empty list.<BR>
+
+<B>Definition:</B> When called repeatedly, <TT>getpwent()</TT>
+
+iterates over the <TT>/etc/passwd</TT>
+
+system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $pass, $uid, $gid, $quota, $name, $gcos, $dir, $shell) = getpwent();
+
+print(&quot;getpwent() /etc/passwd [$dir, $shell].\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getpwnamNAME">
+
+getpwnam (NAME)</A></H3>
+
+<P>
+
+<B>Category:</B> Password, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: The userid of <TT>NAME</TT>.
+
+<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name,
+
+$passwd, $uid, $gid, $quota, $comment, $gcos, $dir, $shell</TT>)
+
+or an empty list.<BR>
+
+<B>Definition:</B> Looks in the <TT>/etc/passwd</TT>
+
+system file for <TT>NAME</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $pass, $uid, $gid, $quota, $name, 
+
+    $gcos, $dir, $shell) = getpwnam(&quot;root&quot;);
+
+print(&quot;getpwnam() /etc/passwd [$dir, $shell].\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getpwuidUID">
+
+getpwuid (UID)</A></H3>
+
+<P>
+
+<B>Category:</B> Password, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: The username of <TT>UID</TT>.
+
+<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$passwd</TT>, <TT>$uid</TT>,
+
+<TT>$gid</TT>, <TT>$quota</TT>,
+
+<TT>$comment</TT>, <TT>$gcos</TT>,
+
+<TT>$dir</TT>, <TT>$shell</TT>)
+
+or an empty list.<BR>
+
+<B>Definition:</B> Looks in the <TT>/etc/passwd</TT>
+
+system file for <TT>UID</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $pass, $uid, $gid, $quota, $name, 
+
+    $gcos, $dir, $shell) = getpwuid(0);
+
+print(&quot;getpwuid() /etc/passwd [$dir, $shell].\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getservbynameNAMEPROTOCOL">
+
+getservbyname (NAME, PROTOCOL)</A></H3>
+
+<P>
+
+<B>Category:</B> Protocol, Service, Socket, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: The port number.<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$port</TT>,
+
+<TT>$proto</TT>) or an empty list.
+
+<BR>
+
+<B>Definition:</B> Gets services by name. Looks in the <TT>/etc/services</TT>
+
+system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $aliases, $port, $protol) = getservbyname(&quot;tcpmux&quot;, &quot;tcp&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getservbyportPORTNUMBERPROTOCOL">
+
+getservbyport (PORT_NUMBER, PROTOCOL)</A></H3>
+
+<P>
+
+<B>Category:</B> Protocol, Service, Socket, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: The service name.<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$port</TT>,
+
+<TT>$proto</TT>) or an empty list.
+
+<BR>
+
+<B>Definition:</B> Gets services by port. Looks in the <TT>/etc/services</TT>
+
+system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $aliases, $port, $protol) = getservbyport(512, &quot;tcp&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getservent">
+
+getservent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Protocol, Service, Socket, UNIX<BR>
+
+<B>Return Value: </B>in Scalar Context: The next service name.
+
+<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$name</TT>,
+
+<TT>$aliases</TT>, <TT>$port</TT>,
+
+<TT>$proto</TT>) or an empty list.
+
+<BR>
+
+<B>Definition:</B> When called repeatedly, iterates over the <TT>/etc/services</TT>
+
+system file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($name, $aliases, $port, $protol) = getservent();
+
+print(&quot;getservent() /etc/servers [$name].\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getsocknameSOCKET">
+
+getsockname (SOCKET)</A></H3>
+
+<P>
+
+<B>Category:</B> Sockets<BR>
+
+<B>Return Value:</B> SCALAR, the packed address of the local end
+
+of the socket.<BR>
+
+<B>Definition:</B> Finds out the address of your script's socket.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$packedAddr = getsockname(S);
+
+($family, $port, $localAddr) = unpack('S n a4 x8', $packedAddr);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="getsockoptSOCKETLEVELOPTNAME">
+
+getsockopt (SOCKET, LEVEL, OPTNAME)</A></H3>
+
+<P>
+
+<B>Category:</B> Sockets<BR>
+
+<B>Return Value:</B> SCALAR, the socket option requested or the
+
+undefined value.<BR>
+
+<B>Definition:</B> Gets the value of a specified socket option.
+
+<H3><A NAME="globEXPR">
+
+glob (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> ARRAY, the list of files represented by <TT>EXPR</TT>.
+
+<BR>
+
+<B>Definition:</B> Looks for file name that match <TT>EXPR</TT>.
+
+You can use wildcards in <TT>EXPR</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@files = glob(&quot;*.txt&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="gmtimeEXPR">
+
+gmtime ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Time<BR>
+
+<B>Return Value: </B>in Scalar Context: A string like 'Sat Jul
+
+13 07:34:46 1986' describing <TT>EXPR</TT>.
+
+<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$sec</TT>,
+
+<TT>$min</TT>, <TT>$hour</TT>,
+
+<TT>$mday</TT>, <TT>$mon</TT>,
+
+<TT>$year</TT>, <TT>$wday</TT>,
+
+<TT>$ydat</TT>, <TT>$isdst</TT>).
+
+<BR>
+
+<B>Definition:</B> Breaks <TT>EXPR</TT>
+
+(a number of seconds siNCe 1st Jan 1970) into a 9-element list.
+
+If no argument is used the current time is used. If your system
+
+supports POSIX time zones, the time returned is localized for
+
+the Greenwich Mean Time time zone. Note that <TT>$mon</TT>
+
+ranges from 0..11, <TT>$wday</TT>
+
+ranges from 0..6, and <TT>$year</TT>
+
+does not handle centuries.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($sec, $min, $hour, $mday, $mon, $year, $wday, $ydat, $isdst) = gmtime();
+
+print &quot;gmtime() 19$year-$mon-$mday\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="grepBLOCKEXPRLIST">
+
+grep (BLOCK | EXPR, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Regular Expressions<BR>
+
+<B>Return Value: </B>in Scalar Context: The number of times that
+
+<TT>BLOCK</TT> or <TT>EXPR</TT>
+
+evaluated to true.<BR>
+
+<B>Return Value in Array Context:</B> A list of the elements of
+
+<TT>LIST</TT> that causes <TT>BLOCK</TT>
+
+or <TT>EXPR</TT> to evaluate as true.
+
+<BR>
+
+<B>Definition:</B> Evaluates the expression or block for each
+
+of the elements in <TT>LIST</TT>.
+
+Think of this fuNCtion as having an internal <TT>foreach</TT>
+
+loop. Each element in <TT>LIST</TT>
+
+is assigned to <TT>$_</TT> and then
+
+the block or expression is evaluated. The most common use for
+
+this is with a pattern match operation as the expression, and
+
+a list of strings to be processed. You may be tempted to use <TT>grep()</TT>
+
+as an easy way to interate over an array as shown in the second
+
+example below, <I>don't do this</I>. Use the <TT>map()</TT>
+
+fuNCtion instead.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+# Look for all elements that begin with the letter T.
+
+@a = ('One', 'Two', 'Three', 'Four', 'Five');
+
+print(&quot;grep(), &quot;, grep(/^T/, @a), &quot;\n&quot;);
+
+
+
+# Print all elements in a list.
+
+@a = ('One', 'Two', 'Three', 'Four', 'Five');
+
+grep( print(&quot;$_\n&quot;), @a);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="hexEXPR">
+
+hex (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> Math, String<BR>
+
+<B>Return Value:</B> SCALAR, the decimal value of <TT>EXPR</TT>.
+
+<BR>
+
+<B>Definition:</B> Converts <TT>EXPR</TT>
+
+from hexadecimal to decimal. For example, <TT>hex('FF0')</TT>
+
+will return <TT>'4080'</TT>. You can
+
+use the string returned as a number because Perl will automatically
+
+convert strings to numbers in numeric contexts.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;hex() &quot;, hex(&quot;ff&quot;), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="import">
+
+import ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> None. <BR>
+
+<B>Definition:</B> This is the only user-defined fuNCtion in this
+
+list. If a module has an <TT>import()</TT>
+
+fuNCtion then the <TT>use()</TT> fuNCtion
+
+will call it as the module is being loaded. You can use the <TT>import()</TT>
+
+fuNCtion to initialize variables, open files, or do any other
+
+setup work.
+
+<H3><A NAME="indexSTRINGSUBSTRINGPOSITION">
+
+index (STRING, SUBSTRING, [POSITION])</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, the position of the first occurreNCe
+
+of <TT>SUBSTRING</TT> in <TT>STRING</TT>
+
+at or after <TT>POSITION</TT> or -1
+
+if not found.<BR>
+
+<B>Definition:</B> When called repeatedly, you can iterate over
+
+all the occurreNCes of <TT>SUBSTRING</TT>
+
+in <TT>STRING</TT>. The returned value
+
+is an offset from <TT>$[</TT> (which
+
+is normally zero). If <TT>$[</TT>
+
+is altered it will change the way <TT>index()</TT>
+
+works as it will start its search from <TT>$[</TT>
+
+if no position argument is supplied, and it will return <TT>$[
+
+- 1</TT> when there is no match found.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$answer1 = index(&quot;abcdefghijiklmdef:-)&quot;, &quot;def&quot;);
+
+$answer2 = index(&quot;abcdefghijiklmdef&quot;, &quot;def&quot;, $answer1 + 3);
+
+print(&quot;index() def is at $answer1 and next at $answer2\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="intEXPR">
+
+int ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math<BR>
+
+<B>Return Value:</B> SCALAR, the integer portion of <TT>EXPR</TT>.
+
+<BR>
+
+<B>Definition:</B> Chops of any fractional part of <TT>EXPR</TT>
+
+or <TT>$_</TT> if no expression is
+
+specified.<BR>
+
+For example, <TT>int(21.45)</TT> would
+
+return <TT>21</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;int() &quot;, int(345.678), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="ioctlFILEHANDLEFUNCTIONSCALAR">
+
+ioctl (FILEHANDLE, FUNCTION, SCALAR)</A></H3>
+
+<P>
+
+<B>Category:</B> File, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful; false if not
+
+and the undefined value in some cases.<BR>
+
+<B>Definition:</B> Controls Input/Output operations, mainly used
+
+for terminals. It calls the UNIX <TT>ioctl()</TT>
+
+fuNCtion with the specified parameters. Returns undefined if the
+
+operating system returns -1. Returns string &quot;0 but true&quot;
+
+if the operating system returns 0. Otherwise returns the value
+
+returned by the operating system. You can find more information
+
+about <TT>ioctl()</TT> in section
+
+2 of the UNIX manual pages.
+
+<H3><A NAME="joinEXPRLIST">
+
+join (EXPR, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Array, String<BR>
+
+<B>Return Value:</B> SCALAR, a string with each element of <TT>LIST</TT>
+
+alternating with <TT>EXPR</TT>.<BR>
+
+<B>Definition:</B> CoNCatenates all of the elements of <TT>LIST</TT>
+
+together with <TT>EXPR</TT> as the
+
+glue. For example, <TT>join('!', ('QQ', 'AA'))</TT>
+
+will return <TT>'QQ!AA'</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@listone = (0, 1, 2, 3);
+
+print(&quot;join() &quot;, join(&quot;-&quot;,@listone), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="keysHASH">
+
+keys (HASH)</A></H3>
+
+<P>
+
+<B>Category:</B> Array, Hash <BR>
+
+<B>Return Value: </B>in Scalar Context: The number of keys and,
+
+therefore, the number of entries in <TT>HASH</TT>.
+
+<BR>
+
+<B>Return Value in Array Context:</B> All of the keys to <TT>HASH</TT>
+
+in no particular order.<BR>
+
+<B>Definition:</B> Gets a list of all keys in <TT>HASH</TT>.
+
+The returned list is ordered by the internal storage requirements,
+
+so it is often useful to use the <TT>sort()</TT>
+
+fuNCtion before processing. For example, <TT>sort(keys(%hash))</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+%hash = ('One' =&gt; 1, 'Two' =&gt; 2, 'Three' =&gt; 3, 'Four' =&gt; 4);
+
+print(&quot;keys() &quot;, join(&quot;-&quot;, keys(%hash)), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="killSIGNALLIST">
+
+kill (SIGNAL, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Process<BR>
+
+<B>Return Value:</B> SCALAR, the number of processes successfully
+
+signaled.<BR>
+
+<B>Definition:</B> Sends <TT>SIGNAL</TT>
+
+to the processes identified by <TT>LIST</TT>.
+
+If <TT>SIGNAL</TT> is negative then
+
+process groups are killed instead.
+
+<H3><A NAME="lcEXPR">
+
+lc (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, a copy of <TT>EXPR</TT>
+
+with all letters in lowercase.<BR>
+
+<B>Definition:</B> Creates a copy of <TT>EXPR</TT>
+
+with all letters in lowercase.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;lc() &quot;, lc(&quot;ABCDef&quot;), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="lcfirstEXPR">
+
+lcfirst (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, a copy of <TT>EXPR</TT>
+
+with the first letter in lowercase.<BR>
+
+<B>Definition:</B> Creates a copy of <TT>EXPR</TT>
+
+with the first letter in lowercase.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;lcfirst() &quot;, lcfirst(&quot;ABCDef&quot;), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="lengthEXPR">
+
+length ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, the number of characters in <TT>EXPR</TT>.
+
+<BR>
+
+<B>Definition:</B> Determines the numbers of characters in <TT>EXPR</TT>.
+
+If no expression is supplied <TT>$_</TT>
+
+is used.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;length() &quot;, length(&quot;01234&quot;), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="linkOLDFILENEWFILE">
+
+link (OLD_FILE, NEW_FILE)</A></H3>
+
+<P>
+
+<B>Category:</B> File, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Creates a hard link called <TT>NEW_FILE</TT>
+
+linking to the filename called <TT>OLD_FILE</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;The result from link() is &quot;, link(&quot;/usr/local&quot;, &quot;/tmp/link&quot;), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="listenSOCKETQUEUESIZE">
+
+listen (SOCKET, QUEUESIZE)</A></H3>
+
+<P>
+
+<B>Category:</B> Socket<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Listens for connections on a socket. <TT>QUEUESIZE</TT>
+
+specifies how many processes can wait for connections.
+
+<H3><A NAME="localLIST">
+
+local (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Scope<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Makes all the variables in <TT>LIST</TT>
+
+to be local to the current block. The <TT>my()</TT>
+
+fuNCtion is better than <TT>local()</TT>
+
+because it also creates new copies of the variables for each recursive
+
+call of a subroutine. Don't use <TT>local()</TT>
+
+inside loops. Variables marked using <TT>local()</TT>
+
+can be seen by fuNCtions called from inside the current block.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+local($numTires) = 10;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="localtimeEXPR">
+
+localtime ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Time<BR>
+
+<B>Return Value: </B>in Scalar Context: A string like 'Sat Jul
+
+13 07:34:46 1986' describing <TT>EXPR</TT>.
+
+<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$sec</TT>,
+
+<TT>$min</TT>, <TT>$hour</TT>,
+
+<TT>$mday</TT>, <TT>$mon</TT>,
+
+<TT>$year</TT>, <TT>$wday</TT>,
+
+<TT>$ydat</TT>, <TT>$isdst</TT>).
+
+<BR>
+
+<B>Definition:</B> Breaks <TT>EXPR</TT>
+
+(a number of seconds siNCe 1st Jan 1970) into a 9-element list.
+
+If no argument is used the current time is used. If your system
+
+supports POSIX time zones, the time returned is localized for
+
+the current time zone. Note that <TT>$mon</TT>
+
+ranges from 0..11, <TT>$wday</TT>
+
+ranges from 0..6, and <TT>$year</TT>
+
+does not handle centuries. If no expression is specified, the
+
+current time is used.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($sec, $min, $hour, $mday, $mon, $year, $wday, $ydat, $isdst) = localtime();
+
+print(&quot;localtime() 19$year-$mon-$mday\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="logEXPR">
+
+log ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math<BR>
+
+<B>Return Value:</B> SCALAR, the logarithm (using the natural
+
+logarithm base e) of <TT>EXPR</TT>
+
+or <TT>$_</TT> if no expression is
+
+specified.<BR>
+
+<B>Definition:</B> Determines the logarithm (using the natural
+
+logarithm base e) of the expression.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;log() &quot;, log(2.5), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="lstatFILEHANDLEEXPR">
+
+lstat (FILEHANDLE | EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> File, UNIX<BR>
+
+<B>Return Value:</B> ARRAY, (<TT>$device</TT>,
+
+<TT>$inode</TT>, <TT>$mode</TT>,
+
+<TT>$nlink</TT>, <TT>$uid</TT>,
+
+<TT>$gid</TT>, <TT>$rdev</TT>,
+
+<TT>$size</TT>, <TT>$atime</TT>,
+
+<TT>$mtime</TT>, <TT>$ctime</TT>,
+
+<TT>$blksize</TT>, <TT>$blocks</TT>)
+
+or an empty list if an error occurs.<BR>
+
+<B>Definition:</B> Gets the file statistics of a symbolic link
+
+rather that the file pointed to the link. If the parameters do
+
+not refer to a symbolic link, the file statistics are still returned.
+
+Note that, like the filetest operators, <TT>lstat()</TT>
+
+can take the special underscore filehandle (_) which means that
+
+the test is carried out on the same filehandle as the last filetest,
+
+<TT>stat()</TT> or <TT>lstat()</TT>
+
+call.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($device, $inode, $mode, $nlink, $uid, $gid, $rdev, $size, 
+
+    $atime, $mtime, $ctime, $blksize, $blocks) = lstat(&quot;/tmp/link&quot;);
+
+print(&quot;lstat() $device, $inode, $ctime \n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="mapBLOCKEXPRLIST">
+
+map (BLOCK | EXPR, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Array<BR>
+
+<B>Return Value:</B> ARRAY, a list of the results of evaluating
+
+<TT>BLOCK</TT>or <TT>EXPR</TT>
+
+which each element of <TT>LIST</TT>
+
+being assigned to <TT>$_</TT>.<BR>
+
+<B>Definition:</B> Evaluates the specified expression (or block)
+
+for each element of <TT>LIST</TT>.
+
+This is done by assigning each element to <TT>$_</TT>
+
+and evaluting the expression (or block) in an array context. Therefore,
+
+the returned array may have more elements than <TT>LIST</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+# INCrement each element by one.
+
+@array = (0..3);
+
+@result = map($_ + 1, @array);
+
+print(&quot;Before map: @array\n&quot;);
+
+print(&quot;After  map: @result\n&quot;);
+
+
+
+# Print all elements in a list.
+
+@array = ('One', 'Two', 'Three', 'Four', 'Five');
+
+map( print(&quot;$_\n&quot;), @array);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="mkdirFILENAMEMODE">
+
+mkdir (FILENAME, [MODE])</A></H3>
+
+<P>
+
+<B>Category:</B> Directory<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Creates a directory call <TT>DIRNAME</TT>,
+
+with the mode specified by <TT>MODE</TT>.
+
+The mode is specified using an octal number and is ignored under
+
+Windows 95 or Windows NT. If the directory can't be created, <TT>$!</TT>
+
+is set to the operating system error.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;mkdir() &quot;, mkdir(&quot;testdir&quot;, 0777), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="msgctlIDCOMMANDARG">
+
+msgctl (ID, COMMAND, ARG)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communications, Message Queues
+
+<BR>
+
+<B>Return Value:</B> SCALAR, true if successful; false if not
+
+and the undefined value in some cases.<BR>
+
+<B>Definition:</B> Controls message queue operations. It calls
+
+the UNIX <TT>msgctl()</TT> fuNCtion
+
+with the specified parameters. Returns undefined if the operating
+
+system returns -1. Returns string &quot;0 but true&quot; if the
+
+operating system returns 0. Otherwise returns the value returned
+
+by the operating system. You can find more information about <TT>msggctl()</TT>
+
+in section 2 of the UNIX manual pages.
+
+<H3><A NAME="msggetKEYFLAGS">
+
+msgget (KEY, FLAGS)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication, Message Queue<BR>
+
+<B>Return Value:</B> SCALAR, the message queue id or the undefined
+
+value if an error occurred.<BR>
+
+<B>Definition:</B> Determines the message queue id.
+
+<H3><A NAME="msgrcvQUEUEIDBUFFERBUFFERSIZETYPEFLAGS">
+
+msgrcv (QUEUE_ID, BUFFER, BUFFER_SIZE, TYPE, FLAGS)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication, Message Queue<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Gets a message from <TT>QUEUE_ID</TT>.
+
+The message is placed into <TT>BUFFER</TT>.
+
+<H3><A NAME="msgsndQUEUEIDBUFFERFLAGS">
+
+msgsnd (QUEUE_ID, BUFFER, FLAGS)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication, Message Queue<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Send a message to <TT>QUEUE_ID</TT>.
+
+The message to be sent should be in <TT>BUFFER</TT>.
+
+<H3><A NAME="myLIST">
+
+my (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Scope<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Declares each of the variables listed to be
+
+local to the lexical unit (block or file). See <A HREF="ch5.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm" >Chapter 5</A> &quot;FuNCtions,&quot;
+
+for more information.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+# Define the fuNCtion foo with four local variables.
+
+sub foo {
+
+    my($numTires) = shift;
+
+    my(@params) = @_;
+
+    my($tireType, $tirePressure);
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="octEXPR">
+
+oct ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math, String<BR>
+
+<B>Return Value:</B> SCALAR, the decimal value of <TT>EXPR</TT>.
+
+<BR>
+
+<B>Definition:</B> Converts <TT>EXPR</TT>
+
+from octal to decimal. For example, <TT>oct('0760')</TT>
+
+will return <TT>'496'</TT>. You can
+
+use the string returned as a number because Perl will automatically
+
+convert strings to numbers in numeric contexts.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;oct() &quot;, oct(&quot;88&quot;), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="openFILEHANDLEEXPRFILENAME">
+
+open (FILEHANDLE | EXPR | FILENAME)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, true if the file is opened, false
+
+otherwise.<BR>
+
+<B>Definition:</B> Opens a file using the specified file handle.
+
+The file handle may be an expression, the resulting value is used
+
+as the handle. If no filename is specified a variable with the
+
+same name as the file handle used (this should be a scalar variable
+
+with a string value referring to the file name). The special file
+
+name '-' refers to <TT>STDIN</TT>
+
+and '&gt;-' refers to <TT>STDOUT</TT>.
+
+<P>
+
+The file name string may be prefixed with the following values
+
+to indicate the mode:<BR>
+
+
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD WIDTH=102><I>Prefix Value</I></TD><TD WIDTH=488><I>Description</I>
+
+</TD></TR>
+
+<TR><TD WIDTH=102><CENTER><TT>&lt;</TT></CENTER>
+
+</TD><TD WIDTH=488>read access, this is the default</TD></TR>
+
+<TR><TD WIDTH=102><CENTER><TT>&gt;</TT></CENTER>
+
+</TD><TD WIDTH=488>write access</TD></TR>
+
+<TR><TD WIDTH=102><CENTER><TT>+&gt;</TT></CENTER>
+
+</TD><TD WIDTH=488>create a file with read/write accesss</TD>
+
+</TR>
+
+<TR><TD WIDTH=102><CENTER><TT>+&lt;</TT></CENTER>
+
+</TD><TD WIDTH=488>read/write access to an existing file</TD>
+
+</TR>
+
+<TR><TD WIDTH=102><CENTER><TT>&gt;&gt;</TT></CENTER>
+
+</TD><TD WIDTH=488>append to a file</TD></TR>
+
+<TR><TD WIDTH=102><CENTER><TT>&quot; CMD |&quot;</TT></CENTER>
+
+</TD><TD WIDTH=488>Execute <TT>CMD</TT> as an operating system command and pipe the resulting output back  to your Perl script as <TT>FILEHANDLE</TT>
+
+</TD></TR>
+
+<TR><TD WIDTH=102><CENTER><TT>&quot;| CMD&quot;</TT></CENTER>
+
+</TD><TD WIDTH=488>Pipe output to <TT>FILEHANDLE</TT> into <TT>CMD</TT>
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$FILE = &quot;foo.dat&quot;
+
+open(FILE) or die(&quot;Unable to open $FILE because: $!&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="opendirDIRHANDLEEXPRDIRNAME">
+
+opendir (DIRHANDLE, EXPR | DIRNAME)</A></H3>
+
+<P>
+
+<B>Category:</B> Directory<BR>
+
+<B>Return Value:</B> SCALAR, true if the directory is opened,
+
+false otherwise.<BR>
+
+<B>Definition:</B> Opens a connection between the directory handle
+
+and the directory name. If you use an expression for the second
+
+parameter, it is expected to evaluate to a directory name.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$dir = &quot;/tmp&quot;
+
+opendir(DIR, $dir) or die(&quot;Unable to open $dir because $!&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="ordEXPR">
+
+ord ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, the numeric value of the first character
+
+of <TT>EXPR</TT> or <TT>$_</TT>
+
+if no expression is specified.<BR>
+
+<B>Definition:</B> Returns the numeric ascii code of the first
+
+character in the expression. For example, <TT>ord('A')</TT>
+
+returns a value of 65. print(&quot;ord() &quot;, ord('G'), &quot;\n&quot;);
+
+<H3><A NAME="packTEMPLATELIST">
+
+pack (TEMPLATE, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, a packed version of the data in <TT>LIST</TT>
+
+using <TT>TEMPLATE</TT> to determine
+
+how it is coded.<BR>
+
+<B>Definition:</B> Converts <TT>LIST</TT>
+
+into a data structure-possibly packed with binary information.
+
+You can find additional information by looking at the perfuNC
+
+man page, the perlfuNC.htm file in your docs directory, or by
+
+pointing your web browser to <B>ftp://ftp.metronet.com/pub/perl/doc/manual/html/perlfuNC/pack.html</B>.
+
+You can use any of the following specifiers in the template string.
+
+<BR>
+
+
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD WIDTH=129><CENTER><I>Format Specifier</I></CENTER></TD>
+
+<TD WIDTH=299><I>Description</I></TD></TR>
+
+<TR><TD WIDTH=129><CENTER>@</CENTER></TD><TD WIDTH=299>Null fill to absolute position.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>A</CENTER></TD><TD WIDTH=299>Ascii string with spaces to pad.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>a</CENTER></TD><TD WIDTH=299>Ascii string with nulls to pad.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>b</CENTER></TD><TD WIDTH=299>Bit string (ascending bit order).
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>B</CENTER></TD><TD WIDTH=299>Bit string (descending bit order).
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>c</CENTER></TD><TD WIDTH=299>Signed char value.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>C</CENTER></TD><TD WIDTH=299>Unsigned char value.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>d</CENTER></TD><TD WIDTH=299>Double-precision float in the native format.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>f</CENTER></TD><TD WIDTH=299>Single-precision float in the native format.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>h</CENTER></TD><TD WIDTH=299>Hex string (low nybble first).
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>H</CENTER></TD><TD WIDTH=299>Hex string (high nybble first).
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>i</CENTER></TD><TD WIDTH=299>Signed integer value.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>I</CENTER></TD><TD WIDTH=299>Unsigned integer value.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>l</CENTER></TD><TD WIDTH=299>Signed long integer value.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>L</CENTER></TD><TD WIDTH=299>Unsigned long integer value.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>n</CENTER></TD><TD WIDTH=299>Short integer &quot;network&quot; order.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>N</CENTER></TD><TD WIDTH=299>Long integer &quot;network&quot; order.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>p</CENTER></TD><TD WIDTH=299>Pointer to a null-terminated string.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>P</CENTER></TD><TD WIDTH=299>Pointer to a structure (fixed-length string).
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>s</CENTER></TD><TD WIDTH=299>Signed short integer value.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>S</CENTER></TD><TD WIDTH=299>Unsigned short integer value.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>u</CENTER></TD><TD WIDTH=299>UUeNCoded string.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>v</CENTER></TD><TD WIDTH=299>Short integer &quot;VAX&quot; (little-endian) order.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>V</CENTER></TD><TD WIDTH=299>Long integer &quot;VAX&quot; (little-endian) order.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>x</CENTER></TD><TD WIDTH=299>Null byte.
+
+</TD></TR>
+
+<TR><TD WIDTH=129><CENTER>X</CENTER></TD><TD WIDTH=299>Back up a byte.
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<P>
+
+A coNCise form of template can be used by appending a number after
+
+any letter to repeat that format specifier. For example, a5 indicates
+
+that five letters are expected. b32 indicates that 32 bits are
+
+expected. H8 indicates that 8 nybbles ( or 4 bytes) are expected.
+
+P10 indicates that the structure is 10 bytes long. Using a * in
+
+place of a number means to repeat the format specifier as necessary
+
+to use up all list values. Note that some packed structures may
+
+not be portable across machines (in particular network and floating
+
+point formats). It should be possible to unpack the data using
+
+the same format specification with an <TT>unpack()</TT>
+
+call.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+Use Socket;
+
+@address = (140, 203, 7, 103)
+
+$addr = pack('C4', @address);
+
+print(&quot;@address is packed as: $addr\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="pipeREADHANDLEWRITEHANDLE">
+
+pipe (READHANDLE, WRITEHANDLE)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false if not.
+
+<BR>
+
+<B>Definition:</B> Opens a pair of connected pipes.
+
+<H3><A NAME="popARRAYVARIABLE">
+
+pop (ARRAY_VARIABLE)</A></H3>
+
+<P>
+
+<B>Category:</B> Array<BR>
+
+<B>Return Value:</B> SCALAR, the last element in the specified
+
+array.<BR>
+
+<B>Definition:</B> Removes the last element from the specified
+
+array. Note that the array will be shortened by one.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@a = (1, 2, 3, 4);
+
+print(&quot;pop() &quot;, pop(@a), &quot;leaves &quot;,@a, &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="posSCALAR">
+
+pos ([SCALAR])</A></H3>
+
+<P>
+
+<B>Category:</B> Regular Expression<BR>
+
+<B>Return Value:</B> SCALAR, the position of the last matched
+
+substring of the last <TT>m//g</TT>
+
+operation.<BR>
+
+<B>Definition:</B> Used to find the offset or position of the
+
+last matched substring. If <TT>SCALAR</TT>
+
+is specified, it will return the offset of the last match on that
+
+scalar variable. You can also assign a value to this fuNCtion
+
+(for example, <TT>pos($foo) = 20;</TT>)
+
+in order to change the starting point of the next match operation.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$name = &quot;alpha1 alpha2 alpha3 alpha4&quot;;
+
+$name =~ m/alpha/g;
+
+print(&quot;pos() &quot;, pos($name), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="printFILEHANDLELIST">
+
+print [FILEHANDLE] ([LIST])</A></H3>
+
+<P>
+
+<B>Category:</B> Output<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false otherwise.
+
+<BR>
+
+<B>Definition:</B> Prints <TT>LIST</TT>
+
+to the file represented by <TT>FILEHANDLE</TT>.
+
+If no file handle is specified <TT>STDOUT</TT>
+
+will be used. This default file handle may be altered using the
+
+<TT>select()</TT> operator. If no
+
+list argument is specified <TT>$_</TT>
+
+is printed.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+# This example may look funny, but it works. Go ahead and
+
+# try it!
+
+#
+
+    print(&quot; returns &quot;, print(&quot;print()&quot;), &quot; on success.\n&quot;);
+
+#
+
+# The inside print() fuNCtion is evaluated first, then the
+
+# outer print() fuNCtion is evaluated.
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="printfFILEHANDLEFORMATLIST">
+
+printf [FILEHANDLE] (FORMAT, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Output<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false otherwise.
+
+<BR>
+
+<B>Definition:</B> Uses format specifiers to print <TT>LIST</TT>
+
+in specific ways. If no file handle is specified, <TT>STDOUT</TT>
+
+is used. For more information, see &quot;Example: Printing Revisited,&quot;
+
+in <A HREF="ch9.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm" >Chapter 9</A> &quot;Using Files.&quot;
+
+<BLOCKQUOTE>
+
+<PRE>
+
+printf(&quot;printf() An integer printed with leading zeroes %05d.\n&quot;, 9);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="pushARRAYLIST">
+
+push (ARRAY, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Array<BR>
+
+<B>Return Value:</B> SCALAR, the number of elements in the new
+
+array.<BR>
+
+<B>Definition:</B> Appends the elements in <TT>LIST</TT>
+
+to the end of the specified array.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+# Find out how any elements are in @array. This works because
+
+# you are essentially appending an empty array.
+
+@array = ('A'..'R');
+
+print(&quot;There are &quot;, push(@array), &quot;elements.\n&quot;);
+
+
+
+@array = ( 1, 2 );
+
+print(&quot;There are &quot;, push(@array, (3, 4, 5)), &quot;elements.\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="qLIST">
+
+q (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, a single-quoted string.<BR>
+
+<B>Definition:</B> <TT>q()</TT> can
+
+be used instead of single quotes. This is not really a fuNCtion,
+
+more like an operator, but you'll probably look here if you see
+
+it in another programmer's program without remembering what it
+
+is. You can actually use any set of delimiters, not just the parentheses.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(q(This is a single quoted string without interpolation), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="qqLIST">
+
+qq (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, a double-quoted string.<BR>
+
+<B>Definition:</B> <TT>qq()</TT> can
+
+be used instead of double quotes. This is not really a fuNCtion,
+
+more like an operator, but you'll probably look here if you see
+
+it in another programmer's program without remembering what it
+
+is. You can actually use any set of delimiters, not just the parentheses.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(qq(This is a double quoted string with interpolation\n));
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="quotemetaEXPR">
+
+quotemeta (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> Regular Expression, String<BR>
+
+<B>Return Value:</B> SCALAR, a string with all meta-characters
+
+escaped.<BR>
+
+<B>Definition:</B> Escapes all meta-characters in <TT>EXPR</TT>.
+
+For example, <TT>quotemeta(&quot;AB*..C&quot;)</TT>
+
+returns <TT>&quot;'AB\*\.\.C&quot;</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print quotemeta(&quot;AB*\n[.]*&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="qwLIST">
+
+qw (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Array, String<BR>
+
+<B>Return Value:</B> ARRAY, a list consisting of the element of
+
+<TT>LIST</TT> evaluated as if they
+
+were single-quoted.<BR>
+
+<B>Definition:</B> <TT>qw()</TT> is
+
+a quick way to specify a lot of little single-quoted words. For
+
+example, <TT>qw(foo, bar, baz)</TT>
+
+is equivalent to <TT>'foo', 'bar', 'baz'</TT>.
+
+Some programmers feel that using <TT>qw</TT>
+
+makes Perl scripts easier to read. This is not really a fuNCtion,
+
+more like an operator, but you'll probably look here if you see
+
+it in another programmer's program without remembering what it
+
+is. You can actually use any set of delimiters, not just the parentheses.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@array = qw(This is a list of words without interpolation);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="qxLIST">
+
+qx (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, the return value from the executed
+
+system command.<BR>
+
+<B>Definition:</B> <TT>qx()</TT> is
+
+an alternative to using back-quotes to execute system commands.
+
+For example, <TT>qx(ls -l)</TT> will
+
+execute the UNIX <TT>ls</TT> command
+
+using the <TT>-l</TT> command-line
+
+option. This is not really a fuNCtion, more like an operator,
+
+but you'll probably look here if you see it in another programmer's
+
+program without remembering what it is. You can actually use any
+
+set of delimiters, not just the parentheses.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+# summarize disk usage for the /tmp directory
+
+# and store the output of the command into the
+
+# @output array.
+
+#
+
+@output = qx(du -s /tmp);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="randEXPR">
+
+rand ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math<BR>
+
+<B>Return Value:</B> SCALAR, a random number between 0 and <TT>EXPR</TT>
+
+or between 0 and 1 if no expression is specified.<BR>
+
+<B>Definition:</B> Generates random numbers. The value of <TT>EXPR</TT>
+
+should be positive (use the <TT>abs()</TT>
+
+fuNCtion if needed). As the fuNCtion calls a pseudo random generator,
+
+it generates the same sequeNCe of numbers unless the initial seed
+
+value is altered with <TT>srand()</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+# print a random number between 0 and 10.
+
+print(&quot;rand(), &quot;, rand(10), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="readFILEHANDLEBUFFERLENGTHOFFSET">
+
+read (FILEHANDLE, BUFFER, LENGTH, [OFFSET])</A></H3>
+
+<P>
+
+<B>Category:</B> File, Input<BR>
+
+<B>Return Value:</B> SCALAR, the number of bytes read or the undefined
+
+value.<BR>
+
+<B>Definition:</B> Reads, or attempts to read, <TT>LENGTH</TT>
+
+number of bytes from the file associated with <TT>FILEHANDLE</TT>
+
+into <TT>BUFFER</TT>. If an offset
+
+is specified, Perl will start reading the file from that point.
+
+For example, an offset of 100 will cause Perl to bypass the first
+
+100 bytes of the file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sub readFile {
+
+   my($buffer) = &quot;&quot;;
+
+
+
+   open(FILE, &quot;/etc/services&quot;) or die(&quot;Error reading file, stopped&quot;);
+
+   read(FILE, $buffer, 10);
+
+   print(&quot;read() $buffer\n&quot;);
+
+   close(CLOSE)
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="readdirDIRHANDLE">
+
+readdir (DIRHANDLE)</A></H3>
+
+<P>
+
+<B>Category:</B> Directory, Files<BR>
+
+<B>Return:</B> Value in Scalar Context: The name of the next file
+
+in the directory connected to <TT>DIRHANDLE</TT>.
+
+<BR>
+
+<B>Return Value in Array Context:</B> A list containing all of
+
+the files in the directory connected to <TT>DIRHANDLE</TT>.
+
+<BR>
+
+<B>Definition:</B> Reads directory entries.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+opendir(DIR, &quot;/tmp&quot;);
+
+@file = readdir(DIR);
+
+print(&quot;readdir() @files\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="readlinkEXPR">
+
+readlink ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> File, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the value of the symbolic link represented
+
+by <TT>EXPR</TT> or <TT>$_</TT>
+
+if no expression is specified. The undefined value is returned
+
+if an error arises.<BR>
+
+<B>Definition:</B> Gets the value of a symbolic link. System errors
+
+are returned <TT>$!</TT>.
+
+<H3><A NAME="recvSOCKETBUFFERLENGTHFLAGS">
+
+recv (SOCKET, BUFFER, LENGTH, FLAGS)</A></H3>
+
+<P>
+
+<B>Category:</B> Sockets<BR>
+
+<B>Return Value:</B> SCALAR, the address of the sender or the
+
+undefined value.<BR>
+
+<B>Definition:</B> Places information from a socket into a buffer.
+
+<H3><A NAME="refEXPR">
+
+ref (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> SCALAR, the data type of <TT>EXPR</TT>.
+
+<BR>
+
+<B>Definition:</B> Gets the data type of a variable. For example,
+
+<TT>'ARRAY'</TT>, <TT>'CODE'</TT>,
+
+<TT>'GLOB'</TT>, <TT>'HASH'</TT>,
+
+<TT>'REF'</TT>, or <TT>'SCALAR'</TT>
+
+might be returned. If a variable was blessed with the <TT>bless()</TT>
+
+fuNCtion, then the new data type will be returned. The new data
+
+type will normally be a class name.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$foobar = { };
+
+bless($foobar, 'ATMPCLASS');
+
+print(&quot;ref() \$foobar is now in class &quot;, ref($foobar), &quot;\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="renameOLDNAMENEWNAME">
+
+rename (OLDNAME, NEWNAME)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, true if successful, false if not.
+
+<BR>
+
+<B>Definition:</B> Changes the name of a file. You can use this
+
+fuNCtion to change the directory location of a file as long as
+
+you don't cross file-system boundaries.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;rename() returned &quot;, rename(&quot;/tmp/test&quot;, &quot;/tmp/test2&quot;), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="resetEXPR">
+
+reset ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Regular Expression<BR>
+
+<B>Return Value:</B> SCALAR, always returns true.<BR>
+
+<B>Definition:</B> This a way of resetting variables in the current
+
+package (especially pattern match variables). The expression is
+
+interpreted as a list of single characters. All variables starting
+
+with those characters are reset. Hyphens may be used to specify
+
+ranges of variables to reset. If called without any argument it
+
+simply resets all search matches. Variables that have been declared
+
+using the <TT>my()</TT> fuNCtion will
+
+not be reset.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+reset('R');
+
+reset('d-f');
+
+reset();<BR>
+
+
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD WIDTH=590><B>Caution</B></TD></TR>
+
+<TR><TD WIDTH=590>
+
+<BLOCKQUOTE>
+
+Using <TT>reset()</TT> can reset system variables you may not want to alter-like the ARGV and ENV variables.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<H3><A NAME="reverseLIST">
+
+reverse (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Array, String<BR>
+
+<B>Return Value in Scalar Context:</B> A string with characters
+
+of the first element of <TT>LIST</TT>
+
+reversed.<BR>
+
+<B>Return Value in Array Context:</B> The elements of <TT>LIST</TT>
+
+in reverse order.<BR>
+
+<B>Definition:</B> Reverses the order of a string or list. No
+
+sorting is done, the list or string is simply reversed.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@array = (1, 2, 3);
+
+print(&quot;reverse() &quot;, reverse(@array), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="rewinddirDIRHANDLE">
+
+rewinddir (DIRHANDLE)</A></H3>
+
+<P>
+
+<B>Category:</B> Directory<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Lets you start reading directory entries all
+
+over again.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+# Open the current directory
+
+opendir(DIR, &quot;.&quot;);
+
+# Print all of the directory entries.
+
+print(&quot;1st Time: &quot;);
+
+map( print(&quot;$_ &quot;) , readdir(DIR));
+
+print(&quot;\n&quot;);
+
+
+
+# Print message verifying that there are
+
+# no more directory entries to read.
+
+print(&quot;The last file has already been read!\n\n&quot;) unless readdir(DIR);
+
+
+
+# Go back to the beginning.
+
+rewinddir(DIR);
+
+
+
+# Print all of the directory entries again.
+
+print(&quot;2nd Time: &quot;);
+
+map( print(&quot;$_ &quot;) , readdir(DIR));
+
+print(&quot;\n&quot;);
+
+
+
+closedir(DIR);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="rindexSTRINGSUBSTRINGPOSITION">
+
+rindex (STRING, SUBSTRING, [POSITION])</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, the position of the last occurreNCe
+
+of <TT>SUBSTRING</TT> in <TT>STRING</TT>
+
+at or before <TT>POSITION</TT> or
+
+-1 if not found.<BR>
+
+<B>Definition:</B> When called repeatedly, you can iterate over
+
+all the occurreNCes of <TT>SUBSTRING</TT>
+
+in <TT>STRING</TT>. The returned value
+
+is an offset from <TT>$[</TT> (which
+
+is normally zero). If <TT>$[</TT>
+
+is altered it will change the way <TT>index()</TT>
+
+works as it will start its search from <TT>$[</TT>
+
+if no position argument is supplied, and it will return <TT>$[
+
+- 1</TT> when there is no match found.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$answer1 = rindex(&quot;abcdefghijiklmdef&quot;, &quot;def&quot;);
+
+
+
+# use the first position found as the offset to the next search.
+
+# note that the length of the target string is subtracted from
+
+# the offset to save time.
+
+$answer2 = rindex(&quot;abcdefghijiklmdef&quot;, &quot;def&quot;, $answer1 - 3);
+
+
+
+print(&quot;rindex() \&quot;def\&quot; is at $answer1 and next at $answer2\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="rmdirDIRNAME">
+
+rmdir ([DIRNAME])</A></H3>
+
+<P>
+
+<B>Category:</B> Directory<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<TT>$!</TT> is set if the directory
+
+could not be deleted.<BR>
+
+<B>Definition:</B> Tries to delete the specified directory. The
+
+directory must be empty of all files, symbolic links, and sub-directories.
+
+<H3><A NAME="scalarEXPR">
+
+scalar (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> SCALAR, the value of <TT>EXPR</TT>
+
+in a scalar context.<BR>
+
+<B>Definition:</B> Forces the argument to be interpreted in a
+
+scalar context, rather than as a list. For example, <TT>scalar(@array)</TT>
+
+will return the number of elements in <TT>@array</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$numElements = scalar(@array);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="seekFILEHANDLEPOSITIONWHENCE">
+
+seek (FILEHANDLE, POSITION, WHENCE)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Moves to a specified position in a file. You
+
+can move relatively to the beginning of the file (<TT>WHENCE</TT>
+
+= 0), the current position (<TT>WHENCE</TT>
+
+= 1), or the end of the file (<TT>WHENCE</TT>
+
+= 2). This fuNCtion is mainly used with fixed length records to
+
+randomly access specific records of the file.
+
+<H3><A NAME="seekdirDIRHANDLEPOS">
+
+seekdir (DIRHANDLE, POS)</A></H3>
+
+<P>
+
+<B>Category:</B> Directory<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Allows the position in a directory to be reset
+
+to a position saved with <TT>telldir()</TT>.
+
+This is useful when processing directories with <TT>readdir()</TT>.
+
+<H3><A NAME="selectFILEHANDLE">
+
+select ([FILEHANDLE])</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, the currently selected filehandle.
+
+<BR>
+
+<B>Definition:</B> Changes the default file handle used for the
+
+<TT>print()</TT> and <TT>write()</TT>
+
+fuNCtions. By default, <TT>STDOUT</TT>
+
+is selected, but this fuNCtion can select any other file handle
+
+to be the default instead. The return value is the currently selected
+
+file handle (before any change) so it is useful to assign this
+
+to a variable in order to be able to restore the original handle
+
+as the default at a later stage.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+open(FILE,&quot;&gt;t.out&quot;);
+
+    $oldHandle = select(FILE);
+
+        print(&quot;This is sent to /tmp/t.out.\n&quot;);
+
+    select($oldHandle);
+
+print(&quot;This is sent to STDOUT.\n&quot;);
+
+
+
+# Here is an advaNCed example which selects an alternate 
+
+# file handle and restores it in one step. The secret is the
+
+# use of parentheses to create a list out of the return values
+
+# of the statements evaluated by the comma operator.
+
+
+
+open(FILE, &quot;&gt;t.out&quot;);
+
+    select((select(FILE), print(&quot;This is sent to t.out.\n&quot;))[0]);
+
+print(&quot;This is sent to STDOUT.\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="selectRBITSWBITSEBITSTIMEOUT">
+
+select (RBITS, WBITS, EBITS, TIMEOUT)</A></H3>
+
+<P>
+
+<B>Category:</B> File, Socket, UNIX
+
+<P>
+
+<B>Return Value in Scalar Context:</B> The number of ready descriptors
+
+that were found-usually referred to as <TT>$nfound</TT>.
+
+<BR>
+
+<B>Return Value in Array Context:</B> (<TT>$nfound,
+
+$timeleft</TT>)-The number of ready descriptors and the
+
+amount of time left before a timeout happends.<BR>
+
+<B>Definition:</B> Examines file descriptors to see if they are
+
+ready or if they have exception conditions pending.
+
+<H3><A NAME="semctlIDSEMNUMCMDARG">
+
+semctl (ID, SEMNUM, CMD, ARG)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication<BR>
+
+<B>Return Value:</B> SCALAR, true if successful; false if not
+
+and the undefined value in some cases.<BR>
+
+<B>Definition:</B> Controls operations on semaphores.
+
+<H3><A NAME="semgetKEYNSEMSFLAGS">
+
+semget (KEY, NSEMS, FLAGS)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication<BR>
+
+<B>Return Value:</B> SCALAR, a semaphore id or undefined if an
+
+error occurs.<BR>
+
+<B>Definition:</B> Finds the semaphore associated with <TT>KEY</TT>.
+
+<H3><A NAME="semopKEYOPSTRING">
+
+semop (KEY, OPSTRING)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Performs semaphore operations like signaling
+
+and waiting.
+
+<H3><A NAME="sendSOCKETBUFFERFLAGSTO">
+
+send (SOCKET, BUFFER, FLAGS, [TO])</A></H3>
+
+<P>
+
+<B>Category:</B> Socket<BR>
+
+<B>Return Value:</B> SCALAR, the number of characters sent or
+
+the undefined value if an error occurred.<BR>
+
+<B>Definition:</B> Sends the information in a buffer to a socket.
+
+If the socket is not connected, you can specify a destination
+
+using the <TT>TO</TT> parameter.
+
+<H3><A NAME="setgrent">
+
+setgrent ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Group, UNIX<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Rewinds the <TT>/etc/group</TT>
+
+file to the start of the file for subsequent accesses using <TT>getgrent()</TT>.
+
+<H3><A NAME="sethostentSTAYOPEN">
+
+sethostent (STAYOPEN)</A></H3>
+
+<P>
+
+<B>Category:</B> Host, UNIX<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Determines if name server queries use UDP datagrams
+
+(<TT>STAYOPEN</TT> = 0) or if the
+
+socket connection to the name server should stay open (<TT>STAYOPEN</TT>
+
+= 1). This affects fuNCtions like <TT>gethostbyname()</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sethostent(1);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="setnetentSTAYOPEN">
+
+setnetent (STAYOPEN)</A></H3>
+
+<P>
+
+<B>Category:</B> Network, UNIX<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Rewinds the <TT>/etc/networks</TT>
+
+file used by <TT>getnetent()</TT>
+
+and other network related fuNCtions. If <TT>STAYOPEN</TT>
+
+has a value of 1 then the file is kept open between calls to <TT>getnetbyname()</TT>
+
+and <TT>getnetbyaddr()</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+setnetent(1);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="setpgrpPIDPGRP">
+
+setpgrp (PID, PGRP)</A></H3>
+
+<P>
+
+<B>Category:</B> Group, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Sets the current process group for the specified
+
+process. If <TT>PID</TT> is zero,
+
+the current process group for the current process is set.
+
+<H3><A NAME="setpriorityWHICHWHOPRIORITY">
+
+setpriority (WHICH, WHO, PRIORITY)</A></H3>
+
+<P>
+
+<B>Category:</B> Process, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Sets the current priority of <TT>WHO</TT>
+
+(the pid, group pid, uid, or 0 for the current process, group
+
+or user). The <TT>WHICH</TT> parameter
+
+can one of <TT>PRIO_PROCESS</TT> (0),
+
+<TT>PRIO_PGGRP</TT> (1), <TT>PRIO_USER</TT>
+
+(2). The priority is a number representing the level of priority
+
+(normally in the range 120 to 20) where the lower the priority
+
+the more favorable the scheduling of the process by the operating
+
+system.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;setpriority() &quot;, setpriority(0, 0, -20), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="setprotoentSTAYOPEN">
+
+setprotoent (STAYOPEN)</A></H3>
+
+<P>
+
+<B>Category:</B> Protocol<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Rewinds the <TT>/etc/protocols</TT>
+
+file used by <TT>getprotoent()</TT>
+
+and other protocol related fuNCtions. If <TT>STAYOPEN</TT>
+
+has a value of 1 then the file is kept open between calls to <TT>getprotobyname()</TT>
+
+and <TT>getprotobynumber()</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+setprotoent(1);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="setpwent">
+
+setpwent</A></H3>
+
+<P>
+
+<B>Category:</B> Password, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Rewinds the <TT>/etc/passwd</TT>
+
+file used by <TT>getpwent()</TT> and
+
+other password related fuNCtions.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+setpwent();
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="setserventSTAYOPEN">
+
+setservent (STAYOPEN)</A></H3>
+
+<P>
+
+<B>Category:</B> Services, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Rewinds the <TT>/etc/services</TT>
+
+file used by <TT>getservent()</TT>
+
+and other service related fuNCtions. If <TT>STAYOPEN</TT>
+
+has a value of 1 then the file is kept open between calls to <TT>getservbyname()</TT>
+
+and <TT>getservbyport()</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+setservent(1);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="setsockoptSOCKETLEVELOPTNAMEOPTVAL">
+
+setsockopt (SOCKET, LEVEL, OPTNAME, OPTVAL)</A></H3>
+
+<P>
+
+<B>Category:</B> Socket<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Sets socket options.
+
+<H3><A NAME="shiftARRAY">
+
+shift ([ARRAY])</A></H3>
+
+<P>
+
+<B>Category:</B> Array<BR>
+
+<B>Return Value:</B> SCALAR, the first element of <TT>ARRAY</TT>
+
+or the undefined value if the specified array is empty. If no
+
+array is specified, <TT>@ARGV</TT>
+
+will be used in the mail program and <TT>@_</TT>
+
+will be used in fuNCtions.<BR>
+
+<B>Definition:</B> Takes the first element from the specified
+
+array and returns that, reducing the array by one element.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@array = (1..5);
+
+while ($element = shift(@array)) {
+
+    print(&quot;$element - &quot;);
+
+}
+
+print(&quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="shmctlIDCMDARG">
+
+shmctl (ID, CMD, ARG)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication<BR>
+
+<B>Return Value:</B> SCALAR, true if successful; false if not
+
+and the undefined value in some cases.<BR>
+
+<B>Definition:</B> Controls shared memory.
+
+<H3><A NAME="shmgetKEYSIZEFLAGS">
+
+shmget (KEY, SIZE, FLAGS)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication<BR>
+
+<B>Return Value:</B> SCALAR, the id of a shared memory segment
+
+or the undefined value if an error occurred.<BR>
+
+<B>Definition:</B> Finds the id of a shared memory segment.
+
+<H3><A NAME="shmreadIDBUFFERPOSSIZE">
+
+shmread (ID, BUFFER, POS, SIZE)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Reads information from a shared memory segment.
+
+<H3><A NAME="shmwriteIDBUFFERPOSSIZE">
+
+shmwrite (ID, BUFFER, POS, SIZE)</A></H3>
+
+<P>
+
+<B>Category:</B> Inter-process Communication, Shared Memory<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Writes information from a shared memory segment.
+
+<H3><A NAME="shutdownSOCKETHOW">
+
+shutdown (SOCKET, HOW)</A></H3>
+
+<P>
+
+<B>Category:</B> Socket<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Shuts down the connection to a socket. If <TT>HOW</TT>
+
+= 0, all iNComing information will be ignored. If <TT>HOW
+
+</TT>= 1, all outgoing information will stopped. If <TT>HOW</TT>
+
+= 2, then both sending and receiving is disallowed.
+
+<H3><A NAME="sinEXPR">
+
+sin ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math<BR>
+
+<B>Return Value:</B> SCALAR, the sine of <TT>EXPR</TT>
+
+in radians or the sine of <TT>$_</TT>
+
+if no expression was specified.<BR>
+
+<B>Definition: </B>Calculates the sine of the expression in radians.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$temp = sin(4);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="sleepNUMSECONDSTOSLEEP">
+
+sleep ([NUM_SECONDS_TO_SLEEP])</A></H3>
+
+<P>
+
+<B>Category:</B> Process, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the number of seconds spent sleeping.
+
+<BR>
+
+<B>Definition:</B> Causes the current process to sleep for the
+
+number of seconds specified (if none specified it sleeps forever,
+
+but may be woken up by a <TT>SIGALRM</TT>
+
+signal if this has been programmed).
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sleep(5);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="socketSOCKETDOMAINTYPEPROTOCOL">
+
+socket (SOCKET, DOMAIN, TYPE, PROTOCOL)</A></H3>
+
+<P>
+
+<B>Category:</B> Socket<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Opens a specific type of socket.<BR>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD WIDTH=583><B>Tip</B></TD></TR>
+
+<TR><TD WIDTH=583>
+
+<BLOCKQUOTE>
+
+When using <TT>socket()</TT>, make sure that you have the statement <TT>use Socket;</TT> at the top of your file so that the proper definitions get imported.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<H3><A NAME="socketpairSOCKETSOCKETDOMAINTYPEPROTOCOL">
+
+socketpair (SOCKET1, SOCKET2, DOMAIN, TYPE, PROTOCOL)</A></H3>
+
+<P>
+
+<B>Category:</B> Socket<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Creates an unnamed pair of the specified type
+
+of sockets in the specified domain.
+
+<H3><A NAME="sortSUBNAMEBLOCKLIST">
+
+sort ([SUBNAME | BLOCK], LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Array<BR>
+
+<B>Return Value:</B> ARRAY, a copy of <TT>LIST</TT>
+
+in sorted order.<BR>
+
+<B>Definition:</B> Sorts the specified list. SiNCe a <I>copy</I>
+
+of the original list is sorted, you must assigned the returned
+
+array to a variable in order to save the sorted order. The sort
+
+method can be specified with the optional fuNCtion or block parameter.
+
+A fuNCtion may be specified which takes two arguments (passed
+
+as the variables <TT>$a</TT> and <TT>$b</TT>)
+
+and returns true if the first is less than or equal to the second
+
+by any sort of criteria used. Similarly a code block can be specified
+
+(effectively an anonymous fuNCtion) to perform this fuNCtion.
+
+The default sort order is based on the standard string comparison
+
+order. You can look at the web page <B>http://www.perl.com/perl/everything_to_know/sort.html</B>
+
+for an extensive discussion of sorting techniques.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@array = (&quot;z&quot;, &quot;w&quot;, &quot;r&quot;, &quot;i&quot;, &quot;b&quot;, &quot;a&quot;);
+
+print(&quot;sort() &quot;, sort(@array), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="spliceARRAYOFFSETLENGTHLIST">
+
+splice (ARRAY, OFFSET, [LENGTH], [LIST])</A></H3>
+
+<P>
+
+<B>Category:</B> Array<BR>
+
+<B>Return Value:</B> ARRAY, a list of the elements removed from
+
+<TT>ARRAY</TT>.<BR>
+
+<B>Definition:</B> Removes the specified elements (<TT>LENGTH</TT>
+
+elements starting at <TT>OFFSET</TT>)
+
+from the specified array, replacing them with the elements in
+
+<TT>LIST</TT> if needed. If no length
+
+is specified all the items from offset to the end of the array
+
+are removed.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+# Replace the first three elements with capitalized 
+
+# versions.
+
+@array        = (&quot;a&quot;, &quot;e&quot;, &quot;i&quot;, &quot;o&quot;, &quot;u&quot;);
+
+@removedItems = splice(@array, 0 , 3, (&quot;A&quot;, &quot;E&quot;, &quot;I&quot;));
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="splitPATTERNEXPRLIMIT">
+
+split ([/PATTERN/], [EXPR], [LIMIT])</A></H3>
+
+<P>
+
+<B>Category:</B> Array, Regular Expression<BR>
+
+<B>Return Value in Scalar Context:</B> Not recommended, but it
+
+returns the number of fields found and stored the fields in the
+
+<TT>@_</TT> array.<BR>
+
+<B>Return Value in Array Context:</B> A list of fields found in
+
+<TT>EXPR</TT> or <TT>$_</TT>
+
+if no expression is specified.<BR>
+
+<B>Definition:</B> Splits a string expression into fields based
+
+on the delimiter specified by <TT>PATTERN</TT>.
+
+If no pattern is specified whitespace is the default. An optional
+
+limit restricts the number of elements returned. A negative limit
+
+is the same effect as no limit. This fuNCtion is often used in
+
+conjuNCtion with <TT>join()</TT> to
+
+create small text databases.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@fields = split(/:/, &quot;1:2:3:4:5&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="sprintfFORMATLIST">
+
+sprintf (FORMAT, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, a formatted text string.<BR>
+
+<B>Definition:</B> Uses format specifiers to format the elements
+
+of <TT>LIST</TT> in specific ways.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$text = sprintf(&quot;%0d \n&quot;, 9);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="sqrtEXPR">
+
+sqrt ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math<BR>
+
+<B>Return Value:</B> SCALAR, the square root of <TT>EXPR</TT>
+
+or <TT>$_</TT> if no expression is
+
+specified.<BR>
+
+<B>Definition:</B> Calculates square roots.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$result = sqrt(4);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="srandEXPR">
+
+srand ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Math<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Sets the seed used by the pseudo random number
+
+generation algorithm when generating random numbers via <TT>rand()</TT>.
+
+In order to randomize the possible sequeNCes the seed should be
+
+set to a different value each time the script is called. When
+
+no expression is supplied the default behavior is to use the current
+
+system time. This is not a secure method of randomizing for scripts
+
+which needs to be secure as it is possible to predict what sequeNCe
+
+the script will return.<BR>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD WIDTH=590><B>Tip</B></TD></TR>
+
+<TR><TD WIDTH=590>
+
+<BLOCKQUOTE>
+
+It is possible to generate exactly the same data repeatedly (without having to save the entire sequeNCe) simply by setting and saving the seed. Restoring the seed and calling <TT>rand()</TT> will then produce the same sequeNCe again.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+srand(26);
+
+print(&quot;Here's a random number:        &quot;, rand(), &quot;.\n&quot;);
+
+srand(26);
+
+print(&quot;Here's the same random number: &quot;, rand(), &quot;.\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="statFILEHANDLEEXPR">
+
+stat (FILEHANDLE | EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> ARRAY, (<TT>$device</TT>,
+
+<TT>$inode</TT>, <TT>$mode</TT>,
+
+<TT>$nlink</TT>, <TT>$uid</TT>,
+
+<TT>$gid</TT>, <TT>$rdev</TT>,
+
+<TT>$size</TT>, <TT>$atime</TT>,
+
+<TT>$mtime</TT>, <TT>$ctime</TT>,
+
+<TT>$blksize</TT>, <TT>$blocks</TT>).
+
+<BR>
+
+<B>Definition:</B> Returns the file statistics of the file pointed
+
+to by the file handle (or a filename produced by evaluating expression).
+
+Note that, like the filetest operators, <TT>stat()</TT>
+
+can use the special underscore filehandle (_) which means that
+
+the test is carried out on the same filehandle as the last filetest,
+
+<TT>stat()</TT> or <TT>lstat()</TT>
+
+call.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($device, $inode, $mode, $nlink, $uid, $gid, $rdev, $size, 
+
+    $atime, $mtime, $ctime, $blksize, $blocks) = stat(&quot;/etc/passwd&quot;);
+
+
+
+print(&quot;stat() $device, $inode, $ctime\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="studySCALAR">
+
+study ([SCALAR])</A></H3>
+
+<P>
+
+<B>Category:</B> Regular Expression<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Sets up internal lookup tables based on the
+
+string studied so that pattern matching operations can use this
+
+information to process the pattern match more quickly. When many
+
+pattern match operations are being performed on the same string,
+
+the efficieNCy of these patterns can be improved by the use of
+
+the <TT>study()</TT> fuNCtion. If
+
+no string is specified the <TT>$_</TT>
+
+is studied by default. Only one string at a time can be studied
+
+(subsequent calls effectively forget about the previously studied
+
+string). Thus is often used in a loop processing, where each line
+
+of a file is studied before being processed with various pattern
+
+matches.
+
+<H3><A NAME="substrEXPROFFSETLEN">
+
+substr (EXPR, OFFSET, [LEN])</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, a substring of <TT>EXPR</TT>.
+
+<BR>
+
+<B>Definition:</B> Gets a substring from <TT>EXPR</TT>,
+
+starting from <TT>OFFSET</TT> for
+
+<TT>LEN</TT> characters or until the
+
+end of the specified string. If the offset is negative it starts
+
+from the right hand side of the string instead of the left hand
+
+side. If the length is negative, it means to trim the string by
+
+that number of characters.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$temp = substring(&quot;okay&quot;, 2);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="symlinkOLDFILENEWFILE">
+
+symlink (OLDFILE, NEWFILE)</A></H3>
+
+<P>
+
+<B>Category:</B> File, Symbolic Link<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B>  Creates a symbolic link from the existing
+
+file to the new file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+symlink(&quot;/usr/local&quot;, &quot;/tmp/symlink_to_usr_local&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="syscallLIST">
+
+syscall (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous, UNIX<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Lets Perl call corresponding UNIX C system
+
+calls directly. It relies on the existeNCe of the set of Perl
+
+header files <TT>syscall.ph</TT> which
+
+declared all these calls. The script h2ph which is normally executed
+
+when Perl is installed sets up the <TT>syscall.ph</TT>
+
+files. Each call has the same name as the equivalent UNIX system
+
+call with the &quot;SYS_&quot; prefix. As these calls actually
+
+pass control to the relevant C system, fuNCtion care must be taken
+
+with passing parameters.
+
+<P>
+
+The first element in the list used as an argument to <TT>syscall()</TT>
+
+itself is the name corresponding to the UNIX system call (i.e.
+
+with the &quot;<TT>SYS_</TT>&quot;
+
+prefix). The next elements in the list are interpreted as parameters
+
+to this call. Numeric values are passed as the C type int. String
+
+values are passed as pointers to arrays. The length of these strings
+
+must be able to cope with any value assigned to that parameter
+
+in the call.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+require(&quot;&quot;syscall.ph&quot;);
+
+syscall(&amp;SYS_getpid);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="sysopenFILEHANDLEFILENAMEMODEPERMISSIONS">
+
+sysopen (FILEHANDLE, FILENAME, MODE, [PERMISSIONS])</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> Open a file using the underlying operating
+
+system's <TT>open()</TT> fuNCtion.
+
+The values for <TT>MODE</TT> and <TT>PERMISSIONS</TT>
+
+are system-dependent. You may be able to look in the <TT>Fcntl</TT>
+
+module for more information.
+
+<H3><A NAME="sysreadFILEHANDLEBUFFERLENGTHOFFSET">
+
+sysread (FILEHANDLE, BUFFER, LENGTH, [OFFSET])</A></H3>
+
+<P>
+
+<B>Category:</B> File, Input<BR>
+
+<B>Return Value:</B> SCALAR, the number of bytes read or the undefined
+
+value if an error occurred.<BR>
+
+<B>Definition:</B> Tries to read <TT>LENGTH</TT>
+
+bytes into <TT>BUFFER</TT>. The <TT>OFFSET</TT>
+
+parameter is used to change where in the file the data is read.
+
+<BR>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD WIDTH=554><B>Caution</B></TD></TR>
+
+<TR><TD WIDTH=554>
+
+<BLOCKQUOTE>
+
+This fuNCtion, along with <TT>syswrite()</TT>, bypasses the standard low-level input/output fuNCtions that other Perl fuNCtions use. Therefore, <TT>sysread()</TT> and <TT>syswrite()</TT> should be mixed with other types of input and output fuNCtions.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<H3><A NAME="systemLIST">
+
+system (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Process<BR>
+
+<B>Return Value:</B> SCALAR, the exit code of the system command
+
+that was executed.<BR>
+
+<B>Definition:</B> Executes <TT>LIST</TT>
+
+as an operating system call. The process to execute this command
+
+is forked and the script waits for the child process to return.
+
+<BR>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD WIDTH=545><B>Note</B></TD></TR>
+
+<TR><TD WIDTH=545>
+
+<BLOCKQUOTE>
+
+To capture the output from a system call use a back-quoted string instead of <TT>system()</TT>.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+system(&quot;ls -F /var &gt; /tmp/t.tmp&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="syswriteFILEHANDLEBUFFERLENGTHOFFSET">
+
+syswrite (FILEHANDLE, BUFFER, LENGTH, [OFFSET])</A></H3>
+
+<P>
+
+<B>Category:</B> File, Output<BR>
+
+<B>Return Value:</B> SCALAR, the number of bytes written or the
+
+undefined value if an error occurred.<BR>
+
+<B>Definition:</B> Tries to write <TT>LENGTH</TT>
+
+bytes from <TT>BUFFER</TT>. The <TT>OFFSET</TT>
+
+parameter is used to change where in the file the data is written.
+
+<BR>
+
+<p>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD WIDTH=554><B>Caution</B></TD></TR>
+
+<TR><TD WIDTH=554>
+
+<BLOCKQUOTE>
+
+This fuNCtion, along with <TT>syswrite()</TT>, bypasses the standard low-level input/output fuNCtions that other Perl fuNCtions use. Therefore, <TT>sysread()</TT> and <TT>syswrite()</TT> should be mixed with other types of input and output fuNCtions.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<H3><A NAME="tellFILEHANDLE">
+
+tell ([FILEHANDLE])</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, the current position in the file
+
+associated with <TT>FILEHANDLE</TT>
+
+or in the last file accessed if no filehandle is specified.<BR>
+
+<B>Definition:</B> Gets the current position in a file.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$filePos = tell(FILE);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="telldirDIRHANDLE">
+
+telldir (DIRHANDLE)</A></H3>
+
+<P>
+
+<B>Category:</B> Directory<BR>
+
+<B>Return Value:</B> SCALAR, the current position in the directory
+
+associated with <TT>DIRHANDLE</TT>.
+
+<BR>
+
+<B>Definition:</B> Gets the current directory position. This value
+
+can only be used by the <TT>seekdir()</TT>
+
+fuNCtion.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+opendir(DIR, &quot;/tmp&quot;);
+
+readdir(DIR);
+
+print(&quot;telldir() &quot;, telldir(DIR), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="tieVARIABLEPACKAGENAMELIST">
+
+tie (VARIABLE, PACKAGENAME, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> SCALAR, a refereNCe to an object.<BR>
+
+<B>Definition:</B> Binds a variable to a package class. The creates
+
+an instaNCe of this class using the classes' <TT>new()</TT>
+
+method. Any parameters for the <TT>new()</TT>
+
+method may be specified in <TT>LIST</TT>.
+
+<P>
+
+The behavior depends on the way the package class is written,
+
+and on the type of variable. Most common are package classes written
+
+to support associative arrays. In particular, package classes
+
+exist to bind associative arrays to various databases.
+
+<P>
+
+The <TT>tie()</TT> mechanism has the
+
+effect of hiding all the complexities of implementation behind
+
+a simple interface. For example, the records in a database can
+
+be accessed by looking at the associative array bound to the database.
+
+<P>
+
+The example here uses the <TT>Configure.pm</TT>
+
+module. This module stores the information about the machine on
+
+which Perl has been installed. It is possible to bind an associateive
+
+array to this class and examine this to find out the value of
+
+any of the configuration parameters.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+use Configure;
+
+$return = tie %c, Configure;
+
+print(&quot;tie() returned \&quot;$return\&quot; and a sample value is $c{installbin}\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="tiedVARIABLE">
+
+tied (VARIABLE)</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> SCALAR, a refereNCe to an object previously
+
+bound via <TT>tie()</TT> or the undefined
+
+value if <TT>VARIABLE</TT> is not
+
+tied to a package.<BR>
+
+<B>Definition:</B> Returns a refereNCe to the object which the
+
+variable is an instaNCe of. This is the same object as was returned
+
+by the original call to <TT>tie()</TT>
+
+when it was bound.
+
+<H3><A NAME="time">
+
+time ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Time<BR>
+
+<B>Return Value:</B> SCALAR, the time in seconds siNCe January
+
+1, 1970.<BR>
+
+<B>Definition:</B> Gets the current time. You can use <TT>gmtime(time())</TT>
+
+or <TT>localtime(time())</TT> to access
+
+the different elements of time-day, month, etc&#133;
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$then = time();
+
+# time passes while code is running.
+
+$now = time();
+
+$elaspedTime = $now - $then;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="times">
+
+times ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Process, UNIX<BR>
+
+<B>Return Value:</B> ARRAY, (<TT>$usertime</TT>,
+
+<TT>$systemtime</TT>, <TT>$childsystem</TT>,
+
+<TT>$childuser</TT>).<BR>
+
+<B>Definition:</B> Gets a list of four elements representing the
+
+amount of time used by the current and child processes.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+($usertime, $systemtime, $childsystem, $childuser) = times();
+
+print(&quot;times() $usertime $systemtime $childsystem $childuser\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="truNCateFILEHANDLEEXPRLENGTH">
+
+truNCate (FILEHANDLE | EXPR, LENGTH)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, true if successful or false if not.
+
+<BR>
+
+<B>Definition:</B> TruNCates the file refereNCed by <TT>FILEHANDLE</TT>
+
+or named by <TT>EXPR</TT> to <TT>LENGTH</TT>.
+
+<H3><A NAME="ucEXPR">
+
+uc (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, a copy of <TT>EXPR</TT>
+
+with all letters in uppercase.<BR>
+
+<B>Definition:</B> Creates a copy of <TT>EXPR</TT>
+
+with all letters in uppercase.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;uc() &quot;, uc(&quot;abcdEF&quot;), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="ucfirstEXPR">
+
+ucfirst (EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, a copy of <TT>EXPR</TT>
+
+with the first letter in uppercase.<BR>
+
+<B>Definition:</B> Creates a copy of <TT>EXPR</TT>
+
+with the first letter in uppercase.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;ucfirst() &quot;, ucfirst(&quot;abcdEF&quot;), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="umaskEXPR">
+
+umask ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Process, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the old process umask.<BR>
+
+<B>Definition:</B> Gets and/or sets the process file mask. Returns
+
+the old umask so that it can be stored and restored later if required.
+
+If called without any arguments returns the current umask. This
+
+is the UNIX mechanism used to modify the permissions of any files
+
+created.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print(&quot;umask() The current umask is: &quot;, umask(), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="undefEXPR">
+
+undef ([EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> SCALAR, the undefined value.<BR>
+
+<B>Definition:</B> Undefines the value of <TT>EXPR</TT>.
+
+The expression may be a scalar, an array or a subroutine (specified
+
+with a <TT>&amp;</TT> prefix).
+
+<H3><A NAME="unlinkLIST">
+
+unlink (LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> File<BR>
+
+<B>Return Value:</B> SCALAR, the number of files successfully
+
+deleted.<BR>
+
+<B>Definition:</B> Deletes the files in <TT>LIST</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+unlink(&quot;/tmp/t.tst&quot;, &quot;/tmp/t.bak&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="unpackTEMPLATEEXPR">
+
+unpack (TEMPLATE, EXPR)</A></H3>
+
+<P>
+
+<B>Category:</B> Array, String<BR>
+
+<B>Return Value in Scalar Context:</B> The first item unpacked
+
+from <TT>EXPR</TT>.<BR>
+
+<B>Return Value in Array Context:</B> A list of element produced
+
+from <TT>EXPR</TT>.<BR>
+
+<B>Definition:</B> Unpacks data using the same template mechanism
+
+as <TT>pack()</TT> to specify the
+
+format of the data in <TT>EXPR</TT>.
+
+<H3><A NAME="unshiftARRAYLIST">
+
+unshift (ARRAY, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Array<BR>
+
+<B>Return Value:</B> SCALAR, the number of elements in <TT>ARRAY</TT>
+
+after <TT>LIST</TT> has been prefixed
+
+to it.<BR>
+
+<B>Definition:</B> Adds <TT>LIST</TT>
+
+to the front of <TT>ARRAY</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+@array = qw(a, b, c);
+
+print(&quot;unshift() Array has &quot;, 
+
+    unshift(@array, 1, 2, 3), &quot; elements: @array\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="untieVARIABLE">
+
+untie (VARIABLE)</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Breaks the binding between a variable and a
+
+package.
+
+<H3><A NAME="utimeAccESSTIMEMODIFICATIONTIMELIST">
+
+utime (AccESS_TIME, MODIFICATION_TIME, LIST)</A></H3>
+
+<P>
+
+<B>Category:</B> Time<BR>
+
+<B>Return Value:</B> SCALAR, the number of files successfully
+
+changed.<BR>
+
+<B>Definition:</B> Sets the access and modification times of all
+
+the files in <TT>LIST</TT> to the
+
+times specified by the first two parameters. The time must be
+
+in the numeric format (for example, seconds siNCe January 1, 1970).
+
+<BLOCKQUOTE>
+
+<PRE>
+
+utime(time(), time(), &quot;/tmp/t.tst&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="valuesHASH">
+
+values (HASH)</A></H3>
+
+<P>
+
+<B>Category:</B> Array, Hash<BR>
+
+<B>Return Value in Scalar Context:</B> The number of values and,
+
+therefore, the number of entries in <TT>HASH</TT>.
+
+<BR>
+
+<B>Return Value in Array Context:</B> All of the values in <TT>HASH</TT>
+
+in no particular order.<BR>
+
+<B>Definition:</B> Gets a list of all values in <TT>HASH</TT>.
+
+The returned list is ordered by the internal storage requirements,
+
+so it is often useful to use the <TT>sort()</TT>
+
+fuNCtion before processing. For example, <TT>sort(values(%hash))</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+%hash = ('One' =&gt; 1, 'Two' =&gt; 2, 'Three' =&gt; 3, 'Four' =&gt; 4);
+
+print(&quot;keys() &quot;, join(&quot;-&quot;, values(%hash)), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="vecEXPROFFSETNUMBITS">
+
+vec (EXPR, OFFSET, NUM_BITS)</A></H3>
+
+<P>
+
+<B>Category:</B> String<BR>
+
+<B>Return Value:</B> SCALAR, the value of the bit field specified
+
+by <TT>OFFSET</TT>.<BR>
+
+<B>Definition:</B> Uses the string specified <TT>EXPR</TT>
+
+as a vector of unsigned integers. The <TT>NUMBITS</TT>
+
+parameter is the number of bits that are reserved for each entry
+
+in the bit vector. This must be a power of two from 1 to 32. Note
+
+that the offset is the marker for the end of the vector, and it
+
+counts back the number of bits specified to find the start. Vectors
+
+can be manipulated with the logical bitwise operators |, &amp;
+
+and ^.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$vec = '';
+
+vec($vec,  3, 4) = 1;  # bits 0 to 3
+
+vec($vec,  7, 4) = 10; # bits 4 to 7
+
+vec($vec, 11, 4) = 3;  # bits 8 to 11
+
+vec($vec, 15, 4) = 15; # bits 12 to 15
+
+# As there are 4 bits per number this can 
+
+# be decoded by unpack() as a hex number
+
+print(&quot;vec() Has a created a string of nybbles, 
+
+    in hex: &quot;, unpack(&quot;h*&quot;, $vec), &quot;\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="wait">
+
+wait ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Process, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the process id of the child process
+
+that just ended or -1 if there are no child processes.<BR>
+
+<B>Definition:</B> Waits for a child process to end.
+
+<H3><A NAME="waitpidPIDFLAGS">
+
+waitpid (PID, FLAGS)</A></H3>
+
+<P>
+
+<B>Category:</B> Process, UNIX<BR>
+
+<B>Return Value:</B> SCALAR, the process id of the child process
+
+that just ended or -1 if there is no such process.<BR>
+
+<B>Definition:</B> Waits for a specified child process to end.
+
+The flags can be set to various values which are equivalent to
+
+those used by the <TT>waitpid()</TT>
+
+UNIX system call. A value of 0 for <TT>FLAGS</TT>
+
+should work on all operating systems that support processes.
+
+<H3><A NAME="wantarray">
+
+wantarray ( )</A></H3>
+
+<P>
+
+<B>Category:</B> Miscellaneous<BR>
+
+<B>Return Value:</B> SCALAR, true if the currently executing fuNCtion
+
+is looking for a list value or false if it is looking for a scalar
+
+value.<BR>
+
+<B>Definition:</B> Used to return two alternatives from a subroutine,
+
+depending on the calling context. You can use <TT>wantarray()</TT>
+
+inside fuNCtions to determine the context in which your fuNCtion
+
+was called.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sub foo {
+
+    return(wantarray() ? qw(A, B, C) : '1');
+
+}
+
+
+
+$result = foo();    # scalar context
+
+@result = foo();    # array context
+
+
+
+print(&quot;foo() in a  scalar context: $result\n&quot;);
+
+print(&quot;foo() in an array  context: @result\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="warnLIST">
+
+warn ([LIST])</A></H3>
+
+<P>
+
+<B>Category:</B> Output<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Prints <TT>LIST</TT>
+
+to STDERR, like <TT>die()</TT>, but
+
+doesn't cause the script to exit or raise an exception. If there
+
+is no newline in the list, <TT>warn()</TT>
+
+will append the text <TT>&quot;at line &lt;line
+
+number&gt;\n&quot;</TT> to the message. However, the script
+
+will continue after a <TT>warn()</TT>.
+
+<BLOCKQUOTE>
+
+<PRE>
+
+warn(&quot;Unable to calculate value, using defaults instead.\n&quot;);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<H3><A NAME="writeFILEHANDLEEXPR">
+
+write ([FILEHANDLE | EXPR])</A></H3>
+
+<P>
+
+<B>Category:</B> File, Output<BR>
+
+<B>Return Value:</B> None.<BR>
+
+<B>Definition:</B> Writes a formatted record to the file handle
+
+(or the file handle which the expression evaluates to). If no
+
+file handle is specified, the default is <TT>STDOUT</TT>,
+
+but this can be altered using <TT>select()</TT>
+
+if necessary.
+
+<P>
+
+A format for use by that file handle must have been declared using
+
+a format statement. This defaults to the name of the file handle
+
+being used, but other format names can be associated with the
+
+current <TT>write()</TT> operation
+
+by using the <TT>$~</TT> special variable.
+
+<HR>
+
+
+
+<CENTER><P><A HREF="ch24.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm"><IMG SRC="pc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="index-1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/index-1.htm"><IMG SRC="hb.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch26.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm"><IMG SRC="nc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<HR WIDTH="100%"></P></CENTER>
+
+</BODY>
+
+</HTML>
+

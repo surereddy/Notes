@@ -1,0 +1,273 @@
+Note:
+此操作命令只适用于CMM V240单机克隆,且前提是没有solaris光盘.
+#表示root用户下运行,不是注释.
+
+1. 母盘在0槽不动, 把新盘插在1槽
+##################
+
+
+2. 串口连接V240,单机启动
+#################
+  #su - root
+  init 0
+  boot -s  
+    
+3. 把新盘分区 
+#################
+先查看母盘分区,然后把新盘一样分区.
+#format
+
+bluetooth root#format
+Searching for disks...done
+
+
+AVAILABLE DISK SELECTIONS:
+       0. c1t0d0 <SUN36G cyl 24620 alt 2 hd 27 sec 107> //0 为母盘
+          /pci@1c,600000/scsi@2/sd@0,0      
+       1. c1t1d0 <SUN36G cyl 24620 alt 2 hd 27 sec 107> //1 为新盘
+          /pci@1c,600000/scsi@2/sd@1,0
+ Specify disk (enter its number): 0
+p 回车(partion)
+p (print)
+//母盘应该如下:
+          
+Part      Tag    Flag     Cylinders         Size            Blocks
+  0       root    wm       0 -   824        4.00GB    (825/0/0)     8395200
+  1       swap    wu     825 -  5771       24.00GB    (4947/0/0)   50340672
+  2     backup    wm       0 - 14086       68.35GB    (14087/0/0) 143349312
+  3 unassigned    wm       0                0         (0/0/0)             0
+  4 unassigned    wm    5772 -  6081        1.50GB    (310/0/0)     3154560
+  5 unassigned    wm    6082 -  6288        1.00GB    (207/0/0)     2106432
+  6 unassigned    wm    6289 - 14079       37.80GB    (7791/0/0)   79281216
+  7 unassigned    wm   14080 - 14086       34.78MB    (7/0/0)         71232
+
+partition> q
+
+format> q //退出
+
+
+把新盘一样分区如下
+bluetooth root#format
+
+AVAILABLE DISK SELECTIONS:
+       0. c1t0d0 <SUN36G cyl 24620 alt 2 hd 27 sec 107> //0 为母盘
+          /pci@1c,600000/scsi@2/sd@0,0      
+       1. c1t1d0 <SUN36G cyl 24620 alt 2 hd 27 sec 107> //1 为新盘
+        Specify disk (enter its number): 1
+format>p
+//分
+partition> 0
+Part      Tag    Flag     Cylinders         Size            Blocks
+  0       root    wm       0 -  2213       10.74GB    (2214/0/0)   22529664
+
+Enter partition id tag[root]: 
+Enter partition permission flags[wm]: 
+Enter new starting cyl[0]: 
+Enter partition size[22529664b, 2214c, 11000.81mb, 10.74gb]: 4gb
+partition> 1
+Part      Tag    Flag     Cylinders         Size            Blocks
+  1       swap    wu    2214 -  2616        1.96GB    (403/0/0)     4100928
+
+Enter partition id tag[swap]: 
+Enter partition permission flags[wu]: 
+Enter new starting cyl[2214]: 825
+Enter partition size[4100928b, 403c, 2002.41mb, 1.96gb]: 24gb
+...
+
+全部分后, 0,1,3,4,5,6, 
+partition>p (print) //查看分区是不是正确!!!
+
+partition> label
+Ready to label disk, continue? y
+
+partition> q
+
+format> q //退出
+
+
+4. 建文件系统
+###############
+假设新盘为c1t1d0, 看format的1盘
+注意是c?t?  !!!
+
+#newfs /dev/rdsk/c1t1d0s0
+newfs /dev/rdsk/c1t1d0s4
+newfs /dev/rdsk/c1t1d0s5
+newfs /dev/rdsk/c1t1d0s6
+
+5. 开始克隆
+###############
+cmmserver root#df -k // 查看母盘mount 路径
+Filesystem           1024-blocks        Used   Available Capacity  Mounted on
+/dev/dsk/c1t0d0s0        4133838     1401230     2691270    35%    /
+/proc                          0           0           0     0%    /proc
+fd                             0           0           0     0%    /dev/fd
+mnttab                         0           0           0     0%    /etc/mnttab
+swap                    24837496          16    24837480     1%    /var/run
+swap                    24837664         184    24837480     1%    /tmp
+/dev/dsk/c1t0d0s6       39041539    12767248    25883876    34%    /in
+/dev/dsk/c1t0d0s5        1021735        2935      957496     1%    /indelivery
+/dev/dsk/c1t0d0s4        1529383     1006861      461347    69%    /in/oracle
+
+
+  c1t0d0s0:
+  ---------------------------------------
+  
+  (删除)mount /dev/dsk/c1t0d0s0 /tmp/abc; 因为是本地不用mount母盘 
+  cd ; mount /dev/dsk/c1t1d0s0 /mnt;  df -k 
+  cd /; ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /;echo "-----------\n";ls /mnt //查看结果
+	cd ;umount /mnt;df -k
+	
+	**显示如下：
+	bin                    kernel                 proc
+cdrom                  lib                    sbin
+dev                    lost+found             tmp
+devices                mnt                    usr
+etc                    net                    var
+export                 noautoshutdown         vol
+home                   on-off_net_cancel.cap  xfn
+in                     opt
+indelivery             platform
+-----------
+
+bin                    kernel                 platform
+cdrom                  lib                    sbin
+dev                    lost+found             usr
+devices                net                    var
+etc                    noautoshutdown         vol
+export                 on-off_net_cancel.cap  xfn
+home                   opt
+新盘有五个目录没有：proc ，tmp，mnt，in，indelivery
+  ---------------------------------------	
+	  c1t0d0s4:
+  ---------------------------------------
+  cd ; mount /dev/dsk/c1t1d0s4 /mnt; df -k 
+  
+  cd /in/oracle;ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /in/oracle;echo "-----------\n";ls /mnt
+	cd ;umount /mnt;df -k
+	**显示如下：
+	Apache       install      jsp          opsm         relnotes     wwg
+assistants   javavm       ldap         oracore      root.sh      xdk
+bin          jdbc         lib          otrace       root.sh.old
+ctx          jis          lib64        owm          slax
+dbjava       jlib         lost+found   plsql        sqlj
+dbs          JRE          network      precomp      sqlplus
+hs           jre          ocommon      rdbms        svrmgr
+-----------
+
+Apache       install      jsp          opsm         relnotes     wwg
+assistants   javavm       ldap         oracore      root.sh      xdk
+bin          jdbc         lib          otrace       root.sh.old
+ctx          jis          lib64        owm          slax
+dbjava       jlib         lost+found   plsql        sqlj
+dbs          JRE          network      precomp      sqlplus
+hs           jre          ocommon      rdbms        svrmgr
+
+	----------------------------------------
+	
+	
+	  c1t0d0s5:
+  ---------------------------------------
+  cd ; mount /dev/dsk/c1t1d0s5 /mnt;  df -k 
+  
+  cd /indelivery;ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /indelivery;echo "-----------\n";ls /mnt
+	cd ;umount /mnt;df -k                                
+	**显示如下：
+	backup      etc         lost+found  mdb         unpack
+-----------
+
+backup      etc         lost+found  mdb         unpack
+-----------------------------------------
+	
+		  c1t0d0s6:
+  ---------------------------------------
+  cd ;  mount /dev/dsk/c1t1d0s6 /mnt;  df -k 
+  cd /in;ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /in;echo "-----------\n";ls /mnt  
+	cd ;umount /mnt;df -k
+	**显示如下：
+	apache            oracle            slee              SunCheck_Results
+emulator          orbacus           sleesmf           tmp
+local             sbit-files.sav    smf
+local.orig        sce               smp
+lost+found        sde               ss7
+-----------
+
+apache            lost+found        sde               smp
+emulator          orbacus           slee              ss7
+local             sbit-files.sav    sleesmf           SunCheck_Results
+local.orig        sce               smf               tmp
+新盘少一个目录：oracle
+------------------------------------------------
+
+	
+6. 建启动扇区
+###############
+假设新盘为c1t1d0, 看format的1盘
+注意是c?t?  !!!
+
+# installboot /usr/platform/sun4u/lib/fs/ufs/bootblk /dev/rdsk/c1t1d0s0
+# mount /dev/dsk/c1t1d0s0 /mnt;df -k|grep /mnt
+# cd /mnt/etc/lvm ; ls
+devpath     md.cf       md.tab      mdlogd.cf
+lock        md.ctlrmap  mddb.cf     runtime.cf
+# cd; umount /mnt
+
+
+
+
+
+**
+7. 创建目录文件
+###############
+init 0
+拔出母盘,把新盘插在0槽.
+boot
+
+cmmserver root#df -k
+Filesystem           1024-blocks        Used   Available Capacity  Mounted on
+/dev/dsk/c1t0d0s0        4133838     1503389     2589111    37%    /
+mnttab                         0           0           0     0%    /etc/mnttab
+swap                     1696064          16     1696048     1%    /var/run
+swap                     1696048           0     1696048     0%    /tmp
+
+正常应该如下：
+/dev/dsk/c1t0d0s0        4133838     1503568     2588932    37%    /
+/proc                          0           0           0     0%    /proc
+fd                             0           0           0     0%    /dev/fd
+mnttab                         0           0           0     0%    /etc/mnttab
+swap                    26337224          16    26337208     1%    /var/run
+swap                    26337216           8    26337208     1%    /tmp
+/dev/dsk/c1t0d0s6       39041539    14930773    23720351    39%    /in
+/dev/dsk/c1t0d0s5        1021735        2935      957496     1%    /indelivery
+/dev/dsk/c1t0d0s4        1529383     1006647      461561    69%    /in/oracle
+
+新盘的 /proc,fd,/dev/dsk/c1t0d0s6,/dev/dsk/c1t0d0s5,/dev/dsk/c1t0d0s4 没有mount 上，需要创建如下目录：
+/proc  ;/dev/fd ; /indelivery ; /in ,/in/oracle 
+
+先在根目录 / 下创建这四个目录文件： /proc  ;/dev/fd ; /indelivery ; /in 
+/in/oracle   要在/dev/dsk/c1t0d0s6 mount 上后，再创建，
+
+注意 新建目录属性要和母盘一致。
+
+
+8. 测试新盘
+###############
+init 0
+boot
+连接网线,
+su - linus
+sepman -l 看CMM业务又没起.

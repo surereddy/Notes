@@ -1,0 +1,1227 @@
+<html>
+
+<head>
+
+<title>Chapter 12  -- Using Special Variables</title>
+
+
+
+<meta>
+
+</head>
+
+<body TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<h1><font SIZE="6" COLOR="#FF0000">Chapter&nbsp;12</font></h1>
+
+<h1><font SIZE="6" COLOR="#FF0000">Using Special Variables</font>
+
+</h1>
+
+<hr>
+
+<p>
+
+<center><b><font SIZE="5">CONTENTS</font></b></center>
+
+<ul>
+
+<li><a HREF="#WhatAretheSpecialVariables">
+
+What Are the Special Variables?</a>
+
+<ul>
+
+<li><a HREF="#ExampleUsingtheTTFONTSIZEFACECourierDATAFONTTTFONTSIZEFileHandleFONT">
+
+Example: Using the <tt>DATA </tt>File
+
+Handle</a>
+
+</ul>
+
+<li><a HREF="#Summary">
+
+Summary</a>
+
+<li><a HREF="#ReviewQuestions">
+
+Review Questions</a>
+
+<li><a HREF="#ReviewExercises">
+
+Review Exercises</a>
+
+</ul>
+
+
+
+<hr>
+
+<p>
+
+Perl uses quite a few special variables to control various behaviors
+
+of fuNCtions. You can use special variables to hold the results
+
+of searches, the values of environment variables, and flags to
+
+control debugging. In short, every aspect of Perl programming
+
+uses special variables.
+
+<h2><a NAME="WhatAretheSpecialVariables"><font SIZE="5" COLOR="#FF0000">
+
+What Are the Special Variables?</font></a></h2>
+
+<p>
+
+Table 12.1 shows a list of the special variables you can use in
+
+your programs. The order of this list is identical to the list
+
+in the file <tt>PERLVAR.htm</tt>,
+
+which comes with your Perl distribution. This table lets you quickly
+
+find any special variable you may come across in examples or someone
+
+else's code.<br>
+
+<p>
+
+<center><b>Table 12.1&nbsp;&nbsp;Perl's Special Variables</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="127"><center><i>Variable Name</i></center></td><td WIDTH="463"><i>Description</i>
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$_</tt></center>
+
+</td><td WIDTH="463">The default parameter for a lot of fuNCtions.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$.</tt></center>
+
+</td><td WIDTH="463">Holds the current record or line number of the file handle that was last read. It is read-only and will be reset to 0 when the file handle is closed.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$/</tt></center>
+
+</td><td WIDTH="463">Holds the input record separator. The record separator is usually the newline character. However, if <tt>$/</tt> is set to an empty string, two or more newlines in the input file will be treated as one.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$,</tt></center>
+
+</td><td WIDTH="463">The output separator for the <tt>print()</tt> fuNCtion. Nor-mally, this variable is an empty string. However, setting <tt>$,</tt> to a newline might be useful if you need to print  each element in the parameter list on a separate line.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$\</tt></center>
+
+</td><td WIDTH="463">Added as an invisible last element to the parameters passed to the <tt>print()</tt> fuNCtion. Normally, an empty string, but if you want to add a newline or some other suffix to everything that is printed, you can assign the suffix to 
+<tt>$\</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$#</tt></center>
+
+</td><td WIDTH="463">The default format for printed numbers. Normally, it's set to <tt>%.20g</tt>, but you can use the format specifiers covered in the section &quot;Example: Printing Revisited&quot; in <a HREF="ch9.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm">Chapter 9</a>to specify your own 
+default format.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$%</tt></center>
+
+</td><td WIDTH="463">Holds the current page number for the default file handle. If you use <tt>select()</tt> to change the default file handle, <tt>$%</tt> will change to reflect the page number of the newly selected file handle.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$=</tt></center>
+
+</td><td WIDTH="463">Holds the current page length for the default file handle. Changing the default file handle will change <tt>$=</tt> to reflect the page length of the new file handle.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$-</tt></center>
+
+</td><td WIDTH="463">Holds the number of lines left to print for the default file handle. Changing the default file handle will change <tt>$-</tt> to reflect the number of lines left to print for the new file handle.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$~</tt></center>
+
+</td><td WIDTH="463">Holds the name of the default line format for the default file handle. Normally, it is equal to the file handle's name.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$^</tt></center>
+
+</td><td WIDTH="463">Holds the name of the default heading format for the default file handle. Normally, it is equal to the file handle's name with <tt>_TOP</tt> appended to it.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$|</tt></center>
+
+</td><td WIDTH="463">If nonzero, will flush the output buffer after every <tt>write()</tt> or <tt>print()</tt> fuNCtion. Normally, it is set to 0.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$$</tt></center>
+
+</td><td WIDTH="463">This UNIX-based variable holds the process number of the process running the Perl interpreter.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$?</tt></center>
+
+</td><td WIDTH="463">Holds the status of the last pipe close, back-quote string, or <tt>system()</tt> fuNCtion. You can find more information about the <tt>$?</tt> Variable in <a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm">Chapter 13</a>, &quot;Handling Errors and Signals.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$&amp;</tt></center>
+
+</td><td WIDTH="463">Holds the string that was matched by the last successful pattern match.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$`</tt></center>
+
+</td><td WIDTH="463">Holds the string that preceded whatever was matched by the last successful pattern match.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$&acute;</tt></center>
+
+</td><td WIDTH="463">Holds the string that followed whatever was matched by the last successful pattern match.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$+</tt></center>
+
+</td><td WIDTH="463">Holds the string matched by the last bracket in the last successful pattern match. For example, the statement <tt>/Fieldname: (.*)|Fldname: (.*)/ &amp;&amp; ($fName = $+);</tt> will find the name of a field even if you don't know which 
+of the two possible spellings will be used.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$*</tt></center>
+
+</td><td WIDTH="463">Changes the interpretation of the <tt>^</tt> and <tt>$</tt> pattern aNChors. Setting <tt>$*</tt> to 1 is the same as using the <tt>/m</tt> option with the regular expression matching and substitution operators. Normally, <tt>$*</tt> is 
+equal to 0.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$0</tt></center>
+
+</td><td WIDTH="463">Holds the name of the file containing the Perl script being executed.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$&lt;number&gt;</tt></center>
+
+</td><td WIDTH="463">This group of variables (<tt>$1</tt>, <tt>$2</tt>, <tt>$3</tt>, and so on) holds the regular expression pattern memory. Each set of parentheses in a pattern stores the string that match the components surrounded by the parentheses into 
+one of the <tt>$&lt;number&gt;</tt> variables.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$[</tt></center>
+
+</td><td WIDTH="463">Holds the base array index. Normally, it's set to 0. Most Perl authors recommend against changing it without a very good reason.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$]</tt></center>
+
+</td><td WIDTH="463">Holds a string that identifies which version of Perl you are using. When used in a numeric context, it will be equal to the version number plus the patch level divided by 1000.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$&quot;</tt></center>
+
+</td><td WIDTH="463">This is the separator used between list elements when an array variable is interpolated into a double-quoted string. Normally, its value is a space character.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$;</tt></center>
+
+</td><td WIDTH="463">Holds the subscript separator for multidimensional array emulation. Its use is beyond the scope of this book.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$!</tt></center>
+
+</td><td WIDTH="463">When used in a numeric context, holds the current value of <tt>errno</tt>. If used in a string context, will hold the error string associated with <tt>errno</tt>. For more information about <tt>errno</tt>, see <a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm">Chapter 13</a>, &quot;Handling Errors and Signals.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$@</tt></center>
+
+</td><td WIDTH="463">Holds the syntax error message, if any, from the last <tt>eval()</tt> fuNCtion call. For more information about <tt>errno</tt>, see <a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm">Chapter 13</a>, &quot;Handling Errors and Signals.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$&lt;</tt></center>
+
+</td><td WIDTH="463">This UNIX-based variable holds the read <tt>uid</tt> of the current process.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$&gt;</tt></center>
+
+</td><td WIDTH="463">This UNIX-based variable holds the effective <tt>uid</tt> of the current process.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$)</tt></center>
+
+</td><td WIDTH="463">This UNIX-based variable holds the read <tt>gid</tt> of the current process. If the process belongs to multiple groups, then <tt>$)</tt> will hold a string consisting of the group names separated by spaces.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$:</tt></center>
+
+</td><td WIDTH="463">Holds a string that consists of the characters that can be used to end a word when word-wrapping is performed by the <tt>^</tt> report formatting character. Normally, the string consists of the space, newline, and dash characters.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt><font SIZE="1" FACE="Courier">$^D</tt></center>
+
+</td><td WIDTH="463">Holds the current value of the debugging flags. For more information, see <a HREF="ch16.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm">Chapter 16</a>, &quot;Debugging Perl.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$^F</tt></center>
+
+</td><td WIDTH="463">Holds the value of the maximum system file description. Normally, it's set to 2. The use of this variable is beyond the scope of this book.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$^I</tt></center>
+
+</td><td WIDTH="463">Holds the file extension used to create a backup file for the in-place editing specified by the <tt>-i</tt> command line option. For example, it could be equal to &quot;.bak.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$^L</tt></center>
+
+</td><td WIDTH="463">Holds the string used to eject a page for report printing. <a HREF="ch11.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm">Chapter 11</a>, &quot;Creating Reports,&quot; shows how to use this variable to create simple footers.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$^P</tt></center>
+
+</td><td WIDTH="463">This variable is an internal flag that the debugger clears so it will not debug itself.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$^T</tt></center>
+
+</td><td WIDTH="463">Holds the time, in seconds, at which the script begins running.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$^W</tt></center>
+
+</td><td WIDTH="463">Holds the current value of the <tt>-w</tt> command line option.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$^X</tt></center>
+
+</td><td WIDTH="463">Holds the full pathname of the Perl interpreter being used to run the current script.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>$ARGV</tt></center>
+
+</td><td WIDTH="463">Holds the name of the current file being read when using the diamond operator <tt>(&lt;&gt;)</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>@ARGV</tt></center>
+
+</td><td WIDTH="463">This array variable holds a list of the command line arguments. You can use <tt>$#ARGV</tt> to determine the number of arguments minus one.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>@F</tt></center>
+
+</td><td WIDTH="463">This array variable holds the list returned from autosplit mode. Autosplit mode is associated with the <tt>-a</tt> command line option.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>@INC</tt></center>
+
+</td><td WIDTH="463">This array variable holds a list of directories where Perl can look for scripts to execute. The list is mainly used by the <tt>require</tt> statement. You can find more information about require statements in <a HREF="ch15.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm">Chapter 
+15</a>, &quot;Perl Modules.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>%INC</tt></center>
+
+</td><td WIDTH="463">This hash variable has entries for each filename iNCluded by <tt>do</tt> or <tt>require</tt> statements. The key of the hash entries are the filenames, and the values are the paths where the files were found.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>%ENV</tt></center>
+
+</td><td WIDTH="463">This hash variable contains entries for your current environment variables. Changing or adding an entry affects only the current process or a child process, never the parent process. See the section &quot;Example: Using the 
+<tt>%ENV</tt> Variable&quot; later in this chapter.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>%SIG</tt></center>
+
+</td><td WIDTH="463">This hash variable contains entries for signal handlers. For more information about signal handlers, see <a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm">Chapter 13</a>, &quot;Handling Errors and Signals.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>_</tt></center>
+
+</td><td WIDTH="463">This file handle (the underscore) can be used when testing files. If used, the information about the last file tested will be used to evaluate the new test.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>DATA</tt></center>
+
+</td><td WIDTH="463">This file handle refers to any data following <tt>__END__</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>STDERR</tt></center>
+
+</td><td WIDTH="463">This file handle is used to send output to the standard error file. Normally, this is connected to the display, but it can be redirected if needed.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>STDIN</tt></center>
+
+</td><td WIDTH="463">This file handle is used to read input from the standard input file. Normally, this is connected to the keyboard, but it can be changed.
+
+</td></tr>
+
+<tr><td WIDTH="127"><center><tt>STDOUT</tt></center>
+
+</td><td WIDTH="463">This file handle is used to send output to the standard output file. Normally, this is the display, but it can be changed.
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Table 12.2 puts the variables into different categories so you
+
+can see how they relate to one another. This organization is better
+
+than Table 12.1 when you are creating your own programs. Some
+
+of the categories covered in Table 12.2 have their own chapters.
+
+The subheadings in the table point out which chapter you can look
+
+at for more information.<br>
+
+<p>
+
+<center><b>Table 12.2&nbsp;&nbsp;Perl's Special Variables</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="115"><center><i>Variable Name</i></center></td><td WIDTH="475"><i>Description</i>
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Variables That Affect Arrays</b>
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$&quot;</tt></center>
+
+</td><td WIDTH="475">The separator used between list elements when an array variable is interpolated into a double-quoted string. Normally, its value is a space character.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$[</tt></center>
+
+</td><td WIDTH="475">Holds the base array index. Normally, set to 0. Most Perl authors recommend against changing it without a very good reason.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$;</tt></center>
+
+</td><td WIDTH="475">Holds the subscript separator for multidimensional array emulation. Its use is beyond the scope of this book. For a more in-depth look at Perl programming, see Que's <i>Special Edition Using Perl for Web Programming</i>.
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Variables Used with Files (See <a HREF="ch9.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm">Chapter 9</a> &quot;Using Files&quot;)</b>
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$.</tt></center>
+
+</td><td WIDTH="475">This variable holds the current record or line number of the file handle last read. It is read-only and will be reset to 0 when the file handle is closed.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$/</tt></center>
+
+</td><td WIDTH="475">This variable holds the input record separator. The record separator is usually the newline character. However, if <tt>$/</tt> is set to an empty string, two or more newlines in the input file will be treated as one.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$|</tt></center>
+
+</td><td WIDTH="475">This variable, if nonzero, will flush the output buffer after every <tt>write()</tt> or <tt>print()</tt> fuNCtion. Normally, it is set to 0.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$^F</tt></center>
+
+</td><td WIDTH="475">This variable holds the value of the maximum system file description. Normally, it's set to 2. The use of this variable is beyond the scope of this book.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$ARGV</tt></center>
+
+</td><td WIDTH="475">This variable holds the name of the current file being read when using the diamond operator <tt>(&lt;&gt;)</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center>_</center></td><td WIDTH="475">This file handle (the underscore) can be used when testing files. If used, the information about the last file tested will be used to evaluate the latest test.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>DATA</tt></center>
+
+</td><td WIDTH="475">This file handle refers to any data following <tt>__END__</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>STDERR</tt></center>
+
+</td><td WIDTH="475">This file handle is used to send output to the standard error file. Normally, this is connected to the display, but it can be redirected if needed.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>STDIN</tt></center>
+
+</td><td WIDTH="475">This file handle is used to read input from the standard input file. Normally, this is connected to the keyboard, but it can be changed.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>STDOUT</tt></center>
+
+</td><td WIDTH="475">This file handle is used to send output to the standard output file. Normally, this is the display, but it can be changed.
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Variables Used with Patterns (See <a HREF="ch10.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm">Chapter 10</a>, &quot;Regular Expressions&quot;)</b>
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$&amp;</tt></center>
+
+</td><td WIDTH="475">This variable holds the string that was matched by the last successful pattern match.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$`</tt></center>
+
+</td><td WIDTH="475">This variable holds the string that preceded whatever was matched by the last successful pattern match.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$&acute;</tt></center>
+
+</td><td WIDTH="475">This variable holds the string that followed whatever was matched by the last successful pattern match.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$+</tt></center>
+
+</td><td WIDTH="475">This variable holds the string matched by the last bracket in the last successful pattern match. For example, the statement <tt>/Fieldname: (.*)|Fldname: (.*)/ &amp;&amp; ($fName = $+);</tt> will find the name of a field even if you 
+don't know which of the two possible spellings will be used.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$*</tt></center>
+
+</td><td WIDTH="475">This variable changes the interpretation of the <tt>^</tt> and <tt>$</tt> pattern aNChors. Setting <tt>$*</tt> to 1 is the same as using the <tt>/m</tt> option with the regular expression matching and substitution operators. Normally, 
+<tt>$*</tt> is equal to 0.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$&lt;number&gt;</tt></center>
+
+</td><td WIDTH="475">This group of variables (<tt>$1</tt>, <tt>$2</tt>, <tt>$3</tt>, and so on) holds the regular expression pattern memory. Each set of parentheses in a pattern stores the string that matches the components surrounded by the parentheses 
+into one of the <tt>$&lt;number&gt;</tt> variables.
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Variables Used with Printing</b>
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$,</tt></center>
+
+</td><td WIDTH="475">This variable is the output separator for the <tt>print()</tt> fuNCtion. Normally, this variable is an empty string. However, setting <tt>$,</tt> to a newline might be useful if you need to print each element in the parameter list on a 
+separate line.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$\</tt></center>
+
+</td><td WIDTH="475">The variable is added as an invisible last element to the parameter list passed to the <tt>print()</tt> fuNCtion. Normally, it's an empty string, but if you want to add a newline or some other suffix to everything that is printed, you 
+can assign the suffix to <tt>$\</tt>.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$#</tt></center>
+
+</td><td WIDTH="475">This variable is the default format for printed numbers. Normally, it's set to <tt>%.20g</tt>, but you can use the format specifiers covered in by the section &quot;Example: Printing Revisited&quot; in <a HREF="ch9.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm">Chapter 9</a>to 
+specify your own default format.
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Variables Used with Processes (See <a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm">Chapter 13</a>, &quot;Handling Errors and Signals&quot;)</b>
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$$</tt></center>
+
+</td><td WIDTH="475">This UNIX-based variable holds the process number of the process running the Perl interpreter.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$?</tt></center>
+
+</td><td WIDTH="475">This variable holds the status of the last pipe close, back-quote string, or <tt>system()</tt> fuNCtion. More information about the <tt>$?</tt> variable can be found in <a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm">Chapter 13</a>, &quot;Handling Errors and 
+Signals.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$0</tt></center>
+
+</td><td WIDTH="475">This variable holds the name of the file containing the Perl script being executed.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$]</tt></center>
+
+</td><td WIDTH="475">This variable holds a string that identifies which version of Perl you are using. When used in a numeric context, it will be equal to the version number plus the patch level divided by 1000.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$!</tt></center>
+
+</td><td WIDTH="475">This variable, when used in a numeric context, holds the current value of <tt>errno</tt>. If used in a string context, it will hold the error string associated with <tt>errno</tt>. For more information about <tt>errno</tt>, see <a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm">Chapter 13</a>, &quot;Handling Errors and Signals.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$@</tt></center>
+
+</td><td WIDTH="475">This variable holds the syntax error message, if any, from the last <tt>eval()</tt> fuNCtion call. For more information about <tt>errno</tt>, see <a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm">Chapter 13</a>, &quot;Handling Errors and Signals.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$&lt;</tt></center>
+
+</td><td WIDTH="475">This UNIX-based variable holds the read <tt>uid</tt> of the current process.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$&gt;</tt></center>
+
+</td><td WIDTH="475">This UNIX-based variable holds the effective <tt>uid</tt> of the current process.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$)</tt></center>
+
+</td><td WIDTH="475">This UNIX-based variable holds the read <tt>gid</tt> of the current process. If the process belongs to multiple groups, then <tt>$)</tt> will hold a string consisting of the group names separated by spaces.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$^T</tt></center>
+
+</td><td WIDTH="475">This variable holds the time, in seconds, at which the script begins running.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$^X</tt></center>
+
+</td><td WIDTH="475">This variable holds the full pathname of the Perl interpreter being used to run the current script.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>%ENV</tt></center>
+
+</td><td WIDTH="475">This hash variable contains entries for your current environment variables. Changing or adding an entry will affect only the current process or a child process, never the parent process. See the section &quot;Example: Using the 
+<tt>%ENV</tt> Variable&quot; later in this chapter.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>%SIG</tt></center>
+
+</td><td WIDTH="475">This hash variable contains entries for signal handlers. For more information about signal handlers, see <a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm">Chapter 13</a>, &quot;Handling Errors and Signals.&quot;
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Variables Used with Reports (see <a HREF="ch11.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm">Chapter 11</a>, &quot;Creating Reports&quot;)</b>
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$%</tt></center>
+
+</td><td WIDTH="475">This variable holds the current page number for the default file handle. If you use <tt>select()</tt> to change the default file handle, <tt>$%</tt> will change to reflect the page number of the newly selected file handle.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$=</tt></center>
+
+</td><td WIDTH="475">This variable holds the current page length for the default file handle. Changing the default file handle will change <tt>$=</tt> to reflect the page length of the new file handle.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$-</tt></center>
+
+</td><td WIDTH="475">This variable holds the number of lines left to print for the default file handle. Changing the default file handle will change <tt>$-</tt> to reflect the number of lines left to print for the new file handle.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$~</tt></center>
+
+</td><td WIDTH="475">This variable holds the name of the default line format for the default file handle. Normally, it is equal to the file handle's name.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$^</tt></center>
+
+</td><td WIDTH="475">This variable holds the name of the default heading format for the default file handle. Normally, it is equal to the file handle's name with <tt>_TOP</tt> appended to it.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$:</tt></center>
+
+</td><td WIDTH="475">This variable holds a string that consists of the characters that can be used to end a word when word-wrapping is performed by the <tt>^</tt> report formatting character. Normally, the string consists of the space, newline, and dash 
+characters.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$^L</tt></center>
+
+</td><td WIDTH="475">This variable holds the string used to eject a page for report printing. <a HREF="ch11.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm">Chapter 11</a>, &quot;Creating Reports,&quot; shows how to use this variable to create simple footers.
+
+</td></tr>
+
+<tr><td COLSPAN="2" WIDTH="590"><b>Miscellaneous Variables</b></td>
+
+</tr>
+
+<tr><td WIDTH="115"><center><tt>$_</tt></center>
+
+</td><td WIDTH="475">This variable is used as the default parameter for a lot of fuNCtions.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$^D</tt></center>
+
+</td><td WIDTH="475">This variable holds the current value of the debugging flags. For more information, see <a HREF="ch16.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm">Chapter 16</a>, &quot;Debugging Perl.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$^I</tt></center>
+
+</td><td WIDTH="475">This variable holds the file extension used to create a backup file for the in-place editing specified by the <tt>-i</tt> command line option. For example, it could be equal to &quot;.bak.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$^P</tt></center>
+
+</td><td WIDTH="475">This variable is an internal flag that the debugger clears so that it will not debug itself.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>$^W</tt></center>
+
+</td><td WIDTH="475">This variable holds the current value of the <tt>-w</tt> command line option.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>@ARGV</tt></center>
+
+</td><td WIDTH="475">This array variable holds a list of the command line arguments. You can use <tt>$#ARGV</tt> to determine the number of arguments minus one.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>@F</tt></center>
+
+</td><td WIDTH="475">This array variable holds the list returned from autosplit mode. Autosplit mode is associated with the <tt>-a</tt> command line option.
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>@INC</tt></center>
+
+</td><td WIDTH="475">This array variable holds a list of directories where Perl can look for scripts to execute. The list is used mainly by the require statement. You can find more information about <tt>require</tt> statements in <a HREF="ch15.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm">Chapter 
+15</a>, &quot;Perl Modules.&quot;
+
+</td></tr>
+
+<tr><td WIDTH="115"><center><tt>%INC</tt></center>
+
+</td><td WIDTH="475">This hash variable has entries for each filename iNCluded by <tt>do</tt> or <tt>require</tt> statements. The key of the hash entries are the filenames and the values are the paths where the files were found.
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Most of these variables are discussed in other chapters of the
+
+book, and some of the variables are simple enough to use that
+
+you don't need to see examples by this time. However, the DATA
+
+file handle and the %ENV associated array deserve some additional
+
+mention. They are discussed in the following sections.
+
+<h3><a NAME="ExampleUsingtheTTFONTSIZEFACECourierDATAFONTTTFONTSIZEFileHandleFONT">
+
+Example: Using the <tt>DATA </tt>File
+
+Handle</font></a></h3>
+
+<p>
+
+As you no doubt realize by now, Perl has some really odd features,
+
+and  the <tt>DATA</tt> file handle
+
+is one of them. This file handle lets you store read-only data
+
+in the same file as your Perl script, which might come in handy
+
+if you need to send both code and data to someone via e-mail.
+
+<p>
+
+When using the <tt>DATA</tt> file
+
+handle, you don't need to open or close the file handle-just start
+
+reading from the file handle using the diamond operator. The following
+
+simple example shows you how to use the <tt>DATA</tt>
+
+file handle.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Read all the lines that follow the line containing </i><tt><i>__END__</i></tt><i>.
+
+<br>
+
+Loop through the </i><tt><i>@lines</i></tt><i>
+
+array, printing each element.<br>
+
+Everything above the </i><tt><i>__END__</i></tt><i>
+
+line is code; everything below is data.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+@lines = &lt;DATA&gt;;
+
+
+
+foreach (@lines) {
+
+    print(&quot;$_&quot;);
+
+
+
+}
+
+
+
+__END__
+
+Line one
+
+Line two
+
+Line three
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This program displays the following:
+
+<blockquote>
+
+<pre>
+
+Line one
+
+Line two
+
+Line three
+
+</pre>
+
+</blockquote>
+
+<h4>Example: Using the <tt><i>%ENV</i></tt>
+
+Variable</h4>
+
+<p>
+
+<i>Environment variables</i> are used by the operating system
+
+to store bits of information that are needed to run the computer.
+
+They are called environment variables because you rarely need
+
+to use them and because they simply remain in the background-just
+
+another part of the overall computing environment of your system.
+
+When your Perl process is started, it is given a copy of the environment
+
+variables to use as needed.
+
+<p>
+
+You can change the environment variables, but the changes will
+
+not persist after the process running Perl is ended. The changes
+
+will, however, affect the current process and any child processes
+
+that are started.
+
+<p>
+
+You can print out the environment variables by using these lines
+
+of code:
+
+<blockquote>
+
+<pre>
+
+foreach $key (keys(%ENV)) {
+
+    printf(&quot;%-10.10s: $ENV{$key}\n&quot;, $key);
+
+}
+
+</pre>
+
+</blockquote>
+
+<p>
+
+On my Windows 95 machine, this program displays the following:
+
+<blockquote>
+
+<pre>
+
+WINBOOTDIR: C:\WINDOWS
+
+TMP       : C:\WINDOWS\TEMP
+
+PROMPT    : $p$g
+
+CLASSPATH : .\;e:\jdk\classes;
+
+TEMP      : C:\WINDOWS\TEMP
+
+COMSPEC   : C:\WINDOWS\COMMAND.COM
+
+CMDLINE   : perl -w 12lst01.pl
+
+BLASTER   : A220 I10 D3 H7 P330 T6
+
+WINDIR    : C:\WINDOWS
+
+PATH      : C:\WINDOWS;C:\WINDOWS\COMMAND;C:\PERL5\BIN;
+
+TZ        : GMT-05:00
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Only a few of these variables are interesting. The <tt>TMP</tt>
+
+and <tt>TEMP</tt> variables let you
+
+know where temporary files should be placed. The <tt>PATH</tt>
+
+variable lets the system know where to look for executable programs.
+
+It will search each directory in the list until the needed file
+
+is found. The <tt>TZ</tt> variable
+
+lets you know which time zone the computer is running in.
+
+<p>
+
+The most useful variable is probably the <tt>PATH</tt>
+
+statement. By changing it, you can force the system to search
+
+the directories you specify. This might be useful if you suspect
+
+that another program of the same name resides in another directory.
+
+By placing the current directory at the beginning of the <tt>PATH</tt>
+
+variable, it will be searched first and you'll always get the
+
+executable you want. For example:
+
+<blockquote>
+
+<pre>
+
+$ENV{&quot;PATH&quot;} = &quot;.;&quot; . $ENV{&quot;PATH&quot;};
+
+</pre>
+
+</blockquote>
+
+<p>
+
+A single period is used to refer to the current directory, and
+
+a semicolon is used to delimit the directories in the <tt>PATH</tt>
+
+variable. So this statement forces the operating system to look
+
+in the current directory before searching the rest of the directories
+
+in <tt>PATH</tt>.
+
+<p>
+
+Environment variables can be useful if you want a quick way to
+
+pass information between a parent and a child process. The parent
+
+can set the variables, and the child can read it.
+
+<h2><a NAME="Summary"><font SIZE="5" COLOR="#FF0000">
+
+Summary</font></a></h2>
+
+<p>
+
+This chapter gathered into one location all the special variables
+
+used by Perl. Most of the variables have already been discussed
+
+in previous chapters, and a few will be discussed in later chapters.
+
+<p>
+
+Table 12.1 was organized to follow the <tt>PERLVAR.htm</tt>
+
+document that comes in the Perl distribution, so if you aren't
+
+familiar with a variable used in someone else's code, that's the
+
+place to look. The variables are basically ordered alphabetically.
+
+<p>
+
+Table 12.2 was organized according to fuNCtionality. Some variables
+
+are used with files, some with arrays, and so forth.
+
+<p>
+
+You saw an example of how to use the <tt>DATA</tt>
+
+file handle to read information from the same file that holds
+
+the Perl script.
+
+<p>
+
+The <tt>%ENV</tt> variable was also
+
+discussed. This hash is used to hold the environmental variables
+
+used mostly by the operating system.
+
+<p>
+
+In the next chapter, &quot;Handling Errors and Signals,&quot;
+
+you learn about how to handle error conditions, use the <tt>eval()</tt>
+
+fuNCtion, and other things dealing with exceptions that can happen
+
+while your program runs.
+
+<h2><a NAME="ReviewQuestions"><font SIZE="5" COLOR="#FF0000">
+
+Review Questions</font></a></h2>
+
+<p>
+
+Answers to Review Questions are in Appendix A.
+
+<ol>
+
+<li>What is the <tt>$/</tt> variable
+
+used for?
+
+<li>What file handle is used to avoid a second system call when
+
+doing two or more file tests?
+
+<li>What will the following program display?<br>
+
+<br>
+
+<tt>$_ = &quot;The big red shoe&quot;;<br>
+
+m/[rs].*\b/;<br>
+
+print(&quot;$`\n&quot;);</tt>
+
+<li>What variable holds the value of the last match string?
+
+<li>What will the following program display?<br>
+
+<br>
+
+<tt>@array = (1..5);<br>
+
+$&quot; = &quot;+&quot;;<br>
+
+print(&quot;@array\n&quot;);</tt>
+
+<li>What does the following program display?<br>
+
+<tt>@array = ('A'..'E');<br>
+
+<br>
+
+foreach (@array) {<br>
+
+    print();<br>
+
+}<br>
+
+<br>
+
+$\ = &quot;\n&quot;;<br>
+
+foreach (@array) {<br>
+
+    print();<br>
+
+}</tt>
+
+</ol>
+
+<h2><a NAME="ReviewExercises"><font SIZE="5" COLOR="#FF0000">
+
+Review Exercises</font></a></h2>
+
+<ol>
+
+<li>Write a program that changes the array element separator used
+
+in interpolation of arrays inside double-quoted strings to be
+
+a comma instead of a space.
+
+<li>Write a program that displays which version of the Perl interpreter
+
+you are running.
+
+<li>Create a file in your temporary directory. (Hint: use the
+
+<tt>%ENV</tt> special variable.)
+
+<li>Write a program that uses the <tt>$\</tt>
+
+to end each printed element with an <tt>&quot;:END&quot;</tt>
+
+string.
+
+<li>Write a program that prints the last record in a file. The
+
+records should be variable-length, but each record starts with
+
+the string <tt>&quot;START:&quot;</tt>.
+
+(Hint: look at the <tt>$/</tt> variable.)
+
+</ol>
+
+<hr>
+
+
+
+<center><p><a HREF="ch11.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm"><img SRC="pc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="#CONTENTS"><img SRC="cc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/cc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="index-1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/index-1.htm"><img SRC="hb.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/hb.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="ch13.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm"><img SRC="nc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/nc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<hr WIDTH="100%"></p></center>
+
+</body>
+
+</html>
+

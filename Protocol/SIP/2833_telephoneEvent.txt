@@ -1,0 +1,26 @@
+No.     Time        Source                Destination           Protocol Info
+   7045 2172.870065 172.24.198.68         172.24.198.202        RTP EVENT Payload type=RTP Event, DTMF One 1
+
+Frame 7045 (58 bytes on wire, 58 bytes captured)
+Ethernet II, Src: 172.24.198.68 (00:15:c5:4e:12:27), Dst: 172.24.198.202 (00:03:ba:30:bd:21)
+Internet Protocol, Src: 172.24.198.68 (172.24.198.68), Dst: 172.24.198.202 (172.24.198.202)
+User Datagram Protocol, Src Port: 6686 (6686), Dst Port: 29538 (29538)
+Real-Time Transport Protocol
+    Stream setup by SDP (frame 6917)
+        Setup frame: 6917
+        Setup Method: SDP
+    10.. .... = Version: RFC 1889 Version (2)
+    ..0. .... = Padding: False
+    ...0 .... = Extension: False
+    .... 0000 = Contributing source identifiers count: 0
+    0... .... = Marker: False
+    Payload type: telephone-event (101)
+    Sequence number: 5001
+    Timestamp: 32800
+    Synchronization Source identifier: 12357
+RFC 2833 RTP Event
+    Event ID: DTMF One 1 (1)
+    0... .... = End of Event: False
+    .0.. .... = Reserved: False
+    ..00 1010 = Volume: 10
+    Event Duration: 160

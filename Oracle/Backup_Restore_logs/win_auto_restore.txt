@@ -1,0 +1,153 @@
+This operation will shut down and restore the database. Are you sure [Y/N]?y
+Restore in progress...
+The requested service has already been started.
+
+More help is available by typing NET HELPMSG 2182.
+
+
+Recovery Manager: Release 10.2.0.1.0 - Production on Sat May 22 08:22:15 2010
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+connected to target database: XE (DBID=2600774568)
+
+RMAN> set echo on;
+2> startup nomount pfile=C:\DOCUME~1\jxie\LOCALS~1\Temp\rman_dummy.ora force;
+3>
+echo set on
+
+Oracle instance started
+
+Total System Global Area     285212672 bytes
+
+Fixed Size                     1287016 bytes
+Variable Size                 92277912 bytes
+Database Buffers             188743680 bytes
+Redo Buffers                   2904064 bytes
+
+Recovery Manager complete.
+
+Recovery Manager: Release 10.2.0.1.0 - Production on Sat May 22 08:22:39 2010
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+connected to target database: xe (not mounted)
+
+RMAN> set echo on;
+2> shutdown immediate;
+3> startup nomount pfile="D:\ORACLEXE\APP\ORACLE\PRODUCT\10.2.0\SERVER\DATABASE\
+SPFILE2INIT.ORA";
+4> restore (spfile from autobackup) (controlfile from autobackup);
+5> startup mount force;
+6> configure controlfile autobackup off;
+7> restore database;
+8>
+echo set on
+
+using target database control file instead of recovery catalog
+Oracle instance shut down
+
+connected to target database (not started)
+Oracle instance started
+
+Total System Global Area     805306368 bytes
+
+Fixed Size                     1289996 bytes
+Variable Size                218104052 bytes
+Database Buffers             583008256 bytes
+Redo Buffers                   2904064 bytes
+
+Starting restore at 22-MAY-10
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: sid=36 devtype=DISK
+
+recovery area destination: D:\oraclexe\app\oracle\flash_recovery_area
+database name (or database unique name) used for search: XE
+channel ORA_DISK_1: autobackup found in the recovery area
+channel ORA_DISK_1: autobackup found: D:\ORACLEXE\APP\ORACLE\FLASH_RECOVERY_AREA
+\XE\AUTOBACKUP\2010_05_22\O1_MF_S_719654833_5ZG8367B_.BKP
+channel ORA_DISK_1: SPFILE restore from autobackup complete
+failover to previous backup
+
+recovery area destination: D:\oraclexe\app\oracle\flash_recovery_area
+database name (or database unique name) used for search: XE
+channel ORA_DISK_1: autobackup found in the recovery area
+channel ORA_DISK_1: autobackup found: D:\ORACLEXE\APP\ORACLE\FLASH_RECOVERY_AREA
+\XE\AUTOBACKUP\2010_05_22\O1_MF_S_719654833_5ZG8367B_.BKP
+channel ORA_DISK_1: control file restore from autobackup complete
+output filename=D:\ORACLEXE\ORADATA\XE\CONTROL.DBF
+Finished restore at 22-MAY-10
+
+Oracle instance started
+database mounted
+
+Total System Global Area     805306368 bytes
+
+Fixed Size                     1289996 bytes
+Variable Size                218104052 bytes
+Database Buffers             583008256 bytes
+Redo Buffers                   2904064 bytes
+
+old RMAN configuration parameters:
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+new RMAN configuration parameters:
+CONFIGURE CONTROLFILE AUTOBACKUP OFF;
+new RMAN configuration parameters are successfully stored
+
+Starting restore at 22-MAY-10
+Starting implicit crosscheck backup at 22-MAY-10
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: sid=35 devtype=DISK
+Crosschecked 1 objects
+Finished implicit crosscheck backup at 22-MAY-10
+
+Starting implicit crosscheck copy at 22-MAY-10
+using channel ORA_DISK_1
+Finished implicit crosscheck copy at 22-MAY-10
+
+searching for all files in the recovery area
+cataloging files...
+cataloging done
+
+List of Cataloged Files
+=======================
+File Name: D:\ORACLEXE\APP\ORACLE\FLASH_RECOVERY_AREA\XE\AUTOBACKUP\2010_05_22\O
+1_MF_S_719654833_5ZG8367B_.BKP
+
+using channel ORA_DISK_1
+
+channel ORA_DISK_1: starting datafile backupset restore
+channel ORA_DISK_1: specifying datafile(s) to restore from backup set
+restoring datafile 00001 to D:\ORACLEXE\ORADATA\XE\SYSTEM.DBF
+restoring datafile 00002 to D:\ORACLEXE\ORADATA\XE\UNDO.DBF
+restoring datafile 00003 to D:\ORACLEXE\ORADATA\XE\SYSAUX.DBF
+restoring datafile 00004 to D:\ORACLEXE\ORADATA\XE\USERS.DBF
+channel ORA_DISK_1: reading from backup piece D:\ORACLEXE\APP\ORACLE\FLASH_RECOV
+ERY_AREA\XE\BACKUPSET\2010_05_22\O1_MF_NNNDF_TAG20100522T080729_5ZG8227T_.BKP
+channel ORA_DISK_1: restored backup piece 1
+piece handle=D:\ORACLEXE\APP\ORACLE\FLASH_RECOVERY_AREA\XE\BACKUPSET\2010_05_22\
+O1_MF_NNNDF_TAG20100522T080729_5ZG8227T_.BKP tag=TAG20100522T080729
+channel ORA_DISK_1: restore complete, elapsed time: 00:00:36
+Finished restore at 22-MAY-10
+
+Recovery Manager complete.
+
+Recovery Manager: Release 10.2.0.1.0 - Production on Sat May 22 08:23:53 2010
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+connected to target database: XE (DBID=2600774568, not open)
+
+RMAN> set echo on;
+2> alter database open resetlogs;
+3>
+echo set on
+
+using target database control file instead of recovery catalog
+database opened
+
+Recovery Manager complete.
+Restore of the database succeeded.
+Log file is at D:\ORACLEXE\APP\ORACLE\PRODUCT\10.2.0\SERVER\DATABASE\OXE_RESTORE
+.LOG.
+Press any key to continue . . .

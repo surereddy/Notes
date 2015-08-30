@@ -1,0 +1,6 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Minacom Applications\DirectReach\SFTP]
+"SFTP_DEBUG"=dword:00000000
+"SFTP_DEBUG_PATH"="C:\\Program Files\\Tektronix Applications\\DirectQuality\\temp"
+

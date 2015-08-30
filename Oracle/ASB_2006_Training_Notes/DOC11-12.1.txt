@@ -1,0 +1,83 @@
+SQL> SHUTDOWN IMMEDIATE;
+数据库已经关闭。
+已经卸载数据库。
+ORACLE 例程已经关闭。
+SQL> STARTUP
+ORACLE 例程已经启动。
+
+Total System Global Area  126951228 bytes
+Fixed Size                   454460 bytes
+Variable Size             109051904 bytes
+Database Buffers           16777216 bytes
+Redo Buffers                 667648 bytes
+数据库装载完毕。
+ORA-01113: 文件 1 需要介质恢复
+ORA-01110: 数据文件 1: 'D:\ORACLE\ORADATA\ORCL\SYSTEM01.DBF'
+
+
+SQL> RECOVER DATABASE UNTIL TIME '2006-08-05:10:20:00';
+ORA-00279: 更改 57597721 (在 08/05/2006 09:56:52 生成) 对于线程 1 是必需的
+ORA-00289: 建议: D:\ORACLE\ORAARCH\ORCL\ARC00001.001
+ORA-00280: 更改 57597721 对于线程 1 是按序列 # 1 进行的
+
+
+指定日志: {<RET>=suggested | filename | AUTO | CANCEL}
+AUTO
+已应用的日志。
+完成介质恢复。
+SQL> ALTER DATABASE OPEN;
+ALTER DATABASE OPEN
+*
+ERROR 位于第 1 行:
+ORA-01589: 要打开数据库则必须使用 RESETLOGS 或 NORESETLOGS 选项
+
+
+SQL> ALTER DATABASE OPEN RESETLOGS;
+
+数据库已更改。
+
+SQL> CONNECT SCOTT/TIGER
+已连接。
+SQL> SELECT * FROM TAB;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+ABC                            TABLE
+BONUS                          TABLE
+CHAINED_ROWS                   TABLE
+COUNTRY                        TABLE
+DEPT                           TABLE
+EMP                            TABLE
+EMP1                           TABLE
+EMP_TEST                       TABLE
+EMP_TEST2                      TABLE
+EMP_VW_DEPT10                  VIEW
+PLAN_TABLE                     TABLE
+SALGRADE                       TABLE
+SYSTAB                         TABLE
+SYS_IOT_OVER_37785             TABLE
+TAB_APP                        TABLE
+TEST                           TABLE
+TEST1                          TABLE
+TEST_XMLDB                     TABLE
+
+已选择18行。
+
+SQL> SELECT * FROM EMP;
+
+     EMPNO ENAME      JOB              MGR HIREDATE          SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- ---------- ---------- ---------- ----------
+      7369 SMITH      CLERK           7902 17-12月-80        800                    20
+      7499 ALLEN      SALESMAN        7698 20-2月 -81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-2月 -81       1250        500         30
+      7566 JONES      MANAGER         7839 02-4月 -81       2975                    20
+      7654 MARTIN     SALESMAN        7698 28-9月 -81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-5月 -81       2850                    30
+      7782 CLARK      MANAGER         7839 09-6月 -81       2450                    10
+      7788 SCOTT      ANALYST         7566 19-4月 -87       3200                    20
+      7839 KING       PRESIDENT            17-11月-81       5000                    10
+      7844 TURNER     SALESMAN        7698 08-9月 -81       1500          0         30
+      7876 ADAMS      CLERK           7788 23-5月 -87       1100                    20
+      7900 JAMES      CLERK           7698 03-12月-81       1150                    30
+      7902 FORD       ANALYST         7566 03-12月-81       3000                    20
+      7934 MILLER     CLERK           7782 23-1月 -82       1950                    10

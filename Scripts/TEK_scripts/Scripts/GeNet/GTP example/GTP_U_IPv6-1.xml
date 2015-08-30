@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE GENET_MODEL SYSTEM "/usr/etc/GeNetModel.dtd">
+
+<GENET_MODEL>
+
+    <INCLUDE> NetworkModel.xml </INCLUDE>
+    <PDU_PATH>  GTP </PDU_PATH>
+    <DELAY_PDU> 150 </DELAY_PDU>
+    <OPTION name="GTP-VERSION" value="1" />
+
+    <TRAFFIC_MODEL>
+       <LOOP count="1">
+	<PDU link="GTPC-atca20_SGSN1-atca20_GGSN1-1" data="ipv6_1NetCom-CreatePDPContextRequest-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPC-atca20_SGSN1-atca20_GGSN1-1" data="ipv6_2NetCom-CreatePDPContextResponse-V1.su" dir="RX" wait="150" >
+             </PDU>
+
+<!--       
+	<PDU link="GTPC-atca20_SGSN1-atca20_GGSN1-1" data="NetCom-CreatePDPContextRequest-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPC-atca20_SGSN1-atca20_GGSN1-1" data="NetCom-CreatePDPContextResponse-V1.su" dir="RX" wait="150" >
+             </PDU>
+-->
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp1-extHead-NetCom-GPDU1-HopByHop-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp2-extHead-NetCom-GPDU2-Routing-V1.su" dir="RX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp3-extHead-NetCom-GPDU1-AH-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp4-extHead-NetCom-GPDU2-Fragment-V1.su" dir="RX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp5-extHead-NetCom-GPDU1-Destination-V1.su" dir="RX" wait="150" >
+              </PDU>
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp6-extHead-NetCom-GPDU2-NoNextHeader-V1.su" dir="RX" wait="150" >
+              </PDU>
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp7-extHead-NetCom-GPDU1-multi1-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp2-extHead-NetCom-GPDU2-Routing-V1.su" dir="RX" wait="150" >
+              </PDU> 
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp9-extHead-NetCom-GPDU1-multi2-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp2-extHead-NetCom-GPDU2-Routing-V1.su" dir="RX" wait="150" >
+              </PDU> 
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp11-extHead-NetCom-GPDU1-multi3-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp2-extHead-NetCom-GPDU2-Routing-V1.su" dir="RX" wait="150" >
+              </PDU>
+
+       <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp13-extHead-NetCom-GPDU1-multi4-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+       <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp14-extHead-NetCom-GPDU2-NoExtHeader-V1.su" dir="RX" wait="150" >
+              </PDU>
+
+       <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="noGtpuOpt-udp7-extHead-NetCom-GPDU1-multi1-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+       <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="noGtpuOpt-udp1-extHead-NetCom-GPDU1-HopByHop-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp15-extHead-NetCom-GPDU1-multi-ESP-V1.su" dir="TX" wait="150" >
+              </PDU>
+
+        <PDU link="GTPU-atca20_SGSN1-atca20_GGSN1-1" data="udp16-extHead-NetCom-GPDU2-ESP-V1.su" dir="RX" wait="150" >
+              </PDU>
+
+      <PDU link="GTPC-atca20_SGSN1-atca20_GGSN1-1" data="NetCom-DeletePDPContextRequest-V1.su" dir="TX" wait="150" >
+                </PDU>
+      <PDU link="GTPC-atca20_SGSN1-atca20_GGSN1-1" data="NetCom-DeletePDPContextResponse-V1.su" dir="RX" wait="150" >
+                </PDU>
+
+
+      </LOOP>
+  </TRAFFIC_MODEL>
+
+</GENET_MODEL>

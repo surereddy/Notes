@@ -1,0 +1,186 @@
+#jira-chart .jira-chart-search {
+	padding: 10px 10px 0px;
+}
+#jira-chart .jira-chart-search .search-help {
+	font-size: 10px;
+}
+#jira-chart #jira-chart-content {
+	height: 470px; overflow: hidden; margin-top: 10px; position: relative; z-index: 40;
+}
+#jira-chart #jira-chart-content .jira-chart-img {
+	margin: 0px; padding: 0px; overflow: hidden;
+}
+#chart-preview-iframe {
+	border: 0px currentColor; width: 100%; height: 375px;
+}
+.jira-chart-macro-wrapper .info {
+	text-align: center;
+}
+.jira-chart-macro-preview-container {
+	text-align: center;
+}
+.jira-chart-macro-img {
+	margin-right: auto; margin-left: auto; display: block;
+}
+.jira-chart-macro-wrapper {
+	padding: 10px 0px; display: inline-block;
+}
+.jira-chart-macro-wrapper .info a {
+	text-decoration: none;
+}
+#jira-chart-macro-preview-contaier .aui-message {
+	margin-top: -20px; margin-right: -19px; margin-left: -19px;
+}
+#jira-chart-content div.one-server.jira-chart-search-input {
+	width: 535px; display: inline-block;
+}
+#jira-chart-content .jira-chart-option {
+	background: 0px 0px rgb(255, 255, 255); width: 100%; border-top-color: rgb(204, 204, 204); border-top-width: 1px; border-top-style: solid; position: absolute; z-index: 50;
+}
+#jira-chart a.jirachart-display-opts-open {
+	line-height: 27px; font-size: 14px;
+}
+#jira-chart a.jirachart-display-opts-close {
+	line-height: 27px; font-size: 14px;
+}
+#jira-chart a.disabled.jirachart-display-opts-open {
+	color: rgb(131, 131, 131); text-decoration: none; cursor: help; opacity: 0.5;
+}
+#jira-chart .dialog-panel-body {
+	padding: 0px !important;
+}
+#jira-chart .jira-chart-img .chart-img {
+	height: 375px; text-align: center; overflow: auto; padding-top: 2px;
+}
+#jira-chart .jira-chart-img .aui-message-container {
+	margin: 0px 10px;
+}
+#jira-chart-content div.jira-chart-search-input {
+	width: 380px; display: inline-block;
+}
+#jira-chart-content .select#jira-chart-servers {
+	margin: 0px 8px 1px; padding-top: 5px; max-width: 125px;
+}
+.jirachart-border {
+	border: 1px solid rgb(204, 204, 204);
+}
+#jira-chart-content .jirachart-display-opts-close span {
+	background: url("/s/en_GB-1988229788/4731/0a2d13ba65b62df25186f4b87e6c642af1792689.17/5.3.3-m6/_/download/resources/confluence.extra.jira:jirachart-resources/icon-expand-view-down.png") no-repeat; margin: 0px 5px 3px 0px; width: 15px; height: 15px; vertical-align: middle; display: inline-block;
+}
+#jira-chart-content a.jirachart-display-opts-open span {
+	background: url("/s/en_GB-1988229788/4731/0a2d13ba65b62df25186f4b87e6c642af1792689.17/5.3.3-m6/_/download/resources/confluence.extra.jira:jirachart-resources/icon-expand-view-up.png") no-repeat; margin: 0px 5px 3px 0px; width: 15px; height: 15px; vertical-align: middle; display: inline-block;
+}
+#jira-chart-content .loading-data {
+	margin-top: 60px; margin-left: 250px;
+}
+#jira-chart .moreToCome {
+	padding-left: 10px;
+}
+.long-field.one-server#jira-chart-inputsearch {
+	max-width: 525px;
+}
+.search-text#jira-chart-inputsearch {
+	max-width: 390px;
+}
+#jira-chart-content .jiraChartOption {
+	padding: 8px 10px;
+}
+#jira-chart-macro-dialog-validation-error {
+	color: red;
+}
+.content-navigation .ajs-button .share > span {
+	padding-left: 0px;
+}
+.content-navigation .ajs-button .share > span::before {
+	content: "\e015";
+}
+#inline-dialog-shareContentPopup .contents {
+	overflow: visible;
+}
+.share-content-popup .button-panel {
+	text-align: right;
+}
+.share-content-popup .button-panel input:disabled {
+	color: graytext;
+}
+.share-content-popup .button-panel .close-dialog {
+	padding-left: 5px;
+}
+form.share-content-popup .textarea {
+	width: 250px; height: 100px; padding-right: 3px; padding-left: 3px; max-height: 260px;
+}
+.share-content-popup ol.recipients {
+	margin: 7px 0px; padding: 0px; list-style-type: none;
+}
+.share-content-popup ol.recipients li {
+	margin: 5px 0px; line-height: 24px; -ms-word-wrap: normal;
+}
+.share-content-popup ol.recipients li .title {
+	overflow: hidden; vertical-align: middle; display: inline-block; -ms-text-overflow: ellipsis; max-width: 185px;
+}
+.share-content-popup ol.recipients li img {
+	border-radius: 3px; width: 24px; height: 24px; margin-right: 5px; vertical-align: middle;
+}
+.progress-messages {
+	left: 0px; height: 30px; text-align: left; overflow: hidden; white-space: nowrap; position: absolute; -ms-text-overflow: ellipsis; max-width: 110px;
+}
+.share-content-popup .done {
+	background: url("/s/en_GB-1988229788/4731/0a2d13ba65b62df25186f4b87e6c642af1792689.17/3.1.4/_/download/resources/com.atlassian.confluence.plugins.share-page:mail-page-resources/images/tick.png") no-repeat; top: 7px; width: 16px; height: 16px;
+}
+.share-content-popup .error {
+	background: url("/s/en_GB-1988229788/4731/0a2d13ba65b62df25186f4b87e6c642af1792689.17/3.1.4/_/download/resources/com.atlassian.confluence.plugins.share-page:mail-page-resources/images/error.png") no-repeat; top: 7px; width: 16px; height: 16px;
+}
+.share-content-popup .autocomplete li.active a span {
+	color: white;
+}
+.share-page-progress {
+	border-radius: 3px; position: absolute; z-index: 1; background-color: white; -moz-border-radius: 3px; -webkit-border-radius: 3px;
+}
+.share-page-progress-container-inner {
+	text-align: center; position: absolute;
+}
+.share-content-popup .remove-recipient {
+	background: url("/s/en_GB-1988229788/4731/0a2d13ba65b62df25186f4b87e6c642af1792689.17/3.1.4/_/download/resources/com.atlassian.confluence.plugins.share-page:mail-page-resources/images/delete.png") no-repeat 100% 50%; width: 24px; height: 24px; text-indent: -9999px; float: right; cursor: pointer;
+}
+.share-content-popup .aui-dd-parent {
+	width: 250px;
+}
+#com-atlassian-confluence .share-content-popup .aui-dd-parent .aui-dropdown {
+	width: 250px;
+}
+form.aui .share-page-progress-container-inner p {
+	margin: 0px; padding-bottom: 0px;
+}
+form.share-content-popup .field-group {
+	padding-left: 0px;
+}
+form.share-content-popup .button-panel.field-group {
+	line-height: 30px; padding-bottom: 0px; margin-bottom: 0px;
+}
+.aui-inline-dialog .contents .share-content-popup .submit {
+	text-align: center;
+}
+.content-navigation .watching.watch-menu > span {
+	background-image: url("data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAAJFBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHCCgoL////19fVwcHBwcHDPoo7sAAAADHRSTlMAESKImbvM3e7u7v97HVn+AAAACXBIWXMAAAsSAAALEgHS3X78AAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABR0RVh0Q3JlYXRpb24gVGltZQA2LzEvMTM4qUXQAAAAQUlEQVQImWNgwAdUVu9yAtHMu4HAgIGBMRrE2CrAILZ7d+X03bsTGbJ3757RuXv3NgQDLsWYDVK8TQChHWEgTgAAcnclQo9PkVIAAAAASUVORK5CYII=");
+}
+.content-navigation .not-watching.watch-menu > span {
+	background-image: url("data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAAe1BMVEX///9wcHCxsbFwcHBwcHBwcHCkpKShoaGdnZ2ZmZlwcHCUlJRwcHD////7+/v29vbz8/Pw8PDt7e3r6+vj4+PX19fT09PMzMzDw8O/v7++vr65ubm3t7exsbGJiYmJiYmHh4eFhYV+fn58fHx4eHh2dnZ1dXVycnJwcHBJpy62AAAAKXRSTlMAIjMzRFWZqrvMzN3d7u7u7u7u7u7u7u7u7u7u7u7u/////////////5CXlmwAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAAFHRFWHRDcmVhdGlvbiBUaW1lADYvMS8xMzipRdAAAAB3SURBVBiVnY5JEoJQDEQjfAUNUSYFGYJKILn/CRV/WbLV3r2u6gHgPwUoaoLBh3fyuKZFM0jkOZ76nNU462ZcGKUiPmzChKkS9EwWAjgjOo8IqBdvbNUbgGN95MS5V6Se3iV77U9s39Jl9taUZXvXaH1MV8d+1BNKdAn6cxUraQAAAABJRU5ErkJggg==");
+}
+.cw-status {
+	transition:opacity 50ms linear; opacity: 1; -webkit-transition: opacity 50ms linear; -moz-transition: opacity 50ms linear; -o-transition: opacity 50ms linear;
+}
+.loading.cw-status {
+	opacity: 0.4;
+}
+.cw-title-description {
+	margin-top: 0px; margin-bottom: 10px;
+}
+.cw-manage-watchers-wrapper {
+	margin-top: 10px; margin-bottom: -5px;
+}
+.cw-tooltip {
+	padding-top: 5px; padding-left: 20px; margin-left: -20px;
+}
+#cw-notification-container {
+	width: 300px; right: 30px; bottom: 30px; position: fixed; z-index: 5;
+}

@@ -1,0 +1,588 @@
+#breadcrumbs {
+	margin: 0px; padding: 0px; font-size: 0px;
+}
+#breadcrumbs li {
+	color: rgb(51, 51, 51); font-size: 14px; display: inline-block;
+}
+#breadcrumbs li::before {
+	padding: 0px 2px 0px 6px; display: inline-block; content: "/";
+}
+#breadcrumbs li:first-child::before {
+	display: none;
+}
+#ellipsis {
+	cursor: pointer;
+}
+.page-metadata {
+	margin: -15px 0px 20px;
+}
+.page-metadata ul {
+	padding: 0px; line-height: 16px; list-style-type: none;
+}
+.page-metadata {
+	color: rgb(112, 112, 112); line-height: 1.5; font-size: 12px;
+}
+.page-metadata ul li a:link {
+	color: rgb(112, 112, 112); line-height: 1.5; font-size: 12px;
+}
+.page-metadata ul li a:focus {
+	color: rgb(112, 112, 112); line-height: 1.5; font-size: 12px;
+}
+.page-metadata ul li a:hover {
+	color: rgb(112, 112, 112); line-height: 1.5; font-size: 12px;
+}
+.page-metadata ul li a:active {
+	color: rgb(112, 112, 112); line-height: 1.5; font-size: 12px;
+}
+.page-metadata ul li a:visited {
+	color: rgb(112, 112, 112); line-height: 1.5; font-size: 12px;
+}
+.page-metadata .modified {
+	margin-left: 5px;
+}
+.has-sidebar .edit#content form.markup {
+	margin-right: 17em;
+}
+.has-sidebar .wiki-content {
+	margin-right: 17em;
+}
+.active-wikimarkup.has-sidebar .errorBox {
+	margin-right: 17em;
+}
+.has-sidebar .space#content {
+	margin-right: 18em;
+}
+#sidebar {
+	padding: 10px; width: 16em; clear: right; margin-left: 10px; float: right;
+}
+.sidebar {
+	padding: 10px; width: 16em; clear: right; margin-left: 10px; float: right;
+}
+.content-preview #main {
+	min-height: 0px;
+}
+body.popup-window {
+	background-color: rgb(255, 255, 255);
+}
+body.content-preview {
+	background-color: rgb(255, 255, 255);
+}
+.aui-theme-default.content-preview {
+	background-color: rgb(255, 255, 255);
+}
+.aui-theme-default.content-preview .aui-page-panel#main {
+	border: 0px currentColor;
+}
+.with-breadcrumbs#title-heading img {
+	margin-right: 10px; float: left;
+}
+.edit-link {
+	float: right;
+}
+body.dashboard.theme-documentation h1.with-breadcrumbs#title-heading img.logo {
+	margin-top: -10px;
+}
+body.spaces.theme-documentation h1.with-breadcrumbs#title-heading img.logo {
+	margin-top: -10px;
+}
+body.people.theme-documentation h1.with-breadcrumbs#title-heading img.logo {
+	margin-top: -10px;
+}
+body.view-blogposts-mode.theme-documentation #content {
+	overflow: auto;
+}
+body.theme-documentation h1.with-breadcrumbs#title-heading img.logo {
+	width: 48px; height: 48px;
+}
+body.theme-documentation .space-logo img.logo {
+	width: 48px; height: 48px;
+}
+body.theme-documentation #space-list .space-logo img.logo {
+	width: 32px; height: 32px;
+}
+body.theme-documentation h1.with-breadcrumbs#title-heading .userLogoLink img.logo {
+	margin-top: 0px;
+}
+body.theme-documentation h1.with-breadcrumbs#title-heading .space-logo img.logo {
+	margin-top: 0px;
+}
+body.theme-documentation #header .aui-header {
+	float: none;
+}
+body.theme-documentation #header br.clear {
+	display: none;
+}
+body.theme-documentation #footer {
+	margin: 0px; padding: 0px; border-top-color: rgb(204, 204, 204); border-top-width: 1px; border-top-style: solid; background-image: none; background-color: rgb(245, 245, 245);
+}
+body.theme-documentation #footer .footer-body {
+	margin: 0px; padding: 5px 10px; background-image: none;
+}
+body.login.theme-documentation #footer {
+	margin: 20px 0px; padding: 0px 0px 65px; border-top-color: currentColor; border-top-width: 0px; border-top-style: none;
+}
+body {
+	color: rgb(51, 51, 51);
+}
+p {
+	color: rgb(51, 51, 51);
+}
+table {
+	color: rgb(51, 51, 51);
+}
+tr {
+	color: rgb(51, 51, 51);
+}
+td {
+	color: rgb(51, 51, 51);
+}
+.bodytext {
+	color: rgb(51, 51, 51);
+}
+.stepfield {
+	color: rgb(51, 51, 51);
+}
+.wiki-content p {
+	color: rgb(51, 51, 51);
+}
+.panelContent {
+	color: rgb(51, 51, 51);
+}
+body {
+	background-color: transparent;
+}
+p {
+	background-color: transparent;
+}
+.bodytext {
+	background-color: transparent;
+}
+.stepfield {
+	background-color: transparent;
+}
+.wiki-content p {
+	background-color: transparent;
+}
+.panelContent {
+	background-color: transparent;
+}
+#version-comment {
+	margin: 1em 0px;
+}
+#content > .wiki-content {
+	margin: 1em 0px 0px;
+}
+a:link {
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+}
+a:active {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+.section-header a:link {
+	
+}
+.section-header a:active {
+	
+}
+.section-header a:hover {
+	
+}
+.section-header a:visited {
+	
+}
+.preformatted {
+	background-color: rgb(255, 255, 255);
+}
+.panel {
+	border-radius: 5px; border: 1px solid rgb(187, 187, 187); background-color: rgb(240, 240, 240); -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+#content .panel {
+	border-radius: 5px; border: 1px solid rgb(187, 187, 187); background-color: rgb(240, 240, 240); -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+#content .code {
+	border-style: dashed; background-color: rgb(255, 255, 255);
+}
+.panel .panelHeader {
+	padding: 10px 10px 5px; text-align: left; color: rgb(51, 51, 51); line-height: 1em; margin-bottom: 0px; border-bottom-color: rgb(240, 240, 240); border-top-left-radius: 5px; border-top-right-radius: 5px; -webkit-border-top-left-radius: 5px; -moz-border-radius-topleft: 5px; -webkit-border-top-right-radius: 5px; -moz-border-radius-topright: 5px;
+}
+.panel .panelContent {
+	padding: 0px 10px; margin-top: 10px; margin-bottom: 10px;
+}
+.panelMacro {
+	margin-right: 0px; margin-left: 0px;
+}
+.panel {
+	margin-right: 0px; margin-left: 0px;
+}
+.panelMacro table {
+	padding: 10px;
+}
+.panelMacro td {
+	padding: 0px;
+}
+.panelMacro p {
+	padding: 0px;
+}
+#content .infoMacro {
+	border-width: 1px; border-style: solid; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+#content .tipMacro {
+	border-width: 1px; border-style: solid; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+#content .warningMacro {
+	border-width: 1px; border-style: solid; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+#content .noteMacro {
+	border-width: 1px; border-style: solid; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+.infoMacro {
+	border-color: rgb(158, 182, 212); background-color: rgb(224, 239, 255);
+}
+.tipMacro {
+	border-color: rgb(158, 196, 159); background-color: rgb(221, 250, 222);
+}
+.warningMacro {
+	border-color: rgb(223, 152, 152); background-color: rgb(255, 231, 231);
+}
+.noteMacro {
+	border-color: rgb(247, 223, 146); background-color: rgb(255, 255, 221);
+}
+@media screen, projection
+{
+html {
+	margin: 0px; padding: 0px;
+}
+body {
+	margin: 0px; padding: 0px;
+}
+html.splitter-invoked {
+	overflow: hidden;
+}
+body.splitter-invoked {
+	overflow: hidden;
+}
+#main {
+	padding: 20px; border: 0px currentColor; min-height: 40em; _height: 40em;
+}
+hr {
+	border: 1px solid rgb(204, 204, 204); height: 0px;
+}
+#theme-header {
+	text-align: center;
+}
+#theme-footer {
+	text-align: center;
+}
+#theme-header .sectionMacro .columnMacro {
+	text-align: center;
+}
+#theme-footer .sectionMacro .columnMacro {
+	text-align: center;
+}
+#splitter-sidebar ul {
+	list-style: none; margin: 0px; padding: 0px;
+}
+#splitter-sidebar li {
+	padding: 5px 0px; border-bottom-color: rgb(204, 204, 204); border-bottom-width: 1px; border-bottom-style: solid;
+}
+#splitter-sidebar h1 {
+	margin: 10px 0px 0px; padding: 0px; width: auto; line-height: 1.5em; border-bottom-color: rgb(204, 204, 204); border-bottom-width: 2px; border-bottom-style: solid; white-space: nowrap;
+}
+#splitter-sidebar h2 {
+	margin: 10px 0px 0px; padding: 0px; width: auto; line-height: 1.5em; border-bottom-color: rgb(204, 204, 204); border-bottom-width: 2px; border-bottom-style: solid; white-space: nowrap;
+}
+#splitter-sidebar h3 {
+	margin: 10px 0px 0px; padding: 0px; width: auto; line-height: 1.5em; border-bottom-color: rgb(204, 204, 204); border-bottom-width: 2px; border-bottom-style: solid; white-space: nowrap;
+}
+#splitter-sidebar li a {
+	padding-left: 10px;
+}
+#splitter-sidebar p {
+	padding-left: 10px;
+}
+#splitter-sidebar h1 {
+	padding-left: 10px;
+}
+#splitter-sidebar h2 {
+	padding-left: 10px;
+}
+#splitter-sidebar h3 {
+	padding-left: 10px;
+}
+#splitter-sidebar h1 {
+	font-size: 1.2em;
+}
+#splitter-sidebar h2 {
+	font-size: 1.1em;
+}
+#splitter-sidebar h3 {
+	font-size: 1em;
+}
+#splitter-sidebar a {
+	color: rgb(51, 51, 51); font-size: 0.9em; text-decoration: none;
+}
+#splitter-sidebar a:hover {
+	color: rgb(0, 0, 0); text-decoration: underline;
+}
+#splitter {
+	min-height: 300px; min-width: 600px;
+}
+#splitter-sidebar {
+	background-position: right top; display: block; background-image: url("/s/en_GB-1988229788/4731/0a2d13ba65b62df25186f4b87e6c642af1792689.17/5.4.2/_/download/resources/com.atlassian.confluence.plugins.doctheme:css-resources/sidebar-shadow.png"); background-repeat: repeat-y; background-color: rgb(240, 240, 240);
+}
+#splitter #splitter-content {
+	background-color: rgb(255, 255, 255);
+}
+#splitter #splitter-content {
+	overflow: auto;
+}
+#splitter #splitter-sidebar {
+	overflow: auto;
+}
+.vsplitbar {
+	background: url("/s/en_GB-1988229788/4731/0a2d13ba65b62df25186f4b87e6c642af1792689.17/5.4.2/_/download/resources/com.atlassian.confluence.plugins.doctheme:css-resources/vgrabber.gif") no-repeat center rgb(204, 204, 204); width: 5px; display: block;
+}
+.blog-sidebar {
+	margin-bottom: 2em;
+}
+.view-blog-post #blog-sidebar {
+	display: none;
+}
+#splitter-button {
+	background: url("/s/en_GB-1988229788/4731/0a2d13ba65b62df25186f4b87e6c642af1792689.17/5.4.2/_/download/resources/com.atlassian.confluence.plugins.doctheme:css-resources/tree.png") no-repeat 4px 50%; width: 30px; height: 18px; padding-top: 4px; padding-bottom: 4px; margin-left: 5px; cursor: pointer;
+}
+#doctheme-anchor > #splitter-button {
+	width: 20px; height: 100%; padding-top: 0px; padding-bottom: 0px; margin-left: 8px;
+}
+#doctheme-anchor {
+	padding: 0px; width: 40px; height: 40px; cursor: pointer;
+}
+.collapsed#splitter-button {
+	background: url("/s/en_GB-1988229788/4731/0a2d13ba65b62df25186f4b87e6c642af1792689.17/5.4.2/_/download/resources/com.atlassian.confluence.plugins.doctheme:css-resources/tree-off.png") no-repeat 4px 50%;
+}
+#splitter-sidebar .plugin_pagetree {
+	margin-left: -10px;
+}
+#splitter-sidebar .plugin_pagetree #pagetreesearch {
+	margin: 10px 0px 10px 20px; min-width: 230px;
+}
+#splitter-sidebar .plugin_pagetree img {
+	width: 9px; height: 9px;
+}
+#splitter-sidebar .plugin_pagetree span img {
+	display: none;
+}
+#splitter-sidebar .plugin_pagetree ul {
+	padding-left: 10px !important; margin-left: 0px !important;
+}
+#splitter-sidebar .plugin_pagetree li {
+	margin: 0px; padding: 0px; text-decoration: none; border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+#splitter-sidebar .plugin_pagetree li a {
+	color: rgb(76, 76, 76); padding-left: 0px; text-decoration: none;
+}
+#splitter-sidebar .plugin_pagetree ul {
+	color: rgb(76, 76, 76); padding-left: 0px; text-decoration: none;
+}
+#splitter-sidebar .plugin_pagetree li a:hover {
+	text-decoration: underline;
+}
+#splitter .padding-div .plugin_pagetree {
+	padding-top: 10px;
+}
+#splitter-sidebar .plugin_pagetree_children > .plugin_pagetree_children_loading_wrapper {
+	padding-left: 10px;
+}
+#splitter-sidebar .plugin_pagetree_children .plugin_pagetree_children_loading_wrapper {
+	padding-bottom: 5px;
+}
+#splitter-sidebar .plugin_pagetree .plugin_pagetree_children_loading {
+	font-size: 0.9em;
+}
+#pagetreesearch input {
+	border: 1px solid rgb(204, 204, 204); color: rgb(102, 102, 102); background-color: rgb(255, 255, 255);
+}
+.tab-navigation .tab a {
+	border: currentColor; color: rgb(153, 153, 153); font-weight: normal; background-color: transparent;
+}
+.tab-navigation .tab a:hover {
+	border: currentColor; color: rgb(0, 0, 0); font-weight: normal; background-color: transparent;
+}
+#tab-navigation {
+	margin: 1em 0px 2em -10px; border-bottom-color: rgb(204, 204, 204); background-color: transparent;
+}
+ul.tab-navigation .current a:hover {
+	border: currentColor; color: rgb(0, 0, 0); background-color: transparent;
+}
+ul.tab-navigation .current a {
+	border: currentColor; color: rgb(0, 0, 0); background-color: transparent;
+}
+#splitter-sidebar .panel {
+	border: 0px currentColor;
+}
+#splitter-sidebar .panel .panelContent {
+	padding: 0px 10px; margin-top: 0px;
+}
+#theme-header .panelMacro {
+	margin-bottom: 0px;
+}
+#theme-header .panelMacro td {
+	padding: 5px 0px;
+}
+#theme-header .panelMacro p {
+	padding: 5px 0px;
+}
+#theme-header .infoMacro {
+	border-bottom-width: 1px; border-bottom-style: solid;
+}
+#theme-header .tipMacro {
+	border-bottom-width: 1px; border-bottom-style: solid;
+}
+#theme-header .warningMacro {
+	border-bottom-width: 1px; border-bottom-style: solid;
+}
+#theme-header .noteMacro {
+	border-bottom-width: 1px; border-bottom-style: solid;
+}
+#theme-header .panel {
+	border-bottom-width: 1px; border-bottom-style: solid;
+}
+#theme-footer .infoMacro {
+	border-top-width: 1px; border-top-style: solid;
+}
+#theme-footer .tipMacro {
+	border-top-width: 1px; border-top-style: solid;
+}
+#theme-footer .warningMacro {
+	border-top-width: 1px; border-top-style: solid;
+}
+#theme-footer .noteMacro {
+	border-top-width: 1px; border-top-style: solid;
+}
+#theme-footer .panel {
+	border-top-width: 1px; border-top-style: solid;
+}
+#theme-footer .panelMacro {
+	margin: 0px;
+}
+#theme-footer p {
+	margin-top: 0px;
+}
+#footer #poweredby {
+	background-image: none;
+}
+#personal-info-sidebar {
+	margin-right: -20px;
+}
+.sectionMacro .confluenceTd.columnMacro {
+	padding-right: 20px;
+}
+div.rssMacro {
+	border-radius: 5px; border: 1px solid rgb(204, 204, 204); margin-bottom: 20px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
+}
+div.rssMacro table {
+	margin: 0px;
+}
+div.rssMacro table th a {
+	color: rgb(0, 0, 0);
+}
+div.rssMacro table th {
+	border: 0px currentColor;
+}
+.rssMacro table td {
+	border: 0px currentColor;
+}
+div.rssMacro b {
+	font-weight: normal;
+}
+}
+@media print
+{
+html {
+	height: 100% !important; overflow: visible !important;
+}
+body {
+	height: 100% !important; overflow: visible !important;
+}
+#main {
+	height: 100% !important; overflow: visible !important;
+}
+#splitter {
+	height: 100% !important; overflow: visible !important;
+}
+#full-height-container {
+	height: 100% !important; overflow: visible !important;
+}
+html.splitter-invoked {
+	height: auto !important; overflow: visible !important;
+}
+body.splitter-invoked {
+	height: auto !important; overflow: visible !important;
+}
+#theme-header {
+	display: none;
+}
+#theme-footer {
+	display: none;
+}
+#splitter-sidebar {
+	display: none;
+}
+.vsplitbar {
+	display: none;
+}
+#labels-section {
+	display: none;
+}
+#children-section {
+	display: none;
+}
+#footer {
+	display: none;
+}
+#splitter #splitter-content {
+	left: 0px !important; width: 800px !important; height: 100% !important; overflow: visible !important;
+}
+.panel {
+	page-break-inside: avoid;
+}
+panelMacro {
+	page-break-inside: avoid;
+}
+body {
+	background: rgb(255, 255, 255); color: rgb(0, 0, 0);
+}
+p {
+	background: rgb(255, 255, 255); color: rgb(0, 0, 0);
+}
+td {
+	background: rgb(255, 255, 255); color: rgb(0, 0, 0);
+}
+table {
+	background: rgb(255, 255, 255); color: rgb(0, 0, 0);
+}
+tr {
+	background: rgb(255, 255, 255); color: rgb(0, 0, 0);
+}
+.bodytext {
+	background: rgb(255, 255, 255); color: rgb(0, 0, 0);
+}
+.stepfield {
+	background: rgb(255, 255, 255); color: rgb(0, 0, 0);
+}
+.wiki-content p {
+	background: rgb(255, 255, 255); color: rgb(0, 0, 0);
+}
+.panelContent {
+	background: rgb(255, 255, 255); color: rgb(0, 0, 0);
+}
+.wiki-content a {
+	background: rgb(255, 255, 255); color: rgb(0, 0, 0);
+}
+}

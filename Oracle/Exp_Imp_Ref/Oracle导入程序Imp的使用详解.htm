@@ -1,0 +1,657 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0041)http://okone96.itpub.net/post/9033/196742 -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>迈克尔的HANDBOOK : Oracle导入程序Imp的使用详解</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=GB2312">
+<META content="MSHTML 6.00.2900.5764" name=GENERATOR>
+<META http-equiv=Content-Language content=zh-CN><LINK title="RSS 2.0" 
+href="http://okone96.itpub.net/rss/rss20/9033" type=application/xml 
+rel=alternate><LINK title="RSS 1.0" 
+href="http://okone96.itpub.net/rss/rss10/9033" type=application/xml 
+rel=alternate><LINK title="RSS 0.90" 
+href="http://okone96.itpub.net/rss/rss090/9033" type=application/xml 
+rel=alternate><LINK title="Atom 0.3" 
+href="http://okone96.itpub.net/rss/atom/9033" type=application/atom+xml 
+rel=alternate><LINK media=screen href="Oracle导入程序Imp的使用详解.files/default.css" 
+type=text/css rel=stylesheet>
+<SCRIPT language=javascript type=text/javascript>
+var HOST = 'http://okone96.itpub.net';
+</SCRIPT>
+
+<SCRIPT language=JavaScript1.1 src="Oracle导入程序Imp的使用详解.files/treemenu.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT language=JavaScript1.1 src="Oracle导入程序Imp的使用详解.files/chgstyle.js" 
+type=text/javascript></SCRIPT>
+<!-- 页面布局css --><LINK title=a href="Oracle导入程序Imp的使用详解.files/style0a.css" 
+type=text/css rel=stylesheet><LINK title=b 
+href="Oracle导入程序Imp的使用详解.files/style0b.css" type=text/css rel=stylesheet><LINK 
+title=c href="Oracle导入程序Imp的使用详解.files/style0c.css" type=text/css 
+rel=stylesheet>
+<SCRIPT language=javascript type=text/javascript>
+	  var cookielayout = readCookie("layout");
+	  var layouttitle = cookielayout ? cookielayout : getPreferredLayout();
+	  setActiveLayout(layouttitle);
+	</SCRIPT>
+<!-- 配色方案css --><LINK title=1 href="Oracle导入程序Imp的使用详解.files/style1.css" 
+type=text/css rel=stylesheet><LINK title=2 
+href="Oracle导入程序Imp的使用详解.files/style2.css" type=text/css rel=stylesheet><LINK 
+title=3 href="Oracle导入程序Imp的使用详解.files/style3.css" type=text/css 
+rel=stylesheet><LINK title=4 href="Oracle导入程序Imp的使用详解.files/style4.css" 
+type=text/css rel=stylesheet><LINK title=5 
+href="Oracle导入程序Imp的使用详解.files/style5.css" type=text/css rel=stylesheet><LINK 
+title=6 href="Oracle导入程序Imp的使用详解.files/style6.css" type=text/css rel=stylesheet>
+<SCRIPT language=javascript type=text/javascript>
+	  var cookiecolor = readCookie("color");
+	  var colortitle = cookiecolor ? cookiecolor : getPreferredColorSchema();
+	  setActiveColorSchema(colortitle);
+	</SCRIPT>
+<LINK title=Home href="http://okone96.itpub.net" rel=start><LINK title=细说多态 
+href="http://okone96.itpub.net/post/9033/194502" rel=prev><LINK 
+title=我对面向对象设计的理解——Java接口和Java抽象类 
+href="http://okone96.itpub.net/post/9033/200229" rel=next></HEAD>
+<BODY>
+<DIV id=masthead>
+<DIV id=siteName><A href="http://okone96.itpub.net/">迈克尔的HANDBOOK</A></DIV>
+<DIV id=globalNav>
+<DIV id=globalLink><A href="http://okone96.itpub.net/">首页</A> | <A 
+href="http://okone96.itpub.net/admin.php">管理控制台</A> | <A 
+href="http://okone96.itpub.net/album/9033/0">资源中心</A> | = | <A title=3? 
+href="http://okone96.itpub.net/category/9033/55264">java技巧程序</A> | <A title=6? 
+href="http://okone96.itpub.net/category/9033/41340">PHP</A> | <A title=37? 
+href="http://okone96.itpub.net/category/9033/38663">随笔</A> | <A title=4? 
+href="http://okone96.itpub.net/category/9033/35222">搜索引擎</A> | <A title=29? 
+href="http://okone96.itpub.net/category/9033/35101">数据库</A> | <A title=7? 
+href="http://okone96.itpub.net/category/9033/41560">中间件</A> | <A title=32? 
+href="http://okone96.itpub.net/category/9033/35223">WEB2.0</A> | <A title=72? 
+href="http://okone96.itpub.net/category/9033/35105">JAVA</A> | <A title=19? 
+href="http://okone96.itpub.net/category/9033/21649">操作系统</A> | <A title=4? 
+href="http://okone96.itpub.net/category/9033/21650">WAP</A> | <A title=7? 
+href="http://okone96.itpub.net/category/9033/38061">Eclipse</A> </DIV>
+<FORM id=search action=http://okone96.itpub.net/index.php method=post><INPUT 
+size=14 name=searchTerms> <INPUT type=hidden value=Search name=op> <INPUT 
+type=hidden value=9033 name=blogId> <INPUT type=submit value=搜索 name=Search> 
+</FORM></DIV><!--end globalNav--></DIV><!-- end masthead -->
+<DIV id=pagecell><!--pagecell-->
+<DIV id=content>
+<DIV class=story><!-- <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                   xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                   xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/"><rdf:Description
+                             rdf:about="http://okone96.itpub.net/post/9033/196742"
+                             dc:identifier="http://okone96.itpub.net/post/9033/196742"
+                             dc:title="Oracle导入程序Imp的使用详解"
+                             trackback:ping="http://blog.itpub.net//trackback.php?id=196742"/></rdf:RDF> -->
+<DIV class=noDisplay>=========================================================== 
+</DIV>
+<DIV class=storyTitle><A 
+href="http://okone96.itpub.net/post/9033/196742">Oracle导入程序Imp的使用详解</A> </DIV>
+<DIV class=noDisplay>=========================================================== 
+</DIV>
+<DIV class=storyInfo>
+<H1>Oracle导入程序Imp的使用详解</H1>作者: okone96(http://okone96.itpub.net)<BR>发表于: 
+2006.08.21 17:34<BR>分类: 数据库 <BR>出处: 
+http://okone96.itpub.net/post/9033/196742<BR>--------------------------------------------------------------- 
+<BR></DIV>
+<DIV class=storytext>
+<P><FONT size=2>Oracle的导入实用程序(Import 
+utility)允许从数据库提取数据，并且将数据写入操作系统文件。imp使用的基本格式：imp[username[/password[@service]]]，以下例举imp常用用法。 
+</FONT></P><BR>
+<P class=postText align=left><FONT size=2>1. 获取帮助 </FONT></P>
+<DIV twffan="done"><PRE><FONT size=2> imp help=y</FONT></PRE></DIV>
+<P class=postText align=left><FONT size=2>2. 导入一个完整数据库</FONT></P>
+<DIV twffan="done"><PRE><FONT size=2> imp system/manager file=bible_db log=dible_db full=y ignore=y</FONT></PRE></DIV>
+<P class=postText align=left><FONT size=2>3. 
+导入一个或一组指定用户所属的全部表、索引和其他对象</FONT></P>
+<DIV twffan="done"><PRE><FONT size=2> imp system/manager file=seapark log=seapark fromuser=seapark imp </FONT></PRE><PRE><FONT size=2> system/manager file=seapark log=seapark fromuser=(seapark,amy,amyc,harold)</FONT></PRE></DIV>
+<P class=postText align=left><FONT size=2>4. 将一个用户所属的数据导入另一个用户</FONT></P>
+<DIV twffan="done"><PRE><FONT size=2> imp system/manager file=tank log=tank fromuser=seapark touser=seapark_copy</FONT></PRE><PRE><FONT size=2> imp system/manager file=tank log=tank fromuser=(seapark,amy)</FONT></PRE><PRE><FONT size=2> touser=(seapark1, amy1)</FONT></PRE></DIV>
+<P class=postText align=left><FONT size=2>5. 导入一个表</FONT></P>
+<DIV twffan="done"><PRE><FONT size=2> imp system/manager file=tank log=tank fromuser=seapark TABLES=(a,b)</FONT></PRE></DIV>
+<P class=postText align=left><FONT size=2>6. 从多个文件导入</FONT></P>
+<DIV twffan="done"><PRE><FONT size=2> imp system/manager file=(paycheck_1,paycheck_2,paycheck_3,paycheck_4) </FONT></PRE><PRE><FONT size=2>log=paycheck, filesize=1G full=y</FONT></PRE></DIV>
+<P class=postText align=left><FONT size=2>7. 使用参数文件</FONT></P>
+<DIV twffan="done"><PRE><FONT size=2> imp system/manager parfile=bible_tables.par</FONT></PRE></DIV>
+<BLOCKQUOTE class=postText>
+  <P align=left><FONT size=2>bible_tables.par参数文件：</FONT></P></BLOCKQUOTE>
+<DIV twffan="done"><PRE><FONT size=2> #Import the sample tables used for the Oracle8i Database Administrator's </FONT></PRE><PRE><FONT size=2>Bible. fromuser=seapark touser=seapark_copy file=seapark log=seapark_import</FONT></PRE></DIV>
+<P class=postText align=left><FONT size=2>8. 增量导入</FONT></P>
+<DIV twffan="done"><PRE><FONT size=2> imp system./manager inctype= RECTORE FULL=Y FILE=A</FONT></PRE><PRE><PRE><DIV class=diaryContent id=diary650062 twffan="done"><H5 class=postTitle><A href="http://blog.csdn.net/adijava/archive/2004/07/28/54573.aspx">Oracle imp/exp</A> </H5><P class=postText align=left><FONT face=Verdana size=2>C:Documents and Settingsadministrator&gt;exp help=y</FONT></P><P class=postText align=left><FONT face=Verdana size=2>Export: Release 9.2.0.1.0 - Production on 星期三 7月 28 17:04:43 2004</FONT></P><P class=postText align=left><FONT face=Verdana size=2>Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.</FONT></P><P class=postText align=left><FONT size=2> </FONT></P><P class=postText align=left><FONT face=Verdana size=2>通过输入 EXP 命令和用户名/口令，您可以<BR>后接用户名/口令的命令:</FONT></P><P class=postText align=left><FONT face=Verdana size=2>例程: EXP SCOTT/TIGER</FONT></P><P class=postText align=left><FONT face=Verdana size=2>或者，您也可以通过输入跟有各种参数的 EXP 命令来控制“导出”<BR>按照不同参数。要指定参数，您可以使用关键字:</FONT></P><P class=postText align=left><FONT face=Verdana size=2>格式: EXP KEYWORD=value 或 KEYWORD=(value1,value2,...,valueN)<BR>例程: EXP SCOTT/TIGER GRANTS=Y TABLES=(EMP,DEPT,MGR)<BR>或 TABLES=(T1: P1,T1: P2)，如果 T1 是分区表</FONT></P><P class=postText align=left><FONT face=Verdana size=2>USERID 必须是命令行中的第一个参数。</FONT></P><P class=postText align=left><FONT face=Verdana size=2>关键字  说明(默认)        关键字      说明(默认)<BR>--------------------------------------------------------------------------<BR>USERID   用户名/口令           FULL         导出整个文件 (N)<BR>BUFFER   数据缓冲区大小         OWNER     所有者用户名列表<BR>FILE       输出文件 (EXPDAT.DMP)  TABLES       表名称列表<BR>COMPRESS   导入到一个区 (Y) RECORDLENGTH IO 记录的长度<BR>GRANTS  导出权限 (Y)           INCTYPE      增量导出类型<BR>INDEXES    导出索引 (Y)         RECORD       跟踪增量导出 (Y)<BR>DIRECT     直接路径 (N)            TRIGGERS     导出触发器 (Y)<BR>LOG        屏幕输出的日志文件  STATISTICS   分析对象 (ESTIMATE)<BR>ROWS    导出数据行 (Y)        PARFILE      参数文件名<BR>CONSISTENT 交叉表的一致性 (N) CONSTRAINTS  导出的约束条件 (Y)</FONT></P><P class=postText align=left><FONT face=Verdana size=2>OBJECT_CONSISTENT    只在对象导出期间设置为读的事务处理 (N)<BR>FEEDBACK             每 x 行的显示进度 (0)<BR>FILESIZE             每个转储文件的最大大小<BR>FLASHBACK_SCN        用于将会话快照设置回以前状态的 SCN<BR>FLASHBACK_TIME       用于获取最接近指定时间的 SCN 的时间<BR>QUERY                用于导出表的子集的 select 子句<BR>RESUMABLE            遇到与空格相关的错误时挂起 (N)<BR>RESUMABLE_NAME       用于标识可恢复语句的文本字符串<BR>RESUMABLE_TIMEOUT    RESUMABLE 的等待时间<BR>TTS_FULL_CHECK       对 TTS 执行完整的或部分相关性检查<BR>TABLESPACES          要导出的表空间列表<BR>TRANSPORT_TABLESPACE 导出可传输的表空间元数据 (N)<BR>TEMPLATE             调用 iAS 模式导出的模板名</FONT></P><P class=postText align=left><FONT face=Verdana size=2>在没有警告的情况下成功终止导出。<BR>==================================================</FONT></P><P class=postText align=left><FONT face=Verdana size=2>C:Documents and Settingsadministrator&gt;imp help=y</FONT></P><P class=postText align=left><FONT face=Verdana size=2>Import: Release 9.2.0.1.0 - Production on 星期三 7月 28 17:06:54 2004</FONT></P><P class=postText align=left><FONT face=Verdana size=2>Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.</FONT></P><P class=postText align=left><FONT size=2> </FONT></P><P class=postText align=left><FONT face=Verdana size=2>可以通过输入 IMP 命令和您的用户名/口令<BR>后接用户名/口令的命令:</FONT></P><P class=postText align=left><FONT face=Verdana size=2>例程: IMP SCOTT/TIGER</FONT></P><P class=postText align=left><FONT face=Verdana size=2>或者, 可以通过输入 IMP 命令和各种参数来控制“导入”<BR>按照不同参数。要指定参数，您可以使用关键字:</FONT></P><P class=postText align=left><FONT face=Verdana size=2>格式: IMP KEYWORD=value 或 KEYWORD=(value1,value2,...,vlaueN)<BR>例程: IMP SCOTT/TIGER IGNORE=Y TABLES=(EMP,DEPT) FULL=N<BR>或 TABLES=(T1: P1,T1: P2)，如果 T1 是分区表</FONT></P><P class=postText align=left><FONT face=Verdana size=2>USERID 必须是命令行中的第一个参数。</FONT></P><P class=postText align=left><FONT face=Verdana size=2>关键字  说明（默认）        关键字      说明（默认）<BR>--------------------------------------------------------------------------<BR>USERID   用户名/口令           FULL         导入整个文件 (N)<BR>BUFFER   数据缓冲区大小         FROMUSER     所有人用户名列表<BR>FILE     输入文件 (EXPDAT.DMP)    TOUSER       用户名列表<BR>SHOW     只列出文件内容 (N) TABLES      表名列表<BR>IGNORE   忽略创建错误 (N)    RECORDLENGTH  IO 记录的长度<BR>GRANTS  导入权限 (Y)           INCTYPE      增量导入类型<BR>INDEXES 导入索引 (Y)          COMMIT       提交数组插入 (N)<BR>ROWS    导入数据行 (Y)        PARFILE      参数文件名<BR>LOG      屏幕输出的日志文件   CONSTRAINTS  导入限制 (Y)<BR>DESTROY                覆盖表空间数据文件 (N)<BR>INDEXFILE              将表/索引信息写入指定的文件<BR>SKIP_UNUSABLE_INDEXES  跳过不可用索引的维护 (N)<BR>FEEDBACK               每 x 行显示进度 (0)<BR>TOID_NOVALIDATE        跳过指定类型 ID 的验证<BR>FILESIZE               每个转储文件的最大大小<BR>STATISTICS             始终导入预计算的统计信息<BR>RESUMABLE            在遇到有关空间的错误时挂起 (N)<BR>RESUMABLE_NAME         用来标识可恢复语句的文本字符串<BR>RESUMABLE_TIMEOUT      RESUMABLE 的等待时间<BR>COMPILE                编译过程, 程序包和函数 (Y)<BR>STREAMS_CONFIGURATION  导入 Streams 的一般元数据 (Y)<BR>STREAMS_INSTANITATION  导入 Streams 的实例化元数据 (N)</FONT></P><P class=postText align=left><FONT face=Verdana size=2>下列关键字仅用于可传输的表空间<BR>TRANSPORT_TABLESPACE 导入可传输的表空间元数据 (N)<BR>TABLESPACES 将要传输到数据库的表空间<BR>DATAFILES 将要传输到数据库的数据文件<BR>TTS_OWNERS 拥有可传输表空间集中数据的用户</FONT></P><P class=postText align=left><FONT face=Verdana size=2>成功终止导入，但出现警告。</FONT></P><P class=postText align=left><FONT size=2></FONT></P><P class=postText align=left><FONT size=2></FONT></P><P class=postText align=left><FONT size=2></FONT></P><H2 class=diaryTitle align=left><FONT size=2>oracle的imp和exp的一些用法- -</FONT></H2><P class=postText align=left><FONT size=2>                                       </FONT></P><P class=postText align=left><FONT size=2></FONT></P><P class=postText align=left><FONT size=2>Oracle8i/9i EXP/IMP使用经验  <BR>一、8i EXP常用选项 </FONT></P><P class=postText align=left><FONT size=2>1、FULL，这个用于导出整个数据库，在ROWS=N一起使用时，可以导出整个数据库的结构。例如： </FONT></P><P class=postText align=left><FONT size=2>exp sys file=./db_str.dmp log=./db_str.log full=y rows=n compress=y direct=y </FONT></P><P class=postText align=left><FONT size=2>2、BUFFER和FEEDBACK，在导出比较多的数据时，我会考虑设置这两个参数。例如： </FONT></P><P class=postText align=left><FONT size=2>exp new file=yw97_2003.dmp log=yw97_2003_3.log feedback=10000 buffer=100000000 tables=WO4,OK_YT </FONT></P><P class=postText align=left><FONT size=2>3、FILL和LOG，这两个参数分别指定备份的DMP名称和LOG名称，包括文件名和目录，例子见上面。 </FONT></P><P class=postText align=left><FONT size=2>需要说明的是，EXP可以直接备份到磁带中，即使用FILE=/dev/rmt0(磁带设备名)，但是一般我们都不这么做，原因有二：一、这样做的速度会慢很多，二、现在一般都是使用磁带库的，不建议直接对磁带进行操作。至于没有使用磁带库的朋友可以考虑和UNIX的TAR结合使用。 </FONT></P><P class=postText align=left><FONT size=2>如果你真想使用EXP直接到磁带，你可以参考Metalink文章“EXPORTING TO TAPE ON UNIX SYSTEMS”（文档号：30428.1），该文中有详细解释。 </FONT></P><P class=postText align=left><FONT size=2>4、COMPRESS参数将在导出的同时合并碎块，尽量把数据压缩到initial的EXTENT里，默认是N，一般建议使用。DIRECT参数将告诉EXP直接读取数据，而不像传统的EXP那样，使用SELECT来读取表中的数据，这样就减少了SQL语句处理过程。一般也建议使用。不过有些情况下DIRECT参数是无法使用的。 </FONT></P><P class=postText align=left><FONT size=2>5、如何使用SYSDBA执行EXP/IMP？ </FONT></P><P class=postText align=left><FONT size=2>这是一个很现实的问题，有时候我们需要使用SYSDBA来执行EXP/IMP，如进行传输表空间的EXP/IMP，以及在9i下用SYS用户来执行EXP/IMP时，都需要使用SYSDBA才可。我们可以使用下面方式连入EXP/IMP： </FONT></P><P class=postText align=left><FONT size=2>exp "'sys/sys as sysdba'" file=1.dmp tables=gototop.t rows=n </FONT></P><P class=postText align=left><FONT size=2>6、QUERY参数后面跟的是where条件，值得注意的是，整个where子句需要使用""括起来，where子句的写法和SELECT中相同，如果是UNIX平台所有"和'都需要使用u26469屏蔽它们的特殊含义： </FONT></P><P class=postText align=left><FONT size=2>exp gototop/gototop file=1.dmp log=1.log tables=cyx.t query="where c1=20 and c2=gototop" </FONT></P><P class=postText align=left><FONT size=2>如果是windows平台，则使用下面的格式： </FONT></P><P class=postText align=left><FONT size=2>exp </FONT><A href="mailto:c/c@ncn"><FONT size=2>c/c@ncn</FONT></A><FONT size=2> file=c.dmp log=c.log tables=t query="""where id=1 and name='gototop'""" </FONT></P><P class=postText align=left><FONT size=2>二、8i IMP常用选项 </FONT></P><P class=postText align=left><FONT size=2>1、FROMUSER和TOUSER，使用它们实现将数据从一个SCHEMA中导入到另外一个SCHEMA中。 </FONT></P><P class=postText align=left><FONT size=2>2、IGNORE、GRANTS和INDEXES，其中IGNORE参数将忽略表的存在，继续导入，这个对于需要调整表的存储参数时很有用，我们可以先根据实际情况用合理的存储参数建好表，然后直接导入数据。而GRANTS和INDEXES则表示是否导入授权和索引，如果想使用新的存储参数重建索引，或者为了加快到入速度，我们可以考虑将INDEXES设为N，而GRANTS一般都是Y。 </FONT></P><P class=postText align=left><FONT size=2>另外一个EXP/IMP都有的参数是PARFILE，它是用来定义EXP/IMP的参数文件，也就是说，上面的参数都可以写在一个参数文件中，但我们一般很少使用。 </FONT></P><P class=postText align=left><FONT size=2>三、Oracle9i EXP功能描述 </FONT></P><P class=postText align=left><FONT size=2>Oracle9i EXP在原有的基础上新增了部分新的参数，按功能主要分为以下几个部分： </FONT></P><P class=postText align=left><FONT size=2>1、OBJECT_CONSISTENT - 用于设置EXP对象为只读以保持对象的一致性。默认是N。 </FONT></P><P class=postText align=left><FONT size=2>2、FLASHBACK_SCN和FLASHBACK_TIME - 用于支持FLASHBACK功能而新增。 </FONT></P><P class=postText align=left><FONT size=2>3、RESUMABLE、RESUMABLE_NAME和RESUMABLE_TIMEOUT - 用于支持RESUMABLE空间分配而新增。 </FONT></P><P class=postText align=left><FONT size=2>4、TTS_FULL_CHECK - 用于在传输表空间时使用依赖性检查。 </FONT></P><P class=postText align=left><FONT size=2>5、TEMPLATE - 用于支持iAS。 </FONT></P><P class=postText align=left><FONT size=2>6、TABLESPACES - 设置表空间导出模式。个人觉得对于一般用户而言，这个才是新增参数中最实用的一个，可以让用户在原来的FULL、OWNER、TABLES的基础上多了一种选择，使得EXP更加灵活。 </FONT></P><P class=postText align=left><FONT size=2>四、不同版本的EXP/IMP问题？ </FONT></P><P class=postText align=left><FONT size=2>一般来说，从低版本导入到高版本问题不大，麻烦的是将高版本的数据导入到低版本中，在Oracle9i之前，不同版本Oracle之间的EXP/IMP可以通过下面的方法来解决： </FONT></P><P class=postText align=left><FONT size=2>1、在高版本数据库上运行底版本的catexp.sql； </FONT></P><P class=postText align=left><FONT size=2>2、使用低版本的EXP来导出高版本的数据； </FONT></P><P class=postText align=left><FONT size=2>3、使用低版本的IMP将数据库导入到底版本数据库中； </FONT></P><P class=postText align=left><FONT size=2>4、在高版本数据库上重新运行高版本的catexp.sql脚本。 </FONT></P><P class=postText align=left><FONT size=2>但在9i中，上面的方法并不能解决问题。如果直接使用底版本EXP/IMP会出现如下错误： </FONT></P><P class=postText align=left><FONT size=2>EXP-00008: ORACLE error %lu encountered </FONT></P><P class=postText align=left><FONT size=2>ORA-00904: invalid column name </FONT></P><P class=postText align=left><FONT size=2>这已经是一个公布的BUG，需要等到Oracle10.0才能解决，BUG号为2261，你可以到METALINK上去查看有关此BUG的详细信息。 </FONT></P><P class=postText align=left><FONT size=2>BUG归BUG，我们的工作还是要做，在没有Oracle的支持之前，我们就自己解决。在Oracle9i中执行下面的SQL重建exu81rls视图即可。 </FONT></P><P class=postText align=left><FONT size=2>CREATE OR REPLACE view exu81rls  </FONT></P><P class=postText align=left><FONT size=2>(objown,objnam,policy,polown,polsch,polfun,stmts,chkopt,enabled,spolicy)  </FONT></P><P class=postText align=left><FONT size=2>AS select u.name, o.name, r.pname, r.pfschma, r.ppname, r.pfname,  </FONT></P><P class=postText align=left><FONT size=2>decode(bitand(r.stmt_type,1), 0,'', 'SELECT,')  </FONT></P><P class=postText align=left><FONT size=2>|| decode(bitand(r.stmt_type,2), 0,'', 'INSERT,')  </FONT></P><P class=postText align=left><FONT size=2>|| decode(bitand(r.stmt_type,4), 0,'', 'UPDATE,')  </FONT></P><P class=postText align=left><FONT size=2>|| decode(bitand(r.stmt_type,8), 0,'', 'DELETE,'),  </FONT></P><P class=postText align=left><FONT size=2>r.check_opt, r.enable_flag,  </FONT></P><P class=postText align=left><FONT size=2>DECODE(BITAND(r.stmt_type, 16), 0, 0, 1)  </FONT></P><P class=postText align=left><FONT size=2>from user$ u, obj$ o, rls$ r  </FONT></P><P class=postText align=left><FONT size=2>where u.user# = o.owner#  </FONT></P><P class=postText align=left><FONT size=2>and r.obj# = o.obj#  </FONT></P><P class=postText align=left><FONT size=2>and (uid = 0 or  </FONT></P><P class=postText align=left><FONT size=2>uid = o.owner# or  </FONT></P><P class=postText align=left><FONT size=2>exists ( select * from session_roles where role='SELECT_CATALOG_ROLE')  </FONT></P><P class=postText align=left><FONT size=2>)  </FONT></P><P class=postText align=left><FONT size=2>/  </FONT></P><P class=postText align=left><FONT size=2>grant select on sys.exu81rls to public;  </FONT></P><P class=postText align=left><FONT size=2>/  </FONT></P><P class=postText align=left><FONT size=2>五、其他问题 </FONT></P><P class=postText align=left><FONT size=2>本文只讨论了Oracle8i和9i中的EXP/IMP的一些情况，对于之前的版本，在8.0.X中，除了QUERY参数不能用外，其它差别不大。针对没有QUERY的情况，我们可以先在数据库中使用查询条件建立临时中间表，然后使用EXP导出这个中间表即可。至于Oracle7因为目前使用的人较少，gototop不打算在此做详细解释了，如果读者朋友有需求，你可以参考Metalink文档：“Overview of Export and Import in Oracle7”（文档号：61949.1）。关于EXP/IMP的详细参数信息你可以通过EXP/IMP HELP=Y来获得。 </FONT></P><P class=postText align=left><FONT size=2>另外关于传输表空间的更多信息可以参考下面的Metelink文档，本文不再详述。 </FONT></P><P class=postText align=left><FONT size=2>[NOTE:77523.1] Transportable Tablespaces -- An Example to setup and use.  </FONT></P><P class=postText align=left><FONT size=2>[NOTE:100698.1] Perform tablespace point-in-time recovery using Transportable Tablespace.  </FONT></P><P class=postText align=left><FONT size=2>在进行并行EXP/IMP的时候，如果IMP过程建索引的话不建议同时运行5个以上的IMP，如果你想加快速度，可以在IMP的时候不建索引，这样只要内存允许，可以多跑几个，然后是SQL脚本创建需要的索引。 </FONT></P></DIV></PRE></PRE></DIV></DIV>
+<DIV class=storyposted>okone96 发表于:2006.08.21 17:34 ::分类: ( <A 
+href="http://okone96.itpub.net/category/9033/35101">数据库</A> ) ::阅读:(9470次) :: <A 
+href="http://okone96.itpub.net/post/9033/196742">评论 (1)</A> </DIV></DIV>
+<DIV class=story>
+<DIV class=storyTitle><IMG alt="" 
+src="Oracle导入程序Imp的使用详解.files/comment_icon1.gif"> re: Oracle导入程序Imp的使用详解 <SPAN 
+class=categoryinfo>[<A 
+href="http://okone96.itpub.net/index.php?op=Comment&amp;articleId=196742&amp;parentId=13094065&amp;blogId=9033">回复</A>]</SPAN> 
+</DIV>
+<DIV class=storytext>
+<P>有没有不创建表空间和用户就可直接导入的方法，请告诉我</P></DIV>
+<DIV class=storyposted>tom 评论于: 2007.12.05 08:42 </DIV></DIV>
+<P>
+<DIV class=story>
+<DIV class=storyTitle>发表评论</DIV>
+<DIV class=storytext>
+<SCRIPT language=javascript type=text/javascript>
+<!--
+function writeImgTag(code)
+{
+var cache = document.NewComment.commentText.value;
+this.code = code;
+document.NewComment.commentText.value = cache + code;
+document.NewComment.commentText.focus();
+}
+//-->
+</SCRIPT>
+
+<FORM id=comments_form name=NewComment 
+onsubmit="if (this.bakecookie.checked) rememberMe(this)" 
+action=http://okone96.itpub.net/index.php method=post>标题<BR><INPUT size=60 
+value="re: Oracle导入程序Imp的使用详解" name=commentTopic><BR>在此添加评论 <BR>表情符号: <IMG 
+onclick="writeImgTag(':)')" height=18 alt=smile 
+src="Oracle导入程序Imp的使用详解.files/smile.gif" width=18 align=middle border=0> <IMG 
+onclick="writeImgTag(':D')" height=18 alt=laughing 
+src="Oracle导入程序Imp的使用详解.files/laughing.gif" width=18 align=middle border=0> <IMG 
+onclick="writeImgTag(':p')" height=18 alt=tongue 
+src="Oracle导入程序Imp的使用详解.files/tongue.gif" width=18 align=middle border=0> <IMG 
+onclick="writeImgTag(':(')" height=18 alt=angry 
+src="Oracle导入程序Imp的使用详解.files/angry.gif" width=18 align=middle border=0> <IMG 
+onclick="writeImgTag(':cry')" height=18 alt=crying 
+src="Oracle导入程序Imp的使用详解.files/crying.gif" width=18 align=middle border=0> <IMG 
+onclick="writeImgTag(':sad')" height=18 alt=sad 
+src="Oracle导入程序Imp的使用详解.files/sad.gif" width=18 align=middle border=0> <IMG 
+onclick="writeImgTag(':what')" height=18 alt=wassat 
+src="Oracle导入程序Imp的使用详解.files/wassat.gif" width=18 align=middle border=0> <IMG 
+onclick="writeImgTag(':wink')" height=18 alt=wink 
+src="Oracle导入程序Imp的使用详解.files/wink.gif" width=18 align=middle border=0> 
+<BR><INPUT type=hidden value=none name=author> <INPUT type=hidden value=none 
+name=email> <INPUT type=hidden value=none name=text> <TEXTAREA name=commentText rows=10 cols=54 onchange="findObj('text').value = this.value"></TEXTAREA><BR>称呼<BR><INPUT 
+onchange="findObj('author').value = this.value" 
+name=userName><BR>邮箱地址（可选）<BR><INPUT 
+onchange="findObj('email').value = this.value" 
+name=userEmail><BR>个人主页（可选）<BR><INPUT size=60 name=userUrl><BR><INPUT 
+id=bakecookie type=checkbox name=bakecookie><LABEL for=bakecookie>记住我？</LABEL> 
+<LABEL for=authImage>验证码: </LABEL><INPUT id=authImage size=6 
+name=authImage>&nbsp;<IMG style="VERTICAL-ALIGN: middle" height=20 alt=authimage 
+src="Oracle导入程序Imp的使用详解.files/index.gif" width=70> <BR><INPUT type=submit value=发表 name=post><BR><BR><INPUT type=hidden 
+value=AddComment name=op> <INPUT type=hidden value=196742 name=articleId> <INPUT 
+type=hidden value=9033 name=blogId> <INPUT type=hidden name=parentId> </FORM>
+<SCRIPT language=javascript type=text/javascript>
+<!--
+document.NewComment.userName.value = getCookie("mtcmtauth");
+document.NewComment.userEmail.value = getCookie("mtcmtmail");
+document.NewComment.userUrl.value = getCookie("mtcmthome");
+document.NewComment.author.value = getCookie("mtcmtauth");
+document.NewComment.email.value = getCookie("mtcmtmail");
+//-->
+</SCRIPT>
+</DIV></DIV></DIV><!--end content-->
+<DIV id=leftNav>
+<DIV class=relatedLinksTitle>自我介绍</DIV>
+<DIV class=relatedLinks>
+<DIV align=center><IMG alt=okone96 
+src="Oracle导入程序Imp的使用详解.files/7_1.jpg"></DIV>作者:Michael<BR>给我留言<A 
+title=:)想说什么就说什么 
+href="http://okone96.itpub.net/post/9033/229465"><B>这里</B></A><BR>与我联系<A 
+title=msn或发邮件 href="mailto:okone96@hotmail.com"><B>这里</B></A> <A title=本blog搜索 
+href="http://okone96.itpub.net/post/9033/392626"><B>搏客搜索</B></A>
+<SCRIPT type=text/javascript><!--
+google_ad_client = "pub-6946488809262896";
+/* 160x600, 创建于 09-2-4 内容 */
+google_ad_slot = "8614027323";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</SCRIPT>
+
+<SCRIPT src="Oracle导入程序Imp的使用详解.files/show_ads.js" type=text/javascript>
+</SCRIPT>
+
+<SCRIPT type=text/JavaScript> 
+alimama_pid="mm_10805077_842735_1721929"; 
+alimama_titlecolor="0000FF"; 
+alimama_descolor ="000000"; 
+alimama_bgcolor="FFFFFF"; 
+alimama_bordercolor="E6E6E6"; 
+alimama_linkcolor="008000"; 
+alimama_bottomcolor="FFFFFF"; 
+alimama_anglesize="0"; 
+alimama_bgpic="0"; 
+alimama_icon="0"; 
+alimama_sizecode="23"; 
+alimama_width=160; 
+alimama_height=600; 
+alimama_type=2; 
+</SCRIPT>
+
+<SCRIPT src="Oracle导入程序Imp的使用详解.files/inf.js" type=text/javascript> 
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+try {
+var pageTracker = _gat._getTracker("UA-872058-1");
+pageTracker._trackPageview();
+} catch(err) {}</SCRIPT>
+ <BR></DIV>
+<DIV class=relatedLinksTitle>切换风格</DIV>
+<DIV class=relatedLinks>
+<FORM action="">
+<P align=center>布局:<SELECT onchange="setActiveLayout(value); return false;" 
+size=1 name=SelectActiveLayout> <OPTION value=a selected>选择页面布局</OPTION> 
+  <OPTION value=a>两栏左侧导航</OPTION> <OPTION value=b>两栏右侧导航</OPTION> <OPTION 
+  value=c>三栏</OPTION></SELECT> </P></FORM>
+<FORM action="">
+<P align=center>配色:<SELECT onchange="setActiveColorSchema(value); return false;" 
+size=1 name=SelectActiveColorSchema> <OPTION value=1 selected>选择配色方案</OPTION> 
+  <OPTION value=1>纯净蓝灰</OPTION> <OPTION value=2>浪漫紫</OPTION> <OPTION 
+  value=3>清爽绿</OPTION> <OPTION value=4>海蓝</OPTION> <OPTION value=5>粉红</OPTION> 
+  <OPTION value=6>黑白</OPTION></SELECT> </P></FORM>
+<CENTER>提示</CENTER>点击带有[...]标记的栏目可以展开/收拢相应的栏目 
+<TABLE width="100%" border=0>
+  <TBODY>
+  <TR>
+    <TD class=button onmousedown=turnonall() style="CURSOR: pointer">展开所有</TD>
+    <TD class=button onmousedown=turnoffall() 
+  style="CURSOR: pointer">收拢所有</TD></TR></TBODY></TABLE></DIV>
+<DIV class=relatedLinksTitle>新闻聚合</DIV>
+<DIV class=relatedLinks align=right><A class=nodecoration 
+title="Link to the RSS 0.90 feed." 
+href="http://okone96.itpub.net/rss/rss090/9033"><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=15 alt="RSS 0.90" src="Oracle导入程序Imp的使用详解.files/rss090_logo.gif" 
+width=80></A><BR><A class=nodecoration title="Link to the RSS 1.0 feed." 
+href="http://okone96.itpub.net/rss/rss10/9033"><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=15 alt="RSS 1.0" src="Oracle导入程序Imp的使用详解.files/rss10_logo.gif" 
+width=80></A><BR><A class=nodecoration title="Link to the RSS 2.0 feed." 
+href="http://okone96.itpub.net/rss/rss20/9033"><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=15 alt="RSS 2.0" src="Oracle导入程序Imp的使用详解.files/rss20_logo.gif" 
+width=80></A><BR><A class=nodecoration title="Link to the Atom 0.3 feed." 
+href="http://okone96.itpub.net/rss/atom/9033"><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=15 alt="Atom 0.3" src="Oracle导入程序Imp的使用详解.files/atom_logo.png" 
+width=80></A><BR><BR><A 
+href="http://www.bloglines.com/sub/http://okone96.itpub.net/rss/rss20/9033"><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=15 alt="Subscribe with Bloglines" 
+src="Oracle导入程序Imp的使用详解.files/sub_bloglines.gif" width=80></A><BR><A 
+href="http://www.rojo.com/add-subscription?resource=http://okone96.itpub.net/rss/rss20/9033"><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=17 alt="Subscribe in Rojo" src="Oracle导入程序Imp的使用详解.files/add-to-rojo.gif" 
+width=52></A> <BR><A title="Subscribe in NewsGator Online" 
+href="http://www.newsgator.com/ngs/subscriber/subext.aspx?url=http://okone96.itpub.net/rss/rss20/9033"><IMG 
+height=17 alt="Subscribe in NewsGator Online" 
+src="Oracle导入程序Imp的使用详解.files/ngsub1.gif" width=91></A><BR><A 
+title="Subscribe in My Yahoo!" 
+href="http://add.my.yahoo.com/rss?url=http://okone96.itpub.net/rss/rss20/9033"><IMG 
+height=17 alt="Subscribe in My Yahoo!" 
+src="Oracle导入程序Imp的使用详解.files/addtomyyahoo4.gif" width=91></A><BR><A 
+title="Add to Google" 
+href="http://fusion.google.com/add?feedurl=http://okone96.itpub.net/rss/rss20/9033"><IMG 
+height=17 alt="Add to Google" 
+src="Oracle导入程序Imp的使用详解.files/add-to-google-plus.gif" width=104></A><BR></DIV>
+<DIV class=relatedLinksTitle>博客日历</DIV>
+<DIV class=relatedLinks align=center>
+<TABLE class=calMonth>
+  <THEAD>
+  <TR class=calMonthNav>
+    <TH class=calMonthBackward><A title="五月 2009" 
+      href="http://okone96.itpub.net/archives/9033/200905">&laquo;</A></TH>
+    <TH class=calMonthCurrent colSpan=5>六月 2009</TH>
+    <TH class=calMonthForward><A title="七月 2009" 
+      href="http://okone96.itpub.net/archives/9033/200907">&raquo;</A></TH></TR>
+  <TR class=calMonthHeader>
+    <TH scope=col abbr=星期一>一</TH>
+    <TH scope=col abbr=星期二>二</TH>
+    <TH scope=col abbr=星期三>三</TH>
+    <TH scope=col abbr=星期四>四</TH>
+    <TH scope=col abbr=星期五>五</TH>
+    <TH scope=col abbr=星期六>六</TH>
+    <TH scope=col abbr=星期日>日</TH></TR></THEAD>
+  <TBODY>
+  <TR>
+    <TD class=calMonthDay>1</TD>
+    <TD class=calMonthDay>2</TD>
+    <TD class=calMonthDay>3</TD>
+    <TD class=calMonthDay>4</TD>
+    <TD class=calMonthDay>5</TD>
+    <TD class=calMonthDay>6</TD>
+    <TD class=calMonthDay>7</TD></TR>
+  <TR>
+    <TD class=calMonthDay>8</TD>
+    <TD class=calMonthDay>9</TD>
+    <TD class=calMonthDay>10</TD>
+    <TD class=calMonthDay>11</TD>
+    <TD class=calMonthDay>12</TD>
+    <TD class=calMonthToday>13</TD>
+    <TD class=calMonthDay>14</TD></TR>
+  <TR>
+    <TD class=calMonthDay>15</TD>
+    <TD class=calMonthDay>16</TD>
+    <TD class=calMonthDay>17</TD>
+    <TD class=calMonthDay>18</TD>
+    <TD class=calMonthDay>19</TD>
+    <TD class=calMonthDay>20</TD>
+    <TD class=calMonthDay>21</TD></TR>
+  <TR>
+    <TD class=calMonthDay>22</TD>
+    <TD class=calMonthDay>23</TD>
+    <TD class=calMonthDay>24</TD>
+    <TD class=calMonthDay>25</TD>
+    <TD class=calMonthDay>26</TD>
+    <TD class=calMonthDay>27</TD>
+    <TD class=calMonthDay>28</TD></TR>
+  <TR>
+    <TD class=calMonthDay>29</TD>
+    <TD class=calMonthDay>30</TD>
+    <TD class=calMonthDay>&nbsp;</TD>
+    <TD class=calMonthDay>&nbsp;</TD>
+    <TD class=calMonthDay>&nbsp;</TD>
+    <TD class=calMonthDay>&nbsp;</TD>
+    <TD class=calMonthDay>&nbsp;</TD></TR></TBODY></TABLE></DIV>
+<DIV class=relatedLinksTitle onmousedown="turnswitch('archives')" 
+style="CURSOR: pointer">文章归档...</DIV>
+<DIV class=relatedLinks id=archives style="DISPLAY: none">
+<P align=center><A href="http://okone96.itpub.net/archives/9033/200811">十一月 
+2008(1篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200809">九月 
+2008(1篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200712">十二月 
+2007(1篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200711">十一月 
+2007(1篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200710">十月 
+2007(7篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200709">九月 
+2007(4篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200708">八月 
+2007(5篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200707">七月 
+2007(6篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200706">六月 
+2007(4篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200705">五月 
+2007(8篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200704">四月 
+2007(12篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200703">三月 
+2007(17篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200702">二月 
+2007(6篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200701">一月 
+2007(24篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200612">十二月 
+2006(13篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200611">十一月 
+2006(40篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200610">十月 
+2006(33篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200609">九月 
+2006(10篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200608">八月 
+2006(14篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200607">七月 
+2006(1篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200604">四月 
+2006(7篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200603">三月 
+2006(4篇)</A><BR><A href="http://okone96.itpub.net/archives/9033/200601">一月 
+2006(1篇)</A><BR></P></DIV>
+<DIV class=relatedLinksTitle onmousedown="turnswitch('recentposts')" 
+style="CURSOR: pointer">最新发表...</DIV>
+<DIV class=relatedLinks id=recentposts><A 
+href="http://okone96.itpub.net/post/9033/474180">博客搬迁了 </A><BR><A 
+href="http://okone96.itpub.net/post/9033/469994">html meta 元素讲解（转）</A><BR><A 
+href="http://okone96.itpub.net/post/9033/444345">右键菜单屏蔽 和 复制到剪贴板 
+的javascript</A><BR><A 
+href="http://okone96.itpub.net/post/9033/411539">Linux下的JFreeChart和 汉子验证码 
+中文乱码问题解决方案</A><BR><A 
+href="http://okone96.itpub.net/post/9033/409007">发现sql语句真是强大</A><BR><A 
+href="http://okone96.itpub.net/post/9033/407972">mysql 创建 数据库时指定编码很重要</A><BR><A 
+href="http://okone96.itpub.net/post/9033/404885">中文排序 问题</A><BR><A 
+href="http://okone96.itpub.net/post/9033/403771">mysql 数据库 表 字段 编码修改 
+方法</A><BR><A 
+href="http://okone96.itpub.net/post/9033/403406">HashTable和HashMap的六点区别</A><BR><A 
+href="http://okone96.itpub.net/post/9033/403404">java 取得mac地址</A><BR><A 
+href="http://okone96.itpub.net/post/9033/403402">详述如何提高MySQL中数据装载效率 mysql load 
+data 语法</A><BR><A 
+href="http://okone96.itpub.net/post/9033/400112">利用系统crontab来定时执行备份文件，按日期对备份结果进行保存，达到备份的目的。</A><BR><A 
+href="http://okone96.itpub.net/post/9033/392626">google 搜索</A><BR><A 
+href="http://okone96.itpub.net/post/9033/391763">在linux下使用远程拷贝命令scp时会出现去掉密码提示的方法</A><BR><A 
+href="http://okone96.itpub.net/post/9033/390653">欢迎来做客</A><BR><A 
+href="http://okone96.itpub.net/post/9033/333515">RSS 2.0规范(转)</A><BR><A 
+href="http://okone96.itpub.net/post/9033/328467">从txt文件读取u8584之类的转换成相应的utf-8汉字的方法</A><BR><A 
+href="http://okone96.itpub.net/post/9033/328376">eclipse 
+java.lang.OutOfMemoryError: Java heap space 解决方案</A><BR><A 
+href="http://okone96.itpub.net/post/9033/328344">eclipse 启动参数介绍</A><BR><A 
+href="http://okone96.itpub.net/post/9033/322827">socket 模型简介</A><BR><A 
+href="http://okone96.itpub.net/post/9033/320095">今天学会一句话</A><BR><A 
+href="http://okone96.itpub.net/post/9033/316890">怎样才可以使自己的BLOG变得知名？</A><BR><A 
+href="http://okone96.itpub.net/post/9033/316889">alt+数字汉字</A><BR><A 
+href="http://okone96.itpub.net/post/9033/309902">动态编译JAVA程序</A><BR><A 
+href="http://okone96.itpub.net/post/9033/307133">php 截取汉字字符串 乱码解决 
+支持utf8和gb2312的编码的汉字</A><BR></DIV>
+<DIV class=relatedLinksTitle onmousedown="turnswitch('recentcomments')" 
+style="CURSOR: pointer">最新评论... </DIV>
+<DIV class=relatedLinks id=recentcomments style="DISPLAY: block"><A title=... 
+href="http://okone96.itpub.net/post/9033/238359">www:连续英文字符串强制换行</A><BR><A 
+title=" 请问有参考答案吗？ " 
+href="http://okone96.itpub.net/post/9033/168718">jack:JAVA面试题集 </A><BR><A 
+title=" 这个程序不要配置XML文件吗？ " 
+href="http://okone96.itpub.net/post/9033/223202">wobuzd:java 验证码 彩色验证码</A><BR><A 
+title=" 楼上推荐的东西不错 多谢了 " 
+href="http://okone96.itpub.net/post/9033/231699">xx:java产生随机数的几种方式</A><BR><A 
+title=" :D 楼上推荐的东西不错 多谢了 " 
+href="http://okone96.itpub.net/post/9033/231699">吉日:java产生随机数的几种方式</A><BR><A 
+title=" org.apache.commons.lang.math.RandomUtils " 
+href="http://okone96.itpub.net/post/9033/231699">Lvivi:java产生随机数的几种方式</A><BR><A 
+title=" 楼上的楼上估计程序需要个2G的空间。。:D " 
+href="http://okone96.itpub.net/post/9033/328376">vanjor:eclipse 
+java.lang.OutOfMemoryError: Java heap space 解决方案</A><BR><A title=" :sad " 
+href="http://okone96.itpub.net/post/9033/232759">Zane:php发邮件代码</A><BR><A 
+title=" 很完整的驗證碼 小弟先借來用用 感謝大大的分享 " 
+href="http://okone96.itpub.net/post/9033/223202">李漢克:java 验证码 彩色验证码</A><BR><A 
+title=" bin/nutch: line 194: /cygdrive/d/TDdownload/cygwin/home/nutch-0.8.1/.;C:Program..." 
+href="http://okone96.itpub.net/post/9033/213360">hope:我的nutch爬虫配置</A><BR><A 
+title=" 楼上的 说说你的机器配置和程序大概的功能 " 
+href="http://okone96.itpub.net/post/9033/328376">吉日:eclipse 
+java.lang.OutOfMemoryError: Java heap space 解决方案</A><BR><A title=" :(还是不行，解决不了 " 
+href="http://okone96.itpub.net/post/9033/328376">11111:eclipse 
+java.lang.OutOfMemoryError: Java heap space 解决方案</A><BR><A 
+title=" :p very good " 
+href="http://okone96.itpub.net/post/9033/407972">小猪一号:mysql 创建 
+数据库时指定编码很重要</A><BR><A title=" 往java3D 场景中导入带材质的.Obj文件也出现这个问题，怎么解决？ " 
+href="http://okone96.itpub.net/post/9033/328376">elaine:eclipse 
+java.lang.OutOfMemoryError: Java heap space 解决方案</A><BR><A title=" 客气了:) " 
+href="http://okone96.itpub.net/post/9033/255228">吉日:java 连接ftp服务器</A><BR><A 
+title=" :)真不错。先谢谢了！回头有问题在问你吧 " 
+href="http://okone96.itpub.net/post/9033/255228">冰冷天地:java 连接ftp服务器</A><BR><A 
+title=' 非常感谢, 美中不足就是打开后,要点击"开始"按钮才能运行, 如果一打开,就能顺利运用就好了,...' 
+href="http://okone96.itpub.net/post/9033/230686">lwh:全国各大城市的 及联菜单（下拉框）源代码 
+js</A><BR><A title=" 我也是蒙古族的 qq：83487128 希望能跟你们交流 呵呵，而且我跟楼主同名 " 
+href="http://okone96.itpub.net/post/9033/328376">jirgal:eclipse 
+java.lang.OutOfMemoryError: Java heap space 解决方案</A><BR><A title=" 请把错误贴上来 看看 " 
+href="http://okone96.itpub.net/post/9033/72992">吉日:Java压缩文件/目录成ZIP包最新技巧</A><BR><A 
+title=" 什么乱七八糟的:( " 
+href="http://okone96.itpub.net/post/9033/260411">吉日:Oracle基础问答 与 
+常用技巧</A><BR></DIV>
+<DIV class=relatedLinksTitle onmousedown="turnswitch('topreadposts')" 
+style="CURSOR: pointer">最多阅读文章... </DIV>
+<DIV class=relatedLinks id=topreadposts style="DISPLAY: none"><A 
+href="http://okone96.itpub.net/post/9033/231699">java产生随机数的几种方式</A> (19072 
+次)<BR><A href="http://okone96.itpub.net/post/9033/60404">java runtime.exec() 
+的编写</A> (10278 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/196742">Oracle导入程序Imp的使用详解</A> (9471 
+次)<BR><A href="http://okone96.itpub.net/post/9033/218062">DOS下修改文件属性的命令 
+cmd命令大全</A> (8089 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/218558">远程桌面</A> (7785 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/238359">连续英文字符串强制换行</A> (7106 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/224815">累+伤心</A> (7045 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/222673">累死我了</A> (6824 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/232505">说说她</A> (6795 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/223202">java 验证码 彩色验证码</A> (6794 
+次)<BR><A href="http://okone96.itpub.net/post/9033/259084">定时执行任务的三种方法</A> (6750 
+次)<BR><A href="http://okone96.itpub.net/post/9033/214491">开始每日一记</A> (6743 
+次)<BR><A href="http://okone96.itpub.net/post/9033/224178">我在单位</A> (6665 
+次)<BR><A href="http://okone96.itpub.net/post/9033/224603">烦死了</A> (6659 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/227828">不写了</A> (6652 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/218570">Eclipse中单步调试Java程序</A> (3959 
+次)<BR><A href="http://okone96.itpub.net/post/9033/328376">eclipse 
+java.lang.OutOfMemoryError: Java heap space 解决方案</A> (3768 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/200229">我对面向对象设计的理解——Java接口和Java抽象类</A> 
+(3412 次)<BR></DIV>
+<DIV class=relatedLinksTitle onmousedown="turnswitch('topcommentposts')" 
+style="CURSOR: pointer">最多评论文章... </DIV>
+<DIV class=relatedLinks id=topcommentposts style="DISPLAY: none"><A 
+href="http://okone96.itpub.net/post/9033/229465">欢迎给 吉日 留言 </A>(68 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/328376">eclipse 
+java.lang.OutOfMemoryError: Java heap space 解决方案</A> (9 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/60404">java runtime.exec() 的编写</A> (7 
+次)<BR><A href="http://okone96.itpub.net/post/9033/231699">java产生随机数的几种方式</A> (5 
+次)<BR><A href="http://okone96.itpub.net/post/9033/222538">把汉字自动转换为拼音的程序（源代码）</A> 
+(5 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/184023">如何在页面中判断ActiveX插件是否已安装?</A> (4 
+次)<BR><A href="http://okone96.itpub.net/post/9033/245145">献给所有伤害过男人的女人…… </A>(4 
+次)<BR><A href="http://okone96.itpub.net/post/9033/409007">发现sql语句真是强大</A> (3 
+次)<BR><A href="http://okone96.itpub.net/post/9033/283226">FreeMarker Eclipse 
+Plugin的安装!</A> (3 次)<BR><A href="http://okone96.itpub.net/post/9033/228826">java 
+在模版 图片 上加文字 </A>(3 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/187972">java实现发送电子邮件功能</A> (3 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/292420">php 生成静态页面</A> (3 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/213360">我的nutch爬虫配置</A> (3 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/218062">DOS下修改文件属性的命令 cmd命令大全</A> (3 
+次)<BR><A href="http://okone96.itpub.net/post/9033/218570">Eclipse中单步调试Java程序</A> 
+(3 次)<BR><A href="http://okone96.itpub.net/post/9033/223202">java 验证码 彩色验证码</A> 
+(2 次)<BR><A href="http://okone96.itpub.net/post/9033/255228">java 连接ftp服务器</A> 
+(2 次)<BR><A 
+href="http://okone96.itpub.net/post/9033/282221">现在股市里人人都在赚钱！！到底谁在亏钱？我讲一个故事来告诉大家谁亏钱了</A> 
+(2 次)<BR></DIV>
+<DIV class=relatedLinksTitle onmousedown="turnswitch('blog_statistics')" 
+style="CURSOR: pointer">博客统计... </DIV>
+<DIV class=relatedLinks id=blog_statistics style="DISPLAY: none">总文章数: 
+220<BR>总评论数: 177<BR>总引用数: 0<BR>总浏览数: 300707<BR></DIV></DIV>
+<DIV id=rightNav>
+<DIV class=relatedLinksTitle>Blog信息</DIV>
+<DIV class=relatedLinks>作者:吉日<BR><B>祝您</B><BR>身体健康<BR>家庭幸福<BR>给我留言<A 
+title=:)想说什么就说什么 
+href="http://okone96.itpub.net/post/9033/229465"><B>这里</B></A><BR>与我联系<A 
+title=msn或发邮件 href="mailto:okone96@hotmail.com"><B>这里</B></A> <A title=本blog搜索 
+href="http://okone96.itpub.net/post/9033/392626"><B>搜索</B></A>
+<SCRIPT type=text/javascript>
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT>
+
+<SCRIPT type=text/javascript>
+try {
+var pageTracker = _gat._getTracker("UA-872058-1");
+pageTracker._trackPageview();
+} catch(err) {}</SCRIPT>
+ <BR></DIV>
+<DIV class=relatedLinksTitle onmousedown="turnswitch('mylinks')" 
+style="CURSOR: pointer">网站链接...</DIV>
+<DIV class=myLinks id=mylinks>
+<DIV class=relatedLinksTitle style="TEXT-ALIGN: left">ROR</DIV>
+<DIV class=relatedLinks></DIV>
+<DIV class=relatedLinksTitle style="TEXT-ALIGN: left">经典博客</DIV>
+<DIV class=relatedLinks><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=野花blog天地 href="http://lastwinner.itpub.net/">野花的博客</A> 
+<BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=老鼠的博客 href="http://bertsun.itpub.net/">老鼠的博客</A> <BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=经典博客 href="http://www.china-ajax.com/">小范的博客</A> <BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title="" href="http://qsky.itpub.net/">海阔天空</A> <BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=另一份天地 href="http://blog.sina.com.cn/u/1217843521">新浪的博客</A> 
+<BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title="" href="http://zl19830917.blog.163.com/">赵亮的博客</A> 
+<BR></DIV>
+<DIV class=relatedLinksTitle style="TEXT-ALIGN: left">经典网站</DIV>
+<DIV class=relatedLinks><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title="" href="http://www.150200.net/">五常供求信息网</A> <BR></DIV>
+<DIV class=relatedLinksTitle style="TEXT-ALIGN: left">论坛连接</DIV>
+<DIV class=relatedLinks><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=it技术论坛 href="http://www.itpub.net/">itpub</A> <BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=技术论坛 href="http://www.csdn.net/">csdn</A> <BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=bt电影论坛 href="http://www.btbbt.com/">btbbt</A> <BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title="" href="http://sourceforge.net/">sourceforge</A> <BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title="" href="http://www.it168.com/">it168</A> <BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title="" href="http://www.phpx.com/">PHPX</A> <BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=搞笑激情视频 href="http://www.eastvnet.com/index.jsp">网传视频</A> 
+<BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=经典java论坛 href="http://www.matrix.org.cn/">与java共舞</A> 
+<BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=各种最新bt电影 href="http://bt.pmedia.cn/">纯bt电影</A> <BR><IMG 
+style="BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 25px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+height=8 alt="" src="Oracle导入程序Imp的使用详解.files/subcat_bullet.gif" widht="6"> <A 
+class=mylink title=java论坛 href="http://www.javaeye.com/">java天地</A> 
+<BR></DIV></DIV></DIV><!-- end pagenav -->
+<DIV id=pagefoot>&nbsp; <!-- 以下部分的内容，请保留原样， 谢谢！ -->
+<TABLE align=center border=0>
+  <TBODY>
+  <TR>
+    <TD>OW_MS模板,版本:1.30beta </TD>
+    <TD>模板设计:</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD><A href="http://oldwain.itpub.net/"><IMG 
+            style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+            alt=oldwain src="Oracle导入程序Imp的使用详解.files/oldwain.gif"></A></TD></TR>
+        <TR>
+          <TD style="FONT-SIZE: xx-small"><A 
+            href="http://oldwain.itpub.net/">oldwain</A></TD></TR></TBODY></TABLE></TD>
+    <TD>, 2006.02</TD>
+    <TD>Powered by</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD><A href="http://www.lifetype.net/"><IMG 
+            style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+            alt=LifeType 
+        src="Oracle导入程序Imp的使用详解.files/lt_button42.png"></A></TD></TR>
+        <TR>
+          <TD style="FONT-SIZE: xx-small"><A 
+            href="http://www.lifetype.net/">LifeType</A></TD></TR></TBODY></TABLE></TD><!-- 以上部分的内容，请保留原样， 谢谢！ -->
+    <TD>Blog提供:</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0>
+        <TBODY>
+        <TR>
+          <TD><A href="http://weblog.itpub.net/"><IMG 
+            style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px" 
+            alt=Itpub src="Oracle导入程序Imp的使用详解.files/itpub.gif"></A></TD></TR>
+        <TR>
+          <TD style="FONT-SIZE: xx-small"><A 
+            href="http://weblog.itpub.net/">ITPUB</A></TD></TR></TBODY></TABLE></TD><!--
+    <td>Modified by:</td>
+    <td><a href="http://blog.itpub.net/YOURBLOG"> 您的大名</a></td>
+--></TR></TBODY></TABLE></DIV></DIV><!--end pagecell-->
+<SCRIPT language=javascript type=text/javascript>
+	  var cookielayout = readCookie("layout");
+	  var layouttitle = cookielayout ? cookielayout : getPreferredLayout();
+	  setActiveLayout(layouttitle);
+	</SCRIPT>
+
+<SCRIPT language=javascript type=text/javascript>
+	  var cookiecolor = readCookie("color");
+	  var colortitle = cookiecolor ? cookiecolor : getPreferredColorSchema();
+	  setActiveColorSchema(colortitle);
+	</SCRIPT>
+</BODY></HTML>

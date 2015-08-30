@@ -1,0 +1,54 @@
+For example, change ksh
+
+1. create .kshrc
+2. append following lines in .kshrc
+# @(#)/usr/local/share/etc/kshrc ($ENV)  2004-04-12 Markus Gyger
+
+# skip remaining setup if shell non-interactive
+[[ -o interactive ]] || return 0
+
+# turn on command line editing mode
+set -o emacs
+
+
+# set positional parameters to corresponding code values (${27} = \033 = ESC)
+typeset -i8 _i=8#40
+while ((_i -= 1))
+do set -- "$(print -n \\0${_i#8?})" ${@+"$@"}
+done
+
+# set up cursor and function keys on ksh88
+# alias keymap emacs keyboard          command
+# __D   \E[D   ^B    left arrow        move cursor left
+# __C   \E[C   ^F    right arrow       move cursor right
+# __A   \E[A   ^P    up arrow          previous history entry
+# __B   \E[B   ^N    down arrow        next     history entry
+# __5~  \E[5   M-b   prev              move cursor back    one word
+# __6~  \E[6   M-f   next              move cursor forward one word
+# __3~  \E[2         insert            repeat previous argument
+#       ^?     ^D    delete            delete current character
+# __H          ^A    home              move cursor to start of line
+
+#     up         down       right   left    prev             next
+alias __A=${16}  __B=${14}  __C=$6  __D=$2  __5=${27}b${29}  __6=${27}f${29}
+
+#     insert char                                          home
+alias __3="${27}b${27}f${27} ${27}${29} ${27}p${25}${29}"  __H=$1
+
+
+
+# clean up
+shift 8#40-1
+unset _i
+
+# source personal .kshrc/.shrc if available
+if [[ $ENV = /usr/local/share/etc/kshrc && -r ~/.kshrc ]]
+then . ~/.kshrc
+elif [[ $ENV = /usr/local/share/etc/kshrc && -r ~/.shrc ]]
+then . ~/.shrc
+fi
+
+3. add following line in .profile
+HISTSIZE=1024
+HISTFILE=$HOME/.sh_history
+ENV=~/.kshrc

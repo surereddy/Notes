@@ -1,0 +1,13 @@
+program zoey_2;
+   makecall;
+   pause 20;
+   digits <2>;
+   pause 12;
+   digits <#>;
+   pause 2;
+   play {Eng_MOS_eval};
+   pause 38;
+   digits <9>;
+   pause 5;
+   dropcall;
+stop;

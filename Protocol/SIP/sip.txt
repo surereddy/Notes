@@ -1,0 +1,893 @@
+
+\- diversion
+
+draft-levy-sip-diversion-08.txt
+Display who and where the transfer is done.
+Eg.
+7.1.3 Network Call Forward Unconditional, P1 recursing
+                                          P2 non-recursing
+
+      In this message flow, Proxy 2 (P2) non-recursively implements
+      Call Forward Unconditional (CFUNC) to Carol@C.  Proxy 1 (P1)
+      is recursing.
+
+                     +------------------------+
+                     | Bob@P2: CFUNC->Carol@C |
+                     +------+-----------------+
+                             \
+                              \
+A              P1             P2            B          C
+            recursing      non-recursing
+|              |              |             |          |
+|--INV Bob@P1->|              |             |          |
+|              |              |             |          |
+|              |--INV Bob@P2->|             |          |
+|              |              |             |          |
+|              |<-302---------|             |          |
+|              |  Contact: Carol@C          |          |
+|              |  Diversion: Bob@P2         |          |
+|              |    ;reason=unconditional   |          |
+|              |              |             |          |
+|              |--ACK-------->|             |          |
+|              |              |             |          |
+|              |--INVITE Carol@C---------------------->|
+|              |  Diversion: Bob@P2         |          |
+|              |    ;reason=unconditional   |          |
+|              |              |             |          |
+|              |<-200----------------------------------|
+|              |              |             |          |
+|<-200---------|              |             |          |
+|              |              |             |          |
+|--ACK------------------------------------------------>|
+|              |              |             |          |
+|              |              |             |          |
+
+
+\- PRACK
+provide reliable provisional responses.
+It can be used in reliable response and early media.
+-  reliable response
+                
+A              B  
+|              |   
+|<--INVITE(SDP)|   
+| --TRING    ->|  
+|-183(no sdp)->|
+|<-PRACK     - |
+| --200ok    ->|  
+|<-200(SDP)    |
+
+- early media
+A              B  
+|              |   
+|<--INVITE(SDP)|   
+| --TRING    ->|  
+|-183(   sdp)->| or/and 180 ring
+|<-PRACK     - |
+| --200ok    ->|  
+| -200(SDP2)-> |
+
+A              B  
+|              |   
+|<--INVITE     |   
+| --TRING    ->|  
+|-183(   sdp)->| or/and 180 ring
+|<-PRACK (SDP) |
+| --200ok    ->|  
+| -200(SDP2)-> |
+| <-ACK     -  |
+
+\- dtmf
+[sip info]
+* signal=a
+# signal=b
+
+[2833]
+Display the number in the headline of the frame in ethereal.
+In the offer/answer SDP, the telephone event codec should be included.
+In the answer SDP, there could be two codecs.
+
+Eg. 1
+User Datagram Protocol, Src Port: 6686 (6686), Dst Port: 29538 (29538)
+Real-Time Transport Protocol
+    Stream setup by SDP (frame 6917)
+        Setup frame: 6917
+        Setup Method: SDP
+    10.. .... = Version: RFC 1889 Version (2)
+    ..0. .... = Padding: False
+    ...0 .... = Extension: False
+    .... 0000 = Contributing source identifiers count: 0
+    0... .... = Marker: False
+    Payload type: telephone-event (101)
+    Sequence number: 5001
+    Timestamp: 32800
+    Synchronization Source identifier: 12357
+RFC 2833 RTP Event
+    Event ID: DTMF One 1 (1)
+    0... .... = End of Event: False
+    .0.. .... = Reserved: False
+    ..00 1010 = Volume: 10
+    Event Duration: 160
+    
+    
+    Offer SDP: include 101 telephone-event codec
+     Content-Type: application/sdp
+        Content-Length: 297
+    Message body
+        Session Description Protocol
+            Session Description Protocol Version (v): 0
+            Owner/Creator, Session Id (o): - 3368757823 3368757823 IN IP4 172.24.198.200
+            Session Name (s): -
+            Connection Information (c): IN IP4 172.24.198.68
+            Time Description, active time (t): 0 0
+            Media Description, name and address (m): audio 6686 RTP/AVP 100 6 0 8 3 97 5 101
+            Media Attribute (a): alt:1 1 : 1B22908E 00000011 172.24.198.68 6686
+            Media Attribute (a): fmtp:101 0-15
+            Media Attribute (a): rtpmap:100 speex/16000
+            Media Attribute (a): rtpmap:97 speex/8000
+            Media Attribute (a): rtpmap:101 telephone-event/8000
+            Media Attribute (a): sendrecv
+            
+    Answer SDP: include 101 telephone-event codec besides of one audio codec     
+    
+        Content-Type: application/sdp
+        Content-Length: 204
+    Message body
+        Session Description Protocol
+            Session Description Protocol Version (v): 0
+            Owner/Creator, Session Id (o): - 129302336 129302336 IN IP4 172.24.198.202
+            Session Name (s): -
+            Connection Information (c): IN IP4 172.24.198.202
+            Time Description, active time (t): 0 0
+            Media Description, name and address (m): audio 29538 RTP/AVP 101 0
+            Media Attribute (a): rtpmap:101 telephone-event/8000
+            Media Attribute (a): rtpmap:0 PCMU/8000
+            Media Attribute (a): sendrecv
+            Media Attribute (a): fmtp:101 0-15
+            
+\- transfer
+refer to draft-ietf-sipping-cc-transfer-05.txt
+\\- blind transfer
+              Transferor           Transferee             Transfer
+                   |                    |                  Target
+                   |          INVITE F1 |                    |
+         Call-ID:1 |<-------------------|                    |
+                   |          200 OK F2 |                    |
+         Call-ID:1 |------------------->|                    |
+                   |            ACK     |                    |
+         Call-ID:1 |<-------------------|                    |
+                   |  INVITE (hold)     |                    |
+         Call-ID:1 |------------------->|                    |
+                   |  200 OK            |                    |
+         Call-ID:1 |<-------------------|                    |
+                   |  ACK               |                    |
+         Call-ID:1 |------------------->|                    |
+                   |  REFER F3 (Target-Dialog:1)             |
+         Call-ID:2 |------------------->|                    |
+                   |  202 Accepted      |                    |
+         Call-ID:2 |<-------------------|                    |
+                   | NOTIFY (100 Trying) F4                  |
+         Call-ID:2 |<-------------------|                    |
+                   |            200 OK  |                    |
+         Call-ID:2 |------------------->|                    |
+                   |                    |  INVITE F5         |
+         Call-ID:3 |                    |------------------->|
+                   |                    |  200 OK            |
+         Call-ID:3 |                    |<-------------------|
+                   |                    |  ACK               |
+         Call-ID:3 |                    |------------------->|
+                   |  NOTIFY (200 OK) F6|                    |
+         Call-ID:2 |<-------------------|                    |
+                   |            200 OK  |                    |
+         Call-ID:2 |------------------->|                    |
+                   |  BYE               |                    |
+         Call-ID:1 |------------------->|                    |
+                   |  200 OK            |                    |
+         Call-ID:1 |<-------------------|                    |
+                   |                    |             BYE    |
+         Call-ID:3 |                    |<-------------------|
+                   |                    |             200 OK |
+         Call-ID:3 |                    |------------------->|
+
+\\- attended transfer
+dialog3 should be dialog3. Only 3 dialogs: 1,2,4
+
+              Transferor           Transferee             Transfer
+                   |                    |                  Target
+                   |                    |                    |
+          dialog1  | INVITE/200 OK/ACK F1 F2                 |
+                   |<-------------------|                    |
+          dialog1  | INVITE (hold)/200 OK/ACK                |
+                   |------------------->|                    |
+          dialog2  | INVITE/200 OK/ACK F3 F4                 |
+                   |---------------------------------------->|
+          dialog2  | INVITE (hold)/200 OK/ACK                |
+                   |---------------------------------------->|
+          dialog3  | REFER (Target-Dialog:1,Refer-To:sips:TransferTarget?Replaces=2) F5
+                   |------------------->|                    |
+          dialog3  | 202 Accepted       |                    |
+                   |<-------------------|                    |
+          dialog3  | NOTIFY (100 Trying)|                    |
+                   |<-------------------|                    |
+          dialog3  |            200 OK  |                    |
+                   |------------------->|                    |
+          dialog4  |                INVITE (Replaces:dialog2)/200 OK/ACK F6
+                   |                    |------------------->|
+          dialog2  | BYE/200 OK         |                    |
+                   |<----------------------------------------|
+          dialog3  | NOTIFY (200 OK)    |                    |
+                   |<-------------------|                    |
+          dialog3  |            200 OK  |                    |
+                   |------------------->|                    |
+          dialog1  | BYE/200 OK         |                    |
+                   |------------------->|                    |
+          dialog4  |                    |         BYE/200 OK |
+                   |                    |<-------------------|
+                   
+                   
+\- Annoucement for call failure or restriction
+early meadia to avoid billing problem.
+
+查看convedia的文档，让媒体服务器和终端建立earlymedia的方式，只能在netann的放音方式中。
+      调用的方法是在Request url中增加一个early参数
+      比如
+      sip:annc@mpc2.mediaserver.provider.com;play=file://provisioned/hello.wav;early=yes;delay=10;repeat=2
+      这样媒体服务器就会把sdp在183中带回来。
+      但如果用msml/amsml的方式来调用媒体服务器，恐怕就不行。 refer/SIPRef_95-0071-10-01.rar第54页是关于这个的描述。
+CMM use amsml
+
+\- refer
+在SESSION-BASED的消息中，UA可以加入/删除一用户到消息会话中（通过REFER消息），即时消息用MSRP协议。
+Refer-To: <sip:user2_public1@home2.net;method=INVITE>
+Refer-To: <sip:user2_public1@home2.net;method=BYE>
+
+refer to 
+D:\Projects\CMM\Doc\Standard\CMCC\CMCC-IMS-Spec\Test spec\基于IMS的即时消息业务接口测试规范(V1.0.0)20060830.doc
+
+For warm blind call transfer, no method in  refer to draft-ietf-sipping-cc-transfer-05.txt. 
+                             or method=INVITE in Intellivic.
+
+
+Examples
+;blind transfer
+Refer-To: sip:alice@atlanta.example.com
+
+Refer-To: <sip:bob@biloxi.example.net?Accept-Contact=sip:bobsdesk.
+       biloxi.example.net&Call-ID%3D55432%40alicepc.atlanta.example.com>
+;attended transfer
+Refer-To: <sip:dave@denver.example.org?Replaces=12345%40192.168.118.3%3B
+          to-tag%3D12345%3Bfrom-tag%3D5FFE-3994>
+Refer-To: <sip:carol@cleveland.example.org;method=SUBSCRIBE>
+Refer-To: <sip:carol@cleveland.example.org;method=INVITE/BYE>
+Refer-To: http://www.ietf.org
+
+
+\- precondition
+
+As stated in the RFC 3312, chapter 11,
+"a user agent including preconditions in the SDP MUST support the PRACK and
+UPDATE methods."
+
+Unfortunately CMM currently does not support PRACK and UPDATE, therefore
+RFC 3312 is not supported.
+
+Dimitri
+
+\- reinvite SDP session version 'o=' line
+session id 2nd parameter must be unique. !! You can use session id to search all the SDP exchange.
+The session version, 3rd parameter, should be different in each offer/answer transaction. 
+1rd parameter owner id
+
+owner username 1st parameter
+v=0
+o=8613453479206 3742236697 3742236697 IN IP4 10.204.220.68
+s=session SDP
+c=IN IP4 0.0.0.0
+t=0 0
+m=audio 26404 RTP/AVP 18
+a=ptime:20
+a=rtpmap:18 G729/8000
+
+There is always problem on REINVITE.
+session ID must be unique.
+session versionID must be increased.
+
+RFC 3264 (rfc3264) - An Offer-Answer Model with Session Description Protocol.txt
+8 Modifying the Session:
+
+When issuing an offer that modifies the session,
+   the "o=" line of the new SDP MUST be identical to that in the
+   previous SDP, except that the version in the origin field MUST
+   increment by one from the previous SDP.
+
+
+As far as I understand the traces, it seems the user agent requesting the on-hold procedure does not properly format the SDP body. 
+Indeed the session ID parameter of the "o" line in the SDP offer has changed between the 2 SDP offers... 
+which is not correct as this parameter should not change during an entire SDP session (only the versionID should be increased).
+
+So, my opinion is that this is a UA issue and not a CMM issue.
+
+Regards.
+
+- Dimitri
+
+\- Ringtone and ringback tone (SIP h248 interworking issue)
+Ringtone can be implemented in:
+0. Standard by default locally
+1. Locally by configuration in contact list.
+2. By the peer or server(typically proxy), the Alert-Info header present in the INVITE. RFC3261
+   Eg. Alert-Info: <http://www.example.com/sounds/moo.wav>  
+   
+   The Intellivic Client supports ring tones and ringback tones when using the SIP protocol, Alert-Info.
+   The Intellivic Client does not add the SIP Alert-Info itself. 
+   
+3. By the peer, PRACK early media. 
+   -> INVITE(SDP)
+   <- 183/180(SDP)
+   then UA play the early media as ringtone.
+   
+   The Intellivic Client also supports ring tones and ringback tones using RFC3262 (PRACK, early-media). 
+   In case early-media is received, local ring(back)tone generation is stopped. [XJP, yes it plays the peer's voice input.]
+   By test, Intellivic doesn't send specific ringback tone or any RTP user microphone input to caller after early-media is established.
+   It sends rtp only after it sends 200 ok.
+  
+   
+Ringbacktone
+0. Standard by default locally. Intellivic ringbacktone_default.wav
+1. By the peer or server(typically proxy), the Alert-Info header present in a 180 (Ringing) response. RFC3261
+2. By the peer/ AS,PRACK early media. 
+   <- INVITE(sdp)
+   -> 180/183 (SDP)
+   <- prack
+   
+   The Intellivic Client also supports ring tones and ringback tones using RFC3262 (PRACK, early-media). 
+   In case early-media is received, local ring(back)tone generation is stopped. [XJP, yes it plays the peer's voice input.]
+
+
+Intellivic:
+8. Distinctive ringing
+The Intellivic Client supports ring tones and ringback tones when using the SIP protocol. 
+This is implemented using the SIP Alert-Info header according to RFC3261. When receiving a call, 
+the Intellivic Client will play the ringtone specified in the SIP INVITE message. When setting up a call, 
+the Intellivic Client will play the ringback tone specified in the SIP 180 RINGING message.
+
+The Intellivic Client does not add the SIP Alert-Info itself. The Intellivic Client configures the ringtone for a contact, 
+that he will hear when that contact calls him, in the VCARD. The ringback tone is configured in the user profile. 
+The caller will hear the ringback tone configured in the user profile of the callee. The Intellivic Client manages the user 
+profile using the Alcatel MMAS SOAP interface.
+
+The Intellivic Client also supports ring tones and ringback tones using RFC3262 (PRACK, early-media). 
+In case early-media is received, local ring(back)tone generation is stopped.
+
+[XJP]In a whole, 
+Intellivic doesn't send specific ringtone or ringback tone to the peer, while it support receiving specific/early 
+ringtone or ringback tone from the peer. 
+In case early-media is received, local ring(back)tone generation is stopped, even the prack hasn't been established.
+That's to say, if callee replies with 180 without SDP, but callee send early media before 200ok, 
+Intellivic will stop local ringback tone generation too.
+
+
+Some more comments from 3960:
+------
+Following is part of RFC3960:
+3.2.  Ringing Tone Generation
+1. Unless a 180 (Ringing) response is received, never generate
+local ringing.
+2. If a 180 (Ringing) has been received but there are no incoming
+media packets, generate local ringing.
+3. If a 180 (Ringing) has been received and there are incoming
+media packets, play them and do not generate local ringing.
+----------
+
+2.  Session Establishment in SIP
+…
+UACs are ready to play incoming media packets as soon as
+   they send an offer, because they cannot count on the reception of the
+   200 (OK) to start playing out media for the caller; SIP signalling
+   and media packets typically traverse different paths, and so, media
+   packets may arrive before the 200 (OK) response.
+
+     In the beginning of RFC3960, it said:
+
+Early media refers to media (e.g., audio and video) that is exchanged
+   before a particular session is accepted by the called user.  Within a
+   dialog, early media occurs from the moment the initial INVITE is sent
+   until the User Agent Server (UAS) generates a final response.
+
+从规范描述上看，Intellivic的做法似乎是对的。但是从IAD/AG的角度看，因为它们收到的ADD消息中MO=SO,
+所以IAD/AG向对端发送RTP也是合理的。而且测试结果显示，被叫为H248 IAD和1540，主叫听到的回铃音都是异常的。
+如果要求被叫侧修改，涉及的产品会很多。看看有什么好的方法，来解决这个问题？谢谢！
+
+-------------------------------------------------------------------
+09:43:50.550364 cocop1.11000 > 10.0.58.32.2944:  udp 358 (DF)
+!/1 [10.0.39.40] T=71259074{
+  C=${
+    A=P1{
+      M{
+        O{
+          MO=SR,tdmc/ec=on
+          }
+        }
+      },
+A=${
+      M{
+        O{
+          MO=SO
+          },
+L{
+          v=0c=IN IP4 $m=audio $ RTP/AVP 8 0 18 4a=rtpmap:8 PCMA/8000a=rtpmap:0 PCMU/8000a=rtpmap:18 G729/8000a=rtpmap:4 G723/8000
+          },
+R{
+          v=0c=IN IP4 10.0.101.151m=audio 30002 RTP/AVP 8 0 18 4a=rtpmap:8 PCMA/8000a=rtpmap:0 PCMU/8000a=rtpmap:18 G729/8000a=rtpmap:4 G723/8000
+          }
+        }
+      }
+    }
+  }
+CBG Li li(FSD)
+
+\- P-Asserted-Identity
+URI format same as From, display name<user part@domain>
+
+\- CLIP CLIR & 连接号显示
+- IMS
+CLIR for calling and called
+3GPP TS 24.228 10 
+CLIP should be on P-A-I, it doesn't speak about the From header in the INVITE from P to UE and leave it blank in the example. 
+When the destination P-CSCF forwards the INVITE request to the destination UE, the P-CSCF will 
+remove the P-Asserted-Identity  and Privacy headers. 
+
+If caller set anonymous in From  and privacy=id, callee will get anonymous From header, 
+but caller doesn't indicate CLIR(10.2.3) and S add privacy=id, spec doesn't speak about From header at all at S and from P to UE.
+
+CMM IMS version will support CLIR:
+add privacy=id only.
+
+CMM NGN version support fake CLIR(interworking actually):
+See privacy=id, modify From to unavailable@alcatel.fr.
+
+
+
+
+\- precondition
+Main points:
+- Precondition is to reserve media resource before alerting callee, when callee or gateway returns 180 ringing to caller.
+- local and desired parameters
+  If local is equal or surpasses desired in direction mode(none,sendrecv,send,recv), 
+  negotication is ok and callee can returns 180 ringing and alert user.
+  But for e2e mode, it's not the case, I think, but maybe it's my misunderstand. Because first offer and answer have always
+  sendrecv, but at last local in two sides could be send and recv.
+  5.1.1 SDP encoding
+  ...
+  If the strength-tags for both directions are equal (e.g., both "mandatory")
+   in the transaction status table, the user agent MUST add one desired
+   status line with the tag "sendrecv".
+  
+
+Two mode: 
+e2e End2End
+Segmented local/remote
+- e2e
+2 pairs of precondition exchange are needed for two direction reservation:
+
+
+               A                                            B
+
+               |                                            |
+               |-------------(1) INVITE SDP1--------------->|
+               |                                            |
+               |<------(2) 183 Session Progress SDP2--------|
+               |  ***                                 ***   |
+               |--*R*-----------(3) PRACK-------------*R*-->|
+               |  *E*                                 *E*   |
+               |<-*S*-------(4) 200 OK (PRACK)--------*S*---|
+               |  *E*                                 *E*   |
+               |  *R*                                 *R*   |
+               |  *V*                                 *V*   |
+               |  *A*                                 *A*   |
+               |  *T*                                 *T*   |
+               |  *I*                                 *I*   |
+               |  *O*                                 *O*   |
+               |  *N*                                 *N*   |
+               |  ***                                 ***   |
+               |  ***                                       |
+               |  ***                                       |
+               |-------------(5) UPDATE SDP3--------------->|
+               |                                            |
+               |<--------(6) 200 OK (UPDATE) SDP4-----------|
+               |                                            |
+               |<-------------(7) 180 Ringing---------------|
+               |                                            |
+               |-----------------(8) PRACK----------------->|
+               |                                            |
+               |<------------(9) 200 OK (PRACK)-------------|
+               |                                            |
+               |                                            |
+               |                                            |
+               |<-----------(10) 200 OK (INVITE)------------|
+               |                                            |
+               |------------------(11) ACK----------------->|
+               |                                            |
+               |                                            |
+
+             Figure 2: Example using the end-to-end status type
+   The call flow of Figure 2 shows a basic session establishment using
+   the end-to-end status type.  The SDP descriptions of this example are
+   shown below:
+
+   SDP1: A includes end-to-end quality of service preconditions in the
+   initial offer.
+
+         m=audio 20000 RTP/AVP 0
+         c=IN IP4 192.0.2.1
+         a=curr:qos e2e none
+         a=des:qos mandatory e2e sendrecv
+
+   SDP2: Since B uses RSVP, it can know when resources in its "send"
+   direction are available, because it will receive RESV messages from
+   the network.  However, it does not know the status of the
+   reservations in the other direction.  B requests confirmation for
+   resource reservations in its "recv" direction to the peer user agent
+   A in its answer.
+
+         m=audio 30000 RTP/AVP 0
+         c=IN IP4 192.0.2.4
+         a=curr:qos e2e none
+         a=des:qos mandatory e2e sendrecv
+         a=conf:qos e2e recv
+
+   After having sent the answer, B starts reserving network resources
+   for the media stream.  When A receives this answer (2), it starts
+   performing resource reservation as well.  Both UAs use RSVP, so A
+   sends PATH messages towards B and B sends PATH messages towards A.
+
+   As time passes, B receives RESV messages confirming the reservation.
+   However, B waits until resources in the other direction are reserved
+   as well, since it did not receive any confirmation and the
+   preconditions still have not been met.
+
+   SDP3: When A receives RESV messages, it sends an updated offer (5) to
+   B:
+
+         m=audio 20000 RTP/AVP 0
+         c=IN IP4 192.0.2.1
+         a=curr:qos e2e send
+         a=des:qos mandatory e2e sendrecv
+
+   SDP4: B responds with an answer (6) which contains the current status
+   of the resource reservation (i.e., sendrecv):
+
+         m=audio 30000 RTP/AVP 0
+         c=IN IP4 192.0.2.4
+         a=curr:qos e2e sendrecv
+         a=des:qos mandatory e2e sendrecv
+
+   At this point in time, session establishment resumes and B returns a
+   180 (Ringing) response (7).
+
+
+- Segmented
+It is normally normally simple, precondition is met in the 180 ringing directly and no 183.
+               A                                            B
+
+               | ***                                        |
+               | *R*                                        |
+               | *E*                                        |
+               | *S*                                        |
+               | *E*                                        |
+               | *R*                                        |
+               | *V*                                        |
+               | *A*                                        |
+               | *T*                                        |
+               | *I*                                        |
+               | *O*                                        |
+               | *N*                                        |
+               | ***                                        |
+               |-------------(1) INVITE SDP1--------------->|
+               |                                     ***    |
+               |                                     *R*    |
+               |                                     *E*    |
+               |                                     *S*    |
+               |                                     *E*    |
+               |                                     *R*    |
+               |                                     *V*    |
+               |                                     *A*    |
+               |                                     *T*    |
+               |                                     *I*    |
+               |                                     *O*    |
+               |                                     *N*    |
+               |                                     ***    |
+               |<----------(2) 180 Ringing SDP2-------------|
+               |                                            |
+               |----------------(3) PRACK------------------>|
+               |                                            |
+               |<-----------(4) 200 OK (PRACK)--------------|
+               |                                            |
+               |                                            |
+               |<-----------(5) 200 OK (INVITE)-------------|
+               |                                            |
+               |------------------(6) ACK------------------>|
+               |                                            |
+               |                                            |
+
+             Figure 4: Example using the segmented status type
+   SDP1: A includes local and remote QoS preconditions in the initial
+   offer.  Before sending the initial offer, A reserves resources in its
+   access network.  This is indicated in the local current status of the
+   SDP below:
+
+         m=audio 20000 RTP/AVP 0 8
+         c=IN IP4 192.0.2.1
+         a=curr:qos local sendrecv
+         a=curr:qos remote none
+         a=des:qos mandatory local sendrecv
+         a=des:qos mandatory remote sendrecv
+
+   SDP2: B reserves resources in its access network and, since all the
+   preconditions are met, returns an answer in a 180 (Ringing) response
+   (3).
+
+         m=audio 30000 RTP/AVP 0 8
+         c=IN IP4 192.0.2.4
+         a=curr:qos local sendrecv
+         a=curr:qos remote sendrecv
+         a=des:qos mandatory local sendrecv
+         a=des:qos mandatory remote sendrecv
+
+   Let's assume that after receiving this response, A decides that it
+   wants to use only PCM u-law (payload 0), as opposed to both PCM u-law
+   and A-law (payload 8).  It would send an UPDATE to B, possibly before
+   receiving the 200 (OK) for the INVITE (5).  The SDP would look like:
+
+         m=audio 20000 RTP/AVP 0
+         c=IN IP4 192.0.2.1
+         a=curr:qos local sendrecv
+         a=curr:qos remote sendrecv
+         a=des:qos mandatory local sendrecv
+         a=des:qos mandatory remote sendrecv
+
+   B would generate an answer for this offer and place it in the 200
+   (OK) for the UPDATE.
+
+-------
+这是RSVP协议RFC2205里解释RESV Message的话：
+Resv messages carry reservation requests hop-by-hop from receivers to senders.
+所以，谁收到说明谁是发者。收到RESV消息以后，说明建立了一条sender到receiver的预留通路，所以这时发者可以发，收者也可以收了。
+
+RFC3312里指出了send或recv指的是两个不同方向的通路，应该不是指自己是否能够发送或接收，而是指两者之间的通路；只有建立了发者到收者的通路，预留（reservation）才有意义，否则只能发不能收就不叫预留了。
+
+Huang Qiangxiong
+------
+
+\- Hold
+RFC3264
+
+8.4 Putting a Unicast Media Stream on Hold
+
+   If a party in a call wants to put the other party "on hold", i.e.,
+   request that it temporarily stops sending one or more unicast media
+   streams, a party offers the other an updated SDP.
+
+   If the stream to be placed on hold was previously a sendrecv media
+   stream, it is placed on hold by marking it as sendonly.  If the
+   stream to be placed on hold was previously a recvonly media stream,
+   it is placed on hold by marking it inactive.
+
+   This means that a stream is placed "on hold" separately in each
+   direction.  Each stream is placed "on hold" independently.  The
+   recipient of an offer for a stream on-hold SHOULD NOT automatically
+   return an answer with the corresponding stream on hold.  An SDP with
+   all streams "on hold" is referred to as held SDP.
+
+      Certain third party call control scenarios do not work when an
+      answerer responds to held SDP with held SDP.
+
+   Typically, when a user "presses" hold, the agent will generate an
+   offer with all streams in the SDP indicating a direction of sendonly,
+   and it will also locally mute, so that no media is sent to the far
+   end, and no media is played out.
+
+   RFC 2543 [10] specified that placing a user on hold was accomplished
+   by setting the connection address to 0.0.0.0.  Its usage for putting
+   a call on hold is no longer recommended,
+   
+\- SDP answer sequence different from offer
+XJP: answerer is the master.
+If
+A(offer)->B: 0 8
+A<-B(answer): 8 0
+then
+A should => RTP B: 8
+B should => RTP A: 8 (B is the decider)
+RFC3264:
+7 Offerer Processing of the Answer
+
+   When the offerer receives the answer, it MAY send media on the
+   accepted stream(s) (assuming it is listed as sendrecv or recvonly in
+   the answer).  It MUST send using a media format listed in the answer,
+   and it SHOULD use the first media format listed in the answer when it
+   does send.
+
+      The reason this is a SHOULD, and not a MUST (its also a SHOULD,
+      and not a MUST, for the answerer), is because **there will
+      oftentimes be a need to change codecs on the fly**.  For example,
+      during silence periods, an agent might like to switch to a comfort
+      noise codec.  Or, if the user presses a number on the keypad, the
+      agent might like to send that using RFC 2833 [9].  Congestion
+      control might necessitate changing to a lower rate codec based on
+      feedback.
+
+   The offerer SHOULD send media according to the value of any ptime and
+   bandwidth attribute in the answer.
+
+   The offerer MAY immediately cease listening for media formats that
+   were listed in the initial offer, but not present in the answer.
+
+But if B should => RTP A: 0, A should be able to receive it.
+
+RFC3264:
+5 Generating the Initial Offer
+If multiple formats are listed, it
+   means that **the offerer is capable of making use of any of those
+   formats during the session**.  In other words, the answerer MAY change
+   formats in the middle of the session, making use of any of the
+   formats listed, without sending a new offer.  For a sendonly stream,
+   the offer SHOULD indicate those formats the offerer is willing to
+   send for this stream.  For a recvonly stream, the offer SHOULD
+   indicate those formats the offerer is willing to receive for this
+   stream.  For a sendrecv stream, the offer SHOULD indicate those
+   codecs that the offerer is willing to send and receive with.
+
+\- Terminating a session or dialog by Cancel or BYE
+[XJP]UAC can terminate a early session by BYE or Cancel before  2xx final response.
+9 Canceling a Request
+   CANCEL requests can be constructed and sent by both proxies and user
+   agent clients.  Section 15 discusses under what conditions a UAC
+   would CANCEL an INVITE request, and Section 16.10 discusses proxy
+   usage of CANCEL.
+
+15 Terminating a Session
+The caller's UA MAY send a BYE for either
+   confirmed or early dialogs, and the callee's UA MAY send a BYE on
+   confirmed dialogs, but MUST NOT send a BYE on early dialogs.
+
+   The impact of a non-2xx final response to INVITE on dialogs and
+   sessions makes the use of CANCEL attractive.  The CANCEL attempts to
+   force a non-2xx response to the INVITE (in particular, a 487).
+   Therefore, if a UAC wishes to give up on its call attempt entirely,
+   it can send a CANCEL.  
+
+
+\- 10.2 One of N Codec Selection
+RFC 3264
+If offeror want to decide the codec and get all the codec info  from answeror, 
+he should user inactive mode.
+
+If offeror sends sendrev, answeror can reply with only one codec and be the codec decider and reinivte to lock down is no need.
+
+It not recommended that offer sends sendrev and answeror replies with n codec, then offeror MAY or MAY not send reinvite, and if he doesn't 
+send reinvite, media codec may be changed on the fly. 
+
+So the best mode is inactive mode.
+
+   A common occurrence in embedded phones is that the Digital Signal
+   Processor (DSP) used for compression can support multiple codecs at a
+   time, but once that codec is selected, it cannot be readily changed
+   on the fly.  This example shows how a session can be set up using an
+   initial offer/answer exchange, followed immediately by a second one
+   to lock down the set of codecs.
+
+   The initial offer from Alice to Bob indicates a single audio stream
+   with the three audio codecs that are available in the DSP.  The
+   stream is marked as inactive, since media cannot be received until a
+   codec is locked down:
+
+   v=0
+   o=alice 2890844526 2890844526 IN IP4 host.anywhere.com
+   s=
+   c=IN IP4 host.anywhere.com
+   t=0 0
+   m=audio 62986 RTP/AVP 0 4 18
+   a=rtpmap:0 PCMU/8000
+   a=rtpmap:4 G723/8000
+   a=rtpmap:18 G729/8000
+   a=inactive
+
+   Bob can support dynamic switching between PCMU and G.723.  So, he
+   sends the following answer:
+
+   v=0
+   o=bob 2890844730 2890844731 IN IP4 host.example.com
+   s=
+   c=IN IP4 host.example.com
+   t=0 0
+   m=audio 54344 RTP/AVP 0 4
+   a=rtpmap:0 PCMU/8000
+   a=rtpmap:4 G723/8000
+   a=inactive
+
+   Alice can then select any one of these two codecs.  So, she sends an
+   updated offer with a sendrecv stream:
+
+   v=0
+   o=alice 2890844526 2890844527 IN IP4 host.anywhere.com
+   s=
+   c=IN IP4 host.anywhere.com
+   t=0 0
+   m=audio 62986 RTP/AVP 4
+   a=rtpmap:4 G723/8000
+   a=sendrecv
+
+   Bob accepts the single codec:
+
+   v=0
+   o=bob 2890844730 2890844732 IN IP4 host.example.com
+   s=
+   c=IN IP4 host.example.com
+   t=0 0
+   m=audio 54344 RTP/AVP 4
+   a=rtpmap:4 G723/8000
+   a=sendrecv
+
+   If the answerer (Bob), was only capable of supporting one-of-N
+   codecs, Bob would select one of the codecs from the offer, and place
+   that in his answer. In this case, Alice would do a re-INVITE to
+   activate that stream with that codec.
+   
+   As an alternative to using "a=inactive" in the first exchange, Alice
+   can list all codecs, and as soon as she receives media from Bob,
+   generate an updated offer locking down the codec to the one just
+   received. Of course, if Bob only supports one-of-N codecs, there
+   would only be one codec in his answer, and in this case, there is no
+   need for a re-INVITE to lock down to a single codec.
+   
+\- CIF=1,2 
+
+CIF=1 equals 30 frame/s in MCU 
+CIF=2 15 
+1表示30，2表示15，
+
+
+\- SDP answer m=video 0
+
+rfc 3264
+6 Generating the Answer
+   For each "m=" line in the offer, there MUST be a corresponding "m="
+   line in the answer.  The answer MUST contain exactly the same number
+   of "m=" lines as the offer. 
+   
+   An offered stream MAY be rejected in the answer, for any reason.  If
+   a stream is rejected, the offerer and answerer MUST NOT generate
+   media (or RTCP packets) for that stream.  To reject an offered
+   stream, the port number in the corresponding stream in the answer
+   MUST be set to zero.  
+   
+   
+\- Display Name format
+Summary:
+1. Tokens with or without "".
+2. Tokens with separators must with "".
+
+Example:
+      From: "Bob" <sips:bob@biloxi.com> ;tag=a48s
+      From: "Bob@asb.com" <sips:bob@biloxi.com> ;tag=a48s
+      From: Anonymous <sip:c8oqz84zk7z@privacy.org>;tag=hyh8
+
+RFC3261
+	20.10 Contact
+	The display name can be tokens, or a
+   quoted string, if a larger character set is desired.
+  
+  25.1 Basic Rules
+   Many SIP header field values consist of words separated by LWS or
+   special characters.  Unless otherwise stated, tokens are case-
+   insensitive.  These special characters MUST be in a quoted string to
+   be used within a parameter value.  The word construct is used in
+   Call-ID to allow most separators to be used.
+
+      token       =  1*(alphanum / "-" / "." / "!" / "%" / "*"
+                     / "_" / "+" / "`" / "'" / "~" )
+      separators  =  "(" / ")" / "<" / ">" / "@" /
+                     "," / ";" / ":" / "\" / DQUOTE /
+                     "/" / "[" / "]" / "?" / "=" /
+                     "{" / "}" / SP / HTAB

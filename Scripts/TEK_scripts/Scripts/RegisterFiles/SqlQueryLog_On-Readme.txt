@@ -1,0 +1,1 @@
+Check the sql logs on Start - Programs - Tektronix Applications - Event Log Viewer

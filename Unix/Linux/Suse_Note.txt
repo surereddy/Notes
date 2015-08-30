@@ -1,0 +1,331 @@
+|-----------FAQ----------|
+||- route add & gateway setting
+route add -net 192.168.230.0 netmask 255.255.255.0 gw 192.168.30.129
+
+route add -net 192.168.230.44 netmask 255.255.255.255 gw 192.168.30.129
+
+       route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
+
+高级网关设置
+＝＝＝＝＝＝＝＝＝
+Suse:
+route add default gw xxx.xxx.xxx.xxx eth0
+/etc/sysconfig/network下加了个文件routes，其中将default 设为192.168.50.1。
+# cat /etc/sysconfig/network/routes
+default 192.168.50.1 - -
+
+routes文件是网关及路由表的配置文件，其格式一般如下：
+   <default|目的网络|目的主机>    <网关>    <目的网络子网掩码>    <本地网络接口> 
+10.0.0.0 192.168.50.1 255.0.0.0 -
+10.0.0.0 10.10.10.1 255.0.0.0 -
+0.0.0.0 192.168.1.254 0.0.0.0 wlan-id-00:0c:f1:1d:a5:6d
+default 218.65.19.17 - -
+
+第1行是，我们一条静态路由
+/etc/init.d/network restart ；使routes生效
+或者使用yast添加路由:
+yast: “Network address setup”中“Detailed settings”单击“Routing”->“Routing table”中的“Expert configuration”
+
+   删除上述路由 
+   # route del -net 0.0.0.0  
+   # route del -net 192.168.2.128 netmask 255.255.255.128 
+   # route del -host 192.168.3.20 
+
+------------   
+ViSS:/etc/sysconfig/network # pwd
+/etc/sysconfig/network
+ViSS:/etc/sysconfig/network # ls
+.          if-up.d                         ifroute-lo  update-log.debug
+..         ifcfg-eth-id-00:18:71:76:58:ba  providers   wireless
+config     ifcfg-eth-id-00:18:71:76:58:bb  routes
+dhcp       ifcfg-lo                        scripts
+if-down.d  ifcfg.template                  update-log
+ViSS:/etc/sysconfig/network # cat ifcfg-eth-id-00:18:71:76:58:bb
+BOOTPROTO='static'
+MTU=''
+REMOTE_IPADDR=''
+STARTMODE='onboot'
+UNIQUE='x0Ln.RfYI5sfd_88'
+_nm_name='bus-pci-0000:03:01.0'
+BROADCAST='192.168.50.255'
+IPADDR='192.168.50.243'
+NETMASK='255.255.255.0'
+NETWORK='192.168.50.0'
+
+
+
+
+方法1. 通过yast2管理工具进行配置   
+   在console中运行yast2工具配置缺省网关和到特定网络或主机的路由 
+   # yast2 network 
+ 
+     对于配置未经配置的网卡 
+     "Network cards configuration"中"Network cards configuration"中“Configure...” 
+     对于修改已配置网卡的设置 
+     "Network cards configuration"中"Network cards configuration"中“Changev...” 
+ 
+     “Network address setup”中“Detailed settings”单击“Routing” 
+     在"Default gateway"输入框中输入缺省网关。 
+      
+     如果要设置到特定网络或主机的路由，选中“Routing table”中的“Expert configuration” 
+     在“Add”和“Edit”的对话窗口中，填写“Destination”，“Dummy or Gateway”和“Netmask” 
+     “Device”可以不用填写。 
+      
+     例子1: 网络192.168.2.128/255.255.255.128的网关为192.168.2.129 
+            “Destination”填写目的网络地址192.168.2.128 
+            “Dummy or Gateway”填写网关地址192.168.2.129 
+            “Netmask”填写255.255.255.128 
+      
+     例子2: 主机192.168.3.20/255.255.255.255的网关为192.168.3.20 
+            “Destination”填写目的主机地址192.168.3.20 
+            “Dummy or Gateway”填写网关地址192.168.3.20 
+            “Netmask”填写255.255.255.255 
+ 
+   方法2. 通过修改配置文件的方式并运行命令进行配置   
+   修改文件/etc/sysconfig/network/routes，配置缺省网关和到特定网络或主机的路由 
+    
+   文件的格式： 
+   以#开始的行是注释，每一行是一个路由记录，由空格分隔的多列组成 
+   <default|目的网络|目的主机>    <网关>    <目的网络子网掩码>    <本地网络接口> 
+   示例/etc/sysconfig/network/routes文件 
+   # default gw 
+   default        192.168.0.1    -            - 
+   # network 192.168.2.128/255.255.255.128 gateway set to 192.168.2.129 
+   192.168.2.128    192.168.2.129    255.255.255.128         
+   # host 192.168.3.20/255.255.255.255 gateway set to 192.168.3.20 
+   192.168.3.20        192.168.3.20    255.255.255.255 
+    
+   这个配置文件在执行/etc/rc.d/network start时会被加载 
+ 
+   运行命令添加上述路由 
+   # route add default gw 192.168.0.1 
+   # route add -net 192.168.2.128 netmask 255.255.255.128 gw 192.168.2.129 
+   # route add -host 192.168.3.20 gw 192.168.3.20 
+   删除上述路由 
+   # route del -net 0.0.0.0  
+   # route del -net 192.168.2.128 netmask 255.255.255.128 
+   # route del -host 192.168.3.20 
+
+
+||- NFS 共享
+如 源: VISS 192.168.50.83 /home/sa282/file/3gppStorage
+    目的: PV     192.168.50.82 /root/xjp
+    mount之后 PV可以读写VISS的目录
+
+1. VISS开通nfsserver
+a. vi /etc/exports
+add a line:
+/home/sa282/file/3gppStorage    192.168.50.82(rw,insecure,sync,no_wdelay,all_squash,anonuid=0,anongid=0)
+#其中anonuid=0,anongid=0分别为PV的root userid和groupid
+
+b. /etc/init.d/nfsserver restart
+   或通过yast -> network service->nfs server.
+
+2. PV mount
+su - root
+mount -t nfs 192.168.50.83:/home/sa282/file/3gppStorage /root/xjp
+
+mount to check
+    
+
+||- shell script of ping for many ip 
+for ((i=1;i<=254;i++))
+do 
+ping 192.168.0.$i -w 1
+done
+
+||- How to add IP alias,multi-IP in one network card?
+Method 1:
+yast->network device->选中一网卡->advanced->add virtual alias:
+alias name随便，常用数字1，2等。
+
+Method 2:
+for temp. 
+ifconfig eth0:1 192.168.50.244 netmask 255.255.255.0 up
+ifconfig eth0:1 down => 取消
+
+||- ulimit
+ulimit 定义针对一个用户系统资源使用限制，如下：
+ViSS:/ # ulimit -a
+core file size        (blocks, -c) 0         
+data seg size         (kbytes, -d) unlimited
+file size             (blocks, -f) unlimited
+max locked memory     (kbytes, -l) unlimited
+max memory size       (kbytes, -m) unlimited
+open files                    (-n) 1024      
+pipe size          (512 bytes, -p) 8
+stack size            (kbytes, -s) unlimited
+cpu time             (seconds, -t) unlimited
+max user processes            (-u) 36351
+virtual memory        (kbytes, -v) unlimited
+
+如果用命令：
+ulimit -c
+查看当前值如0，则说明系统限制了产生core dump，我们可以设定一个文件大小以产生core dump文件。比如：
+ulimit -c 1024
+将设置允许产生的core dump文件最大为1024 blocks(=512kbytes?)
+当然我们也可以设置为
+ulimit -c unlimited
+表示不限制产生的core dump文件的大小。
+
+可以把相关的修改写到系统用户的.profile文件中。
+
+常用修改:
+ulimit -n 5120 
+ulimit -c unlimited
+
+
+||- High memory used rate,eg. 99%，100%
+SMG，CSG或者SA等运行在Suse Linux上的系统模块，其内存使用率经常性的处于很高的状态，用top查看，接近100%。这个问题主要是Linux使用内存机制的特性引起的。
+
+系统管理员可以通过下面的操作来确定物理内存的分配情况。
+linux-viss1:~ # free -m
+             total       used       free     shared    buffers     cached
+Mem:          2026        901       1125          0         54        528
+-/+ buffers/cache:        318       1708
+Swap:         8197          1          8195
+sa150@SA:~>
+注意看-/+ buffers/cache:对应的那一行，在free这一列上显示了系统中进程可以使用的内存空间，这些空间对于系统进程来说是空闲的，
+只是操作系统为了充分利用内存而暂时将它们做为buffers和cache来使用。
+
+
+也可以使用vmstat，看buffer和cache:
+viss:/home # vmstat
+procs -----------memory---------- ---swap-- -----io---- -system-- -----cpu------
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 1  0      0 1439876  92760 470140    0    0     0     4    1   14  0  0 100  0  0
+
+-a显示inact active memory,不显示buff cache。
+viss:/home # vmstat -a -S M
+procs -----------memory---------- ---swap-- -----io---- -system-- -----cpu------
+ r  b   swpd   free  inact active   si   so    bi    bo   in   cs us sy id wa st
+ 4  0      0   1406    324    254    0    0     0     4    1   13  0  0 100  0  0
+
+注意:
+====================
+inactive memory!=buffer+cache,而是小于，因为有一部分buffer和cache是active在用的.
+total mem=free+inact+active
+active=进程占用+active的buffer和cache部分。
+-/+ buffers/cache: free=Mem:free + buffers + cached
+
+总之，性能统计时统计用vmstat -a 统计free+inactive为系统真正空闲的内存！
+vmstat 统计free和buffer+cache次之。
+
+比较:
+=========================
+linux-viss1:~ # vmstat
+procs -----------memory---------- ---swap-- -----io---- -system-- -----cpu------
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 0  0      0 1244660  55748 388332    0    0     2     3  136   57  0  0 100  0  0
+linux-viss1:~ # vmstat -a
+procs -----------memory---------- ---swap-- -----io---- -system-- -----cpu------
+ r  b   swpd   free  inact active   si   so    bi    bo   in   cs us sy id wa st
+ 0  0      0 1244660 301920 488112    0    0     2     3  136   57  0  0 100  0  0
+linux-viss1:~ # free
+             total       used       free     shared    buffers     cached
+Mem:       2075376     830848    1244528          0      55748     388592
+-/+ buffers/cache:     386508    1688868
+Swap:      4200956          0    4200956
+
+
+||- Start service at startup 
+It is possible to load Tomcat at start-up. 
+Method 1:
+; But routing setting commands are not valid in startup script. I don't know why yet.
+; such as "route add -net 192.168.230.0 netmask 255.255.255.0 gw 192.168.30.129".
+  a.Create脚本并复制到/etc/init.d目录中，such as /etc/init.d/bootscript,使用“chmod 755 bootscript”为脚本加入可执行权限。
+  b.打开文件，修改前几行的内容，包括：程序目录，执行用户名，调用脚本名称等
+  c.进入/etc/init.d/rc3.d目录中，执行ln -s ../vau-ms S99bootscript，生成符号链接，完成后使用“ls -l”确认结果
+  d.进入/etc/init.d/rc5.d目录中，执行ln -s ../vau-ms S99bootscript，生成符号链接，完成后使用“ls -l”确认结果
+  e.[XJP] 运行chkconfig -a bootscript
+linux-1wsu:/etc/rc.d # chkconfig -a bootscript 
+bootscript                0:off  1:off  2:off  3:on   4:off  5:on   6:off
+
+
+
+||- env /alias setting 
+Suse support ~/.profile, so it runs /etc/profile then ~/.profile.
+Actually ~/.profile by default has a command . /etc/profile.
+
+||-VNC on Suse
+YAST->network service->remote administration
+vnc client: ip::5901
+web: HTTP://ip:5801 
+
+or you can enable it through CLI yast
+
+
+
+||- PACK/PATCH version
+ViSS:~ # cat /etc/SuSE-release
+SUSE LINUX Enterprise Server 9 (i586)
+VERSION = 9
+PATCHLEVEL = 3
+
+
+||- ntp server/client setting
+1.enable ntp client in network service through yast. Actually it enable a server deamon as well.
+  If you want to configure it as server, set local IP in NTP server;
+  if you want it as client, configure the NTP server's IP.
+
+2.check the deamon
+vau:~ # watch ntpq -p
+
+Every 2.0s: ntpq -p                                                                                         Sun Sep  2 19:12:04 2007
+
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+ LOCAL(0)        LOCAL(0)        10 l    6   64    7    0.000    0.000   0.001
+*192.168.50.243  LOCAL(0)        11 u    2   64    7    0.136    6.338  27.759
+
+* indicate the NTP server.
+
+3. restart method
+set ntp client again:)
+
+||-talk in linux command line, broadcast
+linux-2llb:~ # who
+root     pts/0        Oct 22 09:20 (172.24.144.11)
+root     pts/2        Oct 22 09:33 (172.24.144.13)
+root     pts/3        Oct 22 09:36 (172.24.144.36)
+root     pts/4        Oct 22 09:53 (172.24.144.36)
+root     pts/5        Oct 22 10:06 (172.24.202.52)
+root     pts/6        Oct 22 10:40 (172.24.202.52)
+linux-2llb:~ # write root
+write: root is logged in more than once; writing to pts/5
+Hi,all
+I am XIE Jiping
+And I want to take a trace from VAU.
+If I interupt you. pls reply me by write root.
+thanks.
+
+All you type will display in realtime, 
+ 
+
+|- cmd
+|------------------------------
+||- lsof -i:21 查看进程端口映射关系
+asb:/etc/pure-ftpd # lsof -i:21
+COMMAND     PID USER   FD   TYPE DEVICE SIZE NODE NAME
+pure-ftpd 10933 root    4u  IPv4  25643       TCP *:ftp (LISTEN)
+pure-ftpd 10933 root    5u  IPv6  25644       TCP *:ftp (LISTEN)
+
+or 
+netstat -pan|grep 21
+
+
+||-useradd
+useradd -d /home/pi -m -s /bin/bash -c "Personal Image user" pi 
+-m, --create-home
+              The user鈥檚 home directory will be created if it does not exist. 
+-c, --comment COMMENT
+              Any text string. It is generally a short description of the login, and is currently used as the field
+              for the user鈥檚 full name.
+-s, --shell SHELL
+||- init
+ Runlevels 0, 1, and 6 are reserved. Runlevel 0 is used to halt the system, runlevel 6 is used to reboot the  system,  and
+       runlevel  1 is used to get the system down into single user mode. 
+
+||- yast
+#yast
+cli yast

@@ -1,0 +1,3 @@
+http://www.oracle-base.com/articles/misc/reclaiming-unused-space.php
+
+http://www.oracle-ckpt.com/how-to-shrink-datafiles-adjusting-hwm/

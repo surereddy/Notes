@@ -1,0 +1,716 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0082)http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/ -->
+<HTML lang=en-US dir=ltr xmlns="http://www.w3.org/1999/xhtml"><HEAD 
+profile=http://gmpg.org/xfn/11><TITLE>Linux Force fsck on the Next Reboot or Boot Sequence</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=UTF-8"><LINK 
+media="screen, projection" 
+href="Linux Force fsck on the Next Reboot or Boot Sequence_files/themesv_19.css" 
+type=text/css rel=stylesheet><!--[if lte IE 8]><LINK media="screen, projection" 
+href="Linux Force fsck on the Next Reboot or Boot Sequence_files/ie.css" 
+type=text/css rel=stylesheet><![endif]--><LINK 
+title="Frequently Asked Questions About Linux / UNIX RSS Feed" 
+href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" 
+type=application/rss+xml rel=alternate><LINK 
+href="http://www.cyberciti.biz/faq/xmlrpc.php" rel=pingback><LINK title=RSD 
+href="http://www.cyberciti.biz/faq/xmlrpc.php?rsd" type=application/rsd+xml 
+rel=EditURI>
+<SCRIPT src="Linux Force fsck on the Next Reboot or Boot Sequence_files/mint" 
+type=text/javascript></SCRIPT>
+<LINK href="http://files.cyberciti.biz/assets/i/favicon.ico" type=image/x-icon 
+rel="shortcut icon">
+<META content=NOARCHIVE name=ROBOTS><LINK 
+title="Frequently Asked Questions About Linux / UNIX » Linux Force fsck on the Next Reboot or Boot Sequence Comments Feed" 
+href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/feed/" 
+type=application/rss+xml rel=alternate>
+<SCRIPT 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/comment-reply.js" 
+type=text/javascript></SCRIPT>
+
+<META 
+content="Force fsck on reboot - Explains how to run fsck (forcefsck) using /forcefsck file or shutdown command itself under Linux and UNIX. " 
+name=description>
+<META 
+content="force fsck,forcefsck,force fsck on boot,force fsck on next boot,force fsck on reboot,ubuntu force fsck,force fsck reboot,fsck on reboot,linux fsck boot" 
+name=keywords>
+<META content="MSHTML 6.00.2900.6036" name=GENERATOR></HEAD>
+<BODY class=custom>
+<DIV id=container>
+<DIV id=page>
+<UL class=menu>
+  <LI><A title="About us" 
+  href="http://www.cyberciti.biz/tips/about-us">About</A> </LI>
+  <LI><A title=Blog href="http://www.cyberciti.biz/">Blog</A> </LI>
+  <LI><A title="Linux / UNIX Tech Support Forum" 
+  href="http://nixcraft.com/">Forum</A> </LI>
+  <LI><A title="See site in low graphics bandwidth friendly mode" 
+  href="http://www.cyberciti.biz/low.html?utm_source=graphicsversion&amp;utm_campaign=faq&amp;utm_medium=link">Low 
+  graphics</A> </LI>
+  <LI><A title="Linux/UNIX Shell scripts" 
+  href="http://bash.cyberciti.biz/">Shell Scripts</A> </LI>
+  <LI class=rss><A 
+  title="Frequently Asked Questions About Linux / UNIX RSS Feed" 
+  href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" 
+  rel=nofollow>RSS/Feed</A> </LI></UL>
+<DIV id=header>
+<DIV id=leaderboard>
+<DIV id=lbtop>
+<DIV id=adstopage></DIV></DIV></DIV>
+<DIV id=crumbslogo><A href="http://www.cyberciti.biz/faq/">Linux FAQ / 
+Howtos</A></DIV></DIV>
+<DIV id=content_box>
+<DIV class=hfeed id=content>
+<DIV 
+class="post-280 post type-post hentry category-bash-shell category-centos category-debian-ubuntu category-file-system category-freebsd category-linux category-redhat-and-friends category-suse category-troubleshooting category-unix category-ubuntu-linux tag-forcefsck tag-change-directory tag-configuration-file tag-directory-cd tag-file-system-check tag-force-fsck tag-force-fsck-on-boot tag-force-fsck-on-next-boot tag-force-fsck-on-reboot tag-force-fsck-reboot tag-fsck-on-reboot tag-linux tag-linux-file-systems tag-linux-fsck-boot tag-linux-system tag-run-fsck tag-scripts tag-shutdown-command tag-shutdown-computer tag-ubuntu-force-fsck post_box top" 
+id=post-280>
+<DIV class=headline_area><!-- google_ad_section_start -->
+<DIV id=feed-control><SPAN 
+style="PADDING-RIGHT: 4px; PADDING-LEFT: 4px; FONT-SIZE: 11px; PADDING-BOTTOM: 4px; MARGIN: 10px; COLOR: #676767; PADDING-TOP: 4px">Loading 
+latest blog posts...</SPAN> </DIV>
+<SCRIPT src="Linux Force fsck on the Next Reboot or Boot Sequence_files/jsapi" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/gfdynamicfeedcontrol.js" 
+type=text/javascript></SCRIPT>
+
+<STYLE type=text/css>@import url( http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.css );
+</STYLE>
+
+<SCRIPT type=text/javascript>
+    function LoadDynamicFeedControl() {
+      var feeds = [
+	{title: 'Blog:',
+	 url: 'http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks'
+	}];
+      var options = {
+        stacked : false,
+        horizontal : true,
+        title : "",
+        numResults : 10
+      }
+      new GFdynamicFeedControl(feeds, 'feed-control', options);
+    }
+    google.load('feeds', '1');
+    google.setOnLoadCallback(LoadDynamicFeedControl);
+  </SCRIPT>
+
+<H1 class=entry-title>Linux Force fsck on the Next Reboot or Boot Sequence</H1>
+<P class=headline_meta>by <SPAN class="author vcard fn">Vivek Gite</SPAN> on 
+<ABBR class=published title=2006-07-23>July 23, 2006</ABBR> · <SPAN><A 
+href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comments" 
+rel=nofollow>18 comments</A></SPAN></P></DIV>
+<DIV class="format_text entry-content">
+<DIV style="MARGIN-TOP: 0px; FLOAT: right; MARGIN-LEFT: 5px"><A 
+title="See all GNU/Linux related FAQ" 
+href="http://www.cyberciti.biz/faq/category/linux/"><IMG 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/linux-logo.png" 
+border=0></A></DIV>
+<P><SPAN style="COLOR: rgb(255,0,0)">Q.</SPAN> I want to force fsck on the next 
+reboot? How do I force fsck? Is there any configuration file that I need to 
+alter for this purpose.<BR><SPAN id=more-280></SPAN><BR><SPAN 
+style="COLOR: rgb(0,153,0)">A.</SPAN> fsck is used to check and optionally 
+repair one or more Linux file systems. You don't have to create or alter/modify 
+any file. All you need to do is just create empty file /forcefsck.</P>
+<H2>Force fsck on boot using /forcefsck</H2>
+<P>By creating /forcefsck file you will force the Linux system (or rc scripts) 
+to perform a full file system check.</P>
+<P>Login as the root:<BR><CODE>$ su -</CODE><BR>Change directory to root (/) 
+directory:<BR><CODE># cd /</CODE><BR>Create a file called forcefsck:<BR><CODE># 
+touch /forcefsck</CODE><BR>Now reboot the system:<BR><CODE># reboot</CODE></P>
+<H2>Frce fsck on next boot using shutdown command</H2>
+<P>The -F option force fsck on reboot, login as root and type the following 
+command to reboot and run fsck:<BR><CODE># shutdown -rF now</CODE></P>
+<SCRIPT type=text/javascript><!--
+google_ad_client = "ca-pub-7825705102693166";
+/* Cyberciti.biz 468x60  */
+google_ad_slot = "0179538809";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</SCRIPT>
+
+<SCRIPT 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/show_ads.js" 
+type=text/javascript>
+</SCRIPT>
+
+<DIV style="FLOAT: right">
+<DIV id=toolsRight>
+<DIV class=faqinlinetools>
+<DIV class=toolsInsideBox>
+<UL class=toolsList id=toolsList>
+  <LI class=emailfaq><A title="Email FAQ to a friend" 
+  href="http://www.cyberciti.biz/tools/email.php?hash=1&amp;url=http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/&amp;subject=Linux Force fsck on the Next Reboot or Boot Sequence&amp;continue=280">Email</A> 
+
+  <LI class=pdffaq><A title="Download this FAQ as a PDF version" 
+  onclick="pageTracker._trackPageview('/static/pdf/faq/280.pdf');" 
+  href="http://www.cyberciti.biz/tools/faqs.php?p=/faq/280.pdf&amp;u=http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/&amp;s=Linux Force fsck on the Next Reboot or Boot Sequence">PDF</A> 
+
+  <LI class=printfaq><A title="Print this FAQ" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/print/?k=true&amp;r_POST_P_HELPER_ID=280">Print</A> 
+
+  <LI class=commentrssfaq><A title="See comment on this FAQ as RSS feed" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/feed/?k=true">Comment/RSS</A> 
+  </LI></UL></DIV></DIV></DIV></DIV>
+<H4>Featured Articles:</H4>
+<UL>
+  <LI><A href="http://www.cyberciti.biz/tips/top-linux-monitoring-tools.html">20 
+  Linux System Monitoring Tools Every SysAdmin Should Know</A> 
+  <LI><A href="http://www.cyberciti.biz/tips/linux-security.html">20 Linux 
+  Server Hardening Security Tips</A> 
+  <LI><A 
+  href="http://www.cyberciti.biz/tips/my-10-unix-command-line-mistakes.html">My 
+  10 UNIX Command Line Mistakes</A> 
+  <LI><A href="http://www.cyberciti.biz/tips/linux-laptop.html">The Novice Guide 
+  To Buying A Linux Laptop</A> <IMG 
+  style="PADDING-LEFT: 1px; VERTICAL-ALIGN: text-top" alt="" 
+  src="Linux Force fsck on the Next Reboot or Boot Sequence_files/new_fa.png" 
+  border=0> 
+  <LI><A 
+  href="http://www.cyberciti.biz/tips/10-greatest-open-source-software-of-2009.html">10 
+  Greatest Open Source Software Of 2009</A> 
+  <LI><A 
+  href="http://www.cyberciti.biz/tips/download-email-client-for-linux-mac-osx-windows.html">Top 
+  5 Email Client For Linux, Mac OS X, and Windows Users</A> 
+  <LI><A 
+  href="http://www.cyberciti.biz/tips/linux-unix-bsd-openssh-server-best-practices.html">Top 
+  20 OpenSSH Server Best Security Practices </A>
+  <LI><A 
+  href="http://www.cyberciti.biz/tips/open-source-project-management-software.html">Top 
+  10 Open Source Web-Based Project Management Software</A> 
+  <LI><A 
+  href="http://www.cyberciti.biz/faq/top5-linux-video-editing-system-software/">Top 
+  5 Linux Video Editor Software</A> 
+</LI></UL><!-- google_ad_section_end --></DIV></DIV>
+<DIV id=comments>
+<DIV class=comments_intro id=comments_intro>
+<P><SPAN class=bracket>{</SPAN> <SPAN>18</SPAN> comments… read them below or <A 
+href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#respond" 
+rel=nofollow>add one</A> <SPAN class=bracket>}</SPAN></P></DIV>
+<DL id=comment_list>
+  <DT class="comment even thread-even depth-1" id=comment-11237><SPAN 
+  class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-11237" 
+  rel=nofollow>1</A></SPAN> <SPAN class=comment_author>Tom</SPAN> <SPAN 
+  class=comment_time>February 26, 2007</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment even thread-even depth-1">
+  <DIV class=format_text id=comment-body-11237>
+  <P>Good info. You don’t need to goto the root directory if you’re providing 
+  the full path, as you are. You can:<BR>touch /forcefsck<BR>from anywhere… You 
+  do need to cd / if you are using a relative path, such as<BR>cd /<BR>touch 
+  forcefsck<BR>or<BR>cd /<BR>touch ./forcefsk<BR>but not<BR>cd ~<BR>touch 
+  ../forcefsk<BR>(changes to /root, and creates the file one directory level 
+  higher)</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-11237", "11237", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=11237#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment odd alt thread-odd thread-alt depth-1" 
+  id=comment-36857><SPAN class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-36857" 
+  rel=nofollow>2</A></SPAN> <SPAN class=comment_author>Ifan</SPAN> <SPAN 
+  class=comment_time>September 24, 2007</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment odd alt thread-odd thread-alt depth-1">
+  <DIV class=format_text id=comment-body-36857>
+  <P>nice! didn’t know that at alL!!</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-36857", "36857", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=36857#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment even thread-even depth-1" id=comment-37488><SPAN 
+  class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-37488" 
+  rel=nofollow>3</A></SPAN> <SPAN class=comment_author>sudar</SPAN> <SPAN 
+  class=comment_time>February 19, 2008</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment even thread-even depth-1">
+  <DIV class=format_text id=comment-body-37488>
+  <P>Hi every one,<BR>I’m able to reboot my target board using the command 
+  [reboot] from the bash prompt.<BR>But i can able to by the command [reboot 
+  -f].<BR>What should i need to do if i want to use the command [reboot]<BR>Plz 
+  help me.<BR>Thanks in Advance</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-37488", "37488", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=37488#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment odd alt thread-odd thread-alt depth-1" 
+  id=comment-37622><SPAN class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-37622" 
+  rel=nofollow>4</A></SPAN> <SPAN class=comment_author>dj</SPAN> <SPAN 
+  class=comment_time>March 12, 2008</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment odd alt thread-odd thread-alt depth-1">
+  <DIV class=format_text id=comment-body-37622>
+  <P>shutdown -rF now &lt;-will reboot and forcefsck now. More info: man 
+  shutdown</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-37622", "37622", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=37622#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment even thread-even depth-1" id=comment-38278><SPAN 
+  class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-38278" 
+  rel=nofollow>5</A></SPAN> <SPAN class=comment_author>Martijn</SPAN> <SPAN 
+  class=comment_time>July 10, 2008</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment even thread-even depth-1">
+  <DIV class=format_text id=comment-body-38278>
+  <P>@dj:</P>
+  <P>Your ‘shutdown’ tip won’t work on many modern distributions, since they use 
+  Upstart instead of the old Sysvinit system.</P>
+  <P>Upstart has dropped many legacy commands that would be better done 
+  differently, in favor of a modern lean system.</P>
+  <P>‘touch /forcefsck’ is currently the most universal way.</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-38278", "38278", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=38278#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment odd alt thread-odd thread-alt depth-1" 
+  id=comment-38589><SPAN class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-38589" 
+  rel=nofollow>6</A></SPAN> <SPAN class=comment_author>Jason B</SPAN> <SPAN 
+  class=comment_time>August 18, 2008</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment odd alt thread-odd thread-alt depth-1">
+  <DIV class=format_text id=comment-body-38589>
+  <P>On RHEL 4, ‘shutdown -rF’ just writes /forcefsck anyway.</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-38589", "38589", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=38589#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment even thread-even depth-1" id=comment-40129><SPAN 
+  class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-40129" 
+  rel=nofollow>7</A></SPAN> <SPAN class=comment_author>Nigel Horne</SPAN> <SPAN 
+  class=comment_time>February 4, 2009</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment even thread-even depth-1">
+  <DIV class=format_text id=comment-body-40129>
+  <P>There’s no need to use the touch command, “&gt;/forcefsck” will do.</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-40129", "40129", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=40129#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment odd alt thread-odd thread-alt depth-1" 
+  id=comment-40512><SPAN class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-40512" 
+  rel=nofollow>8</A></SPAN> <SPAN class=comment_author>yanger</SPAN> <SPAN 
+  class=comment_time>February 27, 2009</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment odd alt thread-odd thread-alt depth-1">
+  <DIV class=format_text id=comment-body-40512>
+  <P>thanks! sudo touch /forcefsck is a good way :)</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-40512", "40512", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=40512#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment even thread-even depth-1" id=comment-41635><SPAN 
+  class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-41635" 
+  rel=nofollow>9</A></SPAN> <SPAN class=comment_author>ankur</SPAN> <SPAN 
+  class=comment_time>May 16, 2009</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment even thread-even depth-1">
+  <DIV class=format_text id=comment-body-41635>
+  <P>What about trying to force fsck another partition ?</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-41635", "41635", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=41635#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment odd alt thread-odd thread-alt depth-1" 
+  id=comment-42253><SPAN class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-42253" 
+  rel=nofollow>10</A></SPAN> <SPAN class=comment_author>neurosys</SPAN> <SPAN 
+  class=comment_time>June 26, 2009</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment odd alt thread-odd thread-alt depth-1">
+  <DIV class=format_text id=comment-body-42253>
+  <P>then u could just umount it……</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-42253", "42253", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=42253#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment even thread-even depth-1" id=comment-42254><SPAN 
+  class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-42254" 
+  rel=nofollow>11</A></SPAN> <SPAN class=comment_author>neurosys</SPAN> <SPAN 
+  class=comment_time>June 26, 2009</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment even thread-even depth-1">
+  <DIV class=format_text id=comment-body-42254>
+  <P>umount /dev/hdb2; fsck -y -c -f /dev/hdb2;echo ‘w00t’</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-42254", "42254", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=42254#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment odd alt thread-odd thread-alt depth-1" 
+  id=comment-42940><SPAN class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-42940" 
+  rel=nofollow>12</A></SPAN> <SPAN class=comment_author>like how?</SPAN> <SPAN 
+  class=comment_time>August 7, 2009</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment odd alt thread-odd thread-alt depth-1">
+  <DIV class=format_text id=comment-body-42940>
+  <P>me@mybox:/$ sudo umount /dev/hdb2<BR>umount: /home: device is 
+  busy.<BR>me@mybox:/$ echo ‘unwoot’</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-42940", "42940", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=42940#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment even thread-even depth-1" id=comment-43518><SPAN 
+  class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-43518" 
+  rel=nofollow>13</A></SPAN> <SPAN class=comment_author>Axel Werner</SPAN> <SPAN 
+  class=comment_time>September 1, 2009</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment even thread-even depth-1">
+  <DIV class=format_text id=comment-body-43518>
+  <P>Will performing a “shutdown -rF now” or a “touch /forcefsck ” at a specific 
+  date and time once a week prevent the “automatic fsck” that is forced by the 
+  ext2/ext3 partition parameters ?? (can be set by tune2fs ) – i mean.. will it 
+  “reset” the timeouts/deadlines if doing a force fsck manualy once a week so 
+  there will be no “surprise” when trying to reboot my server if needed ?? any 
+  positive experience on that?</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-43518", "43518", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=43518#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment odd alt thread-odd thread-alt depth-1" 
+  id=comment-45129><SPAN class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-45129" 
+  rel=nofollow>14</A></SPAN> <SPAN class=comment_author>itpatil</SPAN> <SPAN 
+  class=comment_time>December 11, 2009</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment odd alt thread-odd thread-alt depth-1">
+  <DIV class=format_text id=comment-body-45129>
+  <P>Hey, thanks for the information. Appreciate it.</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-45129", "45129", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=45129#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment even thread-even depth-1" id=comment-45902><SPAN 
+  class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-45902" 
+  rel=nofollow>15</A></SPAN> <SPAN class=comment_author>David Nuttall</SPAN> 
+  <SPAN class=comment_time>February 8, 2010</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment even thread-even depth-1">
+  <DIV class=format_text id=comment-body-45902>
+  <P>Running fsck, by whatever means, will cause the mount counter to be reset 
+  to 0. Well, so long as it completes successfully. If fsck dies for some reason 
+  (like trying to run on a mounted or read-only file system, oops) then the 
+  counter is not reset.</P>
+  <P>As for running on fsck on the partition mounted on /home, that should 
+  automagically mount, and will be checked at that time; just do (no quotes) 
+  “sudo touch /home/forcefsck” if mounted and if not mounted, you can run it 
+  directly, if you can log in, that is. Get to root and just run it one the 
+  device: “sudo fsck /dev/sda6″ or whatever device it is.</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-45902", "45902", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=45902#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment odd alt thread-odd thread-alt depth-1" 
+  id=comment-46116><SPAN class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-46116" 
+  rel=nofollow>16</A></SPAN> <SPAN class=comment_author>Light</SPAN> <SPAN 
+  class=comment_time>February 24, 2010</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment odd alt thread-odd thread-alt depth-1">
+  <DIV class=format_text id=comment-body-46116>
+  <P>Hi ,<BR>I am going to check your tip hoping that ,this will work on My 
+  Ubuntu Karmic System with Ext4 File System.</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-46116", "46116", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=46116#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment even thread-even depth-1" id=comment-46117><SPAN 
+  class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-46117" 
+  rel=nofollow>17</A></SPAN> <SPAN class=comment_author>Light</SPAN> <SPAN 
+  class=comment_time>February 24, 2010</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment even thread-even depth-1">
+  <DIV class=format_text id=comment-body-46117>
+  <P>And Yes ,it Worked with Ext4 FS.Thanks for the Tip!</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-46117", "46117", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=46117#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV>
+  <DT class="comment odd alt thread-odd thread-alt depth-1" 
+  id=comment-48247><SPAN class=comment_num><A title="Permalink to this comment" 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#comment-48247" 
+  rel=nofollow>18</A></SPAN> <SPAN class=comment_author>Juraj</SPAN> <SPAN 
+  class=comment_time>July 6, 2010</SPAN> <!-- google_ad_section_start -->
+  <DD class="comment odd alt thread-odd thread-alt depth-1">
+  <DIV class=format_text id=comment-body-48247>
+  <P>I used “touch /forcefsck” which forced the system to check after 
+  reboot…fine<BR>but on the subsequent boots still forces to check. I looked in 
+  root dir for the forcefsck file but it is not there….what then makes the 
+  system force to check? :(</P>
+  <P class=reply><A class=comment-reply-link 
+  onclick='return addComment.moveForm("comment-body-48247", "48247", "respond", "280")' 
+  href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/?replytocom=48247#respond" 
+  rel=nofollow>Reply</A></P><!-- google_ad_section_end --></DIV></DD></DL>
+<DIV id=respond>
+<DIV id=respond_intro><A id=cancel-comment-reply-link style="DISPLAY: none" 
+href="http://www.cyberciti.biz/faq/linux-force-fsck-on-the-next-reboot-or-boot-sequence/#respond" 
+rel=nofollow>Cancel reply</A> 
+<P>Leave a Comment</P></DIV>
+<FORM id=commentform action=http://www.cyberciti.biz/faq/wp-comments-post.php 
+method=post>
+<P><INPUT class=text_input id=author tabIndex=1 name=author 
+aria-required="true"><LABEL for=author>Name <SPAN class=required 
+title=Required>*</SPAN></LABEL></P>
+<P><INPUT class=text_input id=email tabIndex=2 name=email 
+aria-required="true"><LABEL for=email>E-mail <SPAN class=required 
+title=Required>*</SPAN></LABEL></P>
+<P><INPUT class=text_input id=url tabIndex=3 name=url><LABEL 
+for=url>Website</LABEL></P>
+<P class=comment_box><TEXTAREA id=comment tabIndex=4 name=comment rows=8 cols=40></TEXTAREA> 
+</P><SPAN class=allowed><SPAN><EM>You can use these <ACRONYM 
+title="HyperText Markup Language">HTML</ACRONYM> tags and attributes:</EM> &lt;a 
+href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; &lt;b&gt; 
+&lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=""&gt; 
+&lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; &lt;strong&gt; 
+</SPAN></SPAN>
+<P class=subscribe-to-comments style="CLEAR: both"><INPUT id=subscribe 
+style="WIDTH: auto" type=checkbox value=subscribe name=subscribe> <LABEL 
+for=subscribe>Notify me of followup comments via e-mail</LABEL> </P>
+<P class=remove_bottom_margin><INPUT class=form_submit id=submit tabIndex=5 type=submit value=Submit name=submit> 
+<INPUT id=comment_post_ID type=hidden value=280 name=comment_post_ID> <INPUT 
+id=comment_parent type=hidden value=0 name=comment_parent> </P>
+<CENTER>
+<DIV id=adslargerectbottom></DIV></CENTER><SMALL>
+<P class=post_tags>Tagged as: <A 
+href="http://www.cyberciti.biz/faq/tag/forcefsck/" rel=tag>/forcefsck</A>, <A 
+href="http://www.cyberciti.biz/faq/tag/change-directory/" rel=tag>change 
+directory</A>, <A href="http://www.cyberciti.biz/faq/tag/configuration-file/" 
+rel=tag>configuration file</A>, <A 
+href="http://www.cyberciti.biz/faq/tag/directory-cd/" rel=tag>directory cd</A>, 
+<A href="http://www.cyberciti.biz/faq/tag/file-system-check/" rel=tag>file 
+system check</A>, <A href="http://www.cyberciti.biz/faq/tag/force-fsck/" 
+rel=tag>force fsck</A>, <A 
+href="http://www.cyberciti.biz/faq/tag/force-fsck-on-boot/" rel=tag>force fsck 
+on boot</A>, <A href="http://www.cyberciti.biz/faq/tag/force-fsck-on-next-boot/" 
+rel=tag>force fsck on next boot</A>, <A 
+href="http://www.cyberciti.biz/faq/tag/force-fsck-on-reboot/" rel=tag>force fsck 
+on reboot</A>, <A href="http://www.cyberciti.biz/faq/tag/force-fsck-reboot/" 
+rel=tag>force fsck reboot</A>, <A 
+href="http://www.cyberciti.biz/faq/tag/fsck-on-reboot/" rel=tag>fsck on 
+reboot</A>, <A href="http://www.cyberciti.biz/faq/tag/linux/" rel=tag>Linux</A>, 
+<A href="http://www.cyberciti.biz/faq/tag/linux-file-systems/" rel=tag>linux 
+file systems</A>, <A href="http://www.cyberciti.biz/faq/tag/linux-fsck-boot/" 
+rel=tag>linux fsck boot</A>, <A 
+href="http://www.cyberciti.biz/faq/tag/linux-system/" rel=tag>linux system</A>, 
+<A href="http://www.cyberciti.biz/faq/tag/run-fsck/" rel=tag>run fsck</A>, <A 
+href="http://www.cyberciti.biz/faq/tag/scripts/" rel=tag>scripts</A>, <A 
+href="http://www.cyberciti.biz/faq/tag/shutdown-command/" rel=tag>shutdown 
+command</A>, <A href="http://www.cyberciti.biz/faq/tag/shutdown-computer/" 
+rel=tag>shutdown computer</A>, <A 
+href="http://www.cyberciti.biz/faq/tag/ubuntu-force-fsck/" rel=tag>ubuntu force 
+fsck</A></P></SMALL></FORM></DIV></DIV>
+<DIV class="prev_next post_nav">
+<P class=previous>Previous post: <A 
+href="http://www.cyberciti.biz/faq/linux-setting-up-a-software-raid1-system-for-a-complete-mirror/" 
+rel=prev>Linux Setting up a software RAID1 system for a complete mirror</A></P>
+<P>Next post: <A 
+href="http://www.cyberciti.biz/faq/linux-display-cpu-information-number-of-cpus-and-their-speed/" 
+rel=next>Linux display CPU information – number of CPUs and their 
+speed</A></P></DIV></DIV>
+<DIV id=sidebars>
+<DIV class=custom_box id=multimedia_box>
+<DIV id=custom_box><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; VERTICAL-ALIGN: middle; BORDER-RIGHT-WIDTH: 0px" 
+alt=0 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/emailsignup.png" 
+border=0> Sign up for our daily email newsletter:<BR><BR>
+<FORM 
+onsubmit="window.open('http://feedburner.google.com/fb/a/mailverify?uri=Nixcraft-LinuxFreebsdSolarisTipsTricks', 'popupwindow', 'scrollbars=yes,width=550,height=520');return true" 
+action=http://feedburner.google.com/fb/a/mailverify method=post 
+target=popupwindow>&nbsp;&nbsp;&nbsp;&nbsp;<INPUT class=text_input id=name 
+onblur="if (this.value=='') {this.value='Enter your email address';}" 
+onclick="if (this.value=='Enter your email address') {this.value=''};" 
+value="Enter your email address" name=email><INPUT type=hidden 
+value=Nixcraft-LinuxFreebsdSolarisTipsTricks name=uri> <INPUT type=hidden 
+value=en_US name=loc><INPUT class=form_submit onclick="javascript: pageTracker._trackPageview('/outgoing/email/signup/faq/top-right/');" type=submit value="Sign Up"></FORM><BR>&nbsp;&nbsp;<A 
+href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" 
+rel=nofollow><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; VERTICAL-ALIGN: top; BORDER-RIGHT-WIDTH: 0px" 
+height=16 alt="" 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/cbzrss.gif" 
+width=16 border=0></A>&nbsp; <A 
+href="http://feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" 
+rel=nofollow><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; VERTICAL-ALIGN: top; BORDER-RIGHT-WIDTH: 0px" 
+height=26 alt="" 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/feedburner.gif" 
+width=88></A>&nbsp; <A 
+href="http://fusion.google.com/add?source=atgs&amp;feedurl=http%3A//feeds.cyberciti.biz/Nixcraft-LinuxFreebsdSolarisTipsTricks" 
+rel=nofollow><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; VERTICAL-ALIGN: top; BORDER-RIGHT-WIDTH: 0px" 
+height=17 alt="" 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/cbzgooglerss.gif" 
+width=67 border=0></A>&nbsp; <A title="Follow us on twitter" 
+href="http://twitter.com/nixcraft"><IMG 
+style="BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; VERTICAL-ALIGN: top; BORDER-RIGHT-WIDTH: 0px" 
+height=15 alt="" 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/twitter.png" 
+width=80 border=0></A> </DIV></DIV>
+<DIV class=sidebar id=sidebar_1>
+<UL class=sidebar_list>
+  <LI class="widget widget_text" id=text-384338352>
+  <DIV class=textwidget>
+  <DIV id=adstoprect></DIV></DIV></LI>
+  <LI class="widget widget_text" id=text-384338353>
+  <H3>Search</H3>
+  <DIV class=textwidget>
+  <FORM id=cse-search-box action=http://www.cyberciti.biz/linux-search.php>
+  <DIV><INPUT type=hidden value=002165917076592449621:d37x4vctltg name=cx> 
+  <INPUT type=hidden value=FORID:11 name=cof> <INPUT type=hidden value=UTF-8 
+  name=ie> <INPUT size=27 name=q> <INPUT type=submit value=Search name=sa> 
+  </DIV></FORM>
+  <SCRIPT src="Linux Force fsck on the Next Reboot or Boot Sequence_files/brand" 
+  type=text/javascript></SCRIPT>
+  </DIV></LI>
+  <LI class="widget widget_text" id=text-384338354>
+  <DIV class=textwidget>
+  <DIV id=adswhitepapers></DIV></DIV></LI>
+  <LI class="widget widget_text" id=text-384338355>
+  <DIV class=textwidget><IFRAME 
+  style="OVERFLOW: hidden; WIDTH: 300px; BORDER-TOP-STYLE: none; BORDER-RIGHT-STYLE: none; BORDER-LEFT-STYLE: none; HEIGHT: 290px; BORDER-BOTTOM-STYLE: none" 
+  src="Linux Force fsck on the Next Reboot or Boot Sequence_files/CARVAEF3.htm" 
+  frameBorder=0 scrolling=no allowTransparency></IFRAME></DIV></LI>
+  <LI class="widget widget_text" id=text-384338356>
+  <DIV class=textwidget>
+  <DIV id=adsrightsky1></DIV></DIV></LI>
+  <LI class="widget widget_related_faq">
+  <H3>Related FAQs</H3>
+  <UL>
+    <LI><A title="Permanent Link: Linux: Skip or Bypass a Fsck" 
+    href="http://www.cyberciti.biz/faq/linux-unix-bypassing-fsck/" 
+    rel=bookmark>Linux: Skip or Bypass a Fsck</A>
+    <LI><A 
+    title="Permanent Link: Can I run fsck or e2fsck when Linux file system is mounted?" 
+    href="http://www.cyberciti.biz/faq/can-i-run-fsck-or-e2fsck-when-linux-file-system-is-mounted/" 
+    rel=bookmark>Can I run fsck or e2fsck when Linux file system is mounted?</A>
+    <LI><A 
+    title="Permanent Link: What command do you run to check file system consistency under UNIX or Linux?" 
+    href="http://www.cyberciti.biz/faq/linux-unix-check-file-system-consistency/" 
+    rel=bookmark>What command do you run to check file system consistency under 
+    UNIX or Linux?</A>
+    <LI><A 
+    title="Permanent Link: Linux / UNIX: Getting information about reboots and shutdowns" 
+    href="http://www.cyberciti.biz/faq/monitor-linux-unix-shutdown-reboot-time/" 
+    rel=bookmark>Linux / UNIX: Getting information about reboots and 
+    shutdowns</A>
+    <LI><A 
+    title="Permanent Link: Boot Ubuntu Linux into Rescue mode to fix system" 
+    href="http://www.cyberciti.biz/faq/howto-boot-ubuntu-linux-rescue-mode/" 
+    rel=bookmark>Boot Ubuntu Linux into Rescue mode to fix 
+  system</A></LI></UL></LI>
+  <LI class="widget widget_text" id=text-299777825652>
+  <DIV id=adstoprect2></DIV></LI></UL></DIV></DIV></DIV>
+<DIV id=footer>
+<DIV class=idglogo><IMG alt="" 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/idg-logo-new.gif" 
+border=0 ?> </DIV>
+<DIV class=copynotice>©2006-2010 nixCraft. All rights reserved | <A 
+href="http://www.cyberciti.biz/tips/privacy">Privacy Policy</A> | <A 
+href="http://www.cyberciti.biz/tips/disclaimer">Terms of Service</A><BR><A 
+href="http://www.cyberciti.biz/tips/classified-advertising">Advertise</A> | <A 
+href="http://www.cyberciti.biz/tips/contact-us">Questions or Comments</A> | <A 
+href="http://www.cyberciti.biz/faq/faqsitemaps/">Sitemap</A> 
+</DIV></DIV></DIV></DIV><!--[if lte IE 8]>
+<DIV id=ie_clear></DIV><![endif]-->
+<SCRIPT type=text/javascript>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-108650-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</SCRIPT>
+
+<SCRIPT 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/jqads.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/spcjs.php" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT type=text/javascript>
+<!--
+  function rotatenixCraftads(nixcraftAds){
+    $("#load-ads" + nixcraftAds).appendTo('#ads' + nixcraftAds)
+  }
+//-->
+</SCRIPT>
+
+<DIV style="DISPLAY: none">
+<DIV id=load-adstopage>
+<SCRIPT type=text/javascript><!--// <![CDATA[
+    /* [id4] www.cyberciti.biz\/IDG\/Articles\/Top LeaderBoard (AF) */
+    OA_show(4);
+// ]]> --></SCRIPT>
+<NOSCRIPT><A href="http://simplyguide.com/k/www/delivery/ck.php?n=21e2006" 
+target=_blank><IMG alt="" 
+src="Linux Force fsck on the Next Reboot or Boot Sequence_files/avw.gif" 
+border=0></A></NOSCRIPT> </DIV></DIV>
+<SCRIPT type=text/javascript>
+<!--
+rotatenixCraftads('topage');
+//-->
+</SCRIPT>
+
+<DIV style="DISPLAY: none">
+<DIV id=load-adstoprect>
+<SCRIPT type=text/javascript><!--// <![CDATA[
+    /* [id3] www.cyberciti.biz\/IDG\/Articles\/Right Medium Rectangle (AF) */
+    OA_show(3);
+// ]]> --></SCRIPT>
+<NOSCRIPT><A href="http://simplyguide.com/k/www/delivery/ck.php?n=27ef20f" 
+target=_blank><IMG alt="" 
+src="D:\Notes\Unix\Linux\Redhat_Refer\Linux Force fsck on the Next Reboot or Boot Sequence_files\avw(1).gif" 
+border=0></A></NOSCRIPT> </DIV></DIV>
+<SCRIPT type=text/javascript>
+<!--
+rotatenixCraftads('toprect');
+//-->
+</SCRIPT>
+
+<DIV style="DISPLAY: none">
+<DIV id=load-adstoprect2></DIV></DIV>
+<SCRIPT type=text/javascript>
+<!--
+rotatenixCraftads('toprect2');
+//-->
+</SCRIPT>
+
+<DIV style="DISPLAY: none">
+<DIV id=load-adswhitepapers>
+<SCRIPT type=text/javascript><!--// <![CDATA[
+    /* [id8] www.cyberciti.biz\/IDG\/Articles\/Right Medium Rectangle (BF) */
+    OA_show(8);
+// ]]> --></SCRIPT>
+<NOSCRIPT><A href="http://simplyguide.com/k/www/delivery/ck.php?n=3d0a6f0" 
+target=_blank><IMG alt="" 
+src="D:\Notes\Unix\Linux\Redhat_Refer\Linux Force fsck on the Next Reboot or Boot Sequence_files\avw(2).gif" 
+border=0></A></NOSCRIPT> </DIV></DIV>
+<SCRIPT type=text/javascript>
+<!--
+rotatenixCraftads('whitepapers');
+//-->
+</SCRIPT>
+
+<DIV style="DISPLAY: none">
+<DIV id=load-adslargerectbottom>
+<SCRIPT type=text/javascript><!--// <![CDATA[
+    /* [id16] www.cyberciti.biz\/IDG\/Articles\/Lage Rectangle (BF) */
+    OA_show(16);
+// ]]> --></SCRIPT>
+<NOSCRIPT><A href="http://simplyguide.com/k/www/delivery/ck.php?n=31a572a" 
+target=_blank><IMG alt="" 
+src="D:\Notes\Unix\Linux\Redhat_Refer\Linux Force fsck on the Next Reboot or Boot Sequence_files\avw(3).gif" 
+border=0></A></NOSCRIPT> </DIV></DIV>
+<SCRIPT type=text/javascript>
+<!--
+rotatenixCraftads('largerectbottom');
+//-->
+</SCRIPT>
+
+<DIV style="DISPLAY: none">
+<DIV id=load-adsrightsky1><!-- --></DIV></DIV>
+<SCRIPT type=text/javascript>
+<!--
+rotatenixCraftads('rightsky1');
+//-->
+</SCRIPT>
+</BODY></HTML>

@@ -1,0 +1,227 @@
+
+DOC8.TXT
+--------------------------------------------------------------------------------------------
+
+BACKUP / 备份
+
+RESTORE / 还原
+  +
+RECOVER / 恢复 使用archived logfile + online logfile
+
+数据库数据文件和控制文件之间的同步的依据：
+ 日志文件序列号 + 检查点号
+
+当检查点[把数据库缓冲区里面的脏数据块同步到数据文件]事件发生的时候，CKPT进程会把
+当前的[ 日志文件序列号 + 检查点号] 写到控制文件里面和数据文件的头部。
+
+察看数据库的状态：
+ show sga
+ select * from v$instance;
+ select instance_name,host_name,status,archiver from v$instance;
+ select name from v$bgprocess where paddr<>'00';
+ select * from v$database;
+ select * from v$dbfile;
+ select * from v$logfile;
+ select * from v$controlfile;
+ 
+ SQL> select name,checkpoint_change# from v$database;
+
+NAME                                     CHECKPOINT_CHANGE#
+---------------------------------------- ------------------
+ORCL                                               56671101
+
+SQL> select file#,name,checkpoint_change# from v$datafile;
+
+     FILE# NAME                                     CHECKPOINT_CHANGE#
+---------- ---------------------------------------- ------------------
+         1 D:\ORACLE\ORADATA\ORCL\SYSTEM01.DBF                56671101
+         3 D:\ORACLE\ORADATA\ORCL\CWMLITE01.DBF               56671101
+         4 D:\ORACLE\ORADATA\ORCL\DRSYS01.DBF                 56671101
+         5 D:\ORACLE\ORADATA\ORCL\EXAMPLE01.DBF               56671101
+         6 D:\ORACLE\ORADATA\ORCL\INDX01.DBF                  56671101
+         7 D:\ORACLE\ORADATA\ORCL\ODM01.DBF                   56671101
+         8 D:\ORACLE\ORADATA\ORCL\TOOLS01.DBF                 56671101
+         9 D:\ORACLE\ORADATA\USERS\USERS01.DBF                56671101
+        10 D:\ORACLE\ORADATA\ORCL\XDB01.DBF                   56671101
+        11 D:\ORACLE\ORADATA\ORCL\SAMPLE01.DBF                56671101
+        12 D:\ORACLE\ORADATA\ORCL\HTMLDB01.DBF                56671101
+        13 D:\ORACLE\ORADATA\USERS\USERS02.DBF                56671101
+        14 D:\ORACLE\ORADATA\ORCL\DATA01.DBF                  55000000
+        15 D:\ORACLE\ORADATA\ORCL\DATA02.DBF                  56671101
+        16 D:\ORACLE\ORADATA\ORCL\DATA03.DBF                  56671101
+        17 D:\ORACLE\ORADATA\ORCL\DATA04.DBF                  56671101
+        18 D:\ORACLE\ORADATA\ORCL\DATA05.DBF                  56671101
+        19 D:\ORACLE\ORADATA\ORCL\UNDO1.ORA                   56671101
+        20 D:\ORACLE\ORADATA\ORCL\UNDO1_2.DBF                 56671101
+
+SQL> select * from v$log;
+
+    GROUP#    THREAD#  SEQUENCE#      BYTES    MEMBERS ARC STATUS           FIRST_CHANGE#
+---------- ---------- ---------- ---------- ---------- --- ---------------- -------------
+         2          1        334  104857600          1 YES INACTIVE              56498805
+         3          1        335  104857600          1 NO  CURRENT               56617197
+         4          1        333   10485760          1 YES INACTIVE              56474125
+         
+SQL> select name,sequence#,first_change#,next_change# from v$archived_log;
+
+NAME                                      SEQUENCE# FIRST_CHANGE# NEXT_CHANGE#
+---------------------------------------- ---------- ------------- ------------
+D:\ORACLE\ORA92\RDBMS\ARC00291.001              291      54050549     54252461
+D:\ORACLE\ORA92\RDBMS\ARC00292.001              292      54252461     54274451
+D:\ORACLE\ORA92\RDBMS\ARC00293.001              293      54274451     54488596
+C:\BACKUPDB\ARCH\ARC00297.001                   297      54603981     54605117
+C:\BACKUPDB\ARCH\ARC00298.001                   298      54605117     54605119
+C:\BACKUPDB\ARCH\ARC00299.001                   299      54605119     54605306
+C:\BACKUPDB\ARCH\ARC00300.001                   300      54605306     54605312
+C:\BACKUPDB\ARCH\ARC00301.001                   301      54605312     54605316
+C:\BACKUPDB\ARCH\ARC00302.001                   302      54605316     54628454
+C:\BACKUPDB\ARCH\ARC00303.001                   303      54628454     54628717
+C:\BACKUPDB\ARCH\ARC00304.001                   304      54628717     54628719
+C:\BACKUPDB\ARCH\ARC00305.001                   305      54628719     54637646
+C:\BACKUPDB\ARCH\ARC00306.001                   306      54637646     54639115
+C:\BACKUPDB\ARCH\ARC00307.001                   307      54639115     54639331
+C:\BACKUPDB\ARCH\ARC00308.001                   308      54639331     54639806
+C:\BACKUPDB\ARCH\ARC00309.001                   309      54639806     54639808
+C:\BACKUPDB\ARCH\ARC00310.001                   310      54639808     54639817
+C:\BACKUPDB\ARCH\ARC00311.001                   311      54639817     54639819
+C:\BACKUPDB\ARCH\ARC00313.001                   313      54645600     54645647
+C:\BACKUPDB\ARCH\ARC00312.001                   312      54639819     54645600
+C:\BACKUPDB\ARCH\ARC00314.001                   314      54645647     54646598
+C:\BACKUPDB\ARCH\ARC00315.001                   315      54646598     54646853
+C:\BACKUPDB\ARCH\ARC00316.001                   316      54646853     54647487
+D:\ORACLE\ORADATA\ARCH\ARC00317.001             317      54647487     54748585
+D:\ORACLE\ORADATA\ARCH\ARC00318.001             318      54748585     54769330
+D:\ORACLE\ORADATA\ARCH\ARC00319.001             319      54769330     54965334
+D:\ORACLE\ORADATA\ARCH\ARC00320.001             320      54965334     54994594
+D:\ORACLE\ORADATA\ARCH\ARC00321.001             321      54994594     55017320
+D:\ORACLE\ORADATA\ARCH\ARC00322.001             322      55017320     55261341
+D:\ORACLE\ORADATA\ARCH\ARC00323.001             323      55261341     55311973
+D:\ORACLE\ORADATA\ARCH\ARC00324.001             324      55311973     55335630
+D:\ORACLE\ORADATA\ARCH\ARC00325.001             325      55335630     55372849
+D:\ORACLE\ORADATA\ARCH\ARC00326.001             326      55372849     55615151
+D:\ORACLE\ORADATA\ARCH\ARC00327.001             327      55615151     55639470
+D:\ORACLE\ORADATA\ARCH\ARC00328.001             328      55639470     55748171
+D:\ORACLE\ORADATA\ARCH\ARC00329.001             329      55748171     55961505
+D:\ORACLE\ORADATA\ARCH\ARC00330.001             330      55961505     55986509
+D:\ORACLE\ORADATA\ARCH\ARC00331.001             331      55986509     56229582
+D:\ORACLE\ORADATA\ARCH\ARC00332.001             332      56229582     56474125
+D:\ORACLE\ORADATA\ARCH\ARC00333.001             333      56474125     56498805
+D:\ORACLE\ORADATA\ARCH\ARC00334.001             334      56498805     56617197
+
+
+
+关于在线日志文件的安全：
+ 当数据库在运行的时候，在线日志文件一直是活动的，无法进行备份。
+ 建议使用镜像的方式，把在线日志文件成员放到不同的磁盘，来保障安全。
+ 
+数据库的同步：
+ 在数据库打开的时候，所有的数据文件[除了offline和readonly的数据文件]必须是同步的。
+ 是否同步，基于记录在控制文件中的当前的检查点号码。
+ 假设某个数据文件与当前的控制文件中的检查点号码不同步，就需要使用日志文件里面的重做日志信息来REDO;
+ 在数据库恢复的时候，数据库服务器会向dba提示需要那些归档日志文件。
+ 
+ 
+instance recovery
+ 当例程异常中断后，在下一次数据库启动的时候发生。
+ 利用在线日志文件就可以恢复数据库；
+ 是自动完成的。
+ 
+media recovery
+ 当你的磁盘或数据库文件丢失的情况下，需要恢复数据库；
+ 可能会需要归档日志文件；
+ 需要dba参与。
+
+
+SQL> show parameter mttr
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+fast_start_mttr_target               integer     300
+这个参数决定数据库在异常关闭后，下次启动的时间不会操作300秒。
+他是通过调整检查点的间隔来实现的。
+一般的情况下，检查点发生在日志文件切换的时候。
+
+
+------------------------------------------------------------------------
+把数据库运行于归档方式
+
+standby database / dataguard
+两个数据库通过日志文件同步数据。
+
+
+察看数据库的运行方式；
+
+SQL> archive log list;
+Database log mode              No Archive Mode
+Automatic archival             Disabled
+Archive destination            d:\oracle\oradata\arch\
+Oldest online log sequence     333
+Current log sequence           335
+
+把数据库运行于归档方式：
+1 - 使用 alter database archivelog把数据库的运行方式改为归档方式，[修改控制文件]
+2 - 数据库运行于归档方式以后，最好把归档进程打开；
+    alter system set log_archive_start=true scope=spfile;
+3 - 将数据库运行于归档方式以后，做一个全备份。
+
+SQL> connect / as sysdba
+
+SQL> archive log list;
+
+SQL> alter system set log_archive_start=true scope=spfile;   -- 修改参数文件
+
+SQL> shutdown immediate;
+
+SQL> startup mount;
+
+SQL> alter database archivelog;   --修改控制文件
+
+SQL> alter database open;
+
+SQL> archive log list;
+
+只有当你的数据库运行于归档方式以后，才会产生归档日志文件
+具体实施归档的是归档进程。给进程是不是启动，通过log_archive_start参数来决定。
+
+
+归档日志文件的位置：
+ log_archive_dest_[n]    n=1..10
+ 
+ ALTER SYSTEM SET log_archive_dest_1='location=d:\oracle\oradata\orcl\arch1\';
+ ALTER SYSTEM SET log_archive_dest_1='location=d:\oracle\oradata\orcl\arch2\';
+ 
+切换日志文件，产生归档：
+ alter system switch logfile;
+ /
+ /
+ /
+ 
+ 
+把数据库恢复到非归档方式：
+SQL> connect / as sysdba
+
+SQL> archive log list;
+
+SQL> alter system set log_archive_start=false scope=spfile;   -- 修改参数文件
+
+SQL> shutdown immediate;
+
+SQL> startup mount;
+
+SQL> alter database noarchivelog;   --修改控制文件
+
+SQL> alter database open;
+
+SQL> archive log list;
+
+-------------------------------------
+
+
+
+
+
+
+
+ 
+ 
+ 

@@ -1,0 +1,395 @@
+
+恢复
+
+SET AUTORECOVERY ON 
+
+RECOVER [AUTOMATIC] [ FROM '....'] DATABASE ...
+RECOVER [AUTOMATIC] [ FROM '....'] TABLESPACE ...
+RECOVER [AUTOMATIC] [ FROM '....'] DATAFILE <DFNAME> | <FILE#>
+
+完全恢复的方式：
+
+1 - 必须关闭数据库进行恢复；
+   3种情况：
+    系统表空间所在的文件损坏；
+    UNDO表空间，回滚段表空间所在的文件损坏；
+
+2 - 数据库本来是打开的，在打开的方式下恢复
+
+3 - 数据库由于断电或其他原因，开始是关闭的，可以先打开数据库，然后恢复
+
+4 - 丢失的文件没有备份，需要恢复。 
+    这种文件时是在数据库设成归档方式以后添加的，而且该文件添加后，所有的归档日志文件是可以使用的。
+
+SQL> CONNECT / AS SYSDBA
+
+SQL> ARCHIVE LOG LIST;
+数据库日志模式            存档模式
+自动存档             启用
+存档终点            D:\oracle\oraarch\orcl\
+最早的概要日志序列     359
+下一个存档日志序列   361
+当前日志序列           361
+
+SQL> create tablespace ts_app
+  2  datafile 'd:\oracle\oradata\orcl\ts_app01.dbf' size 100m;
+
+SQL> CONNECT SCOTT/TIGER
+
+SQL> connect scott/tiger
+已连接。
+SQL> create table tab_app as select * from emp;
+
+表已创建。
+
+SQL> alter table tab_app move tablespace ts_app;
+
+表已更改。
+
+SQL> INSERT INTO TAB_APP SELECT * FROM EMP;
+
+SQL> SELECT COUNT(*) FROM TAB_APP;
+
+  COUNT(*)
+----------
+       126
+
+SQL> COMMIT;
+
+提交完成。
+
+
+SQL> SELECT TABLE_NAME,TABLESPACE_NAME FROM USER_TABLES WHERE TABLE_NAME='TAB_APP';
+
+TABLE_NAME                     TABLESPACE_NAME
+------------------------------ ------------------------------
+TAB_APP                        TS_APP
+
+
+
+SQL> CONNECT / AS SYSDBA
+SQL> SHUTDOWN IMMEDIATE;
+数据库已经关闭。
+已经卸载数据库。
+ORACLE 例程已经关闭。
+
+=====到操作系统删除文件 d:\oracle\oradata\orcl\ts_app01.dbf
+
+SQL> startup
+ORACLE 例程已经启动。
+
+Total System Global Area  126951228 bytes
+Fixed Size                   454460 bytes
+Variable Size             109051904 bytes
+Database Buffers           16777216 bytes
+Redo Buffers                 667648 bytes
+数据库装载完毕。
+ORA-01157: 无法标识/锁定数据文件 2 - 请参阅 DBWR 跟踪文件
+ORA-01110: 数据文件 2: 'D:\ORACLE\ORADATA\ORCL\TS_APP01.DBF'
+
+
+SQL> alter database datafile 2 offline;
+
+数据库已更改。
+
+SQL> alter database open;
+
+数据库已更改。
+
+SQL> recover datafile 2;
+ORA-00283: 恢复会话因错误而取消
+ORA-01110: 数据文件 2: 'D:\ORACLE\ORADATA\ORCL\TS_APP01.DBF'
+ORA-01157: 无法标识/锁定数据文件 2 - 请参阅 DBWR 跟踪文件
+ORA-01110: 数据文件 2: 'D:\ORACLE\ORADATA\ORCL\TS_APP01.DBF'
+
+
+SQL> alter database create datafile 'D:\ORACLE\ORADATA\ORCL\TS_APP01.DBF'
+  2  as 'D:\ORACLE\ORADATA\ORCL\TS_APP01.DBF'
+  3  ;
+
+数据库已更改。
+
+SQL> select * from v$recover_file;
+
+     FILE# ONLINE  ONLINE_ ERROR
+---------- ------- ------- -------------------------------------------------------
+TIME
+----------
+         2 OFFLINE OFFLINE
+03-8月 -06
+
+
+SQL> recover datafile 2;
+ORA-00279: 更改 57453774 (在 08/03/2006 19:47:31 生成) 对于线程 1 是必需的
+ORA-00289: 建议: D:\ORACLE\ORAARCH\ORCL\ARC00361.001
+ORA-00280: 更改 57453774 对于线程 1 是按序列 # 361 进行的
+
+
+指定日志: {<RET>=suggested | filename | AUTO | CANCEL}
+auto
+ORA-00279: 更改 57454881 (在 08/03/2006 19:53:35 生成) 对于线程 1 是必需的
+ORA-00289: 建议: D:\ORACLE\ORAARCH\ORCL\ARC00362.001
+ORA-00280: 更改 57454881 对于线程 1 是按序列 # 362 进行的
+ORA-00278: 此恢复不再需要日志文件 'D:\ORACLE\ORAARCH\ORCL\ARC00361.001'
+
+
+ORA-00279: 更改 57454883 (在 08/03/2006 19:53:37 生成) 对于线程 1 是必需的
+ORA-00289: 建议: D:\ORACLE\ORAARCH\ORCL\ARC00363.001
+ORA-00280: 更改 57454883 对于线程 1 是按序列 # 363 进行的
+ORA-00278: 此恢复不再需要日志文件 'D:\ORACLE\ORAARCH\ORCL\ARC00362.001'
+
+
+ORA-00279: 更改 57454962 (在 08/03/2006 19:53:41 生成) 对于线程 1 是必需的
+ORA-00289: 建议: D:\ORACLE\ORAARCH\ORCL\ARC00364.001
+ORA-00280: 更改 57454962 对于线程 1 是按序列 # 364 进行的
+ORA-00278: 此恢复不再需要日志文件 'D:\ORACLE\ORAARCH\ORCL\ARC00363.001'
+
+
+已应用的日志。
+完成介质恢复。
+SQL> alter tablespace ts_app online;
+
+表空间已更改。
+
+SQL> select count(*) from scott.tab_app;
+
+  COUNT(*)
+----------
+       126
+
+
+=======================
+控制文件的恢复  -  利用备份的控制文件
+
+SQL> shutdown immeidate;
+SP2-0717: 非法的 SHUTDOWN 选项
+SQL> shutdown immediate;
+数据库已经关闭。
+已经卸载数据库。
+ORACLE 例程已经关闭。
+SQL> startup
+ORACLE 例程已经启动。
+
+Total System Global Area  126951228 bytes
+Fixed Size                   454460 bytes
+Variable Size             109051904 bytes
+Database Buffers           16777216 bytes
+Redo Buffers                 667648 bytes
+ORA-00205: ?????????????????????
+
+
+SQL> alter session set nls_language=american;
+
+Session altered.
+
+SQL> alter database mount;
+alter database mount
+*
+ERROR at line 1:
+ORA-00205: error in identifying controlfile, check alert log for more info
+
+
+SQL> alter database mount;
+
+Database altered.
+
+SQL> alter database open;
+
+Database altered.
+
+SQL> archive log list;
+Database log mode              Archive Mode
+Automatic archival             Enabled
+Archive destination            D:\oracle\oraarch\orcl\
+Oldest online log sequence     365
+Next log sequence to archive   367
+Current log sequence           367
+SQL> alter database backup controlfile to 'd:\orcl_ctl.bak';
+
+Database altered.
+
+SQL> shutdown immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL> startup
+ORACLE instance started.
+
+Total System Global Area  126951228 bytes
+Fixed Size                   454460 bytes
+Variable Size             109051904 bytes
+Database Buffers           16777216 bytes
+Redo Buffers                 667648 bytes
+ORA-00205: ?????????????????????
+
+
+SQL> ALTER SESSION SET NLS_LANGUAGE=AMERICAN;
+
+Session altered.
+
+SQL> ALTER SESSION SET NLS_LANGUAGE=AMERICAN;
+
+Session altered.
+
+SQL> ALTER DATABASE MOUNT;
+
+Database altered.
+
+SQL> ALTER DATABASE OPEN;
+ALTER DATABASE OPEN
+*
+ERROR at line 1:
+ORA-01589: must use RESETLOGS or NORESETLOGS option for database open
+
+
+SQL> ALTER DATABASE OPEN RESETLOGS;
+ALTER DATABASE OPEN RESETLOGS
+*
+ERROR at line 1:
+ORA-01152: file 1 was not restored from a sufficiently old backup
+ORA-01110: data file 1: 'D:\ORACLE\ORADATA\ORCL\SYSTEM01.DBF'
+
+
+SQL> RECOVER DATABASE UNTIL CANCEL USING BACKUP CONTROLFILE;
+ORA-00279: change 57457673 generated at 08/03/2006 19:53:49 needed for thread 1
+ORA-00289: suggestion : D:\ORACLE\ORAARCH\ORCL\ARC00367.001
+ORA-00280: change 57457673 for thread 1 is in sequence #367
+
+
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+CANCEL;
+ORA-00308: cannot open archived log 'CANCEL;'
+ORA-27041: unable to open file
+OSD-04002: ????????????
+O/S-Error: (OS 2) ??????????????????????
+
+
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+CANCEL
+ORA-01547: warning: RECOVER succeeded but OPEN RESETLOGS would get error below
+ORA-01152: file 1 was not restored from a sufficiently old backup
+ORA-01110: data file 1: 'D:\ORACLE\ORADATA\ORCL\SYSTEM01.DBF'
+
+
+ORA-01112: media recovery not started
+
+
+SQL> ALTER DATABASE OPEN RESETLOGS;
+ALTER DATABASE OPEN RESETLOGS
+*
+ERROR at line 1:
+ORA-01152: file 1 was not restored from a sufficiently old backup
+ORA-01110: data file 1: 'D:\ORACLE\ORADATA\ORCL\SYSTEM01.DBF'
+
+
+SQL> RECOVER DATABASE UNTIL CANCEL USING BACKUP CONTROLFILE;
+ORA-00279: change 57457673 generated at 08/03/2006 19:53:49 needed for thread 1
+ORA-00289: suggestion : D:\ORACLE\ORAARCH\ORCL\ARC00367.001
+ORA-00280: change 57457673 for thread 1 is in sequence #367
+
+
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+
+ORA-00308: cannot open archived log 'D:\ORACLE\ORAARCH\ORCL\ARC00367.001'
+ORA-27041: unable to open file
+OSD-04002: ????????????
+O/S-Error: (OS 2) ??????????????????????
+
+
+ORA-01547: warning: RECOVER succeeded but OPEN RESETLOGS would get error below
+ORA-01152: file 1 was not restored from a sufficiently old backup
+ORA-01110: data file 1: 'D:\ORACLE\ORADATA\ORCL\SYSTEM01.DBF'
+
+
+SQL> RECOVER DATABASE UNTIL CANCEL USING BACKUP CONTROLFILE;
+ORA-00279: change 57457673 generated at 08/03/2006 19:53:49 needed for thread 1
+ORA-00289: suggestion : D:\ORACLE\ORAARCH\ORCL\ARC00367.001
+ORA-00280: change 57457673 for thread 1 is in sequence #367
+
+
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+CANCEL
+ORA-01547: warning: RECOVER succeeded but OPEN RESETLOGS would get error below
+ORA-01152: file 1 was not restored from a sufficiently old backup
+ORA-01110: data file 1: 'D:\ORACLE\ORADATA\ORCL\SYSTEM01.DBF'
+
+
+ORA-01112: media recovery not started
+
+
+SQL> ALTER DATABASE OPEN RESETLOGS;
+ALTER DATABASE OPEN RESETLOGS
+*
+ERROR at line 1:
+ORA-01152: file 1 was not restored from a sufficiently old backup
+ORA-01110: data file 1: 'D:\ORACLE\ORADATA\ORCL\SYSTEM01.DBF'
+
+
+SQL> SELECT * FROM V$LOG;
+
+    GROUP#    THREAD#  SEQUENCE#      BYTES    MEMBERS ARC STATUS           FIRST_C
+---------- ---------- ---------- ---------- ---------- --- ---------------- -------
+         2          1        365  104857600          1 YES INACTIVE              57
+         3          1        367  104857600          1 NO  CURRENT               57
+         4          1        366   10485760          1 YES INACTIVE              57
+
+SQL> SELECT * FROM V$LOGFILE;
+
+    GROUP# STATUS  TYPE
+---------- ------- -------
+MEMBER
+-----------------------------------------------------------------------------------
+         4         ONLINE
+D:\ORACLE\ORADATA\LOG\REDO04_2.LOG
+
+         2         ONLINE
+D:\ORACLE\ORADATA\ORCL\REDO02.LOG
+
+         3         ONLINE
+D:\ORACLE\ORADATA\ORCL\REDO03.LOG
+
+
+SQL> RECOVER DATABASE UNTIL CANCEL USING BACKUP CONTROLFILE;
+ORA-00279: change 57457673 generated at 08/03/2006 19:53:49 needed for thread 1
+ORA-00289: suggestion : D:\ORACLE\ORAARCH\ORCL\ARC00367.001
+ORA-00280: change 57457673 for thread 1 is in sequence #367
+
+
+Specify log: {<RET>=suggested | filename | AUTO | CANCEL}
+
+Log applied.
+Media recovery complete.
+SQL> ALTER DATABASE OPEN;
+ALTER DATABASE OPEN
+*
+ERROR at line 1:
+ORA-01589: must use RESETLOGS or NORESETLOGS option for database open
+
+
+SQL> ALTER DATABASE OPEN RESETLOGS;
+
+Database altered.
+
+SQL> ARCHIVE LOG LIST;
+Database log mode              Archive Mode
+Automatic archival             Enabled
+Archive destination            D:\oracle\oraarch\orcl\
+Oldest online log sequence     0
+Next log sequence to archive   1
+Current log sequence           1
+SQL> SELECT COUNT(*) FROM SCOTT.TAB_APP;
+
+  COUNT(*)
+----------
+       126
+
+SQL>
+
+
+
+======================================
+非完全恢复以后，一定要做全备份。
+
+
+ 
+

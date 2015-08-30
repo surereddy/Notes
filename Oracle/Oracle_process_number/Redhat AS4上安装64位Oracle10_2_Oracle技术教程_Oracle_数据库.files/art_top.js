@@ -1,0 +1,2 @@
+document.writeln("<a href=\"http:\/\/video.diybl.com\" target=_blank><img src=\"http:\/\/img.diybl.com\/ad\/video.gif\" border=0><\/a>")
+document.writeln("<br><a href=\"http:\/\/bbs.diybl.com\/viewthread.php?tid=20852&extra=page%3D1\" target=\"_blank\" class=\"redlink\">【本站开通在线QQ讨论群】<\/a>");

@@ -1,0 +1,110 @@
+||- disk clone
+surposed: clone new disk c1t1d0 from original c1t0d0
+-| df -k
+Filesystem           1024-blocks        Used   Available Capacity  Mounted on
+/dev/dsk/c0t0d0s0        4133838     2414006     1678494    59%    /
+/proc                          0           0           0     0%    /proc
+mnttab                         0           0           0     0%    /etc/mnttab
+fd                             0           0           0     0%    /dev/fd
+/dev/dsk/c0t0d0s3        4133838     2682076     1410424    66%    /var
+swap                     2506112          24     2506088     1%    /var/run
+swap                     2506368         280     2506088     1%    /tmp
+/dev/dsk/c0t0d0s6       51950847    12250680    39180659    24%    /osp
+/dev/dsk/c0t0d0s4        2058319       67047     1929523     4%    /osp/delivery
+
+/dev/dsk/c0t0d0s5        6198606     1026292     5110328    17%    /osp/3rdpty
+
+-| format
+;check parant disk partition 
+
+Part      Tag    Flag     Cylinders         Size            Blocks
+  0       root    wm       0 -   824        4.00GB    (825/0/0)     8395200
+  1       swap    wu     825 -  1237        2.00GB    (413/0/0)     4202688
+  2     backup    wu       0 - 14086       68.35GB    (14087/0/0) 143349312
+  3        var    wm    1238 -  2062        4.00GB    (825/0/0)     8395200
+  4      stand    wm    2070 -  2482        2.00GB    (413/0/0)     4202688
+  5      stand    wm    2483 -  3719        6.00GB    (1237/0/0)   12587712
+  6      stand    wu    3720 - 14086       50.30GB    (10367/0/0) 105494592
+  7 unassigned    wm    2063 -  2069       34.78MB    (7/0/0)         71232
+  
+-| partion new disk with the same partiton as c1t0d0
+  ;size of the partition is not required the same, 
+   but must larger than the size of the content in the same partition of c1t0d0.
+  - format
+    -p->p->0->1->2->...
+    -lable
+    -q
+-| new file system
+  for all needed disks:
+  newfs /dev/rdsk/c0t1d0s0
+  newfs /dev/rdsk/c0t1d0s3
+  newfs /dev/rdsk/c0t1d0s4
+  newfs /dev/rdsk/c0t1d0s5
+  newfs /dev/rdsk/c0t1d0s6
+
+-| boot from cdrom
+  init 0
+  boot cdrom -s
+-| clone disk with dump and restore cmd
+  - check the label id of disks, it may differs from what it is when booting from hard disk.
+    #format
+
+  c1t0d0s0:
+  ---------------------------------------
+cd
+mkdir /tmp/root/abc
+mount /dev/dsk/c1t0d0s0 /tmp/root/abc;mount /dev/dsk/c1t1d0s0 /mnt;df -k 
+cd /tmp/root/abc; ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+>set owner/mode for '.'? [yn] y
+>Directories already exist, set modes anyway? [yn] y
+ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+cd ;umount /mnt;umount /tmp/root/abc ;df -k
+
+c1t0d0s3:
+---------------------------------------
+mount /dev/dsk/c1t0d0s3 /tmp/root/abc;mount /dev/dsk/c1t1d0s3 /mnt;df -k 
+cd /tmp/root/abc;ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+>set owner/mode for '.'? [yn] y
+>Directories already exist, set modes anyway? [yn] y
+ls /tmp/root/abc;echo "-----------\n";ls /mnt  
+cd;umount /mnt;umount /tmp/root/abc;df -k
+
+c1t0d0s4:
+---------------------------------------
+mount /dev/dsk/c1t0d0s4 /tmp/root/abc;mount /dev/dsk/c1t1d0s4 /mnt;df -k
+cd /tmp/root/abc;ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+>set owner/mode for '.'? [yn] y
+>Directories already exist, set modes anyway? [yn] y
+ls /tmp/root/abc;echo "-----------\n";ls /mnt 
+cd;umount /mnt;umount /tmp/root/abc;df -k
+
+c1t0d0s5:
+---------------------------------------
+mount /dev/dsk/c1t0d0s5 /tmp/root/abc;mount /dev/dsk/c1t1d0s5 /mnt;df -k 
+cd /tmp/root/abc; ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+>set owner/mode for '.'? [yn] y
+>Directories already exist, set modes anyway? [yn] y
+ls /tmp/root/abc;echo "-----------\n";ls /mnt 
+df -k;cd;umount /mnt;umount /tmp/root/abc;df -k
+
+c1t0d0s6:
+---------------------------------------
+mount /dev/dsk/c1t0d0s6 /tmp/root/abc;mount /dev/dsk/c1t1d0s6 /mnt;df -k 
+cd /tmp/root/abc;ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+>set owner/mode for '.'? [yn] y
+>Directories already exist, set modes anyway? [yn] y
+ls /tmp/root/abc;echo "-----------\n";ls /mnt  
+df -k;cd;umount /mnt;umount /tmp/root/abc;df -k
+---------------------------------------
+
+-| modify config files
+;using console line
+# installboot /usr/platform/sun4u/lib/fs/ufs/bootblk /dev/rdsk/c1t1d0s0
+# mount /dev/dsk/c1t1d0s0 /mnt
+# df -k|grep /mnt
+# TERM=vt100;export TERM
+# cd /mnt/etc/lvm ; ls
+devpath     md.cf       md.tab      mdlogd.cf
+lock        md.ctlrmap  mddb.cf     runtime.cf
+# vi /mnt/etc/vfstab ;
+# vi /mnt/etc/system ;don't modify if you use the same server(hardware).

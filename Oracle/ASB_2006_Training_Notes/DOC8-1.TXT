@@ -1,0 +1,40 @@
+﻿SQL> alter tablespace users begin backup;
+
+表空间已更改。
+
+SQL> shutdown abort;
+ORACLE 例程已经关闭。
+SQL>
+SQL>
+SQL> exit
+从Oracle9i Enterprise Edition Release 9.2.0.7.0 - Production
+With the Partitioning, OLAP and Oracle Data Mining options
+JServer Release 9.2.0.7.0 - Production中断开
+
+
+C:\Documents and Settings\maha007>sqlplus /nolog
+
+SQL*Plus: Release 9.2.0.7.0 - Production on 星期三 8月 2 19:24:18 2006
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+SQL> connect / as sysdba
+已连接到空闲例程。
+SQL> startup
+ORACLE 例程已经启动。
+
+Total System Global Area  126951228 bytes
+Fixed Size                   454460 bytes
+Variable Size             109051904 bytes
+Database Buffers           16777216 bytes
+Redo Buffers                 667648 bytes
+数据库装载完毕。
+ORA-01113: 文件 9 需要介质恢复
+ORA-01110: 数据文件 9: 'D:\ORACLE\ORADATA\USERS\USERS01.DBF'
+
+
+SQL> alter database end backup;
+
+数据库已更改。
+
+SQL> alter database open;

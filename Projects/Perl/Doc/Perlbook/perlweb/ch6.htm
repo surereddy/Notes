@@ -1,0 +1,2688 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Chapter 6 -- Using Dynamic Pages</TITLE>
+
+
+
+<META>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Chapter&nbsp;6</FONT></H1>
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Using Dynamic Pages</FONT></H1>
+
+<P>
+
+<I><B>by Shelley Powers</B></I>
+
+<HR>
+
+<P>
+
+<CENTER><B><FONT SIZE=5><A NAME="CONTENTS">CONTENTS</A></FONT></B></CENTER>
+
+<UL>
+
+<LI><A HREF="#GeneratingHTMLPages">
+
+Generating HTML Pages</A>
+
+<LI><A HREF="#UnderstandingtheCGIEnvironmentandHTMLGeneration">
+
+Understanding the CGI Environment and HTML Generation</A>
+
+<UL>
+
+<LI><A HREF="#CGIEnvironmentVariablesUsingtheIGETIMethod">
+
+CGI Environment Variables Using the <I>GET</I> Method</A>
+
+<LI><A HREF="#CGIEnvironmentVariablesUsingtheIPOSTIMethod">
+
+CGI Environment Variables Using the <I>POST</I> Method</A>
+
+</UL>
+
+<LI><A HREF="#ReferringtheUsertoBrowserSpecificWebPages">
+
+Referring the User to Browser-Specific Web Pages</A>
+
+<LI><A HREF="#UsingClientPullwithPerl">
+
+Using Client Pull with Perl</A>
+
+<LI><A HREF="#UsingServerPushwithPerl">
+
+Using Server Push with Perl</A>
+
+<LI><A HREF="#FromHere">
+
+From Here   </A>
+
+</UL>
+
+
+
+<HR>
+
+<P>
+
+People are, by nature, dynamic and, for the most part, prefer
+
+a visually stimulating environment. Enter any scientific museum,
+
+and you will see that the displays that generate the most interest
+
+are those that do something. Given the choice of a static display
+
+or a changing one-or, better yet, one that allows interaction-most
+
+people will take the one with the interaction every time. Something
+
+about pressing a button to see what happens seems to be a fundamental
+
+human behavior.
+
+<P>
+
+<I>Dynamic Web sites</I> are those that change through animation
+
+or interactive content while a person is accessing the site, or
+
+that change based on some factor each time the user accesses the
+
+site. Web page readers will access a dynamic, changing Web site
+
+more often than they will a static, unchanging one because of
+
+their curiosity about what the site will display next or do next,
+
+or about the information that it will provide next. Additionally,
+
+people are more likely to recommend a Web site that they visit
+
+often than they are to recommend a site that they visit only once
+
+or twice.
+
+<P>
+
+Webmasters understand these facts and work with their site's content
+
+accordingly. Examining many of the major Web sites, you can see
+
+that most companies change their Web sites at least once a week;
+
+in some cases, they change the sites daily. Companies use many
+
+Web capabilities to 
+
+<P>
+
+insert interactive and dynamic capabilities into their sites,
+
+including the use of animated GIFs, JavaScript and Java, plug-ins,
+
+and controls.
+
+<P>
+
+Perl and CGI can be used to add to the dynamic quality of a site.
+
+Web application developers can access variables and determine
+
+which Web page to open, embed animation in their pages, and personalize
+
+the Web pages based on time of day or some other factor. Best
+
+of all, these dynamic features can be set up once and not modified
+
+for some time, yet to the Web page reader, the site contents seem
+
+to be highly changeable.
+
+<H2><A NAME="GeneratingHTMLPages"><FONT SIZE=5 COLOR=#FF0000>
+
+Generating HTML Pages</FONT></A></H2>
+
+<P>
+
+Generating HTML pages is a relatively simple process when you
+
+use Perl. When you have a basic idea of what you want to put on
+
+the page, you use Perl print commands to output the HTML tags.
+
+When the application is called, the program generates a response
+
+header and whatever HTML statements are necessary to create the
+
+Web page contents. The contents are sent to the server, which
+
+parses the results and displays them to the Web page reader.
+
+<P>
+
+Listing 6.1 contains a simple example of this process.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.1&nbsp;&nbsp;Basic CGI-Generated HTML Document Page
+
+(HelloWorld.cgi)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/user/local/bin/perl
+
+#
+
+# HelloWorld.cgi
+
+#
+
+# Application that will generate a dynamic HTML document.
+
+# This simple example will create a document that contains
+
+# a header, and a familiar message...
+
+#
+
+# response header - content-type, required
+
+print &quot;Content-type: text/html\n\n&quot;;
+
+#
+
+# redirect output, simplifies output of statements
+
+print&lt;&lt;Page_Done;
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Listing 8.1&lt;/TITLE&gt;&lt;/HEAD&gt;
+
+&lt;BODY&gt;
+
+&lt;H1&gt;And now, here is the document content...&lt;/H1&gt;
+
+&lt;p&gt;
+
+Hello &lt;FONT SIZE=5 COLOR=&quot;#FF0000&quot;&gt;World!&lt;/FONT&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+
+
+Page_Done
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+This CGI application prints the appropriate response header. Because
+
+the content that the application generates is HTML, the content
+
+type in the header is <TT>text/html</TT>. Next, the application
+
+outputs the HTML tags that create the Web page document: the <TT>HEAD</TT>
+
+section, the <TT>BODY</TT> section, a header (<TT>H1</TT>), and
+
+a message that probably is familiar to most programmers. The last
+
+statements finish the Web page document, and the application exits.
+
+Figure 6.1 displays the output from the CGI program.
+
+<P>
+
+<A HREF="f6-1.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-1.gif"><B> Figure 6.1 : </B><I>This Web document was generated by the CGI program HelloWorld.cgi.
+
+
+
+</I></A><P>
+
+<P>
+
+The CGI application has the extension .CGI, which is a relatively
+
+common approach to naming the application, especially if you do
+
+not maintain the traditional /CGI-BIN subdirectory for your CGI
+
+applications. The application can be called directly by the browser
+
+if the browser is configured to understand that documents with
+
+this extension are executable and can respond accordingly.
+
+<P>
+
+In addition, you can embed a reference to a CGI program directly
+
+into an HTML document by using the <TT>HREF</TT> anchor tag. Listing
+
+6.2 contains the HTML statements to create a reference to the
+
+<TT>HelloWorld.cgi</TT> program. When the Web page reader clicks
+
+the link, the CGI application runs and outputs the results to
+
+the browser.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.2&nbsp;&nbsp;HTML Web Page Document (HelloWorld.html)
+
+That Contains a</B> <B>Linked Reference<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt; HelloWorld &lt;/TITLE&gt;
+
+&lt;/HEAD&gt;
+
+&lt;BODY&gt;
+
+&lt;H1&gt; Link to CGI application &lt;/H1&gt;
+
+&lt;p&gt;
+
+&lt;a href=&quot;http://204.31.113.139/cgi-bin/HelloWorld.cgi&quot;&gt;
+
+  CGI Program&lt;/A&gt;
+
+
+
+&lt;/BODY&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The <TT>HelloWorld.html</TT> document creates a link to the CGI
+
+application, and clicking the link executes the program.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+In Listing 6.2, the anchor references an URL that contains an IP address rather than a domain-name alias. The application was tested in UNIX and on Windows 95; and the Windows 95 test Web server-FolkWeb by ILAR Concepts, Inc.-was actually on my personal 
+PC. To test Web applications without having a full-time IP address, you can install some Web server (such as FolkWeb or Microsoft's Front Page) and then use the standard <TT>127.0.0.1</TT> loopback IP address. This IP address is always defined to mean 
+&quot;loop the request back to the site that is making the request.&quot; Changing the IP address was as easy as changing one field in a property sheet. After that, I was able to test the CGI applications locally on my machine, using Windows 95.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+Although the sample presented in this section is an effective
+
+demonstration of using CGI to generate HTML pages, the results
+
+could easily have been created as a static document. The power
+
+of dynamically generated HTML pages is that they allow you to
+
+embed changing information in the document. The following section
+
+begins to cover this topic.
+
+<H2><A NAME="UnderstandingtheCGIEnvironmentandHTMLGeneration"><FONT SIZE=5 COLOR=#FF0000>
+
+Understanding the CGI Environment and HTML Generation</FONT></A></H2>
+
+<P>
+
+With the ability to use CGI to generate HTML documents, the Web
+
+application developer has access to the full programming power
+
+of the operating system on which the Web site resides and can
+
+use that power to create Web pages. In addition, information is
+
+available to help the developer determine what should be on the
+
+page or even what page should be displayed. Some of this information
+
+appears in CGI environment variables.
+
+<H3><A NAME="CGIEnvironmentVariablesUsingtheIGETIMethod">
+
+CGI Environment Variables Using the <I>GET</I> Method</A></H3>
+
+<P>
+
+<A HREF="ch3.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch3.htm" >Chapter 3</A> &quot;Advanced Form Processing and Data Storage,&quot;
+
+discussed using the <TT>GET</TT> and <TT>POST</TT> methods for
+
+form submission. This section lists out the CGI environment variables
+
+and displays their values based on using the <TT>GET HTTP</TT>
+
+request. The next section details the differences based on using
+
+the <TT>POST</TT> method.
+
+<P>
+
+When you use the <TT>GET</TT> method, the data for a form is appended
+
+to the URL of the CGI application when the form is submitted.
+
+Figure 6.2 displays a form with two text controls and a submit
+
+button. When the button is clicked, a document page appears, listing
+
+the values of several CGI environment variables (see fig. 6.3).
+
+<P>
+
+<A HREF="f6-2.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-2.gif"><B> Figure 6.2 : </B><I>envvar1.html is a form that contains a header, two text controls, and a submit button.
+
+
+
+</I></A><P>
+
+<P>
+
+<A HREF="f6-3.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-3.gif"><B> Figure 6.3 : </B><I>This Web document was generated by envvar.cgi, which was run when the form in envvar1.html was submitted. The GET method was used for the submission.
+
+
+
+</I></A><P>
+
+<P>
+
+The document in figure 6.3 was generated by the CGI program shown
+
+in Listing 6.3.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.3&nbsp;&nbsp;CGI Application (envvar.cgi) That Accesses
+
+and Prints Several </B> <B>CGI Variables<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+# envvar.cgi
+
+#
+
+# Application will output CGI
+
+# environment variables
+
+#
+
+# print out content type
+
+print &quot;Content-type: text/html\n\n&quot;;
+
+
+
+# start output
+
+print&lt;&lt;End_of_Homepage;
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Welcome to my home page&lt;/TITLE&gt;&lt;/HEAD&gt;
+
+
+
+&lt;BODY&gt;
+
+&lt;H1&gt; Environmental Variables &lt;/H1&gt;
+
+&lt;p&gt;
+
+Gateway Interface: $ENV{'GATEWAY_INTERFACE'}&lt;br&gt;
+
+Server Name: $ENV{'SERVER_NAME'}&lt;br&gt;
+
+Server Software: $ENV{'SERVER_SOFTWARE'}&lt;br&gt;
+
+
+
+Server Protocol: $ENV{'SERVER_PROTOCOL'}&lt;br&gt;
+
+Server Port: $ENV{'SERVER_PORT'}&lt;br&gt;
+
+Request Method: $ENV{'REQUEST_METHOD'}&lt;br&gt;
+
+Path Info: $ENV{'PATH_INFO'}&lt;br&gt;
+
+Path Translated: $ENV{'PATH_TRANSLATED'}&lt;br&gt;
+
+Script Name: $ENV{'SCRIPT_NAME'}&lt;br&gt;
+
+Query String: $ENV{'QUERY_STRING'}&lt;br&gt;
+
+Remote Host: $ENV{'REMOTE_HOST'}&lt;br&gt;
+
+Remote Addr: $ENV{'REMOTE_ADDR'}&lt;br&gt;
+
+Auth Type: $ENV{'AUTH_TYPE'}&lt;br&gt;
+
+Remote User: $ENV{'REMOTE_USER'}&lt;br&gt;
+
+Remote Ident: $ENV{'REMOTE_IDENT'}&lt;br&gt;
+
+Content Type: $ENV{'CONTENT_TYPE'}&lt;br&gt;
+
+Content Length: $ENV{'CONTENT_LENGTH'}&lt;br&gt;
+
+
+
+HTTP Accept: $ENV{'HTTP_ACCEPT'}&lt;br&gt;
+
+HTTP User Agent: $ENV{'HTTP_USER_AGENT'}&lt;br&gt;
+
+HTTP Referer: $ENV{'HTTP_REFERER'}&lt;br&gt;
+
+
+
+End_of_Homepage
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The following list describes the variables displayed in figure
+
+6.3 and explains their values:
+
+<UL>
+
+<LI><TT>GATEWAY_INTERFACE</TT>: contains the CGI specification
+
+revision in the format <TT>CGI/revision</TT>. The example in figure
+
+6.3 displays the value <TT>CGI/1.1</TT> for this variable, which
+
+means that the specification revision of CGI that the server complies
+
+with is 1.1.
+
+<LI><TT>SERVER_NAME</TT>: contains the IP address, the DNS alias,
+
+or the host name of the server. The example displays the value
+
+<TT>unix.yasd.com</TT>, which is the DNS alias for this site.
+
+<LI><TT>SERVER_SOFTWARE</TT>: contains the type and version of
+
+the Web server software. The example displays the value <TT>Apache/0.8.14</TT>.
+
+(Time to upgrade.)
+
+<LI><TT>SERVER_PROTOCOL</TT>: contains the name and revision number
+
+for the transportation protocol that the server uses. The example
+
+displays <TT>HTTP/1.0</TT>.
+
+<LI><TT>SERVER_PORT</TT>: contains the port number that received
+
+the request. The demonstration displays <TT>80</TT>.
+
+<LI><TT>REQUEST_METHOD</TT>: contains the type of request made.
+
+In this case, the request method was <TT>GET</TT>, which means
+
+that when the form was submitted, the submission contents were
+
+appended to the URL. The impact of a <TT>POST</TT> request is
+
+explained later in this section.
+
+<LI><TT>PATH_INFO</TT>: contains extra path information. This
+
+information is passed to the CGI program directly, after the URL
+
+of the CGI application and just before the question-mark character
+
+(<TT>?</TT>) that begins the list of data. The example does not
+
+show any value for this variable. If the HTML document contained
+
+the following line for defining the <TT>FORM</TT> submit action,
+
+the value in <TT>PATH_INFO</TT> would be <TT>/test</TT>:<BR>
+
+<TT>&lt;FORM ACTION=&quot;http://unix.yasd.com/book-bin/envvar.cgi/test&quot;
+
+METHOD=GET&gt;</TT>
+
+</UL>
+
+<P>
+
+This information is used in the <TT>PATH_TRANSLATED</TT> variable,
+
+which is discussed next.
+
+<UL>
+
+<LI><TT>PATH_TRANSLATED</TT>: contains the value of <TT>PATH_INFO</TT>
+
+translated to an absolute address. This variable can be used to
+
+reference configuration files, or a subdirectory contain<TT>ing</TT>
+
+documents, or for other situations in which an absolute address
+
+is needed.
+
+<LI><TT>SCRIPT_NAME</TT>: contains the script name and path as
+
+referenced from the URL. In the example, this variable contains
+
+<TT>/_vti_bin/envvar.cgi</TT>.
+
+<LI><TT>QUERY_STRING</TT>: contains the information (still in
+
+a state that has not been decoded) that is passed after the <TT>?</TT>
+
+when the URL of the CGI application is referenced. This variable
+
+has a value if the reference to the CGI program was accessed directly
+
+and if the <TT>?</TT> values were coded directly into the URL
+
+reference. The variable also has a value when the CGI application
+
+is called as a result of a form submission when the <TT>GET</TT>
+
+method is used. The value is in name-value pair format; blanks
+
+are represented by plus  signs (<TT>+</TT>), and name-value pairs
+
+are separated by an ampersand (<TT>&amp;</TT>).<BR>
+
+The example displays the value <TT>text_string=One&amp;Second_string=Two</TT>.
+
+This value indicates that the form had two text controls (which
+
+it does) and that the Web page reader entered the value <B>One</B>
+
+into the first control (which is named <TT>text_string</TT>) and
+
+the value <B>Two</B> into the second control (named <TT>Second_string</TT>).
+
+<LI><TT>REMOTE_HOST</TT>: contains the name of the host that is
+
+making the request. In the example, this variable is set to <TT>por-or12-20.ix.netcom.com</TT>.
+
+<LI><TT>REMOTE_ADDR</TT>: contains the IP address of the requestor.
+
+In the example, this value is <TT>204.31.113.139</TT>.
+
+<LI><TT>AUTH_TYPE</TT>: contains the <TT>authentication</TT> method
+
+if user authentication is deployed for the server and if the script
+
+is protected. (<A HREF="ch8.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch8.htm" >Chapter 8</A> &quot;Understanding Basic User Authentication,&quot;
+
+discusses user authentication.) No authentication was used in
+
+the example, so this variable is empty.
+
+<LI><TT>REMOTE_USER</TT>: contains the name of the user if authentication
+
+was required. In the example, this variable is empty.
+
+<LI><TT>REMOTE_IDENT</TT>: contains the remote user name if the
+
+server is set up to use the <TT>identd</TT> identification daemon.
+
+This variable should be set only when logging in. In the example,
+
+this value is set to <TT>unknown</TT>.
+
+<LI><TT>CONTENT_TYPE</TT>: contains the MIME content type of the
+
+data passed with the query, if the query was made with the <TT>POST</TT>
+
+or <TT>PUT</TT> method. Because the example used the <TT>GET</TT>
+
+method, this variable is empty. A demonstration of using the <TT>POST</TT>
+
+method appears in &quot;CGI Environment Variables Using the <TT>POST</TT>
+
+Method&quot; later in this chapter.
+
+<LI><TT>CONTENT_LENGTH</TT>: contains the length of the data message
+
+if the data was sent with the <TT>POST</TT> or <TT>PUT</TT> method.
+
+Otherwise, the value is empty, as shown in the example.
+
+<LI><TT>HTTP_ACCEPT</TT>: contains the MIME types that the client
+
+will accept, separated by commas. This variable helps the server
+
+program determine what it can return to the client. In the example,
+
+the value of this variable is <TT>image/gif, image/x-xbitmap,
+
+image/jpeg, image/pjpeg, */*</TT>. The format is in type-subtype
+
+order.
+
+<LI><TT>HTTP_USER_AGENT</TT>: contains the browser that the client
+
+used to send the HTTP request. This value is also the value from
+
+the <TT>User_Agent</TT> field. The example shows <TT>Mozilla/3.04b
+
+(Win95; 1)</TT> for this variable, with <TT>Mozilla</TT> (Netscape)
+
+being the software, <TT>3.04b</TT> being the version, <TT>Win95</TT>
+
+being the library, and <TT>1</TT> being the library version.
+
+<LI><TT>HTTP_REFERER</TT>: contains the URL that issued the HTTP
+
+request. The value in the example is <TT>http://unix.yasd.com/envvar1.html</TT>.
+
+</UL>
+
+<P>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>ON THE WEB</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+You can also find these descriptions at <TT><B><A HREF="tppmsgs/msgs0.htm#1" tppabs="http://hoohoo.ncsa.uiuc.edu/cgi/env.html">http://hoohoo.ncsa.uiuc.edu/cgi/env.html.</A></B></TT>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+The <TT>GET</TT> method is losing popularity, primarily due to limitations on the length of the data string that can be sent to the server. <TT>GET</TT> is a handy choice, however, if the data string is not large and if you want to enable the user to 
+record both the URL that contains the CGI application call and the data that is sent with the call. With this capability, the user can recall the program with the same content without having to access any preceding documents.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H3><A NAME="CGIEnvironmentVariablesUsingtheIPOSTIMethod">
+
+CGI Environment Variables Using the <I>POST</I> Method</A></H3>
+
+<P>
+
+The <TT>POST</TT> method opens an input stream and uses this stream
+
+to send the data from the form to the CGI application. The application
+
+then uses standard input to access the data. When you use a browser
+
+that informs you when you are making an insecure transmission,
+
+you may get this notice when you use the <TT>POST</TT> method
+
+but not when you use the <TT>GET</TT> method. In addition, you
+
+could get server errors if your CGI application is not in a different
+
+subdirectory from the HTML document (as it should be).
+
+<P>
+
+Figure 6.4 displays a document page that is generated when the
+
+<TT>envvar.cgi</TT> program is called with the <TT>POST</TT> method
+
+instead of the <TT>GET</TT> method. The form contains two text
+
+controls and a submit button.
+
+<P>
+
+<A HREF="f6-4.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-4.gif"><B> Figure 6.4 : </B><I>This Web document was generated by envvar.cgi, which was run when the form in envvar2.html was submitted. The POST method was used for the submission.
+
+
+
+</I></A><P>
+
+<P>
+
+Listing 6.4 contains the form statements.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.4&nbsp;&nbsp;Document (envvar2.html) That Calls envvar.cgi
+
+Using the POST Method<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;SUBMIT TEST&lt;/TITLE&gt;&lt;/HEAD&gt;
+
+&lt;BODY&gt;
+
+&lt;H1&gt; Send data and test results on CGI variables &lt;/H1&gt;
+
+&lt;p&gt;
+
+&lt;FORM ACTION=&quot;http://unix.yasd.com/_vti_bin/envvar.cgi&quot; METHOD=POST&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; Name=&quot;text_string&quot;&gt;
+
+&lt;p&gt;
+
+&lt;INPUT TYPE=&quot;text&quot; Name=&quot;Second_string&quot;&gt;
+
+&lt;p&gt;
+
+&lt;INPUT TYPE=&quot;submit&quot;&gt;
+
+&lt;/FORM&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The following list describes the variables that change based on
+
+the different submission method:
+
+<UL>
+
+<LI><TT>REQUEST_METHOD</TT>. The request method is now <TT>POST</TT>
+
+rather than <TT>GET</TT>.
+
+<LI><TT>QUERY_STRING</TT>. The data string is passed via standard
+
+input by means of the <TT>POST</TT> method, so the variable <TT>QUERY_STRING</TT>
+
+is empty.
+
+<LI><TT>CONTENT_TYPE</TT>. The content type of the data is displayed
+
+in this variable when the <TT>POST</TT> method is used. In the
+
+example shown in figure 6.3, the value would be <TT>application/
+
+<BR>
+
+x-www-form-urlencoded</TT>.
+
+<LI><TT>CONTENT_LENGTH</TT>. The length of the form data is recorded
+
+in this variable. The example displays the length <TT>33</TT>
+
+for the data string.
+
+</UL>
+
+<P>
+
+Well-behaved CGI applications never assume which method is used;
+
+they code for either method. A better technique is to use one
+
+of the established Perl libraries, such as <TT>cgi-lib.pl</TT>
+
+or <TT>cgi.pm</TT>, to access the query data.
+
+<H2><A NAME="ReferringtheUsertoBrowserSpecificWebPages"><FONT SIZE=5 COLOR=#FF0000>
+
+Referring the User to Browser-Specific Web Pages</FONT></A></H2>
+
+<P>
+
+The Internet and especially the Web are very dynamic and also
+
+very competitive. Web page readers can access a site with any
+
+of several browsers, among the most popular of which are Netscape,
+
+Mosaic, and Microsoft's Internet Explorer. One problem with this
+
+heterogeneous access is that if you can fine-tune your Web site
+
+for one browser, the site may break or look unattractive with
+
+another. Yet you want to provide a site that takes advantage of
+
+cutting-edge technology by using some of the newest techniques.
+
+<P>
+
+One option is to provide Web pages that are fine-tuned for only
+
+one browser and then to provide an alternative text-based Web
+
+page. A large number of sites display an icon for Netscape or
+
+Internet Explorer, for example, along with the information that
+
+the site is best viewed with that browser. This option can highly
+
+simplify the maintenance of the site. The downside of this approach,
+
+however, is that you are in effect opening the doors of your business
+
+or your home page to some customers and closing them to others.
+
+Most people would find this prospect to be unattractive.
+
+<P>
+
+Another option is to find the lowest common denominator among
+
+the most popular Web browsers and set your site to support the
+
+functionality defined by that browser. The advantages are the
+
+increased ease of maintaining the site and the knowledge that
+
+the Web site is readable by most people who access it. The downside
+
+is that people tend to embrace the newest technological advances
+
+on the Web and prefer Web content that takes advantage of what
+
+the new browsers allow. The popularity of frames highlights this
+
+fact. Businesses and Web page readers love frames, and a sophisticated
+
+site provides for content with and without frames, based on the
+
+reader's preference. If a browser cannot handle frames, the user
+
+is likely to see a message to this effect and little else, except
+
+maybe an annoying suggestion that the user get a different browser.
+
+<P>
+
+The third alternative is to test the browser before displaying
+
+any Web pages and then redirect the URL to a site that contains
+
+documents that the browser can display easily and attractively.
+
+This option, although not as easy to implement and maintain as
+
+the other two, is one of the better options from the viewpoint
+
+of the Web page reader. The reader has access to content that
+
+is fine-tuned to his or her browser, which in turn increases the
+
+reader's appreciation of the site and, perhaps, of what the site
+
+contains. Web page redirection is also popular for sending the
+
+Web page reader to the new URL of a page, if the URL has changed.
+
+<P>
+
+Figure 6.5 displays a plain-text Web page that is the best page
+
+for an unknown browser or a text-based browser.
+
+<P>
+
+<A HREF="f6-5.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-5.gif"><B> Figure 6.5 : </B><I>This figure shows a basic text-based Web page.
+
+
+
+</I></A><P>
+
+<P>
+
+The HTML statements that create this document appear in Listing
+
+6.5.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.5&nbsp;&nbsp;Simple Text-Only Web Page (main.html)
+
+<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Welcome!&lt;/TITLE&gt;&lt;HEAD&gt;
+
+&lt;BODY BGCOLOR=&quot;#FFEBCD&quot; TEXT=&quot;#8B4513&quot;&gt;
+
+&lt;H1&gt;Welcome to my site! &lt;/H1&gt;
+
+&lt;p&gt;
+
+This site will test your browser before opening up this page. Based
+
+on the type of browser it determines, it will open a different page.
+
+&lt;p&gt;
+
+&lt;H2&gt;One page will be text only.&lt;/H2&gt;
+
+&lt;p&gt;
+
+&lt;H2&gt;One page will be Netscape specific.&lt;/H2&gt;
+
+&lt;p&gt;
+
+&lt;H2&gt;One page will be Microsoft Internet Explorer Specific&lt;/H2&gt;
+
+&lt;p&gt;
+
+&lt;H2&gt;And one page will be Mosaic Specific&lt;/H2&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Figure 6.6 displays a basic Web page that contains one JPEG-type
+
+graphic. This type of page could be read by a graphical browser
+
+(such as Mosaic) but not by a text-based browser (such as Lynx).
+
+<P>
+
+<A HREF="f6-6.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-6.gif"><B> Figure 6.6 : </B><I>This basic Web page contains one JPEG-style embedded graphic.
+
+
+
+</I></A><P>
+
+<P>
+
+The HTML statements that create the Web page with one embedded
+
+graphic appear in Listing 6.6.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.6&nbsp;&nbsp;Web Page (maingrph.html) with Text and
+
+One Embedded JPEG Graphic<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Welcome!&lt;/TITLE&gt;&lt;HEAD&gt;
+
+&lt;BODY BGCOLOR=&quot;#FFEBCD&quot; TEXT=&quot;#8B4513&quot;&gt;
+
+&lt;H1&gt;Welcome to my site! &lt;/H1&gt;
+
+&lt;p&gt;
+
+&lt;IMG SRC=&quot;garden2.jpg&quot;&gt;
+
+&lt;p&gt;
+
+This site will test your browser before opening up this page. Based
+
+on the type of browser it determines, it will open a different page.
+
+&lt;p&gt;
+
+&lt;H2&gt;One page will be text only.&lt;/H2&gt;
+
+&lt;p&gt;
+
+&lt;H2&gt;One page will be Netscape specific.&lt;/H2&gt;
+
+&lt;p&gt;
+
+&lt;H2&gt;One page will be Microsoft Internet Explorer Specific&lt;/H2&gt;
+
+&lt;p&gt;
+
+&lt;H2&gt;And one page will be Mosaic Specific&lt;/H2&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Figure 6.7 shows a more sophisticated Web page that contains five
+
+frames. The four top frames display JPEG-style graphics embedded
+
+in the documents that are opened in the frames; the bottom frame
+
+contains the main document. To read this page, the browser must
+
+support frames. Netscape version 2.x or later, Microsoft Explorer
+
+3.x or later, and any other HTML-3.0-based browser can read frames.
+
+Trying to open this page without a frame-enabled browser results
+
+in a message stating that the browser is not capable of reading
+
+frames.
+
+<P>
+
+<A HREF="f6-7.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-7.gif"><B> Figure 6.7 : </B><I>This frames-based Web page has four JPEG images open in the four top frames.
+
+
+
+</I></A><P>
+
+<P>
+
+The HTML that creates the document that contains the <TT>FRAMESET</TT>
+
+document appears in Listing 6.7.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.7&nbsp;&nbsp;Web Page (frames.html) That Creates
+
+Two Framesets Containing  Two Rows and Four Columns<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;
+
+&lt;TITLE&gt;Web Services&lt;/TITLE&gt;
+
+&lt;/HEAD&gt;
+
+
+
+&lt;FRAMESET ROWS=&quot;30%, *&quot;&gt;
+
+&lt;NOFRAMES&gt;
+
+&lt;p&gt;You are using a browser that is not capable of working with
+
+frames.
+
+
+
+&lt;/NOFRAMES&gt;
+
+
+
+  &lt;FRAMESET COLS=&quot;25%, 25%, 25%, 25%&quot;&gt;
+
+   &lt;FRAME SRC=&quot;cliff2.jpg&quot; NAME=&quot;Logo&quot; MARGINWIDTH=&quot;0&quot;
+
+     MARGINHEIGHT=&quot;0&quot; SCROLLING=&quot;no&quot;&gt;
+
+   &lt;FRAME SRC=&quot;flower2.jpg&quot; NAME=&quot;Stars&quot; MARGINWIDTH=&quot;0&quot;
+
+     MARGINHEIGHT=&quot;0&quot; SCROLLING=&quot;no&quot;&gt;
+
+   &lt;FRAME SRC=&quot;leaves2.jpg&quot; NAME=&quot;Stars&quot; MARGINWIDTH=&quot;0&quot;
+
+     MARGINHEIGHT=&quot;0&quot; SCROLLING=&quot;no&quot;&gt;
+
+   &lt;FRAME SRC=&quot;garden2.jpg&quot; NAME=&quot;Stars&quot; MARGINWIDTH=&quot;0&quot;
+
+     MARGINHEIGHT=&quot;0&quot; SCROLLING=&quot;no&quot;&gt;
+
+  &lt;/FRAMESET&gt;
+
+   &lt;FRAME SRC=&quot;main.html&quot; NAME=&quot;WorkSpace&quot;&gt;
+
+&lt;/FRAMESET&gt;
+
+
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Finally, figure 6.8 displays a frames-based Web page that contains
+
+VRML files developed specifically for use with Netscape's Live3D
+
+plug-in. This document was developed for one and only one browser,
+
+at least at this time. If you try to open this document with another
+
+browser, such as Microsoft's Internet Explorer, the top part of
+
+the document will remain blank.
+
+<P>
+
+<A HREF="f6-8.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-8.gif"><B> Figure 6.8 : </B><I>This frames-based Web page contains four VRML files, one for each of the top-row frames.
+
+
+
+</I></A><P>
+
+<P>
+
+The HTML that creates this document appears in Listing 6.8. The
+
+code is virtually the same as that in Listing 6.7, except that
+
+files with the .WRL extension, rather than JPEG files, are open
+
+in the four top frames.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.8&nbsp;&nbsp;HTML Document (netfrms.html) That Contains
+
+Five Frames, Four  with VRML Files<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;
+
+&lt;TITLE&gt;Web Services&lt;/TITLE&gt;
+
+&lt;/HEAD&gt;
+
+
+
+&lt;FRAMESET ROWS=&quot;30%, *&quot;&gt;
+
+&lt;NOFRAMES&gt;
+
+&lt;p&gt;You are using a browser that is not capable of working with
+
+frames.
+
+
+
+&lt;/NOFRAMES&gt;
+
+
+
+  &lt;FRAMESET COLS=&quot;25%, 25%, 25%, 25%&quot;&gt;
+
+   &lt;FRAME SRC=&quot;box.wrl&quot; NAME=&quot;Logo&quot; MARGINWIDTH=&quot;0&quot;
+
+     MARGINHEIGHT=&quot;0&quot; SCROLLING=&quot;no&quot;&gt;
+
+   &lt;FRAME SRC=&quot;graph.wrl&quot; NAME=&quot;Stars&quot; MARGINWIDTH=&quot;0&quot;
+
+     MARGINHEIGHT=&quot;0&quot; SCROLLING=&quot;no&quot;&gt;
+
+   &lt;FRAME SRC=&quot;lava.wrl&quot; NAME=&quot;Stars&quot; MARGINWIDTH=&quot;0&quot;
+
+     MARGINHEIGHT=&quot;0&quot; SCROLLING=&quot;no&quot;&gt;
+
+   &lt;FRAME SRC=&quot;station.wrl&quot; NAME=&quot;Stars&quot; MARGINWIDTH=&quot;0&quot;
+
+     MARGINHEIGHT=&quot;0&quot; SCROLLING=&quot;no&quot;&gt;
+
+  &lt;/FRAMESET&gt;
+
+   &lt;FRAME SRC=&quot;main.html&quot; NAME=&quot;WorkSpace&quot;&gt;
+
+&lt;/FRAMESET&gt;
+
+
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+When the HTML documents are created, all that's left to do is
+
+create the simple (yes, simple) Perl program that chooses the
+
+correct Web page. The program accesses the CGI environment variable
+
+<TT>HTTP_USER_AGENT</TT> to find the Web page reader's browser.
+
+Then the program looks for a target substring within the string
+
+that contains the browser's name. Each target substring that the
+
+program looks at calls a different Web page, based on whether
+
+the substring is found. By default, if no substring match is found,
+
+the text-based Web page described in Listing 6.5-<TT>main.html</TT>-is
+
+called. The Perl code to determine the Web page appears in Listing
+
+6.9.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.9&nbsp;&nbsp;Perl Code (<I>choose.cgi</I>) That Accesses
+
+<I>HTTP_USER_AGENT</I> and Redirects the Browser<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# choose.cgi
+
+#
+
+# Application will check for the existing of certain
+
+# key terms to determine which browser the web page reader
+
+# is using.
+
+#
+
+# The CGI environment variable HTTP_USER_AGENT is accessed
+
+# and certain substrings are matched against it. If
+
+# a match occurs, the browser is re-directed to the
+
+# document that matches the browser.
+
+#
+
+# If no match is found, the browser is directed to a text
+
+# only web page.
+
+#
+
+# Access environment variable
+
+$browser = $ENV{'HTTP_USER_AGENT'};
+
+#
+
+# check for Internet Explorer
+
+if (index($browser,&quot;MSIE&quot;) &gt;= 0) {
+
+   print &quot;Location: ../book-html/frames.html\n\n&quot;;
+
+} elsif (index($browser,&quot;Mozilla&quot;) &gt;= 0) {
+
+   print &quot;Location: ../book-html/netfrms.html\n\n&quot;;
+
+} elsif (index($browser,&quot;Mosaic&quot;) &gt;= 0) {
+
+   print &quot;Location: http://unix.yasd.com/book-html/maingrph.html\n\n&quot;;
+
+} else {
+
+   print &quot;Location: ../book-html/main.html\n\n&quot;;
+
+}
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+As I said previously, the application accesses the <TT>HTTP_USER_AGENT</TT>
+
+CGI environment variable and loads it into a variable. Then the
+
+application uses the <TT>index</TT> function to search for a substring
+
+in the environment string.
+
+<P>
+
+Notice, also, that some of the location paths are given with the
+
+full URL and others are given with a relative URL. This difference
+
+demonstrates one of the problems that can occur with this type
+
+of program. If you apply a relative URL to all the browser-specific
+
+paths, you receive an error message in Mosaic. Using a relative
+
+URL works without any problems, however, when you use Netscape
+
+or Internet Explorer. Coding to the standard of &quot;if I don't,
+
+it will break,&quot; the best option is to add the full URL for
+
+all the browser types.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>Site Organization</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+You can organize your site in a way that helps with its maintenance when you use the redirection technique. If you call the script <TT>index.cgi</TT> and place it in your URL-based subdirectory, the CGI application is called automatically when your site 
+is accessed by its IP address or DNS alias. Depending on the server and site, the server tries to access a file called INDEX.htmL or INDEX.htm. If the server finds neither file, it probably will continue with others, such as INDEX.SHTML and, eventually, 
+INDEX.CGI.
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+In addition, you can create subdirectories that are specific to content for each of the browsers, and name the main Web document page in each <TT>index.html</TT>. With this, you always have a default file of some form in all your public subdirectories.
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+Finally, once a month, check the main Web site of each browser for which you are providing direct support to see whether any changes have occurred. If so, test your content with the new browser; add any new features that interest you; and repair any 
+existing features that no longer work. Then sit back and enjoy the accolades for providing a sophisticated and highly organized site.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><A NAME="UsingClientPullwithPerl"><FONT SIZE=5 COLOR=#FF0000>
+
+Using Client Pull with Perl</FONT></A></H2>
+
+<P>
+
+Client pull uses the <TT>Refresh</TT> response header to reload
+
+the HTML document automatically after a specified period. This
+
+technique originally worked only with Netscape; now it works with
+
+at least Internet Explorer 3.0 and Mosaic 2.1.1. Notice that with
+
+Mosaic, you are asked whether it is OK to reload the current document,
+
+which pretty much guarantees that you will not have smooth dynamic
+
+content.
+
+<P>
+
+Client pull uses the <TT>Refresh</TT> response header, which instructs
+
+the browser to load the same document or a different document
+
+after a certain period has passed. The response occurs only one
+
+time, so if the content is directed to a different page, the document
+
+does not continue to load. This technique is implemented by using
+
+the <TT>META</TT> tag of an HTML document. An attribute of the
+
+<TT>META</TT> tag is <TT>HTTP-EQUIV</TT>, which is a directive
+
+to the server that the <TT>META</TT> tag should be parsed by the
+
+server and converted to an HTTP response.
+
+<P>
+
+To use this directive, you set the <TT>HTTP-EQUIV</TT> attribute
+
+equal to <TT>Refresh</TT> and then assign the number of seconds
+
+to wait until the refresh to the <TT>CONTENT</TT> attribute. Following
+
+is an example:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;META HTTP-EQUIV=&quot;Refresh&quot; CONTENT=&quot;5&quot;&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This example tells the server to refresh (reload) the current
+
+document in 5 seconds. When the document is reloaded, this directive
+
+again instructs the server to reload the document in 5 seconds,
+
+and the cycle continues.
+
+<P>
+
+You can have another document loaded by adding the URL to the
+
+document, as follows:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;META HTTP-EQUIV=&quot;Refresh&quot; CONTENT=&quot;5; URL=http://www.your.com/doc.html&quot;&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This directive instructs the server to load the document located
+
+at <B>www.your.com/doc.html</B> in 5 seconds.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>NOTE</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+The <TT>META</TT> element, which is contained in the <TT>HEAD</TT> section of an HTML document, contains three attributes. The <TT>META</TT> element must contain either a <TT>NAME</TT> or an <TT>HTTP-EQUIV</TT> attribute, but not both. The <TT>NAME</TT> 
+attribute is defined by the browser that parses it. One use is to have the word <I>keywords</I> as a name; the <TT>CONTENT</TT> attribute will contain a list of keywords that describe either the document or the site. The <TT>HTTP-EQUIV</TT> attribute, used 
+in combination with the <TT>CONTENT</TT> attribute, is parsed by the browser to provide response headers.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+One popular use of this technology is to refresh screen cam sites,
+
+such as the famous FishCam site. If the site takes a static picture
+
+of an object at intervals of 30 seconds and uses the same name
+
+for this picture each time, refreshing the content of the document
+
+every 30 seconds results in the display of a new image, thereby
+
+providing dynamic content for the Web page.
+
+<P>
+
+Taking this concept one step further, you can call a CGI application
+
+in place of loading an HTML document, and the CGI application
+
+creates the document that is loaded. With each iteration of the
+
+program, the application can provide slightly different content.
+
+<P>
+
+Figure 6.9 shows a simple Web page that states that the Web page
+
+reader is there for the first time (at least for the current session).
+
+After about 30 seconds, a different page loads automatically,
+
+stating that the person has been at the page 1 time; the next
+
+iteration is 2, and so on. Figure 6.10 shows a Web page after
+
+two iterations of the refresh operation.
+
+<P>
+
+<A HREF="f6-9.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-9.gif"><B> Figure 6.9 : </B><I>This simple Web page contains a header that includes a META attribute to refresh the page automatically after 30 seconds.
+
+
+
+</I></A><P>
+
+<P>
+
+<A HREF="f6-10.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-10.gif"><B> Figure 6.10 : </B><I>This simple Web page was generated by a CGI application that displays the number of iterations of refresh and that includes its own META attribute to refresh again automatically in 30 seconds.
+
+
+
+</I></A><P>
+
+<P>
+
+The first page is a standard HTML document that includes the <TT>HTTP-EQUIV</TT>
+
+attribute with its <TT>META</TT> tag. After 30 seconds, this directive
+
+has the server load a CGI application called <TT>backagain.cgi</TT>.
+
+The CGI application in turn creates a new HTML document with its
+
+own directive to refresh after 30 seconds. In addition, the number
+
+of iterations is passed as a query string in the URL for the application
+
+call. Listing 6.10 displays the HTML document statements, and
+
+Listing 6.11 displays the CGI application.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.10&nbsp;&nbsp;HTML Document (backagain.html) That
+
+Contains the Refresh Response<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt; First Time! &lt;/TITLE&gt;
+
+&lt;META HTTP-EQUIV=&quot;Refresh&quot;
+
+CONTENT=&quot;30; URL=http://unix.yasd.com/book-bin/backagain.cgi?1&quot;&gt;
+
+&lt;/HEAD&gt;
+
+&lt;BODY&gt;
+
+&lt;H1&gt;This is your first time here!&lt;/H1&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.11&nbsp;&nbsp;CGI Application (<I>backagain.cgi</I>)
+
+That Includes the <I>HTTP-EQUIV</I> Refresh Response<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# backagain.cgi
+
+#
+
+# This application is called by the server based on
+
+# a refresh response header embedded in a document.
+
+# Each iteration is captured and printed out in the
+
+# header of the new document that is generated.
+
+#
+
+$iteration=$ENV{&quot;QUERY_STRING&quot;};
+
+$again=$iteration + 1;
+
+#
+
+# print out content type
+
+print &quot;Content-type: text/html\n\n&quot;;
+
+# start output
+
+print&lt;&lt;End_of_page;
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Back Again?&lt;/TITLE&gt;
+
+&lt;META HTTP-EQUIV=&quot;Refresh&quot;
+
+CONTENT=&quot;10; URL=http://unix.yasd.com/book-bin/backagain.cgi?$again&quot;&gt;
+
+&lt;/HEAD&gt;
+
+&lt;BODY&gt;
+
+&lt;H1&gt; You have been here
+
+&lt;FONT COLOR=&quot;#FF0000&quot; SIZE=5&gt;$iteration &lt;/font&gt; times!
+
+&lt;/FONT&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+
+
+End_of_page
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Informing Web page readers that they have been through the automatic
+
+refresh cycle a certain number of times is not very useful. You
+
+can, however, add content that increases the usefulness of this
+
+concept. The next example adds, to the end of the document, the
+
+information that at a certain time, the person who is designated
+
+as the Webmaster is either logged on to the system or logged out
+
+of the system. In addition, the CGI application is called directly
+
+from the browser, rather than being initiated by an HTML document.
+
+Listing 6.12 shows the Perl code.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.12&nbsp;&nbsp;CGI Application (backagain.cgi) That
+
+Accesses the Time and Generates an HTML Document<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# backagain2.cgi
+
+#
+
+# This application is called by the server based on
+
+# a refresh response header embedded in a document.
+
+# Each iteration of this application will test to
+
+# see if the webmaster is in and add this information
+
+# to the document
+
+#
+
+# First, get the time and assign to variables
+
+($sec,$min,$hour,$date,$month,$year) = localtime(time);
+
+#
+
+# Next, check for the webmaster
+
+open(MASTER, &quot;/usr/bin/w -h shelleyp |&quot;);
+
+read(&lt;MASTER&gt;,$result,200);
+
+if (index($result,&quot;shelleyp&quot;) &gt;= 0) {
+
+   $status = &quot;logged in.&quot;;
+
+} else {
+
+   $status = &quot;logged out.&quot;;
+
+}
+
+
+
+close(MASTER);
+
+# print out content type
+
+print &quot;Content-type: text/html\n\n&quot;;
+
+# start output
+
+print&lt;&lt;End_of_page;
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;TITLE&gt;Back Again?&lt;/TITLE&gt;
+
+&lt;META HTTP-EQUIV=&quot;Refresh&quot;
+
+CONTENT=&quot;30; URL=http://unix.yasd.com/book-bin/backagain2.cgi&quot;&gt;
+
+&lt;/HEAD&gt;
+
+&lt;BODY&gt;
+
+&lt;H1&gt; Welcome to my site &lt;/H1&gt;
+
+&lt;p&gt;
+
+&lt;H3&gt;At $hour:$min:$sec The webmaster is $status &lt;/H3&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+
+
+End_of_page
+
+
+
+exit(0);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+When the application is run, the time is accessed and output to
+
+variables. Then the application opens a pipe for the <TT>w</TT><I>
+
+</I>UNIX command, which displays all the ongoing processes on
+
+a system and who owns those processes. Because the application
+
+is interested in only one person, the command is used with the
+
+<TT>-h</TT> flag, which directs the command to look only for the
+
+specified person. The handle is accessed with the Perl <TT>read</TT>
+
+function, and the results are output to the variable <TT>$result</TT>.
+
+Then this <TT>variable </TT>is used with the <TT>index()</TT>
+
+function to search for the Webmaster substring. The result of
+
+the search is output to the <TT>$status</TT> variable, which is
+
+printed in the HTML document.
+
+<P>
+
+Figure 6.11 displays the result of this CGI application while
+
+the Webmaster is logged in.
+
+<P>
+
+<A HREF="f6-11.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-11.gif"><B> Figure 6.11 : </B><I>This figure shows  the output of backagain2.cgi while the Webmaster  is logged in.
+
+
+
+</I></A><P>
+
+<P>
+
+Figure 6.12 displays the result of the application after the Webmaster
+
+logs out.
+
+<P>
+
+<A HREF="f6-12.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-12.gif"><B> Figure 6.12 : </B><I>This figure shows  the output of backagain2.cgi after the Webmaster has logged out and the HTML page has been refreshed.
+
+
+
+</I></A><P><BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>ON THE WEB</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Before the existence of Java, JavaScript, and ActiveX controls, client pull was one method of generating dynamic Web page content. This technique has lost popularity, however, primarily due to the rather clumsy refresh method of completely loading the Web 
+page just to modify one portion of it. (For a rather humorous view of some sites that use client pull or server push, see the URL <B><A 
+HREF="tppmsgs/msgs0.htm#2" tppabs="http://www.chaco.com/useless/useless/auto-refresh.html">http://www.chaco.com/useless/useless/auto-refresh.html</A></B>.) Although the technique is not effective for all uses, it can be effective for some uses, such as a timed demonstration that 
+requires different Web pages to be loaded at certain times.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>Is CGI Dead?</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+When new technology is released, developers inevitably begin to talk about the death of existing technology. Sometimes, this prediction is true; many times, it isn't. A case in point is the release of Java. When Java was released, some Web application 
+developers stated that CGI was &quot;old&quot; technology that was going to be &quot;obsolete.&quot;</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+Any good Web application developer realizes that more than one tool can effectively and efficiently create the same functionality and that in most cases, it takes more than one tool to create a great Web site.</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+Does this mean that client pull is no longer a viable option? No-it just means that other options are available and that many of those options may be better.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><A NAME="UsingServerPushwithPerl"><FONT SIZE=5 COLOR=#FF0000>
+
+Using Server Push with Perl</FONT></A></H2>
+
+<P>
+
+<I>Server push</I> essentially means establishing a connection
+
+between the server and the client and then leaving that connection
+
+open. After the Web page document is downloaded, the connection
+
+is left open. After a certain period, the server sends more data
+
+to the browser, and that data is displayed. This cycle continues
+
+until the server stops sending data, the browser is closed, or
+
+the Web page reader moves to a different Web page or clicks the
+
+browser's Stop button.
+
+<P>
+
+Server push is based on an HTTP response containing a MIME type
+
+that is <TT>multipart/x-mixed-remove</TT>. What this means is
+
+that the data that the server sends could be of different types,
+
+such as text and a graphic image. Previously, the MIME type used
+
+for creating dynamic HTML pages has been <TT>text/html</TT>, meaning
+
+that the content is standard HTML format.
+
+<P>
+
+To use this MIME type, the CGI application needs to have a fairly
+
+rigid structure. The first part of the application has to turn
+
+off buffering if the data type is graphic images. Without this<TT>
+
+</TT>modification, the performance of your graphics will degrade
+
+to the point of being virtually useless. If you are like most
+
+developers (including the author), you don't think you will need
+
+to turn off buffering, but you will.
+
+<P>
+
+To turn off buffering, insert the following line as one of the
+
+first in your Perl application:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$|=1;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+To increase the speed of the animation, the content is sent with
+
+the nonparsed header option. This option directs that the content
+
+be sent directly to the browser, rather than being parsed by the
+
+server. To use this option, precede the name of the file with
+
+<TT>nph-</TT>, as in <TT>nph-dynagraphics.cgi</TT>. Using this
+
+option means that you have to send the standard response header
+
+that normally is sent by the server.
+
+<P>
+
+Following is the standard HTTP header:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;HTTP/1.0 200 Okay\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The <TT>Okay</TT> part of the message is the response that normally
+
+is transmitted when the document is successfully retrieved. The
+
+next line that your CGI application needs is the <TT>Content-type</TT>
+
+specifier. This line defines the content type and also defines
+
+the boundary of the data object that is being sent to the browser.
+
+This unique phrase is used to separate the data blocks.
+
+<P>
+
+The following line of code defines both the content type and boundary:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;Content-type: multipart/x-mixed-replace;boundary=appboundary\n\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The <TT>x</TT> of the MIME type translates to <I>experimental</I>,
+
+and the <TT>replace</TT> instructs the server to replace the preceding
+
+block. The boundary in this example is set to <TT>appboundary</TT>.
+
+<P>
+
+Now that the boundary string has been defined, you need to print
+
+the boundary to start the data block, as shown in the following
+
+line of code:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;-appboundary\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Next, you can output a graphic data block. You need to define
+
+the content type of the data object, which in this case is <TT>gif</TT>
+
+(for a GIF file). The type could also be <TT>text/html</TT> (for
+
+HTML format) or <TT>jpeg</TT> (for a JPEG file), as follows:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;Content-type: image/gif\n\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The actual output is relatively simple. For a graphic, the graphic
+
+file is opened with the Perl <TT>open</TT> command; the file is
+
+printed with <TT>print</TT>; and the file is closed, as follows:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+open(GRAPHIC, $member);
+
+print &lt;GRAPHIC&gt;;
+
+close(GRAPHIC);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+Last, you must print the boundary string again to flush the buffers
+
+and to make sure that the content displays, as shown in the following
+
+code:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+print &quot;\n-appboundary\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+If you remember each of these statements, the CGI application
+
+should perform as you expect it to. You can modify the types of
+
+the data blocks, and you can open and print the data blocks in
+
+a loop to enable animation. Figure 6.13 demonstrates a server
+
+push application that performs a relatively simple animation,
+
+using five GIF files.
+
+<P>
+
+<A HREF="f6-13.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-13.gif"><B> Figure 6.13 : </B><I>This figure shows the result of using server push to load an image just after the HTML document has been loaded.
+
+
+
+</I></A><P>
+
+<P>
+
+Figure 6.14 demonstrates the same page, but now the graphic is
+
+different. Approximately every 3 seconds, the server loads a different
+
+data block into the GIF image. The image shown in the figure is
+
+actually the fourth image that was loaded.
+
+<P>
+
+<A HREF="f6-14.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f6-14.gif"><B> Figure 6.14 : </B><I>This figure shows the result of using server push to load an image after the Web page document has been loaded for several seconds.
+
+
+
+</I></A><P>
+
+<P>
+
+To create the type of effect shown in the figures, you need to
+
+create both a CGI application and an HTML document. Listing 6.13
+
+shows the Perl code for the CGI application.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.13&nbsp;&nbsp;CGI Application (nph-dynagraphic.cgi)
+
+to Implement Server Push to Create an Animation<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/local/bin/perl
+
+#
+
+# dynagraphic.cgi
+
+#
+
+# This application uses server push to
+
+# change the graphic that is displayed in
+
+# an HTML document.
+
+#
+
+# create array of graphics
+
+$|=1;
+
+$count=1;
+
+@grapharray = (&quot;one.gif&quot;,&quot;two.gif&quot;,&quot;three.gif&quot;, &quot;four.gif&quot;,&quot;five.gif&quot;);
+
+# as file begins with nph-
+
+# application needs HTTP directive
+
+print &quot;HTTP/1.0 200 Okay\n&quot;;
+
+print &quot;Content-type: multipart/x-mixed-replace;boundary=appboundary\n\n&quot;;
+
+print &quot;-appboundary\n&quot;;
+
+while ($count &lt;= 10) {
+
+  foreach $member (@grapharray) {
+
+   print &quot;Content-type: image/gif\n\n&quot;;
+
+   open(GRAPHIC, $member);
+
+   print &lt;GRAPHIC&gt;;
+
+   close(GRAPHIC);
+
+   print &quot;\n-appboundary\n&quot;;
+
+   sleep 3;
+
+  }
+
+  $count++;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The Perl code contains the statements that have been discussed
+
+previously in this chapter. The names of five GIF files are loaded
+
+into an array. The HTTP response headers and MIME type are printed.
+
+Next, an outer loop that cycles 10 times is created. Finally,
+
+an inner loop is created; this loop cycles through the array that
+
+contains the names of the GIF files and accesses each one in turn.
+
+Each name is used to open and print the graphic file. After the
+
+file is closed, the boundary string is printed to end the data
+
+block. This process occurs for each of the GIF files. When the
+
+inner loop finishes, the outer loop runs again.
+
+<P>
+
+This file could be run directly from the browser, but a graphic
+
+by itself is not very helpful. To embed this server push animation
+
+in an HTML document, the application is actually called by means
+
+of an <TT>IMG</TT> tag. Listing 6.14 displays the HTML of the
+
+document that appears in figures 6.13 and 6.14.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 6.14&nbsp;&nbsp;HTML Document (dynagraphic.html) To
+
+Create the Inline Animation<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;HTML&gt;
+
+&lt;HEAD&gt;&lt;/HEAD&gt;
+
+&lt;BODY BGCOLOR=&quot;#FFFFFF&quot;&gt;
+
+&lt;IMG SRC=&quot;../book-bin/nph-dynagraphic.cgi&quot;&gt;
+
+&lt;p&gt;
+
+&lt;H1&gt; INLINE Animation using Server Push&quot;&lt;/H1&gt;
+
+&lt;p&gt;
+
+&lt;H2&gt; Ooooh. Ahhhh. Animation.&lt;/H2&gt;
+
+&lt;/BODY&gt;
+
+&lt;/HTML&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Alternatives to using server push or client pull for animation
+
+are available now. You can create animated GIFs, for example,
+
+and you can use Java and JavaScript to change a graphic to create
+
+animation. However, server push is a fairly effective method of
+
+displaying different graphics when you are using JPEG format,
+
+or to display text or even data objects of different types. Additionally,
+
+after you create a server push application, you can reuse the
+
+same script to create other inline animations. Other techniques
+
+(such as animation GIFs) require tools that can create these types
+
+of files, or require you to be familiar with a language such as
+
+Java or JavaScript.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>ON THE WEB</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+The example listed in this section is relatively simple; you can view more complex examples at <B><A HREF="tppmsgs/msgs0.htm#3" tppabs="http://www.comp.vuw.ac.nz/~matt/serverpush.html">http://www.comp.vuw.ac.nz/~matt/serverpush.html</A></B>. For a humorous look at several sites that 
+use this technique, check out <B><A HREF="tppmsgs/msgs0.htm#2" tppabs="http://www.chaco.com/useless/useless/auto-refresh.html">http://www.chaco.com/useless/useless/auto-refresh.html</A></B>.<B> </B>Just remember that the usefulness of a technique depends on the result.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<H2><A NAME="FromHere"><FONT SIZE=5 COLOR=#FF0000>
+
+From Here...</FONT></A></H2>
+
+<P>
+
+Web page redirection, client pull, and server push are effective
+
+Web tools when they are used wisely. Each method requires resources,
+
+and each adds to the complexity of a Web site. In addition, server
+
+push can use valuable server resources to maintain the open link,
+
+and client pull loads a new document page for each iteration.
+
+<P>
+
+When used in the correct context, these techniques are very useful:
+
+<UL>
+
+<LI>To implement Web pages for more than one browser, use Web
+
+page redirection.
+
+<LI>To forward a Web page reader from one URL to another, use
+
+Web page redirection.
+
+<LI>To create a JPEG animation, use server push.
+
+<LI>To provide a demonstration in which each page changes after
+
+a certain interval, use client pull.
+
+<LI>To provide dynamic text banners without using Java, use server
+
+push.
+
+<LI>To implement Web pages for more than one remote user or host,
+
+use Web page redirection.
+
+<LI>To refresh a page dynamically (such as in a full-page stock-market
+
+display), use client pull.
+
+</UL>
+
+<P>
+
+For information on related topics, check out the following chapters:
+
+<UL>
+
+<LI><A HREF="ch7.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch7.htm" >Chapter 7</A> &quot;Dynamic and Interactive HTML Content in Perl
+
+and CGI,&quot; continues the discussion of dynamic and interactive
+
+documents by covering the process of creating Web page content
+
+dynamically, based on the reader and his or her preferences. The
+
+chapter also covers server-side includes (SSI), persistent cookies,
+
+and the shopping-cart application style.
+
+<LI>Appendix B, &quot;Perl Web Reference,&quot; provides several
+
+sites that provide examples of this type of dynamic document content
+
+and that host discussions of the pertinent techniques.
+
+</UL>
+
+<HR>
+
+
+
+<CENTER><P><A HREF="ch5.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch5.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch7.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch7.htm"><IMG SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<HR WIDTH="100%"></P></CENTER>
+
+</BODY>
+
+</HTML>

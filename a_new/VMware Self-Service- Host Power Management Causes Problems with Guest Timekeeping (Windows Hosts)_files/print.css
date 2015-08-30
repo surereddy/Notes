@@ -1,0 +1,39 @@
+.noprint {
+	DISPLAY: none
+}
+.screen {
+	DISPLAY: none
+}
+DIV.feedbackform {
+	DISPLAY: none
+}
+H2.kbtitle {
+	DISPLAY: none
+}
+DIV.vmsearchentrybottom {
+	DISPLAY: none
+}
+SPAN.docTitle {
+	FONT-SIZE: 12px
+}
+A.rss {
+	DISPLAY: none
+}
+DIV#footer {
+	TEXT-ALIGN: center
+}
+DIV#vmsearchentrywidget {
+	DISPLAY: none
+}
+.feedbackform {
+	DISPLAY: none
+}
+.actheading {
+	DISPLAY: none
+}
+.docheading {
+	FONT-WEIGHT: 800; FONT-SIZE: 14px
+}
+#feedbackmsg {
+	DISPLAY: none
+}

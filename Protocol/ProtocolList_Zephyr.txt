@@ -1,0 +1,124 @@
+N/A
+Voip/IMS: BICC
+Voip/IMS: DIAMETER
+Voip/IMS: DIAMETER SONUS
+Voip/IMS: DNS ENUM
+Voip/IMS: DQOS
+Voip/IMS: DSS1
+Voip/IMS: EGCP
+Voip/IMS: GCP
+Voip/IMS: H.225_Q931
+Voip/IMS: H.245
+Voip/IMS: H.248/MEGACO
+Voip/IMS: H.248.BINARY
+Voip/IMS: H.323 CS
+Voip/IMS: H.323 RAS
+Voip/IMS: MGCP
+Voip/IMS: MSRP
+Voip/IMS: RTCP
+Voip/IMS: RTP
+Voip/IMS: RTSP
+Voip/IMS: SDP
+Voip/IMS: SIP
+Voip/IMS: SIP/IPSEC
+Voip/IMS: SIP-I/SIP-T
+Voip/IMS: SonusMSC
+Voip/IMS: T.38
+LTE: A10/A11
+LTE: CCP(PPP Compression)
+LTE: DIAMETER
+LTE: DNS
+LTE: EAP
+LTE: EPS-NAS
+LTE: Flow Applications
+LTE: Flow Protocols
+LTE: GTPV2
+LTE: ICMPv6
+LTE: LCP (PPP Link Control)
+LTE: PMIPv6
+LTE: RSVP
+LTE: S1AP
+LTE: SIP
+LTE: SGsAP
+LTE: VSNCP
+LTE: X2AP
+Gn/Gi: BGP
+Gn/Gi: CHAP
+Gn/Gi: CSDB-SOAP
+Gn/Gi: DHCP
+Gn/Gi: DIAMETER
+Gn/Gi: DNS
+Gn/Gi: Flow Application
+Gn/Gi: Flow Protocols
+Gn/Gi: Gi DNS
+Gn/Gi: Gi HTTP
+Gn/Gi: Gi LDAP
+Gn/Gi: Gi MMS
+Gn/Gi: Gi POP3
+Gn/Gi: Gi SMTP
+Gn/Gi: GTPv0
+Gn/Gi: GTPv1
+Gn/Gi: GTP Prime
+Gn/Gi: IPCP
+Gn/Gi: PPP
+Gn/Gi: RADIUS
+Gn/Gi: SMPP
+Gn/Gi: WAPv1
+Gn/Gi: WSP/WTP
+SS7: AIN
+SS7: ANSI 800
+SS7: CAMEL
+SS7: CLASS
+SS7: CNAM
+SS7: DINA (Sprint AIN)
+SS7: GERMAN INAP
+SS7: GERMAN ISUP
+SS7: INAP
+SS7: INAP (A) Alcatel INAP
+SS7: IS41
+SS7: ISIAC
+SS7: ANSI ISUP
+SS7: ITU ISUP
+SS7: ETSI ISUP
+SS7: ISUP SS
+SS7: JAPAN ISUP
+SS7: LIDB
+SS7: LNP
+SS7: MWI
+SS7: NUP
+SS7: TOLLEFREE
+SS7: TUP
+Mobile Access: ALCAP (Iub)
+Mobile Access: ALCAP (Iur)
+Mobile Access: AOC99SUP
+Mobile Access: AP_DIAG
+Mobile Access: BSMIS
+Mobile Access: BSGAP (Femto Iu')
+Mobile Access: BSSGP
+Mobile Access: BSGPP (Femto Iu')
+Mobile Access: BSSLAP
+Mobile Access: BSSMAP
+Mobile Access: DMTP
+Mobile Access: DPAT (Femto Iu')
+Mobile Access: DTAP (Gb)
+Mobile Access: DTAP (IuCS)
+Mobile Access: DTAP (IuPS)
+Mobile Access: GSMMAP
+Mobile Access: HNBAP (Iuh)
+Mobile Access: NBAP (Iub)
+Mobile Access: RANAP (IuCS)
+Mobile Access: RANAP (IuPS)
+Mobile Access: RNSAP (Iur)
+Mobile Access: RRC (Iub)
+Mobile Access: RRLP (Iub)
+Mobile Access: RUA (Iuh)
+Mobile Access: SMCP
+Mobile Access: SMS
+Mobile Access: SMSTP
+Mobile Access: STRMGR (Femto Iu')
+Mobile Access: SNDCP
+Mobile Access: SOIP (Femto Iu+)
+Mobile Access: UMA URR
+Mobile Access: URSL (Femto Iu+)
+
+

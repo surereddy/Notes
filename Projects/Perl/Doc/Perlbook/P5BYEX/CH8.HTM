@@ -1,0 +1,1925 @@
+<html>
+
+<head>
+
+<title>Chapter 8 -- RefereNCes</title>
+
+
+
+<meta>
+
+</head>
+
+<body TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<h1><font SIZE="6" COLOR="#FF0000">Chapter&nbsp;8</font></h1>
+
+<h1><font SIZE="6" COLOR="#FF0000">RefereNCes</font></h1>
+
+<hr>
+
+<p>
+
+<center><b><font SIZE="5">CONTENTS</font></b></center>
+
+<ul>
+
+<li><a HREF="#RefereNCeTypes">
+
+RefereNCe Types</a>
+
+<ul>
+
+<li><a HREF="#ExamplePassingParameterstoFuNCtions">
+
+Example: Passing Parameters to FuNCtions</a>
+
+<li><a HREF="#ExampleTherefFuNCtion">
+
+Example: The ref() FuNCtion</a>
+
+<li><a HREF="#ExampleCreatingaDataRecord">
+
+Example: Creating a Data Record</a>
+
+<li><a HREF="#ExampleInterpolatingFuNCtionsInsideDoubleQuotedStrings">
+
+Example: Interpolating FuNCtions Inside Double-Quoted Strings
+
+</a>
+
+</ul>
+
+<li><a HREF="#Summary">
+
+Summary</a>
+
+<li><a HREF="#ReviewQuestions">
+
+Review Questions</a>
+
+<li><a HREF="#ReviewExercises">
+
+Review Exercises</a>
+
+</ul>
+
+
+
+<hr>
+
+<p>
+
+A <i>refereNCe</i> is a scalar value that points to a memory location
+
+that holds some type of data. Everything in your Perl program
+
+is stored inside your computer's memory. Therefore, all of your
+
+variables and fuNCtions are located at some memory location. RefereNCes
+
+are used to hold the memory addresses. When a refereNCe is <i>derefereNCed</i>,
+
+you retrieve the information referred to by the refereNCe.
+
+<h2><a NAME="RefereNCeTypes"><font SIZE="5" COLOR="#FF0000">
+
+RefereNCe Types</font></a></h2>
+
+<p>
+
+There are six types of refereNCes. A refereNCe can point to a
+
+scalar, an array, a hash, a glob, a fuNCtion, or another refereNCe.
+
+Table 8.1 shows how the different types are valued with the assignment
+
+operator and how to derefereNCe them using curly braces.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+I briefly mentioned hashes in <a HREF="ch3.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm">Chapter 3</a> &quot;Variables.&quot; Just to refresh your memory, hashes are another name for associative arrays. Because &quot;hash&quot; is shorter than &quot;associative array,&quot; I'll be using both 
+terms in this chapter.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+<center><b>Table 8.1&nbsp;&nbsp;The Six Types of RefereNCes</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="253"><i>RefereNCe Assignment</i></td><td WIDTH="337"><i>How to DerefereNCe</i>
+
+</td></tr>
+
+<tr><td WIDTH="253"><tt>$refScalar</tt> = <tt>\$scalar;</tt>
+
+</td><td WIDTH="337"><tt>${$refScalar}</tt> is a scalar value.
+
+</td></tr>
+
+<tr><td WIDTH="253"><tt>$refArray</tt> = <tt>\@array;</tt>
+
+</td><td WIDTH="337"><tt>@{$refArray}</tt> is an array value.
+
+</td></tr>
+
+<tr><td WIDTH="253"><tt>$refHash</tt> = <tt>\%hash;</tt>
+
+</td><td WIDTH="337"><tt>%{$refHash}</tt> is a hash value.
+
+</td></tr>
+
+<tr><td WIDTH="253"><tt>$refglob</tt> = <tt>\*file;</tt>
+
+</td><td WIDTH="337">Glob refereNCes are beyond the scope of this book, but a short example can be found at <b>http://www. mtolive.com/pbc/ch08.htm#Josh Purinton</b>.
+
+</td></tr>
+
+<tr><td WIDTH="253"><tt>$refFuNCtion</tt> = <tt>\&amp;fuNCtion;</tt>
+
+</td><td WIDTH="337"><tt>&amp;{$refFuNCtion}</tt> is a fuNCtion location.
+
+</td></tr>
+
+<tr><td WIDTH="253"><tt>$refRef</tt> = <tt>\$refScalar;</tt>
+
+</td><td WIDTH="337"><tt>${${$refScalar}</tt> is a scalar value.
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Essentially, all you need to do in order to create a refereNCe
+
+is to add the backslash to the front of a value or variable.
+
+<h3><a NAME="ExamplePassingParameterstoFuNCtions">
+
+Example: Passing Parameters to FuNCtions</a></h3>
+
+<p>
+
+Back in <a HREF="ch5.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm">Chapter 5</a> &quot;FuNCtions,&quot; we talked about passing
+
+parameters to fuNCtions. At the time, we were not able to pass
+
+more than one array to a fuNCtion. This was because fuNCtions
+
+only see one array (the <tt>@_</tt>
+
+array) when looking for parameters. RefereNCes can be used to
+
+overcome this limitation.
+
+<p>
+
+Let's start off by passing two arrays into a fuNCtion to show
+
+that the fuNCtion only sees one array.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Call </i><tt><i>firstSub()</i></tt><i>
+
+with two arrays as parameters.<br>
+
+Define the </i><tt><i>firstSub()</i></tt><i>
+
+fuNCtion.<br>
+
+Create local variables and assign elements from the parameter
+
+array to them.<br>
+
+Print the local arrays.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+firstSub( (1..5), (&quot;A&quot;..&quot;E&quot;));
+
+
+
+sub firstSub {
+
+    my(@firstArray, @secondArray) = @_ ;
+
+
+
+    print(&quot;The first array is  @firstArray.\n&quot;);
+
+    print(&quot;The second array is @secondArray.\n&quot;);
+
+}
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+The first array is  1 2 3 4 5 A B C D E.
+
+The second array is .
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Inside the <tt>firstSub()</tt> fuNCtion,
+
+the <tt>@firstArray</tt> variable
+
+was assigned the entire parameter array, leaving nothing for the
+
+<tt>@secondArray</tt> variable. By
+
+passing refereNCes to <tt>@arrayOne</tt>
+
+and <tt>@arrayTwo</tt>, we can preserve
+
+the arrays for use inside the fuNCtion. Very few changes are needed
+
+to enable the above example to use refereNCes. Take a look.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Call </i><tt><i>firstSub()</i></tt><i>
+
+using the backslash operator to pass a refereNCe to each array.
+
+<br>
+
+Define the </i><tt><i>firstSub()</i></tt><i>
+
+fuNCtion.<br>
+
+Create two local scalar variables to hold the array refereNCes.
+
+<br>
+
+Print the local variables, derefereNCing them to look like arrays.
+
+This is done using the @{} notation.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+firstSub( \(1..5), \(&quot;A&quot;..&quot;E&quot;) );                         # One
+
+
+
+sub firstSub {
+
+    my($ref_firstArray, $ref_secondArray) = @_ ;          # Two
+
+
+
+    print(&quot;The first array is  @{$ref_firstArray}.\n&quot;);   # Three
+
+    print(&quot;The second array is @{$ref_secondArray}.\n&quot;);  # Three
+
+}
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+The first array is  1 2 3 4 5.
+
+The second array is A B C D E.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Three things were done to make this example use refereNCes:
+
+<ol>
+
+<li>In the line marked &quot;One,&quot; backslashes were added
+
+to indicate that a refereNCe to the array should be passed.
+
+<li>In the line marked &quot;Two,&quot; the refereNCes were taken
+
+from the parameter array and assigned to scalar variables.
+
+<li>In the lines marked &quot;Three,&quot; the scalar values were
+
+derefereNCed. DerefereNCing means that Perl will use the refereNCe
+
+as if it were a normal data type-in this case, an array variable.
+
+</ol>
+
+<h3><a NAME="ExampleTherefFuNCtion">
+
+Example: The ref() FuNCtion</a></h3>
+
+<p>
+
+Using refereNCes to pass arrays into a fuNCtion worked well and
+
+it was easy, wasn't it? However, what happens if you pass a scalar
+
+refereNCe to the <tt>firstSub()</tt>
+
+fuNCtion instead of an array refereNCe? Listing 8.1 shows how
+
+passing a scalar refereNCe when the fuNCtion demands an array
+
+refereNCe causes problems.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Call </i><tt><i>firstSub()</i></tt><i>
+
+and pass a refereNCe to a scalar and a refereNCe to an array.
+
+<br>
+
+Define the </i><tt><i>firstSub()</i></tt><i>
+
+fuNCtion.<br>
+
+Create two local scalar variables to hold the array refereNCes.
+
+<br>
+
+Print the local variables, derefereNCing them to look like arrays.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 8.1&nbsp;&nbsp;08LST01.PL-Passing a Scalar RefereNCe
+
+When the FuNCtion Demands an Array RefereNCe Causes Problems<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+firstSub( \10, \(&quot;A&quot;..&quot;E&quot;) );
+
+
+
+sub firstSub {
+
+    my($ref_firstArray, $ref_secondArray) = @_ ;
+
+
+
+    print(&quot;The first array is  @{$ref_firstArray}.\n&quot;);
+
+    print(&quot;The second array is @{$ref_secondArray}.\n&quot;);
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+Not an ARRAY refereNCe at 08lst01.pl line 9.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Perl provides the <tt>ref()</tt> fuNCtion
+
+so that you can check the refereNCe type before derefereNCing
+
+a refereNCe. The next example shows how to trap the mistake of
+
+passing a scalar refereNCe instead of an array refereNCe.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Call </i><tt><i>firstSub()</i></tt><i>
+
+and pass a refereNCe to each variable.<br>
+
+Define the </i><tt><i>firstSub()</i></tt><i>
+
+fuNCtion.<br>
+
+Create two local scalar variables to hold the array refereNCes.
+
+<br>
+
+Print the local variables if each variable is a refereNCe to an
+
+array. Otherwise, print nothing.</i>
+
+</blockquote>
+
+<p>
+
+Listing 8.2 shows how to test for an Array RefereNCe passed as
+
+a parameter.
+
+<hr>
+
+<blockquote>
+
+<b>Listing 8.2&nbsp;&nbsp;08LST02.PL-How to Test for an Array
+
+RefereNCe Passed as a Parameter<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+firstSub( \10, \(&quot;A&quot;..&quot;E&quot;) );
+
+
+
+sub firstSub {
+
+    my($ref_firstArray, $ref_secondArray) = @_ ;
+
+
+
+
+
+    print(&quot;The first array is  @{$ref_firstArray}.\n&quot;)
+
+        if (ref($ref_firstArray) eq &quot;ARRAY&quot;);             # One
+
+
+
+    print(&quot;The second array is @{$ref_secondArray}.\n&quot;
+
+        if (ref($ref_secondArray) eq &quot;ARRAY&quot;);            # Two
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+The second array is 1 2 3 4 5.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Only the second parameter is printed because the first parameter-the
+
+scalar refereNCe-failed the test on the line marked &quot;One.&quot;
+
+The statement modifiers on the lines marked &quot;One&quot; and
+
+&quot;Two&quot; ensure that we are derefereNCing an array refereNCe.
+
+This prevents the error message that appeared earlier. Of course,
+
+in your own programs you might want to set an error flag or print
+
+a warning.
+
+<p>
+
+For more information about statement modifiers, see <a HREF="ch6.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm">Chapter 6</a>
+
+&quot;Statements.&quot; 
+
+<p>
+
+Table 8.2 shows some values that the ref() fuNCtion can return.
+
+<br>
+
+<p>
+
+<center><b>Table 8.2&nbsp;&nbsp;Using the ref() FuNCtion</b></center>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td WIDTH="163"><i>FuNCtion Call</i></td><td WIDTH="138"><i>Return Value</i>
+
+</td></tr>
+
+<tr><td WIDTH="163">ref( 10 );</td><td WIDTH="138">undefined</td>
+
+</tr>
+
+<tr><td WIDTH="163">ref( \10 );</td><td WIDTH="138">SCALAR</td></tr>
+
+<tr><td WIDTH="163">ref( \{1 =&gt;  &quot;Joe&quot;} );</td><td WIDTH="138">HASH
+
+</td></tr>
+
+<tr><td WIDTH="163">ref( \&amp;firstSub );</td><td WIDTH="138">CODE
+
+</td></tr>
+
+<tr><td WIDTH="163">ref( \\10 );</td><td WIDTH="138">REF</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+Listing 8.3 shows another example of the <tt>ref()</tt>
+
+fuNCtion in action.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Initialize scalar, array, and hash variables.<br>
+
+Pass the variables to the </i><tt><i>printRef()</i></tt><i>
+
+fuNCtion. These are non-refereNCes so the undefined value should
+
+be returned.<br>
+
+Pass variable refereNCes to the </i><tt><i>printRef()</i></tt><i>
+
+fuNCtion. This is accomplished by prefixing the variable names
+
+with a backslash.<br>
+
+Pass a fuNCtion refereNCe and a refereNCe to a refereNCe to the
+
+</i><tt><i>printRef()</i></tt><i>
+
+fuNCtion.<br>
+
+Define the </i><tt><i>printRef()</i></tt><i>
+
+fuNCtion.<br>
+
+Iterate over the parameter array.<br>
+
+Assign the refereNCe type to </i><tt><i>$refType</i></tt><i>.
+
+<br>
+
+If the current parameter is a refereNCe, then print its refereNCe
+
+type, otherwise, print that it's a non-refereNCe.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 8.3&nbsp;&nbsp;08LST03.PL-Using the <font FACE="BI Helvetica BoldOblique">ref()</font>
+
+FuNCtion to Determine the RefereNCe Type of a Parameter<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+$scalar = 10;
+
+@array  = (1, 2);
+
+%hash   = ( &quot;1&quot; =&gt; &quot;Davy Jones&quot; );
+
+
+
+# I added extra spaces around the parameter list
+
+# so that the backslashes are easier to see.
+
+printRef( $scalar, @array, %hash );
+
+printRef( \$scalar, \@array, \%hash );
+
+printRef( \&amp;printRef, \\$scalar );
+
+
+
+# print the refereNCe type of every parameter.
+
+sub printRef {
+
+    foreach (@_) {
+
+        $refType = ref($_);
+
+        defined($refType) ? print &quot;$refType &quot; : print(&quot;Non-refereNCe &quot;);
+
+    }
+
+    print(&quot;\n&quot;);
+
+}
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+Non-refereNCe Non-refereNCe Non-refereNCe
+
+SCALAR ARRAY HASH
+
+CODE REF
+
+</pre>
+
+</blockquote>
+
+<p>
+
+By using the <tt>ref()</tt> fuNCtion
+
+you can protect program code that derefereNCes variables from
+
+producing errors when the wrong type of refereNCe is used.
+
+<h3><a NAME="ExampleCreatingaDataRecord">
+
+Example: Creating a Data Record</a></h3>
+
+<p>
+
+Perl's associative arrays (hashes) are extremely useful when it
+
+comes to storing information in a way that facilitates easy retrieval.
+
+For example, you could store customer information like this:
+
+<blockquote>
+
+<pre>
+
+%record = ( &quot;Name&quot;    =&gt; &quot;Jane Hathaway&quot;,
+
+            &quot;Address&quot; =&gt; &quot;123 Anylane Rd.&quot;,
+
+            &quot;Town&quot;    =&gt; &quot;AnyTown&quot;,
+
+            &quot;State&quot;   =&gt; &quot;AnyState&quot;,
+
+            &quot;Zip&quot;     =&gt; &quot;12345-1234&quot;
+
+);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The <tt>%record</tt> associative array
+
+also can be considered a <i>data record</i> with five <i>members</i>.
+
+Each member is a single item of information. The data record is
+
+a group of members that relates to a single topic. In this case,
+
+that topic is a customer address. And, a <i>database</i> is one
+
+or more data records.
+
+<p>
+
+Each member is accessed in the record by using its name as the
+
+key. For example, you can access the state member by saying <tt>$record{&quot;State&quot;}</tt>.
+
+In a similar manner, all of the members can be accessed.
+
+<p>
+
+Of course, a database with only one record is not very useful.
+
+By using refereNCes, you can build a multiple record array. Listing
+
+8.4 shows two records and how to initialize a database array.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Declare a data record called </i><tt><i>%recordOne</i></tt><i>
+
+as an associative array.<br>
+
+Declare a data record called </i><tt><i>%recordTwo</i></tt><i>
+
+as an associative array.<br>
+
+Declare an array called </i><tt><i>@database</i></tt><i>
+
+with refereNCes to the associative arrays as elements.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 8.4&nbsp;&nbsp;08LST04.PL-A Database with Two Records
+
+<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+%recordOne = ( &quot;Name&quot;    =&gt; &quot;Jane Hathaway&quot;,
+
+               &quot;Address&quot; =&gt; &quot;123 Anylane Rd.&quot;,
+
+               &quot;Town&quot;    =&gt; &quot;AnyTown&quot;,
+
+               &quot;State&quot;   =&gt; &quot;AnyState&quot;,
+
+               &quot;Zip&quot;     =&gt; &quot;12345-1234&quot;
+
+);
+
+
+
+%recordTwo = ( &quot;Name&quot;    =&gt; &quot;Kevin Hughes&quot;,
+
+               &quot;Address&quot; =&gt; &quot;123 Allways Dr.&quot;,
+
+               &quot;Town&quot;    =&gt; &quot;AnyTown&quot;,
+
+               &quot;State&quot;   =&gt; &quot;AnyState&quot;,
+
+               &quot;Zip&quot;     =&gt; &quot;12345-1234&quot;
+
+);
+
+
+
+@database = ( \%recordOne, \%recordTwo );
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+You can print the address member of the first record like this:
+
+<blockquote>
+
+<pre>
+
+print( %{$database[0]}-&gt;{&quot;Address&quot;} . &quot;\n&quot;);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+which displays:
+
+<blockquote>
+
+<pre>
+
+123 Anylane Rd.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Let's dissect the derefereNCing expression in this print statement.
+
+Remember to work left to right and always evaluate brackets and
+
+parentheses first. Ignoring the <tt>print()</tt>
+
+fuNCtion and the newline, you can evaluate this line of code in
+
+the following way:
+
+<ul>
+
+<li>The inner most bracket is <tt>[0],</tt>
+
+which means that we'll be looking at the first element of an array.
+
+<li>The square bracket operators have a left to right associativity,
+
+so we look left for the name of the array. The name of the array
+
+is database.
+
+<li>Next come the curly brackets, which tell Perl to derefereNCe.
+
+Curly brackets also have a left to right associativity, so we
+
+look left to see the refereNCe type. In this case we see a <tt>%</tt>,
+
+which means an associative array.
+
+<li>The -&gt; is the infix derefereNCe operator. It tells Perl
+
+that the thing being derefereNCed on the left (the database refereNCe
+
+in this case) is connected to something on the right.
+
+<li>The 'thing' on the right is the key value or &quot;Address.&quot;
+
+Notice that it is inside curly braces exactly as if a regular
+
+hash key were being used.
+
+</ul>
+
+<p>
+
+The variable declaration in the above example uses three variables
+
+to define the data's structure. We can condense the declaration
+
+down to one variable as shown in Listing 8.5.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Declare an array called </i><tt><i>@database</i></tt><i>
+
+with two associative arrays as elements. Because the associative
+
+arrays are not being assigned directly to a variable, they are
+
+considered anonymous.<br>
+
+Print the value associated with the &quot;Name&quot; key for the
+
+first element of the </i><tt><i>@database</i></tt><i>
+
+array.<br>
+
+Print the value associated with the &quot;Name&quot; key for the
+
+second element of the </i><tt><i>@database</i></tt><i>
+
+array.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 8.5&nbsp;&nbsp;08LST05.PL-Declaring the Database Structure
+
+in One Shot <br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+@database = (<i> </i>   
+
+    { &quot;Name&quot;    =&gt; &quot;Jane Hathaway&quot;,
+
+      &quot;Address&quot; =&gt; &quot;123 Anylane Rd.&quot;,
+
+      &quot;Town&quot;    =&gt; &quot;AnyTown&quot;,
+
+      &quot;State&quot;   =&gt; &quot;AnyState&quot;,
+
+      &quot;Zip&quot;     =&gt; &quot;12345-1234&quot;
+
+    },
+
+    { &quot;Name&quot;    =&gt; &quot;Kevin Hughes&quot;,
+
+      &quot;Address&quot; =&gt; &quot;123 Allways Dr.&quot;,
+
+      &quot;Town&quot;    =&gt; &quot;AnyTown&quot;,
+
+      &quot;State&quot;   =&gt; &quot;AnyState&quot;,
+
+      &quot;Zip&quot;     =&gt; &quot;12345-1234&quot;
+
+    }
+
+);
+
+
+
+print(%{$database[0]}-&gt;{&quot;Name&quot;} . &quot;\n&quot;);
+
+print(%{$database[1]}-&gt;{&quot;Name&quot;} . &quot;\n&quot;);
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+Jane Hathaway
+
+Kevin Hughes
+
+</pre>
+
+</blockquote>
+
+<blockquote>
+
+Let's analyze the derefereNCing code in the first print line.
+
+</blockquote>
+
+<ul>
+
+<li>The innermost bracket is [0], which means that we'll be looking
+
+at the first element of an array.
+
+<li>The square bracket operators have a left to right associativity,
+
+so we look left for the name of the array. The name of the array
+
+is <tt>database</tt>.
+
+<li>Next comes the curly brackets, which tell Perl to derefereNCe.
+
+Curly brackets also have a left to right associativity, so we
+
+look left to see the refereNCe type. In this case we see a <tt>%,</tt>
+
+which means an associative array.
+
+<li>The -&gt; is the infix derefereNCe operator. It tells Perl
+
+that the thing being derefereNCed on the left (the <tt>database</tt>
+
+refereNCe in this case) is connected to something on the right.
+
+<li>The 'thing' on the right is the key value or &quot;Name.&quot;
+
+Notice that it is inside curly braces exactly as if a regular
+
+hash key were being used.
+
+</ul>
+
+<p>
+
+Even though the structure declarations in the last two examples
+
+look different, they are equivalent. You can confirm this because
+
+the structures are derefereNCed the same way. What's happening
+
+here? Perl is creating <i>anonymous </i>associative array refereNCes
+
+that become elements of the <tt>@database</tt>
+
+array.
+
+<p>
+
+In the previous example, each hash had a name-<tt>%recordOne</tt>
+
+and <tt>%recordTwo</tt>. In the current
+
+example, there is no variable name directly associated with the
+
+hashes. If you use an anonymous variable in your programs, Perl
+
+automatically will provide a refereNCe to it.
+
+<p>
+
+We can explore the coNCepts of data records a bit further using
+
+this basic example. So far, we've used hash refereNCes as elements
+
+of an array. When one data type is stored inside of another data
+
+type, this is called <i>nesting </i>data types. You can nest data
+
+types as often and as deeply as you would like.
+
+<p>
+
+At this stage of the example, <tt>%{$database[0]}-&gt;{&quot;Name&quot;}</tt>
+
+was used to derefereNCe the &quot;Name&quot; member of the first
+
+record. This type of derefereNCing uses an array subscript to
+
+tell Perl which record to look at. However, you could use an associative
+
+array to hold the records. With an associative array, you could
+
+look at the records using a customer number or other id value.
+
+Listing 8.6 shows how this can be done.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Declare a hash called %</i><tt><i>database</i></tt><i>
+
+with two keys, MRD-100 and MRD-250. Each key has a refereNCe to
+
+an anonymous hash as its value.<br>
+
+Find the refereNCe to the hash associated with the key &quot;MRD-100.&quot;
+
+Then print the value associated with the key &quot;Name&quot;
+
+inside the first hash.<br>
+
+Find the refereNCe to the hash associated with the key &quot;MRD-250.&quot;
+
+Then print the value associated with the key &quot;Name&quot;
+
+inside the first hash.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 8.6&nbsp;&nbsp;08LST06.PL-Using an Associative Array
+
+to Hold the Records<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+ %database = (
+
+    &quot;MRD-100&quot; =&gt; { &quot;Name&quot;    =&gt; &quot;Jane Hathaway&quot;,
+
+                   &quot;Address&quot; =&gt; &quot;123 Anylane Rd.&quot;,
+
+                   &quot;Town&quot;    =&gt; &quot;AnyTown&quot;,
+
+                   &quot;State&quot;   =&gt; &quot;AnyState&quot;,
+
+                   &quot;Zip&quot;     =&gt; &quot;12345-1234&quot;
+
+                 },
+
+    &quot;MRD-250&quot; =&gt; { &quot;Name&quot;    =&gt; &quot;Kevin Hughes&quot;,
+
+                   &quot;Address&quot; =&gt; &quot;123 Allways Dr.&quot;,
+
+                   &quot;Town&quot;    =&gt; &quot;AnyTown&quot;,
+
+                   &quot;State&quot;   =&gt; &quot;AnyState&quot;,
+
+                   &quot;Zip&quot;     =&gt; &quot;12345-1234&quot;
+
+                 }
+
+);
+
+
+
+print(%{$database{&quot;MRD-100&quot;}}-&gt;{&quot;Name&quot;} . &quot;\n&quot;);
+
+print(%{$database{&quot;MRD-250&quot;}}-&gt;{&quot;Name&quot;} . &quot;\n&quot;);
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+Jane Hathaway
+
+Kevin Hughes
+
+</pre>
+
+</blockquote>
+
+<p>
+
+You should be able to follow the same steps that we used previously
+
+to decipher the print statement in this listing. The key is that
+
+the associative array index is surrounded by the curly brackets
+
+instead of the square brackets used previously.
+
+<p>
+
+There is one more twist that I would like to show you using this
+
+data structure. Let's see how to dynamically add information.
+
+First, we'll look at adding an entire data record, and then we'll
+
+look at adding new members to an existing data record. Listing
+
+8.7 shows you can use a standard hash assignment to dynamically
+
+create a data record.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Assign a refereNCe to a hash to the &quot;MRD-300&quot; key
+
+in the </i><tt><i>%database </i></tt><i>associative
+
+array.<br>
+
+Assign the refereNCe to the hash associated with the key &quot;MRD-300&quot;
+
+to the </i><tt><i>$refCustomer</i></tt><i>
+
+variable.<br>
+
+Print the value associated with the key &quot;Name&quot; inside
+
+hash refereNCed by </i><tt><i>$refCustomer</i></tt><i>.
+
+<br>
+
+Print the value associated with the key &quot;Address&quot; inside
+
+hash refereNCed by </i><tt><i>$refCustomer</i></tt><i>.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 8.7&nbsp;&nbsp;08LST07.PL-Creating a Record Using Hash
+
+Assignment<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+$database{&quot;MRD-300&quot;} = {
+
+    &quot;Name&quot;    =&gt; &quot;Nathan Hale&quot;,
+
+    &quot;Address&quot; =&gt; &quot;999 Centennial Ave.&quot;,
+
+    &quot;Town&quot;    =&gt; &quot;AnyTown&quot;,
+
+    &quot;State&quot;   =&gt; &quot;AnyState&quot;,
+
+    &quot;Zip&quot;     =&gt; &quot;12345-1234&quot;
+
+};
+
+
+
+$refCustomer = $database{&quot;MRD-300&quot;};
+
+print(%{$refCustomer}-&gt;{&quot;Name&quot;} . &quot;\n&quot;);
+
+print(%{$refCustomer}-&gt;{&quot;Address&quot;} . &quot;\n&quot;);
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+Nathan Hale
+
+999 Centennial Ave.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Notice that by using a temporary variable (<tt>$refCustomer</tt>),
+
+the program code is more readable. The alternative would be this:
+
+<blockquote>
+
+<pre>
+
+print(%{$database{&quot;MRD-300&quot;}}-&gt;{&quot;Name&quot;} . &quot;\n&quot;);
+
+</pre>
+
+</blockquote>
+
+<p>
+
+Most programmers would agree that using the temporary variable
+
+aids in the understanding of the program.
+
+<p>
+
+Our last data structure example will show how to add members to
+
+an existing customer record. Listing 8.8 shows how to add two
+
+phone number members to customer record MRD-300.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Assign a refereNCe to an anonymous fuNCtion to </i><tt><i>$codeRef</i></tt><i>.
+
+This fuNCtion will print the elements of the </i><tt><i>%database</i></tt><i>
+
+hash. Because each value in the </i><tt><i>%database</i></tt><i>
+
+hash is a refereNCe to another hash, the fuNCtion has an inner
+
+loop to derefereNCe the sub-hash.<br>
+
+Assign a refereNCe to a hash to the &quot;MRD-300&quot; key in
+
+the </i><tt><i>%database </i></tt><i>associative
+
+array.<br>
+
+Call the anonymous routine by derefereNCing </i><tt><i>$codeRef
+
+to print the contents of %database</i></tt><i>. This is
+
+done by surrounding the code refereNCe variable with curly braces
+
+and prefixing it with a </i><tt><i>&amp;</i></tt><i>
+
+to indicate that it should be derefereNCed as a fuNCtion.<br>
+
+Assign the refereNCe to the hash associated with the key &quot;MRD-300&quot;
+
+to the </i><tt><i>$refCustomer</i></tt><i>
+
+variable.<br>
+
+Add &quot;Home Phone&quot; as a key to the hash associated with
+
+the &quot;MRD-300&quot; key.<br>
+
+Add &quot;Business Phone&quot; as a key to the hash associated
+
+with the &quot;MRD-300&quot; key.<br>
+
+Call the anonymous routine by derefereNCing </i><tt><i>$codeRef
+
+to print the contents of %database</i></tt><i>.</i>
+
+</blockquote>
+
+<hr>
+
+<blockquote>
+
+<b>Listing 8.8&nbsp;&nbsp;08LST08.PL-How to Dynamically Add Members
+
+to a Data Structure<br>
+
+</b>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+$codeRef = sub {
+
+    while (($key, $value) = each(%database)) {
+
+        print(&quot;$key = {\n&quot;);
+
+        while (($innerKey, $innerValue) = each(%{$value})) {
+
+            print(&quot;\t$innerKey =&gt; $innerValue\n&quot;);
+
+        }
+
+        print(&quot;};\n\n&quot;);
+
+    }
+
+};
+
+
+
+$database{&quot;MRD-300&quot;} = {
+
+    &quot;Name&quot;    =&gt; &quot;Nathan Hale&quot;,
+
+    &quot;Address&quot; =&gt; &quot;999 Centennial Ave.&quot;,
+
+    &quot;Town&quot;    =&gt; &quot;AnyTown&quot;,
+
+    &quot;State&quot;   =&gt; &quot;AnyState&quot;,
+
+    &quot;Zip&quot;     =&gt; &quot;12345-1234&quot;
+
+};
+
+
+
+# print database before dynamic changes.
+
+&amp;{$codeRef};
+
+
+
+$refCustomer = $database{&quot;MRD-300&quot;};
+
+%{$refCustomer}-&gt;{&quot;Home Phone&quot;}     = &quot;(111) 511-1322&quot;;
+
+%{$refCustomer}-&gt;{&quot;Business Phone&quot;} = &quot;(111) 513-4556&quot;;
+
+
+
+# print database after dynamic changes.
+
+&amp;{$codeRef};
+
+</pre>
+
+</blockquote>
+
+<hr>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+MRD-300 = {
+
+        Town =&gt; AnyTown
+
+        State =&gt; AnyState
+
+        Name =&gt; Nathan Hale
+
+        Zip =&gt; 12345-1234
+
+        Address =&gt; 999 Centennial Ave.
+
+};
+
+
+
+MRD-300 = {
+
+        Town =&gt; AnyTown
+
+        State =&gt; AnyState
+
+        Name =&gt; Nathan Hale
+
+        Home Phone =&gt; (111) 511-1322
+
+        Zip =&gt; 12345-1234
+
+        Business Phone =&gt; (111) 513-4556
+
+        Address =&gt; 999 Centennial Ave.
+
+};
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This example does two new things. The first thing is that it uses
+
+an anonymous fuNCtion refereNCed by <tt>$codeRef</tt>.
+
+This is done for illustration purposes. There is no reason to
+
+use an anonymous fuNCtion. There are actually good reasons for
+
+you not to do so in normal programs. I think that anonymous fuNCtions
+
+make programs much harder to understand.<br>
+
+<p>
+
+<center>
+
+<table BORDERCOLOR="#000000" BORDER="1" WIDTH="80%">
+
+<tr><td><b>Note</b></td></tr>
+
+<tr><td>
+
+<blockquote>
+
+When helper fuNCtions are small and easily understood, I like to place them at the beginning of code files. This helps me to quickly refresh my memory when coming back to view program code after time spent doing other things.</blockquote>
+
+
+
+</td></tr>
+
+</table>
+
+</center>
+
+<p>
+
+<p>
+
+The second thing is that a regular hash assignment statement was
+
+used to add values. You can use any of the array fuNCtions with
+
+these nested data structures.
+
+<h3><a NAME="ExampleInterpolatingFuNCtionsInsideDoubleQuotedStrings">
+
+Example: Interpolating FuNCtions Inside Double-Quoted Strings
+
+</a></h3>
+
+<p>
+
+You can use refereNCes to force Perl to interpolate the return
+
+value of a fuNCtion call inside double-quoted strings. This helps
+
+to reduce the number of temporary variables needed by your program.
+
+<p>
+
+<img SRC="pseudo.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pseudo.gif" BORDER="1" ALIGN="RIGHT" WIDTH="31" HEIGHT="34"><p>
+
+<blockquote>
+
+<i>Call the </i><tt><i>makeLine()</i></tt><i>
+
+fuNCtion from inside a double-quoted string.<br>
+
+Define the </i><tt><i>makeLine()</i></tt><i>
+
+fuNCtion.<br>
+
+Return the dash character repeated a specified number of times.
+
+The first element in the parameter array is the number of times
+
+to repeat the dash.</i>
+
+</blockquote>
+
+<blockquote>
+
+<pre>
+
+print(&quot;Here are  5 dashes ${\makeLine(5)}.\n&quot;);
+
+print(&quot;Here are 10 dashes ${\makeLine(10)}.\n&quot;);
+
+
+
+sub makeLine {
+
+    return(&quot;-&quot; x $_[0]);
+
+}
+
+</pre>
+
+</blockquote>
+
+<p>
+
+This program displays:
+
+<blockquote>
+
+<pre>
+
+Here are  5 dashes -----.
+
+Here are 10 dashes ----------.
+
+</pre>
+
+</blockquote>
+
+<p>
+
+The trick in this example is that the backslash turns the scalar
+
+return value into a refereNCe, and then the dollar sign and curly
+
+braces turn the refereNCe back into a scalar value that the <tt>print()</tt>
+
+fuNCtion can interpret correctly. If the backslash character is
+
+not used to create the refereNCe to the scalar return value, then
+
+the <tt>${}</tt> derefereNCing operation
+
+does not have a refereNCe to derefereNCe, and you will get an
+
+&quot;initialized value&quot; error.
+
+<h2><a NAME="Summary"><font SIZE="5" COLOR="#FF0000">
+
+Summary</font></a></h2>
+
+<p>
+
+In this chapter you learned about refereNCes. RefereNCes are scalar
+
+variables used to hold the memory locations. When refereNCes are
+
+derefereNCed, the actual value is returned. For example, if the
+
+value of the refereNCe is assigned like this: <tt>$refScalar
+
+= \10</tt>, then, derefereNCing <tt>$refScalar</tt>
+
+would be equal to 10 and would look like this <tt>${$refScalar}</tt>.
+
+You always can create a refereNCe to a value or variable by preceding
+
+it with a backslash. DerefereNCing is accomplished by surrounding
+
+the refereNCe variable in curly braces and preceding the left
+
+curly brace with a character denoting what type of refereNCe it
+
+is. For example, use <tt>@</tt> for
+
+arrays and <tt>&amp;</tt> for fuNCtions.
+
+<p>
+
+There are five types of refereNCes that you can use in Perl. You
+
+can have a refereNCe to scalars, arrays, hashes, fuNCtions, and
+
+other refereNCes. If you need to determine what type of refereNCe
+
+is passed to a fuNCtion, use the <tt>ref()</tt>
+
+fuNCtion.
+
+<p>
+
+The <tt>ref()</tt> fuNCtion returns
+
+a string that indicates which type of refereNCe was passed to
+
+it. If the parameter was not a refereNCe, the undefined value
+
+is returned. You discovered that it is always a good idea to check
+
+refereNCe types to prevent errors caused by passing the wrong
+
+type of refereNCe. An example was given that caused an error by
+
+passing a scalar refereNCe when the fuNCtion expected an array
+
+refereNCe.
+
+<p>
+
+A lot of time was spent discussing data records and how to access
+
+information stored in them. You learned how to step through dissecting
+
+a derefereNCing expression, how to dynamically add new data records
+
+to an associative array, and how to add new data members to an
+
+existing record.
+
+<p>
+
+The last thing covered in this chapter was how to interpolate
+
+fuNCtion calls inside double-quoted strings. You'll use this technique-at
+
+times-to avoid using temporary variables when printing or coNCatenating
+
+the output of fuNCtions to other strings.
+
+<p>
+
+<a HREF="ch9.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm">Chapter 9</a> &quot;Using Files,&quot; introduces you to opening,
+
+reading, and writing files. You find out how to store the data
+
+records you've constructed in this chapter to a file for long-term
+
+storage.
+
+<h2><a NAME="ReviewQuestions"><font SIZE="5" COLOR="#FF0000">
+
+Review Questions</font></a></h2>
+
+<p>
+
+Answers to Review Questions are in Appendix A.
+
+<ol>
+
+<li>What is a refereNCe?
+
+<li>How many types of refereNCes are there?
+
+<li>What does the <tt>ref()</tt> fuNCtion
+
+return if passed a non-refereNCe as a parameter?
+
+<li>What notation is used to derefereNCe a refereNCe value?
+
+<li>What is an anonymous array?
+
+<li>What is a nested data structure?
+
+<li>What will the following line of code display?<br>
+
+<br>
+
+<tt>print(&quot;${\ref(\(1..5))}&quot;);</tt>
+
+<li>Using the <tt>%database</tt> array
+
+in Listing 8.6, what will the following line of code display?
+
+<br>
+
+<br>
+
+<tt>print(%{$database{&quot;MRD-100&quot;}}-&gt;{&quot;Zip&quot;}
+
+. &quot;\n&quot;);</tt>
+
+</ol>
+
+<h2><a NAME="ReviewExercises"><font SIZE="5" COLOR="#FF0000">
+
+Review Exercises</font></a></h2>
+
+<ol>
+
+<li>Write a program that will print the derefereNCed value of
+
+<tt>$ref</tt> in the following line
+
+of code:<br>
+
+<br>
+
+<tt>$ref = \\\45;</tt>
+
+<li>Write a fuNCtion that removes the first element from each
+
+array passed to it. The return value of the fuNCtion should be
+
+the number of elements removed from all arrays.
+
+<li>Add error-checking to the fuNCtion written in Exercise 3 so
+
+the <tt>undef</tt> value is returned
+
+if one of the parameters is not an array.
+
+<li>Write a program based on Listing 8.7 that adds a data member
+
+indicating which weekdays a salesman may call the customer with
+
+an id of MRD-300. Use the following as an example:<br>
+
+<br>
+
+<tt> &quot;Best days to call&quot; =&gt;
+
+[&quot;Monday&quot;, &quot;Thursday&quot; ]</tt>
+
+</ol>
+
+<hr>
+
+
+
+<center><p><a HREF="ch7.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm"><img SRC="pc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/pc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="#CONTENTS"><img SRC="cc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/cc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="index-1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/index-1.htm"><img SRC="hb.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/hb.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<a HREF="ch9.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm"><img SRC="nc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/nc.gif" BORDER="0" HEIGHT="88" WIDTH="140"></a>
+
+<hr WIDTH="100%"></p></center>
+
+</body>
+
+</html>
+

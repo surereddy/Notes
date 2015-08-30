@@ -1,0 +1,1 @@
+document.write("<a href='http://www.xxlinux.com/linux/e/public/ClickAd?adid=17' target=_blank title='大学开源用户支持计划'><strong><font color=\'#FF0000\'>大学开源爱好者奖学金支持计划!</font></strong></a>")

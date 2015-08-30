@@ -1,0 +1,244 @@
+||- Disk Clone
+Supposed: clone new disk c1t2d0 from original c1t0d0 for OSP23
+******************
+Notes:
+  - For OSP24, /dev/dsk/c*t0d0s3 needs to be clone too, mounted in /var.
+  - !!!Use format to check the id of disk newfs cmd and clone after booting from cdrom, after when
+    the id of disk may be changed. 
+******************
+-| partion new disk with the same partiton as c1t0d0
+  ;size of the partition is not required the same, 
+   but must larger than the size of the content in the same partition of c1t0d0.
+  - format
+    -p->p->0->1->2->...
+    -lable
+    -q
+-| new file system
+  for all needed disks:
+  format ;check id
+  newfs /dev/rdsk/c1t2d0s0
+  newfs /dev/rdsk/c1t2d0s4
+  newfs /dev/rdsk/c1t2d0s5
+  newfs /dev/rdsk/c1t2d0s6
+
+-| boot from cdrom
+  init 0
+  boot cdrom -s
+-| clone disk with dump and restore cmd
+  - check the label id of disks, it may differs from what it is when booting from hard disk.
+    #format
+
+  c1t0d0s0:
+  ---------------------------------------
+  cd
+  mkdir /tmp/root/abc
+  mount /dev/dsk/c1t0d0s0 /tmp/root/abc
+  mount /dev/dsk/c1t2d0s0 /mnt
+  df -k ;check mount
+  cd /tmp/root/abc
+  ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+	cd
+	umount /mnt
+	umount /tmp/root/abc
+
+  c1t0d0s4(Only for OSP24):
+  ---------------------------------------
+  mount /dev/dsk/c1t0d0s3 /tmp/root/abc
+  mount /dev/dsk/c1t2d0s3 /mnt
+  df -k ;check mount
+  cd /tmp/root/abc
+  ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+	cd
+	umount /mnt
+	umount /tmp/root/abc
+	
+  c1t0d0s4:
+  ---------------------------------------
+  mount /dev/dsk/c1t0d0s4 /tmp/root/abc
+  mount /dev/dsk/c1t2d0s4 /mnt
+  df -k ;check mount
+  cd /tmp/root/abc
+  ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+	cd
+	umount /mnt
+	umount /tmp/root/abc
+
+  c1t0d0s5:
+  ---------------------------------------
+  mount /dev/dsk/c1t0d0s5 /tmp/root/abc
+  mount /dev/dsk/c1t2d0s5 /mnt
+  df -k ;check mount
+  cd /tmp/root/abc
+  ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+	cd
+	umount /mnt
+	umount /tmp/root/abc
+
+  c1t0d0s6:
+  ---------------------------------------
+  mount /dev/dsk/c1t0d0s6 /tmp/root/abc
+  mount /dev/dsk/c1t2d0s6 /mnt
+  df -k ;check mount
+  cd /tmp/root/abc
+  ufsdump 0uf - . | (cd /mnt ; ufsrestore xf - )
+  >set owner/mode for '.'? [yn] y
+  >Directories already exist, set modes anyway? [yn] y
+	ls /tmp/root/abc;echo "-----------\n";ls /mnt  ;check file system
+	cd
+	umount /mnt
+	umount /tmp/root/abc
+	---------------------------------------
+
+-| modify config files
+;No need to use console line and cdrom
+# installboot /usr/platform/sun4u/lib/fs/ufs/bootblk /dev/rdsk/c1t2d0s0
+# mount /dev/dsk/c1t2d0s0 /mnt
+# df -k|grep /mnt
+# TERM=vt100;export TERM
+# cd /mnt/etc/lvm ; ls
+devpath     md.cf       md.tab      mdlogd.cf
+lock        md.ctlrmap  mddb.cf     runtime.cf
+
+;Modify vfstab and system if the original disk is a mirrored one, while you use only one disk without disk mirror in
+;the new platform.
+;Remove the mirror disk info, otherwise system can't start up withe error like "can't load root at /pseudo/md@0:0,10,blk".
+;But sometimes it works even you don't modify these two files, like original CMM SLEE1 in Japan Willcom project.
+;It has mirror configuration but can works with only one disk. If you type metastat, it will say disk1 ok, disk2 need maintenance.
+# vi /mnt/etc/vfstab ;
+see vfstab example file the same folder.
+    mirrored disk(OSP23):
+    ---------------------------
+    #device         device          mount           FS      fsck    mount   mount
+    #to mount       to fsck         point           type    pass    at boot options
+    #
+    #/dev/dsk/c1d0s2 /dev/rdsk/c1d0s2 /usr          ufs     1       yes     -
+    fd      -       /dev/fd fd      -       no      -
+    /proc   -       /proc   proc    -       no      -
+    /dev/md/dsk/d20 -       -       swap    -       no      -
+    /dev/md/dsk/d10 /dev/md/rdsk/d10        /       ufs     1       no      -
+    /dev/md/dsk/d50 /dev/md/rdsk/d50        /in     ufs     2       yes     -
+    /dev/md/dsk/d30 /dev/md/rdsk/d30        /in/oracle      ufs     2       yes     -
+    /dev/md/dsk/d40 /dev/md/rdsk/d40        /indelivery     ufs     2       yes     -
+    swap    -       /tmp    tmpfs   -       yes     -
+    
+    
+    one disk(OSP23):
+    ---------------------------
+    #device         device          mount           FS      fsck    mount   mount
+    #to mount       to fsck         point           type    pass    at boot options
+    #
+    #/dev/dsk/c1d0s2 /dev/rdsk/c1d0s2 /usr          ufs     1       yes     -
+    fd      -       /dev/fd fd      -       no      -
+    /proc   -       /proc   proc    -       no      -
+    /dev/dsk/c1t0d0s1       -       -       swap    -       no      -
+    /dev/dsk/c1t0d0s0       /dev/rdsk/c1t0d0s0      /       ufs     1       no      
+    -
+    /dev/dsk/c1t0d0s6       /dev/rdsk/c1t0d0s6      /in     ufs     2       yes     
+    -
+    /dev/dsk/c1t0d0s4       /dev/rdsk/c1t0d0s4      /in/oracle      ufs     2       
+    yes     -
+    /dev/dsk/c1t0d0s5       /dev/rdsk/c1t0d0s5      /indelivery     ufs     2       
+    yes     -
+    swap    -       /tmp    tmpfs   -       yes     -
+    -------------
+    
+# vi /mnt/etc/system ;don't modify if you use the same server and same number of disks(hardware).
+see system example file the same folder.
+
+    mirrored disk(OSP23)
+    -------------------
+    * set:
+    *
+    *       Set an integer variable in the kernel or a module to a new value.
+    *       This facility should be used with caution.  See system(4).
+    * ...
+    *
+    *               set test_module:debug = 0x13
+    
+    * Begin MDD root info (do not edit)
+    forceload: misc/md_trans
+    forceload: misc/md_raid
+    forceload: misc/md_hotspares
+    forceload: misc/md_sp
+    forceload: misc/md_stripe
+    forceload: misc/md_mirror
+    forceload: drv/pcisch
+    forceload: drv/glm
+    forceload: drv/sd
+    rootdev:/pseudo/md@0:0,10,blk
+    * End MDD root info (do not edit)
+    * Begin MDD database info (do not edit)
+    set md:mddb_bootlist1="sd:7:16 sd:7:1050 sd:7:2084 sd:15:16 sd:15:1050"
+    set md:mddb_bootlist2="sd:15:2084"
+    * End MDD database info (do not edit)
+    # Modifications below this line done during C2O solaris install
+    set shmsys:shminfo_shmmax=2147483648
+    set shmsys:shminfo_shmmin=1
+    set shmsys:shminfo_shmmni=1024
+    set shmsys:shminfo_shmseg=256
+    set semsys:seminfo_semmnu=100
+    set semsys:seminfo_semmni=512
+    set semsys:seminfo_semmsl=510
+    set semsys:seminfo_semmns=20700
+    set semsys:seminfo_semopm=100
+    set semsys:seminfo_semvmx=32767
+    set rlim_fd_cur=1024
+    set rlim_fd_max=1024
+    set nopanicdebug=1
+    forceload: misc/obpsym
+    # Modification Ended
+    -------------
+    
+    one disk(OSP23):
+    remove mdd and all forceload info(including the last one in the bottom).
+    -------------------
+    * set:
+    *               set test_module:debug = 0x13
+    
+    * Begin MDD root info (do not edit)
+    *forceload: misc/md_trans
+    *forceload: misc/md_raid
+    *forceload: misc/md_hotspares
+    *forceload: misc/md_sp
+    *forceload: misc/md_stripe
+    *forceload: misc/md_mirror
+    *forceload: drv/pcisch
+    *forceload: drv/glm
+    *forceload: drv/sd
+    *rootdev:/pseudo/md@0:0,10,blk
+    * End MDD root info (do not edit)
+    * Begin MDD database info (do not edit)
+    *set md:mddb_bootlist1="sd:7:16 sd:7:1050 sd:7:2084 sd:15:16 sd:15:1050"
+    *set md:mddb_bootlist2="sd:15:2084"
+    * End MDD database info (do not edit)
+    *Modifications below this line done during C2O solaris install
+    set shmsys:shminfo_shmmax=2147483648
+    set shmsys:shminfo_shmmin=1
+    set shmsys:shminfo_shmmni=1024
+    set shmsys:shminfo_shmseg=256
+    set semsys:seminfo_semmnu=100
+    set semsys:seminfo_semmni=512
+    set semsys:seminfo_semmsl=510
+    set semsys:seminfo_semmns=20700
+    set semsys:seminfo_semopm=100
+    set semsys:seminfo_semvmx=32767
+    set rlim_fd_cur=1024
+    set rlim_fd_max=1024
+    set nopanicdebug=1
+    *forceload: misc/obpsym
+    *Modification Ended
+    ------------
+
+#cd umount /mnt

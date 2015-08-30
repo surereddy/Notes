@@ -1,0 +1,22 @@
+|- FAQ
+||- How to export cap file as txt
+File -> export -> txt file.
+Note, you must what to save in the right side, as display or expand all, in the popup save window.
+
+||- filter
+eth.addr==00:30:04:09:94:2b
+((ip.addr == 192.168.50.51 and tcp.len!=0) or sip or (tcp.port==8082 and tcp.len!=0 ) )  
+
+http.request contains smp
+
+
+SIP:
+=========
+sip.resend == 1
+sip.Request-Line == "INFO sip:mieye@192.168.50.244 SIP/2.0"
+sip.Status-Line == "SIP/2.0 200 OK"
+
+http:
+=========
+http.request == 1
+http.response == 1

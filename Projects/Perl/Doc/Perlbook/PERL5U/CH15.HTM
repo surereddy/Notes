@@ -1,0 +1,1755 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 15 -- Direct Access to System Facilities</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 15</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Direct Access to System Facilities</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#Introduction" >Introduction</A>
+<LI><A HREF="#WorkingwithUNIXUsersandGroups" >Working with UNIX Users and Groups</A>
+<UL>
+<LI><A HREF="#Informationfrometcpasswdwithgetpwe" >Information from /etc/passwd with getpwent()</A>
+<LI><A HREF="#GettingGroupRelatedInformationwithg" >Getting Group-Related Information with getgrent() and getgrnam()</A>
+</UL>
+<LI><A HREF="#GettingInformationinNetworkFiles" >Getting Information in Network Files</A>
+<UL>
+<LI><A HREF="#ThegetnetentFunction" >The getnetent Function</A>
+<LI><A HREF="#WorkingwithHostNamesUsinggethostbya" >Working with Host Names Using gethostbyaddr() Functions</A>
+<LI><A HREF="#WorkingwithProcessGroupsUsingthege" >Working with Process Groups Using the getpgrp() Function</A>
+</UL>
+<LI><A HREF="#GettingandChangingthePriorityofaP" >Getting and Changing the Priority of a Process</A>
+<UL>
+<LI><A HREF="#ThesetpriorityFunction" >The setpriority Function</A>
+<LI><A HREF="#ThegetpriorityFunction" >The getpriority Function</A>
+<LI><A HREF="#WorkingwithProtocolFilesUsingthege" >Working with Protocol Files Using the getprotoent() Function</A>
+<LI><A HREF="#ThegetserventFunction" >The getservent Function</A>
+</UL>
+<LI><A HREF="#SystemLevelFunctions" >System-Level Functions</A>
+<UL>
+<LI><A HREF="#ThechrootFunction" >The chroot Function</A>
+<LI><A HREF="#ThedumpFunction" >The dump Function</A>
+<LI><A HREF="#UsingtheioctlFunction" >Using the ioctl Function</A>
+<LI><A HREF="#UsingtheselectCall" >Using the select Call</A>
+<LI><A HREF="#ThesyscallFunction" >The syscall Function</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+Perl can be used to access system facilities not directly available
+in shell or <TT><FONT FACE="Courier">awk</FONT></TT> programs.
+This chapter discusses some of the ways in which Perl programs
+can access system files and resources. The bulk of this chapter
+provides information on accessing data structures within system
+files on a UNIX system. In <A HREF="ch9.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch9.htm" >Chapter 9</A>, &quot;Portability
+Issues with Windows and Perl,&quot; and <A HREF="ch10.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch10.htm" >Chapter 10</A>,
+&quot;Win32 Modules on Windows NT,&quot; I discussed ways of accessing
+files on an NT system when covering portability issues.
+<H2><A NAME="Introduction"><FONT SIZE=5 COLOR=#FF0000>Introduction</FONT></A>
+</H2>
+<P>
+Accessing system facilities enables you to add that extra spice
+to your Perl programs. You have already seen how to call UNIX
+programs with the back quote (<TT><FONT FACE="Courier">`</FONT></TT>)
+operators or the <TT><FONT FACE="Courier">system()</FONT></TT>
+call. Both these mechanisms are costly in terms of using system
+resources because they start a subshell to execute another process.
+Perl offers many utilities to access system files and affects
+process parameters (such as process priorities) without resorting
+to firing up another process to perform a simple command.
+<P>
+Let's start with an example that shows you how to get more information
+about the user running your Perl program. Sometimes it might be
+nice to personalize your Perl scripts by sending messages back
+to the user running your script. It's easy to derive the user
+name from the <TT><FONT FACE="Courier">/etc/passwd</FONT></TT>
+file or from calling the <TT><FONT FACE="Courier">getlogin()</FONT></TT>
+function. Here's the syntax for the <TT><FONT FACE="Courier">getlogin()</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$userName = getlogin();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">$userName</FONT></TT> is the returned
+user ID. For example, you could write a script to get the name
+and print out an appropriate greeting based on the user name:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$logname = getlogin();<BR>
+if ($logname == &quot;khusain&quot;) {<BR>
+</FONT></TT>&nbsp;&nbsp;&nbsp;&nbsp;<TT><FONT FACE="Courier">&nbsp;&nbsp;&nbsp;&nbsp;print
+(&quot;Hello, Kamran! How are you?\n&quot;);<BR>
+} else {<BR>
+if ($logname == &quot;mgr2&quot;) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print (&quot;Oh
+no, it's you again !! !!!! !!\n&quot;);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+I am sure that you can come up with more practical applications
+rather than spewing greetings and salutations based on a user
+name. Practical examples include getting files, mail, and so on
+based on the user name. A number of utilities are available that
+do such things as answer your mail while you're on vacation and
+manage your mail from multiple sources. Check out the archives
+at the various Perl archive sites listed in appendix B, &quot;Perl
+Module Archives,&quot; for these files. Most of these utilities
+are copyrighted by their authors, so they cannot be printed here,
+but you will get a good idea of what they can do.
+<H2><A NAME="WorkingwithUNIXUsersandGroups"><FONT SIZE=5 COLOR=#FF0000>Working
+with UNIX Users and Groups</FONT></A></H2>
+<P>
+Perl is great for working with user and group information files
+in the <TT><FONT FACE="Courier">/etc</FONT></TT> directory. You
+can get user and group names, IDs, and other useful information
+from within your Perl programs to create powerful system administration
+applications.
+<H3><A NAME="Informationfrometcpasswdwithgetpwe">Information from
+<TT><FONT SIZE=4 FACE="Courier">/etc/passwd</FONT></TT><FONT SIZE=4>
+with</FONT><TT><FONT SIZE=4 FACE="Courier"> getpwent()</FONT></TT></A>
+</H3>
+<P>
+The <TT><FONT FACE="Courier">getpwent()</FONT></TT> function enables
+you to access sequentially entries in the <TT><FONT FACE="Courier">/etc/passwd</FONT></TT>
+file. Here's the syntax for the <TT><FONT FACE="Courier">getpwent</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($username,<BR>
+$password,<BR>
+$userid,<BR>
+$groupid,<BR>
+$quota,<BR>
+$comment,<BR>
+$userInfo,<BR>
+$userHome,<BR>
+$loginShell) = getpwent();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here are the returned values from the <TT><FONT FACE="Courier">getpwent</FONT></TT>
+call:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">$username</FONT></TT>
+</TD><TD WIDTH=275>Contains the login name of the user</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">$password</FONT></TT>
+</TD><TD WIDTH=275>Contains the user's encrypted password</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">$userid</FONT></TT>
+</TD><TD WIDTH=275>The user ID</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">$groupid</FONT></TT>
+</TD><TD WIDTH=275>The group ID</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">$quota</FONT></TT>
+</TD><TD WIDTH=275>System dependent and may not exist</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">$comment</FONT></TT>
+</TD><TD WIDTH=275>System dependent and may not exist</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">$userInfo</FONT></TT>
+</TD><TD WIDTH=275>Personal information about the user</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">$userHome</FONT></TT>
+</TD><TD WIDTH=275>The user's home directory</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=129><TT><FONT FACE="Courier">$loginShell</FONT></TT>
+</TD><TD WIDTH=275>The user's startup command shell</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+To access each entry of the password file in turn, you can use
+the <TT><FONT FACE="Courier">getpwent()</FONT></TT> function.
+Calling the <TT><FONT FACE="Courier">getpwent()</FONT></TT> function
+for the first time in a program returns the first item in the
+<TT><FONT FACE="Courier">/etc/passwd</FONT></TT> file. Every subsequent
+call to <TT><FONT FACE="Courier">getpwent()</FONT></TT>returns
+the next entry in the file. The function returns an empty list
+after reaching the last entry in the file. Calling the <TT><FONT FACE="Courier">getpwent()</FONT></TT>
+function after an empty list is received returns the first item
+in <TT><FONT FACE="Courier">/etc/passwd</FONT></TT>, and you can
+start over. The <TT><FONT FACE="Courier">getpwent()</FONT></TT>
+function has two related functions: <TT><FONT FACE="Courier">setpwent()</FONT></TT>
+to rewind the file and <TT><FONT FACE="Courier">endpwent()</FONT></TT>
+to close the <TT><FONT FACE="Courier">/etc/passwd</FONT></TT>
+file. Here's the syntax for the <TT><FONT FACE="Courier">setpwent</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">setpwent (keepopen);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If <TT><FONT FACE="Courier">keepopen</FONT></TT> is non-zero,
+the <TT><FONT FACE="Courier">/etc/passwd</FONT></TT> file is left
+open for reading and any previously cached information about the
+file is kept in memory. If <TT><FONT FACE="Courier">keepopen</FONT></TT>
+is set to zero, any cached information in memory is flushed and
+the file is read again with the first entry available for a call
+to <TT><FONT FACE="Courier">getpwent()</FONT></TT>. The <TT><FONT FACE="Courier">endpwent</FONT></TT>
+function simply closes the <TT><FONT FACE="Courier">/etc/password</FONT></TT>
+file.
+<P>
+Listing 15.1 uses <TT><FONT FACE="Courier">getpwent</FONT></TT>
+to list the user names known by the machine as well as their user
+IDs.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 15.1. Listing password entries.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2<BR>
+&nbsp;3&nbsp;&nbsp;while
+(1) {<BR>
+&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last
+unless (($username, $password, $userid)<BR>
+&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+getpwent());<BR>
+&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$users{$username}
+= $userid;<BR>
+&nbsp;7&nbsp;&nbsp;}<BR>
+&nbsp;8&nbsp;&nbsp;print (&quot;Users on this machine:\n&quot;);
+<BR>
+&nbsp;9<BR>
+10&nbsp;&nbsp;foreach $user (sort keys (%users)) {<BR>
+11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;%-20s %d\n&quot;, $user, $users{$user});<BR>
+12&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">while</FONT></TT> loop in this listing
+calls <TT><FONT FACE="Courier">getpwent()</FONT></TT> to read
+every entry in the <TT><FONT FACE="Courier">/etc/password</FONT></TT>
+file. For this script, we are using only the first three elements
+of the returned list: the users' names, their encrypted passwords,
+and their IDs. The values are stored in the <TT><FONT FACE="Courier">%users</FONT></TT>
+associative array and displayed in the <TT><FONT FACE="Courier">for()</FONT></TT>
+loop. The output should look like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Users on this machine:<BR>
+adm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3
+<BR>
+bin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
+<BR>
+daemon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2
+<BR>
+ftp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;404
+<BR>
+games&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12
+<BR>
+guest&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;405
+<BR>
+halt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7
+<BR>
+khusain&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;501
+<BR>
+lp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4
+<BR>
+mail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8
+<BR>
+man&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13
+<BR>
+news&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9
+<BR>
+nobody&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65535
+<BR>
+operator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11
+<BR>
+postmaster&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14
+<BR>
+ppp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;504
+<BR>
+root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0
+<BR>
+shutdown&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6
+<BR>
+sync&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5
+<BR>
+tparker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;503
+<BR>
+uucp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10
+<BR>
+uzma&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;505
+<BR>
+walter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;502</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Two sister functions exist for getting the same nine-item list
+about a user in the <TT><FONT FACE="Courier">/etc/passwd</FONT></TT>
+file: <TT><FONT FACE="Courier">getpwnam()</FONT></TT> and <TT><FONT FACE="Courier">getpwuid()</FONT></TT>.
+The items in the returned list are in the same type as those returned
+by a call to <TT><FONT FACE="Courier">getpwent()</FONT></TT>.
+The <TT><FONT FACE="Courier">getpwnam()</FONT></TT> function returns
+the list given a user name, whereas the <TT><FONT FACE="Courier">getpwuid()</FONT></TT>
+function returns the list given a user ID.
+<P>
+The <TT><FONT FACE="Courier">getpwnam()</FONT></TT> and <TT><FONT FACE="Courier">getpwuid()</FONT></TT>
+functions have the following syntax:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">(<I>$username, $password, $userid, $groupid,
+<BR>
+$quota, $comment, $userInfo, $userHome, $loginShell</I>)<BR>
+</FONT></TT>&nbsp;&nbsp;&nbsp;&nbsp;<TT><FONT FACE="Courier">=
+getpwnam ($name);<BR>
+<BR>
+<I>($username, $password, $userid, $groupid,<BR>
+$quota, $comment, $userInfo, $userHome, $loginShell)<BR>
+</I></FONT></TT>&nbsp;&nbsp;&nbsp;&nbsp;<TT><FONT FACE="Courier">=
+getpwuid ($id);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+An empty list is returned if no matching entry is found in <TT><FONT FACE="Courier">/etc/passwd</FONT></TT>.
+A common use for <TT><FONT FACE="Courier">getpwnam</FONT></TT>
+is to get a user ID for a user in a Perl script and use that value
+for creating temporary files.
+<H3><A NAME="GettingGroupRelatedInformationwithg">Getting Group-Related
+Information with <TT><FONT SIZE=4 FACE="Courier">getgrent()</FONT></TT><FONT SIZE=4>
+and </FONT><TT><FONT SIZE=4 FACE="Courier">getgrnam()</FONT></TT></A>
+</H3>
+<P>
+The <TT><FONT FACE="Courier">getgrent</FONT></TT> function is
+used to list the contents of an entry in the <TT><FONT FACE="Courier">/etc/group</FONT></TT>
+file. The following information is provided for each entry:
+<UL>
+<LI><FONT COLOR=#000000>The user group name</FONT>
+<LI><FONT COLOR=#000000>The user group password, if any</FONT>
+<LI><FONT COLOR=#000000>The group ID</FONT>
+<LI><FONT COLOR=#000000>A list of the user IDs in this group</FONT>
+</UL>
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">getgrent</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($gname, $gpasswd, $gid, $gmembers) =
+getgrent;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This function returns four items corresponding to the previous
+list. The name, password, and ID fields are all scalar values.
+The value of <TT><FONT FACE="Courier">gmembers</FONT></TT> is
+a list of user IDs separated by spaces.
+<P>
+The <TT><FONT FACE="Courier">setgrent</FONT></TT> function sets
+the pointer in the <TT><FONT FACE="Courier">/etc/group</FONT></TT>
+file back to the top. After <TT><FONT FACE="Courier">setgrent</FONT></TT>
+is called, the next call to <TT><FONT FACE="Courier">getgrent</FONT></TT>
+retrieves the first element of the <TT><FONT FACE="Courier">/etc/group</FONT></TT>
+file. The <TT><FONT FACE="Courier">endgrent</FONT></TT> function
+stops further access to the elements in the <TT><FONT FACE="Courier">/etc/group</FONT></TT>
+file and frees up the memory used to store group information.
+<P>
+Here's the syntax for these functions:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">setgrent();<BR>
+endgrent();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Each call to <TT><FONT FACE="Courier">getgrent</FONT></TT> returns
+one line from the <TT><FONT FACE="Courier">/etc/group</FONT></TT>
+file. A <TT><FONT FACE="Courier">NULL</FONT></TT> value (that
+is, an empty list) is returned when the last item is read. To
+print the contents of the group file, use a <TT><FONT FACE="Courier">while</FONT></TT>
+loop like the one shown in Listing 15.2.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 15.2. Getting group information.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 while (($gname, $gpasswd, $gid, $gmembers)
+= getgrent) {<BR>
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$groupsFound{$gname}
+= $gmembers;<BR>
+3 }<BR>
+4 foreach $i (sort keys (%groupsFound)) {<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp; print &quot;\n User IDs for group:&quot;,
+$groupsFound{$i} ;<BR>
+6 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">getgrnam</FONT></TT> function returns
+an <TT><FONT FACE="Courier">/etc/group</FONT></TT> file entry
+when given a group name. Here's the syntax for the <TT><FONT FACE="Courier">getgrnam</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($gname, $gpasswd, $gid, $gmembers) =
+getgrnam ($name);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The variable <TT><FONT FACE="Courier">$gname</FONT></TT> is the
+group name to search for. The <TT><FONT FACE="Courier">$getgrnam</FONT></TT>
+returns the same four-element list that <TT><FONT FACE="Courier">getgrent</FONT></TT>
+returns. Here is the output:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">adm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4
+<BR>
+bin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1
+<BR>
+daemon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2
+<BR>
+disk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6
+<BR>
+floppy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11
+<BR>
+kmem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9
+<BR>
+lp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7
+<BR>
+mail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12
+<BR>
+man&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15
+<BR>
+mem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8
+<BR>
+news&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13
+<BR>
+nogroup&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65535
+<BR>
+root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0
+<BR>
+sys&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3
+<BR>
+tty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5
+<BR>
+users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100
+<BR>
+uucp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14
+<BR>
+wheel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Here's another sample of how to list users given a group name.
+Listing 15.3 shows a simple script that prints the users in a
+group.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 15.3. A program that uses </B><TT><B><FONT FACE="Courier">getgrnam</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 print (&quot;Please enter name of the group:\n&quot;);
+<BR>
+&nbsp;3 $name = &lt;STDIN&gt;;
+<BR>
+&nbsp;4 chop($name); #<BR>
+&nbsp;5<BR>
+&nbsp;6 if (!(($gname, $gpasswd, $gid, $gmembers) = getgrnam ($name)))
+{<BR>
+&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die
+(&quot;There is no&nbsp;&nbsp;$name group!. \n&quot;);<BR>
+&nbsp;8 }<BR>
+&nbsp;9<BR>
+10 $count = 0;<BR>
+11 while (1) {<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last if
+($gmembers eq &quot;&quot;);<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($uid,
+$gmembers) = split (/\s+/, $gmembers, 2);<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+(&quot;&nbsp;&nbsp;%-15s&quot;, $uid);<BR>
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$count++;
+<BR>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (($count
+% 3) == 0) {<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print (&quot;\n&quot;);<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+19 }<BR>
+20 if ($count % 4) {&nbsp;&nbsp;&nbsp;# finish it off.<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+(&quot;\n&quot;);<BR>
+22 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Lines 16 and 20 print the output four items per line. <TT><FONT FACE="Courier">getgrid()</FONT></TT>
+retrieves the user information as returned by <TT><FONT FACE="Courier">getgrnam()</FONT></TT>,
+except that it retrieves it by group ID. Here's the syntax for
+the <TT><FONT FACE="Courier">getgrid</FONT></TT> function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($gname, $gpasswd, $gid, $gmembers) =
+getgrid ($gid);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Generally, the call is just used to get the group name given a
+group ID:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($gname) = getgrid (3);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Be careful, though, to parenthesize the <TT><FONT FACE="Courier">$gname</FONT></TT>
+variable to indicate that the <TT><FONT FACE="Courier">$gname</FONT></TT>
+variable is an element in a list and not a list itself<FONT SIZE=1>&nbsp;</FONT>!
+If you make the call like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$gname = getgrid (3);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+the value of <TT><FONT FACE="Courier">$gname</FONT></TT> is the
+returned list, not the first element of the array.
+<H2><A NAME="GettingInformationinNetworkFiles"><FONT SIZE=5 COLOR=#FF0000>Getting
+Information in Network Files</FONT></A></H2>
+<P>
+Perl offers several functions to get information about networking
+files and items in the files on your system. By using these functions,
+you can create very powerful networking applications.
+<H3><A NAME="ThegetnetentFunction">The <TT><FONT SIZE=4 FACE="Courier">getnetent</FONT></TT><FONT SIZE=4>
+Function</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">getnetent</FONT></TT> function enables
+you to read entries in the <TT><FONT FACE="Courier">/etc/networks</FONT></TT>
+file for all the names and addresses recognized as valid names
+by the domain name server for your machine. Here's the syntax
+for <TT><FONT FACE="Courier">getnetent()</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($name, $aliases, $addrType, $inet) =
+getnetent();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Four items are returned by this function:
+<UL>
+<LI><FONT COLOR=#000000>The </FONT><TT><FONT FACE="Courier">$name</FONT></TT>
+variable is the name of a network.
+<LI><FONT COLOR=#000000>The </FONT><TT><FONT FACE="Courier">$aliases</FONT></TT>
+variable is a list that contains alternate names for the <TT><FONT FACE="Courier">$name</FONT></TT>
+network, and each item is separated from the other with spaces.
+<LI><FONT COLOR=#000000>The </FONT><TT><FONT FACE="Courier">$addrType</FONT></TT>
+value is set to the defined constant <TT><FONT FACE="Courier">&amp;AF_INET</FONT></TT>
+for your machine. (You'll need the file <TT><FONT FACE="Courier">socket.ph</FONT></TT>
+somewhere in your <TT><FONT FACE="Courier">@Inc</FONT></TT> path.)
+<TT><FONT FACE="Courier">$addrtype</FONT></TT> is the address
+type; at present, this is always whatever value is defined for
+the system constant <TT><FONT FACE="Courier">&amp;AF_INET</FONT></TT>,
+which indicates that the address is an Internet address. Usually,
+the subroutine <TT><FONT FACE="Courier">&amp;AF_INET</FONT></TT>
+is set to return the integer <TT><FONT FACE="Courier">2</FONT></TT>
+on UNIX systems.
+<LI><FONT COLOR=#000000>The </FONT><TT><FONT FACE="Courier">$inet</FONT></TT>
+address is set to the address of this network in the <TT><FONT FACE="Courier">A.B.C.D</FONT></TT>
+form for Internet addresses. The A is the class A portion of the
+network address; B is for the class B portion; and C for the class
+C portion of the address.
+</UL>
+<P>
+Listing 15.4 shows how you can use <TT><FONT FACE="Courier">getnetent</FONT></TT>
+to list the machine names and addresses at your site.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 15.4. A program that uses </B><TT><B><FONT FACE="Courier">getnetent</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!/usr/bin/perl<BR>
+2 print (&quot;Networks on this machine:\n&quot;);<BR>
+3 while (($name, $aliases, $atype, $inet) = getnetent()) {<BR>
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;($a,$b,$c,$d)
+= unpack (&quot;cccc&quot;, $inet);<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;$name
+= &quot;;<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf &quot; $ %d %d %d
+%d \n&quot;,$a,$b,$c,$d;<BR>
+7 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Each iteration in the <TT><FONT FACE="Courier">while</FONT></TT>
+reads one entry in the <TT><FONT FACE="Courier">/etc/networks</FONT></TT>
+file. If the last entry in the <TT><FONT FACE="Courier">/etc/networks</FONT></TT>
+file has been read, the <TT><FONT FACE="Courier">getnetent</FONT></TT>
+function returns an empty list and the <TT><FONT FACE="Courier">while</FONT></TT>
+loop terminates. Each non-empty entry read is assigned to the
+variables <TT><FONT FACE="Courier">$name</FONT></TT>, <TT><FONT FACE="Courier">$aliases</FONT></TT>,
+<TT><FONT FACE="Courier">$atype</FONT></TT>, and <TT><FONT FACE="Courier">$inet</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">getnetbyaddr</FONT></TT> function
+returns the next available entry from <TT><FONT FACE="Courier">/etc/networks</FONT></TT>
+with a given network number. Here's the syntax for the <TT><FONT FACE="Courier">getnetbyaddr</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($name, $aliases, $atype, $inet) = getnetbyaddr
+($inaddr, $itype);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">getnetbyaddr()</FONT></TT> function
+returns the same types of values as the <TT><FONT FACE="Courier">getnetent()</FONT></TT>
+function. The input parameters to <TT><FONT FACE="Courier">getnetbyaddr()</FONT></TT>
+differ from the <TT><FONT FACE="Courier">getnetent()</FONT></TT>
+function. The <TT><FONT FACE="Courier">$inaddr</FONT></TT> is
+the network number that you are looking for. The <TT><FONT FACE="Courier">$inaddr</FONT></TT>
+value must be a packed four-byte integer whose four bytes are
+the <I>A</I>, <I>B</I>, <I>C</I>, and <I>D</I> components of an
+Internet address. Use the <TT><FONT FACE="Courier">pack</FONT></TT>
+command to create the <TT><FONT FACE="Courier">$inet</FONT></TT>
+word:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">@bytes = (204,251,103,2);<BR>
+$inaddr = pack (&quot;C4&quot;, @bytes);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">itype</FONT></TT> variable is almost
+always set to <TT><FONT FACE="Courier">&amp;AF_INET</FONT></TT>
+for Perl scripts on UNIX systems.
+<P>
+The <TT><FONT FACE="Courier">getnetbyname()</FONT></TT> function
+is just like the <TT><FONT FACE="Courier">getnetbyaddr()</FONT></TT>
+function except that it takes a network name (or alias) instead
+of an address. The returned values for an entry in the <TT><FONT FACE="Courier">/etc/networks</FONT></TT>
+file are the same, too. Here's the syntax for the <TT><FONT FACE="Courier">getnetbyname</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($name, $aliases, $atype, $inet) = getnetbyname
+($networkName);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">setnetent</FONT></TT> and <TT><FONT FACE="Courier">endnetent</FONT></TT>
+functions in Perl rewind and close the <TT><FONT FACE="Courier">/etc/networks</FONT></TT>
+file for access. The <TT><FONT FACE="Courier">setnetent</FONT></TT>
+function rewinds the /<TT><FONT FACE="Courier">etc/networks</FONT></TT>
+file. After a call to <TT><FONT FACE="Courier">setnetent()</FONT></TT>,
+the next <TT><FONT FACE="Courier">getnetent()</FONT></TT> call
+returns the first item in the <TT><FONT FACE="Courier">/etc/networks</FONT></TT>
+file. Here's the syntax for the <TT><FONT FACE="Courier">setnetent</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">setnetent (keepopen);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If <TT><FONT FACE="Courier">keepopen</FONT></TT> is non-zero,
+the <TT><FONT FACE="Courier">/etc/networks</FONT></TT> file is
+left open for reading, and any previously cached information about
+the file is kept in memory. If <TT><FONT FACE="Courier">keepopen</FONT></TT>
+is set to zero, any cached information in memory is flushed and
+the file is read again with the first entry available for a call
+to <TT><FONT FACE="Courier">getnetent()</FONT></TT>. The <TT><FONT FACE="Courier">endnetent()</FONT></TT>
+function accepts no parameters and simply closes the <TT><FONT FACE="Courier">/etc/networks</FONT></TT>
+file.
+<H3><A NAME="WorkingwithHostNamesUsinggethostbya">Working with
+Host Names Using <TT><FONT SIZE=4 FACE="Courier">gethostbyaddr()</FONT></TT><FONT SIZE=4>
+Functions</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">gethostbyaddr()</FONT></TT> function
+accesses the <TT><FONT FACE="Courier">/etc/hosts</FONT></TT> file
+for the host name given a particular Internet address. Here's
+the syntax for the <TT><FONT FACE="Courier">gethostbyaddr</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($name, $aliases, $addrtype, $len, $addr)
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;= gethostbyaddr ($inaddr, $atype);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This function needs two arguments:
+<UL>
+<LI><FONT COLOR=#000000>The Internet address of the host</FONT>
+<LI><FONT COLOR=#000000>The address type (which is usually set
+to </FONT><TT><FONT FACE="Courier">AF_INET</FONT></TT>)
+</UL>
+<P>
+The Internet address is in the packed form as in the <TT><FONT FACE="Courier">getnetaddr()</FONT></TT>
+call. The <TT><FONT FACE="Courier">$inaddr</FONT></TT> value must
+be a packed four-byte integer whose four bytes are the <I>A</I>,
+<I>B</I>, <I>C</I>, and <I>D</I> components of an Internet address.
+Use the <TT><FONT FACE="Courier">pack</FONT></TT> command to create
+the <TT><FONT FACE="Courier">$inet</FONT></TT> word:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">@bytes = (204,251,103,2);<BR>
+$inaddr = pack (&quot;C4&quot;, @bytes);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The<TT><FONT FACE="Courier"> gethostbyaddr</FONT></TT> function
+returns a list with five items in it:
+<UL>
+<LI><FONT COLOR=#000000>The first item is the host name corresponding
+to the Internet address specified by </FONT><TT><FONT FACE="Courier">$inaddr</FONT></TT>.
+<LI><FONT COLOR=#000000>The </FONT><TT><FONT FACE="Courier">$aliases</FONT></TT>
+variable is assigned the list of aliases or alternative names
+by which the host can be referred.
+<LI><FONT COLOR=#000000>The </FONT><TT><FONT FACE="Courier">addrtype</FONT></TT>,
+like <TT><FONT FACE="Courier">inaddrtype</FONT></TT>, is always
+<TT><FONT FACE="Courier">&amp;AF_INET</FONT></TT>.
+<LI><FONT COLOR=#000000>The </FONT><TT><FONT FACE="Courier">$addrs</FONT></TT>
+is a list of addresses (the main address and alternatives) corresponding
+to the host node named. Each address is stored as a four-byte
+integer.
+<LI><FONT COLOR=#000000>The variable </FONT><TT><FONT FACE="Courier">len</FONT></TT>
+is the length of the <TT><FONT FACE="Courier">addrs</FONT></TT>
+field; this length is always four multiplied by the number of
+addresses returned in <TT><FONT FACE="Courier">addrs</FONT></TT>.
+</UL>
+<P>
+Listing 15.5 shows how you can use <TT><FONT FACE="Courier">gethostbyaddr</FONT></TT>
+to retrieve the Internet address corresponding to a particular
+machine name.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 15.5. A program that uses </B><TT><B><FONT FACE="Courier">gethostbyaddr</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2<BR>
+&nbsp;3 print (&quot;Enter
+the Internet address to look for :\n&quot;);<BR>
+&nbsp;4 $machine = &lt;STDIN&gt;;<BR>
+&nbsp;5 $machine =~ s/^\s+|\s+$//g;
+# remove whitespaces around it<BR>
+&nbsp;6<BR>
+&nbsp;7 @bytes = split (/\./,
+$machine);<BR>
+&nbsp;8<BR>
+&nbsp;9 $packaddr = pack
+(&quot;C4&quot;, @bytes);<BR>
+10<BR>
+11 if (!(($host, $aliases, $addrtype, $len, @addrlist) =<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gethostbyaddr
+($packaddr, &amp;AF_INET))) {<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die (&quot;No
+such $machine was found.\n&quot;);<BR>
+14 }<BR>
+15<BR>
+16 if ($aliases ne &quot;&quot;) {&nbsp;&nbsp;# i.e. you have
+more than one alias<BR>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+(&quot;$host: Aliases for $host are :\n&quot;);<BR>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@alternates
+= split (/\s+/, $aliases);<BR>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for ($i
+= 0; $i &lt; @alternates; $i++) {<BR>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+printf &quot;%d:&nbsp;&nbsp;%s \n&quot;,$i, $alternates[$i];<BR>
+21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+22 }<BR>
+23 else {<BR>
+24 print &quot; This $host has no aliases &quot;;<BR>
+25 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The following is sample output for a machine using the script
+called <TT><FONT FACE="Courier">15_6.pl</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$ <B>15_6.pl<BR>
+</B>Enter the&nbsp;&nbsp;Internet address to look for :<BR>
+<B>204.222.245.10<BR>
+</B>pop.ikra.comAliases for pop.ikra.com are :<BR>
+0:&nbsp;&nbsp;pop<BR>
+1:&nbsp;&nbsp;www.ikra.com</FONT></TT>
+</BLOCKQUOTE>
+<P>
+You can get the host information by specifying the name to the
+<TT><FONT FACE="Courier">gethostbyname</FONT></TT> function. The
+<TT><FONT FACE="Courier">gethostbyname</FONT></TT> function is
+like <TT><FONT FACE="Courier">gethostbyaddr</FONT></TT>, except
+it uses a name instead of an address. Here's the syntax for the
+<TT><FONT FACE="Courier">gethostbyname</FONT></TT> function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($name, $aliases, $addrtype, $len, $addr)
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;= gethostbyname ($nameString);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here, <TT><FONT FACE="Courier">$nameString</FONT></TT> is the
+machine name to look for. The returned values from the <TT><FONT FACE="Courier">gethostbyname</FONT></TT>
+function are the same as those for <TT><FONT FACE="Courier">gethostbyaddr</FONT></TT>.
+Look at Listing 15.6. The host name entered by the user may have
+leading or trailing blanks. These are removed by the statement
+on line 5.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 15.6. Using </B><TT><B><FONT FACE="Courier">gethostbyname</FONT></B></TT><B>.
+<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!/usr/bin/perl<BR>
+2<BR>
+3&nbsp;&nbsp;print (&quot;Enter a machine name or Internet site
+name:\n&quot;);<BR>
+4&nbsp;&nbsp;$machine = &lt;STDIN&gt;;<BR>
+5&nbsp;&nbsp;$machine =~ s/^\s+|\s+$//g;<BR>
+6&nbsp;&nbsp;if (!(($name, $altnames, $addrtype, $len, @addrlist)
+=<BR>
+7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gethostbyname
+($machine))) {<BR>
+8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;die
+(&quot;Machine name $machine not found.\n&quot;);<BR>
+9&nbsp;&nbsp;}<BR>
+10 print (&quot;Equivalent addresses:\n&quot;);<BR>
+11 for ($i = 0; $i &lt; @addrlist; $i++) {<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@addrbytes
+= unpack(&quot;C4&quot;, $addrlist[$i]);<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$realaddr
+= join (&quot;.&quot;, @addrbytes);<BR>
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+(&quot;\t$realaddr\n&quot;);<BR>
+15 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">gethostent</FONT></TT>, <TT><FONT FACE="Courier">sethostent</FONT></TT>,
+and <TT><FONT FACE="Courier">endhostent</FONT></TT> functions
+enable you to get one entry at a time from the <TT><FONT FACE="Courier">/etc/hosts</FONT></TT>
+file. The <TT><FONT FACE="Courier">sethostent()</FONT></TT> function
+call rewinds the <TT><FONT FACE="Courier">/etc/host</FONT></TT>
+file access to ensure that a call to the <TT><FONT FACE="Courier">gethostent()</FONT></TT>
+function returns the record. The <TT><FONT FACE="Courier">endhostnet()</FONT></TT>
+call closes further accesses to the <TT><FONT FACE="Courier">/etc/hosts</FONT></TT>
+file.
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">gethostent</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($name, $aliases, $atype, $alen, $addrs)
+= gethostent();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first call to <TT><FONT FACE="Courier">gethostent</FONT></TT>
+returns the first element and each subsequent call returns the
+next element. The five-item list returned by the <TT><FONT FACE="Courier">gethostent()</FONT></TT>
+call has the same content as the list returned by <TT><FONT FACE="Courier">gethostbyaddr()</FONT></TT>
+or <TT><FONT FACE="Courier">gethostbyname()</FONT></TT>. The list
+contains the following:
+<UL>
+<LI><FONT COLOR=#000000>The first item is the host name corresponding
+to the Internet address specified by </FONT><TT><FONT FACE="Courier">$inaddr</FONT></TT>.
+<LI><FONT COLOR=#000000>The </FONT><TT><FONT FACE="Courier">$aliases</FONT></TT>
+variable is assigned the list of aliases or alternative names
+by which the host can be referred.
+<LI><FONT COLOR=#000000>The </FONT><TT><FONT FACE="Courier">addrtype</FONT></TT>,
+like <TT><FONT FACE="Courier">inaddrtype</FONT></TT>, is always
+<TT><FONT FACE="Courier">&amp;AF_INET</FONT></TT>.
+<LI><FONT COLOR=#000000>The </FONT><TT><FONT FACE="Courier">$addrs</FONT></TT>
+is a list of addresses (the main address and alternatives) corresponding
+to the host node named. Each address is stored as a four-byte
+integer.
+<LI><FONT COLOR=#000000>The variable </FONT><TT><FONT FACE="Courier">len</FONT></TT>
+is the length of the <TT><FONT FACE="Courier">addrs</FONT></TT>
+field; this length is always four multiplied by the number of
+addresses returned in <TT><FONT FACE="Courier">addrs</FONT></TT>.
+</UL>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Caution</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Be careful when cycling through <TT><FONT FACE="Courier">/etc/hosts</FONT></TT> because the file may be &quot;faked out&quot; with the use of the name server. Every query into the <TT><FONT FACE="Courier">/etc/hosts</FONT></TT> entry may wind up being a 
+request for a host name to a site on the Internet. Calling <TT><FONT FACE="Courier">gethostent</FONT></TT> repeatedly might access and overload valuable resources unnecessarily. Use this function with a bit of restraint.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">sethostent</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sethostent (keepopen);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If <TT><FONT FACE="Courier">keepopen</FONT></TT> is non-zero,
+the <TT><FONT FACE="Courier">/etc/hosts</FONT></TT> file is left
+open for reading and any previously cached information about the
+file is kept in memory. If <TT><FONT FACE="Courier">keepopen</FONT></TT>
+is set to zero, any cached information in memory is flushed and
+the file is read again with the first entry available for a call
+to <TT><FONT FACE="Courier">gethostent()</FONT></TT>. The <TT><FONT FACE="Courier">endhostent()</FONT></TT>
+function accepts no parameters and simply closes the <TT><FONT FACE="Courier">/etc/hosts</FONT></TT>
+file after flushing any buffers.
+<H3><A NAME="WorkingwithProcessGroupsUsingthege">Working with
+Process Groups Using the <TT><FONT SIZE=4 FACE="Courier">getpgrp()</FONT></TT><FONT SIZE=4>
+Function</FONT></A></H3>
+<P>
+A process group in the UNIX environment is a set of processes
+having the same process group ID. Several process groups can exist
+at one time. Each process group is identified by a unique integer,
+known as the process group ID. The <TT><FONT FACE="Courier">getpgrp</FONT></TT>
+function retrieves the process group ID for a particular process.
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">getpgrp</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$pgroup = getpgrp ($pid);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">$pid</FONT></TT> is the process ID whose
+group you want to retrieve, and <TT><FONT FACE="Courier">$pgroup</FONT></TT>
+is the returned process group ID, which is a scalar value. A call
+with no parameters (or <TT><FONT FACE="Courier">$pid</FONT></TT>
+set to <TT><FONT FACE="Courier">0</FONT></TT>) returns the process
+group ID of the current process.
+<P>
+You can change the process group of a process, provided you have
+the correct permissions, by using the <TT><FONT FACE="Courier">setpgrp</FONT></TT>
+function. Here's the syntax for the <TT><FONT FACE="Courier">setpgrp</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">setpgrp ($pid, $groupid);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">$pid</FONT></TT> is the ID of the process
+whose group you will change, and <TT><FONT FACE="Courier">$groupid</FONT></TT>
+is the process group ID you want to assign this process to.
+<H4>The <TT><FONT FACE="Courier">getppid</FONT></TT> Function
+</H4>
+<P>
+Each process in the UNIX environment has its own unique process
+ID and parent. (There are some exceptions to this rule, such as
+the <TT><FONT FACE="Courier">init</FONT></TT> process, but that
+discussion is beyond the scope of this book.) The process ID is
+always available as the special variable, <TT><FONT FACE="Courier">$$</FONT></TT>.
+To retrieve the process ID for the parent process for itself,
+the script can call the <TT><FONT FACE="Courier">getppid()</FONT></TT>
+function.
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">getppid</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$parentid = getppid();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">$parentid</FONT></TT> is the parent process
+ID of your program.
+<P>
+The most common use of the <TT><FONT FACE="Courier">getppid</FONT></TT>
+function is to pass the process IDs of the parent to a child after
+a <TT><FONT FACE="Courier">fork</FONT></TT>. You can use <TT><FONT FACE="Courier">getppid</FONT></TT>
+with <TT><FONT FACE="Courier">fork</FONT></TT> to ensure that
+each of the two processes produced by the <TT><FONT FACE="Courier">fork</FONT></TT>
+knows the process ID of the other. Listing 15.7 illustrates a
+sample call.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 15.7. Getting the parent process ID.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">1 #!/usr/bin/perl<BR>
+2<BR>
+3 $otherid = fork();<BR>
+4 if ($otherid == 0) {<BR>
+5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$parentID
+= getppid();<BR>
+6&nbsp;&nbsp;&nbsp;&nbsp; printf &quot;I am junior $$ child of
+$$\n&quot;;<BR>
+7 } else {<BR>
+8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf
+&quot;I am the parent with an ID of $$ \n&quot;;<BR>
+9 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The output from a sample run would be
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">I am junior 5423 child of 5422<BR>
+I am the parent with an ID of 5422</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="GettingandChangingthePriorityofaP"><FONT SIZE=5 COLOR=#FF0000>Getting
+and Changing the Priority of a Process</FONT></A></H2>
+<P>
+Processes in the UNIX environments run at a priority level. Processes
+with the highest priority are run by the UNIX scheduler before
+processes with a lower priority. A Perl script can set its priority
+within limits by calling the <TT><FONT FACE="Courier">setpriority</FONT></TT>
+function. A process can get information on its priority values
+by calling the <TT><FONT FACE="Courier">getpriority</FONT></TT>
+function. Priority level numbers are system dependent.
+<H3><A NAME="ThesetpriorityFunction">The <TT><FONT SIZE=4 FACE="Courier">setpriority</FONT></TT><FONT SIZE=4>
+Function</FONT></A></H3>
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">setpriority</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">setpriority ($category, $id, $priority);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">$category</FONT></TT> variable indicates
+what processes are to have their priorities altered. The values
+that <TT><FONT FACE="Courier">$category</FONT></TT> can take are
+listed in the <TT><FONT FACE="Courier">resources.ph</FONT></TT>
+file. You can use one of the three following values based on the
+action you want the <TT><FONT FACE="Courier">setpriority</FONT></TT>
+function to take:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">PRIO_PROCESS</FONT></TT>
+</TD><TD WIDTH=452>This call affects only one process whose process ID is specified in <TT><FONT FACE="Courier">$id</FONT></TT>. A value of <TT><FONT FACE="Courier">0</FONT></TT> for <TT><FONT FACE="Courier">$id</FONT></TT> indicates the current process.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">PRIO_PGRP</FONT></TT>
+</TD><TD WIDTH=452>This call affects the entire group whose group ID is specified in <TT><FONT FACE="Courier">$id</FONT></TT>. A value of <TT><FONT FACE="Courier">0</FONT></TT> for <TT><FONT FACE="Courier">$id</FONT></TT> indicates the group of the current 
+process.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">PRIO_USER</FONT></TT>
+</TD><TD WIDTH=452>This call affects all the processes belonging to the user whose <TT><FONT FACE="Courier">uid</FONT></TT> is specified in <TT><FONT FACE="Courier">$id</FONT></TT>. A value of <TT><FONT FACE="Courier">0</FONT></TT> for <TT><FONT 
+FACE="Courier">$id</FONT></TT> indicates the current user with his or her real (not effective) user ID.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">$priority</FONT></TT> variable is
+the new priority for the process, group, or user that you selected.
+The numbers can range from <TT><FONT FACE="Courier">0</FONT></TT>
+to <TT><FONT FACE="Courier">31</FONT></TT>, or <TT><FONT FACE="Courier">99</FONT></TT>
+for a UNIX machine, though this value is a very system-dependent
+issue. For example, the priority levels range from -19 to 20 on
+a Solaris machine where -8 runs at a higher priority than a process
+running at 9.
+<H3><A NAME="ThegetpriorityFunction">The <TT><FONT SIZE=4 FACE="Courier">getpriority</FONT></TT><FONT SIZE=4>
+Function</FONT></A></H3>
+<P>
+The function <TT><FONT FACE="Courier">getpriority()</FONT></TT>
+gets the current priority for a process, process group, or user.
+You can set the priority relative to the value returned by <TT><FONT FACE="Courier">getpriority()</FONT></TT>.
+A lower priority causes the affected processes to be set to run
+while allowing other higher priority tasks to run. A higher priority
+allows the process to hog more system resources.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Caution</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">setpriority()</FONT></TT> function is a bit dangerous to use and is therefore only available to the root user on most UNIX systems.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">getpriority</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$priority = getpriority ($category, $id);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">$category</FONT></TT> and <TT><FONT FACE="Courier">$id</FONT></TT>
+are specified in the same manner as they are for the <TT><FONT FACE="Courier">setpriority()</FONT></TT>
+call. For example, look at the following fragment of code, which
+is used to raise the priority of a Perl program:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">require &quot;resource.ph&quot;;<BR>
+$currentpriority = getpriority(&amp;PRIO_PROCESS,$$);<BR>
+setpriority (&amp;PRIO_PROCESS, $userid, $currentpriority + 1);</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="WorkingwithProtocolFilesUsingthege">Working with
+Protocol Files Using the <TT><FONT SIZE=4 FACE="Courier">getprotoent()</FONT></TT><FONT SIZE=4>
+Function</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">getprotoent</FONT></TT> function
+is used to get entries in the <TT><FONT FACE="Courier">/etc/protocols</FONT></TT>
+file for the protocols database. Here's the syntax for the <TT><FONT FACE="Courier">getprotoent</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($protoName, $aliases, $number) = getprotoent();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">$protoName</FONT></TT> is the name of
+a particular system protocol. <TT><FONT FACE="Courier">$aliases</FONT></TT>
+is a scalar list of alternative names for this system protocol,
+with each name being separated from the other by a space. The
+<TT><FONT FACE="Courier">$number</FONT></TT> is the ID for the
+particular system protocol.
+<P>
+The first call to <TT><FONT FACE="Courier">getprotoent</FONT></TT>
+returns the first element in <TT><FONT FACE="Courier">/etc/protocols</FONT></TT>.
+Each subsequent call then returns the next entry in the <TT><FONT FACE="Courier">/etc/protocols</FONT></TT>
+file. <TT><FONT FACE="Courier">getprotoent</FONT></TT> returns
+the empty list when the last entry is read.
+<P>
+The <TT><FONT FACE="Courier">getprotobyname()</FONT></TT> and
+<TT><FONT FACE="Courier">getprotobynumber()</FONT></TT> functions
+are used to search for entries the <TT><FONT FACE="Courier">/etc/protocols</FONT></TT>
+file. The <TT><FONT FACE="Courier">getprotobyname</FONT></TT>
+function searches for a particular protocol entry by using a name,
+whereas <TT><FONT FACE="Courier">getprotobynumber()</FONT></TT>
+uses the protocol ID. Here is the syntax for the two functions:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($protoName, $aliases, $number) = getprotobyname
+($name);<BR>
+($protoName, $aliases, $number) = getprotobynumber ($number);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Both functions return an empty list if no matching protocol database
+entries are found.
+<P>
+The <TT><FONT FACE="Courier">setprotoent()</FONT></TT> and <TT><FONT FACE="Courier">endprotoent()</FONT></TT>
+functions are used to access the entries in the<TT><FONT FACE="Courier">
+/etc/protocols</FONT></TT> file. The <TT><FONT FACE="Courier">setprotoent</FONT></TT>
+function rewinds the <TT><FONT FACE="Courier">/etc/protocols</FONT></TT>
+file.
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">setprotoent</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">setprotoent (keepopen);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If <TT><FONT FACE="Courier">keepopen</FONT></TT> is non-zero,
+the <TT><FONT FACE="Courier">/etc/protocols</FONT></TT> file is
+left open for reading and any previously cached information about
+the file is kept in memory. If <TT><FONT FACE="Courier">keepopen</FONT></TT>
+is set to zero, any cached information in memory is flushed, and
+the file is read again with the first entry available for a call
+to <TT><FONT FACE="Courier">getprotoent()</FONT></TT>. The <TT><FONT FACE="Courier">endprotoent()</FONT></TT>
+function accepts no parameters and simply closes the <TT><FONT FACE="Courier">/etc/protocols</FONT></TT>
+file after flushing any buffers.
+<H3><A NAME="ThegetserventFunction">The <TT><FONT SIZE=4 FACE="Courier">getservent</FONT></TT><FONT SIZE=4>
+Function</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">getservent()</FONT></TT> function
+is used to search the <TT><FONT FACE="Courier">/etc/services</FONT></TT>
+file for entries in the system services database. Here's the syntax
+for the <TT><FONT FACE="Courier">getservent()</FONT></TT> function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($name, $aliases, $portnum, $protoname)
+= getservent();</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">$name</FONT></TT> is the identifier of
+a particular system service. <TT><FONT FACE="Courier">$aliases</FONT></TT>
+is a scalar list of alias names for the system service specified
+in <TT><FONT FACE="Courier">$name</FONT></TT>. The names in <TT><FONT FACE="Courier">$aliases</FONT></TT>
+are separated from each other by a white space. <TT><FONT FACE="Courier">$portnum</FONT></TT>
+is the port number assigned to the system protocol and indicates
+the location of the port at which the service is residing. The
+value in <TT><FONT FACE="Courier">$portnum</FONT></TT> is a packed
+array of integers, which must be unpacked using <TT><FONT FACE="Courier">unpack</FONT></TT>
+with a <TT><FONT FACE="Courier">C*</FONT></TT> format specifier.
+<TT><FONT FACE="Courier">$protoname</FONT></TT> is a protocol
+name. The first call to <TT><FONT FACE="Courier">getservent</FONT></TT>
+returns the first element in <TT><FONT FACE="Courier">/etc/services</FONT></TT>.
+Further calls return subsequent entries; when <TT><FONT FACE="Courier">/etc/services</FONT></TT>
+is exhausted, <TT><FONT FACE="Courier">getservent</FONT></TT>
+returns the empty list.
+<P>
+The <TT><FONT FACE="Courier">setservent()</FONT></TT> and <TT><FONT FACE="Courier">endservent()</FONT></TT>
+functions are used to access entries in the <TT><FONT FACE="Courier">/etc/services</FONT></TT>
+file. The <TT><FONT FACE="Courier">setservent()</FONT></TT> function
+rewinds the <TT><FONT FACE="Courier">/etc/services</FONT></TT>
+file. Here's the syntax for the function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">setservent ($keepopen);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If <TT><FONT FACE="Courier">keepopen</FONT></TT> is non-zero,
+the <TT><FONT FACE="Courier">/etc/services</FONT></TT> file is
+left open for reading and any previously cached information about
+the file is kept in memory. If <TT><FONT FACE="Courier">keepopen</FONT></TT>
+is set to zero, any cached information in memory is flushed and
+the file is read again with the first entry available for a call
+to <TT><FONT FACE="Courier">getservent()</FONT></TT>. The <TT><FONT FACE="Courier">endservent()</FONT></TT>
+function accepts no parameters and simply closes the <TT><FONT FACE="Courier">/etc/services</FONT></TT>
+file after flushing any buffers.
+<P>
+The <TT><FONT FACE="Courier">getservbyname</FONT></TT> and <TT><FONT FACE="Courier">getservbyport</FONT></TT>
+functions are used to search the <TT><FONT FACE="Courier">/etc/services</FONT></TT>
+file. The <TT><FONT FACE="Courier">getservbyname()</FONT></TT>
+function looks for an entry given a name, whereas the <TT><FONT FACE="Courier">getservbyport()</FONT></TT>
+function looks for an entry given a port number. Here's the syntax
+for the <TT><FONT FACE="Courier">getservbyname</FONT></TT> function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($name, $aliases, $portnum, $protoName)
+<BR>
+&nbsp;&nbsp;&nbsp;= getservbyname ($searchname, $searchproto);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">getservbyport</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($name, $aliases, $portnum, $protoName)
+<BR>
+&nbsp;&nbsp;&nbsp;= getservbyport ($searchportnum, $searchproto);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">$searchportnum</FONT></TT> and <TT><FONT FACE="Courier">$searchname</FONT></TT>
+are the port number and name of the protocol, respectively. <TT><FONT FACE="Courier">$searchproto</FONT></TT>
+is the port number and protocol type to search for.
+<P>
+Both functions return the same type of values as the four-element
+list returned by <TT><FONT FACE="Courier">getservent()</FONT></TT>.
+(The empty list is returned if the name and type are not matched.)
+Similarly, the <TT><FONT FACE="Courier">getservbyport</FONT></TT>
+function searches for a service name that matches a particular
+service port number.
+<H2><A NAME="SystemLevelFunctions"><FONT SIZE=5 COLOR=#FF0000>System-Level
+Functions</FONT></A></H2>
+<P>
+This section lists those system-level functions that you're not
+likely to use but should know about to perform that one special
+function.
+<H3><A NAME="ThechrootFunction">The <TT><FONT SIZE=4 FACE="Courier">chroot</FONT></TT><FONT SIZE=4>
+Function</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">chroot</FONT></TT> function enables
+you to change the root directory for your program. The root directory
+is passed on to any child processes created by the application
+calling the <TT><FONT FACE="Courier">chroot</FONT></TT> function.
+<P>
+Here's the syntax for the <TT><FONT FACE="Courier">chroot</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">chroot ($dirname);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">$dirname</FONT></TT> is the pathname
+of the directory to use as the root directory. The value of <TT><FONT FACE="Courier">$dirname</FONT></TT>
+name specified by <TT><FONT FACE="Courier">dirname</FONT></TT>
+is appended to every pathname specified by your program and its
+subprocesses. For example, use a statement like this one to force
+all further access to files in the <TT><FONT FACE="Courier">/pub</FONT></TT>
+directory:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">chroot (&quot;/pub&quot;);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This forces even absolute pathnames in a program to be prepended
+with <TT><FONT FACE="Courier">/pub</FONT></TT>. The <TT><FONT FACE="Courier">chroot</FONT></TT>
+function is helpful when writing applications for the World Wide
+Web because you can limit user access to a known directory tree.
+Thus, if a user types <TT><FONT FACE="Courier">/etc/passwd</FONT></TT>,
+the request is turned into <TT><FONT FACE="Courier">/pub/etc/passwd</FONT></TT>.
+<H3><A NAME="ThedumpFunction">The <TT><FONT SIZE=4 FACE="Courier">dump</FONT></TT><FONT SIZE=4>
+Function</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">dump</FONT></TT> function enables
+you to generate a UNIX core dump from within your Perl program.
+It is meant to be used with the <TT><FONT FACE="Courier">undump</FONT></TT>
+command. Here's the syntax for this command:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">dump[(label)];</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><I><FONT FACE="Courier">label</FONT></I></TT> is optional
+and specifies the place to start for the UNIX <TT><FONT FACE="Courier">undump</FONT></TT>
+command.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Caution</B></TD></TR>
+<TR VALIGN=TOP><TD ><BLOCKQUOTE>
+Be careful when working with <TT><FONT FACE="Courier">dump</FONT></TT> and <TT><FONT FACE="Courier">undump</FONT></TT>. Only the execution state of a program is kept, not the state of the environment. For example, if the code being undumped was accessing a 
+file when the core was dumped, the file will not be open and is therefore not available to the undumped code.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<H3><A NAME="UsingtheioctlFunction">Using the <TT><FONT SIZE=4 FACE="Courier">ioctl</FONT></TT><FONT SIZE=4>
+Function</FONT></A></H3>
+<P>
+In UNIX, the <TT><FONT FACE="Courier">ioctl</FONT></TT> function
+has been the traditional catch-all for all input/output operations
+that can fit in the <TT><FONT FACE="Courier">open</FONT></TT>,
+<TT><FONT FACE="Courier">read</FONT></TT>, <TT><FONT FACE="Courier">write</FONT></TT>,
+and <TT><FONT FACE="Courier">close</FONT></TT> functions. The
+<TT><FONT FACE="Courier">ioctl</FONT></TT> function is sometimes
+not portable across some UNIX systems and almost certainly not
+for Windows NT or Windows 95 systems. However, <TT><FONT FACE="Courier">ioctl</FONT></TT>
+is too useful to discard because it may be the only route to get
+you the extra functionality you need to access terminal and system
+facilities.
+<P>
+A very good text to read to learn more about <TT><FONT FACE="Courier">ioctl</FONT></TT>
+is W. Richard Stevens's <I>Advanced Programming in the UNIX Environment</I>,
+Addison Wesley, 1992. This book tells you more about <TT><FONT FACE="Courier">ioctl</FONT></TT>
+than you'll want to know at one reading. It's a great source of
+UNIX information.
+<P>
+Here's an example of how to emulate the <TT><FONT FACE="Courier">getkey()</FONT></TT>
+function prevalent in DOS machines. The <TT><FONT FACE="Courier">getkey()</FONT></TT>function
+returns one character read back from the keyboard. When reading
+from the keyboard using <TT><FONT FACE="Courier">&lt;STDIN&gt;</FONT></TT>,
+the program has to wait until the user hits the Return key. Waiting
+for the Return key lets the user back up and correct mistakes.
+This editing feature is available because the terminal is in a
+&quot;cooked&quot; mode. That is, the terminal driver is smart
+enough to recognize a Backspace key and take a character off the
+input queue.
+<P>
+To process each character at one time, you have to place the terminal
+in &quot;raw&quot; mode. The raw mode passes all typed keystrokes
+into the reading application without processing. Note that the
+following lines may be different on your operating system. The
+following lines are meant to serve only as an example and are
+adapted from an example in the Perl FAQ by Don Carson (<TT><FONT FACE="Courier">dbc@tc.fluke.com</FONT></TT>):
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$saveioctl = ioctl(STDIN,0,0);&nbsp;&nbsp;&nbsp;&nbsp;
+# Gets device info<BR>
+$saveioctl &amp;= 0xff;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+reset right most bits<BR>
+ioctl(STDIN,1,$saveioctl | 32);&nbsp;&nbsp;&nbsp;&nbsp;# Set raw
+mode</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here's how to read a single character:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sysread(STDIN,$c,1);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Read a single character</FONT></TT>
+</BLOCKQUOTE>
+<P>
+And here's how to put the terminal back in &quot;cooked&quot;
+mode:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">ioctl(STDIN,1,$saveioctl);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Restore back to original mode</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Note that special keys return two-byte codes in the pc world.
+Check the ordinal value of <TT><FONT FACE="Courier">$c</FONT></TT>
+to see if it's <TT><FONT FACE="Courier">0</FONT></TT>. If the
+value is zero, you have to read the next byte to get the special
+key code. On Linux machines, you have to check to see if the value
+is <TT><FONT FACE="Courier">1</FONT></TT> instead of <TT><FONT FACE="Courier">0</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">if(ord($c) == 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;sysread(STDIN,$c,1);<BR>
+</FONT></TT>&nbsp;&nbsp;&nbsp;&nbsp;<TT><FONT FACE="Courier">}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The returned value from the second call is the returned code.
+The values of the returned key codes depend on your operating
+system. For most UNIX machines, the codes are listed in the <TT><FONT FACE="Courier">keyboard.ph</FONT></TT>
+file, which is about 400 lines long. The file will be in the <TT><FONT FACE="Courier">/usr/include/sys</FONT></TT>
+directory.
+<H3><A NAME="UsingtheselectCall">Using the <TT><FONT SIZE=4 FACE="Courier">select</FONT></TT><FONT SIZE=4>
+Call</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">select</FONT></TT> call in Perl can
+be used in more than one way. If used with one or no parameters,
+the <TT><FONT FACE="Courier">select</FONT></TT> call in Perl refers
+to the default file handle being selected. However, in UNIX systems,
+the <TT><FONT FACE="Courier">select(2)</FONT></TT> function has
+another very useful purpose of selecting which input to receive
+data from. To get more information about how to use <TT><FONT FACE="Courier">select</FONT></TT>,
+refer to the UNIX <TT><FONT FACE="Courier">man</FONT></TT> page.
+<P>
+By using the <TT><FONT FACE="Courier">select</FONT></TT> call,
+an application can literally wait on more than one source of incoming
+data. For example, you can wait on both input from the keyboard
+(<TT><FONT FACE="Courier">STDIN</FONT></TT>) and from other handles
+at one point in your code. As input arrives, your program can
+selectively process each input. Handling more input for an application
+at more than one location using signals, semaphores, or even other
+child processes is a lot more complicated than using <TT><FONT FACE="Courier">select()</FONT></TT>.
+<P>
+Using <TT><FONT FACE="Courier">select</FONT></TT> has the side
+effect that you cannot use buffered input with the <TT><FONT FACE="Courier">&lt;HANDLE&gt;</FONT></TT>
+commands. When using <TT><FONT FACE="Courier">select</FONT></TT>
+for input, you have to use the <TT><FONT FACE="Courier">sysread()</FONT></TT>
+command to get input into your application. The syntax for the
+<TT><FONT FACE="Courier">sysread</FONT></TT> command is
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sysread(HANDLE, $variable, $len)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+where incoming values are placed in <TT><FONT FACE="Courier">$variable</FONT></TT>.
+See the <TT><FONT FACE="Courier">man</FONT></TT> page <TT><FONT FACE="Courier">read(2)</FONT></TT>
+for more details.
+<P>
+Also, do not confuse using the <TT><FONT FACE="Courier">select</FONT></TT>
+call for getting input from multiple file handles with using the
+<TT><FONT FACE="Courier">select</FONT></TT> call for choosing
+a file handle sending output. When you make the <TT><FONT FACE="Courier">select
+HANDLE</FONT></TT> call, you are redirecting all <TT><FONT FACE="Courier">print</FONT></TT>
+and <TT><FONT FACE="Courier">printf</FONT></TT> output to go to
+the file associated with <TT><FONT FACE="Courier">HANDLE</FONT></TT>.
+The <TT><FONT FACE="Courier">select</FONT></TT> call in this section
+lets you collect input from more than one source.
+<P>
+The syntax for the <TT><FONT FACE="Courier">select</FONT></TT>
+call is defined as this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">($handle,$timeLeft) =select $rbits,$wbits,$ebits,$timeout;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The values of <TT><FONT FACE="Courier">$rbits</FONT></TT>, <TT><FONT FACE="Courier">$wbits</FONT></TT>,
+and <TT><FONT FACE="Courier">$ebits</FONT></TT> are bitmapped
+fields, each for read, write, and &quot;execute&quot; attributes
+of a file handle. The location of each bit corresponds to the
+file handle number. The way to work with the bits in these fields
+is to use the <TT><FONT FACE="Courier">vec()</FONT></TT> and <TT><FONT FACE="Courier">fileno()</FONT></TT>
+calls. The <TT><FONT FACE="Courier">$handle</FONT></TT> returned
+is the one that caused the <TT><FONT FACE="Courier">select</FONT></TT>
+call to return. The <TT><FONT FACE="Courier">$timeLeft</FONT></TT>
+variable is non-zero if the <TT><FONT FACE="Courier">timeout</FONT></TT>
+is not reached. To wait indefinitely for some action at a handle,
+use the <TT><FONT FACE="Courier">undef</FONT></TT> value for <TT><FONT FACE="Courier">$timeout</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">$rbit</FONT></TT>, <TT><FONT FACE="Courier">$wbit</FONT></TT>,
+and <TT><FONT FACE="Courier">$ebit</FONT></TT> values have to
+be set for the file handles they represent in <TT><FONT FACE="Courier">select</FONT></TT>.
+You can hard code the values, but it's much safer to use the <TT><FONT FACE="Courier">vec()</FONT></TT>
+function. The <TT><FONT FACE="Courier">vec()</FONT></TT> function
+sets bits in a vector. Here's the syntax for the <TT><FONT FACE="Courier">vec()</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">vec($id, $index, $value);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">$index</FONT></TT> bit in the <TT><FONT FACE="Courier">$Id</FONT></TT>
+is set to <TT><FONT FACE="Courier">$value</FONT></TT>. The <TT><FONT FACE="Courier">$value</FONT></TT>
+is either <TT><FONT FACE="Courier">0</FONT></TT> or <TT><FONT FACE="Courier">1</FONT></TT>.
+You have to set the bits for reading, writing, and executing in
+three separate vectors. The index of each bit is determined by
+the file handle. To get the file handle as an integer, make a
+call to <TT><FONT FACE="Courier">fileno(HANDLE)</FONT></TT>. In
+the current implementation you are limited to 32 file handles.
+On AIX machines, you can use Ipc message queue identifiers as
+well as file handles.
+<P>
+For example, to set the bits for reading and writing to a socket
+as well as to standard input, as well as a socket, <TT><FONT FACE="Courier">MYSOCKET</FONT></TT>,
+you would make the calls shown in Listing 15.8.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 15.8. Using the </B><TT><B><FONT FACE="Courier">select</FONT></B></TT><B>
+call.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 #!/usr/bin/perl<BR>
+&nbsp;2 $wbits =0 ; $rbits = 0;<BR>
+&nbsp;3 $ebits = 0;<BR>
+&nbsp;4 vec($rbits,fileno(MYSOCKET),1) = 1; # read from socket.
+<BR>
+&nbsp;5 vec($wbits,fileno(MYSOCKET),1)
+= 1;&nbsp;&nbsp;# enable write vector<BR>
+&nbsp;6 vec($rbits,fileno(STDIN),1) = 1;&nbsp;&nbsp;# enable read
+vector<BR>
+&nbsp;7 $ein = $rin | $win;&nbsp;&nbsp;#
+for both reading &amp; writing on all handles<BR>
+&nbsp;8<BR>
+&nbsp;9 while(1) {<BR>
+10 ($theFile,$timeleft) = select($rbits, $wbits, $ebits, $timeout);
+<BR>
+11 if ($timeleft == 0 ) {<BR>
+12&nbsp;&nbsp;&nbsp;&nbsp; &amp;doIdleTasksHere();<BR>
+13&nbsp;&nbsp;&nbsp;&nbsp; }<BR>
+14 &amp;process($theFile);<BR>
+15 }</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">$timeout</FONT></TT> value can be
+used to set up a timer by using a call with the bit masks set
+to <TT><FONT FACE="Courier">undef</FONT></TT>. The <TT><FONT FACE="Courier">select</FONT></TT>
+call actually provides a better timer resolution using milliseconds
+than the <TT><FONT FACE="Courier">sleep</FONT></TT> function,
+which works in one-second granularity. The time &quot;slept&quot;
+is never exactly what you ask it to be, but it's close enough
+to what you ask on most systems. To get a timer for 300 milliseconds,
+use this call:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">select(undef, undef, undef, 0.3);</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="ThesyscallFunction">The <TT><FONT SIZE=4 FACE="Courier">syscall</FONT></TT><FONT SIZE=4>
+Function</FONT></A></H3>
+<P>
+The <TT><FONT FACE="Courier">syscall()</FONT></TT> function is
+a system-dependent function that enables you to call the operating
+system directly. Most scripts that use the <TT><FONT FACE="Courier">syscall</FONT></TT>
+function are nonportable even across platforms with different
+types of UNIX operating systems.
+<P>
+You need the file <TT><FONT FACE="Courier">syscall.ph</FONT></TT>
+in order to use the <TT><FONT FACE="Courier">syscall</FONT></TT>
+function. Here's the syntax for the <TT><FONT FACE="Courier">syscall</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">syscall arguments, ... ;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first item in the arguments list is a call to a subroutine
+that returns a token ID of the system function being called. The
+subroutines are defined in the <TT><FONT FACE="Courier">syscall.ph</FONT></TT>
+file. Listing 15.9 shows a sample <TT><FONT FACE="Courier">syscall.ph</FONT></TT>
+file.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 15.9. The </B><TT><B><FONT FACE="Courier">syscall.ph</FONT></B></TT><B>
+file.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;&nbsp;1 if (!defined &amp; SYS_SYSCALL_H)
+{<BR>
+&nbsp;&nbsp;2 eval 'sub _SYS_SYSCALL_H {1;}';<BR>
+&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setup {0;}';
+<BR>
+&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_exit {1;}';
+<BR>
+&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_fork {2;}';
+<BR>
+&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_read {3;}';
+<BR>
+&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_write {4;}';
+<BR>
+&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_open {5;}';
+<BR>
+&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_close {6;}';
+<BR>
+&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_waitpid {7;}';
+<BR>
+&nbsp;11&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_creat {8;}';<BR>
+&nbsp;12&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_link {9;}';<BR>
+&nbsp;13&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_unlink {10;}';
+<BR>
+&nbsp;14&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_execve {11;}';
+<BR>
+&nbsp;15&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_chdir {12;}';<BR>
+&nbsp;16&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_time {13;}';<BR>
+&nbsp;17&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_prev_mknod {14;}';
+<BR>
+&nbsp;18&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_chmod {15;}';<BR>
+&nbsp;19&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_chown {16;}';<BR>
+&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_break {17;}';<BR>
+&nbsp;21&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_oldstat {18;}';
+<BR>
+&nbsp;22&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_lseek {19;}';<BR>
+&nbsp;23&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getpid {20;}';
+<BR>
+&nbsp;24&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_mount {21;}';<BR>
+&nbsp;25&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_umount {22;}';
+<BR>
+&nbsp;26&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setuid {23;}';
+<BR>
+&nbsp;27&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getuid {24;}';
+<BR>
+&nbsp;28&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_stime {25;}';<BR>
+&nbsp;29&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_ptrace {26;}';
+<BR>
+&nbsp;30&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_alarm {27;}';<BR>
+&nbsp;31&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_oldfstat {28;}';
+<BR>
+&nbsp;32&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_pause {29;}';<BR>
+&nbsp;33&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_utime {30;}';<BR>
+&nbsp;34&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_stty {31;}';<BR>
+&nbsp;35&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_gtty {32;}';<BR>
+&nbsp;36&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_access {33;}';
+<BR>
+&nbsp;37&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_nice {34;}';<BR>
+&nbsp;38&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_ftime {35;}';<BR>
+&nbsp;39&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_sync {36;}';<BR>
+&nbsp;40&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_kill {37;}';<BR>
+&nbsp;41&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_rename {38;}';
+<BR>
+&nbsp;42&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_mkdir {39;}';<BR>
+&nbsp;43&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_rmdir {40;}';<BR>
+&nbsp;44&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_dup {41;}';<BR>
+&nbsp;45&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_pipe {42;}';<BR>
+&nbsp;46&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_times {43;}';<BR>
+&nbsp;47&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_prof {44;}';<BR>
+&nbsp;48&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_brk {45;}';<BR>
+&nbsp;49&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setgid {46;}';
+<BR>
+&nbsp;50&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getgid {47;}';
+<BR>
+&nbsp;51&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_signal {48;}';
+<BR>
+&nbsp;52&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_geteuid {49;}';
+<BR>
+&nbsp;53&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getegid {50;}';
+<BR>
+&nbsp;54&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_acct {51;}';<BR>
+&nbsp;55&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_phys {52;}';<BR>
+&nbsp;56&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_lock {53;}';<BR>
+&nbsp;57&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_ioctl {54;}';<BR>
+&nbsp;58&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_fcntl {55;}';<BR>
+&nbsp;59&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_mpx {56;}';<BR>
+&nbsp;60&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setpgid {57;}';
+<BR>
+&nbsp;61&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_ulimit {58;}';
+<BR>
+&nbsp;62&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_oldolduname {59;}';
+<BR>
+&nbsp;63&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_umask {60;}';<BR>
+&nbsp;64&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_chroot {61;}';
+<BR>
+&nbsp;65&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_prev_ustat {62;}';
+<BR>
+&nbsp;66&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_dup2 {63;}';<BR>
+&nbsp;67&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getppid {64;}';
+<BR>
+&nbsp;68&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getpgrp {65;}';
+<BR>
+&nbsp;69&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setsid {66;}';
+<BR>
+&nbsp;70&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_sigaction {67;}';
+<BR>
+&nbsp;71&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_siggetmask {68;}';
+<BR>
+&nbsp;72&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_sigsetmask {69;}';
+<BR>
+&nbsp;73&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setreuid {70;}';
+<BR>
+&nbsp;74&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setregid {71;}';
+<BR>
+&nbsp;75&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_sigsuspend {72;}';
+<BR>
+&nbsp;76&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_sigpending {73;}';
+<BR>
+&nbsp;77&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_sethostname {74;}';
+<BR>
+&nbsp;78&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setrlimit {75;}';
+<BR>
+&nbsp;79&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getrlimit {76;}';
+<BR>
+&nbsp;80&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getrusage {77;}';
+<BR>
+&nbsp;81&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_gettimeofday {78;}';
+<BR>
+&nbsp;82&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_settimeofday {79;}';
+<BR>
+&nbsp;83&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getgroups {80;}';
+<BR>
+&nbsp;84&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setgroups {81;}';
+<BR>
+&nbsp;85&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_select {82;}';
+<BR>
+&nbsp;86&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_symlink {83;}';
+<BR>
+&nbsp;87&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_oldlstat {84;}';
+<BR>
+&nbsp;88&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_readlink {85;}';
+<BR>
+&nbsp;89&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_uselib {86;}';
+<BR>
+&nbsp;90&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_swapon {87;}';
+<BR>
+&nbsp;91&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_reboot {88;}';
+<BR>
+&nbsp;92&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_readdir {89;}';
+<BR>
+&nbsp;93&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_mmap {90;}';<BR>
+&nbsp;94&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_munmap {91;}';
+<BR>
+&nbsp;95&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_truncate {92;}';
+<BR>
+&nbsp;96&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_ftruncate {93;}';
+<BR>
+&nbsp;97&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_fchmod {94;}';
+<BR>
+&nbsp;98&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_fchown {95;}';
+<BR>
+&nbsp;99&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getpriority {96;}';
+<BR>
+100&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setpriority {97;}';
+<BR>
+101&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_profil {98;}';<BR>
+102&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_statfs {99;}';<BR>
+103&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_fstatfs {100;}';<BR>
+104&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_ioperm {101;}';<BR>
+105&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_socketcall {102;}';
+<BR>
+106&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_klog {103;}';<BR>
+107&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setitimer {104;}';<BR>
+108&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getitimer {105;}';<BR>
+109&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_prev_stat {106;}';<BR>
+110&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_prev_lstat {107;}';
+<BR>
+111&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_prev_fstat {108;}';
+<BR>
+112&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_olduname {109;}';<BR>
+113&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_iopl {110;}';<BR>
+114&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_vhangup {111;}';<BR>
+115&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_idle {112;}';<BR>
+116&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_vm86 {113;}';<BR>
+117&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_wait4 {114;}';<BR>
+118&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_swapoff {115;}';<BR>
+119&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_sysinfo {116;}';<BR>
+120&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_ipc {117;}';<BR>
+121&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_fsync {118;}';<BR>
+122&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_sigreturn {119;}';<BR>
+123&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_clone {120;}';<BR>
+124&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setdomainname {121;}';
+<BR>
+125&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_uname {122;}';<BR>
+126&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_modify_ldt {123;}';
+<BR>
+127&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_adjtimex {124;}';<BR>
+128&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_mprotect {125;}';<BR>
+129&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_sigprocmask {126;}';
+<BR>
+130&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_create_module {127;}';
+<BR>
+131&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_init_module {128;}';
+<BR>
+132&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_delete_module {129;}';
+<BR>
+133&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_get_kernel_syms {130;}';
+<BR>
+134&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_quotactl {131;}';<BR>
+135&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_getpgid {132;}';<BR>
+136&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_fchdir {133;}';<BR>
+137&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_bdflush {134;}';<BR>
+138&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_sysfs {135;}';<BR>
+139&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_personality {136;}';
+<BR>
+140&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_afs_syscall {137;}';
+<BR>
+141&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setfsuid {138;}';<BR>
+142&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS_setfsgid {139;}';<BR>
+143&nbsp;&nbsp;&nbsp;&nbsp; eval 'sub SYS__llseek {140;}';<BR>
+144 }<BR>
+145 1;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The remainder of the arguments must be precisely what the system
+call requires, or the calling application will fail. A non-root
+application will also fail if it makes a non-system call that
+requires root privilege. Passed arguments are translated into
+system call equivalents as follows: Numbers are sent as integers.
+Floating-point numbers are scaled to the nearest integer. Strings
+are passed by reference. Any strings expecting a response back
+from the call have to be long enough to store the returned results.
+A call for writing directly to a file handle is shown in Listing
+15.10.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 15.10. Using the </B><TT><B><FONT FACE="Courier">syscall</FONT></B></TT><B>
+function.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">#!/usr/bin/perl<BR>
+require 'syscall.ph'; <BR>
+<BR>
+$hnd&nbsp;&nbsp;=&nbsp;&nbsp;syscall(&amp;SYS_open,&quot;myfile&quot;,$flgs);
+<BR>
+syscall(&amp;SYS_write, $hnd, &quot;Hello!!!\n&quot;, 9);<BR>
+syscall(&amp;SYS_close,hndl);</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+You can force literals to be interpreted as numbers if you add
+a zero to the variable. For example, a filename of <TT><FONT FACE="Courier">x</FONT></TT>
+would be interpreted as the string <TT><FONT FACE="Courier">&quot;x&quot;</FONT></TT>,
+not the letter <I>x</I>. However, <TT><FONT FACE="Courier">&quot;x&quot;+0</FONT></TT>
+will cause a number to be passed to the called function. See Listing
+15.9 for a list of available system calls on a typical UNIX system.
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+This chapter has introduced you to Perl functions for accessing
+system facilities. Using <TT><FONT FACE="Courier">system('function')</FONT></TT>
+or using back quotes is a costly way of executing commands in
+the system. Various utilities exist in Perl for manipulating the
+hosts, networks, systems services, and protocols on a UNIX system.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch14.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch14.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch16.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch16.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

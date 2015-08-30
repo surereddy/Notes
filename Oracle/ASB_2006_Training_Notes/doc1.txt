@@ -1,0 +1,27 @@
+C:\> services.msc
+C:\> net start
+C:\> net start oracleserviceORCL
+-------------------------------------
+C:\> set ORACLE_SID=ORCL
+C:\> lsnrctl start  | C:\> net start OracleOraHome92TNSListener
+
+$ export ORACLE_SID=ORCL
+$ lsnrctl start
+
+C:\> sqlplus /nolog
+$ sqlplus /nolog
+
+--操作系统通过特殊的ORA_DBA组，或oracle password file来限制谁可以
+--启动关闭数据库
+
+SQL> connect / as sysdba  | connect sys/oracle as sysdba
+SQL> startup
+SQL> SELECT * FROM ALL_USERS;
+SQL> connect scott/tiger
+SQL> show user
+SQL> select * from tab;
+SQL> desc EMP;
+SQL> SELECT * FROM EMP;
+
+
+

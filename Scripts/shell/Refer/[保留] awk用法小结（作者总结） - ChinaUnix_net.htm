@@ -1,0 +1,423 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0042)http://www.chinaunix.net/jh/24/691456.html -->
+<HTML><HEAD><TITLE>[保留] awk用法小结（作者总结） - ChinaUnix.net</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=gb2312">
+<META 
+content=Linux,Freebsd,Solaris,Sco,HP-UX,IBM-AIX,cisco,oracle,java,cgi,mysql,perl,Apache,proFTP,Sendmail,Qmail,DNS,Squid,Rsync,SSL 
+name=keywords>
+<META content=ChinaUnix.net name=description>
+<STYLE type=text/css>H1 {
+	FONT-SIZE: 24px; MARGIN: 0px
+}
+TD {
+	FONT-SIZE: 14px
+}
+SELECT {
+	FONT-SIZE: 14px
+}
+INPUT {
+	FONT-SIZE: 14px
+}
+.content {
+	FONT-SIZE: 14px; LINE-HEIGHT: 130%; FONT-FAMILY: Tahoma,MS Shell Dlg,宋体
+}
+.l17 {
+	LINE-HEIGHT: 170%
+}
+.f24 {
+	FONT-SIZE: 24px
+}
+.f14 {
+	FONT-SIZE: 14px; LINE-HEIGHT: 130%
+}
+A:link {
+	COLOR: #0000ff
+}
+A:visited {
+	COLOR: #800080
+}
+A:active {
+	COLOR: #ff0000
+}
+A:hover {
+	COLOR: #ff0000
+}
+A.a02:link {
+	COLOR: #0000ff; TEXT-DECORATION: none
+}
+A.a02:visited {
+	COLOR: #0000ff; TEXT-DECORATION: none
+}
+A.a02:active {
+	COLOR: #ff0000; TEXT-DECORATION: none
+}
+A.a02:hover {
+	COLOR: #ff0000; TEXT-DECORATION: none
+}
+</STYLE>
+
+<META content="MSHTML 6.00.2900.5764" name=GENERATOR></HEAD>
+<BODY leftMargin=0 topMargin=5 marginwidth="0" marginheight="5">
+<CENTER><!--导航start-->
+<TABLE cellSpacing=0 cellPadding=0 width=760 border=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <SCRIPT src="[保留] awk用法小结（作者总结） - ChinaUnix_net.files/title.js"></SCRIPT>
+    </TD></TR></TBODY></TABLE><!--导航end--><!--头部结束--><!--通栏广告开始-->
+<TABLE cellSpacing=0 cellPadding=0 width=760 border=0>
+  <TBODY>
+  <TR>
+    <TD height=2></TD></TR>
+  <TR>
+    <TD>
+      <SCRIPT src="[保留] awk用法小结（作者总结） - ChinaUnix_net.files/jh_top.js"></SCRIPT>
+    </TD></TR></TBODY></TABLE><!--通栏广告结束-->
+<TABLE height=30 cellSpacing=0 cellPadding=0 width=760 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=center align=left><FONT color=#0000ff><A class=a02 
+      href="http://www.chinaunix.net/">ChinaUnix首页</A> &gt; <A class=a02 
+      href="http://www.chinaunix.net/jh">精华文章</A> &gt; <A class=a02 
+      href="http://www.chinaunix.net/jh/24">Shell</A> &gt; 正文</FONT> </TD>
+    <FORM name=_search action=http://search.chinaunix.net/cgi-bin/search 
+    method='post"'>
+    <TD vAlign=center align=right><INPUT class=t2 name=key> <INPUT type=submit value=搜索 name=enter> </TD></FORM></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=760 border=0>
+  <TBODY>
+  <TR>
+    <TD height=3></TD></TR>
+  <TR>
+    <TD bgColor=#747474 height=1><IMG height=1 
+      src="[保留] awk用法小结（作者总结） - ChinaUnix_net.files/c.gif" 
+width=1></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=760 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top align=middle bgColor=#edf0f5 rowSpan=2><BR>
+      <TABLE cellSpacing=0 cellPadding=0 width="90%" border=0>
+        <TBODY>
+        <TR>
+          <TH class=f24><FONT color=#05006c>
+            <H1>[保留] awk用法小结（作者总结）</H1></FONT></TH></TR>
+        <TR>
+          <TD>
+            <HR SIZE=1 bgcolor="#d9d9d9">
+          </TD></TR>
+        <TR>
+          <TD align=middle height=20>http://www.chinaunix.net 作者:<A 
+            href="http://bbs.chinaunix.net/viewpro.php?uid=362449" 
+            target=_blank>ruifox</A>&nbsp;&nbsp;发表于：2007-08-01 11:49:42</TD></TR>
+        <TR>
+          <TD align=middle height=30>【<A 
+            href="http://bbs.chinaunix.net/post.php?action=reply&amp;fid=24&amp;tid=691456" 
+            target=_blank>发表评论</A>】【<A 
+            href="http://bbs.chinaunix.net/viewthread.php?tid=691456" 
+            target=_blank>查看原文</A>】【<A 
+            href="http://bbs.chinaunix.net/forumdisplay.php?fid=24">Shell讨论区</A>】【<A 
+            href="javascript:window.close()">关闭</A>】 </TD></TR>
+        <TR>
+          <TD class=l17><FONT class=f14 id=zoom><!-- 正文begin -->
+            <TABLE style="TABLE-LAYOUT: fixed; WORD-WRAP: break-word" 
+            cellSpacing=0 cellPadding=0 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD><BR>awk&nbsp;用法：awk&nbsp;'&nbsp;pattern&nbsp;{action}&nbsp;'&nbsp; 
+                  <BR><BR>变量名 含义 <BR>ARGC 命令行变元个数 <BR>ARGV 命令行变元数组 <BR>FILENAME 
+                  当前输入文件名 <BR>FNR 当前文件中的记录号 <BR>FS 输入域分隔符，默认为一个空格 <BR>RS 输入记录分隔符 
+                  <BR>NF 当前记录里域个数 <BR>NR 到目前为止记录数 <BR>OFS 输出域分隔符 <BR>ORS 输出记录分隔符 
+                  <BR><BR>1、awk&nbsp;'/101/'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file&nbsp;显示文件file中包含101的匹配行。 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'/101/,/105/'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'$1&nbsp;==&nbsp;5'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'$1&nbsp;==&nbsp;"CT"'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file&nbsp;注意必须带双引号 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'$1&nbsp;*&nbsp;$2&nbsp;&gt;100&nbsp;'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file&nbsp; 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'$2&nbsp;&gt;5&nbsp;&amp;&amp;&nbsp;$2&lt;=15'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file 
+                  <BR>2、awk&nbsp;'{print&nbsp;NR,NF,$1,$NF,}'&nbsp;file&nbsp;显示文件file的当前记录号、域数和每一行的第一个和最后一个域。 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'/101/&nbsp;{print&nbsp;$1,$2&nbsp;+&nbsp;10}'&nbsp;file&nbsp;显示文件file的匹配行的第一、二个域加10。 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'/101/&nbsp;{print&nbsp;$1$2}'&nbsp;&nbsp;file 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'/101/&nbsp;{print&nbsp;$1&nbsp;$2}'&nbsp;file&nbsp;显示文件file的匹配行的第一、二个域，但显示时域中间没有分隔符。 
+                  <BR>3、df&nbsp;|&nbsp;awk&nbsp;'$4&gt;1000000&nbsp;'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过管道符获得输入，如：显示第4个域满足条件的行。 
+                  <BR>4、awk&nbsp;-F&nbsp;"|"&nbsp;'{print&nbsp;$1}'&nbsp;&nbsp;&nbsp;file&nbsp;按照新的分隔符“|”进行操作。 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;&nbsp;'BEGIN&nbsp;{&nbsp;FS="[:&nbsp;\t|]"&nbsp;} 
+                  <BR>&nbsp;&nbsp;&nbsp;{print&nbsp;$1,$2,$3}'&nbsp; 
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file&nbsp;通过设置输入分隔符（FS="[:&nbsp;\t|]"）修改输入分隔符。 
+                  <BR><BR>&nbsp;&nbsp;&nbsp;Sep="|" 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;-F&nbsp;$Sep&nbsp;'{print&nbsp;$1}'&nbsp;&nbsp;file&nbsp;按照环境变量Sep的值做为分隔符。&nbsp;&nbsp;&nbsp; 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;-F&nbsp;'[&nbsp;:\t|]'&nbsp;'{print&nbsp;$1}'&nbsp;file&nbsp;按照正则表达式的值做为分隔符，这里代表空格、:、TAB、|同时做为分隔符。 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;-F&nbsp;'[][]'&nbsp;&nbsp;&nbsp;&nbsp;'{print&nbsp;$1}'&nbsp;file&nbsp;按照正则表达式的值做为分隔符，这里代表[、] 
+                  <BR>5、awk&nbsp;-f&nbsp;awkfile&nbsp; 
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file&nbsp;通过文件awkfile的内容依次进行控制。 
+                  <BR>&nbsp;&nbsp;&nbsp;cat&nbsp;awkfile 
+                  <BR>/101/{print&nbsp;"\047&nbsp;Hello!&nbsp;\047"}&nbsp;--遇到匹配行以后打印&nbsp;'&nbsp;Hello!&nbsp;'.\047代表单引号。 
+                  <BR>{print&nbsp;$1,$2}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--因为没有模式控制，打印每一行的前两个域。 
+                  <BR>6、awk&nbsp;'$1&nbsp;~&nbsp;/101/&nbsp;{print&nbsp;$1}'&nbsp;file&nbsp;显示文件中第一个域匹配101的行（记录）。 
+                  <BR>7、awk&nbsp;&nbsp;&nbsp;'BEGIN&nbsp;{&nbsp;OFS="%"} 
+                  <BR>&nbsp;&nbsp;&nbsp;{print&nbsp;$1,$2}'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file&nbsp;通过设置输出分隔符（OFS="%"）修改输出格式。 
+                  <BR>8、awk&nbsp;&nbsp;&nbsp;'BEGIN&nbsp;{&nbsp;max=100&nbsp;;print&nbsp;"max="&nbsp;max}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN&nbsp;表示在处理任意行之前进行的操作。 
+                  <BR>&nbsp;&nbsp;&nbsp;{max=($1&nbsp;&gt;max&nbsp;?$1:max);&nbsp;print&nbsp;$1,"Now&nbsp;max&nbsp;is&nbsp;"max}'&nbsp;file&nbsp;取得文件第一个域的最大值。 
+                  <BR>&nbsp;&nbsp;&nbsp;（表达式1?表达式2:表达式3&nbsp;相当于： 
+                  <BR>&nbsp;&nbsp;&nbsp;if&nbsp;(表达式1) 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表达式2 
+                  <BR>&nbsp;&nbsp;&nbsp;else 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表达式3 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'{print&nbsp;($1&gt;4&nbsp;?&nbsp;"high&nbsp;"$1:&nbsp;"low&nbsp;"$1)}'&nbsp;file&nbsp; 
+                  <BR>9、awk&nbsp;'$1&nbsp;*&nbsp;$2&nbsp;&gt;100&nbsp;{print&nbsp;$1}'&nbsp;file&nbsp;显示文件中第一个域匹配101的行（记录）。 
+                  <BR>10、awk&nbsp;'{$1&nbsp;==&nbsp;'Chi'&nbsp;{$3&nbsp;=&nbsp;'China';&nbsp;print}'&nbsp;file&nbsp;找到匹配行后先将第3个域替换后再显示该行（记录）。 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;awk&nbsp;'{$7&nbsp;%=&nbsp;3;&nbsp;print&nbsp;$7}'&nbsp;&nbsp;file&nbsp;将第7域被3除，并将余数赋给第7域再打印。 
+                  <BR>11、awk&nbsp;'/tom/&nbsp;{wage=$2+$3;&nbsp;printf&nbsp;wage}'&nbsp;file&nbsp;找到匹配行后为变量wage赋值并打印该变量。 
+                  <BR>12、awk&nbsp;'/tom/&nbsp;{count++;}&nbsp; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;{print&nbsp;"tom&nbsp;was&nbsp;found&nbsp;"count"&nbsp;times"}'&nbsp;file&nbsp;END表示在所有输入行处理完后进行处理。 
+                  <BR>13、awk&nbsp;'gsub(/\$/,"");gsub(/,/,"");&nbsp;cost+=$4; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;{print&nbsp;"The&nbsp;total&nbsp;is&nbsp;$"&nbsp;cost&gt;"filename"}'&nbsp;&nbsp;&nbsp;&nbsp;file&nbsp;gsub函数用空串替换$和,再将结果输出到filename中。 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;2&nbsp;3&nbsp;$1,200.00 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;2&nbsp;3&nbsp;$2,300.00 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;2&nbsp;3&nbsp;$4,000.00 
+                  <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;awk&nbsp;'{gsub(/\$/,"");gsub(/,/,""); 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;($4&gt;1000&amp;&amp;$4&lt;2000)&nbsp;c1+=$4; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;if&nbsp;($4&gt;2000&amp;&amp;$4&lt;3000)&nbsp;c2+=$4; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;if&nbsp;($4&gt;3000&amp;&amp;$4&lt;4000)&nbsp;c3+=$4; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;c4+=$4;&nbsp;} 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;{printf&nbsp;&nbsp;"c1=[%d];c2=[%d];c3=[%d];c4=[%d]\n",c1,c2,c3,c4}"'&nbsp;file 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;通过if和else&nbsp;if完成条件语句 
+                  <BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;awk&nbsp;'{gsub(/\$/,"");gsub(/,/,""); 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;($4&gt;3000&amp;&amp;$4&lt;4000)&nbsp;exit; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;c4+=$4;&nbsp;} 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;{printf&nbsp;&nbsp;"c1=[%d];c2=[%d];c3=[%d];c4=[%d]\n",c1,c2,c3,c4}"'&nbsp;file 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;通过exit在某条件时退出，但是仍执行END操作。 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;awk&nbsp;'{gsub(/\$/,"");gsub(/,/,""); 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;($4&gt;3000)&nbsp;next; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;c4+=$4;&nbsp;} 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;{printf&nbsp;&nbsp;"c4=[%d]\n",c4}"'&nbsp;file 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;通过next在某条件时跳过该行，对下一行执行操作。 
+                  <BR><BR><BR>14、awk&nbsp;'{&nbsp;print&nbsp;FILENAME,$0&nbsp;}'&nbsp;file1&nbsp;file2&nbsp;file3&gt;fileall&nbsp;把file1、file2、file3的文件内容全部写到fileall中，格式为 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;打印文件并前置文件名。 
+                  <BR>15、awk&nbsp;'&nbsp;$1!=previous&nbsp;{&nbsp;close(previous);&nbsp;previous=$1&nbsp;}&nbsp;&nbsp;&nbsp; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;{print&nbsp;substr($0,index($0,"&nbsp;")&nbsp;+1)&gt;$1}'&nbsp;fileall&nbsp;把合并后的文件重新分拆为3个文件。并与原文件一致。 
+                  <BR>16、awk&nbsp;'BEGIN&nbsp;{"date"|getline&nbsp;d;&nbsp;print&nbsp;d}'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过管道把date的执行结果送给getline，并赋给变量d，然后打印。&nbsp; 
+                  <BR>17、awk&nbsp;'BEGIN&nbsp;{system("echo&nbsp;\"Input&nbsp;your&nbsp;name:\\c\"");&nbsp;getline&nbsp;d;print&nbsp;"\nYour&nbsp;name&nbsp;is",d,"\b!\n"}' 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;通过getline命令交互输入name，并显示出来。 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;awk&nbsp;'BEGIN&nbsp;{FS=":";&nbsp;while(getline&lt;&nbsp;"/etc/passwd"&nbsp;&gt;0)&nbsp;{&nbsp;if($1~"050[0-9]_")&nbsp;print&nbsp;$1}}' 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;打印/etc/passwd文件中用户名包含050x_的用户名。 
+                  <BR><BR>18、awk&nbsp;'{&nbsp;i=1;while(i&lt;NF)&nbsp;{print&nbsp;NF,$i;i++}}'&nbsp;file&nbsp;通过while语句实现循环。 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;awk&nbsp;'{&nbsp;for(i=1;i&lt;NF;i++)&nbsp;{print&nbsp;NF,$i}}'&nbsp;&nbsp;&nbsp;file&nbsp;通过for语句实现循环。&nbsp;&nbsp;&nbsp;&nbsp; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;file|awk&nbsp;-F&nbsp;"/"&nbsp;' 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;for(i=1;i&lt;NF;i++) 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;if(i==NF-1)&nbsp;{&nbsp;printf&nbsp;"%s",$i&nbsp;} 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;{&nbsp;printf&nbsp;"%s/",$i&nbsp;}&nbsp;}}'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;显示一个文件的全路径。 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;用for和if显示日期 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;awk&nbsp;&nbsp;'BEGIN&nbsp;{ 
+                  <BR>for(j=1;j&lt;=12;j++) <BR>{&nbsp;flag=0; 
+                  <BR>&nbsp;&nbsp;printf&nbsp;"\n%d月份\n",j; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(i=1;i&lt;=31;i++) 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(j==2&amp;&amp;i&gt;28)&nbsp;flag=1; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;((j==4||j==6||j==9||j==11)&amp;&amp;i&gt;30)&nbsp;flag=1; 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(flag==0)&nbsp;{printf&nbsp;"%02d%02d&nbsp;",j,i} 
+                  <BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <BR>} 
+                  <BR>}' <BR>19、在awk中调用系统变量必须用单引号，如果是双引号，则表示字符串 <BR>Flag=abcd 
+                  <BR>awk&nbsp;'{print&nbsp;'$Flag'}'&nbsp;&nbsp;&nbsp;结果为abcd 
+                  <BR>awk&nbsp;'{print&nbsp;&nbsp;"$Flag"}'&nbsp;&nbsp;&nbsp;结果为$Flag<BR><BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=187152" 
+                  target=_blank>寂寞烈火</A> 回复于：2006-01-19 
+                  13:32:02</B><BR><BR>好贴<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=124596" 
+                  target=_blank>pvb1979</A> 回复于：2006-01-19 
+                  14:11:28</B><BR><BR>总结的好！！<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=246250" 
+                  target=_blank>mrlau</A> 回复于：2006-01-19 
+                  14:32:26</B><BR><BR>Good!<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=204541" 
+                  target=_blank>linuxunix1</A> 回复于：2006-01-19 
+                  18:23:23</B><BR><BR>good<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=59877" 
+                  target=_blank>wwwjy2000</A> 回复于：2006-01-20 
+                  16:21:40</B><BR><BR>19、在awk中调用系统变量必须用单引号，如果是双引号，则表示字符串 
+                  <BR>Flag=abcd 
+                  <BR>awk&nbsp;'{print&nbsp;'$Flag'}'&nbsp;&nbsp;&nbsp;结果为abcd 
+                  <BR>awk&nbsp;'{print&nbsp;&nbsp;"$Flag"}'&nbsp;&nbsp;&nbsp;结果为$Flag 
+                  <BR><BR>调用系统变量必须用单引号这句话不对。在AWK的命令行方式中，引号为AWK提供命令串，单双引号均可，单引号引起的串shell不做处理，直接提供给AWK，双引号引起的串先经过shell替换后才交给AWK处理： 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'{print&nbsp;'$Flag'}'&nbsp;&nbsp;&nbsp;相当于把&nbsp;'{print&nbsp;"abcd"&nbsp;}'交由AWK处理，awk&nbsp;"{print&nbsp;$Flag&nbsp;}"一样，shell已处理$Flag。 
+                  <BR>&nbsp;&nbsp;&nbsp;awk&nbsp;'{print&nbsp;&nbsp;"$Flag"}'y相当于命令：awk&nbsp;"{print&nbsp;\$Flag&nbsp;}",单引号内的串shell不处理。<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=362449" 
+                  target=_blank>ruifox</A> 回复于：2006-01-20 
+                  18:23:35</B><BR><BR>非常感谢6楼的指出了我的错误！ <BR>不过我对单引号和双引号的用法仍然有点糊涂： 
+                  <BR><BR>如果说单引号不做处理，为什么用单引号括住的系统变量会取到值abcd，而不是$Flag，我觉得你说的不做处理应该是指最外面的一层单引号。 
+                  <BR><BR>另外再请教大家一个问题，比如以下这个例子： <BR>a.sh脚本内容 <BR>CPU_MIN=90 
+                  <BR>cat&nbsp;aa|awk&nbsp;"{print&nbsp;$CPU_MIN,$1}" 
+                  <BR><BR>执行时带个参数：a.sh&nbsp;&nbsp;1234 
+                  <BR>如果按你的说法应该显示：&nbsp;90&nbsp;&nbsp;1234 
+                  <BR>但实际上只显示90，为什么$1的值没有取到，是否应该和awk本身的变量定义有冲突。如果不使用中间变量，这个1234如何传递到awk中？<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=354669" 
+                  target=_blank>chinamyrice</A> 回复于：2006-01-22 
+                  21:41:42</B><BR><BR>楼上，你的输入awk是不认识的。对一个常量设定值，要用-v参数。否则，awk不认识。如下： 
+                  <BR>awk&nbsp;-v&nbsp;cpu_min=99&nbsp;'{print&nbsp;cpu_min,$1}'<BR><BR>[<U>&nbsp;本帖最后由&nbsp;chinamyrice&nbsp;于&nbsp;2006-1-23&nbsp;07:07&nbsp;编辑&nbsp;</U>]<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=252014" 
+                  target=_blank>dbcat</A> 回复于：2006-01-22 
+                  23:38:54</B><BR><BR><IMG 
+                  src="[保留] awk用法小结（作者总结） - ChinaUnix_net.files/em02.gif"><IMG 
+                  src="[保留] awk用法小结（作者总结） - ChinaUnix_net.files/em02.gif"><IMG 
+                  src="[保留] awk用法小结（作者总结） - ChinaUnix_net.files/em02.gif"> 
+                  <BR><BR>学习。。。。。。。。。。。。。。。<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=51293" 
+                  target=_blank>woodie</A> 回复于：2006-01-23 
+                  09:37:14</B><BR><BR>引用：<I>原帖由&nbsp;<U>ruifox</U>&nbsp;于&nbsp;2006-1-20&nbsp;18:23&nbsp;发表 
+                  <BR>... <BR>另外再请教大家一个问题，比如以下这个例子： <BR>a.sh脚本内容 <BR>CPU_MIN=90 
+                  <BR>cat&nbsp;aa|awk&nbsp;"{print&nbsp;$CPU_MIN,$1}" 
+                  <BR><BR>执行时带个参数：a.sh&nbsp;&nbsp;1234 
+                  <BR>如果按你的说法应该显示：&nbsp;90&nbsp;&nbsp;1234 
+                  <BR>但实际上只显示90，为什么$1的值没有取到，是否应该和awk本身的变量定义有冲突。如果不使用中间变量，这个1234如何传递到awk中？</I><BR><BR>$1是awk的特殊变量，不应该被shell解释。可以这样： 
+                  <BR>cat&nbsp;aa|awk&nbsp;"{print&nbsp;$CPU_MIN,\$1}" 
+                  <BR><BR>建议你去读读十三问中关于单双引号的论述。<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=3753" 
+                  target=_blank>bigbomb</A> 回复于：2006-01-23 
+                  13:35:53</B><BR><BR>这样的帖子得顶<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=362449" 
+                  target=_blank>ruifox</A> 回复于：2006-01-23 
+                  16:56:29</B><BR><BR>引用：<I>原帖由&nbsp;<U>woodie</U>&nbsp;于&nbsp;2006-1-23&nbsp;09:37&nbsp;发表 
+                  <BR><BR>$1是awk的特殊变量，不应该被shell解释。可以这样： 
+                  <BR>cat&nbsp;aa|awk&nbsp;"{print&nbsp;$CPU_MIN,\$1}" 
+                  <BR><BR>建议你去读读十三问中关于单双引号的论述。&nbsp;</I><BR><BR><BR>感谢woodie，我终于把这个问题搞清楚了！:em03:<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=354669" 
+                  target=_blank>chinamyrice</A> 回复于：2006-01-24 
+                  10:38:09</B><BR><BR>我执行文件后，怎么会出现这样的错误？ <BR>cat <BR>#!/bin/awk 
+                  <BR>cpuo=90 <BR>cat&nbsp;aa|awk&nbsp;'{print&nbsp;$1}' 
+                  <BR><BR>awk:&nbsp;cmd.&nbsp;line:1:&nbsp;(FILENAME=-&nbsp;FNR=1)&nbsp;fatal:&nbsp;division&nbsp;by&nbsp;zero&nbsp;attempted<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=129112" 
+                  target=_blank>creat7151</A> 回复于：2006-01-24 
+                  13:51:09</B><BR><BR>好贴，收藏<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=279289" 
+                  target=_blank>公子月</A> 回复于：2006-01-24 
+                  14:12:03</B><BR><BR>收下了，感谢<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=208001" 
+                  target=_blank>macrodba</A> 回复于：2006-01-25 
+                  16:51:38</B><BR><BR>不错，ｇｏｏｄ，支持了<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=259491" 
+                  target=_blank>vovovoo_0118</A> 回复于：2006-01-26 
+                  14:16:22</B><BR><BR>好东西，谢谢！<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=252014" 
+                  target=_blank>dbcat</A> 回复于：2006-01-26 
+                  22:58:41</B><BR><BR>学习。。。<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=226864" 
+                  target=_blank>goodcjh2005</A> 回复于：2006-02-02 
+                  17:41:53</B><BR><BR>不错<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=97016" 
+                  target=_blank>jeffshia</A> 回复于：2006-02-09 
+                  11:23:06</B><BR><BR>good!<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=129112" 
+                  target=_blank>creat7151</A> 回复于：2006-02-09 
+                  12:40:56</B><BR><BR>收下好好学习。<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=194038" 
+                  target=_blank>SAS</A> 回复于：2006-02-09 
+                  17:01:46</B><BR><BR>强烈建议斑竹加精<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=101997" 
+                  target=_blank>nettoobad</A> 回复于：2006-02-13 
+                  21:40:30</B><BR><BR>用perl可以更好的完成sed和awk所完成的功能,而且完成的更好.<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=343570" 
+                  target=_blank>scudboy</A> 回复于：2006-02-18 
+                  00:47:46</B><BR><BR>好东东，谢谢lz<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=371667" 
+                  target=_blank>idiotqxf</A> 回复于：2006-02-19 
+                  17:11:33</B><BR><BR>第4点行：awk&nbsp;-F&nbsp;"|"&nbsp;'{print&nbsp;$1}'&nbsp;&nbsp;&nbsp;file&nbsp;按照新的分隔符“|”进行操作。 
+                  <BR>错误：应该是awk&nbsp;-F&nbsp;‘|’'{print&nbsp;$1}'&nbsp;&nbsp;&nbsp;file&nbsp;按照新的分隔符“|”进行操作。<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=412798" 
+                  target=_blank>yindi002</A> 回复于：2007-08-01 
+                  00:05:53</B><BR><BR>感谢分享<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=3155" 
+                  target=_blank>zhangshebao</A> 回复于：2007-08-01 
+                  02:24:39</B><BR><BR>引用：<I>原帖由&nbsp;<U>idiotqxf</U>&nbsp;于&nbsp;2006-2-19&nbsp;17:11&nbsp;发表&nbsp;[url=http://bbs.chinaunix.net/redirect.php?goto=findpost&amp;pid=4760989&amp;ptid=691456]<IMG 
+                  src="[保留] awk用法小结（作者总结） - ChinaUnix_net.files/back.gif"> 
+                  <BR>第4点行：awk&nbsp;-F&nbsp;"|"&nbsp;'{print&nbsp;$1}'&nbsp;&nbsp;&nbsp;file&nbsp;按照新的分隔符“|”进行操作。 
+                  <BR>错误：应该是awk&nbsp;-F&nbsp;‘|’'{print&nbsp;$1}'&nbsp;&nbsp;&nbsp;file&nbsp;按照新的分隔符“|”进行操作。&nbsp;</I><BR><BR><BR>我试了,本例-F后用单/双引号均可以,结果一样.楼主没问题,25楼用中文单引号反而错了. 
+                  <BR>单双引号的差别是:shell对单引号中的内容不解释,直接传给awk,而对双引号中的内容解释后再传给awk.<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=3155" 
+                  target=_blank>zhangshebao</A> 回复于：2007-08-01 
+                  02:54:53</B><BR><BR>引用：<I>原帖由&nbsp;<U>ruifox</U>&nbsp;于&nbsp;2006-1-20&nbsp;18:23&nbsp;发表&nbsp;[url=http://bbs.chinaunix.net/redirect.php?goto=findpost&amp;pid=4674645&amp;ptid=691456]<IMG 
+                  src="[保留] awk用法小结（作者总结） - ChinaUnix_net.files/back.gif"> 
+                  <BR>非常感谢6楼的指出了我的错误！ <BR>不过我对单引号和双引号的用法仍然有点糊涂： 
+                  <BR><BR>如果说单引号不做处理，为什么用单引号括住的系统变量会取到值abcd，而不是$Flag，我觉得你说的不做处理应该是指最外面的一层单&nbsp;...&nbsp;</I><BR><BR><BR>对19条的描述可用6楼的,6楼对第1例解释确不对. 
+                  <BR>awk&nbsp;'{print&nbsp;'$Flag'}'&nbsp; 
+                  <BR>这个例子用法有问题,引号要配对使用,外层用了单引号,内层再用就必须用\转义,应该更正为: 
+                  <BR>awk&nbsp;'{print&nbsp;\'$Flag\'}'&nbsp; <BR>或 
+                  <BR>awk&nbsp;'{print&nbsp;"$Flag"}'&nbsp; 
+                  <BR>结果是shell不解释$Flag,直接传给awk将$Flag当字符串输出 
+                  <BR><BR>楼主的例子在你的环境中输出abcd,我认为是shell将前两个单引号内容取出,加上环境变量值abcd,再加上后两个引号之间的内容,3个串连起来后传给awk.刚好第2第3个引号之间没空格,所以没报错.&nbsp;换了别的shell或别的操作系统,结果可能不同或报错. 
+                  <BR><BR>19、在awk中如需调用环境变量一定不能出现在单引号内: <BR>Flag=abcd 
+                  <BR>awk&nbsp;'{print&nbsp;'$Flag'}'&nbsp;&nbsp;&nbsp;用法不对,引号不配对,结果依赖环境 
+                  <BR>awk&nbsp;'{print&nbsp;&nbsp;"$Flag"}'&nbsp;&nbsp;&nbsp;结果为$Flag 
+                  <BR>awk&nbsp;"{print&nbsp;&nbsp;'$Flag'}"&nbsp;&nbsp;&nbsp;结果为$Flag 
+                  <BR><B>awk&nbsp;"{print&nbsp;&nbsp;\"$Flag\"}"&nbsp;&nbsp;&nbsp;结果为abcd</B><BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=543105" 
+                  target=_blank>hansfly</A> 回复于：2007-08-01 
+                  10:51:26</B><BR><BR>学习<BR><BR>
+                  <HR>
+                  <B>&nbsp;<A 
+                  href="http://bbs.chinaunix.net/viewpro.php?uid=5992" 
+                  target=_blank>lvgq2001</A> 回复于：2007-08-01 
+                  11:49:42</B><BR><BR>总结的好，收下啦，慢慢消化！:mrgreen:<BR><BR><BR><BR></TD></TR>
+              <TR>
+                <TD bgColor=#747474 height=1><IMG height=1 
+                  src="[保留] awk用法小结（作者总结） - ChinaUnix_net.files/c.gif" 
+                width=1></TD></TR>
+              <TR>
+                <TD><BR>原文链接：<A 
+                  href="http://bbs.chinaunix.net/viewthread.php?tid=691456">http://bbs.chinaunix.net/viewthread.php?tid=691456</A><BR>转载请注明作者名及原文出处<BR><BR><BR></TD></TR></TBODY></TABLE><!-- 正文end --></FONT></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<HR width=760 SIZE=2>
+
+<SCRIPT src="[保留] awk用法小结（作者总结） - ChinaUnix_net.files/tail.js"></SCRIPT>
+</CENTER></BODY></HTML>

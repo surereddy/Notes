@@ -1,0 +1,15 @@
+|- 如何确定设备IP？
+1.对client设备。
+  如IAD，抓ARP包，因为它要找Softswitch。
+  例外：如果IAD还没配置，就发ARP包。
+2.对Server设备。
+  a. 如果设备配网关。
+     PC跟设备直连，PC ping 224.0.0.1，并抓包。这时触发设备发ARP包抓网关。PC地址随便配。
+     听说是因为224.0.0.1以上的是广播地址。
+  b. 没网关。
+     如果知道是哪个网段的话，逐个IP ping。
+     如对192.168.0.X网段，可以用windows cygwin下bash批命令如下：
+     for ((i=1;i<255;i++)); do ping 192.168.50.$i; done|tee ping_detail.txt|grep TTL|tee ping_ok.txt
+     ping 通的结果在ping_ok.txt,并打印在标准输出。
+  
+  

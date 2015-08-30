@@ -1,0 +1,997 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0075)http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128829.html -->
+<HTML xmlns:o = "urn:schemas-microsoft-com:office:office" xmlns:st1 = 
+"urn:schemas-microsoft-com:office:smarttags"><HEAD><TITLE>Redhat AS4上安装64位Oracle10.2_Oracle技术教程_Oracle_数据库</TITLE>
+<META http-equiv=Content-Type content=text/html;charset=gb2312>
+<META content=www.diybl.com,DIY部落版权所有 name=Copyright>
+<META content="Redhat AS4上安装64位Oracle10.2_Oracle技术教程_Oracle_数据库" name=keywords>
+<META content="Redhat AS4上安装64位Oracle10.2_Oracle技术教程_<P class=MsoNormal style=" 
+name=description 0..? PADDING-RIGHT: none; medium BORDER-RIGHT:>
+<META content=index,follow name=robots>
+<META content=INDEX,FOLLOW name=GOOGLEBOT><LINK href="article2.css" 
+type=text/css rel=stylesheet><LINK 
+href="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/article2.css" 
+type=text/css rel=stylesheet>
+<SCRIPT src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/article.js" 
+type=text/javascript></SCRIPT>
+
+<SCRIPT src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/1070402.js" 
+type=text/javascript></SCRIPT>
+
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR></HEAD>
+<BODY><INPUT type=hidden value=128829 name=passage_id><INPUT type=hidden 
+value=1070402 name=catalog_id> 
+<DIV id=wrap>
+<DIV class=top_bar align=center>
+<TABLE cellSpacing=0 width=935>
+  <TBODY>
+  <TR>
+    <TD><A href="http://www.diybl.com/">网站首页</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://news.diybl.com/" target=_blank>新闻首页</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/1_web/">网页设计</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/2_picdesign/">图形动画</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/3_program/">软件编程</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/4_webprogram/">网站开发</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/5_office/">办公软件</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/6_system/">操作系统</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/7_databases/">数据库</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/webjsh/">网络技术</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/comshiti/">认证考试</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/fwzl/">范文资料</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/course/hack/">黑客攻防</A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://www.diybl.com/chm/" target=_blank><FONT 
+      color=red>书籍教程</FONT></A></TD>
+    <TD class=top_bar_sline></TD>
+    <TD><A href="http://bbs.diybl.com/" 
+target=_blank>进入论坛</A></TD></TR></TBODY></TABLE></DIV>
+<TABLE class=adNone id=PublicRelation cellSpacing=0 cellPadding=0 width=950 
+border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top width=864>
+      <DIV class=logo><A href="http://www.diybl.com/" target=_blank><IMG 
+      height=60 
+      src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/logo.gif" 
+      width=200></A></DIV>
+      <DIV class=ad_f1 id=ad_f1>
+      <SCRIPT 
+      src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_f1.js"></SCRIPT>
+      </DIV><!--<div class="top_bar2">-->
+      <UL class=menu>
+        <LI><A href="http://www.diybl.com/course/7_databases/oracle/" 
+        target=_blank><SPAN>Oracle</SPAN></A>
+        <LI><A href="http://www.diybl.com/course/7_databases/oracle/oraclexl/" 
+        target=_blank><SPAN>Oracle系列教程</SPAN></A>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/f8a0fdssd.html" 
+        target=_blank><SPAN>Oracle技术教程</SPAN></A>
+        <LI><A href="http://www.diybl.com/course/7_databases/oracle/Oracleshl/" 
+        target=_blank><SPAN>Oracle实例教程</SPAN></A></LI></UL><!--</div>--></TD>
+    <TD width=6></TD>
+    <TD vAlign=top align=middle width=100>
+      <DIV class=hotNCout>
+      <DIV class=hotNC>
+      <UL>
+        <LI><A 
+        href="javascript:window.external.addFavorite('http://www.diybl.com/','DIY部落');">加入收藏</A> 
+
+        <LI><A href="http://www.diybl.com/map.html" target=_blank>网站地图</A> 
+        <LI><A href="http://www.diybl.com/chm/" target=_blank>书籍教程</A> 
+        <LI><A href="http://www.diybl.com/user/register.asp" 
+        target=_blank>会员注册</A> </LI></UL></DIV></DIV></TD></TR></TBODY></TABLE>
+<DIV class=split style="HEIGHT: 3px"></DIV>
+<DIV class=ad_ftop id=ad_ftop>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_ftop.js"></SCRIPT>
+</DIV>
+<DIV class=subNav>
+<DIV style="FLOAT: right"><INPUT name=wd1> <INPUT onclick=tosearch(document.all.wd1); type=button value=" 千寻搜索 "></DIV><SPAN><A 
+href="http://www.diybl.com/">DIY部落</A> &gt;&gt; <A 
+href="http://www.diybl.com/course/7_databases/">数据库</A> &gt;&gt; <A 
+href="http://www.diybl.com/course/7_databases/oracle/">Oracle</A> &gt;&gt; <A 
+href="http://www.diybl.com/course/7_databases/oracle/oraclejs/f8a0fdssd.html">Oracle技术教程</A> 
+&gt;&gt; 正文</SPAN></DIV>
+<DIV class=split></DIV>
+<DIV class=main>
+<DIV class=lc_blue>
+<DIV class=lcBlk>
+<H1>Redhat AS4上安装64位Oracle10.2</H1>
+<DIV class=from_info>http://www.diybl.com/　2008-6-27 　网络　点击:<SPAN 
+style="FONT-WEIGHT: bold; COLOR: #ff0000">
+<SCRIPT src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/p_count.htm" 
+lanuage="javascript"></SCRIPT>
+ </SPAN>　<A 
+href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128829.html#comment">[ 
+评论 ]</A></DIV>
+<DIV class=artibody>
+<DIV class=ad_f2 id=ad_f2>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_f2.js"></SCRIPT>
+</DIV>
+<DIV class=ad_f3 id=ad_f3>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_f3.js"></SCRIPT>
+</DIV>文章搜索： <INPUT maxLength=255 size=30 name=wd2> &nbsp;&nbsp; <INPUT onclick=tosearch(document.all.wd2); type=button value=千寻搜索><A 
+class=redlink 
+href="javascript:self.location='/user/chm/rar.asp?c_id=48375'">【点击打包该文章】</A>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/art_top.js"></SCRIPT>
+ 
+<P><BR><BR>
+<P class=MsoNormal 
+style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 0cm; PADDING-BOTTOM: 0cm; MARGIN: 0cm 0cm 0pt; BORDER-LEFT: medium none; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none; TEXT-ALIGN: center; mso-pagination: widow-orphan; mso-border-bottom-alt: double windowtext 2.25pt; mso-padding-alt: 0cm 0cm 1.0pt 0cm" 
+align=center><SPAN lang=EN-US 
+style="FONT-SIZE: 12pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">Redhat 
+AS4</SPAN><SPAN 
+style="FONT-SIZE: 12pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">上安装<SPAN 
+lang=EN-US>64</SPAN>位<SPAN lang=EN-US>Oracle10.2<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 30pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.0" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp;</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">本文章是本人在<SPAN 
+lang=EN-US>Redhat AS4 OS </SPAN>上安装<SPAN lang=EN-US>oracle <st1:chmetcnv 
+w:st="on" UnitName="g" SourceValue="10" HasSpace="False" Negative="False" 
+NumberType="1" TCSC="0">10g</st1:chmetcnv> DB</SPAN>时写的手稿<SPAN 
+lang=EN-US>,</SPAN>仅供大家参考<SPAN lang=EN-US>.<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">下面就开始介绍安装步骤，对于简单的部分就不多做说明了<SPAN 
+lang=EN-US>,</SPAN>不清楚的话可以网上查找：<SPAN lang=EN-US><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp;&nbsp;&nbsp;</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">首先检查系统是否满足安装<SPAN 
+lang=EN-US>Oracle <st1:chmetcnv w:st="on" UnitName="g" SourceValue="10" 
+HasSpace="False" Negative="False" NumberType="1" 
+TCSC="0">10g</st1:chmetcnv></SPAN>的最低要求，其实这个对于目前大部分的服务器都是满足的，不过为了完整起见，还是把<SPAN 
+lang=EN-US>Oracle</SPAN>的最低要求和检查的语句列出来：<SPAN 
+lang=EN-US><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp;&nbsp; 
+&nbsp; <st1:chmetcnv w:st="on" UnitName="g" SourceValue="1" HasSpace="False" 
+Negative="False" NumberType="1" TCSC="0">1G</st1:chmetcnv></SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">以上内存；<SPAN 
+lang=EN-US><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp; 
+&nbsp; <SPAN style="mso-spacerun: yes">&nbsp;</SPAN><st1:chmetcnv w:st="on" 
+UnitName="g" SourceValue="1" HasSpace="False" Negative="False" NumberType="1" 
+TCSC="0">1G</st1:chmetcnv></SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">以上<SPAN 
+lang=EN-US>swap</SPAN>空间；<SPAN lang=EN-US><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp; 
+&nbsp; <SPAN style="mso-spacerun: yes">&nbsp;</SPAN>/tmp</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">目录下<st1:chmetcnv 
+w:st="on" UnitName="m" SourceValue="400" HasSpace="False" Negative="False" 
+NumberType="1" TCSC="0"><SPAN lang=EN-US>400M</SPAN></st1:chmetcnv>以上空间。<SPAN 
+lang=EN-US><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm 7.8pt 30.95pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 2.95gd" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"># 
+grep MemTotal /proc/meminfo<BR># grep SwapTotal /proc/meminfo<BR># df -k 
+/tmp<BR># grep "model name" /proc/cpuinfo<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">另外，需要保证<SPAN 
+lang=EN-US>Oracle</SPAN>的安装目录至少有超过<st1:chmetcnv w:st="on" UnitName="g" 
+SourceValue="2.5" HasSpace="False" Negative="False" NumberType="1" 
+TCSC="0"><SPAN lang=EN-US>2.5G</SPAN></st1:chmetcnv>以上的空间，才能保证企业版的正常安装。<SPAN 
+lang=EN-US><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm 7.8pt 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 2.0gd" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">通过下面的语句检查操作系统信息<SPAN 
+lang=EN-US>:<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm 7.8pt 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 2.0gd" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"># 
+more /etc/issue<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm 7.8pt 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 2.0gd" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"># 
+uname -a<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">如果上面的硬件条件满足了我们的需要<SPAN 
+lang=EN-US>,</SPAN>那么<SPAN lang=EN-US>,</SPAN>我们还要看看系统本身的条件是否满足我们的需要<SPAN 
+lang=EN-US>,</SPAN>也就是操作系统是否已经包含了安装<SPAN lang=EN-US>Oracle</SPAN>所需要的包<SPAN 
+lang=EN-US>,</SPAN>通过<SPAN lang=EN-US>rpm -qa</SPAN>来检查以下包的版本<SPAN 
+lang=EN-US>,</SPAN>只有版本高于下面的时可以<SPAN lang=EN-US>,</SPAN>如果低于此版本<SPAN 
+lang=EN-US>,</SPAN>则要升级处理<SPAN lang=EN-US>,</SPAN>如下<SPAN 
+lang=EN-US>:<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">kernel-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">2.6.9</st1:chsdate>-42.EL<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">glibc-devel-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">2.3.4</st1:chsdate>-2.25<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">glibc-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">2.3.4</st1:chsdate>-2.25<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">gcc-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">3.4.6</st1:chsdate>-3<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">gcc-c++-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">3.4.6</st1:chsdate>-3<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">compat-libgcc-296-2.96-132.7.2<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">compat-gcc-32-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">3.2.3</st1:chsdate>-47.3<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">compat-gcc-32-c++-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">3.2.3</st1:chsdate>-47.3<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">libstdc++-devel-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">3.4.6</st1:chsdate>-3<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">libstdc++-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">3.4.6</st1:chsdate>-3<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">make-3.80-6.EL4<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">gtk+-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">1.2.10</st1:chsdate>-33<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">gnome-libs-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">1.4.1</st1:chsdate>.2.90-44.1<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">tcp_wrappers-7.6-37.2<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">ORBit-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">0.5.17</st1:chsdate>-14<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">libpng10-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">1.0.16</st1:chsdate>-1<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">libungif-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">4.1.3</st1:chsdate>-1.el4.2<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">imlib-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">1.9.13</st1:chsdate>-23<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">setarch-1.6-1<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">libaio-0.3.105-2<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">audiofile-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">0.2.6</st1:chsdate>-1.el4.1<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">esound-<st1:chsdate 
+w:st="on" Year="1899" Month="12" Day="30" IsLunarDate="False" 
+IsROCDate="False">0.2.35</st1:chsdate>-2<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 0cm 0cm 0pt; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">注意<SPAN 
+lang=EN-US>:</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp; 
+compat-libgcc-296-2.96-132.7.2</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">这个包必须要加上，否则后面的安装无法继续进行<SPAN 
+lang=EN-US>.<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">当上面的安装包都达到我们的期望值后<SPAN 
+lang=EN-US>,</SPAN>再回过头来看看我们系统的核心参数<SPAN lang=EN-US>,Oracle</SPAN>推荐的默认参数为：<SPAN 
+lang=EN-US><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">将<SPAN 
+lang=EN-US>/etc/sysctl.conf</SPAN>文件中的核心参数进行修改<SPAN lang=EN-US>,</SPAN>如下<SPAN 
+lang=EN-US>:<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">kernel.shmall 
+= 2097152<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">kernel.shmmax 
+= 2147483648<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">kernel.shmmni 
+= 4096<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">kernel.sem 
+= 250 32000 100 128<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">fs.file-max 
+= 65536<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">net.ipv4.ip_local_port_range 
+= 1024 65000<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">net.core.rmem_default=262144<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">net.core.rmem_max=262144<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">net.core.wmem_default=262144<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">net.core.wmem_max=262144<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 0cm 0cm 0pt; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">完成<SPAN 
+lang=EN-US>etc/sysctl.conf</SPAN>文件的修改后<SPAN lang=EN-US>,</SPAN>重启<SPAN 
+lang=EN-US>OS.</SPAN>不过<SPAN lang=EN-US>,</SPAN>通过<SPAN lang=EN-US>/sbin/sysctl 
+–p</SPAN>可以修改当前核心参数，不过如果系统可以重启，还是通过这种方式比较保险。<SPAN 
+lang=EN-US><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 20pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 2.0" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">修改<SPAN 
+lang=EN-US>/etc/security/limits.conf</SPAN>文件，将下面内容填入：<SPAN 
+lang=EN-US>(</SPAN>设置<SPAN lang=EN-US>oracle</SPAN>用户的进程数和打开文件数的限制<SPAN 
+lang=EN-US>)<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 27.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 2.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">* 
+soft nproc 2047<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 27.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 2.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">* 
+hard nproc 16384<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 27.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 2.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">* 
+soft nofile 1024<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 27.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 2.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">* 
+hard nofile 65536<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 0cm 0cm 0pt; TEXT-INDENT: 10pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-char-indent-count: 1.0; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">修改<SPAN 
+lang=EN-US>/etc/pam.d/login</SPAN>文件，添加如下的内容：<SPAN 
+lang=EN-US><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 0cm 0cm 0pt; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto" 
+align=left><SPAN lang=EN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">session 
+required pam_limits.so&nbsp; (</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">注意要与此文件中的格式问题<SPAN 
+lang=EN>)</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 0cm 0cm 0pt; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">这些操作完成之后，开始安装的前期工作了，首先是要创建用户和组：<SPAN 
+lang=EN-US><o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 37.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"># 
+groupadd oinstall<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 37.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"># 
+groupadd dba<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 37.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"># 
+useradd -g oinstall -G dba oracle<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 37.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"># 
+passwd oracle<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 37.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"># 
+mkdir -p /oracle/oracle/product/10.2&nbsp;&nbsp;&nbsp;(</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">在<SPAN 
+lang=EN-US>"/oracle"</SPAN>下建的<SPAN lang=EN-US>)<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 37.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"># 
+chown -R oracle.oinstall /oracle/oracle<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">当以上做完后<SPAN 
+lang=EN-US>,root</SPAN>用户的设置基本结束<SPAN lang=EN-US>,</SPAN>现在可以切换到<SPAN 
+lang=EN-US>oracle</SPAN>用户了<SPAN lang=EN-US>:<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 37.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"># 
+su - oracle<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 37.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">$ 
+vi .bash_profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">添加环境变量<SPAN 
+lang=EN-US>)<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 47.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 4.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp; 
+export LANG=zh.CN.UTF-8<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 47.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 4.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp; 
+export&nbsp;ORACLE_BASE=/oracle/oracle&nbsp;&nbsp;&nbsp;&nbsp; (</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">先前建的<SPAN 
+lang=EN-US>)<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 47.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 4.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp; 
+export ORACLE_HOME=/oracle/oracle/product/10.2(</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">与前面对应<SPAN 
+lang=EN-US>)<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 47.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 4.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp; 
+export ORACLE_SID=clo<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 47.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 4.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp; 
+export NLS_LANG='american_america.ZHS16GBK'<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp;<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN>export 
+PATH=$ORACLE_HOME/bin:$PATH<o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 47.5pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 4.75" 
+align=left><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">&nbsp; 
+export LD_ASSUME_KERNEL=<st1:chsdate w:st="on" Year="1899" Month="12" Day="30" 
+IsLunarDate="False" IsROCDate="False">2.6.22</st1:chsdate><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">然后<SPAN 
+lang=EN>,</SPAN>重启<SPAN lang=EN> .bash_profile,</SPAN>即可<SPAN 
+lang=EN>:</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN lang=EN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">&nbsp; 
+&nbsp; $. .bash_profile(</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">回车<SPAN 
+lang=EN>)</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 0cm 0cm 0pt; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-margin-top-alt: auto; mso-margin-bottom-alt: auto" 
+align=left><SPAN lang=EN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">&nbsp;</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">注<SPAN 
+lang=EN>:</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">ORACLE_BASE</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">、</SPAN><SPAN 
+lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">ORACLE_HOME</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">、</SPAN><SPAN 
+lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">ORACLE_SID</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">以及</SPAN><SPAN 
+lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'">NLS_LANG</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">的设置都需要根据个人的具体进行调整<SPAN 
+lang=EN>.</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 10pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 1.0" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">接下来<SPAN 
+lang=EN>,</SPAN>我们进行软件的安装<SPAN lang=EN>,</SPAN>安装的软件是<SPAN 
+lang=EN>:10201_database_linux_x86_64.cpio.</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 41pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 4.1" 
+align=left><SPAN lang=EN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">$cpio 
+-idcmv &lt; 10201_database_linux_x86_64.cpio</SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 10pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 1.0" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">解压后<SPAN 
+lang=EN>,</SPAN>生成一个<SPAN lang=EN>database</SPAN>的文件<SPAN 
+lang=EN>.</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 31pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.1" 
+align=left><SPAN lang=EN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">$cd 
+database</SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 31pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 3.1" 
+align=left><SPAN lang=EN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">$.runInstaller</SPAN><SPAN 
+lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">此时<SPAN 
+lang=EN>,</SPAN>安装开始了<SPAN lang=EN>,</SPAN>安装的过程中<SPAN 
+lang=EN>,</SPAN>将使用图形化来安装<SPAN lang=EN>,</SPAN>不过要注意的时候<SPAN 
+lang=EN>,</SPAN>在安装过程中<SPAN lang=EN>,</SPAN>我们还要执行两个 <SPAN 
+lang=EN>XXXXX.sh</SPAN>的脚本<SPAN lang=EN>(</SPAN>脚本会在安装的过程中有有关的提示<SPAN 
+lang=EN>,</SPAN>但是在执行的时候要用<SPAN lang=EN>oracle</SPAN>的权限去执行<SPAN 
+lang=EN>),</SPAN>同时<SPAN lang=EN>,</SPAN>在进行图形化来安装的时候<SPAN 
+lang=EN>,</SPAN>我们必须将<SPAN lang=EN>X</SPAN>导入到我们自己的本机<SPAN 
+lang=EN>,</SPAN>因为服务器是不让直接进行操作的<SPAN lang=EN>,</SPAN>必须要进行远程操作<SPAN 
+lang=EN>,</SPAN>因此<SPAN lang=EN>,</SPAN>客户端的本机也先前要安装有关<SPAN 
+lang=EN>X</SPAN>的软件<SPAN lang=EN>,</SPAN>导入本机的方法是<SPAN 
+lang=EN>:</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 41pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 4.1" 
+align=left><SPAN lang=EN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">export 
+DISPLAY=</SPAN><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">本客户机的<SPAN 
+lang=EN>IP:0.0</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 21pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">最后<SPAN 
+lang=EN>,</SPAN>安装完成了<SPAN lang=EN>.</SPAN>有关建库和配置<SPAN 
+lang=EN>listener</SPAN>等的操作就非常的简单了<SPAN lang=EN>.</SPAN>完了后<SPAN 
+lang=EN>,</SPAN>我们可以试着启一下数据库<SPAN lang=EN>:</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 41pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 4.1" 
+align=left><SPAN lang=EN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">sqlplus 
+"/as sysdba"</SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal 
+style="MARGIN: 7.8pt 0cm; TEXT-INDENT: 20pt; TEXT-ALIGN: left; mso-pagination: widow-orphan; mso-para-margin-top: .5gd; mso-para-margin-right: 0cm; mso-para-margin-bottom: .5gd; mso-para-margin-left: 0cm; mso-char-indent-count: 2.0" 
+align=left><SPAN 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'; mso-ansi-language: EN">看信息<SPAN 
+lang=EN>,</SPAN>如果没有出现错误<SPAN lang=EN>,</SPAN>就表示成功了<SPAN 
+lang=EN>,</SPAN>可以试着查查数据库中的表<SPAN lang=EN>.</SPAN></SPAN><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: 宋体; mso-font-kerning: 0pt; mso-bidi-font-family: 'Courier New'"><o:p></o:p></SPAN></P>
+<P class=MsoNormal style="MARGIN: 0cm 0cm 0pt"><SPAN lang=EN-US 
+style="FONT-SIZE: 10pt"><o:p><FONT 
+face="Times New Roman">&nbsp;</FONT></o:p></SPAN></P>
+<DIV class=ad_f10 id=ad_f10>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_f10.js"></SCRIPT>
+</DIV>
+<DIV class=ad_f11 id=ad_f11>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_f11.js"></SCRIPT>
+</DIV>
+<DIV class=kjy><STRONG>文章整理:</STRONG><A href="http://www.diybl.com/" 
+target=_blank><STRONG><FONT color=#cc0000>DIY部落</FONT></STRONG></A> 
+<STRONG>http://www.diybl.com</STRONG> (本站) 　　<A class=redlink 
+href="javascript:self.location='/user/chm/rar.asp?c_id=128829'">【点击打包该文章】</A></DIV></DIV>
+<DIV class=ad_f4 id=ad_f4>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_f4.js"></SCRIPT>
+</DIV>
+<DIV class=mediacontent>如果图片或页面不能正常显示请<A class=redlink 
+onmouseover="this.style.cursor='hand';" 
+onclick="openerror('128829','Redhat AS4上安装64位Oracle10.2');">点击这里</A>　站内搜索： 
+<INPUT maxLength=255 size=25 name=wd3> &nbsp;&nbsp;<INPUT onclick=tosearch(document.all.wd3); type=button value=千寻搜索></DIV>
+<DIV style="CLEAR: both" align=center></DIV>
+<DIV class=toollinks>【<A 
+href="javascript:window.external.addFavorite(window.location,'Redhat%20AS4上安装64位Oracle10.2-DIY部落');">收藏此页</A>】【<A 
+href="http://www.diybl.com/course/7_databases/oracle/oraclejs/f8a0fdssd.html" 
+target=_blank>栏目页面</A>】【<A 
+href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128829.html#comment">发表评论</A>】【<A 
+href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128829.html#">返回顶部</A>】【<A 
+href="javascript:window.close()">关闭</A>】 </DIV>
+<DIV class=p_bottom>上一篇文章：<A 
+href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129071.html">比较简单windows系统不用RMAN的oracle数据库冷备脚本</A><BR>下一篇文章：<A 
+href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128828.html">将oracle设为归档模式启动的方法</A></DIV></DIV>
+<DIV style="CLEAR: both; BACKGROUND: #fff; OVERFLOW: hidden; HEIGHT: 8px"></DIV>
+<DIV id=links align=center>
+<TABLE class=xgzt cellSpacing=0 cellPadding=0 width=687>
+  <TBODY>
+  <TR>
+    <TD style="PADDING-LEFT: 5px" bgColor=#e1effa>
+      <H3>推荐文章</H3></TD></TR>
+  <TR>
+    <TD bgColor=#fcfeff>
+      <DIV class="tj_l tj"><NOBR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/200838/103262.html" 
+      target=_blank>ORACLE如何在有视图的SQL中使用hint(提示)来设置视图内的SQL查询方式</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008727/134180.html" 
+      target=_blank>RMAN配置与维护命令</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/20071120/87124.html" 
+      target=_blank>第八章 ORACLE 索引 INDEXES (一）</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008618/126546.html" 
+      target=_blank>查看ORACLE目前使用的是哪一个启动文件</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008819/136420.html" 
+      target=_blank>ERP大擂台:Oracle vs SAP</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008618/126543.html" 
+      target=_blank>Data Guard学习物理standby高级管理</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/200863/120791.html" 
+      target=_blank>oracle中USERS表空间数据文件损坏修复一例</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2007614/52925.html" 
+      target=_blank>Oracle修补安全漏洞 含23个数据库瑕疵</A></DIV>
+      <DIV class="tj_r tj"><NOBR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/20071226/95479.html" 
+      target=_blank>在windows下管理oracle9i 服务</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2007614/52849.html" 
+      target=_blank>Oracle 8.1.7 for RedHat Linux 7.2的安装过程</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2007614/52929.html" 
+      target=_blank>介绍了Oracle数据库锁的种类及研究</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/200798/70916.html" 
+      target=_blank>如何创建Oracle的jobs 以及Procedure</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008515/116710.html" 
+      target=_blank>我写的一个oracle函数(用途:取出两个标识符之间的字符串)</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2007614/52905.html" 
+      target=_blank>分布式系统的数据复制技术</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/20071211/91827.html" 
+      target=_blank>Oracle 用户密码</A><BR><A 
+      href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008712/132845.html" 
+      target=_blank>如何管理好ORACLE数据表</A></DIV></NOBR></TD></TR></TBODY></TABLE></DIV>
+<DIV style="CLEAR: both; BACKGROUND: #fff; OVERFLOW: hidden; HEIGHT: 8px"></DIV>
+<DIV class=cleanblock2 
+style="BORDER-RIGHT: #dedfde 1px solid; BORDER-TOP: #dedfde 1px solid; BACKGROUND: #ededed; BORDER-LEFT: #dedfde 1px solid; BORDER-BOTTOM: #dedfde 1px solid">
+<H3>文章评论</H3></DIV>
+<DIV class=cleanblock3><IFRAME class=comm_index name=pindex 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/CAWPMXJ0.htm" 
+frameBorder=false width="100%" scrolling=no 
+onload="window.setTimeout('iframe_resize()',1000)" height=0></IFRAME></DIV>
+<DIV style="CLEAR: both; BACKGROUND: #fff; OVERFLOW: hidden; HEIGHT: 8px"></DIV>
+<FORM style="MARGIN-TOP: 0px" 
+action=/user/comment.asp?id=128829&amp;url=http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128829.html 
+method=post>
+<DIV class=comment_1>
+<DIV class=cleanblock2><A name=comment></A>
+<H3>请您留言</H3></DIV>
+<DIV class=cleanblock style="PADDING-RIGHT: 20px; PADDING-LEFT: 20px"><LABEL 
+for=label>昵称: <INPUT onclick=this.focus();this.select() maxLength=20 size=15 
+value=DIY部落网友 name=hypocorism> 　　　　 <A 
+href="http://www.diybl.com/user/register.asp" target=_blank><FONT 
+color=red>注册会员</FONT></A> <A href="http://www.diybl.com/user/login.asp" 
+target=_blank>会员登陆</A> <BR><SPAN style="LINE-HEIGHT: 25px"><A 
+href="http://www.diybl.com/user/chgpage/cata.asp?num=1070402" 
+target=_blank><FONT color=#990000><STRONG>点击这里</STRONG></FONT></A></SPAN> 
+自己制作打包的chm电子书教程 <TEXTAREA style="VERTICAL-ALIGN: text-top; WIDTH: 100%; HEIGHT: 7em" onfocus=showchk(); name=content rows=6></TEXTAREA> 
+<LABEL id=checkCode style="DISPLAY: none">验证: <INPUT maxLength=5 size=8 
+name=loginnum>&nbsp;&nbsp;&nbsp;<IMG id=codeImg 
+style="VERTICAL-ALIGN: middle; CURSOR: pointer; HEIGHT: 18px" 
+onclick="this.src='/user/getcode.asp?t='+Math.random()" alt=验证码,看不清楚?请点击刷新验证码 
+src="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</LABEL> <INPUT class=btn_2k3 style="MARGIN-TOP: 8px" type=submit value=发表评论> 
+</DIV></DIV>
+<DIV class=comment_1 
+style="FLOAT: left; MARGIN-LEFT: 6px; WIDTH: 313px; HEIGHT: 90px">
+<DIV class=cleanblock2>
+<H3>网友推荐文章</H3></DIV>
+<DIV class=cleanblock>
+<TABLE cellSpacing=0 cellPadding=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD style="PADDING-RIGHT: 15px">
+      <UL>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2007614/52828.html" 
+        target=_blank>oracle中解决汉字无法显示、输入问题</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/20071211/91862.html" 
+        target=_blank>Oracle中如何删除表中重复数据</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/20071226/95511.html" 
+        target=_blank>Oracle10g批量绑定FORALL字句的增强功能</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008727/134172.html" 
+        target=_blank>Oracle备份脚本</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008224/101000.html" 
+        target=_blank>Oracle SCN机制解析</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2007614/52943.html" 
+        target=_blank>Oracle数据库的ORA-00257故障解决过程</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008715/133141.html" 
+        target=_blank>用Quick Slice获取Oracle进程的线程状态</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/200855/113326.html" 
+        target=_blank>双机容错环境下Oracle数据库应用</A></LI></UL></TD></TR></TBODY></TABLE></DIV></DIV></FORM></DIV>
+<DIV class=mc_blue></DIV>
+<DIV class=rc_blue>
+<DIV class=ad_f6 id=ad_f6>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_f6.js"></SCRIPT>
+</DIV>
+<DIV class=split></DIV>
+<DIV class=Part_M_1>
+<DIV class=title>
+<H2>最新新闻</H2></DIV>
+<DIV class=content>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/list.js"></SCRIPT>
+</DIV></DIV>
+<DIV class=split></DIV>
+<DIV class=fixedBLK>
+<DIV class=title>
+<H2>相关教程文章</H2></DIV>
+<DIV class=content>
+<TABLE>
+  <TBODY>
+  <TR>
+    <TD>
+      <UL>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008630/129427.html">Oracle 
+        SELECT Subquery (WITH)</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008630/129426.html">调优</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129279.html">oracle错误列表</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129278.html">Variable 
+        binding in DDL statements</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129277.html">甲骨文全球大会·2007·亚太地区专题讲座演讲资料下载</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129276.html">使用no_merge结合其它hint完全控制Oracle执行计划</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129275.html">oracle 
+        中 NLSSORT函数的用法</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129274.html">Sql中Case用法与Oracle中Case和Decode用法</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129273.html">oracle数据库文件的导入导出</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129272.html">PL/SQL 
+        Developer 的一个 bug</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129072.html">VC下ADO访问远程ORACLE数据库</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008629/129071.html">比较简单windows系统不用RMAN的oracle数据库冷备脚本</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128829.html">Redhat 
+        AS4上安装64位Oracle10.2</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128828.html">将oracle设为归档模式启动的方法</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128827.html">Oracle维护常用SQL语句</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128826.html">ORACLE用户常用数据字典查询</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128825.html">关于SGA的设置</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128824.html">Linux下oracle常见安装错误总结</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128823.html">oracle常用SQL语句</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008627/128822.html">SQLPLUS 
+        使用的一些技巧 </A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008626/128425.html">Oracle 
+        格式化 </A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008626/128424.html">Oracle 
+        9i安装后，配置和启动企业管理器的详细过程[摘抄收藏]</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008626/128423.html">从oracle表中随机取记录，产生随机数和随机字符串</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008626/128422.html">oracle数据库恢复技术</A></LI></UL></TD></TR></TBODY></TABLE></DIV></DIV>
+<DIV class=ad_f7 id=ad_f7>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_f7.js"></SCRIPT>
+</DIV>
+<DIV class=split></DIV>
+<DIV class=fixedBLK>
+<DIV class=title>
+<H2>本栏目热门教程</H2></DIV>
+<DIV class=content>
+<TABLE cellSpacing=0 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD>
+      <UL>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/20071120/87132.html" 
+        target=_blank>ORACLE批量更新四种方法比较</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/200798/70918.html" 
+        target=_blank>彻底删除Oracle9i </A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008224/101040.html" 
+        target=_blank>oracle数据库SCN概念</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008224/101032.html" 
+        target=_blank>Oracle中查看一个表的结构?</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/200838/103276.html" 
+        target=_blank>Oracle 10g 版本10.2.0.1.0升级到Oracle 10g 10.2.0.3.0过程</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008224/101042.html" 
+        target=_blank>Oracle数据操作和控制语言详解</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/20071226/95497.html" 
+        target=_blank>ubuntu oracle client 安装 </A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/20071226/95480.html" 
+        target=_blank>在Oracle中插入日期类型的数据</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/2008224/100997.html" 
+        target=_blank>oracle sql plus 和sql loader 远程登录方法和字符串</A></LI>
+        <LI><A 
+        href="http://www.diybl.com/course/7_databases/oracle/oraclejs/200873/130029.html" 
+        target=_blank>Oracle游标使用大全</A></LI></UL></TD></TR></TBODY></TABLE></DIV></DIV>
+<DIV class=split></DIV>
+<DIV class=fixedBLK>
+<DIV class=title>
+<H2>频道地图</H2></DIV>
+<DIV class=content>
+<DIV class=map><A href="http://www.diybl.com/course/7_databases/oracle/" 
+target=_blank>Oracle</A><BR>　<A 
+href="http://www.diybl.com/course/7_databases/oracle/oraclexl/" 
+target=_blank>Oracle系列教程</A><BR>　<A 
+href="http://www.diybl.com/course/7_databases/oracle/oraclejs/" 
+target=_blank>Oracle技术教程</A><BR>　<A 
+href="http://www.diybl.com/course/7_databases/oracle/Oracleshl/" 
+target=_blank>Oracle实例教程</A><BR><A 
+href="http://www.diybl.com/course/7_databases/access/" 
+target=_blank>Access</A><BR><A 
+href="http://www.diybl.com/course/7_databases/mysql/" 
+target=_blank>Mysql</A><BR><A 
+href="http://www.diybl.com/course/7_databases/sql/" 
+target=_blank>Mssql</A><BR><A 
+href="http://www.diybl.com/course/7_databases/oracle/" 
+target=_blank>Oracle</A><BR><A 
+href="http://www.diybl.com/course/7_databases/sybase/" 
+target=_blank>Sybase</A><BR><A 
+href="http://www.diybl.com/course/7_databases/foxpro/" 
+target=_blank>FoxPro</A><BR><A 
+href="http://www.diybl.com/course/7_databases/db2/" target=_blank>db2</A><BR><A 
+href="http://www.diybl.com/course/7_databases/database_other/" 
+target=_blank>数据库相关文章</A></DIV></DIV></DIV>
+<DIV class=ad_f8 id=ad_f8>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_f8.js"></SCRIPT>
+</DIV>
+<DIV class=blank></DIV></DIV></DIV>
+<DIV class=footer align=center><A href="http://www.diybl.com/guest.html" 
+target=_blank>DIY部落意见反馈留言板</A>　QQ：258622672　email：diybl@163.com　　欢迎批评指正<BR><BR><A 
+href="http://www.diybl.com/info_c.html">DIY部落简介</A> | <A 
+href="http://www.diybl.com/info_e.html">About DIY部落</A> | <A 
+href="javascript:openadinfo();">广告联系</A> | <A 
+href="javascript:openadinfo();">联系我们</A> | <A 
+href="javascript:window.external.addFavorite('http://www.diybl.com/','DIY部落');">收藏本站</A> 
+| <A href="http://www.diybl.com/link/index.asp">友情链接</A> | <A 
+href="http://www.diybl.com/map.html">网站地图</A> | <A 
+href="http://www.diybl.com/user/register.asp">会员注册</A> | <A 
+href="http://blog.diybl.com/space.php?uid=1">站长主页</A><BR><BR>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/art_bot.js"></SCRIPT>
+<BR><BR>陕ICP备06011157号　DIY部落 <A href="http://www.miibeian.gov.cn/">版权所有</A>
+<SCRIPT language=JavaScript 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/stat.htm" 
+charset=gb2312></SCRIPT>
+ 
+<DIV class=ad_f9 id=ad_f9>
+<SCRIPT 
+src="Redhat AS4上安装64位Oracle10_2_Oracle技术教程_Oracle_数据库.files/ad_f9.js"></SCRIPT>
+</DIV></DIV></DIV></LABEL></BODY></HTML>

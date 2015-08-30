@@ -1,0 +1,3986 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>CONTENTS</TITLE>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<P>
+
+<H1><FONT SIZE=9 COLOR="#FF0000"><B>Perl 5</B></FONT></H1>
+
+<H1><FONT COLOR="#FF0000"><B>by Example</B></FONT></H1>
+
+<H3><I>by David Medinets</I></H3>
+
+
+
+
+
+<HR WIDTH="100%"></P>
+
+<H2 ALIGN=CENTER><FONT COLOR="#FF0000"><FONT SIZE=+3>C&nbsp;&nbsp;O&nbsp;&nbsp;N&nbsp;&nbsp;T&nbsp;&nbsp;E&nbsp;&nbsp;N&nbsp;&nbsp;T&nbsp;&nbsp;S<A NAME="CONTENTS"></A>
+
+</FONT></FONT></H2>
+
+<HR WIDTH="100%"></P>
+
+<BR>
+
+<BR>
+
+<P>
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>1
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Getting Your Feet Wet</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch1.htm#Origins" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#Origins">
+
+Origins</A>
+
+<LI><A HREF="ch1.htm#SimilartoC" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#SimilartoC">
+
+Similar to C?</A>
+
+<LI><A HREF="ch1.htm#CostandLicensing" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#CostandLicensing">
+
+Cost and Licensing</A>
+
+<LI><A HREF="ch1.htm#DoYouHavePerlInstalled" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#DoYouHavePerlInstalled">
+
+Do You Have Perl Installed?</A>
+
+<LI><A HREF="ch1.htm#GettingandInstallingPerl" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#GettingandInstallingPerl">
+
+Getting and Installing Perl</A>
+
+<LI><A HREF="ch1.htm#YourFirstPerlProgram" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#YourFirstPerlProgram">
+
+Your First Perl Program</A>
+
+<UL>
+
+<LI><A HREF="ch1.htm#CreatingtheProgram" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#CreatingtheProgram">
+
+Creating the Program</A>
+
+<LI><A HREF="ch1.htm#Invocation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#Invocation">
+
+Invocation</A>
+
+</UL>
+
+<LI><A HREF="ch1.htm#CommentsinYourProgram" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#CommentsinYourProgram">
+
+Comments in Your Program</A>
+
+<LI><A HREF="ch1.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch1.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch1.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>2
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Numeric and String Literals</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch2.htm#NumericLiterals" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#NumericLiterals">
+
+Numeric Literals</A>
+
+<UL>
+
+<LI><A HREF="ch2.htm#ExampleNumbers" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#ExampleNumbers">
+
+Example: Numbers</A>
+
+</UL>
+
+<LI><A HREF="ch2.htm#StringLiterals" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#StringLiterals">
+
+String Literals</A>
+
+<UL>
+
+<LI><A HREF="ch2.htm#ExampleSingleQuotedStrings" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#ExampleSingleQuotedStrings">
+
+Example: Single-Quoted Strings</A>
+
+<LI><A HREF="ch2.htm#ExampleDoubleQuotedStrings" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#ExampleDoubleQuotedStrings">
+
+Example: Double-Quoted Strings</A>
+
+<LI><A HREF="ch2.htm#ExampleBackQuotedStrings" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#ExampleBackQuotedStrings">
+
+Example: Back-Quoted Strings</A>
+
+</UL>
+
+<LI><A HREF="ch2.htm#ArrayLiterals" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#ArrayLiterals">
+
+Array Literals</A>
+
+<UL>
+
+<LI><A HREF="ch2.htm#ExamplePrintinganArray" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#ExamplePrintinganArray">
+
+Example: Printing an Array</A>
+
+<LI><A HREF="ch2.htm#ExampleNestingArrays" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#ExampleNestingArrays">
+
+Example: Nesting Arrays</A>
+
+<LI><A HREF="ch2.htm#ExampleUsingaRangeofValues" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#ExampleUsingaRangeofValues">
+
+Example: Using a Range of Values</A>
+
+</UL>
+
+<LI><A HREF="ch2.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch2.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch2.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch2.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>3
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Variables</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch3.htm#ScalarVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ScalarVariables">
+
+Scalar Variables</A>
+
+<UL>
+
+<LI><A HREF="ch3.htm#ExampleAssigningValuestoScalarVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ExampleAssigningValuestoScalarVariables">
+
+Example: Assigning Values to Scalar Variables</A>
+
+<LI><A HREF="ch3.htm#ChangingValuesinScalarVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ChangingValuesinScalarVariables">
+
+Changing Values in Scalar Variables</A>
+
+</UL>
+
+<LI><A HREF="ch3.htm#ArrayVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ArrayVariables">
+
+Array Variables</A>
+
+<UL>
+
+<LI><A HREF="ch3.htm#ExampleAssigningValuestoArrayVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ExampleAssigningValuestoArrayVariables">
+
+Example: Assigning Values to Array Variables</A>
+
+<LI><A HREF="ch3.htm#ExampleUsingArrayElements" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ExampleUsingArrayElements">
+
+Example: Using Array Elements</A>
+
+<LI><A HREF="ch3.htm#ExampleUsingNegativeSubscripts" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ExampleUsingNegativeSubscripts">
+
+Example: Using Negative Subscripts</A>
+
+<LI><A HREF="ch3.htm#ExampleDeterminingtheNumberofElementsinanArray" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ExampleDeterminingtheNumberofElementsinanArray">
+
+Example: Determining the Number of Elements in an Array</A>
+
+<LI><A HREF="ch3.htm#ExampleHowtoGrabaSliceorPartofanArray" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ExampleHowtoGrabaSliceorPartofanArray">
+
+Example: How to Grab a Slice (or Part) of an Array</A>
+
+</UL>
+
+<LI><A HREF="ch3.htm#AssociativeArrayVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#AssociativeArrayVariables">
+
+Associative Array Variables</A>
+
+<UL>
+
+<LI><A HREF="ch3.htm#ExampleAssigningValuestoAssociativeArrayVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ExampleAssigningValuestoAssociativeArrayVariables">
+
+Example: Assigning Values to Associative Array Variables</A>
+
+</UL>
+
+<LI><A HREF="ch3.htm#DoubleQuotedStringsRevisited" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#DoubleQuotedStringsRevisited">
+
+Double-Quoted Strings Revisited</A>
+
+<UL>
+
+<LI><A HREF="ch3.htm#ExampleVariableInterpolation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ExampleVariableInterpolation">
+
+Example: Variable Interpolation</A>
+
+<LI><A HREF="ch3.htm#ExampleUsingtheIquotISpecialVariable" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ExampleUsingtheIquotISpecialVariable">
+
+Example: Using the <I>$&quot;</I> Special Variable</A>
+
+</UL>
+
+<LI><A HREF="ch3.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch3.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch3.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch3.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>4
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Operators</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch4.htm#OperatorTypes" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#OperatorTypes">
+
+Operator Types</A>
+
+<LI><A HREF="ch4.htm#TheBinaryArithmeticOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#TheBinaryArithmeticOperators">
+
+The Binary Arithmetic Operators</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleTheExponentiationOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleTheExponentiationOperator">
+
+Example: The Exponentiation Operator</A>
+
+<LI><A HREF="ch4.htm#ExampleTheModulusOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleTheModulusOperator">
+
+Example: The Modulus Operator</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#TheUnaryArithmeticOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#TheUnaryArithmeticOperators">
+
+The Unary Arithmetic Operators</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleThePreiNCrementOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleThePreiNCrementOperator">
+
+Example: The Pre-iNCrement Operator</A>
+
+<LI><A HREF="ch4.htm#ExampleThePredecrementOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleThePredecrementOperator">
+
+Example: The Pre-decrement Operator</A>
+
+<LI><A HREF="ch4.htm#ExampleThePostiNCrementOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleThePostiNCrementOperator">
+
+Example: The Post-iNCrement Operator</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#TheLogicalOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#TheLogicalOperators">
+
+The Logical Operators</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleThequotANDquotOperatorampamp" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleThequotANDquotOperatorampamp">
+
+Example: The &quot;AND&quot; Operator (&amp;&amp;)</A>
+
+<LI><A HREF="ch4.htm#ExampleThequotORquotOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleThequotORquotOperator">
+
+Example: The &quot;OR&quot; Operator (||)</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#ExampleThequotNOTquotOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleThequotNOTquotOperator">
+
+Example: The &quot;NOT&quot; Operator (!)</A>
+
+<LI><A HREF="ch4.htm#TheBitwiseOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#TheBitwiseOperators">
+
+The Bitwise Operators</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleUsingtheampandOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleUsingtheampandOperators">
+
+Example: Using the &amp;, |, and ^ Operators</A>
+
+<LI><A HREF="ch4.htm#ExampleUsingthegtgtandltltOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleUsingthegtgtandltltOperators">
+
+Example: Using the &gt;&gt; and &lt;&lt; Operators</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#TheNumericRelationalOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#TheNumericRelationalOperators">
+
+The Numeric Relational Operators</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleUsingtheltgtOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleUsingtheltgtOperator">
+
+Example: Using the &lt;=&gt; Operator</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#TheStringRelationalOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#TheStringRelationalOperators">
+
+The String Relational Operators</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleUsingthecmpOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleUsingthecmpOperator">
+
+Example: Using the cmp Operator</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#TheTernaryOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#TheTernaryOperator">
+
+The Ternary Operator</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleUsingtheTernaryOperatortoAssignValues" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleUsingtheTernaryOperatortoAssignValues">
+
+Example: Using the Ternary Operator to Assign Values</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#TheRangeOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#TheRangeOperator">
+
+The Range Operator (..)</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleUsingtheRangeOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleUsingtheRangeOperator">
+
+Example: Using the Range Operator</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#TheStringOperatorsandx" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#TheStringOperatorsandx">
+
+The String Operators (. and x)</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleUsingtheCoNCatenationOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleUsingtheCoNCatenationOperator">
+
+Example: Using the CoNCatenation Operator</A>
+
+<LI><A HREF="ch4.htm#ExampleUsingtheRepetitionOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleUsingtheRepetitionOperator">
+
+Example: Using the Repetition Operator</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#TheAssignmentOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#TheAssignmentOperators">
+
+The Assignment Operators</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleAssignmentUsingArraySlices" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleAssignmentUsingArraySlices">
+
+Example: Assignment Using Array Slices</A>
+
+<LI><A HREF="ch4.htm#ExampleAssigninganArraytoScalarVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleAssigninganArraytoScalarVariables">
+
+Example: Assigning an Array to Scalar       Variables</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#OrderofPrecedeNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#OrderofPrecedeNCe">
+
+Order of PrecedeNCe</A>
+
+<UL>
+
+<LI><A HREF="ch4.htm#ExampleOrderofPrecedeNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ExampleOrderofPrecedeNCe">
+
+Example: Order of PrecedeNCe</A>
+
+</UL>
+
+<LI><A HREF="ch4.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch4.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch4.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch4.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>5
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;FuNCtions</FONT></H2>
+
+<UL>
+
+<UL>
+
+<LI><A HREF="ch5.htm#ExampleUsingtheParameterArray" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ExampleUsingtheParameterArray">
+
+Example: Using the Parameter Array (@_)</A>
+
+<LI><A HREF="ch5.htm#ExamplePassingParametersbyRefereNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ExamplePassingParametersbyRefereNCe">
+
+Example: Passing Parameters by RefereNCe</A>
+
+<LI><A HREF="ch5.htm#ExampleScopeofVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ExampleScopeofVariables">
+
+Example: Scope of Variables</A>
+
+<LI><A HREF="ch5.htm#ExampleUsingaListasaFuNCtionParameter" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ExampleUsingaListasaFuNCtionParameter">
+
+Example: Using a List as a FuNCtion Parameter</A>
+
+<LI><A HREF="ch5.htm#ExampleNestingFuNCtionCalls" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ExampleNestingFuNCtionCalls">
+
+Example: Nesting FuNCtion Calls</A>
+
+<LI><A HREF="ch5.htm#ExampleUsingaPrivateFuNCtion" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ExampleUsingaPrivateFuNCtion">
+
+Example: Using a Private FuNCtion</A>
+
+</UL>
+
+<LI><A HREF="ch5.htm#StringFuNCtions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#StringFuNCtions">
+
+String FuNCtions</A>
+
+<UL>
+
+<LI><A HREF="ch5.htm#ExampleChangingaStringsValue" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ExampleChangingaStringsValue">
+
+Example: Changing a String's Value</A>
+
+<LI><A HREF="ch5.htm#ExampleSearchingaString" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ExampleSearchingaString">
+
+Example: Searching a String</A>
+
+</UL>
+
+<LI><A HREF="ch5.htm#ArrayFuNCtions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ArrayFuNCtions">
+
+Array FuNCtions</A>
+
+<UL>
+
+<LI><A HREF="ch5.htm#ExamplePrintinganAssociativeArray" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ExamplePrintinganAssociativeArray">
+
+Example: Printing an Associative Array</A>
+
+<LI><A HREF="ch5.htm#ExampleCheckingtheExisteNCeofanElement" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ExampleCheckingtheExisteNCeofanElement">
+
+Example: Checking the ExisteNCe of an Element</A>
+
+</UL>
+
+<LI><A HREF="ch5.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch5.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch5.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch5.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>6
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Statements</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch6.htm#UnderstandingExpressions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#UnderstandingExpressions">
+
+Understanding Expressions</A>
+
+<LI><A HREF="ch6.htm#StatementBlocks" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#StatementBlocks">
+
+Statement Blocks</A>
+
+<LI><A HREF="ch6.htm#StatementBlocksandLocalVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#StatementBlocksandLocalVariables">
+
+Statement Blocks and Local Variables</A>
+
+<LI><A HREF="ch6.htm#StatementTypes" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#StatementTypes">
+
+Statement Types</A>
+
+<UL>
+
+<LI><A HREF="ch6.htm#ExampleUsingtheifModifier" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#ExampleUsingtheifModifier">
+
+Example: Using the if Modifier</A>
+
+<LI><A HREF="ch6.htm#ExampleUsingtheunlessModifier" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#ExampleUsingtheunlessModifier">
+
+Example: Using the unless Modifier</A>
+
+<LI><A HREF="ch6.htm#ExampleUsingtheuntilModifier" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#ExampleUsingtheuntilModifier">
+
+Example: Using the until Modifier</A>
+
+<LI><A HREF="ch6.htm#ExampleUsingthewhileModifier" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#ExampleUsingthewhileModifier">
+
+Example: Using the while Modifier</A>
+
+</UL>
+
+<LI><A HREF="ch6.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch6.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch6.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch6.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>7
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Control Statements</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch7.htm#DecisionStatements" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#DecisionStatements">
+
+Decision Statements</A>
+
+<UL>
+
+<LI><A HREF="ch7.htm#ExampleTheifStatement" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ExampleTheifStatement">
+
+Example: The if Statement</A>
+
+</UL>
+
+<LI><A HREF="ch7.htm#LoopStatements" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#LoopStatements">
+
+Loop Statements</A>
+
+<UL>
+
+<LI><A HREF="ch7.htm#ExampleIWhileILoops" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ExampleIWhileILoops">
+
+Example: <I>While</I> Loops</A>
+
+<LI><A HREF="ch7.htm#ExampleIUntilILoops" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ExampleIUntilILoops">
+
+Example: <I>Until</I> Loops</A>
+
+<LI><A HREF="ch7.htm#ExampleIForILoops" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ExampleIForILoops">
+
+Example: <I>For</I> Loops</A>
+
+<LI><A HREF="ch7.htm#ExampleIForeachILoops" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ExampleIForeachILoops">
+
+Example: <I>Foreach</I> Loops</A>
+
+</UL>
+
+<LI><A HREF="ch7.htm#JumpKeywords" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#JumpKeywords">
+
+Jump Keywords</A>
+
+<UL>
+
+<LI><A HREF="ch7.htm#ExampleTheIlastIKeyword" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ExampleTheIlastIKeyword">
+
+Example: The <I>last</I> Keyword</A>
+
+<LI><A HREF="ch7.htm#ExampleTheInextIKeyword" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ExampleTheInextIKeyword">
+
+Example: The <I>next</I> Keyword</A>
+
+<LI><A HREF="ch7.htm#ExampleTheIredoIKeyword" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ExampleTheIredoIKeyword">
+
+Example: The <I>redo</I> Keyword</A>
+
+<LI><A HREF="ch7.htm#ExampleTheIgotoIKeyword" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ExampleTheIgotoIKeyword">
+
+Example: The <I>goto</I> Keyword</A>
+
+</UL>
+
+<LI><A HREF="ch7.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch7.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch7.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch7.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>8
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;RefereNCes</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch8.htm#RefereNCeTypes" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch8.htm#RefereNCeTypes">
+
+RefereNCe Types</A>
+
+<UL>
+
+<LI><A HREF="ch8.htm#ExamplePassingParameterstoFuNCtions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch8.htm#ExamplePassingParameterstoFuNCtions">
+
+Example: Passing Parameters to FuNCtions</A>
+
+<LI><A HREF="ch8.htm#ExampleTherefFuNCtion" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch8.htm#ExampleTherefFuNCtion">
+
+Example: The ref() FuNCtion</A>
+
+<LI><A HREF="ch8.htm#ExampleCreatingaDataRecord" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch8.htm#ExampleCreatingaDataRecord">
+
+Example: Creating a Data Record</A>
+
+<LI><A HREF="ch8.htm#ExampleInterpolatingFuNCtionsInsideDoubleQuotedStrings" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch8.htm#ExampleInterpolatingFuNCtionsInsideDoubleQuotedStrings">
+
+Example: Interpolating FuNCtions Inside Double-Quoted Strings
+
+</A>
+
+</UL>
+
+<LI><A HREF="ch8.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch8.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch8.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch8.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch8.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch8.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>9
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Using Files</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch9.htm#SomeFilesAreStandard" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#SomeFilesAreStandard">
+
+Some Files Are Standard</A>
+
+<UL>
+
+<LI><A HREF="ch9.htm#ExampleUsingSTDIN" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExampleUsingSTDIN">
+
+Example: Using STDIN</A>
+
+<LI><A HREF="ch9.htm#ExampleUsingRedirectiontoChangeSTDINandSTDOUT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExampleUsingRedirectiontoChangeSTDINandSTDOUT">
+
+Example: Using Redirection to Change STDIN and STDOUT</A>
+
+<LI><A HREF="ch9.htm#ExampleUsingtheDiamondOperatorltgt" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExampleUsingtheDiamondOperatorltgt">
+
+Example: Using the Diamond Operator (&lt;&gt;)</A>
+
+</UL>
+
+<LI><A HREF="ch9.htm#FileTestOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#FileTestOperators">
+
+File Test Operators</A>
+
+<UL>
+
+<LI><A HREF="ch9.htm#ExampleUsingFileTests" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExampleUsingFileTests">
+
+Example: Using File Tests</A>
+
+</UL>
+
+<LI><A HREF="ch9.htm#FileFuNCtionsBR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#FileFuNCtionsBR">
+
+File FuNCtions<BR>
+
+</A>
+
+<UL>
+
+<LI><A HREF="ch9.htm#ExampleOpeningFiles" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExampleOpeningFiles">
+
+Example: Opening Files</A>
+
+<LI><A HREF="ch9.htm#ExampleBinaryFiles" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExampleBinaryFiles">
+
+Example: Binary Files</A>
+
+<LI><A HREF="ch9.htm#ExampleGettingFileStatistics" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExampleGettingFileStatistics">
+
+Example: Getting File Statistics</A>
+
+<LI><A HREF="ch9.htm#ExampleUsingtheDirectoryFuNCtions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExampleUsingtheDirectoryFuNCtions">
+
+Example: Using the Directory FuNCtions</A>
+
+<LI><A HREF="ch9.htm#ExamplePrintingRevisited" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExamplePrintingRevisited">
+
+Example: Printing Revisited</A>
+
+</UL>
+
+<LI><A HREF="ch9.htm#Globbing" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#Globbing">
+
+Globbing</A>
+
+<UL>
+
+<LI><A HREF="ch9.htm#ExampleAssigningaGlobtoanArray" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExampleAssigningaGlobtoanArray">
+
+Example: Assigning a Glob to an Array</A>
+
+</UL>
+
+<LI><A HREF="ch9.htm#UsingDataStructureswithFiles" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#UsingDataStructureswithFiles">
+
+Using Data Structures with Files</A>
+
+<UL>
+
+<LI><A HREF="ch9.htm#ExampleSplittingaRecordintoFields" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ExampleSplittingaRecordintoFields">
+
+Example: Splitting a Record into Fields</A>
+
+</UL>
+
+<LI><A HREF="ch9.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch9.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch9.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch9.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>10
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Regular Expressions</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch10.htm#PatternDelimiters" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#PatternDelimiters">
+
+Pattern Delimiters</A>
+
+<LI><A HREF="ch10.htm#TheMatchingOperatorm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#TheMatchingOperatorm">
+
+The Matching Operator (m//)</A>
+
+<UL>
+
+<LI><A HREF="ch10.htm#TheMatchingOptions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#TheMatchingOptions">
+
+The Matching Options</A>
+
+</UL>
+
+<LI><A HREF="ch10.htm#TheSubstitutionOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#TheSubstitutionOperators">
+
+The Substitution Operator (s///)</A>
+
+<UL>
+
+<LI><A HREF="ch10.htm#TheSubstitutionOptions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#TheSubstitutionOptions">
+
+The Substitution Options</A>
+
+</UL>
+
+<LI><A HREF="ch10.htm#TheTranslationOperatortr" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#TheTranslationOperatortr">
+
+The Translation Operator (tr///)</A>
+
+<UL>
+
+<LI><A HREF="ch10.htm#TheTranslationOptions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#TheTranslationOptions">
+
+The Translation Options</A>
+
+</UL>
+
+<LI><A HREF="ch10.htm#TheBindingOperatorsand" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#TheBindingOperatorsand">
+
+The Binding Operators (=~ and !~)</A>
+
+<LI><A HREF="ch10.htm#HowtoCreatePatterns" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#HowtoCreatePatterns">
+
+How to Create Patterns</A>
+
+<UL>
+
+<LI><A HREF="ch10.htm#ExampleCharacterClasses" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ExampleCharacterClasses">
+
+Example: Character Classes</A>
+
+<LI><A HREF="ch10.htm#ExampleQuantifiers" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ExampleQuantifiers">
+
+Example: Quantifiers</A>
+
+<LI><A HREF="ch10.htm#ExamplePatternMemory" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ExamplePatternMemory">
+
+Example: Pattern Memory</A>
+
+<LI><A HREF="ch10.htm#ExamplePatternPrecedeNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ExamplePatternPrecedeNCe">
+
+Example: Pattern PrecedeNCe</A>
+
+<LI><A HREF="ch10.htm#ExampleExtensionSyntax" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ExampleExtensionSyntax">
+
+Example: Extension Syntax</A>
+
+</UL>
+
+<LI><A HREF="ch10.htm#PatternExamples" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#PatternExamples">
+
+Pattern Examples</A>
+
+<UL>
+
+<LI><A HREF="ch10.htm#ExampleUsingtheMatchOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ExampleUsingtheMatchOperator">
+
+Example: Using the Match Operator</A>
+
+<LI><A HREF="ch10.htm#ExampleUsingtheSubstitutionOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ExampleUsingtheSubstitutionOperator">
+
+Example: Using the Substitution Operator</A>
+
+<LI><A HREF="ch10.htm#ExampleUsingtheTranslationOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ExampleUsingtheTranslationOperator">
+
+Example: Using the Translation Operator</A>
+
+<LI><A HREF="ch10.htm#ExampleUsingtheISplitIFuNCtion" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ExampleUsingtheISplitIFuNCtion">
+
+Example: Using the <I>Split()</I> FuNCtion</A>
+
+</UL>
+
+<LI><A HREF="ch10.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch10.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch10.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch10.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>11
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Creating Reports</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch11.htm#WhatsaFormatStatement" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm#WhatsaFormatStatement">
+
+What's a Format Statement?</A>
+
+<UL>
+
+<LI><A HREF="ch11.htm#ExampleUsingFieldLines" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm#ExampleUsingFieldLines">
+
+Example: Using Field Lines</A>
+
+<LI><A HREF="ch11.htm#ExampleReportHeadings" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm#ExampleReportHeadings">
+
+Example: Report Headings</A>
+
+<LI><A HREF="ch11.htm#ExampleUsingFuNCtionsintheValueLine" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm#ExampleUsingFuNCtionsintheValueLine">
+
+Example: Using FuNCtions in the Value Line</A>
+
+<LI><A HREF="ch11.htm#ExampleChangingFormats" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm#ExampleChangingFormats">
+
+Example: Changing Formats</A>
+
+<LI><A HREF="ch11.htm#ExampleUsingLongPiecesofTextinReports" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm#ExampleUsingLongPiecesofTextinReports">
+
+Example: Using Long Pieces of Text in Reports</A>
+
+<LI><A HREF="ch11.htm#ExampleWritingtoaFileInsteadofISTDOUTI" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm#ExampleWritingtoaFileInsteadofISTDOUTI">
+
+Example: Writing to a File Instead of <I>STDOUT</I></A>
+
+</UL>
+
+<LI><A HREF="ch11.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch11.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch11.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch11.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>12
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Using Special Variables</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch12.htm#WhatAretheSpecialVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch12.htm#WhatAretheSpecialVariables">
+
+What Are the Special Variables?</A>
+
+<UL>
+
+<LI><A HREF="ch12.htm#ExampleUsingtheTTFONTSIZEFACECourierDATAFONTTTFONTSIZEFileHandleFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch12.htm#ExampleUsingtheTTFONTSIZEFACECourierDATAFONTTTFONTSIZEFileHandleFONT">
+
+Example: Using the <TT>DATA </TT>File
+
+Handle</FONT></A>
+
+</UL>
+
+<LI><A HREF="ch12.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch12.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch12.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch12.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch12.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch12.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>13
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Handling Errors and Signals</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch13.htm#CheckingforErrors" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#CheckingforErrors">
+
+Checking for Errors</A>
+
+<LI><A HREF="ch13.htm#ExampleUsingtheTTFONTSIZEFACECouriererrnoFONTTTFONTSIZEVariableFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#ExampleUsingtheTTFONTSIZEFACECouriererrnoFONTTTFONTSIZEVariableFONT">
+
+Example: Using the <TT>errno</TT>
+
+Variable</FONT></A>
+
+<UL>
+
+<LI><A HREF="ch13.htm#ExampleUsingtheTTFONTSIZEFACECourierorFONTTTFONTSIZELogicalOperatorFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#ExampleUsingtheTTFONTSIZEFACECourierorFONTTTFONTSIZELogicalOperatorFONT">
+
+Example: Using the <TT>or</TT>
+
+Logical Operator</FONT></A>
+
+<LI><A HREF="ch13.htm#ExampleUsingtheTTFONTSIZEFACECourierdieFONTTTFONTSIZEFuNCtionFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#ExampleUsingtheTTFONTSIZEFACECourierdieFONTTTFONTSIZEFuNCtionFONT">
+
+Example: Using the <TT>die()</TT>
+
+FuNCtion</FONT></A>
+
+<LI><A HREF="ch13.htm#ExampleUsingtheTTFONTSIZEFACECourierwarnFONTTTFONTSIZEFuNCtionFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#ExampleUsingtheTTFONTSIZEFACECourierwarnFONTTTFONTSIZEFuNCtionFONT">
+
+Example: Using the <TT>warn()</TT>
+
+FuNCtion</FONT></A>
+
+</UL>
+
+<LI><A HREF="ch13.htm#TrappingFatalErrors" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#TrappingFatalErrors">
+
+Trapping Fatal Errors</A>
+
+<UL>
+
+<LI><A HREF="ch13.htm#ExampleUsingtheTTFONTSIZEFACECourierevalFONTTTFONTSIZEFuNCtionFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#ExampleUsingtheTTFONTSIZEFACECourierevalFONTTTFONTSIZEFuNCtionFONT">
+
+Example: Using the <TT>eval()</TT>
+
+FuNCtion</FONT></A>
+
+</UL>
+
+<LI><A HREF="ch13.htm#WhatIsaSignal" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#WhatIsaSignal">
+
+What Is a Signal?</A>
+
+<UL>
+
+<LI><A HREF="ch13.htm#ExampleHowtoHandleaSignal" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#ExampleHowtoHandleaSignal">
+
+Example: How to Handle a Signal</A>
+
+</UL>
+
+<LI><A HREF="ch13.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch13.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch13.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch13.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>14
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;What Are Objects?</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch14.htm#LearningaboutClasses" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#LearningaboutClasses">
+
+Learning about Classes</A>
+
+<LI><A HREF="ch14.htm#AbstractThinking" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#AbstractThinking">
+
+Abstract Thinking</A>
+
+<LI><A HREF="ch14.htm#OverridingMethodswithPolymorphism" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#OverridingMethodswithPolymorphism">
+
+Overriding Methods with Polymorphism</A>
+
+<LI><A HREF="ch14.htm#KeepingCodeandDataTogetherwithENCapsulation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#KeepingCodeandDataTogetherwithENCapsulation">
+
+Keeping Code and Data Together with ENCapsulation</A>
+
+<LI><A HREF="ch14.htm#HowPerlHandlesObjects" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#HowPerlHandlesObjects">
+
+How Perl Handles Objects</A>
+
+<UL>
+
+<LI><A HREF="ch14.htm#ExampleBlesstheHashandPasstheRefereNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#ExampleBlesstheHashandPasstheRefereNCe">
+
+Example: Bless the Hash and Pass the RefereNCe</A>
+
+<LI><A HREF="ch14.htm#ExampleInitializingProperties" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#ExampleInitializingProperties">
+
+Example: Initializing Properties</A>
+
+<LI><A HREF="ch14.htm#ExampleUsingNamedParametersinConstructors" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#ExampleUsingNamedParametersinConstructors">
+
+Example: Using Named Parameters in Constructors</A>
+
+<LI><A HREF="ch14.htm#ExampleInheritaNCePerlStyle" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#ExampleInheritaNCePerlStyle">
+
+Example: InheritaNCe, Perl Style</A>
+
+<LI><A HREF="ch14.htm#ExamplePolymorphism" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#ExamplePolymorphism">
+
+Example: Polymorphism</A>
+
+<LI><A HREF="ch14.htm#ExampleHowOneClassCanContainAnother" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#ExampleHowOneClassCanContainAnother">
+
+Example: How One Class Can Contain Another</A>
+
+</UL>
+
+<LI><A HREF="ch14.htm#StaticVersusRegularMethodsandVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#StaticVersusRegularMethodsandVariables">
+
+Static Versus Regular Methods and Variables</A>
+
+<LI><A HREF="ch14.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch14.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch14.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch14.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>15
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Perl Modules</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch15.htm#ModuleConstructorsandDestructors" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#ModuleConstructorsandDestructors">
+
+Module Constructors and Destructors</A>
+
+<UL>
+
+<LI><A HREF="ch15.htm#TheTTFONTSIZEFACECourierBEGINFONTTTFONTSIZEBlockFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#TheTTFONTSIZEFACECourierBEGINFONTTTFONTSIZEBlockFONT">
+
+The <TT>BEGIN </TT>Block</FONT>
+
+</A>
+
+<LI><A HREF="ch15.htm#TheTTFONTSIZEFACECourierENDFONTTTFONTSIZEBlockFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#TheTTFONTSIZEFACECourierENDFONTTTFONTSIZEBlockFONT">
+
+The <TT>END</TT>
+
+Block</FONT></A>
+
+</UL>
+
+<LI><A HREF="ch15.htm#SymbolTables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#SymbolTables">
+
+Symbol Tables</A>
+
+<LI><A HREF="ch15.htm#TheTTFONTSIZEFACECourierrequireFONTTTFONTSIZECompilerDirectiveFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#TheTTFONTSIZEFACECourierrequireFONTTTFONTSIZECompilerDirectiveFONT">
+
+The <TT>require</TT>
+
+Compiler Directive</FONT></A>
+
+<LI><A HREF="ch15.htm#TheTTFONTSIZEFACECourieruseFONTTTFONTSIZECompilerDirectiveFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#TheTTFONTSIZEFACECourieruseFONTTTFONTSIZECompilerDirectiveFONT">
+
+The <TT>use</TT>
+
+Compiler Directive</FONT></A>
+
+<LI><A HREF="ch15.htm#WhatsaPragma" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#WhatsaPragma">
+
+What's a Pragma?</A>
+
+<LI><A HREF="ch15.htm#TheTTFONTSIZEFACECourierstrictFONTTTFONTSIZEPragmaFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#TheTTFONTSIZEFACECourierstrictFONTTTFONTSIZEPragmaFONT">
+
+The <TT>strict</TT>
+
+Pragma</FONT></A>
+
+<LI><A HREF="ch15.htm#TheStandardModules" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#TheStandardModules">
+
+The Standard Modules</A>
+
+<LI><A HREF="ch15.htm#TTFONTSIZEFACECourierstrictmyFONTTTFONTSIZEandModulesFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#TTFONTSIZEFACECourierstrictmyFONTTTFONTSIZEandModulesFONT">
+
+<TT>strict, my() </TT>and
+
+Modules</FONT></A>
+
+<LI><A HREF="ch15.htm#ModuleExamples" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#ModuleExamples">
+
+Module Examples</A>
+
+<UL>
+
+<LI><A HREF="ch15.htm#ExampleTheTTFONTSIZEFACECourierCarpFONTTTFONTSIZEModuleFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#ExampleTheTTFONTSIZEFACECourierCarpFONTTTFONTSIZEModuleFONT">
+
+Example: The <TT>Carp</TT>
+
+Module</FONT></A>
+
+<LI><A HREF="ch15.htm#ExampleTheTTFONTSIZEFACECourierEnglishFONTTTFONTSIZEModuleFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#ExampleTheTTFONTSIZEFACECourierEnglishFONTTTFONTSIZEModuleFONT">
+
+Example: The <TT>English</TT>
+
+Module</FONT></A>
+
+<LI><A HREF="ch15.htm#ExampleTheTTFONTSIZEFACECourierEnvFONTTTFONTSIZEModuleFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#ExampleTheTTFONTSIZEFACECourierEnvFONTTTFONTSIZEModuleFONT">
+
+Example: The <TT>Env </TT>Module</FONT>
+
+</A>
+
+</UL>
+
+<LI><A HREF="ch15.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch15.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch15.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch15.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>16
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Debugging Perl</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch16.htm#SyntaxErrors" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#SyntaxErrors">
+
+Syntax Errors</A>
+
+<LI><A HREF="ch16.htm#CommonSyntaxErrors" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#CommonSyntaxErrors">
+
+Common Syntax Errors</A>
+
+<LI><A HREF="ch16.htm#LogicErrors" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#LogicErrors">
+
+Logic Errors</A>
+
+<UL>
+
+<LI><A HREF="ch16.htm#UsingtheTTFONTSIZEFACECourierwFONTTTFONTSIZECommandLineOptionFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#UsingtheTTFONTSIZEFACECourierwFONTTTFONTSIZECommandLineOptionFONT">
+
+Using the <TT>-w</TT>
+
+Command-Line Option</FONT></A>
+
+<LI><A HREF="ch16.htm#BeingStrictwithYourVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#BeingStrictwithYourVariables">
+
+Being Strict with Your Variables</A>
+
+<LI><A HREF="ch16.htm#SteppingThroughYourScript" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#SteppingThroughYourScript">
+
+Stepping Through Your Script</A>
+
+<LI><A HREF="ch16.htm#ExamplesDisplayingInformation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#ExamplesDisplayingInformation">
+
+Examples: Displaying Information</A>
+
+<LI><A HREF="ch16.htm#ExamplesUsingtheFONTSIZEFACELBIHelveticaBlackObliquenFONTFONTSIZECommandFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#ExamplesUsingtheFONTSIZEFACELBIHelveticaBlackObliquenFONTFONTSIZECommandFONT">
+
+Examples: Using the n
+
+Command</A>
+
+<LI><A HREF="ch16.htm#ExamplesUsingBreakpoints" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#ExamplesUsingBreakpoints">
+
+Examples: Using Breakpoints</A>
+
+<LI><A HREF="ch16.htm#ExamplesCreatingCommandAliases" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#ExamplesCreatingCommandAliases">
+
+Examples: Creating Command Aliases</A>
+
+<LI><A HREF="ch16.htm#ExamplesUsingtheDebuggerasanInteractiveInterpreter" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#ExamplesUsingtheDebuggerasanInteractiveInterpreter">
+
+Examples: Using the Debugger as an Interactive Interpreter
+
+</A>
+
+</UL>
+
+<LI><A HREF="ch16.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch16.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch16.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch16.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>17
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Using Command-Line Options</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch17.htm#HowAretheOptionsSpecified" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch17.htm#HowAretheOptionsSpecified">
+
+How Are the Options Specified?</A>
+
+<LI><A HREF="ch17.htm#WhatAretheOptions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch17.htm#WhatAretheOptions">
+
+What Are the Options?</A>
+
+<UL>
+
+<LI><A HREF="ch17.htm#ExampleUsingtheTTFONTSIZEFACECourierFONTTTFONTSIZEOptionFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch17.htm#ExampleUsingtheTTFONTSIZEFACECourierFONTTTFONTSIZEOptionFONT">
+
+Example: Using the <TT>-0</TT>
+
+Option</FONT></A>
+
+<LI><A HREF="ch17.htm#ExampleUsingtheTTFONTSIZEFACECouriernFONTTTFONTSIZEandFONTTTFONTSIZEFACECourierpFONTTTFONTSIZEOptionsFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch17.htm#ExampleUsingtheTTFONTSIZEFACECouriernFONTTTFONTSIZEandFONTTTFONTSIZEFACECourierpFONTTTFONTSIZEOptionsFONT">
+
+Example: Using the <TT>-n</TT>
+
+and </FONT><TT>-p</TT>
+
+Options</FONT></A>
+
+<LI><A HREF="ch17.htm#ExampleUsingtheTTFONTSIZEFACECourieriFONTTTFONTSIZEOptionFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch17.htm#ExampleUsingtheTTFONTSIZEFACECourieriFONTTTFONTSIZEOptionFONT">
+
+Example: Using the <TT>-i</TT>
+
+Option</FONT></A>
+
+<LI><A HREF="ch17.htm#ExampleUsingtheTTFONTSIZEFACECouriersFONTTTFONTSIZEOptionFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch17.htm#ExampleUsingtheTTFONTSIZEFACECouriersFONTTTFONTSIZEOptionFONT">
+
+Example: Using the <TT>-s</TT>
+
+Option</FONT></A>
+
+</UL>
+
+<LI><A HREF="ch17.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch17.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch17.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch17.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch17.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch17.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>18
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Using Internet Protocols</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch18.htm#Sockets" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#Sockets">
+
+Sockets</A>
+
+<UL>
+
+<LI><A HREF="ch18.htm#TheServerSideofaConversation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#TheServerSideofaConversation">
+
+The Server Side of a Conversation</A>
+
+<LI><A HREF="ch18.htm#TheClientSideofaConversation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#TheClientSideofaConversation">
+
+The Client Side of a Conversation</A>
+
+</UL>
+
+<LI><A HREF="ch18.htm#UsingtheTimeService" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#UsingtheTimeService">
+
+Using the Time Service</A>
+
+<LI><A HREF="ch18.htm#SendingMailSMTP" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#SendingMailSMTP">
+
+Sending Mail (SMTP)</A>
+
+<UL>
+
+<LI><A HREF="ch18.htm#TheTTFONTSIZEFACECourierMAILFONTTTFONTSIZECommandFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#TheTTFONTSIZEFACECourierMAILFONTTTFONTSIZECommandFONT">
+
+The <TT>MAIL</TT>
+
+Command</FONT></A>
+
+<LI><A HREF="ch18.htm#TheTTFONTSIZEFACECourierRCPTFONTTTFONTSIZECommandFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#TheTTFONTSIZEFACECourierRCPTFONTTTFONTSIZECommandFONT">
+
+The <TT>RCPT </TT>Command</FONT>
+
+</A>
+
+<LI><A HREF="ch18.htm#TheTTFONTSIZEFACECourierDATAFONTTTFONTSIZECommandFONT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#TheTTFONTSIZEFACECourierDATAFONTTTFONTSIZECommandFONT">
+
+The <TT>DATA</TT>
+
+Command</FONT></A>
+
+<LI><A HREF="ch18.htm#ReportingUndeliverableMail" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#ReportingUndeliverableMail">
+
+Reporting Undeliverable Mail</A>
+
+<LI><A HREF="ch18.htm#UsingPerltoSendMail" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#UsingPerltoSendMail">
+
+Using Perl to Send Mail</A>
+
+</UL>
+
+<LI><A HREF="ch18.htm#ReceivingMailPOP" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#ReceivingMailPOP">
+
+Receiving Mail (POP)</A>
+
+<LI><A HREF="ch18.htm#CheckingforUpnessEcho" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#CheckingforUpnessEcho">
+
+Checking for Upness (Echo)</A>
+
+<LI><A HREF="ch18.htm#TransferringFilesFTP" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#TransferringFilesFTP">
+
+Transferring Files (FTP)</A>
+
+<LI><A HREF="ch18.htm#ReadingtheNewsNNTP" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#ReadingtheNewsNNTP">
+
+Reading the News (NNTP)</A>
+
+<LI><A HREF="ch18.htm#TheWorldWideWebHTTP" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#TheWorldWideWebHTTP">
+
+The World Wide Web (HTTP)</A>
+
+<LI><A HREF="ch18.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch18.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch18.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch18.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>19
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;What Is CGI?</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch19.htm#WhyUsePerlforCGI" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#WhyUsePerlforCGI">
+
+Why Use Perl for CGI?</A>
+
+<LI><A HREF="ch19.htm#CGIAppsversusJavaApplets" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#CGIAppsversusJavaApplets">
+
+CGI Apps versus Java Applets</A>
+
+<LI><A HREF="ch19.htm#ShouldYouUseCGIModules" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#ShouldYouUseCGIModules">
+
+Should You Use CGI Modules?</A>
+
+<LI><A HREF="ch19.htm#HowDoesCGIWork" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#HowDoesCGIWork">
+
+How Does CGI Work?</A>
+
+<LI><A HREF="ch19.htm#CallingYourCGIProgram" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#CallingYourCGIProgram">
+
+Calling Your CGI Program</A>
+
+<LI><A HREF="ch19.htm#YourFirstCGIProgram" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#YourFirstCGIProgram">
+
+Your First CGI Program</A>
+
+<LI><A HREF="ch19.htm#WhyAreFilePermissionsImportantinUNIX" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#WhyAreFilePermissionsImportantinUNIX">
+
+Why Are File Permissions Important in UNIX?</A>
+
+<LI><A HREF="ch19.htm#HTTPHeaders" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#HTTPHeaders">
+
+HTTP Headers</A>
+
+<LI><A HREF="ch19.htm#CGIandEnvironmentVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#CGIandEnvironmentVariables">
+
+CGI and Environment Variables</A>
+
+<LI><A HREF="ch19.htm#URLENCoding" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#URLENCoding">
+
+URL ENCoding</A>
+
+<LI><A HREF="ch19.htm#Security" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#Security">
+
+Security</A>
+
+<LI><A HREF="ch19.htm#CGIwrapandSecurity" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#CGIwrapandSecurity">
+
+CGIwrap and Security</A>
+
+<LI><A HREF="ch19.htm#Cookies" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#Cookies">
+
+Cookies</A>
+
+<UL>
+
+<LI><A HREF="ch19.htm#CookieSecurity" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#CookieSecurity">
+
+Cookie Security</A>
+
+<LI><A HREF="ch19.htm#HowAreCookiesCreatedandRead" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#HowAreCookiesCreatedandRead">
+
+How Are Cookies Created and Read?</A>
+
+<LI><A HREF="ch19.htm#CanaVisitorsBrowserSupportCookies" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#CanaVisitorsBrowserSupportCookies">
+
+Can a Visitor's Browser Support Cookies?</A>
+
+</UL>
+
+<LI><A HREF="ch19.htm#DebuggingCGIPrograms" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#DebuggingCGIPrograms">
+
+Debugging CGI Programs</A>
+
+<UL>
+
+<LI><A HREF="ch19.htm#SendingOutputtotheServersLogFile" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#SendingOutputtotheServersLogFile">
+
+Sending Output to the Server's Log File</A>
+
+<LI><A HREF="ch19.htm#SendingSTDERRtotheWebBrowser" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#SendingSTDERRtotheWebBrowser">
+
+Sending STDERR to the Web Browser</A>
+
+<LI><A HREF="ch19.htm#CGITap" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#CGITap">
+
+CGITap</A>
+
+<LI><A HREF="ch19.htm#GeneratinganErrorHTMLPage" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#GeneratinganErrorHTMLPage">
+
+Generating an Error HTML Page</A>
+
+</UL>
+
+<LI><A HREF="ch19.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch19.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch19.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch19.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>20
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Form Processing</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch20.htm#ABriefOverviewofHTML" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#ABriefOverviewofHTML">
+
+A Brief Overview of HTML</A>
+
+<LI><A HREF="ch20.htm#ServerSideINCludes" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#ServerSideINCludes">
+
+Server-Side INCludes</A>
+
+<LI><A HREF="ch20.htm#HTMLForms" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#HTMLForms">
+
+HTML Forms</A>
+
+<LI><A HREF="ch20.htm#HandlingFormInformation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#HandlingFormInformation">
+
+Handling Form Information</A>
+
+<LI><A HREF="ch20.htm#FillinginaFormandMailingtheInformation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#FillinginaFormandMailingtheInformation">
+
+Filling in a Form and Mailing the Information</A>
+
+<LI><A HREF="ch20.htm#DebuggingFormProcessingCGIScripts" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#DebuggingFormProcessingCGIScripts">
+
+Debugging Form Processing CGI Scripts</A>
+
+<LI><A HREF="ch20.htm#CreatingaGuestbookforYourSite" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#CreatingaGuestbookforYourSite">
+
+Creating a Guestbook for Your Site</A>
+
+<UL>
+
+<LI><A HREF="ch20.htm#TheBasicGuestbook" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#TheBasicGuestbook">
+
+The Basic Guestbook</A>
+
+</UL>
+
+<LI><A HREF="ch20.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch20.htm#ReviewQuestions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#ReviewQuestions">
+
+Review Questions</A>
+
+<LI><A HREF="ch20.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch20.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>21
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Using Perl with Web Servers</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch21.htm#ServerLogFiles" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#ServerLogFiles">
+
+Server Log Files</A>
+
+<UL>
+
+<LI><A HREF="ch21.htm#ExampleReadingaLogFile" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#ExampleReadingaLogFile">
+
+Example: Reading a Log File</A>
+
+<LI><A HREF="ch21.htm#ExampleListingAccessbyDocument" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#ExampleListingAccessbyDocument">
+
+Example: Listing Access by Document</A>
+
+<LI><A HREF="ch21.htm#ExampleLookingattheStatusCode" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#ExampleLookingattheStatusCode">
+
+Example: Looking at the Status Code</A>
+
+<LI><A HREF="ch21.htm#ExampleConvertingtheReporttoaWebPage" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#ExampleConvertingtheReporttoaWebPage">
+
+Example: Converting the Report to a Web Page</A>
+
+<LI><A HREF="ch21.htm#ExistingLogFileAnalyzingPrograms" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#ExistingLogFileAnalyzingPrograms">
+
+Existing Log File Analyzing Programs</A>
+
+<LI><A HREF="ch21.htm#CreatingYourOwnCGILogFile" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#CreatingYourOwnCGILogFile">
+
+Creating Your Own CGI Log File</A>
+
+</UL>
+
+<LI><A HREF="ch21.htm#CommunicatingwithUsers" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#CommunicatingwithUsers">
+
+Communicating with Users</A>
+
+<UL>
+
+<LI><A HREF="ch21.htm#ExampleGeneratingaWhatsNewPage" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#ExampleGeneratingaWhatsNewPage">
+
+Example: Generating a What's New Page</A>
+
+<LI><A HREF="ch21.htm#ExampleGettingUserFeedback" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#ExampleGettingUserFeedback">
+
+Example: Getting User Feedback</A>
+
+</UL>
+
+<LI><A HREF="ch21.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#Summary">
+
+Summary</A>
+
+<LI><A HREF="ch21.htm#ReviewExercises" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch21.htm#ReviewExercises">
+
+Review Exercises</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Chapter </FONT></I><FONT SIZE=5 COLOR=#FF0000>22
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Internet Resources</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch22.htm#UsenetNewsgroups" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#UsenetNewsgroups">
+
+Usenet Newsgroups</A>
+
+<LI><A HREF="ch22.htm#WebSites" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#WebSites">
+
+Web Sites</A>
+
+<UL>
+
+<LI><A HREF="ch22.htm#ThePerlLanguageHomePage" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#ThePerlLanguageHomePage">
+
+The Perl Language Home Page</A>
+
+<LI><A HREF="ch22.htm#PearlsofWisdombyLarryWall" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#PearlsofWisdombyLarryWall">
+
+Pearls of Wisdom by Larry Wall</A>
+
+<LI><A HREF="ch22.htm#Yahoo" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#Yahoo">
+
+Yahoo</A>
+
+<LI><A HREF="ch22.htm#TheCGIpmModule" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#TheCGIpmModule">
+
+The CGI.pm Module</A>
+
+<LI><A HREF="ch22.htm#SelinaSolsCGIScriptArchive" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#SelinaSolsCGIScriptArchive">
+
+Selina Sol's CGI Script Archive</A>
+
+<LI><A HREF="ch22.htm#TheWebDevelopersVirtualLibrary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#TheWebDevelopersVirtualLibrary">
+
+The Web Developer's Virtual Library</A>
+
+<LI><A HREF="ch22.htm#IntroductiontoCGI" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#IntroductiontoCGI">
+
+Introduction to CGI</A>
+
+<LI><A HREF="ch22.htm#PerlforWin" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#PerlforWin">
+
+Perl for Win32</A>
+
+<LI><A HREF="ch22.htm#RandalLSchwartzsHomePage" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#RandalLSchwartzsHomePage">
+
+Randal L. Schwartz's Home Page</A>
+
+<LI><A HREF="ch22.htm#DaleBewleysPerlScriptsandLinks" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#DaleBewleysPerlScriptsandLinks">
+
+Dale Bewley's Perl Scripts and Links!</A>
+
+<LI><A HREF="ch22.htm#MattsScriptArchive" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#MattsScriptArchive">
+
+Matt's Script Archive</A>
+
+<LI><A HREF="ch22.htm#TheComprehensivePerlArchiveNetwork" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#TheComprehensivePerlArchiveNetwork">
+
+The Comprehensive Perl Archive Network</A>
+
+<LI><A HREF="ch22.htm#DatabaseAPIforPerl" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#DatabaseAPIforPerl">
+
+Database API for Perl</A>
+
+<LI><A HREF="ch22.htm#TheCGICollection" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#TheCGICollection">
+
+The CGI Collection</A>
+
+<LI><A HREF="ch22.htm#HTMLFormProcessingModulesHFPMHomePage" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#HTMLFormProcessingModulesHFPMHomePage">
+
+HTML Form Processing Modules (HFPM) Home Page</A>
+
+<LI><A HREF="ch22.htm#PureAmiga" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#PureAmiga">
+
+PureAmiga</A>
+
+<LI><A HREF="ch22.htm#MacPerl" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#MacPerl">
+
+MacPerl</A>
+
+<LI><A HREF="ch22.htm#CGIScriptsandHTMLForms" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#CGIScriptsandHTMLForms">
+
+CGI Scripts and HTML Forms</A>
+
+<LI><A HREF="ch22.htm#TheCGIDocumentationbyNCSA" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#TheCGIDocumentationbyNCSA">
+
+The CGI Documentation by NCSA</A>
+
+<LI><A HREF="ch22.htm#MiscellaneousSites" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#MiscellaneousSites">
+
+Miscellaneous Sites</A>
+
+</UL>
+
+<LI><A HREF="ch22.htm#InternetRelayChatorIRC" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#InternetRelayChatorIRC">
+
+Internet Relay Chat, or IRC</A>
+
+<LI><A HREF="ch22.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch22.htm#Summary">
+
+Summary</A>
+
+</UL>
+
+
+
+<H2><A HREF="ch23.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch23.htm"><I><FONT SIZE=5 COLOR=#FF0000>Appendix </FONT></I><FONT SIZE=5 COLOR=#FF0000>A
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Answers to Review Questions</FONT></a></H2>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Appendix </FONT></I><FONT SIZE=5 COLOR=#FF0000>B
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Glossary</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch24.htm#Abstraction" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Abstraction">
+
+Abstraction</A>
+
+<LI><A HREF="ch24.htm#Alternation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Alternation">
+
+Alternation</A>
+
+<LI><A HREF="ch24.htm#AlternativeQuotes" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#AlternativeQuotes">
+
+Alternative Quotes</A>
+
+<LI><A HREF="ch24.htm#ANChor" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ANChor">
+
+ANChor</A>
+
+<LI><A HREF="ch24.htm#AnonymousFuNCtionsandVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#AnonymousFuNCtionsandVariables">
+
+Anonymous FuNCtions and Variables</A>
+
+<LI><A HREF="ch24.htm#ANSI" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ANSI">
+
+ANSI</A>
+
+<LI><A HREF="ch24.htm#Argument" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Argument">
+
+Argument</A>
+
+<LI><A HREF="ch24.htm#Array" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Array">
+
+Array</A>
+
+<LI><A HREF="ch24.htm#ArrayContext" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ArrayContext">
+
+Array Context</A>
+
+<LI><A HREF="ch24.htm#ArrayRange" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ArrayRange">
+
+Array Range</A>
+
+<LI><A HREF="ch24.htm#ArraySlice" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ArraySlice">
+
+Array Slice</A>
+
+<LI><A HREF="ch24.htm#ArraySplice" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ArraySplice">
+
+Array Splice</A>
+
+<LI><A HREF="ch24.htm#ASCII" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ASCII">
+
+ASCII</A>
+
+<LI><A HREF="ch24.htm#Assignment" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Assignment">
+
+Assignment</A>
+
+<LI><A HREF="ch24.htm#AssociativeArray" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#AssociativeArray">
+
+Associative Array</A>
+
+<LI><A HREF="ch24.htm#Associativitylefttorightamprighttoleft" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Associativitylefttorightamprighttoleft">
+
+Associativity (left-to-right &amp; right-to-left)</A>
+
+<LI><A HREF="ch24.htm#awk" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#awk">
+
+awk</A>
+
+<LI><A HREF="ch24.htm#Backtracking" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Backtracking">
+
+Backtracking</A>
+
+<LI><A HREF="ch24.htm#BinaryMode" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#BinaryMode">
+
+Binary Mode</A>
+
+<LI><A HREF="ch24.htm#BitwiseOperations" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#BitwiseOperations">
+
+Bitwise Operations</A>
+
+<LI><A HREF="ch24.htm#Block" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Block">
+
+Block</A>
+
+<LI><A HREF="ch24.htm#CallbyRefereNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#CallbyRefereNCe">
+
+Call by RefereNCe</A>
+
+<LI><A HREF="ch24.htm#CallbyValue" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#CallbyValue">
+
+Call by Value</A>
+
+<LI><A HREF="ch24.htm#CharacterClasses" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#CharacterClasses">
+
+Character Classes</A>
+
+<LI><A HREF="ch24.htm#ChildProcess" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ChildProcess">
+
+Child Process</A>
+
+<LI><A HREF="ch24.htm#Class" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Class">
+
+Class</A>
+
+<LI><A HREF="ch24.htm#ClientServer" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ClientServer">
+
+Client/Server</A>
+
+<LI><A HREF="ch24.htm#CommandLineOptions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#CommandLineOptions">
+
+Command-Line Options</A>
+
+<LI><A HREF="ch24.htm#Compiler" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Compiler">
+
+Compiler</A>
+
+<LI><A HREF="ch24.htm#CompileTimeError" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#CompileTimeError">
+
+Compile-Time Error</A>
+
+<LI><A HREF="ch24.htm#CoNCatenation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#CoNCatenation">
+
+CoNCatenation</A>
+
+<LI><A HREF="ch24.htm#Constant" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Constant">
+
+Constant</A>
+
+<LI><A HREF="ch24.htm#Constructor" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Constructor">
+
+Constructor</A>
+
+<LI><A HREF="ch24.htm#ContextArrayampScalar" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ContextArrayampScalar">
+
+Context (Array &amp; Scalar)</A>
+
+<LI><A HREF="ch24.htm#ControlCharacters" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ControlCharacters">
+
+Control Characters</A>
+
+<LI><A HREF="ch24.htm#CR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#CR">
+
+CR</A>
+
+<LI><A HREF="ch24.htm#Database" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Database">
+
+Database</A>
+
+<LI><A HREF="ch24.htm#DataType" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#DataType">
+
+Data Type</A>
+
+<LI><A HREF="ch24.htm#Debugger" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Debugger">
+
+Debugger</A>
+
+<LI><A HREF="ch24.htm#Declaration" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Declaration">
+
+Declaration</A>
+
+<LI><A HREF="ch24.htm#Deconstructor" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Deconstructor">
+
+Deconstructor</A>
+
+<LI><A HREF="ch24.htm#Defined" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Defined">
+
+Defined</A>
+
+<LI><A HREF="ch24.htm#Delimiter" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Delimiter">
+
+Delimiter</A>
+
+<LI><A HREF="ch24.htm#DerefereNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#DerefereNCe">
+
+DerefereNCe</A>
+
+<LI><A HREF="ch24.htm#DetailLine" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#DetailLine">
+
+Detail Line</A>
+
+<LI><A HREF="ch24.htm#DiamondOperator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#DiamondOperator">
+
+Diamond Operator</A>
+
+<LI><A HREF="ch24.htm#Directory" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Directory">
+
+Directory</A>
+
+<LI><A HREF="ch24.htm#DottedDecimalAddress" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#DottedDecimalAddress">
+
+Dotted Decimal Address</A>
+
+<LI><A HREF="ch24.htm#EmptyStringsArraysListsandHashes" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#EmptyStringsArraysListsandHashes">
+
+Empty Strings, Arrays, Lists, and Hashes</A>
+
+<LI><A HREF="ch24.htm#ENCapsulation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ENCapsulation">
+
+ENCapsulation</A>
+
+<LI><A HREF="ch24.htm#ENCryption" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ENCryption">
+
+ENCryption</A>
+
+<LI><A HREF="ch24.htm#EndlessLoop" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#EndlessLoop">
+
+Endless Loop</A>
+
+<LI><A HREF="ch24.htm#EnvironmentVariables" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#EnvironmentVariables">
+
+Environment Variables</A>
+
+<LI><A HREF="ch24.htm#EOF" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#EOF">
+
+EOF</A>
+
+<LI><A HREF="ch24.htm#EscapeSequeNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#EscapeSequeNCe">
+
+Escape SequeNCe</A>
+
+<LI><A HREF="ch24.htm#Expression" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Expression">
+
+Expression</A>
+
+<LI><A HREF="ch24.htm#FF" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#FF">
+
+FF</A>
+
+<LI><A HREF="ch24.htm#Field" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Field">
+
+Field</A>
+
+<LI><A HREF="ch24.htm#Filehandle" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Filehandle">
+
+Filehandle</A>
+
+<LI><A HREF="ch24.htm#Footer" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Footer">
+
+Footer</A>
+
+<LI><A HREF="ch24.htm#Formats" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Formats">
+
+Formats</A>
+
+<LI><A HREF="ch24.htm#ftp" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ftp">
+
+ftp</A>
+
+<LI><A HREF="ch24.htm#FuNCtion" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#FuNCtion">
+
+FuNCtion</A>
+
+<LI><A HREF="ch24.htm#Globbing" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Globbing">
+
+Globbing</A>
+
+<LI><A HREF="ch24.htm#GreedyRegularExpressions" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#GreedyRegularExpressions">
+
+Greedy Regular Expressions</A>
+
+<LI><A HREF="ch24.htm#Grep" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Grep">
+
+Grep</A>
+
+<LI><A HREF="ch24.htm#Hash" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Hash">
+
+Hash</A>
+
+<LI><A HREF="ch24.htm#Header" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Header">
+
+Header</A>
+
+<LI><A HREF="ch24.htm#HereDocuments" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#HereDocuments">
+
+Here Documents</A>
+
+<LI><A HREF="ch24.htm#Hexadecimal" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Hexadecimal">
+
+Hexadecimal</A>
+
+<LI><A HREF="ch24.htm#InfiniteLoop" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#InfiniteLoop">
+
+Infinite Loop</A>
+
+<LI><A HREF="ch24.htm#InheritaNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#InheritaNCe">
+
+InheritaNCe</A>
+
+<LI><A HREF="ch24.htm#Initialization" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Initialization">
+
+Initialization</A>
+
+<LI><A HREF="ch24.htm#Interpolation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Interpolation">
+
+Interpolation</A>
+
+<LI><A HREF="ch24.htm#Interpreter" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Interpreter">
+
+Interpreter</A>
+
+<LI><A HREF="ch24.htm#InterprocessCommunication" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#InterprocessCommunication">
+
+Inter-process Communication</A>
+
+<LI><A HREF="ch24.htm#IO" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#IO">
+
+I/O</A>
+
+<LI><A HREF="ch24.htm#IPC" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#IPC">
+
+IPC</A>
+
+<LI><A HREF="ch24.htm#KeyValuePair" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#KeyValuePair">
+
+Key-Value Pair</A>
+
+<LI><A HREF="ch24.htm#Label" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Label">
+
+Label</A>
+
+<LI><A HREF="ch24.htm#LF" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#LF">
+
+LF</A>
+
+<LI><A HREF="ch24.htm#Library" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Library">
+
+Library</A>
+
+<LI><A HREF="ch24.htm#List" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#List">
+
+List</A>
+
+<LI><A HREF="ch24.htm#Literal" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Literal">
+
+Literal</A>
+
+<LI><A HREF="ch24.htm#Loop" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Loop">
+
+Loop</A>
+
+<LI><A HREF="ch24.htm#MetaCharacters" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#MetaCharacters">
+
+Meta Characters</A>
+
+<LI><A HREF="ch24.htm#Module" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Module">
+
+Module</A>
+
+<LI><A HREF="ch24.htm#Namespace" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Namespace">
+
+Namespace</A>
+
+<LI><A HREF="ch24.htm#Object" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Object">
+
+Object</A>
+
+<LI><A HREF="ch24.htm#Octal" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Octal">
+
+Octal</A>
+
+<LI><A HREF="ch24.htm#Operator" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Operator">
+
+Operator</A>
+
+<LI><A HREF="ch24.htm#Parameter" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Parameter">
+
+Parameter</A>
+
+<LI><A HREF="ch24.htm#Polymorphism" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Polymorphism">
+
+Polymorphism</A>
+
+<LI><A HREF="ch24.htm#Port" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Port">
+
+Port</A>
+
+<LI><A HREF="ch24.htm#PrecedeNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#PrecedeNCe">
+
+PrecedeNCe</A>
+
+<LI><A HREF="ch24.htm#Procedure" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Procedure">
+
+Procedure</A>
+
+<LI><A HREF="ch24.htm#Protocol" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Protocol">
+
+Protocol</A>
+
+<LI><A HREF="ch24.htm#Range" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Range">
+
+Range</A>
+
+<LI><A HREF="ch24.htm#Record" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Record">
+
+Record</A>
+
+<LI><A HREF="ch24.htm#RefereNCe" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#RefereNCe">
+
+RefereNCe</A>
+
+<LI><A HREF="ch24.htm#RegularExpression" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#RegularExpression">
+
+Regular Expression</A>
+
+<LI><A HREF="ch24.htm#ReturnValue" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ReturnValue">
+
+Return Value</A>
+
+<LI><A HREF="ch24.htm#RunTimeError" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#RunTimeError">
+
+Run-Time Error</A>
+
+<LI><A HREF="ch24.htm#Scalar" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Scalar">
+
+Scalar</A>
+
+<LI><A HREF="ch24.htm#ScalarContext" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ScalarContext">
+
+Scalar Context</A>
+
+<LI><A HREF="ch24.htm#Scope" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Scope">
+
+Scope</A>
+
+<LI><A HREF="ch24.htm#ShortCircuitOperators" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#ShortCircuitOperators">
+
+Short-Circuit Operators</A>
+
+<LI><A HREF="ch24.htm#Signals" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Signals">
+
+Signals</A>
+
+<LI><A HREF="ch24.htm#Slice" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Slice">
+
+Slice</A>
+
+<LI><A HREF="ch24.htm#Socket" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Socket">
+
+Socket</A>
+
+<LI><A HREF="ch24.htm#Splice" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Splice">
+
+Splice</A>
+
+<LI><A HREF="ch24.htm#Stack" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Stack">
+
+Stack</A>
+
+<LI><A HREF="ch24.htm#Statement" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Statement">
+
+Statement</A>
+
+<LI><A HREF="ch24.htm#STDERRSTDINandSTDOUT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#STDERRSTDINandSTDOUT">
+
+STDERR, STDIN, and STDOUT</A>
+
+<LI><A HREF="ch24.htm#Subroutine" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Subroutine">
+
+Subroutine</A>
+
+<LI><A HREF="ch24.htm#TextMode" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#TextMode">
+
+Text Mode</A>
+
+<LI><A HREF="ch24.htm#UndefinedValue" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#UndefinedValue">
+
+Undefined Value</A>
+
+<LI><A HREF="ch24.htm#Variable" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Variable">
+
+Variable</A>
+
+<LI><A HREF="ch24.htm#Whitespace" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch24.htm#Whitespace">
+
+Whitespace</A>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Appendix </FONT></I><FONT SIZE=5 COLOR=#FF0000>C
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;FuNCtion List</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch25.htm#FuNCtionsbyCategory" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#FuNCtionsbyCategory">
+
+FuNCtions by Category</A>
+
+<LI><A HREF="ch25.htm#FuNCtionsbyName" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#FuNCtionsbyName">
+
+FuNCtions by Name</A>
+
+<UL>
+
+<LI><A HREF="ch25.htm#absEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#absEXPR">
+
+abs([EXPR])</A>
+
+<LI><A HREF="ch25.htm#acceptNEWSOCKETGENERICSOCKET" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#acceptNEWSOCKETGENERICSOCKET">
+
+accept (NEWSOCKET, GENERICSOCKET)</A>
+
+<LI><A HREF="ch25.htm#alarmNUMOFSECONDS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#alarmNUMOFSECONDS">
+
+alarm (NUM_OF_SECONDS)</A>
+
+<LI><A HREF="ch25.htm#atanEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#atanEXPR">
+
+atan2 ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#bindSOCKETNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#bindSOCKETNAME">
+
+bind (SOCKET, NAME)</A>
+
+<LI><A HREF="ch25.htm#binmodeFILEHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#binmodeFILEHANDLE">
+
+binmode (FILEHANDLE)</A>
+
+<LI><A HREF="ch25.htm#blessREFERENCECLASSNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#blessREFERENCECLASSNAME">
+
+bless (REFERENCE, [CLASSNAME])</A>
+
+<LI><A HREF="ch25.htm#callerEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#callerEXPR">
+
+caller ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#chdirDIRNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#chdirDIRNAME">
+
+chdir ([DIRNAME])</A>
+
+<LI><A HREF="ch25.htm#chmodMODELIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#chmodMODELIST">
+
+chmod (MODE, LIST)</A>
+
+<LI><A HREF="ch25.htm#chompSTRINGLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#chompSTRINGLIST">
+
+chomp ([STRING | LIST])</A>
+
+<LI><A HREF="ch25.htm#chopSTRINGLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#chopSTRINGLIST">
+
+chop ([STRING | LIST])</A>
+
+<LI><A HREF="ch25.htm#chownNUMERICALUIDNUMERICALGIDLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#chownNUMERICALUIDNUMERICALGIDLIST">
+
+chown (NUMERICAL_UID, NUMERICAL_GID, LIST)</A>
+
+<LI><A HREF="ch25.htm#chrNUMBER" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#chrNUMBER">
+
+chr (NUMBER)</A>
+
+<LI><A HREF="ch25.htm#chrootDIRNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#chrootDIRNAME">
+
+chroot (DIR_NAME)</A>
+
+<LI><A HREF="ch25.htm#closeFILEHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#closeFILEHANDLE">
+
+close (FILEHANDLE)</A>
+
+<LI><A HREF="ch25.htm#closedirDIRHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#closedirDIRHANDLE">
+
+closedir (DIRHANDLE)</A>
+
+<LI><A HREF="ch25.htm#connectSOCKETNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#connectSOCKETNAME">
+
+connect (SOCKET, NAME)</A>
+
+<LI><A HREF="ch25.htm#cosEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#cosEXPR">
+
+cos ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#cryptTEXTSALT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#cryptTEXTSALT">
+
+crypt (TEXT, SALT)</A>
+
+<LI><A HREF="ch25.htm#dbmcloseHASH" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#dbmcloseHASH">
+
+dbmclose (HASH)</A>
+
+<LI><A HREF="ch25.htm#dbmopenHASHDATABASENAMEMODE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#dbmopenHASHDATABASENAMEMODE">
+
+dbmopen (HASH, DATABASE_NAME, MODE)</A>
+
+<LI><A HREF="ch25.htm#definedEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#definedEXPR">
+
+defined (EXPR)</A>
+
+<LI><A HREF="ch25.htm#deleteEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#deleteEXPR">
+
+delete (EXPR)</A>
+
+<LI><A HREF="ch25.htm#dieLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#dieLIST">
+
+die ([LIST])</A>
+
+<LI><A HREF="ch25.htm#doSCRIPTNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#doSCRIPTNAME">
+
+do (SCRIPTNAME)</A>
+
+<LI><A HREF="ch25.htm#dumpLABEL" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#dumpLABEL">
+
+dump ([LABEL])</A>
+
+<LI><A HREF="ch25.htm#eachHASH" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#eachHASH">
+
+each (HASH)</A>
+
+<LI><A HREF="ch25.htm#endgrent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#endgrent">
+
+endgrent ( )</A>
+
+<LI><A HREF="ch25.htm#endhostent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#endhostent">
+
+endhostent ( )</A>
+
+<LI><A HREF="ch25.htm#endnetent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#endnetent">
+
+endnetent ( )</A>
+
+<LI><A HREF="ch25.htm#endprotoent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#endprotoent">
+
+endprotoent ( )</A>
+
+<LI><A HREF="ch25.htm#endpwent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#endpwent">
+
+endpwent ( )</A>
+
+<LI><A HREF="ch25.htm#endservent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#endservent">
+
+endservent ( )</A>
+
+<LI><A HREF="ch25.htm#eofFILEHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#eofFILEHANDLE">
+
+eof ([FILEHANDLE])</A>
+
+<LI><A HREF="ch25.htm#evalEXPRBLOCK" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#evalEXPRBLOCK">
+
+eval ([EXPR | BLOCK])</A>
+
+<LI><A HREF="ch25.htm#execLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#execLIST">
+
+exec (LIST)</A>
+
+<LI><A HREF="ch25.htm#existsEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#existsEXPR">
+
+exists (EXPR)</A>
+
+<LI><A HREF="ch25.htm#exitEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#exitEXPR">
+
+exit ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#expEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#expEXPR">
+
+exp ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#fcntlFILEHANDLEFUNCTIONPACKEDFLAGS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#fcntlFILEHANDLEFUNCTIONPACKEDFLAGS">
+
+fcntl (FILEHANDLE, FUNCTION, PACKED_FLAGS)</A>
+
+<LI><A HREF="ch25.htm#filenoFILEHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#filenoFILEHANDLE">
+
+fileno (FILEHANDLE)</A>
+
+<LI><A HREF="ch25.htm#flockFILEHANDLEOPERATIONFLAGS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#flockFILEHANDLEOPERATIONFLAGS">
+
+flock (FILEHANDLE, OPERATION_FLAGS)</A>
+
+<LI><A HREF="ch25.htm#fork" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#fork">
+
+fork ( )</A>
+
+<LI><A HREF="ch25.htm#formlinePICTURELIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#formlinePICTURELIST">
+
+formline (PICTURE, LIST)</A>
+
+<LI><A HREF="ch25.htm#getcFILEHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getcFILEHANDLE">
+
+getc ([FILEHANDLE])</A>
+
+<LI><A HREF="ch25.htm#getgrent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getgrent">
+
+getgrent ( )</A>
+
+<LI><A HREF="ch25.htm#getgrgidGID" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getgrgidGID">
+
+getgrgid (GID)</A>
+
+<LI><A HREF="ch25.htm#getgrnameNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getgrnameNAME">
+
+getgrname (NAME)</A>
+
+<LI><A HREF="ch25.htm#gethostbyaddrADDRESSAFINIT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#gethostbyaddrADDRESSAFINIT">
+
+gethostbyaddr (ADDRESS, AF_INIT)</A>
+
+<LI><A HREF="ch25.htm#gethostbynameNAMEPROTOCOL" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#gethostbynameNAMEPROTOCOL">
+
+gethostbyname (NAME, [PROTOCOL])</A>
+
+<LI><A HREF="ch25.htm#gethostent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#gethostent">
+
+gethostent ( )</A>
+
+<LI><A HREF="ch25.htm#getlogin" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getlogin">
+
+getlogin ( )</A>
+
+<LI><A HREF="ch25.htm#getnetbyaddrADDRESSADDRTYPE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getnetbyaddrADDRESSADDRTYPE">
+
+getnetbyaddr (ADDRESS, ADDR_TYPE)</A>
+
+<LI><A HREF="ch25.htm#getnetbynameNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getnetbynameNAME">
+
+getnetbyname (NAME)</A>
+
+<LI><A HREF="ch25.htm#getnetent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getnetent">
+
+getnetent ( )</A>
+
+<LI><A HREF="ch25.htm#getpeernameSOCKET" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getpeernameSOCKET">
+
+getpeername (SOCKET)</A>
+
+<LI><A HREF="ch25.htm#getpgrpPID" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getpgrpPID">
+
+getpgrp (PID)</A>
+
+<LI><A HREF="ch25.htm#getppid" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getppid">
+
+getppid ( )</A>
+
+<LI><A HREF="ch25.htm#getpriorityWHICHWHO" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getpriorityWHICHWHO">
+
+getpriority (WHICH, WHO)</A>
+
+<LI><A HREF="ch25.htm#getprotobynameNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getprotobynameNAME">
+
+getprotobyname (NAME)</A>
+
+<LI><A HREF="ch25.htm#getprotobynumberNUMBER" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getprotobynumberNUMBER">
+
+getprotobynumber (NUMBER)</A>
+
+<LI><A HREF="ch25.htm#getprotoent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getprotoent">
+
+getprotoent ( )</A>
+
+<LI><A HREF="ch25.htm#getpwent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getpwent">
+
+getpwent ( )</A>
+
+<LI><A HREF="ch25.htm#getpwnamNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getpwnamNAME">
+
+getpwnam (NAME)</A>
+
+<LI><A HREF="ch25.htm#getpwuidUID" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getpwuidUID">
+
+getpwuid (UID)</A>
+
+<LI><A HREF="ch25.htm#getservbynameNAMEPROTOCOL" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getservbynameNAMEPROTOCOL">
+
+getservbyname (NAME, PROTOCOL)</A>
+
+<LI><A HREF="ch25.htm#getservbyportPORTNUMBERPROTOCOL" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getservbyportPORTNUMBERPROTOCOL">
+
+getservbyport (PORT_NUMBER, PROTOCOL)</A>
+
+<LI><A HREF="ch25.htm#getservent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getservent">
+
+getservent ( )</A>
+
+<LI><A HREF="ch25.htm#getsocknameSOCKET" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getsocknameSOCKET">
+
+getsockname (SOCKET)</A>
+
+<LI><A HREF="ch25.htm#getsockoptSOCKETLEVELOPTNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#getsockoptSOCKETLEVELOPTNAME">
+
+getsockopt (SOCKET, LEVEL, OPTNAME)</A>
+
+<LI><A HREF="ch25.htm#globEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#globEXPR">
+
+glob (EXPR)</A>
+
+<LI><A HREF="ch25.htm#gmtimeEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#gmtimeEXPR">
+
+gmtime ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#grepBLOCKEXPRLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#grepBLOCKEXPRLIST">
+
+grep (BLOCK | EXPR, LIST)</A>
+
+<LI><A HREF="ch25.htm#hexEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#hexEXPR">
+
+hex (EXPR)</A>
+
+<LI><A HREF="ch25.htm#import" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#import">
+
+import ( )</A>
+
+<LI><A HREF="ch25.htm#indexSTRINGSUBSTRINGPOSITION" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#indexSTRINGSUBSTRINGPOSITION">
+
+index (STRING, SUBSTRING, [POSITION])</A>
+
+<LI><A HREF="ch25.htm#intEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#intEXPR">
+
+int ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#ioctlFILEHANDLEFUNCTIONSCALAR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#ioctlFILEHANDLEFUNCTIONSCALAR">
+
+ioctl (FILEHANDLE, FUNCTION, SCALAR)</A>
+
+<LI><A HREF="ch25.htm#joinEXPRLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#joinEXPRLIST">
+
+join (EXPR, LIST)</A>
+
+<LI><A HREF="ch25.htm#keysHASH" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#keysHASH">
+
+keys (HASH)</A>
+
+<LI><A HREF="ch25.htm#killSIGNALLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#killSIGNALLIST">
+
+kill (SIGNAL, LIST)</A>
+
+<LI><A HREF="ch25.htm#lcEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#lcEXPR">
+
+lc (EXPR)</A>
+
+<LI><A HREF="ch25.htm#lcfirstEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#lcfirstEXPR">
+
+lcfirst (EXPR)</A>
+
+<LI><A HREF="ch25.htm#lengthEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#lengthEXPR">
+
+length ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#linkOLDFILENEWFILE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#linkOLDFILENEWFILE">
+
+link (OLD_FILE, NEW_FILE)</A>
+
+<LI><A HREF="ch25.htm#listenSOCKETQUEUESIZE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#listenSOCKETQUEUESIZE">
+
+listen (SOCKET, QUEUESIZE)</A>
+
+<LI><A HREF="ch25.htm#localLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#localLIST">
+
+local (LIST)</A>
+
+<LI><A HREF="ch25.htm#localtimeEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#localtimeEXPR">
+
+localtime ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#logEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#logEXPR">
+
+log ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#lstatFILEHANDLEEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#lstatFILEHANDLEEXPR">
+
+lstat (FILEHANDLE | EXPR)</A>
+
+<LI><A HREF="ch25.htm#mapBLOCKEXPRLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#mapBLOCKEXPRLIST">
+
+map (BLOCK | EXPR, LIST)</A>
+
+<LI><A HREF="ch25.htm#mkdirFILENAMEMODE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#mkdirFILENAMEMODE">
+
+mkdir (FILENAME, [MODE])</A>
+
+<LI><A HREF="ch25.htm#msgctlIDCOMMANDARG" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#msgctlIDCOMMANDARG">
+
+msgctl (ID, COMMAND, ARG)</A>
+
+<LI><A HREF="ch25.htm#msggetKEYFLAGS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#msggetKEYFLAGS">
+
+msgget (KEY, FLAGS)</A>
+
+<LI><A HREF="ch25.htm#msgrcvQUEUEIDBUFFERBUFFERSIZETYPEFLAGS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#msgrcvQUEUEIDBUFFERBUFFERSIZETYPEFLAGS">
+
+msgrcv (QUEUE_ID, BUFFER, BUFFER_SIZE, TYPE, FLAGS)</A>
+
+<LI><A HREF="ch25.htm#msgsndQUEUEIDBUFFERFLAGS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#msgsndQUEUEIDBUFFERFLAGS">
+
+msgsnd (QUEUE_ID, BUFFER, FLAGS)</A>
+
+<LI><A HREF="ch25.htm#myLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#myLIST">
+
+my (LIST)</A>
+
+<LI><A HREF="ch25.htm#octEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#octEXPR">
+
+oct ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#openFILEHANDLEEXPRFILENAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#openFILEHANDLEEXPRFILENAME">
+
+open (FILEHANDLE | EXPR | FILENAME)</A>
+
+<LI><A HREF="ch25.htm#opendirDIRHANDLEEXPRDIRNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#opendirDIRHANDLEEXPRDIRNAME">
+
+opendir (DIRHANDLE, EXPR | DIRNAME)</A>
+
+<LI><A HREF="ch25.htm#ordEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#ordEXPR">
+
+ord ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#packTEMPLATELIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#packTEMPLATELIST">
+
+pack (TEMPLATE, LIST)</A>
+
+<LI><A HREF="ch25.htm#pipeREADHANDLEWRITEHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#pipeREADHANDLEWRITEHANDLE">
+
+pipe (READHANDLE, WRITEHANDLE)</A>
+
+<LI><A HREF="ch25.htm#popARRAYVARIABLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#popARRAYVARIABLE">
+
+pop (ARRAY_VARIABLE)</A>
+
+<LI><A HREF="ch25.htm#posSCALAR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#posSCALAR">
+
+pos ([SCALAR])</A>
+
+<LI><A HREF="ch25.htm#printFILEHANDLELIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#printFILEHANDLELIST">
+
+print [FILEHANDLE] ([LIST])</A>
+
+<LI><A HREF="ch25.htm#printfFILEHANDLEFORMATLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#printfFILEHANDLEFORMATLIST">
+
+printf [FILEHANDLE] (FORMAT, LIST)</A>
+
+<LI><A HREF="ch25.htm#pushARRAYLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#pushARRAYLIST">
+
+push (ARRAY, LIST)</A>
+
+<LI><A HREF="ch25.htm#qLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#qLIST">
+
+q (LIST)</A>
+
+<LI><A HREF="ch25.htm#qqLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#qqLIST">
+
+qq (LIST)</A>
+
+<LI><A HREF="ch25.htm#quotemetaEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#quotemetaEXPR">
+
+quotemeta (EXPR)</A>
+
+<LI><A HREF="ch25.htm#qwLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#qwLIST">
+
+qw (LIST)</A>
+
+<LI><A HREF="ch25.htm#qxLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#qxLIST">
+
+qx (LIST)</A>
+
+<LI><A HREF="ch25.htm#randEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#randEXPR">
+
+rand ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#readFILEHANDLEBUFFERLENGTHOFFSET" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#readFILEHANDLEBUFFERLENGTHOFFSET">
+
+read (FILEHANDLE, BUFFER, LENGTH, [OFFSET])</A>
+
+<LI><A HREF="ch25.htm#readdirDIRHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#readdirDIRHANDLE">
+
+readdir (DIRHANDLE)</A>
+
+<LI><A HREF="ch25.htm#readlinkEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#readlinkEXPR">
+
+readlink ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#recvSOCKETBUFFERLENGTHFLAGS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#recvSOCKETBUFFERLENGTHFLAGS">
+
+recv (SOCKET, BUFFER, LENGTH, FLAGS)</A>
+
+<LI><A HREF="ch25.htm#refEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#refEXPR">
+
+ref (EXPR)</A>
+
+<LI><A HREF="ch25.htm#renameOLDNAMENEWNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#renameOLDNAMENEWNAME">
+
+rename (OLDNAME, NEWNAME)</A>
+
+<LI><A HREF="ch25.htm#resetEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#resetEXPR">
+
+reset ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#reverseLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#reverseLIST">
+
+reverse (LIST)</A>
+
+<LI><A HREF="ch25.htm#rewinddirDIRHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#rewinddirDIRHANDLE">
+
+rewinddir (DIRHANDLE)</A>
+
+<LI><A HREF="ch25.htm#rindexSTRINGSUBSTRINGPOSITION" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#rindexSTRINGSUBSTRINGPOSITION">
+
+rindex (STRING, SUBSTRING, [POSITION])</A>
+
+<LI><A HREF="ch25.htm#rmdirDIRNAME" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#rmdirDIRNAME">
+
+rmdir ([DIRNAME])</A>
+
+<LI><A HREF="ch25.htm#scalarEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#scalarEXPR">
+
+scalar (EXPR)</A>
+
+<LI><A HREF="ch25.htm#seekFILEHANDLEPOSITIONWHENCE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#seekFILEHANDLEPOSITIONWHENCE">
+
+seek (FILEHANDLE, POSITION, WHENCE)</A>
+
+<LI><A HREF="ch25.htm#seekdirDIRHANDLEPOS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#seekdirDIRHANDLEPOS">
+
+seekdir (DIRHANDLE, POS)</A>
+
+<LI><A HREF="ch25.htm#selectFILEHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#selectFILEHANDLE">
+
+select ([FILEHANDLE])</A>
+
+<LI><A HREF="ch25.htm#selectRBITSWBITSEBITSTIMEOUT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#selectRBITSWBITSEBITSTIMEOUT">
+
+select (RBITS, WBITS, EBITS, TIMEOUT)</A>
+
+<LI><A HREF="ch25.htm#semctlIDSEMNUMCMDARG" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#semctlIDSEMNUMCMDARG">
+
+semctl (ID, SEMNUM, CMD, ARG)</A>
+
+<LI><A HREF="ch25.htm#semgetKEYNSEMSFLAGS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#semgetKEYNSEMSFLAGS">
+
+semget (KEY, NSEMS, FLAGS)</A>
+
+<LI><A HREF="ch25.htm#semopKEYOPSTRING" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#semopKEYOPSTRING">
+
+semop (KEY, OPSTRING)</A>
+
+<LI><A HREF="ch25.htm#sendSOCKETBUFFERFLAGSTO" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#sendSOCKETBUFFERFLAGSTO">
+
+send (SOCKET, BUFFER, FLAGS, [TO])</A>
+
+<LI><A HREF="ch25.htm#setgrent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#setgrent">
+
+setgrent ( )</A>
+
+<LI><A HREF="ch25.htm#sethostentSTAYOPEN" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#sethostentSTAYOPEN">
+
+sethostent (STAYOPEN)</A>
+
+<LI><A HREF="ch25.htm#setnetentSTAYOPEN" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#setnetentSTAYOPEN">
+
+setnetent (STAYOPEN)</A>
+
+<LI><A HREF="ch25.htm#setpgrpPIDPGRP" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#setpgrpPIDPGRP">
+
+setpgrp (PID, PGRP)</A>
+
+<LI><A HREF="ch25.htm#setpriorityWHICHWHOPRIORITY" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#setpriorityWHICHWHOPRIORITY">
+
+setpriority (WHICH, WHO, PRIORITY)</A>
+
+<LI><A HREF="ch25.htm#setprotoentSTAYOPEN" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#setprotoentSTAYOPEN">
+
+setprotoent (STAYOPEN)</A>
+
+<LI><A HREF="ch25.htm#setpwent" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#setpwent">
+
+setpwent</A>
+
+<LI><A HREF="ch25.htm#setserventSTAYOPEN" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#setserventSTAYOPEN">
+
+setservent (STAYOPEN)</A>
+
+<LI><A HREF="ch25.htm#setsockoptSOCKETLEVELOPTNAMEOPTVAL" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#setsockoptSOCKETLEVELOPTNAMEOPTVAL">
+
+setsockopt (SOCKET, LEVEL, OPTNAME, OPTVAL)</A>
+
+<LI><A HREF="ch25.htm#shiftARRAY" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#shiftARRAY">
+
+shift ([ARRAY])</A>
+
+<LI><A HREF="ch25.htm#shmctlIDCMDARG" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#shmctlIDCMDARG">
+
+shmctl (ID, CMD, ARG)</A>
+
+<LI><A HREF="ch25.htm#shmgetKEYSIZEFLAGS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#shmgetKEYSIZEFLAGS">
+
+shmget (KEY, SIZE, FLAGS)</A>
+
+<LI><A HREF="ch25.htm#shmreadIDBUFFERPOSSIZE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#shmreadIDBUFFERPOSSIZE">
+
+shmread (ID, BUFFER, POS, SIZE)</A>
+
+<LI><A HREF="ch25.htm#shmwriteIDBUFFERPOSSIZE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#shmwriteIDBUFFERPOSSIZE">
+
+shmwrite (ID, BUFFER, POS, SIZE)</A>
+
+<LI><A HREF="ch25.htm#shutdownSOCKETHOW" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#shutdownSOCKETHOW">
+
+shutdown (SOCKET, HOW)</A>
+
+<LI><A HREF="ch25.htm#sinEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#sinEXPR">
+
+sin ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#sleepNUMSECONDSTOSLEEP" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#sleepNUMSECONDSTOSLEEP">
+
+sleep ([NUM_SECONDS_TO_SLEEP])</A>
+
+<LI><A HREF="ch25.htm#socketSOCKETDOMAINTYPEPROTOCOL" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#socketSOCKETDOMAINTYPEPROTOCOL">
+
+socket (SOCKET, DOMAIN, TYPE, PROTOCOL)</A>
+
+<LI><A HREF="ch25.htm#socketpairSOCKETSOCKETDOMAINTYPEPROTOCOL" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#socketpairSOCKETSOCKETDOMAINTYPEPROTOCOL">
+
+socketpair (SOCKET1, SOCKET2, DOMAIN, TYPE, PROTOCOL)</A>
+
+<LI><A HREF="ch25.htm#sortSUBNAMEBLOCKLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#sortSUBNAMEBLOCKLIST">
+
+sort ([SUBNAME | BLOCK], LIST)</A>
+
+<LI><A HREF="ch25.htm#spliceARRAYOFFSETLENGTHLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#spliceARRAYOFFSETLENGTHLIST">
+
+splice (ARRAY, OFFSET, [LENGTH], [LIST])</A>
+
+<LI><A HREF="ch25.htm#splitPATTERNEXPRLIMIT" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#splitPATTERNEXPRLIMIT">
+
+split ([/PATTERN/], [EXPR], [LIMIT])</A>
+
+<LI><A HREF="ch25.htm#sprintfFORMATLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#sprintfFORMATLIST">
+
+sprintf (FORMAT, LIST)</A>
+
+<LI><A HREF="ch25.htm#sqrtEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#sqrtEXPR">
+
+sqrt ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#srandEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#srandEXPR">
+
+srand ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#statFILEHANDLEEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#statFILEHANDLEEXPR">
+
+stat (FILEHANDLE | EXPR)</A>
+
+<LI><A HREF="ch25.htm#studySCALAR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#studySCALAR">
+
+study ([SCALAR])</A>
+
+<LI><A HREF="ch25.htm#substrEXPROFFSETLEN" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#substrEXPROFFSETLEN">
+
+substr (EXPR, OFFSET, [LEN])</A>
+
+<LI><A HREF="ch25.htm#symlinkOLDFILENEWFILE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#symlinkOLDFILENEWFILE">
+
+symlink (OLDFILE, NEWFILE)</A>
+
+<LI><A HREF="ch25.htm#syscallLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#syscallLIST">
+
+syscall (LIST)</A>
+
+<LI><A HREF="ch25.htm#sysopenFILEHANDLEFILENAMEMODEPERMISSIONS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#sysopenFILEHANDLEFILENAMEMODEPERMISSIONS">
+
+sysopen (FILEHANDLE, FILENAME, MODE, [PERMISSIONS])</A>
+
+<LI><A HREF="ch25.htm#sysreadFILEHANDLEBUFFERLENGTHOFFSET" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#sysreadFILEHANDLEBUFFERLENGTHOFFSET">
+
+sysread (FILEHANDLE, BUFFER, LENGTH, [OFFSET])</A>
+
+<LI><A HREF="ch25.htm#systemLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#systemLIST">
+
+system (LIST)</A>
+
+<LI><A HREF="ch25.htm#syswriteFILEHANDLEBUFFERLENGTHOFFSET" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#syswriteFILEHANDLEBUFFERLENGTHOFFSET">
+
+syswrite (FILEHANDLE, BUFFER, LENGTH, [OFFSET])</A>
+
+<LI><A HREF="ch25.htm#tellFILEHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#tellFILEHANDLE">
+
+tell ([FILEHANDLE])</A>
+
+<LI><A HREF="ch25.htm#telldirDIRHANDLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#telldirDIRHANDLE">
+
+telldir (DIRHANDLE)</A>
+
+<LI><A HREF="ch25.htm#tieVARIABLEPACKAGENAMELIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#tieVARIABLEPACKAGENAMELIST">
+
+tie (VARIABLE, PACKAGENAME, LIST)</A>
+
+<LI><A HREF="ch25.htm#tiedVARIABLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#tiedVARIABLE">
+
+tied (VARIABLE)</A>
+
+<LI><A HREF="ch25.htm#time" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#time">
+
+time ( )</A>
+
+<LI><A HREF="ch25.htm#times" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#times">
+
+times ( )</A>
+
+<LI><A HREF="ch25.htm#truNCateFILEHANDLEEXPRLENGTH" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#truNCateFILEHANDLEEXPRLENGTH">
+
+truNCate (FILEHANDLE | EXPR, LENGTH)</A>
+
+<LI><A HREF="ch25.htm#ucEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#ucEXPR">
+
+uc (EXPR)</A>
+
+<LI><A HREF="ch25.htm#ucfirstEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#ucfirstEXPR">
+
+ucfirst (EXPR)</A>
+
+<LI><A HREF="ch25.htm#umaskEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#umaskEXPR">
+
+umask ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#undefEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#undefEXPR">
+
+undef ([EXPR])</A>
+
+<LI><A HREF="ch25.htm#unlinkLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#unlinkLIST">
+
+unlink (LIST)</A>
+
+<LI><A HREF="ch25.htm#unpackTEMPLATEEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#unpackTEMPLATEEXPR">
+
+unpack (TEMPLATE, EXPR)</A>
+
+<LI><A HREF="ch25.htm#unshiftARRAYLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#unshiftARRAYLIST">
+
+unshift (ARRAY, LIST)</A>
+
+<LI><A HREF="ch25.htm#untieVARIABLE" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#untieVARIABLE">
+
+untie (VARIABLE)</A>
+
+<LI><A HREF="ch25.htm#utimeAccESSTIMEMODIFICATIONTIMELIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#utimeAccESSTIMEMODIFICATIONTIMELIST">
+
+utime (AccESS_TIME, MODIFICATION_TIME, LIST)</A>
+
+<LI><A HREF="ch25.htm#valuesHASH" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#valuesHASH">
+
+values (HASH)</A>
+
+<LI><A HREF="ch25.htm#vecEXPROFFSETNUMBITS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#vecEXPROFFSETNUMBITS">
+
+vec (EXPR, OFFSET, NUM_BITS)</A>
+
+<LI><A HREF="ch25.htm#wait" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#wait">
+
+wait ( )</A>
+
+<LI><A HREF="ch25.htm#waitpidPIDFLAGS" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#waitpidPIDFLAGS">
+
+waitpid (PID, FLAGS)</A>
+
+<LI><A HREF="ch25.htm#wantarray" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#wantarray">
+
+wantarray ( )</A>
+
+<LI><A HREF="ch25.htm#warnLIST" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#warnLIST">
+
+warn ([LIST])</A>
+
+<LI><A HREF="ch25.htm#writeFILEHANDLEEXPR" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch25.htm#writeFILEHANDLEEXPR">
+
+write ([FILEHANDLE | EXPR])</A>
+
+</UL>
+
+</UL>
+
+
+
+<H2><I><FONT SIZE=5 COLOR=#FF0000>Appendix </FONT></I><FONT SIZE=5 COLOR=#FF0000>D
+
+</FONT><FONT SIZE=5>&nbsp;&nbsp;Using the Registry</FONT></H2>
+
+<UL>
+
+<LI><A HREF="ch26.htm#RegistryFiles" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#RegistryFiles">
+
+Registry Files</A>
+
+<UL>
+
+<LI><A HREF="ch26.htm#HowtoBackUptheRegistry" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#HowtoBackUptheRegistry">
+
+How to Back Up the Registry</A>
+
+<LI><A HREF="ch26.htm#HowtoRestoretheRegistry" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#HowtoRestoretheRegistry">
+
+How to Restore the Registry</A>
+
+</UL>
+
+<LI><A HREF="ch26.htm#UsingtheRegistry" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#UsingtheRegistry">
+
+Using the Registry</A>
+
+<UL>
+
+<LI><A HREF="ch26.htm#OpeninganExistingKey" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#OpeninganExistingKey">
+
+Opening an Existing Key</A>
+
+<LI><A HREF="ch26.htm#CreatingaNewKey" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#CreatingaNewKey">
+
+Creating a New Key</A>
+
+<LI><A HREF="ch26.htm#FindingaKeysValue" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#FindingaKeysValue">
+
+Finding a Key's Value</A>
+
+<LI><A HREF="ch26.htm#SettingaKeysNameValuePairs" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#SettingaKeysNameValuePairs">
+
+Setting a Key's Name-Value Pairs</A>
+
+<LI><A HREF="ch26.htm#GettingaListofSubkeys" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#GettingaListofSubkeys">
+
+Getting a List of Subkeys</A>
+
+<LI><A HREF="ch26.htm#GettingaListofNameValuePairs" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#GettingaListofNameValuePairs">
+
+Getting a List of Name-Value Pairs</A>
+
+</UL>
+
+<LI><A HREF="ch26.htm#SomeCommonUsesfortheRegistry" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#SomeCommonUsesfortheRegistry">
+
+Some Common Uses for the Registry</A>
+
+<UL>
+
+<LI><A HREF="ch26.htm#CreatingaFileAssociation" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#CreatingaFileAssociation">
+
+Creating a File Association</A>
+
+<LI><A HREF="ch26.htm#SettingtheIconforaFileExtension" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#SettingtheIconforaFileExtension">
+
+Setting the Icon for a File Extension</A>
+
+<LI><A HREF="ch26.htm#EnablingthenewContextMenuOption" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#EnablingthenewContextMenuOption">
+
+Enabling the 'new' Context Menu Option</A>
+
+</UL>
+
+<LI><A HREF="ch26.htm#Summary" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch26.htm#Summary">
+
+Summary</A>
+
+</UL>
+
+
+
+<P>
+
+<BR>
+
+<H2><I><FONT COLOR="#FF0000"><A HREF="#CREDITS"><B>Credits</A></I></B></FONT></H2>
+
+
+
+<HR WIDTH=100%>
+
+<P>
+
+<P>
+
+Copyright&copy; 1996 by Que Corporation.
+
+<P>
+
+All rights reserved. Printed in the United States of America.
+
+No part of this book may be used or reproduced in any form or
+
+by any means, or stored in a database or retrieval system, without
+
+prior written permission of the publisher except in the case of
+
+brief quotations embodied in critical articles and reviews. Making
+
+copies of any part of this book for any purpose other than your
+
+own personal use is a violation of United States copyright laws.
+
+For information, address Que Corporation, 201 W. 103rd Street,
+
+Indianapolis, IN  46290. You may reach Que's direct sales line
+
+by calling 1-800-428-5331.
+
+<P>
+
+<B>ISBN: 0-7897-0866-3</B>
+
+<BR>
+
+<A NAME="CREDITS"></A><B>HTML conversion by </B> : 
+
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;M/s. LeafWriters (India) Pvt. Ltd. <BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<I>Website</I> : <A HREF="../../../tppmsgs/msgs0.htm#27" tppabs="http://leaf.stpn.soft.net/">http://leaf.stpn.soft.net</A> 
+
+<BR>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<I>e-mail</I> : <A HREF=mailto:leafwriters@leaf.stpn.soft.net>
+
+leafwriters@leaf.stpn.soft.net</A>
+
+<P>
+
+<HR>
+
+<CENTER>
+
+<TABLE WIDTH=40%>
+
+<TR><TD WIDTH=145><B><FONT SIZE=2>President</FONT></B></TD><TD WIDTH=138><I><FONT SIZE=2>Roland Elgey</FONT></I>
+
+</TD></TR>
+
+<TR><TD WIDTH=145><B><FONT SIZE=2>Publisher</FONT></B></TD><TD WIDTH=138><I><FONT SIZE=2>Joseph B. Wikert</FONT></I>
+
+</TD></TR>
+
+<TR><TD WIDTH=145><B><FONT SIZE=2>Director of Marketing</FONT></B>
+
+</TD><TD WIDTH=138><I><FONT SIZE=2>Lynn E. Zingraf</FONT></I>
+
+</TD></TR>
+
+</TABLE>
+
+<P>
+
+
+
+<TABLE>
+
+<TR><TD WIDTH=148><B><FONT SIZE=2>Editorial Services Director</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Elizabeth Keaffaber</FONT></I>
+
+</TD><TD WIDTH=148><B><FONT SIZE=2>Managing Editor</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Sandy Doell</FONT></I></TD>
+
+</TR>
+
+<TR><TD WIDTH=148><B><FONT SIZE=2>Title Manager</FONT></B></TD>
+
+<TD WIDTH=148><I><FONT SIZE=2>Bryan Gambrel</FONT></I></TD><TD WIDTH=148><B><FONT SIZE=2>Project Director</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Al Valvano</FONT></I></TD>
+
+</TR>
+
+<TR><TD WIDTH=148><B><FONT SIZE=2>Production Editors</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Susan Ross Moore, Matthew B. Cox</FONT></I>
+
+</TD><TD WIDTH=148><B><FONT SIZE=2>Editors</FONT></B></TD><TD WIDTH=148><I><FONT SIZE=2>Elizabeth Barrett, Anne Owen, Jeff Riley</FONT></I>
+
+</TD></TR>
+
+<TR><TD WIDTH=148><B><FONT SIZE=2>Product Marketing Manager</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Kim Margolius</FONT></I></TD>
+
+<TD WIDTH=148><B><FONT SIZE=2>Assistant Product Marketing Manager</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Christy M. Miller</FONT></I>
+
+</TD></TR>
+
+<TR><TD WIDTH=148><B><FONT SIZE=2>Technical Editors</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Joe Milton, J. David Shinn, CNE, Synergetic Resource Corp.</FONT></I>
+
+</TD><TD WIDTH=148><B><FONT SIZE=2>Technical Specialist</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Nadeem Muhammed</FONT></I>
+
+</TD></TR>
+
+<TR><TD WIDTH=148><B><FONT SIZE=2>Acquisitions Coordinator</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Carmen Krikorian</FONT></I>
+
+</TD><TD WIDTH=148><B><FONT SIZE=2>Operations Coordinator</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Patricia J. Brooks</FONT></I>
+
+</TD></TR>
+
+<TR><TD WIDTH=148><B><FONT SIZE=2>Editorial Assistant</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Andrea Duvall</FONT></I></TD>
+
+<TD WIDTH=148><B><FONT SIZE=2>Book Designer</FONT></B></TD><TD WIDTH=148><I><FONT SIZE=2>Barb Kordesh</FONT></I>
+
+</TD></TR>
+
+<TR><TD WIDTH=148><B><FONT SIZE=2>Cover Designer</FONT></B></TD>
+
+<TD WIDTH=148><I><FONT SIZE=2>Ruth Harvey</FONT></I></TD><TD WIDTH=148><B><FONT SIZE=2>Production</FONT></B>
+
+</TD><TD WIDTH=148><I><FONT SIZE=2>Bryan Flores</FONT></I></TD>
+
+</TR>
+
+</TABLE>
+
+</CENTER>
+
+<HR>
+
+<P>
+
+<H3>About the Author</H3>
+
+<P>
+
+<B>David Medinets</B> has been programming since 1980, when he
+
+started with a TRS-80 Model 1. He still fondly remembers the days
+
+when he could crosswire the keyboard to create funny-looking characters
+
+on the display.  SiNCe those days, he has spent time debugging
+
+Emacs on UNIX machines, working on VAXen, and messing around with
+
+DOS microcomputers. David is married to Kathryn and lives in northwest
+
+New Jersey. He runs Eclectic Consulting and has coauthored<I>
+
+Special Edition Using Lotus Notes Release 4 (</I>Que<I>), Special
+
+Edition Using Turbo C++ 4.5 for Windows (</I>Que<I>), Microsoft
+
+Office 95 Unleashed (</I>Sams<I>), </I>and<I> Visual Basic Unleashed
+
+</I>(Sams), among others<I>. </I>David can be reached at <B>medined@planet.net</B>.
+
+<H3>Acknowledgments</H3>
+
+<P>
+
+I'd like to thank all of the people at Que for making this book
+
+possible. You'll find their names listed on the Credits page,
+
+ so I won't list them all here. Susan Ross Moore deserves special
+
+thanks for figuratively watching over my shoulder as I worked.
+
+Her comments definitely made this a better book. Al Valvano was
+
+instrumental in making sure that everything came together at the
+
+proper time.
+
+<P>
+
+My wonderful wife deserves some thanks for letting me hang out
+
+on the Internet at all hours of the day and night while I did
+
+research for this book.
+
+<P>
+
+While writing this book, I have gleaned information from many
+
+books, articles, and Web resources. Where a particular item greatly
+
+influeNCed my thinking, I have given credit in the appropriate
+
+section.
+
+<P>
+
+Dale Bewley helped to create Chapter 19, &quot;What Is CGI?&quot;-Thanks
+
+Dale!
+
+<P>
+
+And of course, no Perl author should forget to thank: Larry Wall
+
+for creating Perl in the first place; Tom Christiansen for his
+
+remarkable contributions to the Perl community; and Randal Schwartz
+
+for his Learning Perl book which every Perl programmer seems to
+
+have read.
+
+<P>
+
+Thanks,<BR>
+
+<I><B>David</B></I>
+
+<H4>We'd Like to Hear from You!</H4>
+
+<P>
+
+As part of our continuing effort to produce books of the highest
+
+possible quality, Que would like to hear your comments. To stay
+
+competitive, we <I>really</I> want you, as a computer book reader
+
+and user, to let us know what you like or dislike most about this
+
+book or other Que products.
+
+<P>
+
+You can mail comments, ideas, or suggestions for improving future
+
+editions to the address below, or send us a fax at (317) 581-4663.
+
+Our staff and authors are available for questions and comments
+
+through our Internet site, at http://www.mcp.com/que, and<B> </B>Macmillan
+
+Computer Publishing also has a forum on CompuServe (type <B>GO
+
+QUEBOOKS</B> at any prompt).
+
+<P>
+
+In addition to exploring our forum, please feel free to contact
+
+me personally to discuss your opinions of this book: I'm<B> </B>avalvano@que.mcp.com
+
+on the Internet, and 74671,3710<B> </B>on CompuServe.
+
+<P>
+
+Thanks in advaNCe-your comments will help us to continue publishing
+
+the best books available on new computer technologies in today's
+
+market.
+
+<P>
+
+<DIV ALIGN=RIGHT>
+
+<B>Al Valvano</B><br>
+
+Project Director<BR>
+
+Que Corporation<BR>
+
+201 W. 103rd Street<BR>
+
+Indianapolis, Indiana 46290<BR>
+
+USA
+
+</DIV>
+
+
+
+<H3>Introduction</H3>
+
+<P>
+
+This book is based on the learn-by-doing priNCiple because I believe
+
+that simply reading about a subject makes it harder to learn.
+
+After all, you don't read about putting together a jigsaw puzzle;
+
+you put the puzzle together yourself! Programming is the same
+
+way. You must actually run some programs in order to really understand
+
+the coNCepts.
+
+<P>
+
+<I>Perl 5 By Example</I> will teach you how to use the Perl programming
+
+language by showing examples that demonstrate the coNCepts being
+
+discussed. The examples are designed to give you a chaNCe to experiment-which
+
+in turn should clarify the material.
+
+<P>
+
+Additional information and errata pages can be found at <B>http://www.mtolive.
+
+com/pbe/index.html</B>.
+
+<P>
+
+The topics are covered in a straightforward, nontechnical manner,
+
+which allows you to quickly understand the fundamental priNCiples.
+
+After the main topic of each chapter is introduced, subtopics
+
+are explored in their own sections. Each section has its own Perl
+
+examples with explanations given in pseudocode.
+
+<P>
+
+Each chapter finishes with review questions of varying difficulty
+
+based on the material in that chapter. The answers usually come
+
+from the text or are deducible from the text, but occasionally
+
+you might need to experiment a little. Try to answer the questions
+
+at all difficulty levels. If you get stuck turn to the answers
+
+provided in Appendix A. Also, look at the summary sections after
+
+reading each chapter and return to them frequently. After you've
+
+gone through several chapters, you'll begin to understand more
+
+often the reason why a coNCept was illustrated or a question was
+
+asked. Returning to questions that frustrated you earlier and
+
+realizing that now you know the answers can be a big confideNCe
+
+builder.
+
+<H3>Who Should Use This Book?</H3>
+
+<P>
+
+<I>Perl 5 By Example</I> should be read by anyone seeking to learn
+
+Perl. If you don't know any other programming languages, Chapters
+
+2 through 7 will give you a solid introduction to the basics.
+
+If you already know another language, then skip Chapters 2 through
+
+7 to see how Perl differs from other languages and start with
+
+Chapter 8, &quot;RefereNCes.&quot;
+
+<P>
+
+This book follows a simple format. Each chapter contains a single
+
+topic-usually. First, you read about the topic and then you see
+
+examples that let you work directly with Perl to understand how
+
+the coNCepts can be applied to a program. At the end of each chapter
+
+is a summary, followed by review questions and exercises.
+
+<P>
+
+This approach is designed to serve a broad range of readers from
+
+novice to advaNCed. If you've never programmed before, the learn-by-doing
+
+approach will help you move quickly and easily though this book.
+
+If you have programming experieNCe, you'll find plenty of material
+
+to refine and enhaNCe what you already know, and to give you a
+
+solid understanding of how Perl works.
+
+<H3>What Do I Need?</H3>
+
+<P>
+
+In order to effectively use this book you need two things. You
+
+need a working copy of Perl 5. And you need a text editor. That's
+
+it.
+
+<P>
+
+You can use the examples in this book with just about any hardware
+
+and operating system. I'm not sure that they would work on an
+
+Amiga system but other than that you should be able to run every
+
+example.
+
+<H3>How to Use This Book</H3>
+
+<P>
+
+There are several ways to use this book. One obvious method is
+
+to begin at the first page and proceed in order until the last.
+
+Most beginning programmers will use this method and the book is
+
+specifically designed so that each chapter builds on the last.
+
+Alternatively, you can read up to Chapter 10, &quot;Regular Expressions,&quot;
+
+and then skip to Appendix C, &quot;FuNCtion List.&quot; You can
+
+then read specific chapters as needed when your projects demand
+
+them. Either approach works.<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR><TD WIDTH=576><B><FONT SIZE=2>Tip</FONT></B></TD></TR>
+
+<TR><TD WIDTH=576>
+
+<BLOCKQUOTE>
+
+<FONT SIZE=2>It is critical to read through the FuNCtion List (Appendix C) at least oNCe before starting any major project. Otherwise, you might spend hours developing a fuNCtion that Perl already has predefined.</FONT>
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE>
+
+</CENTER>
+
+<P>
+
+<H3>Code Listings</H3>
+
+<P>
+
+Many readers prefer to type in most of the example code by hand;
+
+this helps them focus on the code one line at a time. Another
+
+good approach is to work through an example in a chapter, close
+
+the book, and enter it by hand from memory. The struggle that
+
+you experieNCe will help to deepen your understanding. Remember,
+
+getting lost can be how you learn to find your way.
+
+<P>
+
+If you're lazy, can't type fast, or are prone to wrist pains like
+
+some of my friends, you can copy the listings from the CD-ROM
+
+that is iNCluded at the back of this book. Each listing that is
+
+on the CD-ROM has a listing header like this:
+
+<P>
+
+<B>Listing 10.1&nbsp;&nbsp;10LST01.PL-This Is a Sample Listing
+
+Header</B>
+
+<P>
+
+The name of the Perl source file will always be the same as the
+
+listing's number. 
+
+<P>
+
+After each example, experiment a little and see what happens.
+
+Change a few things, or add a couple, and change the code a bit.
+
+This will help you enjoy the learning experieNCe more. The most
+
+important attribute of a successful learning experieNCe is fun.
+
+If it is fun and you enjoy it, you will stay with it longer.
+
+<H3>Conventions</H3>
+
+<P>
+
+The following conventions are used in this book:
+
+<UL>
+
+<LI>Code line, fuNCtions, variable names, and any text you see
+
+on-screen appear in a special <TT><FONT FACE="Courier">monospace</FONT></TT>
+
+typeface.
+
+<LI>File names are also set in a <TT><FONT FACE="Courier">monospace</FONT></TT>
+
+typeface.
+
+<LI>New terms are in <I>italic</I>.
+
+<LI>Case is very important in Perl programming. Always pay attention
+
+to uppercase and lowercase in variable and fuNCtion names.
+
+<LI>If you are required to type text, the text you must type will
+
+appear in boldface. For example, &quot;Type <B>perl -w test.pl</B>.&quot;
+
+Usually, however, the line is set off by itself in a monospace
+
+typeface, as shown in the following example: perl -w test.pl
+
+</UL>
+
+<H4>Icons Used in This Book</H4>
+
+<P>
+
+Pseudocode is a special way of explaining a section of code with
+
+an understandable, English language description. You often see
+
+pseudocode before a code example. The following icon represents
+
+pseudocode:
+
+<H4>Overview</H4>
+
+<P>
+
+Part I, &quot;Basic Perl,&quot; consists of the first eight chapters
+
+of this book. These chapters discuss the fundamentals of Perl.
+
+Chapter 1, &quot;Getting Your Feet Wet,&quot; presents a short
+
+history of Perl and lets you create and execute your first Perl
+
+program. Chapter 2, &quot;Numeric and String Literals,&quot; tells
+
+you how to explicitly represent non-changeable information in
+
+your program. Chapter 3, &quot;Variables,&quot; shows how to represent
+
+changeable information. Then Chapter 4, &quot;Operators,&quot;
+
+discusses how to change the information. Chapter 5, &quot;FuNCtions,&quot;
+
+discusses how to create parcels of code that you can call or execute
+
+by name. Chapter 6, &quot;Statements,&quot; dives deep into exactly
+
+what the term <I>statement</I> means to Perl. Chapter 7, &quot;Control
+
+Statements,&quot; shows how different statements can be used to
+
+control your programs. Chapter 8, &quot;RefereNCes,&quot; completes
+
+the introduction to Perl basics by taking a peek into the world
+
+of data structures.
+
+<P>
+
+The next three chapters make up Part II, &quot;Intermediate Perl.&quot;
+
+These chapters contain valuable information that will let you
+
+create powerful, complete applications. Chapter 9, &quot;Using
+
+Files,&quot; discusses how files can be used to store and retrieve
+
+information. Chapter 10, &quot;Regular Expressions,&quot; highlights
+
+one of Perl's most useful abilities-pattern matching. Chapter
+
+11, &quot;Creating Reports,&quot; shows you how to present information
+
+in a structured way using Perl's inherent reporting ability.
+
+<P>
+
+Part III, &quot;AdvaNCed Perl,&quot; discusses some of the more
+
+difficult aspects of Perl. Chapter 12, &quot;Using Special Variables,&quot;
+
+lists all of the special variables that you use in Perl and shows
+
+examples of the more useful ones. Chapter 13, &quot;Handling Errors
+
+and Signals,&quot; introduces the coNCept of error handling. Chapter
+
+14, &quot;What Are Objects?,&quot; discusses the wonderful world
+
+of object-oriented programming. Chapter 15, &quot;Perl Modules,&quot;
+
+shows you how to create your own modules to aid in reusing existing
+
+fuNCtions. Chapter 16, &quot;Debugging Perl,&quot; helps you to
+
+find the bugs or problems in your programs. Chapter 17, &quot;Using
+
+the Command-Line Options,&quot; lists all of the options that
+
+you can use on the command line that starts Perl.
+
+<P>
+
+Part IV, &quot;Perl and the Internet,&quot; consists of five chapters
+
+that look at how Perl can be used with the Internet. Chapter 18,
+
+&quot;Using Internet Protocols,&quot; discusses several of the
+
+protocols commonly used on the Internet-such as FTP, SMTP, and
+
+POP. Chapter 19, &quot;What Is CGI?,&quot; eases you into writing
+
+scripts that can be executed by remote users. Chapter 20, &quot;Form
+
+Processing,&quot; discusses HTML forms and how Perl scripts can
+
+process form information. Chapter 21, &quot;Using Perl with Web
+
+Servers,&quot; examines Web server log file and how to create
+
+HTML Web pages using Perl. Chapter 22, &quot;Internet Resources,&quot;
+
+lists several types of Perl resources that are available on the
+
+Internet-such as Usenet Newsgroups, Web sites, and the <TT><FONT FACE="Courier">#perl</FONT></TT>
+
+and <TT><FONT FACE="Courier">#cgi</FONT></TT> IRC channels.
+
+<P>
+
+Appendix A, &quot;Answers to Review Questions,&quot; contains
+
+answers to the review questions that are at the end of every chapter.
+
+Try not to peek! Appendix B, &quot;Glossary,&quot; lists definitions
+
+for some words you might be unfamiliar with. Appendix C, &quot;FuNCtion
+
+List,&quot; contains a list of Perl's many fuNCtions. Appendix
+
+D, &quot;Using the Registry,&quot; introduces you to the Registry
+
+database used by Windows 95 and Windows NT to store system and
+
+application information. Appendix E, &quot;ASCII Table,&quot;
+
+shows you all of the ASCII codes and their corresponding characters.
+
+Appendix F, &quot;What's on the CD?,&quot; describes the contents
+
+of the CD.<BR>
+
+
+
+
+
+
+
+
+
+<P>
+
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch1.htm" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/ch1.htm"><IMG SRC="nc.gif" tppabs="http://202.113.16.101/%7eeb%7e/Perl%205%20By%20Example/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+
+<HR WIDTH="100%"></P>
+
+</BODY>
+
+</HTML>
+

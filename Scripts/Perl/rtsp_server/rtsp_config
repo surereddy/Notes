@@ -1,0 +1,29 @@
+port=5545
+cmd=SETUP
+{
+RTSP/1.0 200 OK
+Cseq: 90
+Session: 0_575188442
+Transport: RTP/AVP/UDP;unicast;client_port=7832-7835;server_port=20002-20003
+}
+cmd=PLAY
+{
+RTSP/1.0 200 OK
+Cseq: 91
+Session: 0_575188442
+Range: npt=179.187080-179.187080
+Scale: 4.000000
+RTP-Info: url=basic.hik;seq=20019;rtptime=913881294
+}
+cmd=PAUSE
+{
+RTSP/1.0 200 OK
+Cseq: 92
+Session: 0_575188442
+}
+cmd=TEARDOWN
+{
+RTSP/1.0 200 OK
+Cseq: 93
+Session: 0_575188442
+}

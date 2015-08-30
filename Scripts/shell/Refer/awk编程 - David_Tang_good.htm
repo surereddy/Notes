@@ -1,0 +1,355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0061)http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" async="" src="./awk编程 - David_Tang_files/ga.js"></script><script async="" type="text/javascript" src="./awk编程 - David_Tang_files/gpt.js"></script>
+
+<title>Linux Shell常用技巧(五) awk编程 - David_Tang - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./awk编程 - David_Tang_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./awk编程 - David_Tang_files/style.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/mchina/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/mchina/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/mchina/wlwmanifest.xml">
+<script src="./awk编程 - David_Tang_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'mchina';</script>
+<script src="./awk编程 - David_Tang_files/blog-common.js" type="text/javascript"></script>
+<script src="./awk编程 - David_Tang_files/logger.js"></script><link href="./awk编程 - David_Tang_files/bdsstyle.css" rel="stylesheet" type="text/css"><script async="" type="text/javascript" src="./awk编程 - David_Tang_files/pubads_impl_32.js"></script></head>
+<body><iframe frameborder="0" style="display: none;"></iframe><div id="bdshare" style="right: 0px; top: 130px; position: fixed; height: 330px; overflow: hidden;"><img src="./awk编程 - David_Tang_files/r2.gif" alt="" style="float:left;margin-top:58px;"><iframe id="bdsIfr" style="position:absolute;display:none;z-index:9999;" frameborder="0"></iframe><div id="bdshare_l" style="display: none; left: 24px;"><div id="bdshare_l_c"><h6>分享到</h6><ul><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_mshare mshare">一键分享</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_qzone qqkj">QQ空间</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_tsina xlwb">新浪微博</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_bdysc bdysc">百度云收藏</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_renren rrw">人人网</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_tqq txwb">腾讯微博</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_bdxc bdxc">百度相册</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_kaixin001 kxw">开心网</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_tqf txpy">腾讯朋友</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_tieba bdtb">百度贴吧</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_douban db">豆瓣网</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_tsohu shwb">搜狐微博</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_bdhome bdhome">百度新首页</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_sqq sqq">QQ好友</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_thx thx">和讯微博</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="bds_more">更多...</a></li></ul><p><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" class="goWebsite">百度分享</a></p></div></div></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=slide&amp;img=2&amp;pos=right&amp;uid=586342" src="./awk编程 - David_Tang_files/bds_s_v2.js"></script>
+
+<script type="text/javascript">
+		var bds_config = {"bdTop":130};
+		document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
+</script>
+<!-- Baidu Button END -->
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/mchina/">乐思乐享</a></div>
+<div class="subtitle"></div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/mchina/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://www.cnblogs.com/mchina/admin/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="MyLinks1_ContactLink" class="menu" rel="nofollow" href="http://space.cnblogs.com/msg/send/David_Tang">联系</a></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/mchina/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/mchina/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://www.cnblogs.com/mchina/admin/EditPosts.aspx">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-112&nbsp;
+文章-0&nbsp;
+评论-266&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./awk编程 - David_Tang_files/awk编程 - David_Tang.htm">Linux Shell常用技巧(五) awk编程</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><div><div id="cnblogs_post_body"><p><span style="font-size: 14pt;"><strong><span style="color: #ff6600;">十一.&nbsp; awk编程:</span></strong></span><br><br><span style="color: #000000;">&nbsp;<span style="font-size: 16px;"><strong>&nbsp;&nbsp; 1.&nbsp; 变量：</strong></span></span><br>&nbsp;&nbsp;&nbsp;&nbsp;在awk中变量无须定义即可使用，变量在赋值时即已经完成了定义。变量的类型可以是数字、字符串。根据使用的不同，未初始化变量的值为0或空白字符串" "，这主要取决于变量应用的上下文。下面为变量的赋值负号列表：</p> <table style="width: 450px;" border="0" align="center"> <tbody> <tr> <td><strong><span style="color: #0000ff; font-size: 13px;">符号</span></strong></td> <td><strong><span style="color: #0000ff; font-size: 13px;">含义</span></strong></td> <td><strong><span style="color: #0000ff; font-size: 13px;">等价形式</span></strong></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">=</span></td> <td><span style="color: #0000ff; font-size: 13px;">a = 5</span></td> <td><span style="color: #0000ff; font-size: 13px;">a = 5</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">+=</span></td> <td><span style="color: #0000ff; font-size: 13px;">a = a + 5</span></td> <td><span style="color: #0000ff; font-size: 13px;">a += 5</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">-=</span></td> <td><span style="color: #0000ff; font-size: 13px;">a = a - 5</span></td> <td><span style="color: #0000ff; font-size: 13px;">a -= 5</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">*=</span></td> <td><span style="color: #0000ff; font-size: 13px;">a = a * 5</span></td> <td><span style="color: #0000ff; font-size: 13px;">a *= 5</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">/=</span></td> <td><span style="color: #0000ff; font-size: 13px;">a = a / 5</span></td> <td><span style="color: #0000ff; font-size: 13px;">a /= 5</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%=</span></td> <td><span style="color: #0000ff; font-size: 13px;">a = a % 5</span></td> <td><span style="color: #0000ff; font-size: 13px;">a %= 5</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">^=</span></td> <td><span style="color: #0000ff; font-size: 13px;">a = a ^ 5</span></td> <td><span style="color: #0000ff; font-size: 13px;">a ^= 5</span></td> </tr> </tbody> </table> <p><span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; /&gt; awk '$1 ~ /Tom/ {Wage = $2 * $3; print Wage}' filename</em></span><br>&nbsp;&nbsp; &nbsp;该命令将从文件中读取，并查找第一个域字段匹配Tom的记录，再将其第二和第三个字段的乘积赋值给自定义的Wage变量，最后通过print命令将该变量打印输出。<br><br><em><span style="color: #0000ff;"> <span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; </em></span>/&gt; awk ' {$5 = 1000 * $3 / $2; print}' filename</span></em><br>&nbsp;&nbsp; &nbsp;在上面的命令中，如果$5不存在，awk将计算表达式1000 * $3 / $2的值，并将其赋值给$5。如果第五个域存在，则用表达式覆盖$5原来的值。<br><br>&nbsp;&nbsp; &nbsp;我们同样也可以在命令行中定义自定义的变量，用法如下：<br><em><span style="color: #0000ff;"><span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; </em></span>/&gt; awk -F: -f awkscript month=4 year=2011 filename</span></em><br>&nbsp;&nbsp; &nbsp;这里的month和year都是自定义变量，且分别被赋值为4和2000，在awk的脚本中这些变量将可以被直接使用，他们和脚本中定义的变量在使用上没有任何区别。<br><br>&nbsp;&nbsp; &nbsp;除此之外，awk还提供了一组内建变量(变量名全部大写)，见如下列表：</p> <table style="width: 650px;" border="0" align="center"> <tbody> <tr> <td><strong><span style="color: #0000ff; font-size: 13px;">变量名</span></strong></td> <td><strong><span style="color: #0000ff; font-size: 13px;">变量内容</span></strong></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">ARGC</span></td> <td><span style="color: #0000ff; font-size: 13px;">命令行参数的数量。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">ARGIND</span></td> <td><span style="color: #0000ff; font-size: 13px;">命令行正在处理的当前文件的AGV的索引。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">ARGV</span></td> <td><span style="color: #0000ff; font-size: 13px;">命令行参数数组。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">CONVFMT</span></td> <td><span style="color: #0000ff; font-size: 13px;">转换数字格式。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">ENVIRON</span></td> <td><span style="color: #0000ff; font-size: 13px;">从shell中传递来的包含当前环境变量的数组。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">ERRNO</span></td> <td><span style="color: #0000ff; font-size: 13px;">当使用close函数或者通过getline函数读取的时候，发生的重新定向错误的描述信息就保存在这个变量中。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">FIELDWIDTHS</span></td> <td><span style="color: #0000ff; font-size: 13px;">在对记录进行固定域宽的分割时，可以替代FS的分隔符的列表。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">FILENAME</span></td> <td><span style="color: #0000ff; font-size: 13px;">当前的输入文件名。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">FNR</span></td> <td><span style="color: #0000ff; font-size: 13px;">当前文件的记录号。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">FS</span></td> <td><span style="color: #0000ff; font-size: 13px;">输入分隔符，默认是空格。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">IGNORECASE</span></td> <td><span style="color: #0000ff; font-size: 13px;">在正则表达式和字符串操作中关闭大小写敏感。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">NF</span></td> <td><span style="color: #0000ff; font-size: 13px;">当前文件域的数量。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">NR</span></td> <td><span style="color: #0000ff; font-size: 13px;">当前文件记录数。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">OFMT</span></td> <td><span style="color: #0000ff; font-size: 13px;">数字输出格式。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">OFS</span></td> <td><span style="color: #0000ff; font-size: 13px;">输出域分隔符。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">ORS</span></td> <td><span style="color: #0000ff; font-size: 13px;">输出记录分隔符。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">RLENGTH</span></td> <td><span style="color: #0000ff; font-size: 13px;">通过match函数匹配的字符串的长度。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">RS</span></td> <td><span style="color: #0000ff; font-size: 13px;">输入记录分隔符。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">RSTART</span></td> <td><span style="color: #0000ff; font-size: 13px;">通过match函数匹配的字符串的偏移量。</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">SUBSEP</span></td> <td><span style="color: #0000ff; font-size: 13px;">下标分隔符。</span></td> </tr> </tbody> </table> <p><span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; /&gt; cat employees2</em></span><br>&nbsp;&nbsp; &nbsp;Tom Jones:4424:5/12/66:543354<br>&nbsp;&nbsp; &nbsp;Mary Adams:5346:11/4/63:28765<br>&nbsp;&nbsp; &nbsp;Sally Chang:1654:7/22/54:650000<br>&nbsp;&nbsp; &nbsp;Mary Black:1683:9/23/44:336500<br><br><em><span style="color: #0000ff;"> <span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; </em></span>/&gt; awk -F: '{IGNORECASE = 1}; $1 == "mary adams" { print NR, $1, $2, $NF}' employees2</span></em><br>&nbsp;&nbsp; &nbsp;2 Mary Adams 5346 28765<br><em><span style="color: #0000ff;"> <span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; </em></span>/&gt; awk -F: ' $1 == "mary adams" { print NR, $1, $2, $NF}' employees2</span></em><br><span style="color: #ff0000;"><span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; </em></span>没有输出结果。</span><br>&nbsp;&nbsp;  &nbsp;当IGNORECASE内置变量的值为非0时，表示在进行字符串操作和处理正则表达式时关闭大小写敏感。这里的"mary  adams"将匹配文件中的"Mary  Admams"记录。最后print打印出第一、第二和最后一个域。需要说明的是NF表示当前记录域的数量，因此$NF将表示最后一个域的值。<br><br>&nbsp;&nbsp;   &nbsp;awk在动作部分还提供了BEGIN块和END块。其中BEGIN动作块在awk处理任何输入文件行之前执行。事实上，BEGIN块可以在没有任何输入 文件的条件下测试。因为在BEGIN块执行完毕以前awk将不读取任何输入文件。BEGIN块通常被用来改变内建变量的值，如OFS、RS或FS等。也可 以用于初始化自定义变量值，或打印输出标题。<br><em><span style="color: #0000ff;"> <span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; </em></span>/&gt; awk 'BEGIN {FS = ":"; OFS = "\t"; ORS = "\n\n"} { print $1,$2,$3} filename</span></em><br>&nbsp;&nbsp; &nbsp;上例中awk在处理文件之前，已经将域分隔符(FS)设置为冒号，输出文件域分隔符(OFS)设置为制表符，输出记录分隔符(ORS)被设置为两个换行符。BEGIN之后的动作模块中如果有多个语句，他们之间用分号分隔。<br>&nbsp;&nbsp; &nbsp;和BEGIN恰恰相反，END模块中的动作是在整个文件处理完毕之后被执行的。<br><em><span style="color: #0000ff;"> <span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; </em></span>/&gt; awk 'END {print "The number of the records is " NR }' filename</span></em><br>&nbsp;&nbsp; &nbsp;awk在处理输入文件之后，执行END模块中的动作，上例中NR的值是读入的最后一个记录的记录号。<br><br><em><span style="color: #0000ff;"><span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; </em></span>/&gt; awk '/Mary/{count++} END{print "Mary was found " count " times." }' employees2</span></em><br>&nbsp;&nbsp; &nbsp;Mary was found 2 times.</p> <p>&nbsp;&nbsp;&nbsp; <em><span style="color: #0000ff;">/&gt; awk '/Mary/{count++} END{print "Mary was found " count " times." }' employees2</span></em><br>&nbsp;&nbsp; &nbsp;Mary was found 2 times.<br>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; <em><span style="color: #0000ff;">&nbsp;/&gt; cat testfile</span></em><br>&nbsp;&nbsp; &nbsp;northwest&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Charles Main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3.0&nbsp;&nbsp;&nbsp;&nbsp; .98&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 34<br>&nbsp;&nbsp; &nbsp;western&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sharon Gray&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.3&nbsp;&nbsp;&nbsp;&nbsp; .97&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 23<br>&nbsp;&nbsp; &nbsp;southwest&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SW&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lewis Dalsass&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2.7&nbsp;&nbsp;&nbsp;&nbsp; .8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 18<br>&nbsp;&nbsp; &nbsp;southern&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Suan Chin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.1&nbsp;&nbsp;&nbsp;&nbsp; .95&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 15<br>&nbsp;&nbsp; &nbsp;southeast&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Patricia Hemenway&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.0&nbsp;&nbsp;&nbsp;&nbsp; .7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 17<br>&nbsp;&nbsp; &nbsp;eastern&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; EA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TB Savage&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.4&nbsp;&nbsp;&nbsp;&nbsp; .84&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 20<br>&nbsp;&nbsp; &nbsp;northeast&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AM Main Jr.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.1&nbsp;&nbsp;&nbsp;&nbsp; .94&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 13<br>&nbsp;&nbsp; &nbsp;north&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Margot Weber&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.5&nbsp;&nbsp;&nbsp;&nbsp; .89&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9<br>&nbsp;&nbsp; &nbsp;central&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ann Stephens&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.7&nbsp;&nbsp;&nbsp;&nbsp; .94&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 13<br><br><em><span style="color: #0000ff;"><span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; </em></span>/&gt; awk '/^north/{count += 1; print count}' testfile</span></em>&nbsp;&nbsp; &nbsp; #如记录以正则north开头，则创建变量count同时增一，再输出其值。<br>&nbsp;&nbsp; &nbsp;1<br>&nbsp;&nbsp; &nbsp;2<br>&nbsp;&nbsp; &nbsp;3<br>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; &nbsp;#这里只是输出前三个字段，其中第七个域先被赋值给变量x，在自减一，最后再同时打印出他们。<br>&nbsp;&nbsp; <em><span style="color: #0000ff;">&nbsp;/&gt; awk 'NR &lt;= 3 {x = $7--; print "x = " x ", $7 = " $7}' testfile</span></em><br>&nbsp;&nbsp; &nbsp;x = 3, $7 = 2<br>&nbsp;&nbsp; &nbsp;x = 5, $7 = 4<br>&nbsp;&nbsp; &nbsp;x = 2, $7 = 1&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; &nbsp;#打印NR(记录号)的值在2--5之间的记录。<br>&nbsp;&nbsp; <em><span style="color: #0000ff;">&nbsp;/&gt; awk 'NR == 2,NR == 5 {print "The record number is " NR}' testfile</span></em><br>&nbsp;&nbsp; &nbsp;The record number is 2<br>&nbsp;&nbsp; &nbsp;The record number is 3<br>&nbsp;&nbsp; &nbsp;The record number is 4<br>&nbsp;&nbsp; &nbsp;The record number is 5<br><br>&nbsp;&nbsp; &nbsp;#打印环境变量USER和HOME的值。环境变量的值由父进程shell传递给awk程序的。<br>&nbsp;&nbsp; <em><span style="color: #0000ff;">&nbsp;/&gt; awk 'BEGIN { print ENVIRON["USER"],ENVIRON["HOME"]}'</span></em> <br>&nbsp;&nbsp; &nbsp;root /root<br>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; &nbsp;#BEGIN块儿中对OFS内置变量重新赋值了，因此后面的输出域分隔符改为了\t。<br>&nbsp;&nbsp; <em><span style="color: #0000ff;">&nbsp;/&gt; awk 'BEGIN { OFS = "\t"}; /^Sharon/{ print $1,$2,$7}' testfile</span></em><br>&nbsp;&nbsp; &nbsp;western WE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5<br>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; &nbsp;#从输入文件中找到以north开头的记录count就加一，最后在END块中输出该变量。<br>&nbsp;&nbsp; <em><span style="color: #0000ff;">&nbsp;/&gt; awk '/^north/{count++}; END{print count}' testfile</span></em><br>&nbsp;&nbsp; &nbsp;3</p> <p><span style="font-size: 16px;"><strong><span style="color: #0000ff;">&nbsp;&nbsp;&nbsp; <span style="color: #000000;">2.&nbsp; 重新定向：</span></span></strong></span><br>&nbsp;&nbsp;&nbsp;&nbsp;在 动作语句中使用shell通用的重定向输出符号"&gt;"就可以完成awk的重定向操作，当使用&gt;的时候，原有文件将被清空，同时文件持续打开， 直到文件被明确的关闭或者awk程序终止。来自后面的打印语句的输出会追加到前面内容的后面。符号"&gt;&gt;"用来打开一个文件但是不清空原有文 件的内容，重定向的输出只是被追加到这个文件的末尾。<br>&nbsp;&nbsp;<em><span style="color: #0000ff;"> &nbsp;/&gt; awk '$4 &gt;= 70 {print $1,$2 &gt; "passing_file"}' filename&nbsp;</span></em> #注意这里的文件名需要用双引号括起来。<br>&nbsp;&nbsp;&nbsp; #通过两次cat的结果可以看出&gt;和&gt;&gt;的区别。<br>&nbsp;&nbsp; &nbsp;<em><span style="color: #0000ff;">/&gt; awk '/north/{print $1,$3,$4 &gt; "districts" }' testfile</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; cat districts</span></em><br>&nbsp;&nbsp; &nbsp;northwest Joel Craig<br>&nbsp;&nbsp; &nbsp;northeast TJ Nichols<br>&nbsp;&nbsp; &nbsp;north Val Shultz<br>&nbsp;<span style="color: #0000ff;"><em>&nbsp; &nbsp;/&gt; awk '/south/{print $1,$3,$4 &gt;&gt; "districts" }' testfile</em></span><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; cat districts</span></em><br>&nbsp;&nbsp; &nbsp;northwest Joel Craig<br>&nbsp;&nbsp; &nbsp;northeast TJ Nichols<br>&nbsp;&nbsp; &nbsp;north Val Shultz<br>&nbsp;&nbsp; &nbsp;southwest Chris Foster<br>&nbsp;&nbsp; &nbsp;southern May Chin<br>&nbsp;&nbsp; &nbsp;southeast Derek Jonhson</p> <p>&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;  &nbsp;awk中对于输入重定向是通过getline函数来完成的。getline函数的作用是从标准输入、管道或者当前正在处理的文件之外的其他输入文件获得 输入。他负责从输入获得下一行的内容，并给NF、NR和FNR等内建变量赋值。如果得到一个记录，getline就返回1，如果达到文件末尾就返回0。如 果出现错误，如打开文件失败，就返回-1。<br>&nbsp;&nbsp; <em><span style="color: #0000ff;">&nbsp;/&gt; awk 'BEGIN { "date" | getline d; print d}'</span></em><br>&nbsp;&nbsp; &nbsp;Tue Nov 15 15:31:42 CST 2011<br>&nbsp;&nbsp; &nbsp;上例中的BEGIN动作模块中，先执行shell命令date，并通过管道输出给getline，然后再把输出赋值给自定义变量d并打印输出它。<br>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; <em><span style="color: #0000ff;">&nbsp;/&gt; awk 'BEGIN { "date" | getline d; split(d,mon); print mon[2]}'</span></em><br>&nbsp;&nbsp; &nbsp;Nov<br>&nbsp;&nbsp; &nbsp;上例中date命令通过管道输出给getline并赋值给d变量，再通过内置函数split将d拆分为mon数组，最后print出mon数组的第二个元素。<br>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; <em><span style="color: #0000ff;">&nbsp;/&gt; awk 'BEGIN { while("ls" | getline) print}'</span></em><br>&nbsp;&nbsp; &nbsp;employees<br>&nbsp;&nbsp; &nbsp;employees2<br>&nbsp;&nbsp; &nbsp;testfile<br>&nbsp;&nbsp; &nbsp;命令ls的输出传递给getline作为输入，循环的每个反复，getline都从ls的结果中读取一行输入，并把他打印到屏幕。<br>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; <em><span style="color: #0000ff;">&nbsp;/&gt; awk 'BEGIN { printf "What is your name? "; \</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;getline name &lt; "/dev/tty"}\</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$1 ~ name {print "Found" name " on line ", NR "."}\</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;END {print "See ya, " name "."}' employees2</span></em><br>&nbsp;&nbsp; &nbsp;What is your name? Mary<br>&nbsp;&nbsp; &nbsp;Found Mary on line&nbsp; 2.<br>&nbsp;&nbsp; &nbsp;See ya, Mary.&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp; &nbsp;上例先是打印出BEGIN块中的"What is your name? "，然后等待用户从/dev/tty输入，并将读入的数据赋值给name变量，之后再从输入文件中读取记录，并找到匹配输入变量的记录并打印出来，最后在END块中输出结尾信息。<br>&nbsp;&nbsp; &nbsp;<br><em><span style="color: #0000ff;"><span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; </em></span>/&gt; awk 'BEGIN { while(getline &lt; "/etc/passwd" &gt; 0) lc++; print lc}'</span></em><br>&nbsp;&nbsp; &nbsp;32<br>&nbsp;&nbsp; &nbsp;awk将逐行读取/etc/passwd文件中的内容，在达到文件末尾之前，计数器lc一直自增1，当到了末尾后打印lc的值。lc的值为/etc/passwd文件的行数。<br><span style="color: #ff0000;">&nbsp;&nbsp;&nbsp; 由于awk中同时打开的管道只有一个，那么在打开下一个管道之前必须关闭它，管道符号右边可以通过可以通过双引号关闭管道。如果不关闭，它将始终保持打开状态，直到awk退出。</span><br>&nbsp;&nbsp;<em><span style="color: #0000ff;"> &nbsp;/&gt; awk {print $1,$2,$3 | "sort -4 +1 -2 +0 -1"} END {close("sort -4 +1 -2 +0 -1") } filename</span></em><br>&nbsp;&nbsp;&nbsp; 上例中END模块中的close显示关闭了sort的管道，需要注意的是close中关闭的命令必须和当初打开时的完全匹配，否则END模块产生的输出会和以前的输出一起被sort分类。</p> <p><br><span style="font-size: 16px;"><strong><span style="color: #0000ff;">&nbsp;&nbsp;&nbsp;<span style="color: #000000;"> 3.&nbsp; 条件语句：</span></span></strong></span><br>&nbsp;&nbsp;&nbsp;&nbsp;awk中的条件语句是从C语言中借鉴来的，见如下声明方式：<br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;if (expression) {</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;statement;</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;statement;</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;... ...</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;}</span><br><em><span style="color: #0000ff;">&nbsp; &nbsp; /&gt; awk '{if ($6 &gt; 50) print $1 "Too hign"}' filename</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '{if ($6 &gt; 20 &amp;&amp; $6 &lt;= 50) { safe++; print "OK}}' filename</span></em><br><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;if (expression) {</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;statement;</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;} else {</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;statement2;</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;}</span><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '{if ($6 &gt; 50) print $1 " Too high"; else print "Range is OK" }' filename</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '{if ($6 &gt; 50) { count++; print $3 } else { x = 5; print $5 }' filename</span></em><br><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;if (expression) {</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;statement1;</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;} else if (expression1) {</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;statement2;</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;} else {</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;statement3;</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;}</span><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '{if ($6 &gt; 50) print "$6 &gt; 50" else if ($6 &gt; 30) print "$6 &gt; 30" else print "other"}' filename</span></em><br><br><span style="font-size: 16px;"><strong><span style="color: #0000ff;">&nbsp;&nbsp;&nbsp;<span style="color: #000000;">4.&nbsp; 循环语句：</span></span></strong></span><br>&nbsp;&nbsp;&nbsp;&nbsp;awk中的循环语句同样借鉴于C语言，支持<span style="color: #ff0000;">while、do/while、for、break、continue</span>，这些关键字的语义和C语言中的语义完全相同。<br><br><span style="font-size: 16px;"><strong><span style="color: #0000ff;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #000000;">5.&nbsp; 流程控制语句：</span></span></strong></span><br>&nbsp;&nbsp;&nbsp;&nbsp;next语句是从文件中读取下一行，然后从头开始执行awk脚本。<br>&nbsp;&nbsp; &nbsp;exit语句用于结束awk程序。它终止对记录的处理。但是不会略过END模块，如果exit()语句被赋值0--255之间的参数，如exit(1)，这个参数就被打印到命令行，以判断退出成功还是失败。<br><br><strong><span style="font-size: 16px;"><span style="color: #0000ff;">&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #000000;">6.&nbsp; 数组：</span></span></span></strong><br>&nbsp;&nbsp;&nbsp;&nbsp;因 为awk中数组的下标可以是数字和字母，数组的下标通常被称为关键字(key)。值和关键字都存储在内部的一张针对key/value应用hash的表格 里。由于hash不是顺序存储，因此在显示数组内容时会发现，它们并不是按照你预料的顺序显示出来的。数组和变量一样，都是在使用时自动创建的，awk也 同样会自动判断其存储的是数字还是字符串。一般而言，awk中的数组用来从记录中收集信息，可以用于计算总和、统计单词以及跟踪模板被匹配的次数等等。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; cat employees</span></em><br>&nbsp;&nbsp; &nbsp;Tom Jones&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4424&nbsp;&nbsp;&nbsp; 5/12/66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 543354<br>&nbsp;&nbsp; &nbsp;Mary Adams&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5346&nbsp;&nbsp;&nbsp; 11/4/63&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 28765<br>&nbsp;&nbsp; &nbsp;Sally Chang&nbsp;&nbsp;&nbsp;&nbsp; 1654&nbsp;&nbsp;&nbsp; 7/22/54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 650000<br>&nbsp;&nbsp; &nbsp;Billy Black&nbsp;&nbsp;&nbsp;&nbsp; 1683&nbsp;&nbsp;&nbsp; 9/23/44&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 336500<br><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '{name[x++] = $2}; END{for (i = 0; i &lt; NR; i++) print i, name[i]}' employees&nbsp;&nbsp; &nbsp;</span></em><br>&nbsp;&nbsp; &nbsp;0 Jones<br>&nbsp;&nbsp; &nbsp;1 Adams<br>&nbsp;&nbsp; &nbsp;2 Chang<br>&nbsp;&nbsp; &nbsp;3 Black<br>&nbsp;&nbsp; &nbsp;在上例中，数组name的下标是变量x。awk初始化该变量的值为0，在每次使用后自增1，读取文件中的第二个域的值被依次赋值给name数组的各个元素。在END模块中，for循环遍历数组的值。因为下标是关键字，所以它不一定从0开始，可以从任何值开始。<br><br>&nbsp;&nbsp; &nbsp;#这里是用内置变量NR作为数组的下标了。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '{id[NR] = $3}; END {for (x = 1; x &lt;= NR; x++) print id[x]}' employees</span></em><br>&nbsp;&nbsp; &nbsp;4424<br>&nbsp;&nbsp; &nbsp;5346<br>&nbsp;&nbsp; &nbsp;1654<br>&nbsp;&nbsp; &nbsp;1683<br><br>&nbsp;&nbsp; &nbsp;awk中还提供了一种special for的循环，见如下声明：<br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;for (item in arrayname) {</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;print arrayname[item]</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;}</span><br><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; cat db</span></em><br>&nbsp;&nbsp; &nbsp;Tom Jones<br>&nbsp;&nbsp; &nbsp;Mary Adams<br>&nbsp;&nbsp; &nbsp;Sally Chang<br>&nbsp;&nbsp; &nbsp;Billy Black<br>&nbsp;&nbsp; &nbsp;Tom Savage<br>&nbsp;&nbsp; &nbsp;Tom Chung<br>&nbsp;&nbsp; &nbsp;Reggie Steel<br>&nbsp;&nbsp; &nbsp;Tommy Tucker<br><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '/^Tom/{name[NR]=$1}; END {for(i = 1;i &lt;= NR; i++) print name[i]}' db</span></em><br>&nbsp;&nbsp; &nbsp;Tom<br><br><br><br>&nbsp;&nbsp; &nbsp;Tom<br>&nbsp;&nbsp; &nbsp;Tom<br><br>&nbsp;&nbsp; &nbsp;Tommy<br>&nbsp;&nbsp;   &nbsp;从输出结果可以看出，只有匹配正则表达式的记录的第一个域被赋值给数组name的指定下标元素。因为用NR作为下标，所以数组的下标不可能是连续的，因 此在END模块中用传统的for循环打印时，不存在的元素就打印空字符串了。下面我们看看用special for的方式会有什么样的输出。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '/^Tom/{name[NR]=$1};END{for(i in name) print name[i]}' db</span></em><br>&nbsp;&nbsp; &nbsp;Tom<br>&nbsp;&nbsp; &nbsp;Tom<br>&nbsp;&nbsp; &nbsp;Tommy<br>&nbsp;&nbsp; &nbsp;Tom<br><br>&nbsp;&nbsp; &nbsp;下面我们看一下用字符串作为下标的例子：(如果下标是字符串文字常量，则需要用双引号括起来)&nbsp;&nbsp; &nbsp;<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; cat testfile2</span></em><br>&nbsp;&nbsp; &nbsp;tom<br>&nbsp;&nbsp; &nbsp;mary<br>&nbsp;&nbsp; &nbsp;sean<br>&nbsp;&nbsp; &nbsp;tom<br>&nbsp;&nbsp; &nbsp;mary<br>&nbsp;&nbsp; &nbsp;mary<br>&nbsp;&nbsp; &nbsp;bob<br>&nbsp;&nbsp; &nbsp;mary<br>&nbsp;&nbsp; &nbsp;alex<br><em><span style="color: #0000ff;">&nbsp; &nbsp; /&gt; awk '/tom/{count["tom"]++}; /mary/{count["mary"]++}; END{print "There are " count["tom"] \</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;" Toms and " count["mary"] " Marys in the file."} testfile2</span></em><br>&nbsp;&nbsp; &nbsp;There are 2 Toms and 4 Marys in the file.<br>&nbsp;&nbsp; &nbsp;在上例中，count数组有两个元素，下标分别为tom和mary，每一个元素的初始值都是0，没有tom被匹配的时候，count["tom"]就会加一，count["mary"]在匹配mary的时候也同样如此。END模块中打印出存储在数组中的各个元素。<br><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '{count[$1]++}; END{for(name in count) printf "%-5s%d\n",name, count[name]}' testfile2</span></em><br>&nbsp;&nbsp; &nbsp;mary 4<br>&nbsp;&nbsp; &nbsp;tom&nbsp; 2<br>&nbsp;&nbsp; &nbsp;alex 1<br>&nbsp;&nbsp; &nbsp;bob&nbsp; 1<br>&nbsp;&nbsp; &nbsp;sean 1<br>&nbsp;&nbsp; &nbsp;在上例中，awk是以记录的域作为数组count的下标。<br><br><em><span style="color: #0000ff;">&nbsp;&nbsp;  &nbsp;/&gt; awk '{count[$1]++; if (count[$1] &gt; 1) name[$1]++}; END{print  "The duplicates were "; for(i in name) print i}' testfile2</span></em><br>&nbsp;&nbsp; &nbsp;The duplicates were<br>&nbsp;&nbsp; &nbsp;mary<br>&nbsp;&nbsp; &nbsp;tom<br>&nbsp;&nbsp; &nbsp;在上例中，如count[$1]的元素值大于1的时候，也就是当名字出现多次的时候，一个新的数组name将被初始化，最后打印出那么数组中重复出现的名字下标。<br><br>&nbsp;&nbsp; &nbsp;之前我们介绍的都是如何给数组添加新的元素，并赋予初值，现在我们需要介绍一下如何删除数组中已经存在的元素。要完成这一功能我们需要使用内置函数delete，见如下命令：<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '{count[$1]++}; \</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;END{for(name in count) {\</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (count[name] == 1)\</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; delete count[name];\</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } \</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (name in count) \</span></em><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; print name}' testfile2</span></em><br>&nbsp;&nbsp; &nbsp;mary<br>&nbsp;&nbsp; &nbsp;tom<br>&nbsp;&nbsp; &nbsp;上例中的主要技巧来自END模块，先是变量count数组，如果数组中某个元素的值等于1，则删除该元素，这样等同于删除只出现一次的名字。最后用special for循环打印出数组中仍然存在的元素下标名称。<br><br>&nbsp;&nbsp; &nbsp;最后我们来看一下如何使用命令行参数数组，见如下命令：<br><em><span style="color: #0000ff;">&nbsp;&nbsp;  &nbsp;/&gt; awk 'BEGIN {for(i = 0; i &lt; ARGC; i++) printf("argv[%d] is  %s.\n",i,ARGV[i]); printf("The number of arguments, ARGC=%d\n",ARGC)}'  testfile "Peter Pan" 12</span></em><br>&nbsp;&nbsp; &nbsp;argv[0] is awk.<br>&nbsp;&nbsp; &nbsp;argv[1] is testfile.<br>&nbsp;&nbsp; &nbsp;argv[2] is Peter Pan.<br>&nbsp;&nbsp; &nbsp;argv[3] is 12.<br>&nbsp;&nbsp; &nbsp;The number of arguments, ARGC=4<br>&nbsp;&nbsp; &nbsp;从输出结果可以看出，命令行参数数组ARGV是以0作为起始下标的，命令行的第一个参数为命令本身(awk)，这个使用方式和C语句main函数完全一致。<br><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{name=ARGV[2]; print "ARGV[2] is " ARGV[2]}; $1 ~ name{print $0}' testfile2 "bob"&nbsp;&nbsp; &nbsp;</span></em><br>&nbsp;&nbsp; &nbsp;ARGV[2] is bob<br>&nbsp;&nbsp; &nbsp;bob<br>&nbsp;&nbsp; &nbsp;awk: (FILENAME=testfile2 FNR=9) fatal: cannot open file `bob' for reading (No such file or directory)<br>&nbsp;&nbsp; &nbsp;先解释一下以上命令的含义，name变量被赋值为命令行的第三个参数，即bob，之后再在输入文件中找到匹配该变量值的记录，并打印出该记录。<br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;在输出的第二行报出了awk的处理错误信息，这主要是因为awk将bob视为输入文件来处理了，然而事实上这个文件并不存在，下面我们需要做进一步的处理来修正这个问题。</span><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{name=ARGV[2]; print "ARGV[2] is " ARGV[2]; delete ARGV[2]}; $1 ~ name{print $0}' testfile2 "bob"&nbsp;&nbsp; &nbsp;</span></em><br>&nbsp;&nbsp; &nbsp;ARGV[2] is bob<br>&nbsp;&nbsp; &nbsp;bob<br>&nbsp;&nbsp; &nbsp;从输出结果中我们可以看到我们得到了我们想要的结果。需要注意的是delete函数的调用必要要在BEGIN模块中完成，因为这时awk还没有开始读取命令行参数中指定的文件。<br><br><span style="font-size: 16px;"><strong><span style="color: #0000ff;">&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;7.&nbsp; 内建函数：</span></span></strong></span><br>&nbsp;&nbsp;&nbsp;&nbsp;字符串函数<br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;sub(regular expression,substitution string);</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;sub(regular expression,substitution string,target string);</span><br><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '{sub("Tom","Tommy"); print}' employees&nbsp;&nbsp; #这里使用Tommy替换了Tom。</span></em><br>&nbsp;&nbsp; &nbsp;Tommy Jones&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4424&nbsp;&nbsp;&nbsp; 5/12/66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 543354<br><br>&nbsp;&nbsp; &nbsp;#当正则表达式Tom在第一个域中第一次被匹配后，他将被字符串"Tommy"替换，如果将sub函数的第三个参数改为$2，将不会有替换发生。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk '{sub("Tom","Tommy",$1); print}' employees</span></em><br>&nbsp;&nbsp; &nbsp;Tommy Jones&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4424&nbsp;&nbsp;&nbsp; 5/12/66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 543354<br><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;gsub(regular expression,substitution string);</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;gsub(regular expression,substitution string,target string);</span><br>&nbsp;&nbsp; &nbsp;和sub不同的是，如果第一个参数中正则表达式在记录中出现多次，那么gsub将完成多次替换，而sub只是替换第一次出现的。<br><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;index(string,substring)</span><br>&nbsp;&nbsp; &nbsp;该函数将返回第二个参数在第一个参数中出现的位置，偏移量从1开始。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{print index("hello","el")}'</span></em><br>&nbsp;&nbsp; &nbsp;2<br><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;length(string)</span><br>&nbsp;&nbsp; &nbsp;该函数返回字符串的长度。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{print length("hello")}'</span></em><br>&nbsp;&nbsp; &nbsp;5<br><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;substr(string,starting position)</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;substr(string,starting position,length of string)</span><br>&nbsp;&nbsp; &nbsp;该函数返回第一个参数的子字符串，其截取起始位置为第二个参数(偏移量为1)，截取长度为第三个参数，如果没有该参数，则从第二个参数指定的位置起，直到string的末尾。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt;&nbsp; awk 'BEGIN{name = substr("Hello World",2,3); print name}'</span></em><br>&nbsp;&nbsp; &nbsp;ell<br><br><span style="color: #ff0000;">&nbsp; &nbsp; match(string,regular expression)</span><br>&nbsp;&nbsp; &nbsp;该函数返回在字符串中正则表达式位置的索引，如果找不到指定的正则表达式就返回0.match函数设置内置变量RSTART为字符串中子字符串的开始位置，RLENGTH为到字字符串末尾的字符个数。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{start=match("Good ole CHINA", /[A-Z]+$/); print start}'</span></em><br>&nbsp;&nbsp; &nbsp;10<br>&nbsp;&nbsp; &nbsp;上例中的正则表达式[A-Z]+$表示在字符串的末尾搜索连续的大写字母。在字符串"Good ole CHINA"的第10个位置找到字符串"CHINA"。<br><br><span style="color: #0000ff;">&nbsp; &nbsp; /&gt; awk 'BEGIN{start=match("Good ole CHINA", /[A-Z]+$/); print RSTART, RLENGTH}'</span><br>&nbsp;&nbsp; &nbsp;10 5<br>&nbsp;&nbsp; &nbsp;RSTART表示匹配时的起始索引，RLENGTH表示匹配的长度。<br><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{string="Good ole CHINA";start=match(string, /[A-Z]+$/); print substr(string,RSTART, RLENGTH)}'</span></em><br>&nbsp;&nbsp; &nbsp;CHINA<br>&nbsp;&nbsp; &nbsp;这里将match、RSTART、RLENGTH和substr巧妙的结合起来了。<br><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;toupper(string)</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;tolower(string)</span><br>&nbsp;&nbsp; &nbsp;以上两个函数分别返回参数字符串的大写和小写的形式。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN {print toupper("hello"); print tolower("WORLD")}'</span></em><br>&nbsp;&nbsp; &nbsp;HELLO<br>&nbsp;&nbsp; &nbsp;world<br><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;split(string,array,field seperator)</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;split(string,array)</span><br>&nbsp;&nbsp; &nbsp;该函数使用作为第三个参数的域分隔符把字符串分隔为一个数组。如果第三个参数没有提供，则使用当前默认的FS值。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{split("11/20/2011",date,"/"); print date[2]}'</span></em><br>&nbsp;&nbsp; &nbsp;20<br><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;variable = sprintf("string with format specifiers ",expr1,expr2,...)</span><br>&nbsp;&nbsp; &nbsp;该函数和printf的差别等同于C语言中printf和sprintf的差别。前者将格式化后的结果输出到输出流，而后者输出到函数的返回值中。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{line = sprintf("%-15s %6.2f ", "hello",4.2); print line}'</span></em><br>&nbsp;&nbsp; &nbsp;hello&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4.20<br><br>&nbsp;&nbsp; &nbsp;时间函数：<br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;systime()</span><br>&nbsp;&nbsp; &nbsp;该函数返回当前时间距离1970年1月1日之间相差的秒数。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{print systime()}'</span></em><br>&nbsp;&nbsp; &nbsp;1321369554<br><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;strftime()</span><br>&nbsp;&nbsp; &nbsp;时间格式化函数，其格式化规则等同于C语言中的strftime函数提供的规则，见以下列表：</p> <table style="width: 594px; height: 538px;" border="0" align="center"> <tbody> <tr> <td><strong><span style="color: #0000ff; font-size: 13px;">数据格式</span></strong></td> <td><strong><span style="color: #0000ff; font-size: 13px;">含义</span></strong></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%a</span></td> <td><span style="color: #0000ff; font-size: 13px;">Abbreviated weekday name</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%A</span></td> <td><span style="color: #0000ff; font-size: 13px;">Full weekday name</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%b</span></td> <td><span style="color: #0000ff; font-size: 13px;">Abbreviated month name</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%B</span></td> <td><span style="color: #0000ff; font-size: 13px;">Full month name</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%c</span></td> <td><span style="color: #0000ff; font-size: 13px;">Date and time representation appropriate for locale</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%d</span></td> <td><span style="color: #0000ff; font-size: 13px;">Day of month as decimal number (01 – 31)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%H</span></td> <td><span style="color: #0000ff; font-size: 13px;">Hour in 24-hour format (00 – 23)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%I</span></td> <td><span style="color: #0000ff; font-size: 13px;">Hour in 12-hour format (01 – 12)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%j</span></td> <td><span style="color: #0000ff; font-size: 13px;">Day of year as decimal number (001 – 366)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%m</span></td> <td><span style="color: #0000ff; font-size: 13px;">Month as decimal number (01 – 12)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%M</span></td> <td><span style="color: #0000ff; font-size: 13px;">Minute as decimal number (00 – 59)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%p</span></td> <td><span style="color: #0000ff; font-size: 13px;">Current locale's A.M./P.M. indicator for 12-hour clock</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%S</span></td> <td><span style="color: #0000ff; font-size: 13px;">Second as decimal number (00 – 59)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%U</span></td> <td><span style="color: #0000ff; font-size: 13px;">Week of year as decimal number, with Sunday as first day of week (00 – 53)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%w</span></td> <td><span style="color: #0000ff; font-size: 13px;">Weekday as decimal number (0 – 6; Sunday is 0)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%W</span></td> <td><span style="color: #0000ff; font-size: 13px;">Week of year as decimal number, with Monday as first day of week (00 – 53)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%x</span></td> <td><span style="color: #0000ff; font-size: 13px;">Date representation for current locale</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%X</span></td> <td><span style="color: #0000ff; font-size: 13px;">Time representation for current locale</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%y</span></td> <td><span style="color: #0000ff; font-size: 13px;">Year without century, as decimal number (00 – 99)</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">%Y</span></td> <td><span style="color: #0000ff; font-size: 13px;">Year with century, as decimal number</span></td> </tr> </tbody> </table> <p><span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; /&gt; awk 'BEGIN{ print strftime("%D",systime())}'</em></span><br>&nbsp;&nbsp; &nbsp;11/15/11<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{ now = strftime("%T"); print now}'</span></em><br>&nbsp;&nbsp; &nbsp;23:17:29<br><br>&nbsp;&nbsp; &nbsp;内置数学函数：</p> <table style="width: 450px;" border="0" align="center"> <tbody> <tr> <td><strong><span style="color: #0000ff; font-size: 13px;">名称</span></strong></td> <td><strong><span style="color: #0000ff; font-size: 13px;">返回值</span></strong></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">atan2(x,y)</span></td> <td><span style="color: #0000ff; font-size: 13px;">y,x范围内的余切</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">cos(x)</span></td> <td><span style="color: #0000ff; font-size: 13px;">余弦函数</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">exp(x)</span></td> <td><span style="color: #0000ff; font-size: 13px;">求幂</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">int(x)</span></td> <td><span style="color: #0000ff; font-size: 13px;">取整</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">log(x)</span></td> <td><span style="color: #0000ff; font-size: 13px;">自然对数</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">sin(x)</span></td> <td><span style="color: #0000ff; font-size: 13px;">正弦函数</span></td> </tr> <tr> <td><span style="color: #0000ff; font-size: 13px;">sqrt(x)</span></td> <td><span style="color: #0000ff; font-size: 13px;">平方根</span></td> </tr> </tbody> </table> <p><span style="color: #0000ff;"><em>&nbsp;&nbsp;&nbsp; /&gt; awk 'BEGIN{print 31/3}'</em></span><br>&nbsp;&nbsp; &nbsp;10.3333<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk 'BEGIN{print int(31/3)}'</span></em><br>&nbsp;&nbsp; &nbsp;10<br><br>&nbsp;&nbsp; &nbsp;自定义函数：<br>&nbsp;&nbsp; &nbsp;自定义函数可以放在awk脚本的任何可以放置模板和动作的地方。<br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;function name(parameter1,parameter2,...) {</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;statements</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;return expression</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;}</span><br>&nbsp;&nbsp;   &nbsp;给函数中本地变量传递值。只使用变量的拷贝。数组通过地址或者指针传递，所以可以在函数内部直接改变数组元素的值。函数内部使用的任何没有作为参数传递 的变量都被看做是全局变量，也就是这些变量对于整个程序都是可见的。如果变量在函数中发生了变化，那么就是在整个程序中发生了改变。唯一向函数提供本地变 量的办法就是把他们放在参数列表中，这些参数通常被放在列表的最后。如果函数调用没有提供正式的参数，那么参数就初始化为空。return语句通常就返回 程序控制并向调用者返回一个值。<br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; cat grades</span></em><br>&nbsp;&nbsp; &nbsp;20 10<br>&nbsp;&nbsp; &nbsp;30 20<br>&nbsp;&nbsp; &nbsp;40 30<br><br><span style="color: #0000ff;"><em>&nbsp;&nbsp; &nbsp;/&gt; cat add.sc</em></span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;function add(first,second) {</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return first + second</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;}</span><br><span style="color: #ff0000;">&nbsp;&nbsp; &nbsp;{ print add($1,$2) }</span><br><br><em><span style="color: #0000ff;">&nbsp;&nbsp; &nbsp;/&gt; awk -f add.sc grades</span></em><br>&nbsp;&nbsp; &nbsp;30<br>&nbsp;&nbsp; &nbsp;50<br>&nbsp;&nbsp; &nbsp;70</p></div></div><p><br></p><p>&nbsp;</p><p>&nbsp;</p><p></p><div><span style="color: #c0c0c0;">转载自<a href="http://www.cnblogs.com/stephen-liu74/" target="_blank">Stephen Liu</a></span><span style="color: #c0c0c0;">，仅做学习收藏用途。</span> &nbsp;</div><p></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="blog_post_info"><div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/mchina/category/391868.html">Linux Shell</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/mchina/tag/shell%20awk%E7%BC%96%E7%A8%8B/">shell awk编程</a></div>
+<div id="green_channel">
+绿色通道：
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(cb_entryId,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://space.cnblogs.com/msg/send/David_Tang" target="_blank">与我联系</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./awk编程 - David_Tang_files/icon_weibo_24.png" alt=""></a>
+</div>
+<div id="digg_block">
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/mchina/" target="_blank"><img src="http://pic.cnitblog.com/face/u370046.png?id=27203716" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/mchina/">David_Tang</a><br>
+<a href="http://home.cnblogs.com/u/mchina/followees">关注 - 2</a><br>
+<a href="http://home.cnblogs.com/u/mchina/followers">粉丝 - 369</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+<a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+	<div class="diggit" onclick="votePost(cb_entryId,&#39;Digg&#39;)"> 
+		<span class="diggnum" id="digg_count">0</span>
+	</div>
+	<div class="buryit" onclick="votePost(cb_entryId,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571308.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571308.html" title="发布于2012-06-30 20:42">Linux Shell常用技巧(四) awk</a><br><a href="http://www.cnblogs.com/mchina/archive/2012/07/02/2573269.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/mchina/archive/2012/07/02/2573269.html" title="发布于2012-07-02 15:43">Linux Shell常用技巧(六) sort uniq tar split</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2012-06-30 20:47</span> <a href="http://www.cnblogs.com/mchina/">David_Tang</a> 阅读(<span id="post_view_count">1091</span>) 评论(<span id="post_comment_count">0</span>)  <a href="http://www.cnblogs.com/mchina/admin/EditPosts.aspx?postid=2571317" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" onclick="AddToWz(2571317);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=107026,cb_entryId=2571317,cb_blogApp=currentBlogApp,cb_blogUserGuid='2e55a023-ab40-e111-9590-842b2b196315',cb_entryCreatedDate='2012/6/30 20:47:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+<a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" id="lnk_RefreshComments" onclick="return RefreshCommentList();">刷新评论</a><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/mchina/archive/2012/06/30/2571317.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"><a target="_blank" href="http://www.cnblogs.com/cmt/p/3471046.html">游戏开发者的福利：阿里云云服务器免费送</a></div>
+<div id="site_nav_under"><a href="http://www.cnblogs.com/" target="_blank" title="程序员的网上家园">博客园首页</a><a href="http://q.cnblogs.com/" target="_blank" title="程序员问答社区">博问</a><a href="http://news.cnblogs.com/" target="_blank" title="IT新闻">新闻</a><a href="http://home.cnblogs.com/ing/" target="_blank">闪存</a><a href="http://job.cnblogs.com/" target="_blank">程序员招聘</a><a href="http://kb.cnblogs.com/" target="_blank">知识库</a></div>
+<div id="ad_under_post_holder">
+
+<div id="google_ad_c1" class="c_ad_block">
+    <!-- cnblogs_blogpost_C1_sitehome -->
+    <div id="div-gpt-ad-1346480159711-0" style="width:300px; height:250px;">
+    
+    <div id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" src="javascript:"<html><body style='background:transparent'></body></html>"" style="border: 0px; vertical-align: bottom;"></iframe></div><iframe id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0__hidden__" name="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0__hidden__" width="0" height="0" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" src="javascript:"<html><body style='background:transparent'></body></html>"" style="border: 0px; vertical-align: bottom; visibility: hidden; display: none;"></iframe></div>
+</div>
+<div id="blog_news_kb"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/196579/" target="_blank">现在去Google搜索圣诞节 看看会发生什么</a><br> ·  <a href="http://news.cnblogs.com/n/196578/" target="_blank">鲍尔默走之后 在微软的“遗产”会怎样</a><br> ·  <a href="http://news.cnblogs.com/n/196577/" target="_blank">圣诞节福利！亚马逊市场下载应用可得5美金</a><br> ·  <a href="http://news.cnblogs.com/n/196576/" target="_blank">人品测试仪 苹果大礼包“福袋”又来了</a><br> ·  <a href="http://news.cnblogs.com/n/196575/" target="_blank">[科技英雄传]杀毒王：他比传奇更传奇</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/196448/" target="_blank">浅析深究什么是中间件</a><br> ·  <a href="http://kb.cnblogs.com/page/195372/" target="_blank">思考、学习新技术的原则和方式</a><br> ·  <a href="http://kb.cnblogs.com/page/193371/" target="_blank">云风：一个编程的自由人</a><br> ·  <a href="http://kb.cnblogs.com/page/196146/" target="_blank">多研究些问题，少谈些主义</a><br> ·  <a href="http://kb.cnblogs.com/page/185286/" target="_blank">领域建模中的七种坏味道信息</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div></div>
+<script type="text/javascript">
+var enableGoogleAd = true;
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+fixPostBodyFormat();
+loadAdUnderPost();
+</script>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+loadBlogSignature();
+LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+</script>
+<script type="text/javascript">
+    $.ajax({ url: 'http://counter.cnblogs.com/blog/post/' + cb_entryId, type: 'get', dataType: 'script', cache: true });
+</script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/mchina/">David_Tang</a><br>园龄：<a href="http://home.cnblogs.com/u/mchina/" title="入园时间：2012-01-17">1年11个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/mchina/followers/">369</a><br>关注：<a href="http://home.cnblogs.com/u/mchina/followees/">2</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;2e55a023-ab40-e111-9590-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style="displya:none"><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="日历">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2012/05/01&#39;);return false;">&lt;</a></td><td align="center">2012年6月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2012/07/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center"><a href="http://www.cnblogs.com/mchina/archive/2012/06/01.html"><u>1</u></a></td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center"><a href="http://www.cnblogs.com/mchina/archive/2012/06/06.html"><u>6</u></a></td><td align="center">7</td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center"><a href="http://www.cnblogs.com/mchina/archive/2012/06/14.html"><u>14</u></a></td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center"><a href="http://www.cnblogs.com/mchina/archive/2012/06/28.html"><u>28</u></a></td><td align="center"><a href="http://www.cnblogs.com/mchina/archive/2012/06/29.html"><u>29</u></a></td><td class="CalWeekendDay" align="center"><a href="http://www.cnblogs.com/mchina/archive/2012/06/30.html"><u>30</u></a></td></tr><tr><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn">
+
+<div class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+
+
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/mchina/tag/postgresql/">postgresql</a>(29)</li><li><a href="http://www.cnblogs.com/mchina/tag/linux/">linux</a>(16)</li><li><a href="http://www.cnblogs.com/mchina/tag/Packet%20Tracer/">Packet Tracer</a>(15)</li><li><a href="http://www.cnblogs.com/mchina/tag/Oracle%E7%AC%94%E8%AE%B0/">Oracle笔记</a>(14)</li><li><a href="http://www.cnblogs.com/mchina/tag/%E5%BE%AE%E4%BF%A1/">微信</a>(10)</li><li><a href="http://www.cnblogs.com/mchina/tag/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97/">微信公众</a>(10)</li><li><a href="http://www.cnblogs.com/mchina/tag/zhuojinsz/">zhuojinsz</a>(10)</li><li><a href="http://www.cnblogs.com/mchina/tag/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91/">微信公众平台开发</a>(8)</li><li><a href="http://www.cnblogs.com/mchina/tag/%E5%8D%93%E9%94%A6%E8%8B%8F%E5%B7%9E/">卓锦苏州</a>(6)</li><li><a href="http://www.cnblogs.com/mchina/tag/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91/">微信开发</a>(6)</li><li><a href="http://www.cnblogs.com/mchina/tag/">更多</a></li>
+</ul>
+</div>
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(125)</span></h3>
+
+<ul>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/mchina/category/495415.html">HTML</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/mchina/category/487737.html">JavaScript</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/mchina/category/381459.html">Linux(12)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/mchina/category/381457.html">Linux Server(12)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/mchina/category/391868.html">Linux Shell(12)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/mchina/category/392129.html">Mysql(2)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/mchina/category/395111.html">Network(16)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/mchina/category/403734.html">Oracle(19)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/mchina/category/486547.html">PHP(10)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/mchina/category/381458.html">Postgresql(32)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/mchina/category/486546.html">微信开发(10)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(112)</span></h3>
+
+<ul>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/mchina/archive/2013/10.html">2013年10月 (2)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/mchina/archive/2013/08.html">2013年8月 (2)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/mchina/archive/2013/07.html">2013年7月 (3)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/mchina/archive/2013/06.html">2013年6月 (3)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/mchina/archive/2013/04.html">2013年4月 (8)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/mchina/archive/2013/03.html">2013年3月 (5)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/mchina/archive/2013/02.html">2013年2月 (1)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/mchina/archive/2013/01.html">2013年1月 (4)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/mchina/archive/2012/12.html">2012年12月 (2)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/mchina/archive/2012/11.html">2012年11月 (3)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/mchina/archive/2012/09.html">2012年9月 (16)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/mchina/archive/2012/08.html">2012年8月 (23)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/mchina/archive/2012/07.html">2012年7月 (24)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/mchina/archive/2012/06.html">2012年6月 (9)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/mchina/archive/2012/05.html">2012年5月 (6)</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/mchina/archive/2012/04.html">2012年4月 (1)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">链接</h3>
+
+<ul>
+
+<li><a id="ctl02_CatList_LinkList_2_Link_0" rel="nofollow" href="http://hi.baidu.com/new/mchina_tang" target="_blank">蘇's 百度</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_2_Link_1" rel="nofollow" href="http://blog.163.com/mchina_tang/" target="_blank">蘇's 网易</a> </li>
+
+<li><a id="ctl02_CatList_LinkList_2_Link_2" rel="nofollow" href="http://blog.sina.com.cn/mchinatang" target="_blank">蘇's 新浪</a> </li>
+
+</ul>
+
+</div>
+
+
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	157119
+	</li>
+	<li class="liRank">
+		排名 -	710
+	</li>
+</ul>
+</div>
+
+
+
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+	<div id="RecentCommentsBlock"><ul>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/mchina/p/3120531.html#2844061">1. Re:微信公众平台开发（三） 订阅事件（subscribe）处理</a></li>
+    <li class="recent_comment_body">responseText中&lt;MsgType&gt;&lt;![CDATA[text]]&gt;&lt;/MsgType&gt;中的text也可以用%s吧。</li>
+    <li class="recent_comment_author">--twlkyao</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/mchina/archive/2013/06/07/3120592.html#2843798">2. Re:微信公众平台开发（二） 微信公众平台示例代码分析</a></li>
+    <li class="recent_comment_body">那个验证签名的，别人是不是可以伪造啊，如果我知道公众帐号的TOKEN，然后按照这个消息格式伪造？</li>
+    <li class="recent_comment_author">--twlkyao</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/mchina/archive/2013/06/05/3108618.html#2843780">3. Re:微信公众平台开发（一） 配置接口</a></li>
+    <li class="recent_comment_body">不错，持续关注ing</li>
+    <li class="recent_comment_author">--twlkyao</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/mchina/archive/2012/12/18/2816717.html#2842753">4. Re:CentOS 6.3下Samba服务器的安装与配置</a></li>
+    <li class="recent_comment_body">很详细，感谢博主！</li>
+    <li class="recent_comment_author">--ychellboy</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/mchina/archive/2013/06/05/3108618.html#2842151">5. Re:微信公众平台开发（一） 配置接口</a></li>
+    <li class="recent_comment_body">我试了一下，关注成功后，就是收不到回复呢。</li>
+    <li class="recent_comment_author">--为了谁</li>
+</ul>
+</div>
+</div>
+
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html">1. Linux下Nagios的安装与配置(27026)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/01/03/2840040.html">2. Linux NFS服务器的安装与配置(23114)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/12/18/2816717.html">3. CentOS 6.3下Samba服务器的安装与配置(19973)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/11/27/2782993.html">4. Linux Oracle服务启动&amp;停止脚本与开机自启动(17797)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/06/05/3108618.html">5. 微信公众平台开发（一） 配置接口(17150)</a></li></ul></div>
+</div>
+
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html">1. Linux下Nagios的安装与配置(38)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/06/05/3108618.html">2. 微信公众平台开发（一） 配置接口(30)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/12/18/2816717.html">3. CentOS 6.3下Samba服务器的安装与配置(17)</a></li><li><a href="http://www.cnblogs.com/mchina/p/3155072.html">4. 微信公众平台开发（四） 简单回复功能开发(16)</a></li><li><a href="http://www.cnblogs.com/mchina/p/3364377.html">5. 微信公众平台开发（十） 消息回复总结(16)</a></li></ul></div>
+</div>
+
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/mchina/archive/2013/06/05/3108618.html">1. 微信公众平台开发（一） 配置接口(20)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2013/02/20/2883404.html">2. Linux下Nagios的安装与配置(12)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/12/18/2816717.html">3. CentOS 6.3下Samba服务器的安装与配置(11)</a></li><li><a href="http://www.cnblogs.com/mchina/p/3332283.html">4. 微信公众平台开发（九） 数据库操作(11)</a></li><li><a href="http://www.cnblogs.com/mchina/archive/2012/09/07/2651568.html">5. Oracle笔记（六） 多表查询(10)</a></li></ul></div>
+</div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2013 David_Tang
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+<script type="text/javascript" src="./awk编程 - David_Tang_files/google-analytics.js"></script>
+
+
+</body></html>

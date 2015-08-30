@@ -1,0 +1,51 @@
+.tabberlive .tabbertabhide {
+	DISPLAY: none
+}
+.tabber {
+	
+}
+.tabberlive {
+	MARGIN-TOP: 1em
+}
+UL.tabbernav {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 3px; MARGIN: 0px; FONT: bold 12px Verdana, sans-serif; PADDING-TOP: 3px; BORDER-BOTTOM: #778 1px solid
+}
+UL.tabbernav LI {
+	DISPLAY: inline; MARGIN: 0px; LIST-STYLE-TYPE: none
+}
+UL.tabbernav LI A {
+	BORDER-RIGHT: #778 1px solid; PADDING-RIGHT: 0.5em; BORDER-TOP: #778 1px solid; PADDING-LEFT: 0.5em; BACKGROUND: #dde; PADDING-BOTTOM: 3px; MARGIN-LEFT: 3px; BORDER-LEFT: #778 1px solid; PADDING-TOP: 3px; BORDER-BOTTOM: medium none; TEXT-DECORATION: none
+}
+UL.tabbernav LI.tabberactive A {
+	BORDER-BOTTOM: #fff 1px solid; BACKGROUND-COLOR: #fff
+}
+UL.tabbernav LI.tabberactive A:hover {
+	BACKGROUND: white; COLOR: #000; BORDER-BOTTOM: white 1px solid
+}
+.tabberlive .tabbertab {
+	BORDER-RIGHT: #aaa 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: 0px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #aaa 1px solid; PADDING-TOP: 5px; BORDER-BOTTOM: #aaa 1px solid
+}
+.tabberlive .tabbertab H2 {
+	DISPLAY: none
+}
+.tabberlive .tabbertab H3 {
+	DISPLAY: none
+}
+.tabberlive#tab1 {
+	
+}
+.tabberlive#tab2 {
+	
+}
+.tabberlive#tab2 .tabbertab {
+	OVERFLOW: auto; HEIGHT: 200px
+}
+#RecentVisitors TABLE {
+	TABLE-LAYOUT: fixed
+}
+#RecentVisitors TD A {
+	FONT-SIZE: 12px
+}
+#RecentVisitors TD IMG {
+	BORDER-RIGHT: #c2c2c2 1px solid; BORDER-TOP: #c2c2c2 1px solid; BORDER-LEFT: #c2c2c2 1px solid; BORDER-BOTTOM: #c2c2c2 1px solid
+}

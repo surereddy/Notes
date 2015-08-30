@@ -1,0 +1,54 @@
+start openRTSP.exe -F 1  -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 2  -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 3  -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 4  -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 5  -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 6  -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 7  -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 8  -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 9  -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 10 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+pause
+start openRTSP.exe -F 11 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 12 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 13 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 14 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 15 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 16 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 17 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 18 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 19 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 20 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+pause
+start openRTSP.exe -F 21 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 22 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 23 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 24 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 25 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 26 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 27 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 28 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 29 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 30 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+pause
+start openRTSP.exe -F 31 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 32 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 33 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 34 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 35 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 36 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 37 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 38 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 39 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 40 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+pause
+start openRTSP.exe -F 41 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 42 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 43 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 44 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 45 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 46 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 47 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 48 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 49 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp
+start openRTSP.exe -F 50 -e 30 rtsp://192.168.50.209/media/croot/100000/00030/content/100000003000003123.3gp

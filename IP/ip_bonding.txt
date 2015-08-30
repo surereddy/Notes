@@ -1,0 +1,36 @@
+Kernels2.4.12及以后的版本均提供bonding模块，以前的版本可以通过patch实现。
+[root@server1~]#cd/etc/sysconfig/network-scripts
+[root@server1network-scripts]#vi ifcfg-bond0
+DEVICE=bond0
+BOOTPROTO=none
+ONBOOT=yes
+NETWORK=192.168.2.0
+NETMASK=255.255.255.0
+IPADDR=192.168.2.201
+USERCTL=no
+GATEWAY=192.168.2.1
+TYPE=Ethernet
+
+修改eth0，eth1配置文件
+[root@server1network-scripts]#ifcfg-eth0
+DEVICE=eth0
+BOOTPROTO=none
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+USERCTL=yes
+
+[root@server1network-scripts]#ifcfg-eth1
+DEVICE=eth1
+BOOTPROTO=none
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+USERCTL=yes
+
+将新添加的bond0设备加入/etc/modprobe.conf中，以便kernel识别。加入设置参数，miimon值表示两块网卡相互监测的时间，以ms为单位。mode值为工作模式，可设置为高可用还是负载均衡，0为高可用（默认值），1为负载均衡，另外还有一种XOR模式。
+alias bond0 bonding
+options bond0 miimon=100 mode=1
+
+[root@SC-WAP-SA-1 network-scripts]#vi /etc/rc.local
+ ifenslave bond0 eth0 eth1

@@ -1,0 +1,141 @@
+A {
+	FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+A:link {
+	FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+A:active {
+	FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+A:hover {
+	TEXT-DECORATION: underline
+}
+BODY {
+	PADDING-RIGHT: 0.1em; PADDING-LEFT: 0.1em; FONT-SIZE: 12px; PADDING-BOTTOM: 0.1em; MARGIN: 0px; LINE-HEIGHT: 1.3em; PADDING-TOP: 0.1em
+}
+BLOCKQUOTE {
+	FONT-STYLE: italic
+}
+TABLE {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0.5em; PADDING-BOTTOM: 0.5em; MARGIN: 0px; PADDING-TOP: 0.5em; BORDER-COLLAPSE: collapse
+}
+CODE {
+	FONT-SIZE: 1em
+}
+PRE {
+	FONT-SIZE: 1em
+}
+PRE {
+	PADDING-RIGHT: 1em; PADDING-LEFT: 1em; FONT-SIZE: 0.9em; BACKGROUND: #eee; PADDING-BOTTOM: 1em; PADDING-TOP: 1em
+}
+LI {
+	PADDING-BOTTOM: 0.3em
+}
+H1 {
+	MARGIN-BOTTOM: 0.25em
+}
+H2 {
+	MARGIN-BOTTOM: 0.25em
+}
+H3 {
+	MARGIN-BOTTOM: 0.25em
+}
+H4 {
+	MARGIN-BOTTOM: 0.25em
+}
+H5 {
+	MARGIN-BOTTOM: 0.25em
+}
+H6 {
+	MARGIN-BOTTOM: 0.25em
+}
+H1 {
+	FONT-SIZE: 1.3em
+}
+H2 {
+	FONT-SIZE: 1.2em
+}
+H3 {
+	FONT-SIZE: 1.1em
+}
+H4 {
+	FONT-SIZE: 1em
+}
+H5 {
+	FONT-SIZE: 1em
+}
+H6 {
+	FONT-SIZE: 1em
+}
+P {
+	MARGIN: 0px 0px 0.5em
+}
+BR {
+	LINE-HEIGHT: 0.6em
+}
+#header {
+	MARGIN-BOTTOM: 2em
+}
+#help {
+	FONT-SIZE: 0.8em
+}
+#content {
+	CLEAR: both
+}
+#sidebar-left {
+	PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; VERTICAL-ALIGN: top; PADDING-TOP: 6px
+}
+#sidebar-right {
+	PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-BOTTOM: 6px; VERTICAL-ALIGN: top; PADDING-TOP: 6px
+}
+#main {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0.5em; VERTICAL-ALIGN: top
+}
+#footer {
+	FONT-SIZE: 0.8em; PADDING-TOP: 3em; TEXT-ALIGN: center
+}
+.title {
+	MARGIN: 0px 0px 1em
+}
+.content {
+	MARGIN: 0px 0px 1em
+}
+.links {
+	FONT-SIZE: 1em; LINE-HEIGHT: 1em
+}
+.block {
+	WIDTH: 160px
+}
+.messages {
+	PADDING-RIGHT: 0.3em; PADDING-LEFT: 0.3em; PADDING-BOTTOM: 0.3em; MARGIN: 0.5em 0em; PADDING-TOP: 0.3em
+}
+.status {
+	BORDER-RIGHT: #3a3 1px solid; BORDER-TOP: #3a3 1px solid; BORDER-LEFT: #3a3 1px solid; COLOR: #3a3; BORDER-BOTTOM: #3a3 1px solid
+}
+.error {
+	BORDER-RIGHT: red 1px solid; BORDER-TOP: red 1px solid; BORDER-LEFT: red 1px solid; COLOR: red; BORDER-BOTTOM: red 1px solid
+}
+form-item INPUT.error {
+	BORDER-RIGHT: red 1px solid; BORDER-TOP: red 1px solid; BORDER-LEFT: red 1px solid; COLOR: red; BORDER-BOTTOM: red 1px solid
+}
+.navlinks {
+	CLEAR: both; PADDING-RIGHT: 0.4em; PADDING-LEFT: 1em; BACKGROUND: #0071bc no-repeat right center; PADDING-BOTTOM: 0.4em; PADDING-TOP: 0.4em
+}
+.primary A {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0em; FONT-SIZE: 1em; PADDING-BOTTOM: 0em; PADDING-TOP: 0em
+}
+.secondary A {
+	PADDING-RIGHT: 0.5em; PADDING-LEFT: 0em; FONT-SIZE: 0.9em; PADDING-BOTTOM: 0em; PADDING-TOP: 0em
+}
+#header IMG {
+	PADDING-RIGHT: 1em; PADDING-LEFT: 0em; FLOAT: left; PADDING-BOTTOM: 0.1em; PADDING-TOP: 0em
+}
+#header {
+	CLEAR: both
+}
+.form-item TEXTAREA {
+	FONT-SIZE: 1em
+}
+#aggregator .feed {
+	BORDER-RIGHT: gray 1px solid; PADDING-RIGHT: 1em; BORDER-TOP: gray 1px solid; PADDING-LEFT: 1em; PADDING-BOTTOM: 1em; BORDER-LEFT: gray 1px solid; PADDING-TOP: 1em; BORDER-BOTTOM: gray 1px solid
+}

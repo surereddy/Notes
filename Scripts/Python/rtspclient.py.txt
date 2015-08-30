@@ -1,0 +1,373 @@
+#!/usr/bin/python
+
+#-*- coding: gb2312 -*-
+
+import sys
+import os
+from urlparse import urlsplit
+import socket
+import threading
+import struct
+
+DEFAULT_RTSP_PORT = '554'
+DEFAULT_HTTP_PORT = '80'
+User_Agent = 'Python Script 1.0'
+HOST= ''
+START_UDP_PORT = 2000
+
+class RTSPResponse:
+    def __init__(self, sock):
+        self.fp = sock.makefile('rb', 0)
+        self.status = None
+        self.reason = None
+        self.session = None
+        self.length = None
+        
+    def _read_status(self):
+        line = self.fp.readline()
+        if not line:
+            print 'Server not Response'
+            sys.exit(2)
+        [version, status, reason] = line.split(None, 2)
+        try:
+            status = int(status)
+        except:
+            print 'Response status is None'
+            sys.exit(2)
+        return status, reason
+    
+    def begin(self):
+        status, reason = self._read_status()
+        if status != 200:
+            print reason
+            sys.exit(2)
+        while True:
+            skip = self.fp.readline().strip()
+            if not skip:
+                break
+            else:
+                header = skip.split()
+                if header[0] == 'Content-Length:':
+                    len = int(header[1])
+                    if len > 0:
+                        self.length = len
+                if header[0] == 'Session:':
+                    self.session = header[1].split(';')[0]
+        self.status = status
+        self.reason = reason.strip()
+
+    def read(self):
+        if self.fp is None:
+            return ''
+        if self.length is None:
+            s = ''
+            pass
+        else:
+            s = self.fp.read(self.length)
+            self.length = 0
+        return s        
+
+class RTSPConnection:
+    _rtsp_vsn_str = 'RTSP/1.0'
+    CSeq = 0
+    response_class = RTSPResponse
+    response = None
+    default_udp_port = 2000
+        
+    def __init__(self, host, port, path, client_port=None):
+        self.host = host
+        self.port = port
+        self.path = path
+        self.sdp = None
+        self.session = None
+        self.clientsoc = None
+        self._buffer = []
+        self.trackID = []
+        if client_port is None:
+            self.udp_port = self.default_udp_port
+        else:
+            self.udp_port = client_port
+
+    def connection(self):
+        for res in socket.getaddrinfo(self.host, self.port, 0, socket.SOCK_STREAM):
+            af, socktype, proto, canonname, sa = res
+            try:
+                self.clientsoc = socket.socket(af, socktype, proto)
+                self.clientsoc.connect(sa)
+            except:
+                if self.clientsoc:
+                    self.close()
+                print 'Connect',host,'Fail'
+                sys.exit(3)
+
+    def _send(self,str):
+        if self.clientsoc is None:
+            print 'Not connection'
+            sys.exit(3)
+        try:
+            self.clientsoc.sendall(str)
+        except:
+            self.close()
+            print 'SEND FAIL'
+            sys.exit(3)
+
+    def _out_put(self,s):
+        self._buffer.append(s)
+
+    def _send_output(self):
+        self._buffer.extend(("", ""))
+        msg = "\r\n".join(self._buffer)
+        del self._buffer[:]
+        self._send(msg)
+
+    def _putrequest(self, method, path):
+        stri = '%s %s %s' % (method, path, self._rtsp_vsn_str)
+        self._out_put(stri)
+        self.CSeq = self.CSeq + 1
+        self._putheader('CSeq', self.CSeq)
+        if method == 'SETUP':
+            Transport = 'RTP/AVP;unicast;client_port=' + str(self.udp_port) + '-' + str(self.udp_port + 1)
+            self._putheader('Transport', Transport)
+        if self.session != None:
+            self._putheader('Session', self.session)
+        self._putheader('User-Agent', User_Agent)  
+        self._endheaders()
+
+    def _putheader(self, header, value):
+        str = '%s: %s' % (header, value)
+        self._out_put(str)
+
+    def _endheaders(self):
+        self._send_output()
+
+    def close(self):
+        self.clientsoc.close()        
+        
+    def _getresponse(self):
+        self.response = self.response_class(self.clientsoc)
+        self.response.begin()
+
+    def _sdp_analyse(self):
+        if self.sdp is None or self.sdp == '' or self.sdp.find('trackID') == -1:
+            print 'SDP Error'
+            sys.exit(3)
+        sdplist = self.sdp.splitlines()
+        for aa in sdplist:
+            if len(aa) > 7 and aa.find('trackID') != -1:
+                self.trackID.append(aa[10:])          
+        if self.trackID[0].find('rtsp') != -1:
+            nil, netloc, path, nil, nil = urlsplit(self.trackID[0])
+            if netloc.rfind(':') != -1:
+                self.host, self.port = netloc.split(':')
+            else:
+                self.host = netloc
+                self.port = DEFAULT_RTSP_PORT
+            i = path.find('track')
+            self.path = path[:i-1]
+
+    def options(self):
+        path = 'rtsp://'+ self.host + ':' +self.port
+        self._putrequest('OPTIONS', path)
+        self._getresponse()
+        print 'options', self.response.status, self.response.reason
+        
+    def describe(self):
+        path = 'rtsp://'+ self.host + ':' +self.port + self.path
+        self._putrequest('DESCRIBE', path)
+        self._getresponse()
+        print 'describe', self.response.status, self.response.reason
+        if self.response.length != None:
+            self.sdp = self.response.read()
+        if self.sdp != None:
+            self._sdp_analyse()
+        
+    def setup(self):
+        for track in self.trackID:
+            if track.find('rtsp') != -1:
+                path = track
+            else:
+                path = 'rtsp://'+ self.host + ':' +self.port + self.path + '/' + track
+            self._putrequest('SETUP', path)
+            self._getresponse()
+            print 'setup', self.response.status, self.response.reason
+            if self.session == None:
+                self.session = self.response.session
+
+    def play(self):
+        path = 'rtsp://'+ self.host + ':' +self.port + self.path
+        self._putrequest('PLAY', path)
+        self._getresponse()
+        print 'play', self.response.status, self.response.reason
+
+    def pause(self):
+        path = 'rtsp://'+ self.host + ':' +self.port + self.path
+        self._putrequest('PAUSE', path)
+        self._getresponse()
+        print 'pause', self.response.status, self.response.reason
+        
+    def teardown(self):
+        path = 'rtsp://'+ self.host + ':' +self.port + self.path
+        self._putrequest('TEARDOWN', path)
+        self._getresponse()
+        print 'teardown', self.response.status, self.response.reason
+        self.close()
+        
+    def get_sdp(self):
+        print 'GET sdp information'
+        from httplib import HTTPConnection
+        cc = HTTPConnection(host, port)
+        try:
+            cc.connect()
+            cc.request('POST', path)
+            rr = cc.getresponse()
+            self.sdp = rr.read()
+            cc.close()
+        except:
+            print 'Connect',host,'Fail'
+        if self.sdp != None:
+            self._sdp_analyse()
+
+class DATARev(threading.Thread):
+
+    def __init__(self, host, start_port):
+        threading.Thread.__init__(self)
+        self.host = host
+        self.port = start_port
+        self.sock = None
+        self.data = None
+        self.payload = None
+        self.version = None
+        self.padding = None
+        self.extension = None
+        self.CSIC = None
+        self.marker = None
+        self.PT = None
+
+    def _start(self):
+        try:
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self.sock.bind((self.host, self.port))
+        except:
+            print "udp bind Error"
+            sys.exit(3)
+
+    def rev(self):
+        self._start()
+        try:
+            while True:
+                self.data, address = self.sock.recvfrom(2000)
+                if not self.data: break;
+                self._unpackRtp()
+            self._close()
+        except:
+            if self.sock:
+                self._close()
+            print "quit"
+            sys.exit(3)
+
+    def _close(self):
+        self.sock.close()
+
+    def send(self):
+        pass
+
+#    def _analyse_data(self):
+#        asscii_string = lambda s: ' '.join(map(lambda c: "%02X" % ord(c), s))
+#        aa = asscii_string(self.data)
+#        print aa.split()[8:12]
+
+    def _unpackRtp(self):
+        if len(self.data) < 12:
+            self.payload = self.data
+        byte1, byte2, self.SN, self.TS, self.SSI = struct.unpack(">BBHII", self.data[:12])
+        self.payload = self.data[12:] 
+        self.version = (byte1 & 0xc0) >> 6
+        self.padding = (byte1 & 0x20) >> 5
+        self.extension = (byte1 & 0x10) >> 4
+        self.CSIC = (byte1 & 0x0f)
+        self.marker = (byte2 & 0x80) >> 7
+        self.PT = byte2 & 0x7f
+#        print 'RTP Version...',self.version
+#        print 'Padding...',self.padding
+#        print 'Extension...',self.extension
+#        print 'Contributing source identifiers count...',self.CSIC
+#        print 'Marker...',self.marker
+        print 'data=....',len(self.payload)
+#        print 'Payload...',self.PT
+#        print 'Sequence number...',self.SN
+#        print 'Timestamp...',self.TS
+#        print 'Synchronization source identifier...',self.SSI
+
+def run(host, port, path, udp_port=None,proto='rtsp'):
+    if udp_port is None:
+        r = RTSPConnection(host,port, path)
+        u1 = DATARev(HOST, START_UDP_PORT)
+    else:
+        r = RTSPConnection(host,port, path, udp_port)
+        u1 = DATARev(HOST, udp_port)
+    try:
+        if proto == 'http':
+            r.get_sdp()
+            r.connection()
+            r.setup()
+            r.play()
+#            os.system('sleep 1m')
+        elif proto == 'rtsp':
+            r.connection()
+#            r.options()
+            r.describe()
+            r.setup()
+            r.play()
+            u1.rev()
+#            os.system('sleep 50')
+        else:
+            print 'Function run() proto ERROR'
+            sys.exit(2)
+    except KeyboardInterrupt:
+        r.teardown()
+
+def parseURL(url):
+    host=port=path=seheme=None
+    if len(url) > 0:
+        if url.startswith('http') or url.startswith('rtsp'):
+            scheme,netloc,path,nil,nil1 = urlsplit(url)
+            if len(netloc):
+                if netloc.rfind(':') != -1:
+                    host,port=netloc.split(':')
+                else:
+                    host = netloc
+            else:
+                print "URL ERROR!!"
+                sys.exit(1)            
+            if scheme == 'http':
+                if port == None:
+                    port = DEFAULT_HTTP_PORT
+            else:
+                if port == None:
+                    port = DEFAULT_RTSP_PORT
+            if len(nil) > 0:
+                path = path+'?'+nil
+            return scheme, host, port, path
+        else:
+            print "Parameters must be a url starting with http or rtsp!!"  
+            sys.exit(1)
+    else:
+        print "No Parameter"
+        sys.exit(1)
+   
+if __name__ == "__main__":
+    host = port = None
+    if len(sys.argv) > 1:
+        pro,host,port,path=parseURL(sys.argv[1])
+        run(host,port,path,proto=pro)
+    else:
+        if os.path.isfile('config.py'):
+            from config import *
+        else:
+            print 'config file is not exist!'
+            sys.exit(1)
+        run(PV_SERVER, PV_PORT, CONTENT, START_UDP_PORT)
+
+
+
+        

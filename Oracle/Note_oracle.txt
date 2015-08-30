@@ -1,0 +1,375 @@
+|-FAQ
+
+||- what sql command need commit, what needn't?
+
+说到ddl的commit，就要说到隐式提交，隐式提交可能发生在 
+1.正常退出sqlplus 
+2.ddl 
+3.dcl 
+
+所以DDL(如CREATE，ALTER，DROP) 不需要commit;
+DML,(如insert,update,delete) 需要commit;
+
+||- Sql 语言分类 4类
+
+数据操作语言语句[Data manipulation language，DML]
+
+　　从一个或多个表或视图中查询数据(SELECT);获取操作[fetch]是可滚动 的[scrollable](见“可滚动游标”) 
+
+　　向表或视图中加入新数据行(INSERT) 
+
+　　修改表或视图中已有数据行的列值(UPDATE) 
+
+　　根据判断条件为表及视图插入或更新数据行(MERGE) 
+
+　　从表或视图中删除数据行(DELETE) 
+
+　　查询 SQL 语句的执行计划[execution plan](EXPLAIN PLAN) 
+
+　　对表或视图加锁[lock]，临时地限制其他用户访问此对象(LOCK TABLE)
+
+
+数据定义语言语句[Data definition language，DDL]
+
+　　创建，修改，移除方案对象及其他数据库结构，包括数据库自身及数据库用户(CREATE，ALTER，DROP) 
+
+　　修改方案对象名称(RENAME) 
+
+　　删除方案对象的所有数据，但不移除对象结构(TRUNCATE) 
+
+　　授予或收回权限及角色(GRANT，REVOKE) 
+
+　　打开或关闭审计选项(AUDIT，NOAUDIT) 
+
+　　向数据字典中添加注释(COMMENT)
+
+
+事务控制语句[transaction control statement]
+
+　　将事务对数据的修改永久地保存到数据库(COMMIT) 
+
+　　还原事务对数据的修改，可还原到事务开始处或任意保存点[savepoint](ROLLBACK) 
+
+　　设置保存点以标识回滚位置(SAVEPOINT) 
+
+　　设置事务的属性(SET TRANSACTION)
+
+
+会话控制语句[session control statement]
+
+　　执行特定操作，修改当前会话，例如启用或禁用 SQL 跟踪功能[SQL trace facility](ALTER SESSION) 
+
+　　为当前会话启用或禁用角色[role](即一组权限的集合)(SET ROLE) 
+
+　　系统控制语句[system control statement] 
+
+　　ALTER SYSTEM是唯一的系统控制语句。 
+
+　　嵌入 SQL 语句[embedded SQL statement] 
+
+　　定义，分配，及释放游标[cursor](DECLARE CURSOR，OPEN，CLOSE) 
+
+　　选择一个 Oracle 数据库并进行连接(DECLARE DATABASE，CONNECT) 
+
+　　分配变量名(DECLARE STATEMENT) 
+
+　　初始化描述符[descriptor](DESCRIBE) 
+
+　　设定如何处理错误及警告(WHENEVER) 
+
+　　解析并执行 SQL 语句(PREPARE，EXECUTE，EXECUTE IMMEDIATE) 
+
+　　从数据库中取回数据(FETCH)
+
+||- C、从1.7升级到2.1平台时的临时数据库文件及1.7的数据库文件没有清除。
+   隐患和处理方法见《MMPD CC TAC Notice 2008 No.1.doc》文档。
+   现场在清除1.7的数据时，发现2.1平台中的部分对象（包括表和视图等）被创建在1.7的表空间中，导致清除1.7的数据文件后，2.1的部分表等对象丢失，之后只能通过备份数据进行繁琐的恢复。
+   该问题跟平台升级时创建2.1用户的操作有关。在近期的数据库升级方案中都加入了以下内容，以避免该问题的发生：
+    SQL> CREATE TABLESPACE viss212  DATAFILE '/global/oracle/oradata/viss/viss212.dbf' SIZE 1024M AUTOEXTEND ON NEXT  50M MAXSIZE UNLIMITED;
+    SQL> CREATE USER viss212 IDENTIFYIED BY viss212 DEFAULT TABLESPACE viss212;
+    SQL> GRANT CONNECT,RESOURCE TO viss212;
+    SQL> revoke unlimited tablespace from viss212;      //在viss212表空间上回收给与用户的unlimited tablespace权限，否则将不能导入数据到viss212 的空间！
+    SQL> alter user viss212 quota 0 on viss170;         //取消viss212用户在viss170表空间上创建对象的配额
+    SQL> alter user viss212 quota unlimited on viss212; //为viss212用户在viss212表空间上赋予unlimited配额
+
+数据库升级完毕后可使用以下语句确认：
+select username,default_tablespace from dba_users where username='viss212';    //确认viss212用户的默认表空间
+select owner,object_name,object_type from dba_objects where owner='viss212';   //确认viss212用户下的所有对象
+
+
+||- A、数据库的监听日志（listener.log文件）已超过2G。
+   存在隐患，下次重启监听将不会成功。
+   Oracle的监听(Listener)在缺省情况下，会在文件中记录日志，记录数据库实例注册操作、客户端的连接等。缺省（没有设置log_file参数时）的文件是$ORACLE_HOME/network/log/listener.log。对于一些使用短连接的，频繁的连接数据库的应用，listener.log增长很快，有的可以在比较短的时间内（十几天）就达到2GB。需要定期检查、清理，或者关闭监听日志。
+
+||- language setting
+select userenv('language') from dual;
+
+||- connection session/processes limitation and monitoring ORA-00020
+ORA-00020 : maximum number of processes(150) exceeded 。
+
+Limitation:
+-----------------
+查看最大連接數: 
+sqlplus system/manager  
+  SELECT   name,value   FROM   V$PARAMETER   WHERE   NAME='processes';   
+  SELECT   name,value   FROM   V$PARAMETER   WHERE   NAME='sessions';
+  or show parameter processes;
+  
+  修改為200   
+  ALTER   SYSTEM   SET   processes=200   SCOPE=spfile；
+  重启oracle.
+
+调整processes即可，不需要手工调整sessions，session是根据processes变化的。
+sessions=(1.1*process+5)
+
+不过它的大小会受制于硬件的内存或ORACLE SGA。范围可从200~2000不等。
+
+其实这个参数在init<SID>.ora初始化文件中，关掉oracle，修改此文件也行。
+
+
+Monitoring:
+----------------
+1. sqlplus
+如何查看Oracle的连接数 
+在数据库开发中，打开数据库连接是很慢的。怎样oracle当前的连接数呢？只需要用下面的SQL语句查询一下就可以了。
+sqlplus system/manager
+select count(*) from v$session where username is not null;
+
+查看不同用户的连接数
+select username,count(username) from v$session where username is not null group by username;
+
+2. 用TOAD
+用system连接，然后菜单DBA->database monitoring.
+图形化实时显示。
+
+||- Automatic Shared Memory Management 
+oracle10g use "Automatic Shared Memory Management" as default.
+这是以前的db_cache_size,shared_pool_size等都是为0, sga中具体划分有系统来完成，只要设置sga_target，sga_max_size。
+conn / as sysdba;
+show db_cache_size;
+show shared_pool_size;
+
+
+
+||- Modify oracle memory allocation, that is SGA and PGA
+sqlplus system/manager as sysdba
+show parameter sga_max_size;
+sga_max_size,sga_target,pga_aggregate_target
+注意: sga_target可以在<sga_max_size的范围内动态改。pga_aggregate_target也可以动态改。即不用加scope=spfile,且修改之后重启database也生效。
+     sga_max_size不能动态改,只能改到scope=pfile,重启生效。
+
+注意sga_target是选用自动SGA内存管理是才有效。
+1．PGA_AGGREGATE_TARGET-此参数用来指定所有session总计可以使用最大PGA内存。这个参数可以被动态的更改,取值范围从10M -- （4096G-1 ）bytes。 
+对于PGA_AGGREGATE_TARGET参数的设置，Oracle提供这样一个建议方案 
+1．对于OLTP系统 
+PGA_AGGREGATE_TARGET = (<Total Physical Memory > * 80%) * 20% 
+
+重启才生效：
+alter system set sga_max_size=4g scope=spfile;
+alter system set pga_aggregate_target=2G scope=spfile;
+alter system set sga_target=4g scope=spfile;
+shutdown immediate
+startup
+
+pga_aggregate_target,sga_target 如果不加scope=spfile就是马上生效（重启也有效），加了重启才生效。
+alter system set pga_aggregate_target=100m;
+alter system set sga_target=100m;
+
+
+ALTER   SYSTEM   SET   sga_max_size=909115392   SCOPE=pfile； bytes as unit
+ALTER   SYSTEM   SET   pga_aggregate_target=303038464   SCOPE=pfile； bytes as unit
+  
+其实这个参数在init<SID>.ora初始化文件中，关掉oracle，修改此文件也行。
+没有ora的话先创建:
+SQL>create pfile from spfile; 
+>shutdown
+modify .ora
+SQL>create spfile from pfile;
+>startup
+SQL> show sga
+show pga_aggregate_target
+
+||- export/import
+Note: 
+1. oracle is up when imp/exp
+2. Shutdown all other application connections
+   It's better to shutdown and restart oracle.
+
+3. 获取帮助 
+
+ imp help=y
+
+4. fromuser, touser
+FROMUSER和TOUSER，使用它们实现将数据从一个SCHEMA中导入到另外一个SCHEMA中。
+
+将一个用户所属的数据导入另一个用户
+ imp system/manager file=tank log=tank fromuser=seapark touser=seapark_copy 
+ imp system/manager file=tank log=tank fromuser=(seapark,amy) touser=(seapark1, amy1)
+ 
+
+|||- VISS example suse
+export(exp):
+------------------------
+oracle@ViSS:~/product/9ir2/bin> ./exp viss233/viss233
+
+Export: Release 9.2.0.4.0 - Production on Sun Feb 3 15:32:41 2008
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+Connected to: Oracle9i Enterprise Edition Release 9.2.0.4.0 - Production
+With the Partitioning, OLAP and Oracle Data Mining options
+JServer Release 9.2.0.4.0 - Production
+Enter array fetch buffer size: 4096 >
+
+Export file: expdat.dmp >
+
+(2)U(sers), or (3)T(ables): (2)U >
+
+Export grants (yes/no): yes >
+
+Export table data (yes/no): yes >
+
+Compress extents (yes/no): yes >
+
+Export done in US7ASCII character set and AL16UTF16 NCHAR character set
+server uses AL32UTF8 character set (possible charset conversion)
+
+following prompt may occur:
+---------
+About to export specified users ...
+User to be exported: (RETURN to quit) > viss233    
+User to be exported: (RETURN to quit) >          ; enter to end
+---------
+
+. exporting pre-schema procedural objects and actions
+. exporting foreign function library names for user VISS233
+. exporting PUBLIC type synonyms
+. exporting private type synonyms
+. exporting object type definitions for user VISS233
+About to export VISS233's objects ...
+. exporting database links
+. exporting sequence numbers
+. exporting cluster definitions
+. about to export VISS233's tables via Conventional Path ...
+. . exporting table          EMS_ACCREDITED_DEVICE          0 rows exported
+. . exporting table                      EMS_ALARM     135136 rows exported
+
+import(imp):
+------------------------
+oracle@ViSS:~/product/9ir2/bin>./imp system/password        ;Use dba user instead of export user,viss233!!!
+
+Import: Release 9.2.0.4.0 - Production on Sun Feb 3 16:35:03 2008
+
+Copyright (c) 1982, 2002, Oracle Corporation.  All rights reserved.
+
+
+Connected to: Oracle9i Enterprise Edition Release 9.2.0.4.0 - Production
+With the Partitioning, OLAP and Oracle Data Mining options
+JServer Release 9.2.0.4.0 - Production
+
+Import file: expdat.dmp >
+
+Enter insert buffer size (minimum is 8192) 30720>
+
+Export file created by EXPORT:V09.02.00 via conventional path
+
+Warning: the objects were exported by VISS233, not by you
+
+import done in US7ASCII character set and AL16UTF16 NCHAR character set
+import server uses AL32UTF8 character set (possible charset conversion)
+List contents of import file only (yes/no): no >
+
+Ignore create error due to object existence (yes/no): no >
+
+Import grants (yes/no): yes >
+
+Import table data (yes/no): yes >
+
+Import entire export file (yes/no): no > yes        ;Note: Select Yes, others are as default!!!
+
+|||- HDM example solaris
+2。逻辑备份
+
+#su – oracle
+
+$exp system/hdmdb file=full.dmp log=full.log full=y direct=y recordlength=65535 feedback=10000
+
+3。数据库导入恢复
+
+$  imp system/hdmdb file=full.dmp log=full_imp.log fromuser=system  touser=hdmdb
+
+数据库数据导入后，一定要对照检查导出与导入时的日志文件(切记!!!)：
+
+full.log    与   full_imp.log    导出与导入时表和记录数一定相同；
+
+||- RMAN backup
+
+
+||-LRM-00109: could not open parameter file '/in/oracle/dbs/initSMP.ora'
+ORA-01078: failure in processing system parameters
+SQL> startup pfile=/in/oracle/dbs/init.ora
+
+||- Modify system password?
+sqlplus /nolog   
+  >   connect   / as   sysdba;   
+  >   alter   user   system   identified   by   system;   
+
+|- rlwrap_sqlplus_linux
+rlwrap enables tab, backspace and uparrow for former command etc. 
+see 'D:\Reference\Oracle\rlwrap_sqlplus_linux' for installation guide.
+
+|-shutdown & startup
+sqlplus /nolog
+connect internal or maybe connect / as sysdba; 
+shutdown abort or shutdown immediate
+startup [pfile=/in/oracle/dbs/init.ora]
+
+|-tnsnames.ora
+TNS_ADMIN=/osp/local/conf/db
+
+
+sometimes SERVICE_NAME does not work.  
+    (CONNECT_DATA =
+      (SERVICE_NAME = ASMC)
+    )
+
+Try SID:
+PSMF.WORLD_OR21 =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 139.54.128.229)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SID = SMP)
+    )
+  )
+
+|-sql cmd
+select instance_name,host_name from v$instance;
+
+select * from cat;
+display only table/view name and type
+
+select * from tab;
+
+delete from S_BASANN where MN10='ANN251';
+
+select ANN_BO,ANN_ID,ANNDSC,MN10,OWN_RI,RI from subann where ri in (190,191,250,251);
+
+; a space is mandatory between @ and user/pwd.
+cmmserver linus>sqlplus cmmgen4212/cmmgen4212@tmp.sql
+
+ERROR:
+ORA-12154: TNS:could not resolve service name
+
+
+Enter user-name:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+cmmserver linus>sqlplus cmmgen4212/cmmgen4212 @tmp.sql
+
+Connected to:
+...

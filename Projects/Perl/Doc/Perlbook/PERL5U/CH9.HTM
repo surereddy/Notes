@@ -1,0 +1,1364 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 9 -- Portability Issues with Windows
+and Perl </TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 9</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Portability Issues with Windows
+and Perl </FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#PerlforWindows" >Perl for Windows</A>
+<LI><A HREF="#GettingtheDistribution" >Getting the Distribution</A>
+<LI><A HREF="#DifferencesinPerlonNTandUNIX" >Differences in Perl on NT and UNIX</A>
+<LI><A HREF="#UnsupportedFunctions" >Unsupported Functions</A>
+<LI><A HREF="#ExtensionstoPerl5forWindowsNT" >Extensions to Perl 5 for Windows NT</A>
+<UL>
+<LI><A HREF="#EventLogFunctions" >Event Log Functions</A>
+<LI><A HREF="#NTRegistryRoutines" >NT Registry Routines </A>
+</UL>
+<LI><A HREF="#ProblemswithWindows95" >Problems with Windows 95</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+This chapter covers some of the issues concerning working with
+Perl in the Microsoft Windows NT and Windows 95 environments.
+After reading this chapter, you should be able to see where Perl
+can be used on Windows platforms.
+<H2><A NAME="PerlforWindows"><FONT SIZE=5 COLOR=#FF0000>Perl for
+Windows</FONT></A></H2>
+<P>
+The Win32 port of Perl refers to both the Windows NT and Windows
+95 environments. Actually, Windows 95 is not really a 32-bit environment,
+though Perl 5 can still be used on it. The real work for the porting
+process began with Windows 3.1 and has concentrated on Windows
+NT 3.51. The work now includes limited support for Windows 95.
+Taken collectively, the ported software is referred to as the
+Win32 port of Perl 5 even though Window 95 is not a true 32-bit
+operating system.
+<P>
+In any event, the Win32 version of Perl has lagged behind the
+UNIX versions of Perl. For example, at the time this chapter was
+written, Perl was already in 5.002b, whereas the Win32 versions
+were at the 5.001m level. This is likely to be the case in the
+near future because Perl has been developed primarily in the UNIX
+domain and other platforms have been supported only as an afterthought.
+Given the differences in operating systems and Perl's reliance
+on certain system features, there exist some inconsistencies in
+the versions of Perl 5 that run on UNIX and Windows NT. For example,
+the Perl 5 for the Win32 port for NT is very different from the
+UNIX version of this port because the Win32 version has several
+module extensions that are not available in UNIX.
+<P>
+The port of Perl 5 to the Windows platform has even been blessed
+by Microsoft to allow users to bring existing Perl scripts over
+to NT servers. There is one major point to remember about the
+Win32 port: the source for the extension is copyrighted by Microsoft
+Corporation. However, the source is distributed under the Artistic
+License agreement that comes with and governs the distribution
+of Perl.
+<P>
+For more information, you can subscribe to the <TT><FONT FACE="Courier">Perl-Win32</FONT></TT>,
+<TT><FONT FACE="Courier">Perl-Win32-users</FONT></TT>, and <TT><FONT FACE="Courier">Perl-Win32_announce</FONT></TT>
+mailing lists. The <TT><FONT FACE="Courier">Perl-Win32</FONT></TT>
+mailing list is for specific topics on using Perl and for differences
+in scripts running on UNIX and NT systems. For other topics, especially
+for newcomers, try the <TT><FONT FACE="Courier">Perl-Win32-users</FONT></TT>
+list. Join the announcement list if you want to keep abreast of
+any new ports. To join the discussions, send a mail message to
+<TT><FONT FACE="Courier">majordomo@mail.hip.com</FONT></TT> and
+in the body of the message add the single line <TT><FONT FACE="Courier">subscribe
+Perl-Win32</FONT></TT>, <TT><FONT FACE="Courier">subscribe Perl-Win32_announce</FONT></TT>,
+or <TT><FONT FACE="Courier">subscribe Perl-Win32-users</FONT></TT>,
+depending on which mailing list you want to subscribe to.
+<P>
+There is also a WWW home page for Win32 Perl. This site contains
+the latest archived information for Win32 Perl, including a FAQ
+list. The URL for the Web site is <TT><A HREF="tppmsgs/msgs0.htm#12" tppabs="http://www.perl.hip.com/">http://www.perl.hip.com/</A></TT>.
+Finally, check the CPAN archives for the <TT><FONT FACE="Courier">WINNT</FONT></TT>
+package for more information on interfacing with the NT system.
+<H2><A NAME="GettingtheDistribution"><FONT SIZE=5 COLOR=#FF0000>Getting
+the Distribution</FONT></A></H2>
+<P>
+The Perl for Win32 distribution can be retrieved from <TT><FONT FACE="Courier">ftp.perl.hip.com</FONT></TT>.
+Check out the latest version in the <TT><FONT FACE="Courier">/ntperl</FONT></TT>
+directory. Both zipped source and binary files are available in
+the <TT><FONT FACE="Courier">/ntperl/perl5.001m/CurrentBuild</FONT></TT>
+directory.
+<P>
+The file with the binary version of Perl is <TT><FONT FACE="Courier">107-i86.zip</FONT></TT>;
+the source (should you want to look at it) is in <TT><FONT FACE="Courier">107-src.zip</FONT></TT>.
+Version 107 was dated December 1995 and might be out of date by
+the time you read this, so use the latest version you can find.
+The release notes in the <TT><FONT FACE="Courier">rel107.txt</FONT></TT>
+file highlight significant improvements with every release. Always
+read the release notes to see what functionality is available
+for the port when compared with those in UNIX versions of Perl.
+For example, it's only recently that some Perl on Windows 95 has
+been supported.
+<P>
+Once you have the zip file, use <TT><FONT FACE="Courier">unzip</FONT></TT>
+to extract the files. Do not use <TT><FONT FACE="Courier">pkunzip</FONT></TT>
+because the names of the files you extract are longer than what
+<TT><FONT FACE="Courier">pkzip</FONT></TT> supports. If you cannot
+find <TT><FONT FACE="Courier">unzip</FONT></TT>, try using <TT><FONT FACE="Courier">WinZip</FONT></TT>.
+Do not forget to specify that you want to create subdirectory
+trees as you extract.
+<P>
+Read the <TT><FONT FACE="Courier">INSTALL.BAT</FONT></TT> file
+to get an idea of how it all installs. Just run <TT><FONT FACE="Courier">INSTALL.BAT</FONT></TT>
+and answer yes twice. When you unzip the Perl archive, remember
+to use the option to preserve the directory structure. If you
+do not unzip the directory tree, the <TT><FONT FACE="Courier">install.bat</FONT></TT>
+file will fail with an error message stating that it cannot find
+Perl. Also, there is a source code file, <TT><FONT FACE="Courier">107-src.zip</FONT></TT>,
+that you do not need unless you make modifications to Perl or
+compile in extensions. The source files will compile under <TT><FONT FACE="Courier">gcc</FONT></TT>
+for DOS or Microsoft's Visual C++ 2.5 or later.
+<H2><A NAME="DifferencesinPerlonNTandUNIX"><FONT SIZE=5 COLOR=#FF0000>Differences
+in Perl on NT and UNIX</FONT></A></H2>
+<P>
+There are many important issues you must be aware of when writing
+Perl scripts that must run under NT and UNIX. First of all, there
+is the issue of pathnames. In DOS, Windows NT, and Windows 95
+you specify pathnames with a backslash operator, whereas in UNIX
+you use the forward slash operator. The Win32 Perl port allows
+either forward slashes or backslashes. A Perl script using forward
+slashes in pathnames is more likely to be portable than a script
+using backslashes. Besides that, Perl scripts will have to use
+the backslash <I>twice</I> in strings to escape one instance of
+a backslash from the Perl interpreter. Drive letters do not have
+to change.
+<P>
+For example, the following pathname can be set using either of
+the following:
+<BLOCKQUOTE>
+$myFile = &quot;E:/users/default/datafile.txt&quot;;<BR>
+<BR>
+<TT><FONT FACE="Courier">$myFile = &quot;E:\\users\\default\\datafile.txt&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Second, Perl scripts often rely heavily on escaped shell commands.
+For example, the command to copy a file in UNIX is <TT><FONT FACE="Courier">cp</FONT></TT>,
+but under NT the command is <TT><FONT FACE="Courier">COPY</FONT></TT>.
+A portable Perl script will have to either avoid relying on escaped
+commands or use system calls instead. Even commands that have
+the same name behave differently on UNIX and NT. For example,
+the <TT><FONT FACE="Courier">date</FONT></TT> command in UNIX
+returns the current date and time of day, whereas there are two
+separate commands for <TT><FONT FACE="Courier">DATE</FONT></TT>
+and <TT><FONT FACE="Courier">TIME</FONT></TT>, respectively, in
+NT. Here's one way to set up commands for different operating
+environments based on the value of the variable <TT><FONT FACE="Courier">$usingUNIX</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">if ($usingUNIX)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$directory = `ls`;&nbsp;&nbsp;&nbsp;#UNIX
+version.<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$copyCommand = `cp`;&nbsp;&nbsp;&nbsp;#UNIX
+version.<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$directory = `dir`;&nbsp;&nbsp;#Win32
+version.<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$copyCommand = `COPY`;&nbsp;&nbsp;#Win32
+version.<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Command-line Perl scripts are not directly supported with the
+Win32 Perl package. Perl scripts have to be in files on disk to
+be executed. There is a utility called <TT><FONT FACE="Courier">pl2bat.exe</FONT></TT>
+that wraps a batch file (<TT><FONT FACE="Courier">.bat</FONT></TT>)
+around a Perl script. After you run <TT><FONT FACE="Courier">pl2bat</FONT></TT>
+on your Perl script, you simply execute the newly created batch
+file to execute your script.
+<P>
+Perl scripts written under UNIX terminate lines with a carriage
+return (<TT><FONT FACE="Courier">CR</FONT></TT>, <TT><FONT FACE="Courier">0x0D</FONT></TT>).
+Windows NT, however, terminates text lines with two characters:
+a carriage return <I>and</I> a line feed (<TT><FONT FACE="Courier">CR</FONT></TT>-<TT><FONT FACE="Courier">LF</FONT></TT>
+or <TT><FONT FACE="Courier">0x0D</FONT></TT> + <TT><FONT FACE="Courier">0x0A</FONT></TT>).
+When porting Perl scripts over to your Windows NT machine from
+UNIX or vice versa, you may have some work to do in order to keep
+the <TT><FONT FACE="Courier">CR</FONT></TT>-<TT><FONT FACE="Courier">LF</FONT></TT>
+and <TT><FONT FACE="Courier">CR</FONT></TT>-only outputs consistent.
+<P>
+Finally, the dynamic loader in Perl, <TT><FONT FACE="Courier">DynaLoader</FONT></TT>,
+is not currently implemented in the NT version of Perl. The major
+consequence of this is that in NT you cannot run any Perl extensions
+that require dynamic loading.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD><B>Tip</B></TD></TR>
+<TR VALIGN=TOP><TD>
+<BLOCKQUOTE>
+The UNIX <TT><FONT FACE="Courier">#!/usr/bin/perl</FONT></TT> notation does not work with Perl scripts on NT.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Listing 9.1 presents a sample Perl script that sends mail on an
+NT machine. You can send mail messages on NT using Perl if you
+communicate using one-way sockets. (Use the SMTP server on NT
+to receive mail.) Any error messages from the SMTP server when
+sending messages are for acknowledgments sent back to the sender.
+These error messages can be ignored.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 9.1. Using Perl on Windows NT.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">&nbsp;1 require &quot;cgi-lib.pl&quot;;
+<BR>
+&nbsp;2<BR>
+&nbsp;3 $yonder = 'baqra.ikra.com';<BR>
+&nbsp;4 $port = 25;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#
+Use standard port<BR>
+&nbsp;5 $AF_INET = 2;<BR>
+&nbsp;6 $SOCK_STREAM = 1;<BR>
+&nbsp;7 $sockaddr = 'S n a4 x9';<BR>
+&nbsp;8<BR>
+&nbsp;9 # -------------------------------------------------------------
+<BR>
+10 chop($hostname = `hostname`);<BR>
+11<BR>
+12 ($name,$aliases,$proto) = getprotobyname('tcp');<BR>
+13 ($name,$aliases,$port) = getservbyname($port,'tcp') unless
+$port =~/^\d+$/;;<BR>
+14 ($name,$aliases,$type,$len,$myAddress) = gethostbyname($hostname);
+<BR>
+15 ($name,$aliases,$type,$len,$recvAddress) = gethostbyname($yonder);
+<BR>
+16<BR>
+17 $mySelf = pack($sockaddr, $AF_INET, 0, $myAddress);<BR>
+18 $receiver = pack($sockaddr, $AF_INET, $port, $recvAddress);
+<BR>
+19<BR>
+20 # -------------------------------------------------------------
+<BR>
+21 # Make the socket filehandle<BR>
+22 # -------------------------------------------------------------
+<BR>
+23<BR>
+24 socket(MYSOCKET, $AF_INET, $SOCK_STREAM, $proto) || die &quot;\n
+Cannot open $!&quot;;<BR>
+25 bind(MYSOCKET, $mySelf) || die &quot;\n Cannot bind&quot; ;
+<BR>
+26 connect(MYSOCKET, $receiver) || die &quot;\n Cannot connect&quot;;
+<BR>
+27<BR>
+28 #<BR>
+29 # Any print S statements go to the socket<BR>
+30 # Any other print statements go back to the Web browser<BR>
+31 #<BR>
+32 select MYSOCKET;<BR>
+33<BR>
+34 ReadParse (@in);<BR>
+35 print &quot;HELO $hostname\n&quot;;<BR>
+36 print &quot;MAIL FROM: &lt;&quot;,$in{'From'},&quot;&gt;\n&quot;;
+<BR>
+37 print &quot;RCPT TO: &lt;&quot;,$in{'To'},&quot;&gt;\n&quot;;
+<BR>
+38 print &quot;DATA\n&quot;;<BR>
+39 print &quot;Subject: &quot;,$in{'Subject'},&quot;\n\n&quot;;
+<BR>
+40<BR>
+41 print &quot;====================\n&quot;;<BR>
+42 print &quot;From: &quot;,$in{'From'},&quot;\n&quot;;<BR>
+43 print &quot;To: &quot;,$in{'To'},&quot;\n&quot;;<BR>
+44 print &quot;Subject: &quot;,$in{'Subject'},&quot;\n&quot;;
+<BR>
+45<BR>
+46 foreach $key (keys(%in)) {<BR>
+47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (($key eq 'Data') ||
+($key eq 'Body') || ($key eq 'Address') ||<BR>
+48&nbsp;&nbsp;&nbsp;&nbsp; ($key eq 'data') || ($key eq 'body')
+|| ($key eq 'address')) {<BR>
+49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print $key,&quot;:\n&quot;,$in{$key},&quot;\n&quot;;<BR>
+50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+51&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+52&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (($key ne 'From') &amp;&amp; ($key ne 'To') &amp;&amp; ($key
+ne 'Subject') &amp;&amp;<BR>
+53 ($key ne 'from') &amp;&amp; ($key ne 'to') &amp;&amp; ($key
+ne 'subject')) {<BR>
+54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print
+$key,&quot;: &quot;,$in{$key},&quot;\n&quot;;<BR>
+55&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}<BR>
+56&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+57 }<BR>
+58<BR>
+59 print &quot;.\n&quot;;<BR>
+60 print &quot;QUIT\n&quot;;</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<H2><A NAME="UnsupportedFunctions"><FONT SIZE=5 COLOR=#FF0000>Unsupported
+Functions</FONT></A></H2>
+<P>
+The difference between NT and UNIX in operating system behavior
+is apparent when you have to port Perl applications. Some of the
+UNIX versions of Perl system functions have no equivalent functions
+in NT. Similarly, NT functions that deal with the Registry have
+no equivalent functions in UNIX.
+<P>
+Most UNIX system calls are not available in NT. Some of these
+functions use an error message to warn you that they are not implemented.
+Most cause the script to fail on unresolved references. (The warning
+capability for all functions requires modifications to the main
+Perl 5 distribution and has not been undertaken.) The most up-to-date
+list is at <TT><A HREF="tppmsgs/msgs0.htm#13" tppabs="http://www.hip.perl.com/">http://www.hip.perl.com</A></TT>.
+The following functions were supported at the time of writing:
+<P>
+<TABLE>
+<TR VALIGN=TOP><TD COLSPAN=2 WIDTH=499><B>Network Routines</B></TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getnetbyname()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">setprotoent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getnetbyaddr()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">setservent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getnetent()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">endhostent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getprotoent()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">endnetent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getservent()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">endprotoent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">sethostent()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">endservent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">setnetent()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">socketpair()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD COLSPAN=2 WIDTH=499><B>System V-Compatible Ipc Routines</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">msgctl()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">semop()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">msgget()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">shmctl()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">msgrcv()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">shmget()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">msgsnd()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">shmread()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">semctl()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">shmwrite()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">semget()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270></TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229><B>I/O Routines</B></TD><TD WIDTH=270></TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">ioctl()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">select($w, $x, $y, $z)*</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229><B>Filesystem Routines</B></TD><TD WIDTH=270>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">chmod()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">readlink()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">chroot()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">symlink()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">fcntl()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">sysread()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">flock()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">syswrite()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">link()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">umask()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">lstat()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">utime()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229><B>Security-Related Routines</B></TD><TD WIDTH=270>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">crypt()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">getgrgid()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getlogin()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">getpwent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getpgrp()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">getgrent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getppid()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">setpwent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getpriority()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">setgrent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getpwnam()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">endpwent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getgrnam()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">endgrent()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">getpwuid()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">setpgrp()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229><B>Process-Related Routines</B></TD><TD WIDTH=270>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">fork()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">times()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">kill()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">wait()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">pipe()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">waitpid()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">setpriority()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270></TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229><B>Miscellaneous Routines</B></TD><TD WIDTH=270>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">alarm()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">dump()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">dbmclose()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270><TT><FONT FACE="Courier">syscall()</FONT></TT>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=229>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">dbmopen()</FONT></TT>
+</BLOCKQUOTE>
+
+</TD><TD WIDTH=270></TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Perl scripts that make or rely heavily on <TT><FONT FACE="Courier">system()</FONT></TT>
+calls are generally not portable from UNIX to NT.
+<P>
+You might consider writing <TT><FONT FACE="Courier">stub</FONT></TT>
+routines for <TT><FONT FACE="Courier">system()</FONT></TT> and
+<TT><FONT FACE="Courier">alarm()</FONT></TT> and include these
+lines in any Perl code you port from UNIX to NT. This prevents
+annoying compiler errors while you debug other sections of the
+code. Keep in mind, though, that stubbing out these functions
+is only an interim solution because the Perl script you are porting
+over might actually use the return values from system calls.
+<P>
+Having a <TT><FONT FACE="Courier">null</FONT></TT> return value
+from a fake system <TT><FONT FACE="Courier">stub</FONT></TT> function
+most likely will work only in the simplest programs.
+<H2><A NAME="ExtensionstoPerl5forWindowsNT"><FONT SIZE=5 COLOR=#FF0000>Extensions
+to Perl 5 for Windows NT</FONT></A></H2>
+<P>
+Extensions for NT include support for working with the NT Registry
+as well as event logging and OLE. (These extensions are meant
+for NT only and most probably will not work in Windows 95.) The
+OLE extensions require a deeper knowledge of OLE programming concepts,
+which are well beyond the scope of this text and are not discussed
+here. Check the <TT><FONT FACE="Courier">www.hip.perl.com</FONT></TT>
+site for a short Web page with information about using OLE in
+Perl scripts on NT. Use the Registry and event logging extensions
+whenever possible instead of attempting to write your own modules
+to do the same thing.
+<P>
+Here's a sample script in NT. To run this script, you have to
+type <TT><FONT FACE="Courier">&quot;perl scriptName&quot;</FONT></TT>.
+Note how the <TT><FONT FACE="Courier">#!</FONT></TT> is absent
+in this script:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">print &amp;NTLoginName  , &quot;\n&quot;
+;<BR>
+print &amp;NTDomainName , &quot;\n&quot; ;<BR>
+print &amp;NTNodeName , &quot;\n&quot; ;<BR>
+print &amp;NTFsType , &quot;\n&quot; ;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The utility functions provided under Windows NT Perl 5 and used
+in this script are defined as follows:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">NTLoginName</FONT></TT>
+</TD><TD WIDTH=297>Returns the ID of the user who's logged on
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">NTDomainName</FONT></TT>
+</TD><TD WIDTH=297>Returns the domain name</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">NTNodeName</FONT></TT>
+</TD><TD WIDTH=297>Returns the node name</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=138><TT><FONT FACE="Courier">NTFsType</FONT></TT>
+</TD><TD WIDTH=297>Returns the name of the file system type</TD>
+</TR>
+</TABLE></CENTER>
+<H3><A NAME="EventLogFunctions">Event Log Functions</A></H3>
+<P>
+The Win32 API allows for querying the event log in NT. Using the
+<TT><FONT FACE="Courier">EventLog</FONT></TT> extensions, your
+Perl script can access these API functions. For details on the
+API calls themselves, check the NT API reference manual. Here
+is a summary of the available functions:
+<UL>
+<LI><TT><FONT FACE="Courier">NTOpenEventLog HANDLE, $server, $source</FONT></TT>
+<LI>This function opens the log specified by <TT><FONT FACE="Courier">$source</FONT></TT>
+on the machine with name<I> </I><TT><FONT FACE="Courier">$server</FONT></TT>.
+The file handle of the opened log, <TT><FONT FACE="Courier">HANDLE</FONT></TT>,
+is used in subsequent operations. Use <TT><FONT FACE="Courier">NULL</FONT></TT>
+if the server is the local machine.
+<LI><TT><FONT FACE="Courier">NTCloseEventLog HANDLE</FONT></TT>
+<LI>This function closes the event log associated with the supplied
+<TT><FONT FACE="Courier">HANDLE</FONT></TT>.
+<LI><TT><FONT FACE="Courier">NTGetNumberofEventLogRecords HANDLE,
+$number</FONT></TT>
+<LI>sing the <TT><FONT FACE="Courier">HANDLE</FONT></TT> of a
+log opened with <TT><FONT FACE="Courier">NTOpenEventLog</FONT></TT>,
+this function returns the number of records in <TT><FONT FACE="Courier">$number</FONT></TT>.
+</UL>
+<P>
+It's easy to read each entry in the event log with a call to the
+<TT><FONT FACE="Courier">NTReadEventLog</FONT></TT> function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTReadEventLog HANDLE,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$flags,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$record,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$EVTheader,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$source,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$computer,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$SID,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$strings</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Given the <TT><FONT FACE="Courier">HANDLE</FONT></TT> of a log
+opened the <TT><FONT FACE="Courier">NTOpenEventLog</FONT></TT>
+function attempts to read an entry from the log according to the
+directives supplied in <TT><FONT FACE="Courier">$flags</FONT></TT>
+and <TT><FONT FACE="Courier">$record</FONT></TT>. The <TT><FONT FACE="Courier">$flags</FONT></TT>
+is a bit flag that can be any combination of the following values:
+<UL>
+<LI><TT><FONT FACE="Courier">EVENTLOG_FORWARDS_READ</FONT></TT>
+<LI><TT><FONT FACE="Courier">EVENTLOG_BACKWARDS_READ</FONT></TT>
+<LI><TT><FONT FACE="Courier">EVENTLOG_SEQUENTIAL_READ</FONT></TT>
+<LI><TT><FONT FACE="Courier">EVENTLOG_SEEK_READ</FONT></TT>
+</UL>
+<P>
+The <TT><FONT FACE="Courier">$record</FONT></TT> number specifies
+the index to seek to and is numbered from 1 and up.
+<P>
+After the call is returned, you can look at the contents of the
+rest of the arguments. The Event Record header (<TT><FONT FACE="Courier">$EVTheader</FONT></TT>)
+is a binary structure. Use the <TT><FONT FACE="Courier">unpack()</FONT></TT>
+routine to get its contents. Here's an example:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">( $length, $reserved, $recordnumber,
+$timegenerated, $timewritten, $eventid,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$eventtype,
+$numstrings, $eventcategory, $reservedflags,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$closingrecordnumber,
+$stringoffset, $usersidlength, $usersidoffset,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$datalength,
+$dataoffset ) = unpack( 'l6s4l6', $header );</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">$source</FONT></TT> variable is set
+to the name of the application that generated the event record.
+<TT><FONT FACE="Courier">$computer</FONT></TT> specifies the Unc
+name of the machine that generated the event record.
+<P>
+The <TT><FONT FACE="Courier">$SID</FONT></TT> variable stores
+a security identifier structure as defined in the Win32 API documentation.
+An array of message strings is returned in <TT><FONT FACE="Courier">$strings</FONT></TT>
+as one long array of strings, each terminated with the <TT><FONT FACE="Courier">\0</FONT></TT>
+character. The array is terminated with an empty string. (That
+is, look for two <TT><FONT FACE="Courier">\0</FONT></TT> characters
+to terminate the array.) The <TT><FONT FACE="Courier">$data</FONT></TT>
+vatiable is set to any binary information associated with the
+returned event record.
+<P>
+To add events to the log, use the <TT><FONT FACE="Courier">NTWriteEventLog</FONT></TT>
+function. Here's the syntax for the <TT><FONT FACE="Courier">NTWriteEventLog</FONT></TT>
+function:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTWriteEventLog<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$computer,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$source,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$eventType,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$category,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$eventID,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESERVED,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$data,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Strings</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This function writes an event log entry to the given event log
+<TT><FONT FACE="Courier">$source</FONT></TT> on the named <TT><FONT FACE="Courier">$computer</FONT></TT>.
+The <TT><FONT FACE="Courier">$eventType</FONT></TT> variable can
+have any one of these values:
+<UL>
+<LI><TT><FONT FACE="Courier">EVENTLOG_ERROR_TYPE</FONT></TT>
+<LI><TT><FONT FACE="Courier">EVENTLOG_WARNING_TYPE</FONT></TT>
+<LI><TT><FONT FACE="Courier">EVENTLOG_INFORMATION_TYPE</FONT></TT>
+</UL>
+<P>
+<TT><FONT FACE="Courier">$category</FONT></TT> specifies the event
+category and is entirely determined by the calling application,
+as is <TT><FONT FACE="Courier">$eventID</FONT></TT>. The <TT><FONT FACE="Courier">RESERVED</FONT></TT>
+value must be set to <TT><FONT FACE="Courier">NULL</FONT></TT>.
+<TT><FONT FACE="Courier">$data</FONT></TT> contains any binary
+data that is to be associated with the event log record. <TT><FONT FACE="Courier">@Strings</FONT></TT>
+is an array of strings that has the same format for the event
+record that you read back.
+<H3><A NAME="NTRegistryRoutines">NT Registry Routines </A></H3>
+<P>
+In Windows NT, all initialization (<TT><FONT FACE="Courier">*.INI</FONT></TT>)
+files are now replaced with the Windows Registry. The Registry
+is simply a database of the all the symbols, definitions, and
+settings that used to exist in the INI files.<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Caution</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+Although Perl lets you mess around with the Registry, it's important to remember that a wrong entry can mess up your NT system (not to mention your entire day). While tinkering with the Registry, you can easily render an NT machine useless, requiring a 
+complete reinstall! Be careful.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The Win32 Perl routines do not support Unicode characters with
+the Win32 API. Therefore, any Unicode strings required by the
+mapped functions will be converted to 8-bit ANSI character strings.
+<P>
+The following functions are mapped directly to the Win32 API functions.
+All functions return <TT><FONT FACE="Courier">true</FONT></TT>
+on success and <TT><FONT FACE="Courier">false</FONT></TT> on failure.
+The action of these functions in an NT environment is beyond the
+scope of this book. Please consult the Win32 API for more information
+concerning what the called functions do:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegCloseKey</TD><TD WIDTH=168>NTRegOpenKey
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegConnectRegistry</TD><TD WIDTH=168>NTRegOpenKeyEx
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegCreateKey</TD><TD WIDTH=168>NTRegQueryInfoKey
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegCreateKeyEx</TD><TD WIDTH=168>NTRegQueryValue
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegDeleteKey</TD><TD WIDTH=168>NTRegQueryValueEx
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegDeleteValue</TD><TD WIDTH=168>NTRegReplaceKey
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegEnumKey</TD><TD WIDTH=168>NTRegRestoreKey
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegEnumKeyEx</TD><TD WIDTH=168>NTRegSaveKey
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegEnumValue</TD><TD WIDTH=168>NTRegSetKeySecurity
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegFlushKey</TD><TD WIDTH=168>NTRegSetValue
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegGetKeySecurity</TD><TD WIDTH=168>NTRegSetValueEx
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=176>NTRegLoadKey</TD><TD WIDTH=168>NTRegUnLoadKey
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H5>NTRegCloseKey</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">RegCloseKey</FONT></TT> function
+releases a given key handle. The syntax for this call is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegCloseKey $hkeyHandle</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$hkeyHandle</FONT></TT> for a specified
+key is rendered invalid and therefore cannot be used after it
+has been closed. Key handles should be closed as soon as possible.
+Also note that due to caching, the information might not be written
+to disk immediately. Use the <TT><FONT FACE="Courier">NTRegFlushKey</FONT></TT>
+call to force writing the key to disk. The <TT><FONT FACE="Courier">NTRegFlush</FONT></TT>
+key is a system resource hog and should be used with care.
+</BLOCKQUOTE>
+<H5>NTRegConnectRegistry</H5>
+<BLOCKQUOTE>
+The syntax for this function is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegConnectRegistry $computer, $hkey,
+$result</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegConnectRegistry</FONT></TT> establishes
+a connection to a predefined Registry handle <TT><FONT FACE="Courier">$hkey</FONT></TT>
+on another computer specified in <TT><FONT FACE="Courier">$computer</FONT></TT>.
+The returned handle is stored in <TT><FONT FACE="Courier">$result</FONT></TT>.
+Use a value of <TT><FONT FACE="Courier">NULL</FONT></TT> for <TT><FONT FACE="Courier">$computer</FONT></TT>
+if connecting locally. Only the constants <TT><FONT FACE="Courier">$hkey_LOCAL_MAchINE</FONT></TT>
+and <TT><FONT FACE="Courier">$hkey_USERS</FONT></TT> are valid
+for <TT><FONT FACE="Courier">$hkey</FONT></TT>. Use the call to
+<TT><FONT FACE="Courier">NTRegCloseKey</FONT></TT> when you are
+done with the handle in <TT><FONT FACE="Courier">$result</FONT></TT>.
+<BR>
+</BLOCKQUOTE>
+<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD ><B>Note</B></TD></TR>
+<TR VALIGN=TOP><TD >
+<BLOCKQUOTE>
+The value in <TT><FONT FACE="Courier">$hkey</FONT></TT> for most of the functions listed in this section can be replaced by a call to <TT><FONT FACE="Courier">NTRegConnectRegistry</FONT></TT> to get a name from a remote computer.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H5>NTRegCreateKey</H5>
+<BLOCKQUOTE>
+This function creates a subkey under a given handle and is provided
+for older programs. Use the <TT><FONT FACE="Courier">NTRegCreateKeyEx</FONT></TT>
+function for future portability. The syntax for this function
+is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegCreateKey $hkey, $subkey, $result</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The call to this function creates the key named in <TT><FONT FACE="Courier">$subkey</FONT></TT>
+under the already open key handle <TT><FONT FACE="Courier">$hkey</FONT></TT>.
+The returned handle is stored in <TT><FONT FACE="Courier">$result</FONT></TT>.
+If the key already exists in the Registry, the function opens
+it and returns the handle in <TT><FONT FACE="Courier">$result</FONT></TT>.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">$hkey</FONT></TT> can have one of
+the following values:
+</BLOCKQUOTE>
+<UL>
+<LI><TT><FONT FACE="Courier">$hkey_CLASSES_ROOT</FONT></TT>
+<LI><TT><FONT FACE="Courier">$hkey_CURRENT_USER</FONT></TT>
+<LI><TT><FONT FACE="Courier">$hkey_LOCAL_MAchINE</FONT></TT>
+<LI><TT><FONT FACE="Courier">$hkey_USERS</FONT></TT>
+</UL>
+<H5>NTRegCreateKeyEx</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegCreateKeyEx</FONT></TT> function
+is the preferred way of creating keys. The syntax for this function
+is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegCreateKeyEx $hkey, $subkey, NULL,
+$class,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$options, $accessMode,
+$security,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$result, $disposition</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+This function creates the subkey named in <TT><FONT FACE="Courier">$subkey</FONT></TT>
+and returns the handle of the newly opened key in <TT><FONT FACE="Courier">$result</FONT></TT>.
+If the key already exists in the Registry, the function opens
+it and returns its handle instead. The <TT><FONT FACE="Courier">$class</FONT></TT>
+string specifies the object-type for the key.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The value in <TT><FONT FACE="Courier">$options</FONT></TT> can
+be <TT><FONT FACE="Courier">REG_OPTION_VOLATILE</FONT></TT> or
+the value of <TT><FONT FACE="Courier">REG_OPTION_NON_VOLATILE</FONT></TT>.
+Volatile keys are stored in memory only and are not preserved
+in between Windows NT sessions. Nonvolatile keys are saved to
+disk and preserved when the system is restarted. Use volatile
+options when testing the access mode in which the key is specified
+in the <TT><FONT FACE="Courier">NT.ph</FONT></TT> file in the
+source code for the Win32 Perl distribution. The <TT><FONT FACE="Courier">$security</FONT></TT>
+descriptor can be <TT><FONT FACE="Courier">NULL</FONT></TT> or
+set as described in the Win32 API documentation.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The newly created key that the <TT><FONT FACE="Courier">NTRegCreateKeyEx</FONT></TT>
+function creates is not set to a default value. Use the <TT><FONT FACE="Courier">NTRegSetValue</FONT></TT>
+or <TT><FONT FACE="Courier">NTRegSetValueEx</FONT></TT> function
+to set the value of this key.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+An application cannot create a key under <TT><FONT FACE="Courier">$hkey_USERS</FONT></TT>
+or <TT><FONT FACE="Courier">$hkey_LOCAL_MAchINE</FONT></TT>.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">$disposition</FONT></TT> variable
+is set to either <TT><FONT FACE="Courier">REG_CREATED_NEW_KEY</FONT></TT>
+or <TT><FONT FACE="Courier">REG_OPENED_EXISTING_KEY</FONT></TT>.
+If a new key is opened, the current process owns this key and
+locks access to it until the key is released. A returned value
+of the existing key specifies that another process owns the lock
+to the returned key.
+</BLOCKQUOTE>
+<H5>NTRegDeleteKey</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegDeleteKey</FONT></TT> function
+deletes the named <TT><FONT FACE="Courier">$subkey</FONT></TT>
+under the <TT><FONT FACE="Courier">$hkey</FONT></TT>. This function
+cannot delete a key that has any existing subkeys. The subkey
+to be deleted must be a subkey of the key identified by <TT><FONT FACE="Courier">$hkey</FONT></TT>.
+The syntax for this function is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegDeleteKey $hkey, $subkey</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The key must already exist before it can be deleted.
+</BLOCKQUOTE>
+<H5>NTRegDeleteValue</H5>
+<BLOCKQUOTE>
+This <TT><FONT FACE="Courier">NTRegDeleteValue</FONT></TT> function
+resets the value of an existing key. The syntax is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegDeleteValue $hkey, VALUE</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The key must already exist with a value before it can be reset.
+</BLOCKQUOTE>
+<H5>NTRegEnumKey</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegEnumKey</FONT></TT> function
+is an old function for retrieving names of subkeys. For newer
+applications, use the <TT><FONT FACE="Courier">NTRegEnumKeyEx</FONT></TT>
+call. The syntax for this old call is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegEnumKey $hkey, $index, $keyname</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+In the Registry, subkeys are not ordered. Therefore, the returned
+value can be in any order, and you must sort the returned values
+yourself. To use this function, call the <TT><FONT FACE="Courier">NTRegEnumKey</FONT></TT>
+function with the <TT><FONT FACE="Courier">$index</FONT></TT>
+set to zero:
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">$index = 0;<BR>
+while(&amp;NTRegEnum($hkey,$index,$keyname) != false) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;printf &quot; [%d] = %s \n&quot;, $index++,
+$keyname;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The last key in the list is retrieved with a call to <TT><FONT FACE="Courier">NTRegQueryInfoKey</FONT></TT>.
+Do not change the value of or create new keys while you are iterating
+through the list of keys because you may change the order in which
+the keys are listed. To open the key in <TT><FONT FACE="Courier">$hkey</FONT></TT>,
+use the <TT><FONT FACE="Courier">RegCreateKeyEx</FONT></TT> or
+<TT><FONT FACE="Courier">RegOpenKeyEx</FONT></TT> function with
+<TT><FONT FACE="Courier">KEY_ENUMERATE_SUB_KEYS</FONT></TT> access.
+</BLOCKQUOTE>
+<H5>NTRegEnumKeyEx</H5>
+<BLOCKQUOTE>
+The syntax for this function is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegEnumKeyEx $hkey, $index, $subKeyName,
+NULL, $class, $lastWrite</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegEnumKeyEx</FONT></TT> function
+enumerates subkeys of the open key <TT><FONT FACE="Courier">$hkey</FONT></TT>,
+returning the <TT><FONT FACE="Courier">$subKeyName</FONT></TT>,
+<TT><FONT FACE="Courier">$class</FONT></TT>, and time of <TT><FONT FACE="Courier">$lastWrite</FONT></TT>
+for the key indexed by <TT><FONT FACE="Courier">ISUBKEY</FONT></TT>.
+The function retrieves information about one subkey each time
+it is called. Unlike the <TT><FONT FACE="Courier">NTRegEnumKey</FONT></TT>
+function, <TT><FONT FACE="Courier">NTRegEnumKeyEx</FONT></TT>
+retrieves the class name of the subkey and the time it was last
+modified.
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The calling convention for running through the keys is the same
+as that for <TT><FONT FACE="Courier">NTRegEnumKey</FONT></TT>.
+</BLOCKQUOTE>
+<H5>NTRegEnumValue</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegEnumValue</FONT></TT> function
+enumerates the values for the key specified in <TT><FONT FACE="Courier">$hkey</FONT></TT>.
+The function takes one value in <TT><FONT FACE="Courier">$name</FONT></TT>
+and the <TT><FONT FACE="Courier">$data</FONT></TT> block. It can
+also take types in <TT><FONT FACE="Courier">$data</FONT></TT>
+as listed in the <TT><FONT FACE="Courier">NT.ph</FONT></TT> file.
+The index for the <TT><FONT FACE="Courier">$data</FONT></TT> type
+is in <TT><FONT FACE="Courier">$integerValue</FONT></TT>. The
+syntax for this call is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegEnumValue $hkey, $integerValue,
+$name, $type, NULL, $data</FONT></TT>
+</BLOCKQUOTE>
+<H5>NTRegFlushKey $hkey</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">RegFlushKey</FONT></TT> function
+writes all the contents and parameters of the open key <TT><FONT FACE="Courier">$hkey</FONT></TT>
+into the Registry. The function returns after the data has been
+completely written to disk. The syntax for this command is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegFlushKey $hkey</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+Registry changes are flushed automatically to disk by the Registry
+using a lazy write mechanism at shutdown time. Call this function
+to write any modifications immediately to disk. An important point
+to remember is that this function may also flush contents of other
+keys.
+</BLOCKQUOTE>
+<H5>NTRegGetKeySecurity</H5>
+<BLOCKQUOTE>
+This function gets a copy of the security descriptor protecting
+the open Registry key <TT><FONT FACE="Courier">$hkey</FONT></TT>.
+The requested security information is specified in <TT><FONT FACE="Courier">$securityInfo</FONT></TT>,
+and the returned descriptor is stored in <TT><FONT FACE="Courier">$descriptor</FONT></TT>.
+The syntax for this function is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegGetKeySecurity $hkey, $descriptor,
+$securityInfo</FONT></TT>
+</BLOCKQUOTE>
+<H5>NTRegLoadKey</H5>
+<BLOCKQUOTE>
+The syntax for the <TT><FONT FACE="Courier">NTRegLoadKey</FONT></TT>
+function is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegLoadKey $hkey, $subkey, FILE</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegLoadKey</FONT></TT> function
+creates a <TT><FONT FACE="Courier">$subkey</FONT></TT> under <TT><FONT FACE="Courier">$hkey_USER</FONT></TT>
+or <TT><FONT FACE="Courier">$hkey_LOCAL_MAchINE</FONT></TT> and
+stores registration information from a specified <TT><FONT FACE="Courier">FILE</FONT></TT>
+into that <TT><FONT FACE="Courier">$subkey</FONT></TT>.
+</BLOCKQUOTE>
+<H5>NTRegOpenKey</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegOpenKey</FONT></TT> function
+opens the <TT><FONT FACE="Courier">$subkey</FONT></TT> under the
+key <TT><FONT FACE="Courier">$hkey</FONT></TT> and returns the
+handle of the opened key in <TT><FONT FACE="Courier">$result</FONT></TT>.
+This is an old function that will be replaced by the <TT><FONT FACE="Courier">NTRegOpenKeyEx</FONT></TT>
+function. The syntax for this function is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegOpenKey $hkey, $subkey, $result</FONT></TT>
+</BLOCKQUOTE>
+<H5>NTRegOpenKeyEx</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegOpenKeyEx</FONT></TT> key function
+is a later version of <TT><FONT FACE="Courier">NTRegOpenKey</FONT></TT>.
+Its syntax is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegOpenKeyEx $hkey, $subkey, NULL,
+$sam, $result</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegOpenKeyEx</FONT></TT> function
+opens <TT><FONT FACE="Courier">$subkey</FONT></TT> under <TT><FONT FACE="Courier">$hkey</FONT></TT>
+with the system access mode <TT><FONT FACE="Courier">$sam</FONT></TT>,
+returning the handle of the opened key in <TT><FONT FACE="Courier">$result</FONT></TT>.
+Unlike the <TT><FONT FACE="Courier">NTRegCreateKeyEx</FONT></TT>
+function, the <TT><FONT FACE="Courier">NTRegOpenKeyEx</FONT></TT>
+function will not create the specified key if the key does not
+exist in the Registry.
+</BLOCKQUOTE>
+<H5>NTRegQueryInfoKey</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegQueryInfoKey</FONT></TT> function
+retrieves information about a key. Its syntax is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegQueryInfoKey $hkey,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$class, NULL, $nsubkeys, $maxsubkey, $maxclass,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$nvalues, $maxvaluename, $maxvaluedata,
+$security_descriptor,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;$lastwritetime</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+Here are the output parameters for <TT><FONT FACE="Courier">$hkey</FONT></TT>:
+<P>
+</BLOCKQUOTE>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=215><TT><FONT FACE="Courier">$CLASS</FONT></TT>
+</TD><TD WIDTH=205>The key class</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=215><TT><FONT FACE="Courier">$NSUBKEYS</FONT></TT>
+</TD><TD WIDTH=205>The number of subkeys</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=215><TT><FONT FACE="Courier">$MAXSUBKEY</FONT></TT>
+</TD><TD WIDTH=205>The longest subkey name</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=215><TT><FONT FACE="Courier">$MAXCLASS</FONT></TT>
+</TD><TD WIDTH=205>The longest class name</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=215><TT><FONT FACE="Courier">$NVALUES</FONT></TT>
+</TD><TD WIDTH=205>The number of values</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=215><TT><FONT FACE="Courier">$MAXVALUENAME</FONT></TT>
+</TD><TD WIDTH=205>The longest value name</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=215><TT><FONT FACE="Courier">$MAXVALUEDATA</FONT></TT>
+</TD><TD WIDTH=205>The longest value data block</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=215><TT><FONT FACE="Courier">$SECURITY_DESCRIPTOR</FONT></TT>
+</TD><TD WIDTH=205>See Windows 32 API</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=215><TT><FONT FACE="Courier">$LASTWRITETIME</FONT></TT>
+</TD><TD WIDTH=205>The time when modified last</TD></TR>
+</TABLE></CENTER>
+<P>
+<H5>NTRegQueryValue</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegQueryValue</FONT></TT> is an
+obsolete version of <TT><FONT FACE="Courier">NTRegQueryValueEx</FONT></TT>
+and is provided only for compatibility with older scripts. The
+syntax is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">The NTRegQueryValue $hkey, $subkey, $data</FONT></TT>
+</BLOCKQUOTE>
+<H5>NTRegQueryValueEx</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegQueryValueEx</FONT></TT> function
+is used to get the <TT><FONT FACE="Courier">$type</FONT></TT>
+and <TT><FONT FACE="Courier">$data</FONT></TT> for a specified
+<TT><FONT FACE="Courier">$valueName</FONT></TT> associated with
+the open Registry key <TT><FONT FACE="Courier">$hkey</FONT></TT>.
+The syntax for this command is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegQueryValueEx $hkey, $valueName,
+NULL, $type, $data</FONT></TT>
+</BLOCKQUOTE>
+<H5>NTRegReplaceKey</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegReplaceKey</FONT></TT> function
+replaces the file backing a key and all its subkeys with another
+file. You need to restart the system for the change to take effect.
+The syntax for this call is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegReplaceKey $hkey, $subkey, $newFile,
+$backupFile</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The file specified by the <TT><FONT FACE="Courier">$newFile</FONT></TT>
+parameter stays open until the system is restarted. This function
+is a privileged call in NT and the calling process must be of
+the <TT><FONT FACE="Courier">SE_RESTORE_NAME</FONT></TT> privilege.
+</BLOCKQUOTE>
+<H5>NTRegRestoreKey</H5>
+<BLOCKQUOTE>
+The syntax for the <TT><FONT FACE="Courier">NTRegRestoreKey</FONT></TT>
+function is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegRestoreKey $hkey, $filename, $flags</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegRestoreKey</FONT></TT> function
+reads the Registry information in a specified file and copies
+it over the specified key. This Registry information may be in
+the form of a key and multiple levels of subkeys.
+</BLOCKQUOTE>
+<H5>NTRegSaveKey</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegSaveKey</FONT></TT> function
+saves the specified key <TT><FONT FACE="Courier">$hkey</FONT></TT>
+and all of its subkeys and values to a new file called <TT><FONT FACE="Courier">$filename</FONT></TT>,
+with security settings specified by <TT><FONT FACE="Courier">$securityAttributes</FONT></TT>.
+The syntax for this function is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegSaveKey $hkey, $filename, $securityAttributes</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The calling script must be with the <TT><FONT FACE="Courier">SetBackupPrivilege</FONT></TT>
+security privilege. The <TT><FONT FACE="Courier">NTRegSaveKey</FONT></TT>
+function will save only the nonvolatile keys. It will not save
+volatile keys. A key is made volatile or nonvolatile when created
+with the underlying NT system call to <TT><FONT FACE="Courier">RegCreateKeyEx</FONT></TT>.
+In most cases, you would be using the security field in a compiled
+C program for security reasons and not in an interpreted, hence
+modifiable, Perl program.
+</BLOCKQUOTE>
+<H5>NTRegSetKeySecurity</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegSetKeySecurity</FONT></TT> function
+sets the security of an open Registry key. The syntax for this
+call is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegSetKeySecurity $hkey, $securityInformation,
+$descriptor</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+Security issues in NT are well beyond the scope of this text.
+Please refer to the Win32 API for more detailed information. One
+thing to keep in mind is that the security information is not
+changed until you open the key in <TT><FONT FACE="Courier">$hkey</FONT></TT>.
+It's easier to close and reopen the key for the new security attributes
+to work.
+</BLOCKQUOTE>
+<H5>NTRegSetValue</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegSetValue</FONT></TT> function
+associates a value with <TT><FONT FACE="Courier">$subkey</FONT></TT>
+under the key <TT><FONT FACE="Courier">$hkey</FONT></TT>. This
+value must be of type <TT><FONT FACE="Courier">REG_SZ</FONT></TT>
+and cannot have a name. This function is an older version of <TT><FONT FACE="Courier">NTRegSetValueEx</FONT></TT>
+and is only provided for backward compatibility. Its syntax is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegSetValue $hkey, $subkey, $type,
+$data</FONT></TT>
+</BLOCKQUOTE>
+<H5>NTRegSetValueEx</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegSetValueEx</FONT></TT> function
+stores the value-data pair <TT><FONT FACE="Courier">{$valueName,$data}</FONT></TT>
+in the named key <TT><FONT FACE="Courier">$hkey</FONT></TT> in
+<TT><FONT FACE="Courier">$valueName</FONT></TT>. The syntax is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegSetValueEx $hkey, $valueName, NULL,
+$type, $data</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+The length of the <TT><FONT FACE="Courier">$value</FONT></TT>
+parameter must be limited to 2,048 bytes or less. Longer values
+such as bitmaps, icons, data files, and so on can be stored in
+files whose pathnames can be recorded in the Registry. The key
+in the <TT><FONT FACE="Courier">$hkey</FONT></TT> parameter must
+have been opened with <TT><FONT FACE="Courier">KEY_SET_VALUE</FONT></TT>
+access in one of the two functions: <TT><FONT FACE="Courier">NTRegCreateKeyEx</FONT></TT>
+or <TT><FONT FACE="Courier">NTRegOpenKeyEx</FONT></TT>. The <TT><FONT FACE="Courier">$type</FONT></TT>
+variable can be set to <TT><FONT FACE="Courier">REG_SZ</FONT></TT>,
+<TT><FONT FACE="Courier">REG_MULTI_SZ</FONT></TT>, or <TT><FONT FACE="Courier">REG_EXPAND_SZ</FONT></TT>.
+</BLOCKQUOTE>
+<H5>NTRegUnLoadKey</H5>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">NTRegUnLoadKey</FONT></TT> unloads
+the key and its children specified by <TT><FONT FACE="Courier">$subkey</FONT></TT>
+under <TT><FONT FACE="Courier">$hkey</FONT></TT> from the Registry
+in memory but does not modify the underlying file. The syntax
+is
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">NTRegUnLoadKey $hkey, $subkey</FONT></TT>
+</BLOCKQUOTE>
+<H2><A NAME="ProblemswithWindows95"><FONT SIZE=5 COLOR=#FF0000>Problems
+with Windows 95</FONT></A></H2>
+<P>
+The <TT><FONT FACE="Courier">command.com</FONT></TT> command interpreter
+in Windows 95 is still 16-bit. Perl is destined to run in 32 bits
+and is more suitable for NT. A number of Perl functions that would
+work under NT and UNIX will break in the Windows 95 environment.
+Some of these problems are fixed by using the 32-bit command interpreter
+wrapper that's supplied with Win32 Perl in the <TT><FONT FACE="Courier">bin</FONT></TT>
+subdirectory as <TT><FONT FACE="Courier">cmd32.exe</FONT></TT>.
+You can also configure Perl to use another shell such as MKS Inc.'s
+Korn shell for Windows 95.
+<P>
+To change the shell setting you must edit the Registry. Change
+the following string in the Registry to the full path of your
+shell:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">HKEY_LOCAL_MAchINE\Software\Microsoft\ResourceKit\PERL5\WIN95SHELL</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Here are some notable problems in the Windows 95 environment:
+<UL>
+<LI><FONT COLOR=#000000>Unreliable exception handling through
+signals and traps.</FONT>
+<LI><FONT COLOR=#000000>Pipes do not work.</FONT>
+<LI><FONT COLOR=#000000>Return codes from </FONT><TT><FONT FACE="Courier">fork()</FONT></TT>
+may not be reliable.
+<LI><FONT COLOR=#000000>There is no </FONT><TT><FONT FACE="Courier">stderr</FONT></TT>
+redirection in <TT><FONT FACE="Courier">command.com</FONT></TT>.
+For example, <TT><FONT FACE="Courier">exec &quot;doit 2&gt;output.txt&quot;</FONT></TT>
+will not work.
+</UL>
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+This has been a very brief introduction to using Perl 5 on Windows
+NT and Windows 95 machines. The process of porting Perl to these
+platforms is not complete and is prone to some bugs. However,
+general Perl scripts that do not deal with system calls will be
+able to run on NT and UNIX machines without many problems.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch8.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch8.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch10.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch10.htm"><IMG 
+SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,2679 @@
+<HTML>
+
+<HEAD>
+
+<TITLE>Chapter 3 -- Advanced Form Processing and Data Storage
+
+</TITLE>
+
+
+
+<META>
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Chapter&nbsp;3</FONT></H1>
+
+<H1><FONT SIZE=6 COLOR=#FF0000>Advanced Form Processing and Data
+
+Storage</FONT></H1>
+
+<P>
+
+<I><B>by David Harlan</B></I>
+
+<HR>
+
+<P>
+
+<CENTER><B><FONT SIZE=5><A NAME="CONTENTS">CONTENTS</A></FONT></B></CENTER>
+
+<UL>
+
+<LI><A HREF="#UsingtheIPOSTIMethod">
+
+Using the <I>POST</I> Method</A>
+
+<UL>
+
+<LI><A HREF="#ComparingIGETIandIPOSTI">
+
+Comparing <I>GET</I> and <I>POST</I></A>
+
+<LI><A HREF="#ProcessingtheInformationfromaIPOSTIMethodForm">
+
+Processing the Information from a <I>POST</I>-Method Form
+
+</A>
+
+</UL>
+
+<LI><A HREF="#MakingYourPerlCodeModular">
+
+Making Your Perl Code Modular</A>
+
+<UL>
+
+<LI><A HREF="#DefiningandCallingSubroutines">
+
+Defining and Calling Subroutines</A>
+
+<LI><A HREF="#UsingVariableAliases">
+
+Using Variable Aliases</A>
+
+</UL>
+
+<LI><A HREF="#UsingDBMFilesforDataStorage">
+
+Using DBM Files for Data Storage</A>
+
+<UL>
+
+<LI><A HREF="#OpeningaDBMFile">
+
+Opening a DBM File</A>
+
+<LI><A HREF="#AssigningValuestoaDBMFile">
+
+Assigning Values to a DBM File</A>
+
+<LI><A HREF="#InitializingaDBMFile">
+
+Initializing a DBM File</A>
+
+<LI><A HREF="#AddingDatatotheDBMFile">
+
+Adding Data to the DBM File</A>
+
+</UL>
+
+<LI><A HREF="#UsingComplexFormsandStoringRelatedData">
+
+Using Complex Forms and Storing Related Data</A>
+
+<UL>
+
+<LI><A HREF="#ProcessingtheFormDataandCheckingthePassword">
+
+Processing the Form Data and Checking the Password</A>
+
+<LI><A HREF="#WorkingAroundtheLimitationsofDBMFiles">
+
+Working Around the Limitations of DBM Files</A>
+
+</UL>
+
+<LI><A HREF="#FromHere">
+
+From Here   </A>
+
+</UL>
+
+
+
+<HR>
+
+<P>
+
+In <A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A> &quot;Introduction to CGI,&quot; you created a fairly
+
+simple (but usefully extensible) Guestbook application for your
+
+Web site. This chapter discusses a more advanced user-input example:
+
+an online Internet-use survey. You probably have seen similar
+
+surveys, but this chapter takes the concept a step further. In
+
+your survey, the data will be saved so that you can refer to it
+
+later, online. You also add to the user data from another form.
+
+<H2><A NAME="UsingtheIPOSTIMethod"><FONT SIZE=5 COLOR=#FF0000>
+
+Using the <I>POST</I> Method</FONT></A></H2>
+
+<P>
+
+The CGI specification provides two methods of calling a script:
+
+the <TT>GET</TT> method, which you used in <A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A> and the
+
+<TT>POST</TT> method, which is discussed in this section. Look
+
+at the form shown in figure 3.1.
+
+<P>
+
+<A HREF="f3-1.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f3-1.gif"><B> Figure 3.1 : </B><I>This figure shows the first form from the online experiment.
+
+
+
+</I></A><P>
+
+<P>
+
+The first thing that you should notice about this form is that
+
+it's much bigger and more complex than the Guestbook form in Chapter
+
+2. You're asking for significantly more data this time. Why is
+
+this fact significant? Recall that when you posted the form in
+
+<A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A> the data from the form appeared in the Location box,
+
+as part of the URL of the resulting screen (refer to fig. 2.2
+
+in the preceding chapter).
+
+<P>
+
+<A HREF="f3-2.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f3-2.gif"><B> Figure 3.2 : </B><I>This screen shows a listing of files on the author's server.
+
+
+
+</I></A><P>
+
+<P>
+
+Some people may complain that this huge URL clutters the screen
+
+and makes things too messy for their taste. This may be true,
+
+but as you'll soon see, aesthetics are not the only reasons why
+
+you won't always use this method of forms processing.
+
+<H3><A NAME="ComparingIGETIandIPOSTI">
+
+Comparing <I>GET</I> and <I>POST</I></A></H3>
+
+<P>
+
+What can you do about this ugly URL? Fortunately, you can use
+
+either of two methods for submitting HTML forms. If you look at
+
+line 2 of Listing 2.1 (refer to <A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A>, you notice that the
+
+form element of this page is opened with the following tag:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;form method=get action=&quot;/cgi-bin/harlan/guestbook&quot;&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The key portion of this tag in the current discussion is <TT>method=get</TT>,
+
+which tells the browser that the /CGI-BIN/HARLAN/GUESTBOOK script
+
+is expecting an HTTP request of type <TT>get</TT> from this form.
+
+The browser must know the request method so that it can send the
+
+information back to the server properly. The most important thing
+
+that this syntax change affects is where the user-submitted data
+
+appears when it gets to the CGI script.
+
+<P>
+
+The <TT>GET</TT> method places all the data in the URL portion
+
+of the request. Specifically, everything after the question mark
+
+in the URL portion of a <TT>GET</TT> request is user-submitted
+
+data. The server software puts this information in the <TT>QUERY_STRING</TT>
+
+environment variable for use in the script that will process the
+
+form. Aside from the obvious aesthetic difficulties, this method
+
+also creates a significant functional roadblock.
+
+<P>
+
+Some Web servers limit the length of the URL portion of a request
+
+(check the documentation for your server). So you might not be
+
+able to submit larger forms by using the <TT>GET</TT> method on
+
+some servers. Fortunately, you have the <TT>POST</TT> method to
+
+handle larger forms. Listing 3.1 shows the HTML code for the form
+
+shown in figure 3.1.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.1&nbsp;&nbsp;The First Part of the Experiment Registration
+
+Form (USERFORM.htmL)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+&lt;body bgcolor=&quot;#FFFFFF&quot;&gt;
+
+&lt;title&gt;User Information Form&lt;/title&gt;
+
+&lt;center&gt;
+
+&lt;h2&gt;User Information&lt;/h2&gt;
+
+&lt;table width=650&gt;
+
+&lt;tr&gt;&lt;td colspan=4&gt;
+
+Thank you for your interest in our experiment.
+
+The information below is needed to correlate Internet use to demographic data.
+
+Please provide information in &lt;b&gt;all&lt;/b&gt; fields below. 
+
+This information will only be used in this study.
+
+No information about you specifically will ever be used without your permission.
+
+&lt;form method=post action=/cgi-bin/harlan/postuser&gt;
+
+&lt;tr&gt;&lt;td colspan=4 align=center&gt;
+
+&lt;h3&gt;Identity&lt;/h3&gt;
+
+&lt;tr&gt;&lt;td align=right&gt;E-mail Address:
+
+&lt;td colspan=3&gt;&lt;input type=text size=40 name=email&gt;
+
+&lt;tr&gt;&lt;td align=right&gt;First Name:
+
+&lt;td&gt;&lt;input type=text size=20 name=firstname&gt;
+
+&lt;td align=right&gt;Last Name:
+
+&lt;td&gt;&lt;input type=text size=20 name=lastname&gt;
+
+&lt;tr&gt;&lt;td colspan=4 align=center&gt;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The most obvious difference is in line 11, in which the script
+
+opens the form definition with the <TT>POST</TT> method specified.
+
+<H3><A NAME="ProcessingtheInformationfromaIPOSTIMethodForm">
+
+Processing the Information from a <I>POST</I>-Method Form
+
+</A></H3>
+
+<P>
+
+How do you get the information from this form? See Listing 3.2.
+
+This script processes and saves the information, and prints a
+
+simple thank-you page in response.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.2&nbsp;&nbsp;The postuser Script (POSTUSER1.PL)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+
+
+read(STDIN,$temp,$ENV{'CONTENT_LENGTH'});
+
+@pairs=split(/&amp;/,$temp);
+
+foreach $item(@pairs) {
+
+   ($key,$content)=split (/=/,$item,2);
+
+   $content=~tr/+/ /;
+
+   $content=~ s/%(..)/pack(&quot;c&quot;,hex($1))/ge;
+
+   $fields{$key}=$content;
+
+}
+
+dbmopen(%users,&quot;users&quot;,0666);
+
+print &quot;Content-type: text/html\n\n&quot;;
+
+if (!defined($users{$fields{'email'}})) {
+
+   $users{$fields{'email'}}=&quot;$fields{'firstname'}::$fields{'lastname'}::$fields{'cont'}
+
+::$fields{'country'}::$fields{'gender'}::$fields{'age'}::$fields{'income'}
+
+::$fields{'employment'} ::$fields{'netexp'}::$fields{'netconn'}::$fields{'workuse'}&quot;;
+
+   print &quot;Thanks for registering for our survey.
+
+   Please remember to come back weekly to record your net use.&quot;;
+
+}
+
+else {
+
+   print &quot;Someone has already registered from that e-mail address. Sorry.&quot;;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Except for line 3, much of the beginning of this script should
+
+look familiar. If you look at Listing 2.2 in <A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A> you see
+
+that the text-processing lines are almost identical to those in
+
+Listing 3.2. Both lines take the text in the <TT>$temp</TT> variable;
+
+split it into an array of key/value pairs; and then place each
+
+pair in an associative array, associating each key with its value.
+
+<P>
+
+The unfamiliar line is fairly simple. The <TT>read()</TT> function
+
+takes a file handle, a variable, and an integer for arguments.
+
+So the script in Listing 3.2 is reading <TT>$ENV{'CONTENT_LENGTH'}</TT>
+
+bytes from the file handle <TT>STDIN</TT> and putting the information
+
+that it finds in the variable <TT>$temp</TT>. Recall that in the
+
+<TT>guestbook</TT> script, you copied <TT>$temp</TT> from <TT>$ENV{'QUERY_STRING'}</TT>.
+
+So you see the major difference between processing <TT>GET</TT>-method
+
+forms and <TT>POST</TT>-method forms.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>Built-in File Handles</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Perl uses normal UNIX names for its built-in file handles. <TT>STDOUT</TT>, which is the standard file handle for output, is where you normally print from a Perl script. If you are running a script from the command line, output directed to <TT>STDOUT</TT> 
+appears on the console. In CGI applications, <TT>STDOUT</TT> goes back to the Web server to be sent to the browser.
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<TT>STDERR</TT> is a file handle that is used for error messages. Operating systems do different things with <TT>STDERR</TT>, but text printed to this special file handle generally ends up in some sort of log. In CGI applications, most Web servers print 
+messages that are directed to <TT>STDERR</TT> to the server's error log-a useful fact that you can use to debug your CGI scripts.
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<TT>STDIN</TT> is a file handle in which you can often find input for your Perl script. Running scripts from the command line, you would read from <TT>STDIN</TT> if input were piped to your script from another command. (This syntax might look something 
+like <TT>cat filename | myperlscript</TT>.) In CGI, the Web server puts <TT>POST</TT>-method form input in <TT>STDIN</TT>.
+
+</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+As I said earlier, the rest of the processing is exactly the same.
+
+So, you might now be asking yourself, if you're going to do a
+
+great deal of form processing, wouldn't it be much easier to write
+
+some of this code once and reuse it? The answer, of course, is
+
+yes.
+
+<H2><A NAME="MakingYourPerlCodeModular"><FONT SIZE=5 COLOR=#FF0000>
+
+Making Your Perl Code Modular</FONT></A></H2>
+
+<P>
+
+One thing that almost all good programmers have in common is an
+
+abhorrence for redoing work. We all want to do things as efficiently
+
+as possible. One of the best ways to make programming more efficient
+
+is to put code for common tasks in a place where other programs
+
+can easily use it.
+
+<P>
+
+Perl provides an effective feature for this purpose. The simplest
+
+method, which works for both versions 4 and 5 of Perl, is to create
+
+a Perl library. Perl 5 adds a new entity called a <I>module</I>
+
+to the mix. Modules are similar to libraries, but they allow the
+
+advanced Perl programmer to use object-oriented programming syntax.<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+To find out what version of Perl you are using, type <B>perl -v</B> at your command line. My machine shows the following display when I type this command:
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<TT>portland:~/# perl -v<BR>
+
+This is perl, version 5.002<BR>
+
+Copyright 1987-1996, Larry Wall<BR>
+
+Perl may be copied only under the terms of either the Artistic License or the GNU General Public License, which may be found in the Perl 5.0 source kit.</TT>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+You can see that I'm using Perl 5.002. If you're using Perl 4, this command tells you that you're using Perl 4 and then gives you a patch level. If the display shows anything other than patch level 036, you'll want to upgrade. You probably should upgrade 
+to version 5 anyway; it's available for most platforms on the CD-ROM that accompanies this book.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+
+
+Listing 3.3 shows what the <TT>postuser</TT> script might look
+
+like with a more modular approach. You can see that the code is
+
+much shorter and easier to read.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.3&nbsp;&nbsp;The Modular postuser Script (POSTUSER2.PL)
+
+<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+require (&quot;process_cgi.pl&quot;);
+
+
+
+&amp;parse_input(*fields);
+
+&amp;print_header;
+
+dbmopen(%users,&quot;users&quot;,0666) || die &quot;Can't open users DBM file\n&quot;;
+
+if (!defined($users{$fields{'email'}})) {
+
+   $users{$fields{'email'}}=&quot;$fields{'firstname'}::$fields{'lastname'}::
+
+$fields{'cont'}::$fields{'country'}::$fields{'gender'}::$fields{'age'}::
+
+$fields{'income'}::$fields{'employment'}::$fields{'netexp'}::
+
+$fields{'netconn'}::$fields{'workuse'}&quot;;
+
+   print &quot;Thanks for registering for our survey. Please remember to come back 
+
+weekly to record your net use.&quot;;
+
+}
+
+else {
+
+   print &quot;Someone has already registered from that e-mail address. Sorry.&quot;;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+What's going on in this new script? The first new command that
+
+you see is <TT>require()</TT>. This command tells the Perl interpreter
+
+to find the file specified in the argument (PROCESS_CGI.PL, in
+
+this case) and use it as though it were part of the script. You
+
+then see the two lines <TT>&amp;parse_input(*fields)</TT> and
+
+<TT>&amp;print_header</TT>. The first line parses the form input;
+
+the second line prints the page header.
+
+<P>
+
+These two lines demonstrate one of the major advantages of modular
+
+programming: it makes code much more readable. You may not know
+
+exactly how these lines do their thing, but you can read this
+
+program and understand it. In this case, however, you really <I>do</I>
+
+want to know what's happening. The following sections look at
+
+these lines a little more closely.
+
+<H3><A NAME="DefiningandCallingSubroutines">
+
+Defining and Calling Subroutines</A></H3>
+
+<P>
+
+The ampersand tells the interpreter that each line is a call to
+
+a subroutine. Because no subroutines are defined in this script,
+
+they must be defined by the code in the <TT>require(&quot;process_cgi.pl&quot;)</TT>
+
+statement near the top of Listing 3.3. Listing 3.4 shows <TT>process_cgi.pl</TT>.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.4&nbsp;&nbsp;The First Incarnation of process_cgi.pl
+
+(PROCESS_CGI1.PL)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#process_cgi.pl. A Perl library for CGI processing.
+
+
+
+sub form_method {
+
+   $method=$ENV{'REQUEST_METHOD'};
+
+}
+
+
+
+sub print_header {
+
+   if (!defined(@_)) {
+
+     print &quot;Content-type: text/html\n\n&quot;;
+
+   }
+
+   else {
+
+     print &quot;Location: @_\n\n&quot;;
+
+   }
+
+}
+
+
+
+sub parse_input {
+
+   if (defined(@_)) {
+
+     local(*input)=@_;
+
+   }
+
+   else {
+
+     local(*input)=&quot;*cgiinput&quot;;
+
+   }
+
+   local ($temp,@pairs);
+
+   if (&amp;form_method eq 'POST') {
+
+     read(STDIN,$temp,$ENV{'CONTENT_LENGTH'});
+
+   }
+
+   else {
+
+     $temp=$ENV{'QUERY_STRING'};
+
+   }
+
+   @pairs=split(/&amp;/,$temp);
+
+   foreach $item(@pairs) {
+
+     ($key,$content)=split (/=/,$item,2);
+
+     $content=~tr/+/ /;
+
+     $content=~ s/%(..)/pack(&quot;c&quot;,hex($1))/ge;
+
+     $input{$key}=$content;
+
+   }
+
+return 1;
+
+}
+
+return 1;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+This code introduces several concepts. First, this file defines
+
+three subroutines. The syntax for subroutine definition is simple;
+
+the keyword <TT>sub</TT> is followed by a word that becomes the
+
+subroutine name. The final portion of the subroutine definition
+
+is a block of statements enclosed in braces (<TT>{}</TT>). Unfortunately,
+
+the way in which these subroutines do their jobs is not immediately
+
+clear. The following paragraphs examine each subroutine.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Subroutines are not used only in Perl libraries; you can define a subroutine in any Perl script to reuse code within that script. Suppose that you have a script that reads a given file into a given array a certain number of times. Instead of reproducing 
+that code each time, you could (and perhaps should) create a subroutine and then call that subroutine each time you want to read a file.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+The <TT>form_method</TT> subroutine has a very simple function-it
+
+returns the contents of the <TT>REQUEST_METHOD</TT> environment
+
+variable. But how does the subroutine work? Notice that line 9
+
+of the <TT>parse_input</TT> subroutine checks the value of the
+
+<TT>&amp;form_method</TT> subroutine call. If you have ever done
+
+any Pascal programming, you would expect <TT>$ENV{'REQUEST_METHOD'}</TT>
+
+to be assigned to the subroutine name somewhere in the <TT>form_method</TT>
+
+sub. This script clearly doesn't do that, however; Perl takes
+
+a different, behind-the-scenes approach. In any subroutine, the
+
+last assignment performed in the block is returned as the value
+
+of the subroutine. (The only exception to this rule arises when
+
+you use the <TT>return</TT> function, which returns the specified
+
+value.)
+
+<P>
+
+By assigning <TT>$ENV{'REQUEST_METHOD'}</TT> to <TT>$method</TT>
+
+in the <TT>form_method</TT> sub, then, you can check the value
+
+of <TT>&amp;form_method</TT>, as in <TT>parse_input</TT>.
+
+<P>
+
+The second subroutine in Listing 3.4 prints the proper header
+
+for an HTML page. The first line of the procedure checks to see
+
+whether the Perl special variable <TT>@_</TT> is <I>not</I> defined.
+
+The exclamation point before the <TT>defined()</TT> function tells
+
+Perl to negate the result. So if the function tells you that <TT>@_</TT>
+
+is not defined (that is, if it returns <TT>false</TT>), the conditional
+
+returns <TT>true</TT> and executes the first statement block.
+
+The <TT>@_</TT> variable contains any arguments of the subroutine.
+
+So if you call this subroutine with <TT>&amp;print_header;</TT>,
+
+<TT>@_</TT> is not defined, and the script prints the <TT>Content-type:
+
+text/html\n\n</TT> header.
+
+<P>
+
+If you call the subroutine with <TT>&amp;print_header(&quot;http://192.0.0.1/cgi-bin/harlan/
+
+showguestbook2&quot;);</TT>, <TT>@_</TT> is defined, and the script
+
+prints <TT>Location: http://192.0.0.1/cgi-bin/harlan/showguestbook2\n\n.</TT>
+
+This code should look familiar. Refer to Listing 2.6 in Chapter
+
+2, where this precise string was used at the end of the <TT>guestbook</TT>
+
+script to send the browser to the <TT>guestbook</TT> display script.
+
+<P>
+
+You have created a very useful subroutine that not only prints
+
+the standard HTML page header but also prints the Location header
+
+when you want to redirect the browser to an existing page, rather
+
+than print HTML from the script.
+
+<H3><A NAME="UsingVariableAliases">
+
+Using Variable Aliases</A></H3>
+
+<P>
+
+The final subroutine in Listing 3.4 performs the all-important
+
+input processing. The first part of the sub is an if/else construct,
+
+similar to the one in the preceding subroutine. Here, the script
+
+checks to see whether there were any arguments when the sub was
+
+called; if so, it performs a little Perl magic on that argument.
+
+<P>
+
+The line <TT>local(*input)=@_;</TT> is not an easy one to understand.
+
+The <TT>local()</TT> function makes the variables listed as arguments
+
+local to the program block from which <TT>local()</TT> was called.
+
+Look at line 8, which makes <TT>$temp</TT> and <TT>@pairs</TT>
+
+local variables. This syntax ensures that the script won't chang<TT>e</TT>
+
+the values of any other variables with the same names in the program
+
+that's calling this subroutine.
+
+<P>
+
+But what's happening in the first two calls to <TT>local()</TT>?
+
+You're not seeing a new variable type. These lines perform <I>type-globbing</I>;
+
+a simpler name is <I>aliasing</I>. What you want to do in this
+
+subroutine is assign the form data to a user-specified associative
+
+array. To do so, you have to work with a global copy of that array.
+
+You may think that you should just pass the <TT>%fields</TT> array
+
+as the argument to this subroutine call. That procedure wouldn't
+
+work, though, because Perl would assume that you want to work
+
+with the values in <TT>%fields</TT> and not with the array itself.
+
+<P>
+
+So the Perl developers came up with a method. If you assign one
+
+variable name, preceded by an asterisk (<TT>*</TT>), to a localized
+
+variable name, also preceded by an asterisk, Perl works with the
+
+local variable as an alias to the other. An important point is
+
+that all variables with that name are aliased. Although you only
+
+work with the associative array in this example, you could also
+
+play with the global copies of similarly named scalar variables
+
+and standard arrays in this routine, modifying their global values
+
+accordingly.
+
+<P>
+
+Now, as you recall, the location of the input data depends on
+
+the method that the form uses to call the script. Because you
+
+really want to make <TT>parse_input</TT> universal, you want to
+
+be able to use it for either method; the second if/else construct
+
+in Listing 3.4 does just this. If the form method (as determined
+
+by a call to the <TT>form_method</TT> subroutine described in
+
+&quot;Defining and Calling Subroutines&quot; earlier in this chapter)
+
+is <TT>POST</TT>, the script gets the data from <TT>STDIN</TT>
+
+and places it in <TT>$temp</TT>; otherwise, the value of <TT>$temp</TT>
+
+comes from <TT>$ENV{'QUERY_STRING'}</TT>.
+
+<P>
+
+The final portion of the routine does the input processing exactly
+
+as described in <A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A>
+
+<P>
+
+Thus, in your <TT>parse_input</TT> routine, you're telling Perl
+
+to use <TT>input</TT> as an alias to the variable specified in
+
+<TT>@_</TT>. The script then parses the form input into that alias.
+
+When the script makes the call in line 3 of Listing 3.3, <TT>parse_input</TT>
+
+works on <TT>%input</TT> as an alias to <TT>%fields</TT>. The
+
+result is that the data is placed in the <TT>%fields</TT> array
+
+<I>exactly</I> as it was in Listing 3.2.
+
+<P>
+
+One final note about <TT>parse_input</TT>: notice the first conditional.
+
+This conditional allows a user to call <TT>parse_input</TT> without
+
+arguments and have the routine assign the form input to a default
+
+variable-in this case, <TT>%cgiinput</TT>.
+
+<H2><A NAME="UsingDBMFilesforDataStorage"><FONT SIZE=5 COLOR=#FF0000>
+
+Using DBM Files for Data Storage</FONT></A></H2>
+
+<P>
+
+Now you see how you get the information from the form into the
+
+<TT>%fields</TT> array in Listing 3.3. But when you look farther
+
+down in the script (and also in Listing 3.2, the last few lines
+
+of which are identical to those in Listing 3.3), you see some
+
+new commands that I need to explain.
+
+<P>
+
+In the Guestbook program in <A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A> you stored the data in
+
+a text file. This method was acceptable because you didn't need
+
+to access the data in any way except to print it. Suppose, however,
+
+that you don't want any given person to sign in more than once.
+
+You would have to scan the file each time to see whether the name
+
+existed in the file. The necessary code would look something like
+
+Listing 3.5.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.5&nbsp;&nbsp;Example Code for Scanning the GUESTBOOK.TXT
+
+File<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+open (gbfile, &quot;guestbook.txt&quot;);
+
+while (&lt;gbfile&gt;) {
+
+   ($date,$name,$comment)=split(/::/,$_);
+
+   if ($name eq $fields{'name'}) {
+
+     $nameused='y';
+
+     last;
+
+   }
+
+}
+
+close (gbfile);
+
+if ($nameused eq 'y') {
+
+   #Do stuff here to tell the user that she can't sign in more than once
+
+}
+
+else {
+
+   #go on with the rest of the guestbook script as normal
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Aside from the fact that you wouldn't want to depend on this method
+
+for preventing multiple sign-ins, it should be fairly obvious
+
+that scanning the entire text file for a name each time a user
+
+signs the guestbook could become time-consuming as the file got
+
+larger. So there must be a better way, right? The answer, of course,
+
+is yes (I wouldn't have posed the question otherwise). Perl provides
+
+the DBM file for just this situation.
+
+<P>
+
+A DBM file (<I>DBM</I> stands for <I>database management</I>)
+
+is a special type of file that is inherited from Perl's UNIX roots.
+
+DBM files perform very simple database functions. The following
+
+sections examine how DBM files work.
+
+<H3><A NAME="OpeningaDBMFile">
+
+Opening a DBM File</A></H3>
+
+<P>
+
+Line 5 of POSTUSER2.PL reads as follows:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+dbmopen(%users,&quot;users&quot;,0666) || die &quot;Can't open users DBM file\n&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+As you might expect from its name, this line opens a DBM file.
+
+To be precise, the line opens the DBM file called USERS and links
+
+it to the associative array <TT>%users</TT>. <TT>0666</TT> stands
+
+for a file mode that tells Perl to provide read and write access
+
+for this file for everyone. (See &quot;Initializing a DBM File&quot;
+
+later in this chapter for details on file modes.) If the file
+
+does not exist, Perl attempts to create it with the specified
+
+file mode. If the file can't be opened or created, the <TT>||
+
+die...</TT> construct tells Perl to exit the program.
+
+<P>
+
+Take a closer look at the <TT>|| die...</TT> syntax. The <TT>||</TT>
+
+symbol is a standard Perl operator-basically, a logical <TT>or</TT>.
+
+If the code before <TT>||</TT> does not return a value of <TT>true</TT>,
+
+the script performs the action specified after <TT>||</TT>. In
+
+this case, you want to perform <TT>the</TT> <TT>die</TT> function,
+
+which tells Perl to exit the program immediately and print <TT>die</TT>'s
+
+arguments to <TT>STDERR</TT>. (Remember that in CGI programming
+
+output, <TT>STDERR</TT> usually ends up in the server's error
+
+log.)
+
+<P>
+
+This piece of code is a very useful part of your CGI programming
+
+arsenal. If you did not have <TT>die</TT> at the end of this line,
+
+Perl would go on with the program blithely, even if it couldn't
+
+open your DBM file. Because the user wouldn't be alerted to the
+
+problem, he wouldn't know that anything was amiss. You wouldn't
+
+be aware of the problem, either, until you started wondering why
+
+no data was showing up anywhere. By then, you would have lost
+
+the registration data of who knows how many users. With <TT>die</TT>
+
+(in this case, anyway), the user would get a malformed header
+
+from script error, and you would be alerted to the problem. Then
+
+you could go back to the error logs and track down the problem
+
+with little difficulty.
+
+<P>
+
+I use <TT>die</TT> liberally in my CGI programs. <TT>die</TT>
+
+is particularly valuable for dealing with external files, but
+
+you'll find many other uses for it as you get deeper into CGI
+
+programming.
+
+<H3><A NAME="AssigningValuestoaDBMFile">
+
+Assigning Values to a DBM File</A></H3>
+
+<P>
+
+Now that you have the DBM file open, you need to assign values
+
+to it. The first thing that you need to decide is what value in
+
+your data set will serve as your key. Each key must be unique
+
+within any DBM file. In the <TT>postuser</TT> script, I chose
+
+an e-mail address as the key for this DBM file. This key makes
+
+sense, because an e-mail address should be a unique identifier
+
+for a user. (Sorry-those who share e-mail boxes need not apply
+
+here.)
+
+<P>
+
+After you decide on a key, you can assign your values to the file.
+
+To be safe, before you make any assignments to this file, check
+
+to make sure that the key doesn't exist in the file, using the
+
+following code:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+if (!defined($users{$fields{'email'}})) {
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+This statement says, &quot;If the address in <TT>$fields{'email'}</TT>
+
+does not already exist in the user's DBM file, execute the lines
+
+that follow.&quot; Those lines simply assign the data from the
+
+form to a long string associated with the e-mail address in the
+
+user's DBM file. The script then prints a one-line HTML page that
+
+thanks the user for registering.
+
+<P>
+
+If the e-mail address already exists in the database file, the
+
+script prints a one-line HTML page, telling the user that the
+
+address is already in use.
+
+<P>
+
+Essentially, when the DBM file is open, working with it is just
+
+like working with a standard associative array. You can assign
+
+to it, read from it, and iterate over it exactly the same way
+
+that you would a normal hash. Some things are different, however;
+
+you learn about them later in the following section and in Chapter
+
+4, &quot;Advanced Page Output.&quot;
+
+<H3><A NAME="InitializingaDBMFile">
+
+Initializing a DBM File</A></H3>
+
+<P>
+
+If you take USERFORM.htmL and the <TT>postuser</TT> script off
+
+the CD-ROM and put them on your Web server, changing the directory
+
+references as necessary, you may be able to start collecting data
+
+right away-but probably not.
+
+<P>
+
+Most Web servers run CGI scripts under a nonprivileged user name
+
+ (frequently, the user nobody) to avert security problems. This
+
+arrangement is a good thing, in general; keeping your computer
+
+safe from intruders is important. But when you want to write to
+
+files on the computer, this situation can become bothersome. You
+
+need some knowledge of UNIX file permissions to get around the
+
+problem. To explain this concept thoroughly, I have to digress
+
+a bit. (If you already know about UNIX file permissions, feel
+
+free to skip ahead.)
+
+<P>
+
+UNIX and its many cousins use a very flexible-and sometimes confusing-system
+
+for file permissions. To look at the files in your directory,
+
+use the <TT>ls</TT> command. Figure 3.2 shows a full listing of
+
+the directory that I've been working in.
+
+<P>
+
+Consider an example file from this listing. The third file listed
+
+is the GUESTBOOK.TXT file, which was used to store the data for
+
+the Guestbook example in <A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A> Starting from the left, the
+
+first string of characters defines who can do what to this file
+
+(I'll get back to that topic soon). The next two items define
+
+the user who owns the file and the group to which that file belongs.
+
+In this case, the file belongs to the user root and the group
+
+root. root is the most privileged user on a UNIX system. In this
+
+example, I own and administer the server that I'm working on,
+
+so I'm root. A more typical listing would show user harlan and
+
+group users, or something similar. The next entry in this line
+
+is the size of the file, in bytes, followed by the date and time
+
+of the last modification, and ending with the file name.
+
+<P>
+
+Now all that's left to explain is that first string of characters.The
+
+first character in this string is a dash except under very special
+
+circumstances that don't apply here. (This character tells you
+
+whether the listing is a directory, among other things.) The next
+
+nine characters indicate the permissions for this file. The first
+
+three characters refer to the owner of the file; the second three,
+
+to the group; and the final three, to everyone else. Each trio
+
+of characters indicates read, write, and execute permissions,
+
+in that order. If the group portion of the permissions reads <TT>rwx</TT>,
+
+any member of the group indicated on the line can read from, write
+
+to, and execute that file.
+
+<P>
+
+Sometimes, these permissions are designated numerically, as in
+
+the <TT>dbmopen</TT> command. For the GUESTBOOK.TXT file, for
+
+example, the permissions equal <TT>0666</TT>. The first zero sets
+
+the initial character to a dash. Each successive digit sets the
+
+values of the <TT>rwx</TT> characters for the user, then for the
+
+group, and then for everyone else. The digits are calculated as
+
+follows:
+
+<UL>
+
+<LI>Read permission equals 4, write permission is 2, and execute
+
+permission is 1. Thus, the permissions for GUESTBOOK.TXT (<TT>-rw-rw-rw-</TT>)
+
+come out to <TT>0666</TT>.
+
+<LI>If you want the user to have all permissions and everyone
+
+else to have no permissions, set the mode to <TT>0700</TT>.
+
+<LI>As indicated in <A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A> you generally set the mode for
+
+scripts to <TT>0755</TT>. This mode means that the user can read,
+
+write, and execute the file (4+2+1=7). Group members and others
+
+can read and execute the file (4+1=5).
+
+</UL>
+
+<P>
+
+In the case of the GUESTBOOK.TXT file, the permissions for the
+
+user, group, and others are all the same: <TT>rw-</TT>, which
+
+means that anyone on the server can read from and write to this
+
+file. The permissions must be set this way, because the CGI scripts
+
+that use this file are run by the user nobody (not root). The
+
+user nobody does not belong to the group root, either. So the
+
+scripts must abide by the permissions for the &quot;everybody
+
+else&quot; category.
+
+<P>
+
+Where does that leave you with the DBM file? As I said earlier
+
+in this section, the <TT>dbmopen()</TT> command tries to create
+
+the file if it does not already exist. If directory permissions
+
+are set to allow writing by the script, this will work. But the
+
+permissions are not likely to be set this way by default. Figure
+
+3.3 shows the full directory listing one level up from the listing
+
+in figure 3.2. As you can see, in the &quot;everybody else&quot;
+
+category for the directory HARLAN, the permissions don't allow
+
+writing-which makes sense, because you don't want just anyone
+
+on the server to write to the directory.
+
+<P>
+
+<A HREF="f3-3.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f3-3.gif"><B> Figure 3.3 : </B><I>Here, you see a listing of files one level up from figure 3.2.
+
+
+
+</I></A><P>
+
+<P>
+
+What can you do? The solution is to create your data files beforehand
+
+and set the permissions on those files to allow the CGI scripts
+
+to write to them. I wrote a simple script that does all these
+
+things for me whenever I want to use a new DBM file. Listing 3.6
+
+shows the code.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.6&nbsp;&nbsp;A Script to Initialize DBM Files for
+
+CGI Use (INITIALIZEDBM.PL)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+($filename,$mode)=@ARGV;
+
+$mode=&quot;0666&quot; if !defined($mode);
+
+dbmopen (%temp, $filename, oct($mode))
+
+   || die &quot;Couldn't open $filename\n&quot;;
+
+dbmclose (%temp);
+
+system &quot;chmod $mode $filename.*&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+To make this code do its job, you run this script from the command
+
+line, with the name of the DBM file that you want to initialize
+
+as an argument. Before you run the <TT>postuser</TT> script for
+
+the first time, for example, you would issue the command <TT>initializedbm
+
+users</TT> from the command line in your CGI directory. This command
+
+creates the DBM file (on some systems, it creates two files) and
+
+sets the proper file permissions.
+
+<P>
+
+This code presents several new Perl concepts. Line 2 assigns the
+
+contents of the array <TT>@ARGV</TT> to <TT>$filename</TT> and
+
+<TT>$mode</TT>. (Remember that if you enclose a list of scalars
+
+in parentheses, they act like an array.) <TT>@ARGV</TT> is a special
+
+Perl variable that contains the command-line arguments for this
+
+script. The arguments are everything that follows the script when
+
+it is called. The arguments are separated by spaces on the command
+
+line, and each argument becomes an element of <TT>@ARGV</TT>.
+
+<P>
+
+Line 3 checks to see whether a mode was specified on the command
+
+line; if not, a default mode of <TT>0666</TT> is assigned. This
+
+line may seem to be strange at first. It is functionally identical
+
+to the following:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+if (!defined($mode)) {$mode=&quot;0666&quot;}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The syntax in the script is a shortcut. The <TT>if</TT> portion
+
+of the statement is a <I>statement modifier</I>, which does exactly
+
+what it sounds like in English (&quot;Set <TT>$mode</TT> to <TT>0666</TT>
+
+if <TT>$mode</TT> is not yet defined&quot;). When I first saw
+
+this syntax, I assumed that the first part of the statement was
+
+always executed; then I couldn't figure out what the <TT>if</TT>
+
+was doing. When I got it through my thick skull that the right
+
+portion of the line was checked before the action on the left
+
+was performed, everything became clear. I hope that this explanation
+
+gets you past that confusion.
+
+<P>
+
+Line 4 opens the DBM file just as it does in Listing 3.3. The
+
+only difference is that because I was not using a literal value
+
+for the file mode, I had to convert the number from the octal
+
+string that we start with to a decimal value. To do so, I used
+
+the Perl function <TT>oct()</TT>. Line 5 is just a continuation
+
+of the <TT>dbmopen</TT> line, which tells Perl that I want to
+
+<TT>die</TT> if the script can't open the specified DBM file for
+
+some reason.
+
+<P>
+
+Line 6 closes the DBM file. Finally, you come to line 7, which
+
+illustrates one of the nicest features of Perl-and also one of
+
+its most dangerous features. The <TT>system</TT> function tells
+
+Perl that I want to execute the text enclosed in quotes as an
+
+operating-system command on the server.
+
+<P>
+
+This specific line executes the system <TT>chmod</TT> command
+
+on the newly created DBM files to make sure that they are world-readable
+
+and -writable. This line is functionally identical to typing the
+
+command <TT>chmod 0666 users.*</TT> at the UNIX command line.
+
+Depending on your system setup, this command may not always be
+
+necessary. Sometimes, however, Perl won't be able to set the permissions
+
+properly in the <TT>dbmopen</TT> command (or even in its own <TT>chmod</TT>
+
+command), so you have to set them from the system level. Including
+
+this command ensures that this script will initialize the DBM
+
+files correctly for almost any UNIX system.
+
+<P>
+
+What's so powerful and dangerous about the <TT>system</TT> function?
+
+It allows you to automate some repetitive tasks, as well as to
+
+perform some functions with your data that you might not be able
+
+to perform with Perl alone.
+
+<P>
+
+But this power also means that you can easily cripple your system
+
+or compromise its security if you're not careful. A simple example
+
+of something that you don't want to do is <TT>system 'rm *';</TT>.
+
+This command removes all files in the current directory. You could
+
+do the same thing at the command line, but some systems would
+
+warn you about what you were doing. The Perl <TT>system</TT> function
+
+bypasses these warnings.
+
+<P>
+
+In CGI applications, use of the <TT>system</TT> function with
+
+user-entered data must be closely monitored. If you don't carefully
+
+check the data that users are passing to the system, an expert
+
+UNIX user can easily compromise the security of your system.
+
+<H3><A NAME="AddingDatatotheDBMFile">
+
+Adding Data to the DBM File</A></H3>
+
+<P>
+
+After that extensive digression from the task at hand (the online
+
+experiment), consider one other major advantage that DBM files
+
+have over text files for data storage: appending data to a record.
+
+If you wanted to change one of the records in the GUESTBOOK.TXT
+
+file, you would have to scan the entire file to find the correct
+
+record; save all the data (except the record to be changed) to
+
+memory; and then write the data back to the file, with the new
+
+data appended to the appropriate record. This process is much
+
+easier with DBM files.
+
+<P>
+
+You can change your current application to ask your users to give
+
+you a password for their data immediately after they register.
+
+First, you need to change the <TT>postuser</TT> script as shown
+
+in Listing 3.7. This change sends the user to the password-entry
+
+form after the user has been added to the database.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.7&nbsp;&nbsp;A New Version of postuser (POSTUSER.PL)
+
+<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+require (&quot;process_cgi.pl&quot;);
+
+
+
+&amp;parse_input(*fields);
+
+
+
+dbmopen(%users,&quot;users&quot;,0666) || die &quot;Can't open users DBM file\n&quot;;
+
+if (!defined($users{$fields{'email'}})) {
+
+   $users{$fields{'email'}}=&quot;$fields{'firstname'}::$fields{'lastname'}::$fields{'cont'}::
+
+$fields{'country'}::$fields{'gender'}::$fields{'age'}::$fields{'income'}::
+
+$fields{'employment'}::$fields{'netexp'}::$fields{'netconn'}::$fields{'workuse'}&quot;;
+
+   &amp;print_header(&quot;http://192.0.0.1/userpassword.html&quot;);
+
+}
+
+else {
+
+   &amp;print_header;
+
+   print &quot;Someone has already registered from that e-mail address. Sorry.&quot;;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The form in figure 3.4 asks the user for his password. I use password-type
+
+input boxes in this example, so that the password doesn't appear
+
+on-screen as the user types it in the form. For this reason, I
+
+ask the user to type it twice, so that I can confirm that he knows
+
+what password he typed.
+
+<P>
+
+<A HREF="f3-4.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f3-4.gif"><B> Figure 3.4 : </B><I>This form requests a new password from the user.
+
+
+
+</I></A><P>
+
+<P>
+
+When the user submits this form, the password is checked and then
+
+the data is added to the appropriate record of the DBM file. This
+
+task is accomplished with the <TT>addpassword</TT> script, shown
+
+in Listing 3.8.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.8&nbsp;&nbsp;Script for Adding a Password to the
+
+DBM File Data</B> <B>(ADDPASSWORD.PL)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+require(&quot;process_cgi.pl&quot;);
+
+&amp;parse_input(*fields);
+
+dbmopen (%users, &quot;users&quot;, 0666);
+
+&amp;print_header;
+
+if (!defined($users{$fields{'email'}})) {
+
+   print &quot;The email address you entered does not exist in our
+
+     database. Please hit the back button on your browser,
+
+     correct your entry and re-submit the form.&quot;;
+
+}
+
+elsif (!($users{$fields{'email'}} =~ /::yes$|::no$/)) {
+
+   print &quot;There is already a password registered for the provided
+
+     email address. Please contact the survey administrator
+
+     if you have forgotten you password.\n&quot;;
+
+}
+
+elsif (!($fields{'pass1'} =~ /^[a-zA-Z0-9]{5,10}$/)) {
+
+   print &quot;You entered an illegal password. Please try again.&quot;;
+
+}
+
+elsif ($fields{'pass1'} ne $fields {'pass2'}) {
+
+   print &quot;The passwords you typed did not match. Please
+
+     return to the previous screen and try again.&quot;;
+
+}
+
+else {
+
+   $users{$fields{'email'}} .= &quot;::$fields{'pass1'}&quot;;
+
+   print &quot;Your password has been registered. Thank you.&quot;;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The <TT>addpassword</TT> script brings together most of the concepts
+
+that this chapter has discussed. First, you see that I'm using
+
+the PROCESS_CGI.PL library. I parse the input into the hash <TT>%fields</TT>,
+
+open the DBM file USERS, and then print the HTML header. The next
+
+line checks to see whether the e-mail address entered by the user
+
+exists in the database; if not, the script prints a brief error
+
+page and asks the user to check his work.
+
+<P>
+
+If the e-mail address does exist, the script moves on to ensure
+
+that a password hasn't already been entered for this user. If
+
+this test fails, the script again prints a brief error page.
+
+<P>
+
+Next, the script checks the password to see whether it is the
+
+right length and contains only alphanumeric characters. This line
+
+uses a regular expression, as discussed in <A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm" >Chapter 2</A> The pattern
+
+<TT>/^[a-zA-Z0-9]{5,10}$/</TT> translates as follows:
+
+<UL>
+
+<LI>The caret (<TT>^</TT>) indicates that you want to match the
+
+beginning of the string.
+
+<LI>The characters in brackets define a range of characters, any
+
+one of which should match. Because this range is followed by <TT>{5,10}</TT>,
+
+Perl looks for no fewer than 5 and no more than 10 characters
+
+that match the given range.
+
+<LI>Finally, the dollar sign (<TT>$</TT>) indicates that you want
+
+to match the end of the string.
+
+</UL>
+
+<P>
+
+What you want to match with this pattern is a string that contains
+
+only 5 to 10 alphanumeric characters. Because the entire expression
+
+is negated (with the leading exclamation point), the error text
+
+that follows prints whenever the pattern is <I>not</I><B> </B>matched.
+
+<P>
+
+Next, the script checks to see whether both copies of the password
+
+are identical; if not, it again prints a brief error page, asking
+
+the user to check the information that he entered and try again.
+
+<P>
+
+Finally, if the address checks out, the password is legal, and
+
+the two versions of the password match, the script appends the
+
+password to the end of the data already entered for the given
+
+e-mail address.
+
+<P>
+
+The line that does the appending presents a new piece of Perl;
+
+it uses <TT>.=</TT>, which is Perl's append assignment operator.
+
+This little gem shortens the line that might have otherwise been
+
+written like this:
+
+<BLOCKQUOTE>
+
+<PRE>
+
+$users{$fields{'email'}} = $users{$fields{'email'}} . &quot;::$fields{'pass1'}&quot;;
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<P>
+
+The functionality of this line is slightly more obvious. The dot
+
+(<TT>.</TT>) is the string-append operator. So this line connects
+
+the two strings and assigns them to <TT>$users{$fields{'email'}}</TT>.
+
+The line as I wrote it in Listing 3.8 functions identically. This
+
+is one more Perl shortcut. If you have, in a scalar variable,
+
+a string to which you want to append text to, the append assignment
+
+operator performs that task without requiring the repetitious
+
+typing of the longer (if equally correct) version of the command.
+
+<P>
+
+Now you see how much simpler it can be to work with data in DBM
+
+files. The following section takes all the Perl and CGI that you've
+
+learned so far and puts it to the test.
+
+<H2><A NAME="UsingComplexFormsandStoringRelatedData"><FONT SIZE=5 COLOR=#FF0000>
+
+Using Complex Forms and Storing Related Data</FONT></A></H2>
+
+<P>
+
+The data that you processed in the first part of this chapter
+
+is intended to be the first part of an online survey of Internet
+
+use. You know how to register your users. Now you can take a crack
+
+at collecting some data.
+
+<P>
+
+First, consider some general assumptions. You are asking users
+
+to carefully track their Internet use on a weekly basis. You want
+
+to keep each week separate, so that you can chart any changes
+
+over time. You won't try to be comprehensive in your survey questions,
+
+but you'll try to hit some key areas.
+
+<P>
+
+Where do you start? Begin with the form that users will fill out
+
+when they enter their weekly data (see fig. 3.5). The form itself
+
+seems to be fairly simple, but it presents some interesting programming
+
+problems.
+
+<P>
+
+<A HREF="f3-5.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/f3-5.gif"><B> Figure 3.5 : </B><I>This form is the main data-entry point for the survey.
+
+
+
+</I></A><P>
+
+<H3><A NAME="ProcessingtheFormDataandCheckingthePassword">
+
+Processing the Form Data and Checking the Password</A></H3>
+
+<P>
+
+The first order of business is to grab the data from the form
+
+and put it in your associative array. You should be able to do
+
+that just as you did before, right? Well, almost. This form contains
+
+an input method that you haven't seen before. Notice that the
+
+uses list shown in figure 3.5 has two items selected. The list
+
+has only one name, so if you leave PROCESS_CGI.PL as it is, each
+
+time a new uses entry is processed into the array, the old one
+
+is erased. So you need to change the <TT>parse_input</TT> routine
+
+in PROCESS_CGI.PL, as shown in Listing 3.9.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.9&nbsp;&nbsp;A New Parse_Input Routine for PROCESS_CGI.PL
+
+<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sub parse_input {
+
+   if (defined(@_)) {
+
+     local(*input)=@_;
+
+   }
+
+   else {
+
+     local(*input)=&quot;*cgiinput&quot;;
+
+   }
+
+   local ($temp,@pairs);
+
+   if (&amp;form_method eq 'POST') {
+
+     read(STDIN,$temp,$ENV{'CONTENT_LENGTH'});
+
+   }
+
+   else {
+
+     $temp=$ENV{'QUERY_STRING'};
+
+   }
+
+   @pairs=split(/&amp;/,$temp);
+
+   foreach $item(@pairs) {
+
+     ($key,$content)=split (/=/,$item,2);
+
+     $content=~tr/+/ /;
+
+     $content=~ s/%(..)/pack(&quot;c&quot;,hex($1))/ge;
+
+     if (!defined($input{$key})) {
+
+        $input{$key}=$content;
+
+     }
+
+     else {
+
+        $input{$key} .= &quot;\0$content&quot;;
+
+     }
+
+   }
+
+return 1;
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The new code in this subroutine is the <TT>if/else</TT> construct
+
+at the end of the last <TT>foreach</TT> loop. This code looks
+
+to see whether the key in the key/value pair that is being processed
+
+already exists in the <TT>%input</TT> hash; if not, the key is
+
+associated with the current value, just as in the first incarnation
+
+of this routine. If the key does exist, you don't want to erase
+
+the current value, but we want to save this one. You might tack
+
+the new value to the end of the old value (which actually may
+
+be old <I>values</I>), separating the two with the null character
+
+(<TT>\0</TT>). You use the null character because it never will
+
+exist in the user data; other characters might.
+
+<P>
+
+After getting the data, you want to make sure that the user exists
+
+in the database, that the user has a password, and that the password
+
+provided matches the one you have on file. If all these conditions
+
+are met, you want to add the data to your database. The code in
+
+Listing 3.10 accomplishes these tasks.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.10&nbsp;&nbsp;Script to Post Periodic Data to the
+
+Database  (POSTPERIODDATA.PL)<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+require &quot;process_cgi.pl&quot;;
+
+&amp;parse_input(*fields);
+
+&amp;print_header;
+
+dbmopen (%users,&quot;users&quot;,0666);
+
+if (!defined($users{$fields{'email'}})) {
+
+   print &quot;The email address you entered does not exist in our
+
+     database. Please hit the back button on your browser,
+
+     correct your entry and re-submit the form.&quot;;
+
+}
+
+else {
+
+   $temp=$users{$fields{'email'}};
+
+   dbmclose(%users);
+
+   $temp=~/([a-zA-Z0-9]{5,10})$/;
+
+   $actualpass=$1;
+
+   if ($actualpass eq '') {
+
+     print &quot;There is no password entered for this e-mail
+
+        address. Please enter one
+
+        &lt;a href=/userpassword.html&gt;here&lt;/a&gt;
+
+        before you enter your data.&quot;;
+
+   }
+
+   elsif ($fields{'pass'} ne $actualpass) {
+
+     print &quot;The password you entered is incorrect. Please
+
+        return to the previous screen and try again.&quot;;
+
+   }
+
+   else {
+
+     &amp;post_data;
+
+   }
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The first <TT>if</TT> should look familiar; it's the same code
+
+that you used in listings 3.7 and 3.8 to see whether the user
+
+exists in the database. If the user does exist, the script ends
+
+up in the <TT>else</TT> portion of the construct. Here, you want
+
+to get the password from the user data, and you do so with another
+
+regular expression. Because you set up the data so that the password
+
+(if it exists) is always be the last piece of data, all you need
+
+to do is check for 5 to 10 alphanumeric characters at the end
+
+of the string. Because this pattern is enclosed in parentheses,
+
+Perl saves any match in the special variable <TT>$1</TT>. So assign
+
+<TT>$1</TT> to <TT>$actualpass</TT> and then test to make sure
+
+that <TT>$actualpass</TT> is not null.
+
+<P>
+
+This test tells you whether the user has entered a password, because
+
+if the user hasn't entered a password, the data string ends with
+
+<TT>yes</TT> or <TT>no</TT>. Because neither of these elements
+
+matches your password pattern, <TT>$1</TT>-thus, <TT>$actualpass</TT>-will
+
+be blank if no password exists in the USERS DBM file for this
+
+e-mail address.
+
+<P>
+
+Last, the script checks to see whether the password entered with
+
+the data actually matches the one that you have on file; if it
+
+does, you can finally enter the data in your database.
+
+<H3><A NAME="WorkingAroundtheLimitationsofDBMFiles">
+
+Working Around the Limitations of DBM Files</A></H3>
+
+<P>
+
+As powerful as DBM files are, in many implementations of Perl
+
+they suffer from one severe limitation: you can make only one
+
+call to <TT>dbmopen()</TT> per program. For the application that
+
+you're working on now, this limitation causes a problem, because
+
+you prefer to store the survey data in a DBM file.<BR>
+
+<P>
+
+<CENTER>
+
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+
+<TR VALIGN=TOP><TD><B>TIP</B></TD></TR>
+
+<TR VALIGN=TOP><TD>
+
+<BLOCKQUOTE>
+
+Your implementation of Perl <I>may</I> allow multiple <TT>dbmopen</TT>s per program. The limitation depends on the version of the DBM libraries that your system uses. If your system has the NDBM libraries (instead of GDBM), you're in luck. If your Perl 
+interpreter was compiled with those libraries, you can have multiple <TT>dbmopen</TT> commands; otherwise, you're stuck.
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+To figure out what version of DBM your system uses, you'll have to find the computer's libraries and look for a file such as LIBNDBM.A or LIBGDBM.A.</BLOCKQUOTE>
+
+
+
+</TD></TR>
+
+</TABLE></CENTER>
+
+<P>
+
+<P>
+
+Fortunately, a way around this limitation exists: you can use
+
+the <TT>system</TT> command to tell a separate Perl program to
+
+deal with this data. First, save the data from the form in a temporary
+
+text file, as shown in Listing 3.11.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.11&nbsp;&nbsp;The postdata Subroutine from POSTPERIODDATA.PL
+
+<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+sub post_data {
+
+   $filename=$$.time.&quot;.txt&quot;;
+
+   open (f, &quot;&gt;scratch/$filename&quot;) || die &quot;couldn't open file $!&quot;;
+
+   print f &quot;email:$fields{'email'}\n&quot;;
+
+   print f &quot;period:$fields{'period'}\n&quot;;
+
+   print f &quot;hours:$fields{'hours'}\n&quot;;
+
+   print f &quot;webhours:$fields{'webhours'}\n&quot;;
+
+   print f &quot;phonehours:$fields{'phonehours'}\n&quot;;
+
+   print f &quot;send:$fields{'send'}\n&quot;;
+
+   print f &quot;receive:$fields{'receive'}\n&quot;;
+
+   print f &quot;uses&quot;;
+
+   foreach $use(split(/\0/,$fields{'uses'})) {
+
+     print f &quot;:$use&quot;;
+
+   }
+
+   print f &quot;\n&quot;;
+
+   close f;
+
+   system &quot;postdatasup scratch/$filename &gt;&gt; /dev/null&quot;;
+
+   system &quot;rm scratch/$filename&quot;;
+
+   print &quot;Thanks for sending in your data.&quot;;
+
+
+
+}
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+The first line of this subroutine creates a string that will serve
+
+as the file name. This string looks odd but serves an important
+
+purpose. <TT>$$</TT> is a special Perl variable that stands for
+
+the <I>process ID</I>-a number that identifies this script when
+
+it's running. Every process that is running has a process ID,
+
+and process IDs are unique <I>at any given moment</I>. After a
+
+process ends, the IDs can be reused. This last fact means that
+
+to ensure the uniqueness of the temporary file that you're creating,
+
+you need to put a time stamp on it. To do so, use the <TT>time</TT>
+
+function, which returns the number of seconds since January 1,
+
+1970.
+
+<P>
+
+With a unique file name ensured, you next need to open the file.
+
+Line 3 of Listing 3.11 performs this task, opening a new file
+
+with the name designated in the directory SCRATCH. I created this
+
+directory to be world-writable for just such a purpose: to write
+
+temporary files for immediate use. Having a SCRATCH directory
+
+around can be quite handy.
+
+<P>
+
+With the file open, the script prints the data to the file, one
+
+item per line. Because the <TT>uses</TT> item can have multiple
+
+values, it takes a little more processing, as shown in lines 11
+
+and 12. This loop iterates over the array that results from the
+
+<TT>split(/\0/,$fields{'uses'})</TT> command, printing each item
+
+from the null-character-separated list.
+
+<P>
+
+When all the data is printed to the temporary file, the file is
+
+closed, and the <TT>system</TT> function calls the program that
+
+will place the data in the DBM file. When that task is finished,
+
+the script deletes the temporary file and prints the &quot;thank
+
+you&quot; line back to the browser.
+
+<P>
+
+The final piece of this puzzle is the <TT>postdatasup</TT> script,
+
+shown in Listing 3.12. The script reads the appropriate file name
+
+from the command line. Notice that in Listing 3.11, I called this
+
+script (using the <TT>system</TT> function) with the temporary
+
+file name immediately following it. <TT>postdatasup</TT> opens
+
+that file and reads the data into an array.
+
+<HR>
+
+<BLOCKQUOTE>
+
+<B>Listing 3.12&nbsp;&nbsp;The Support Script for Periodic Data
+
+Entry<BR>
+
+</B>
+
+</BLOCKQUOTE>
+
+<BLOCKQUOTE>
+
+<PRE>
+
+#!/usr/bin/perl
+
+open (f, $ARGV[0]) || die &quot;Couldn't open file $ARGV[0]&quot;;
+
+$i=0;
+
+while (&lt;f&gt;) {
+
+   chop;
+
+   $file[$i]=$_;
+
+   $i++;
+
+}
+
+close f;
+
+($trash,$email)=split(/:/,$file[0]);
+
+($trash,$period)=split(/:/,$file[1]);
+
+($trash,$hours)=split(/:/,$file[2]);
+
+($trash,$webhours)=split(/:/,$file[3]);
+
+($trash,$phonehours)=split(/:/,$file[4]);
+
+($trash,$send)=split(/:/,$file[5]);
+
+($trash,$receive)=split(/:/,$file[6]);
+
+($trash,@uses)=split(/:/,$file[7]);
+
+$dbfile=&quot;period&quot;.$period;
+
+dbmopen (%data, $dbfile, 0666);
+
+$data{$email}=join ('::',$hours,$webhours,$phonehours,$send,$receive);
+
+$data{$email}.= &quot;::&quot;.join (',', @uses);
+
+</PRE>
+
+</BLOCKQUOTE>
+
+<HR>
+
+<P>
+
+Notice that line 5 issues the command <TT>chop</TT>-a standard
+
+Perl function that chops one character off the end of a string.
+
+If it is called without any arguments, <TT>chop</TT> works on
+
+the Perl special variable <TT>$_</TT>. Recall that in a loop such
+
+as this that reads in a file, <TT>$_</TT> is set to equal each
+
+successive line in the file.
+
+<P>
+
+Lines 10 through 17 put the appropriate data in named variables.
+
+Notice that when the script processes the <TT>uses</TT> data,
+
+the data is put into an array rather than a scalar variable, because
+
+<TT>uses</TT> can have multiple entries.
+
+<P>
+
+Finally, the script opens the appropriate DBM file. You can see
+
+from the code that the files are named PERIOD1, PERIOD2, and so
+
+on. You have to initialize these files, using the <TT>initializedbm</TT>
+
+script (shown in &quot;Initializing a DBM File&quot; earlier in
+
+this chapter), before they can be used. The script then associates
+
+the e-mail address with the rest of the data as a delimited string.
+
+<H2><A NAME="FromHere"><FONT SIZE=5 COLOR=#FF0000>
+
+From Here...</FONT></A></H2>
+
+<P>
+
+With the examples in this chapter, you should now have a solid
+
+knowledge of form processing and data storage in DBM files. You
+
+should be able to take any form and know what you need to do to
+
+save submitted data. You know how to write to text files and to
+
+DBM files. You also know how to append data to DBM records and
+
+how to check the data in those records.
+
+<P>
+
+You may want to branch out to the following areas:
+
+<UL>
+
+<LI><A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch4.htm" >Chapter 4</A> &quot;Advanced Page Output.&quot;<B> </B>This chapter
+
+concentrates on processing existing data and page output.
+
+<LI><A HREF="ch11.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch11.htm" >Chapter 11</A>, &quot;Database Interaction.&quot; If you're interested
+
+in high-end data storage, head to this chapter for information
+
+about interacting with SQL databases.
+
+<LI><A HREF="ch16.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch16.htm" >Chapter 16</A>, &quot;Subroutine Definition.&quot; This chapter
+
+provides extensive information on creating subroutines, libraries
+
+and modules.
+
+</UL>
+
+<HR>
+
+
+
+<CENTER><P><A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch2.htm"><IMG SRC="pc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<A HREF="ch4.htm" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/ch4.htm"><IMG SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-7897/0-7897-0659-8/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A>
+
+<HR WIDTH="100%"></P></CENTER>
+
+</BODY>
+
+</HTML>

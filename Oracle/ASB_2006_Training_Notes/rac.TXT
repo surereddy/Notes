@@ -1,0 +1,50 @@
+构建RAC
+---------------
+1、package,user&group,kernel parameter,enviroment  var,
+2、用户对等设置，允许ssh或rsh运行远程节点命令
+3、准备共享存储
+  a、ocfs2
+  b、raw devices (rawservice)
+  c、ASM（自动存储管理）
+4、ocfs2配置过程
+  a、ocfs2console
+  b service o2cb configure
+  c  /etc/fstab 添加mount点
+  /dev/sdb1               /u02                    ocfs2   _netdev,datavolume,nointr      0 0
+  d service o2cb start|stop|status
+5、安装oracle clusterware
+  a crsd,racgimon,evmd,ocssd,oprocd
+  b $ORA_CRS_HOME/bin/olsnodes
+  c $ORA_CRS_HOME/bin/crsctl check crs
+  d ocr和voting需要冗余
+  e ocrconfig -export [filename]
+  f ocrconfig -import
+    ocrconfig -restore
+ 6 安装数据库
+ 7 dbca 创建数据库
+   a 选创建rac 数据库
+   b 所有instance都一样的的参数：dbname,db_block_size,global_name
+   c 每个instance不同的参数：thread
+ 8 网络配置
+   oifcfg iflist
+   oifcfg getif
+   oifcfg setif -global eth1/192.168.2.0:cluster_interconnect
+   $ORA_CRS_HOME/bin/vipca
+ 
+ 9 管理rac数据库
+   a 使用em管理数据库 
+     emctl status dbconsole看是否已经启动
+     emctl start|stop dbconsole启动关闭dbconsole
+     
+   b srvctl 
+    srvctl start database -d rac -o nomount|mount|open
+    srvctl stop database -d rac -o transactional|immediate|abort|normal
+    srvctl start instance -d rac -i rac1,rac2
+    srvctl start nodeapps -n rac1,rac2
+    
+ 10 增加node到现有cluster
+   $ORA_CRS_HOME/oui/bin/addNodes.sh
+   $ORACLE_HOME/oui/bin/addNodes.sh
+   dbca -> intance management -> add instance
+   srvctl stop instance -d rac -i rac3
+   srvctl disable instance -d rac -i rac3

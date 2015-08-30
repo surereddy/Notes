@@ -1,0 +1,219 @@
+|-archive log
+SQL> archive log list;
+Database log mode              Archive Mode
+Automatic archival             Enabled
+Archive destination            /in/smf/platform/archdb/archSMP
+Oldest online log sequence     2446
+Next log sequence to archive   2449
+Current log sequence           2449
+
+bluetooth1 linus>ls /in/smf/platform/archdb/archSMP*
+/in/smf/platform/archdb/archSMP_0000002307.dbf  /in/smf/platform/archdb/archSMP_0000002378.dbf
+/in/smf/platform/archdb/archSMP_0000002308.dbf  /in/smf/platform/archdb/archSMP_0000002379.dbf
+
+|-all physical files
+datafiles
+            select name,bytes from v$datafile;
+redo files
+            select * from v$logfile;
+control files
+            select * from v$controlfile;
+parameter files
+            %ORACLE_HOME%/database ;  $ORACLE_HOME/dbs
+spfile
+            show parameter spfile
+password file
+archive file
+            archive log list
+            
+
+
+
+
+DOC7.TXT
+--------------------------------------------------------------------------------------------
+
+Oracle网络配置 
+
+管理工具
+ netca  - net config assistant
+ netmgr - net manager
+ 
+用户可以通过iiop/ http之间连接数据库 [典型的应用xmldb]
+用户也可以通过web 服务器来连接数据库。
+
+为了集中管理，Oracle提供OID ,就是Oracle目录服务器。
+
+在数据库网络安全方面，包括通信过程的加密。
+
+Oracle网络和防火墙
+ USE_SHARED_SOCKET=TRUE --加入注册表 ，所有的客户端都是通过1521端口通信，在防火墙上放开1521就可以了。 /windows
+ 或者使用共享服务器的方式，配置好调度进程，给调度进程指定固定的端口，然后防火墙里面打开调度进程的端口。
+
+为了支持大量的并发用户，节省资源，Oracle提供 [共享服务器] 配置方案。
+
+Oracle通过HS服务来访问其他数据源或数据库的数据。
+
+Oracle通过extproc，可以让pl/sql编写的存储过程来访问运行于操作系统里面的用3GL语言编写的程序。
+
+pro*c 在c语言里面直接使用sql来访问数据库。
+
+
+--------------------------
+
+Oracle共享服务器的配置 Shared Server
+
+service_names参数
+ 用来表示数据库的逻辑名称
+db_name -- 数据库的物理名称
+
+连接描述符 connect description  -- 也可以叫服务名称 service name
+ connect scott/tiger@orcl
+
+监听进程 listener
+与数据库跑在同一台机器上，监听客户端的连接，把连接转发给Oracle服务器。
+ lsnrctl status 可以察看listener的状态
+ lsnrctl start|stop 可以启动停止listener
+ 
+到Oracle9i以后，Oracle数据库服务可以动态的向监听进程注册服务。
+
+Oracle Net配置文件
+listener.ora  - 配置服务器端监听进程的。
+tnsnames.ora  - 配置客户段 [连接描述符] 的。用户可以通过连接描述符来访问数据库服务器。
+ldap.ora      - 如果企业使用目录服务器集中管理配置，在这个文件里面指定目录服务器的位置。
+sqlnet.ora    - 指定客户段的命名方式和其他的选项。
+所有的配置文件都位于同一个目录下： $ORACLE_HOME/network/admin
+环境变量TNS_ADMIN可以改变缺省的路径。
+
+Oracle服务动态登记。
+	1-Oracle 监听进程listener不需要做任何配置，不需要listener.ora配置文件
+	
+	2-当数据库启动的时候，pmon进程会将数据库的信息注册到监听进程。
+	   提供以下信息[参数]：
+	   service_names
+	   instance_name
+	   dispatchers
+	dba也可以使用以下sql语句强制pmon登记
+	  ALTER SYSTEM REGISTER；
+	当dba动态修改service_names参数时候，pmon也会重新登记listener。
+	
+	3-pmon 每30秒刷新监听进程的信息。
+
+通过配置listener.ora文件静态配置。
+ 	用于Oracle8以前的老的数据库版本
+ 	需要listener.ora配置文件
+ 	当你需要使用oem等工具来管理数据库的时候，可以考虑配置。
+
+
+如何将pmon能够登记数据库到非1521端口。
+
+1 - listener.ora
+	LISTENER =
+	  (DESCRIPTION =
+	    (ADDRESS = (PROTOCOL = TCP)(HOST = mema-ibm)(PORT = 1526))
+	  )
+	
+	SID_LIST_LISTENER =
+	  (SID_LIST =
+	    (SID_DESC =
+	      (GLOBAL_DBNAME = orcl.alcatel.com.cn)
+	      (SID_NAME = orcl)
+	    )
+	  )
+
+2 - 在tnsnames.ora文件里面添加项目。
+	ORCL_LIS =
+	  (DESCRIPTION =
+	    (ADDRESS_LIST =
+	      (ADDRESS = (PROTOCOL = TCP)(HOST = mema-ibm)(PORT = 1526))
+	    )
+	  )
+	  
+3 - 修改参数local_listener,指向tnsnames.ora文件里面的项目。
+  ALTER SYSTEM SET LOCAL_LISTENER=ORCL_LIS
+  
+4 - 登记
+   ALTER SYSTEM REGISTER
+   
+=====================================================================
+客户端配置方式1
+   主机命名方式：HOST NAMING
+   不需要客户端的tnsnames.ora配置文件。
+   要求：在服务器端一定要配置 listener.ora中的global_dbname,端口一定是1521；
+   
+   修改客户段的 C:\WINDOWS\system32\drivers\etc\host
+      /etc/hosts
+   添加以下行：
+    <ip-address> <global_dbname>
+   
+   通过主机名称就可以连接数据库；
+    SQL> CONNECT SCOTT/TIGER@<global_dbname>
+
+方式2
+使用tnsnames.ora
+	ORCL =
+	  (DESCRIPTION =
+	    (ADDRESS_LIST =
+	      (ADDRESS = (PROTOCOL = TCP)(HOST = [mema-ibm])(PORT = [1521]))
+	    )
+	    (CONNECT_DATA =
+	      (SERVER = DEDICATED)
+	      (SERVICE_NAME = [orcl.alcatel.com.cn])
+	    )
+	  )
+	  
+	  
+=======================================================================
+配置共享服务器模式：
+
+ 用户进程发送连接请求到监听进程
+ 监听进程返回调度进程的port
+ 用户进程和调度进程建立连接
+ 用户发送sql请求到调度进程
+ 调度进程将请求放到共同的 请求队列
+ 空闲的服务进程利用fifo的方式处理请求队列里面的请求。
+ 服务进程将处理结果放到 响应队列[每个调度进程都有一个] 里面
+ 调度进程从自己的响应队列里面把处理结果放回到用户进程
+ 
+配置2个参数：
+	dispatchers
+           alter system set dispatchers='(pro=tcp)(dis=5)(serv=orclXDB,orcl)'
+	shared_servers
+可以通过以下两个参数调整性能；
+	max_dispatchers
+	max_shared_servers
+	
+在客户段的tnsnames.ora 文件里面指定选项：
+	ORCL_SHARED =
+	  (DESCRIPTION =
+	    (ADDRESS_LIST =
+	      (ADDRESS = (PROTOCOL = TCP)(HOST = mema-ibm)(PORT = 1521))
+	    )
+	    (CONNECT_DATA =
+	      (SERVER = [SHARED])
+	      (SERVICE_NAME = orcl)
+	    )
+	  )
+	
+如何察看那些连接时通过shared server连接呢？
+ select username,server,type from v$session where username is not null;
+ 
+
+ 
+	  
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+

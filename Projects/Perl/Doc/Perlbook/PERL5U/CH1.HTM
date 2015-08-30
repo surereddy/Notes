@@ -1,0 +1,729 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 1 -- What is Perl?</TITLE>
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0b5aGold (WinNT; I) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 1</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>What is Perl?</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+<UL>
+<LI><A HREF="#WhyPerl" >Why Perl?</A>
+<LI><A HREF="#ABriefHistoryofPerl" >A Brief History of Perl</A>
+<LI><A HREF="#TheBenefitsofUsingPerl" >The Benefits of Using Perl</A>
+<UL>
+<LI><A HREF="#CostandLicensing" >Cost and Licensing</A>
+<LI><A HREF="#Availability" >Availability</A>
+<LI><A HREF="#InterpretedLanguage1" >Interpreted Language</A>
+<LI><A HREF="#Practical" >Practical</A>
+<LI><A HREF="#LanguageCapabilities" >Language Capabilities</A>
+<LI><A HREF="#IntegrationwithC" >Integration with C</A>
+<LI><A HREF="#SpecializedExtensionstoPerl" >Specialized Extensions to Perl</A>
+<LI><A HREF="#SocketCapability" >Socket Capability</A>
+<LI><A HREF="#PerlIsRelativelyEasytoLearn" >Perl Is Relatively Easy to Learn</A>
+<LI><A HREF="#PerlHasBuiltInDebuggingFacilities" >Perl Has Built-In Debugging Facilities</A>
+<LI><A HREF="#PerlHelpIsReadilyAvailable" >Perl Help Is Readily Available</A>
+<LI><A HREF="#PerlExamplesAreReadilyAvailable" >Perl Examples Are Readily Available</A>
+</UL>
+<LI><A HREF="#WhatAretheNegativesofUsingPerl" >What Are the Negatives of Using Perl?</A>
+<UL>
+<LI><A HREF="#InterpretedLanguage" >Interpreted Language</A>
+<LI><A HREF="#PerceivedasPublicDomain" >Perceived as Public Domain</A>
+<LI><A HREF="#InformalSupport" >Informal Support</A>
+<LI><A HREF="#ProtectingProprietaryCode" >Protecting Proprietary Code</A>
+<LI><A HREF="#ConcernsAboutReliability" >Concerns About Reliability</A>
+<LI><A HREF="#MaintainabilityofScripts" >Maintainability of Scripts</A>
+<LI><A HREF="#GNUCopyleftLicenseAgreement" >GNU Copyleft License Agreement</A>
+</UL>
+<LI><A HREF="#WhatCanPerlDo" >What Can Perl Do?</A>
+<UL>
+<LI><A HREF="#UNIXSystemMaintenance" >UNIX System Maintenance</A>
+<LI><A HREF="#CGIScripts" >CGI Scripts</A>
+<LI><A HREF="#MailProcessing" >Mail Processing</A>
+<LI><A HREF="#AutomatingWebSiteMaintenance" >Automating Web Site Maintenance</A>
+<LI><A HREF="#AutomatingFileRetrieval" >Automating File Retrieval</A>
+</UL>
+<LI><A HREF="#IsPerlforYou" >Is Perl for You?</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+Perl is an interpreted language optimized for scanning arbitrary
+text files, extracting information from these files, and printing
+reports based on that information. It is also a good language
+for many system management tasks. The language is intended to
+be practical-easy to use, efficient, and complete-rather than
+beautiful-tiny, elegant, and minimal. Perl was written by Larry
+Wall (<TT><FONT FACE="Courier">lwall@sems.com</FONT></TT>), with
+the help of lots of other contributors.
+<H2><A NAME="WhyPerl"><FONT SIZE=5 COLOR=#FF0000>Why Perl?</FONT></A>
+</H2>
+<P>
+UNIX system administrators and application developers often have
+to rely on several different languages to accomplish their tasks.
+This means learning a number of different syntaxes and having
+to write in multiple languages to accomplish a task. For example,
+to process a file, a system administrator might have to write
+a shell script using <TT><FONT FACE="Courier">sh</FONT></TT>,
+process a file using <TT><FONT FACE="Courier">awk</FONT></TT>
+or <TT><FONT FACE="Courier">grep</FONT></TT>, and edit the file
+using <TT><FONT FACE="Courier">sed</FONT></TT>. For other uses,
+the administrator may have to create a C program with its longer
+create/compile/debug development cycle.
+<P>
+It would be better if the administrator could combine many of
+these tasks into a simple language that is easy to write and develop,
+and reasonably efficient and complete. Along comes Perl.
+<P>
+In a single language, Perl combines some of the best features
+of C, <TT><FONT FACE="Courier">sed</FONT></TT>, <TT><FONT FACE="Courier">awk</FONT></TT>,
+and <TT><FONT FACE="Courier">sh</FONT></TT>. People familiar with
+these languages have little difficulty being productive in Perl.
+Perl's expression syntax is very C-like. Perl uses sophisticated
+pattern-matching techniques to scan large amounts of data very
+quickly. Although optimized for scanning text, Perl can also deal
+with binary data. If you have a problem on which you would ordinarily
+use <TT><FONT FACE="Courier">sed</FONT></TT>, <TT><FONT FACE="Courier">awk</FONT></TT>,
+or <TT><FONT FACE="Courier">sh</FONT></TT>, but it exceeds these
+tools' capabilities or must run a little faster and you don't
+want to write the program in a compiled language such as C, Perl
+may be the language for you.
+<H2><A NAME="ABriefHistoryofPerl"><FONT SIZE=5 COLOR=#FF0000>A
+Brief History of Perl</FONT></A></H2>
+<P>
+It is helpful to your understanding of Perl to know a little bit
+about why Perl was created and how it evolved.
+<P>
+Larry Wall developed Perl in 1986. He was a systems programmer
+on a project that was developing multilevel, secure wide area
+networks. Larry was in charge of an installation consisting of
+three Vaxes and three Suns on the West Coast of the United States
+connected over an encrypted serial line (1200 baud!) to a similar
+configuration on the East Coast of the United States. Larry's
+primary job was system support &quot;guru.&quot; During this stint,
+he developed several useful UNIX tools such as <TT><FONT FACE="Courier">rn</FONT></TT>,
+<TT><FONT FACE="Courier">patch</FONT></TT>, and <TT><FONT FACE="Courier">warp</FONT></TT>.
+<P>
+Perl was developed in response to a management requirement for
+a configuration management and control system for all six Vaxes
+and all six Suns. As with most management requests, Larry had
+a month to develop this tool!
+<P>
+Larry considered the problem of a bicoastal configuration management
+tool, without writing it from scratch. The tool would have to
+be capable of viewing problem reports on both coasts with approvals
+and control. His answer was B-news.
+<P>
+Larry installed B-news on three machines and added two control
+commands. Configuration management was done using RCS, and approvals
+and submissions were done using news and <TT><FONT FACE="Courier">rn</FONT></TT>.
+<P>
+However, managers always need one thing more. Larry's manager
+asked him to produce reports. B-news was maintained in separate
+files on a master machine, with lots of cross references between
+files. Larry's first thought was to use <TT><FONT FACE="Courier">awk</FONT></TT>
+to produce the reports. Unfortunately, <TT><FONT FACE="Courier">awk</FONT></TT>
+fell a bit short. It couldn't handle opening and closing multiple
+files based on information in the files. Larry didn't want to
+code a special purpose tool just for this job, so a new language
+was born.
+<P>
+The language wasn't originally called Perl. Larry, his coworkers,
+friends, and family considered just about every three- and four-letter
+word in existence. One of the earliest names was &quot;Gloria&quot;
+(his wife's name), but this was replaced due to the confusion
+it caused in his household. The name became &quot;Pearl,&quot;
+which was changed into the present day &quot;Perl,&quot; partly
+due to the existence of a graphics language called &quot;pearl,&quot;
+but mostly because five letters was a bit much to type all the
+time. You'll find a reference to the former five-letter version
+in the entry for the acronym Practical Extraction and Report Language.
+<P>
+The early version of Perl lacked many of the features of today's
+version. The language included the following :
+<UL>
+<LI><FONT COLOR=#000000>Pattern matching</FONT>
+<LI><FONT COLOR=#000000>File handles</FONT>
+<LI><FONT COLOR=#000000>Scalars</FONT>
+<LI><FONT COLOR=#000000>Formats</FONT>
+<LI><FONT COLOR=#000000>A crippled implementation of pattern matching
+(from </FONT><TT><FONT FACE="Courier">rn</FONT></TT>)
+</UL>
+<P>
+The manual page was only 15 pages long. But Perl was faster than
+<TT><FONT FACE="Courier">sed</FONT></TT> and <TT><FONT FACE="Courier">awk</FONT></TT>
+and began to be used on other aspects of the project.
+<P>
+Larry moved on to support research and development and took Perl
+with him. Perl was becoming a good tool for system administration.
+Larry borrowed Henry Spencer's regular expression package and
+modified it for Perl. Then Larry added most of the goodies he
+and other people wanted and released it on the Internet.
+<P>
+The current version (5+) of the language is a complete rewrite
+from the previous versions. It provides the following additional
+benefits:<P>
+<CENTER>
+<TABLE BORDER=1>
+<TR VALIGN=TOP><TD WIDTH=205>Usability enhancements</TD><TD WIDTH=385>It is now possible to write much more readable Perl code. (How any C-like language can be called readable is still beyond me!)
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>Simplified grammar</TD><TD WIDTH=385>The new <TT><FONT FACE="Courier">yacc</FONT></TT> grammar is one half the size of the old one. Many of the arbitrary grammar rules have been regularized. The number of reserved words has 
+been cut by two-thirds. Despite this, nearly all old Perl scripts will continue to work the same.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>Lexical scoping</TD><TD WIDTH=385>Perl variables may now be declared within a lexical scope.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>Arbitrarily nested data structures</TD><TD WIDTH=385>Any scalar value, including any array element, may now contain a reference to any other variable or subroutine.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>Modularity and reusability</TD><TD WIDTH=385>The Perl library is now defined in terms of modules that can be shared easily among various packages.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>Object-oriented programming</TD><TD WIDTH=385>A package can function as a class. Dynamic multiple inheritance and virtual methods are supported in a straightforward manner and with very little new syntax. File handles may now 
+be treated as objects.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>Embeddability and Extensibility</TD><TD WIDTH=385>Perl may now be embedded easily in your C or C++ application and can either call or be called by your routines through a documented interface.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>POSIX compliant</TD><TD WIDTH=385>A major new module is the POSIX module, which provides access to all available POSIX routines and definitions via object classes, where appropriate.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>Package constructors and destructors</TD><TD WIDTH=385>The new <TT><FONT FACE="Courier">BEGIN</FONT></TT> and <TT><FONT FACE="Courier">END</FONT></TT> blocks provide a means to capture control as a package is being compiled and 
+after the program exits.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>Multiple simultaneous
+<BR>
+ BM implementations
+</TD><TD WIDTH=385>A Perl program may now access DBM, NDBM, SDBM, GDBM, and Berkeley DB files from the same script, simultaneously.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>Subroutine definitions may be autoloaded</TD>
+<TD WIDTH=385>The <TT><FONT FACE="Courier">AUTOLOAD</FONT></TT> mechanism enables you to define any arbitrary semantics for undefined subroutine calls.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=205>Regular expression enhancements</TD><TD WIDTH=385>You can now specify non-greedy quantifiers and performing grouping without creating a back reference.<BR>
+You can write regular expressions with embedded white space and comments for readability. A consistent extensibility mechanism has been added that is upwardly compatible with all old, regular expressions.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H2><A NAME="TheBenefitsofUsingPerl"><FONT SIZE=5 COLOR=#FF0000>The
+Benefits of Using Perl</FONT></A></H2>
+<P>
+Perl has many advantages as a general-purpose scripting language.
+ These benefits include its generous licensing (it's free), its
+interpreted nature, the fact that Perl is available for most platforms,
+and more. The following sections detail some of the benefits of
+this excellent language.
+<H3><A NAME="CostandLicensing">Cost and Licensing</A></H3>
+<P>
+First, Perl is generally available on most server platforms, including
+the following:
+<UL>
+<LI><FONT COLOR=#000000>Most UNIX variants</FONT>
+<LI><FONT COLOR=#000000>MS-DOS</FONT>
+<LI><FONT COLOR=#000000>Windows NT</FONT>
+<LI><FONT COLOR=#000000>Windows 95</FONT>
+<LI><FONT COLOR=#000000>OS/2</FONT>
+<LI><FONT COLOR=#000000>Macintosh</FONT>
+</UL>
+<P>
+Perl also has the distinct advantage of being &quot;low cost.&quot;
+It is distributed free of charge or, at most, for a small copying
+charge. Actually, Perl is distributed under the GNU &quot;copyleft,&quot;
+which means that if you can execute Perl on your system, you should
+have access to the source of Perl for no additional charge. (Actually,
+a small copying charge might be imposed.) Perl may also be distributed
+under the &quot;artistic license,&quot; which some people find
+less threatening than the copyleft.
+<H3><A NAME="Availability">Availability</A></H3>
+<P>
+Perl is readily available from many sources, including any <TT><FONT FACE="Courier">comp.sources.unix</FONT></TT>
+archive or CPAN site. If you don't have Perl on your server or
+development machine, it is easy to obtain either as source code
+or precompiled binaries for many platforms. For those not on the
+Internet, Perl is available via anonymous Uucp from both <TT><FONT FACE="Courier">uunet</FONT></TT>
+and <TT><FONT FACE="Courier">osu-cis</FONT></TT>. Perl is often
+distributed with CD collections of utilities for UNIX platforms.
+(See appendix B, &quot;Perl Module Archives,&quot; for information
+on Perl archives.)
+<H3><A NAME="InterpretedLanguage1">Interpreted Language</A></H3>
+<P>
+Perl is interpreted. This can be either an advantage or disadvantage,
+depending on your needs. For example, Perl has a short development
+cycle compared to compiled languages, but it will never execute
+as fast as a compiled language. I discuss the disadvantages in
+the section called, &quot;What Are the Negatives of Using Perl?,&quot;
+but there are some definite advantages.
+<P>
+One advantage of an interpreted language for tool or application
+development is that you can perform incremental, iterative development
+and testing without having to go through a create/compile/test/debug/fix
+cycle. By eliminating the compile portion of the cycle, interpreted
+languages can speed the development cycle drastically. It can
+also be helpful if you are evolving your application by implementing
+it with minimal capabilities and adding advanced capabilities
+later.
+<P>
+Because it is interpreted and relatively C-like, you can also
+use Perl as a <I>prototyping</I> language. This can be especially
+useful with complex or technically difficult projects such as
+network communication. You can use Perl's shortened development
+cycle to evaluate your design and then, once it is proven, rewrite
+the code in the language of your choice. By the way, C and C++
+are good choices because Perl is a lot like C and supports much
+the same functionality.
+<H3><A NAME="Practical">Practical</A></H3>
+<P>
+Perl is written to be practical. This means that it is
+<UL>
+<LI><FONT COLOR=#000000>Complete</FONT>
+<LI><FONT COLOR=#000000>Easy to use</FONT>
+<LI><FONT COLOR=#000000>Efficient</FONT>
+</UL>
+<P>
+These design goals mean that Perl programs can generally accomplish
+a goal that would otherwise take several other languages, require
+complex programming, and take longer to process.
+<P>
+But for many of us, practicality goes beyond this. It means that
+you can get things <I>done</I> in Perl. In fact, there are usually
+several ways that Perl can accomplish the same task. It also means
+that the programmer can concentrate on getting the task done rather
+than dealing with the &quot;beauty&quot; of the language in which
+he or she is working.
+<H4>Complete</H4>
+<P>
+As mentioned before, Perl combines some of the best features of
+several languages. Here's a list of these languages:<P>
+<CENTER>
+<TABLE BORDER=1>
+<TR VALIGN=TOP><TD WIDTH=109><CENTER><TT><FONT FACE="Courier">grep/awk</FONT></TT></CENTER>
+</TD><TD WIDTH=481>General pattern-matching languages for selecting elements from a file.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=109><CENTER><TT><FONT FACE="Courier">C</FONT></TT></CENTER>
+</TD><TD WIDTH=481>A general-purpose compiled programming language. (Perl is written in C.)
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=109><CENTER><TT><FONT FACE="Courier">sh</FONT></TT></CENTER>
+</TD><TD WIDTH=481>A control language generally used for running programs and scripts written in other languages.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=109><CENTER><TT><FONT FACE="Courier">sed</FONT></TT></CENTER>
+</TD><TD WIDTH=481>A stream editor for processing text streams (STDIN/STDOUT).
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+These languages typically have been the tools used by UNIX administrators
+to accomplish tasks. In fact, they are often touted as the reason
+that UNIX is an excellent development platform. They are still
+excellent tools for the purposes for which they were written.
+<P>
+However, if you have to deal with several languages, you also
+have to deal with <I>learning</I> these languages. For instance,
+a task to process a single text file might require the administrator
+to write a shell script to run an <TT><FONT FACE="Courier">awk</FONT></TT>
+program to select lines that are subsequently processed by <TT><FONT FACE="Courier">sed</FONT></TT>.
+<P>
+<A HREF="f1-1.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/f1-1.gif" ><B>Figure 1.1:</B> <I>A single Perl script can often do the work of several other utilities.</I></A>
+<P>
+With Perl, the administrator or developer can accomplish his goals
+in a single, easy-to-use language that performs the same tasks
+as these languages.
+<P>
+With version 5.0 of Perl, the language also supports an object-oriented
+approach to pro-gramming. This means that packages/modules can
+be distributed as objects and used without knowledge of the underlying
+code. These packages can also be extended as they can be in other
+object-oriented languages. The key is that programmers only use
+the object-oriented features of Perl if they need them for the
+particular program they are writing.
+<H4>Easy to Use</H4>
+<P>
+Above all, Perl is a language in which you can <I>do</I> things.
+There are usually several ways to accomplish the same task. Although
+some techniques are more efficient with system resources than
+others, users can generally select the technique that is easier
+for them to use (and maintain/enhance in the future) and go with
+it.
+<P>
+The ease of use and completeness make Perl appropriate for quick-and-dirty,
+one-time utilities as well as structured, complex applications.
+<H4>Efficient</H4>
+<P>
+Perl is a straight-line language, which means that simple programs
+do not have to deal with complex formatting or function/procedure
+or object/method structures to accomplish their task. As a simple
+example, let's pay homage to programming texts (including this
+one) with the &quot;Hello World!&quot; program. Here it is in
+C:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void main()<BR>
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;Hello World!&quot;);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+And here it is in Perl:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">print 'Hello World!'</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Get in, get out, and get the job done.
+<H3><A NAME="LanguageCapabilities">Language Capabilities</A></H3>
+<P>
+Perl is <I>optimized</I> for text processing and, therefore, is
+very efficient at many tasks required of system administrators
+and application developers. Many of the files used in UNIX systems
+administration are plain text files. Selecting records, processing
+the selected records, and reporting exceptions are the heart of
+many tasks performed in UNIX administration.
+<P>
+In the current versions of Perl, the language also includes much
+additional functionality, making it appropriate for tasks such
+as processing socket calls, embedding in programs written in C,
+and maintaining POSIX-compliant systems.
+<H3><A NAME="IntegrationwithC">Integration with C</A></H3>
+<P>
+Perl can access C libraries to take advantage of much of the code
+written for this popular language. Utilities included with Perl
+distributions enable you to convert the headers for these C libraries
+into their Perl equivalents.
+<P>
+Perl 5.0 can be integrated easily into C and C++ applications.
+Perl can call or be called by routines written in C or C++. The
+Perl interface is through a set of <TT><FONT FACE="Courier">perl_call_*</FONT></TT>
+functions. The call to C libraries is through the XS language
+interface.
+<H3><A NAME="SpecializedExtensionstoPerl">Specialized Extensions
+to Perl</A></H3>
+<P>
+There are many specialized extensions to Perl, primarily for handling
+specific databases such as Oracle, Ingres, Informix. These combine
+the strengths of the Perl language with the access to the host
+database.
+<P>
+At the time of this writing, <TT><FONT FACE="Courier">ftp.demon.co.uk</FONT></TT>
+(<TT><FONT FACE="Courier">158.152.1.69</FONT></TT>) is the official
+repository for database <TT><FONT FACE="Courier">&lt;foo&gt;perls</FONT></TT>
+(see the following list), which can be found in <TT><FONT FACE="Courier">/pub/perl/db/perl4/</FONT></TT>.
+It's mirrored at <TT><FONT FACE="Courier">ftp.cis.ufl.edu</FONT></TT>
+(<TT><FONT FACE="Courier">198.17.47.33</FONT></TT>) in <TT><FONT FACE="Courier">/pub/perl/scripts/db/</FONT></TT>.
+<P>
+<CENTER>
+<TABLE BORDER=1>
+<TR VALIGN=TOP><TD WIDTH=151><TT><FONT FACE="Courier">btreeperl</FONT></TT>
+</TD><TD WIDTH=186>NDBM extensions</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=151><TT><FONT FACE="Courier">ctreeperl</FONT></TT>
+</TD><TD WIDTH=186>C-Tree extensions</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=151><TT><FONT FACE="Courier">duaperl</FONT></TT>
+</TD><TD WIDTH=186>X.500 directory user agent</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=151><TT><FONT FACE="Courier">ingperl</FONT></TT>
+</TD><TD WIDTH=186>Ingres</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=151><TT><FONT FACE="Courier">isqlperl</FONT></TT>
+</TD><TD WIDTH=186>Informix</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=151><TT><FONT FACE="Courier">interperl</FONT></TT>
+</TD><TD WIDTH=186>Interbase</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=151><TT><FONT FACE="Courier">oraperl</FONT></TT>
+</TD><TD WIDTH=186>Oracle 6 and 7</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=151><TT><FONT FACE="Courier">pgperl</FONT></TT>
+</TD><TD WIDTH=186>Postgres</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=151><TT><FONT FACE="Courier">sybperl</FONT></TT>
+</TD><TD WIDTH=186>Sybase 4</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=151><TT><FONT FACE="Courier">uniperl</FONT></TT>
+</TD><TD WIDTH=186>UNIFY 5.0</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+See appendix B, &quot;Perl Module Archives,&quot; for more information
+on these repositories.
+<H3><A NAME="SocketCapability">Socket Capability</A></H3>
+<P>
+Perl has the capability to read/write TCP/IP sockets. This gives
+it the capability to communicate with servers of all types that
+rely on socket communication. It also enables you to write utility
+and &quot;robot&quot; programs in the Perl language. For example,
+Perl's socket capability can be used to write a robot program
+to automate the checking of a World Wide Web (WWW) site to verify
+the validity of links on your Web pages. This can be especially
+useful in keeping a site up-to-date, given the volatility of the
+Internet in its relative infancy.
+<H3><A NAME="PerlIsRelativelyEasytoLearn">Perl Is Relatively Easy
+to Learn</A></H3>
+<P>
+Unlike many programming languages, Perl is designed to be practical
+rather than beautiful. By this I mean that Perl was designed from
+the start to be easy to use, efficient, and complete rather than
+tiny, elegant, and minimal.
+<P>
+Programming in Perl is relatively easy, especially if you have
+experience in C or another C-like language. Like many scripting
+languages, Perl reads its programs from the first line to the
+last line. It doesn't require complex structures to be able to
+create a program. It does, however, support subroutines or functions
+and, in version 5.0, can be object oriented.
+<H3><A NAME="PerlHasBuiltInDebuggingFacilities">Perl Has Built-In
+Debugging Facilities</A></H3>
+<P>
+The Perl interpreter has a built-in debugger that can help reduce
+the time it takes to debug applications. The debugger is activated
+through the use of the <TT><FONT FACE="Courier">-d</FONT></TT>
+switch on the command line. In addition, the <TT><FONT FACE="Courier">-w</FONT></TT>
+switch provides a complete set of warnings that can be invaluable
+in debugging Perl scripts.
+<H3><A NAME="PerlHelpIsReadilyAvailable">Perl Help Is Readily
+Available</A></H3>
+<P>
+Because Perl is very popular as a scripting language, there is
+a lot of help out there. Newsgroup discussions are a good place
+to start when you require help on Perl programming. There are
+newsgroups devoted entirely to Perl and newsgroups devoted to
+Web page creation in which the majority of the discussion is about
+Perl. Here are some of them:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=244><I>Newsgroup</I></TD><TD WIDTH=346><I>Comment</I>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=244><TT><FONT FACE="Courier">comp.lang.perl...</FONT></TT>
+</TD><TD WIDTH=346>This set of newsgroups covers information about Perl in general. Much of the discussion in the specific groups covers using Perl for utility purposes and also as a CGI scripting language.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=244><TT><FONT FACE="Courier">comp.lang.perl.announce</FONT></TT>
+</TD><TD WIDTH=346>Provides information about new modules for Perl programming.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=244><TT><FONT FACE="Courier">comp.lang.perl</FONT></TT>
+</TD><TD WIDTH=346>This is the main newsgroup about Perl.</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=244><TT><FONT FACE="Courier">comp.lang.perl.modules</FONT></TT>
+</TD><TD WIDTH=346>Provides discussions of Perl modules.</TD>
+</TR>
+<TR VALIGN=TOP><TD WIDTH=244><TT><FONT FACE="Courier">Comp.lang.perl.tk</FONT></TT>
+</TD><TD WIDTH=346>Provides discussions of Tk used with Perl.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+There are, of course, Web pages related to Perl. Check the newsgroups
+for announcements about these pages. Here are just a couple that
+I have found as of this writing:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=350><I>URL</I></TD><TD WIDTH=200><I>Comment</I>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=350><TT><A HREF="tppmsgs/msgs0.htm#1" tppabs="http://www.perl.com/">http://www.perl.com/</A></TT>
+</TD><TD WIDTH=200>This is the Perl language homepage. It provides links to Perl resources.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=350><TT><A HREF="tppmsgs/msgs0.htm#2" tppabs="http://www.eecs.nwu.edu/perl/perl.html">http://www.eecs.nwu.edu/perl/perl.html</A></TT>
+</TD><TD WIDTH=200>NWU's Perl page.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=350><TT><A HREF="tppmsgs/msgs0.htm#3" tppabs="http://www.yahoo.com/Computers/Languages/Perl/">http://www.yahoo.com/Computers/Languages/Perl/</A></TT>
+</TD><TD WIDTH=200>Yahoo's Perl index.</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=350><TT><A HREF="tppmsgs/msgs0.htm#4" tppabs="http://www.virtualschool.edu/mon/Perl.html">http://www.virtualschool.edu/mon/Perl.html</A></TT>
+</TD><TD WIDTH=200>The &quot;middle of nowhere&quot; Perl archive (Netscape 2.0 pages).
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=350><TT><A HREF="tppmsgs/msgs0.htm#5" tppabs="http://www.teleport.com/~rootbeer/perl.html">http://www.teleport.com/~rootbeer/perl.html</A></TT>
+</TD><TD WIDTH=200>References with a special emphasis on using Perl for Web-related programming and on learning Perl.
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+See appendix B for more complete information on Perl-related Web
+pages.
+<P>
+Several lists of frequently asked questions (FAQ) are posted to
+the Perl newsgroups. One of the best to start with is the Perl
+Meta-FAQ, produced by Neil Bowers (<TT><FONT FACE="Courier">neilb@khoros.unm.edu</FONT></TT>).
+As you would expect, this is an FAQ about FAQs. It's available
+at this writing from the following sources:<P>
+<CENTER>
+<TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR VALIGN=TOP><TD WIDTH=87>HTML</TD><TD WIDTH=467><A HREF="tppmsgs/msgs0.htm#6" tppabs="http://www.khoros.unm.edu/staff/neilb/perl/metaFAQ/metaFAQ.html">http://www.khoros.unm.edu/staff/neilb/perl/metaFAQ/metaFAQ.html</A>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=87>PostScript</TD><TD WIDTH=467><A HREF="tppmsgs/msgs0.htm#7" tppabs="ftp://ftp.khoros.unm.edu/pub/perl/metaFAQ.ps">ftp://ftp.khoros.unm.edu/pub/perl/metaFAQ.ps</A>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=87>ASCII</TD><TD WIDTH=467><A HREF="tppmsgs/msgs0.htm#8" tppabs="ftp://ftp.khoros.unm.edu/pub/perl/metaFAQ.txt">ftp://ftp.khoros.unm.edu/pub/perl/metaFAQ.txt</A>
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="PerlExamplesAreReadilyAvailable">Perl Examples Are
+Readily Available</A></H3>
+<P>
+Again, because Perl is so popular as a utility language, there
+are lots of examples of Perl modules out there. One of the best
+sources is by file transfer protocol (FTP) from one of the Comprehensive
+Perl Archive Network (CPAN) sites around the world (see appendix
+B).
+<H2><A NAME="WhatAretheNegativesofUsingPerl"><FONT SIZE=5 COLOR=#FF0000>What
+Are the Negatives of Using Perl?</FONT></A></H2>
+<P>
+Perl has few negatives as a scripting language for system administration
+tasks and as a language for module development. But there are
+a few.
+<H3><A NAME="InterpretedLanguage">Interpreted Language</A></H3>
+<P>
+Perl is interpreted. Therefore, it will not be as fast as compiled
+languages such as C or C++. Given the speed of modern CPUs, in
+all but very large or time-critical applications, this will not
+make a significant difference. And in fact, the interpreted nature
+of the language can reduce development time significantly by eliminating
+the time needed to compile and debug versions of the program (see
+the previous section &quot;The Benefits of Using Perl&quot;).
+<H3><A NAME="PerceivedasPublicDomain">Perceived as Public Domain</A>
+</H3>
+<P>
+Perl isn't strictly in the public domain (see the license agreement
+for details). But it's close enough. Many large companies have
+policies against using public domain or copylefted software. In
+many cases, this bias is more of a mind-set than a negative, but
+it can be a detriment to using Perl (see the following section,
+&quot;Informal Support&quot;).
+<P>
+Because Perl is in the public domain, there is no corporation
+that your company can apply leverage against to get something
+done. But you do have access to the Perl source to make specific
+needed changes to your environment, if required.
+<H3><A NAME="InformalSupport">Informal Support</A></H3>
+<P>
+The support for Perl is on an informal basis through the volunteer
+efforts of users worldwide. Does this mean it is bad? No, not
+necessarily. In fact, the &quot;support&quot; given through the
+Internet newsgroups is probably as good as any given by a major
+corporation. But you can't <I>depend</I> on your question being
+answered, at least in a timely manner. And you don't have a corporation
+on which you can apply pressure to support your specific environment.
+On the other hand, you <I>do</I> have access to the source code
+for Perl and can look into problems yourself.
+<H3><A NAME="ProtectingProprietaryCode">Protecting Proprietary
+Code</A></H3>
+<P>
+Perl isn't compiled (although there is an effort to make it so).
+Thus, if you distribute your solutions, you distribute <I>code</I>.
+This can be a deterrent to producing (at least your final application)
+in Perl. (See the previous discussion of the benefits of Perl,
+in the section &quot;Interpreted Languages,&quot; as a prototyping
+language.)
+<H3><A NAME="ConcernsAboutReliability">Concerns About Reliability</A>
+</H3>
+<P>
+Perl, in its version 5+ incarnation, is undergoing some major
+changes. Things might not work or might break later. This can
+be a concern for the future of applications written for a specific
+version and relying on a specific feature. On the positive side,
+there are a lot of people testing each release through use. Many
+of these bugs are quickly detected and ironed out.
+<H3><A NAME="MaintainabilityofScripts">Maintainability of Scripts</A>
+</H3>
+<P>
+Perl has somewhat of a reputation for being unreadable. This can
+be a problem for system maintenance. However, Perl is probably
+no more unreadable than any C-like language. (C itself, in my
+opinion, is a very un-pretty-I won't say ugly-language; Perl suffers
+from that heritage.)
+<P>
+Like with any other language, the maintainability of Perl relies
+heavily on the willingness of the programmer to structure and
+comment/document the code. Because many &quot;quick-and-dirty&quot;
+utilities are written in Perl to get a specific job done and then
+expanded to be more generally usable, much of the available source
+code isn't all that pretty. (Sounds a little like the evolution
+of Perl itself, doesn't it?)
+<H3><A NAME="GNUCopyleftLicenseAgreement">GNU Copyleft License
+Agreement</A></H3>
+<P>
+The GNU license under which Perl is distributed is really quite
+innocuous. But, it might be a problem depending upon the type
+of application you are developing. If you intend to do any of
+the following, Perl is probably not the best language to use:
+<UL>
+<LI><FONT COLOR=#000000>Sell the application as a packaged product</FONT>
+<LI><FONT COLOR=#000000>Distribute an application that includes
+trade secrets</FONT>
+<LI><FONT COLOR=#000000>Keep your programming techniques secret</FONT>
+</UL>
+<H2><A NAME="WhatCanPerlDo"><FONT SIZE=5 COLOR=#FF0000>What Can
+Perl Do?</FONT></A></H2>
+<P>
+Perl is most commonly used to develop system administration tools.
+But it has also gained enormous popularity on the Internet. Perl
+can be, and is, used to develop many Internet applications and
+their supporting utility applications. The following sections
+describe some applications of Perl in systems administration and
+on the Internet.
+<H3><A NAME="UNIXSystemMaintenance">UNIX System Maintenance</A>
+</H3>
+<P>
+As mentioned before, Perl can perform the work of several other
+tools, and usually in less time. It is particularly adept at processing
+the text files typically used as configuration files.
+<H3><A NAME="CGIScripts">CGI Scripts</A></H3>
+<P>
+Perl is one of the most popular languages for creating CGI applications.
+There are literally thousands of examples of dynamic CGI programming
+in Perl. Perl can be used to create dynamic Web pages that can
+change depending on factors such as which visitor is viewing them.
+<P>
+One of the most common uses of Perl on the Internet is to process
+form input. Perl is especially adept at this chore because most
+of that input is textual-Perl's strength.
+<H3><A NAME="MailProcessing">Mail Processing</A></H3>
+<P>
+Another popular use of Perl is for the automated processing of
+Internet e-mail. Perl scripts have been used to filter mail based
+on address or content. Perl scripts have also been written to
+automate mailing lists. One of the most popular of these programs
+is Majordomo.
+<P>
+I personally have written a Perl script to automate my &quot;What's
+New?&quot; Web page. This script processes mail messages and adds
+them to my &quot;What's New?&quot; page. It also removes the entries
+from the page after they have been there for a certain length
+of time.
+<H3><A NAME="AutomatingWebSiteMaintenance">Automating Web Site
+Maintenance</A></H3>
+<P>
+Perl can be used to automate the maintenance of Web sites. Because
+Web pages are little more than text files in a specific format,
+Perl is particularly adept at processing them. Perl's socket capability
+can also be used to contact other sites and request information
+using HTTP. There has even been a Web server written in Perl.
+<P>
+In order to check the links on a site, a Perl program must parse
+the sites pages starting with the main page, extract the URLs,
+and determine whether these URLs are still active.
+<H3><A NAME="AutomatingFileRetrieval">Automating File Retrieval</A>
+</H3>
+<P>
+There are several FTP clients written in Perl. Perl can be used
+to automate file retrieval via FTP. Again, this combines the socket
+capability of Perl with its text-processing capability.
+<H2><A NAME="IsPerlforYou"><FONT SIZE=5 COLOR=#FF0000>Is Perl
+for You?</FONT></A></H2>
+<P>
+Only you can answer that question. The next chapters will give
+you a grounding in the Perl language that may help you decide
+whether you wish to use Perl for Internet programming. If you
+choose not to make it your main Web programming language, then
+because of its versatility, ease of use, and popularity, you may
+find that it becomes your utility language for the Web, if nothing
+else.
+<H2><A NAME="Summary"><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></A>
+</H2>
+<P>
+Perl is a practical, easy-to-use, efficient programming language.
+Add it to your toolbox and use it especially when you have tasks
+that involve text processing.
+<P>
+Like any programming language, Perl is not the only language you
+should have in your toolbox, but, when chosen for the appropriate
+tasks, Perl can give you the ability to solve the problem quickly.
+<P>
+If you're looking for a language which is beautiful, elegant,
+or minimal, Perl isn't for you. If, on the other hand, you're
+looking for a tool to get things done, few languages can compare
+with Perl.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="index.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/index.htm"><IMG SRC="hb.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch2.htm" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/ch2.htm"><IMG SRC="nc.gif" tppabs="http://www.mcp.com/818726400/0-672/0-672-30891-6/nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>
+
