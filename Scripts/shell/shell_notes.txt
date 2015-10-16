@@ -24,6 +24,12 @@ Correct:
 Wrong:
 ./1bots_temp.bash > a.txt 2 > err.txt
 
+Or if you want to redirect both standard output and error to one file:
+./1bots_temp.bash >a.txt 2>$1
+
+Or if you want to ignore the standard error output
+./1bots_temp.bash >a.txt 2>/dev/null
+
 Example 1:
 nohup GeNetPFServer -i dna0 -i dna1 -g 2 -v 1 -w 10 -q 40 -s 50000 -c 4096 -m 1500 -n 50000000 -o 0 -S 200 -N 20 -E 99h > /tmp/GeNetPFServerOutput.txt 2>/dev/null &
 

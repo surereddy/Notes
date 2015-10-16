@@ -19,9 +19,9 @@ do
         sleep 1
         R2=`cat /sys/class/net/$1/statistics/rx_bytes`
         T2=`cat /sys/class/net/$1/statistics/tx_bytes`
-        TBPS=`expr $T2 - $T1`
-        RBPS=`expr $R2 - $R1`
-        TKBPS=`expr 8 * $TBPS / 1024`
-        RKBPS=`expr 8 * $RBPS / 1024`
+        TBPS=$((T2 - T1))
+        RBPS=$((R2 - R1))
+        TKBPS=$((8 * TBPS / 1024))
+        RKBPS=$((8 * RBPS / 1024))
         echo "tx $1: $TKBPS kb/s rx $1: $RKBPS kb/s"
 done
