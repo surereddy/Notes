@@ -503,6 +503,18 @@ output:
 
 
 ||- awk
+|||- Pass shell variables
+
+cat a.txt
+Version: 200.24.mbu
+Version: 200.23.mbu
+MD5sum: 0a206b52213025cf13bf361ffbf75f0f
+
+Purpose: To print version value before MD5sum line.
+
+mk5ln=`cat a.txt| awk '/MD5sum/{print NR}'`; cat a.txt | awk -v n="$mk5ln" '{if(NR==n-1) {print $2}}'
+200.23.mbu
+
 cat test.txt
 Line 1 101,11
 Line 2 102,12

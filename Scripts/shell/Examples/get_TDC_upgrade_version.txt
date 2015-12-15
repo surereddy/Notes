@@ -1,0 +1,54 @@
+Objective: 
+get the version with MD5sum line.
+
+command:
+output=`apt-cache show tdc | egrep 'Version|MD5sum'`; mk5ln=`echo "$output"| awk '/MD5sum/{print NR}'`; echo "$output" | awk -v n="$mk5ln" '{if(NR==n-1) {print $2}}'
+200.23.mbu
+
+Downgrade output:
+# apt-cache show tdc
+Package: tdc
+Status: install ok installed
+Priority: standard
+Maintainer: VIX Technology <pdc-mbu@vixtechnology.com>
+Architecture: PPC_603E
+Version: 200.24.mbu
+Depends: gprs-services (= 0.1.3000.mbu), gpsd (= 2.37.6032.cots), myki-3g-services (= 1.1.4002.mbu), ppp (= 2.4.4.0007.cots), mcrfirmware (= 14.13.0000.cr), vix-portmap (= 1.0.2000.mbu), myki-avl (= 1.1.15000.mbu), vix-cce (= 0.0.18000.mbu), myki-tdc-www (= 1.0.202000.mbu), myki-switch (= 1.0.18000.mbu), cfengine-hub (= 3.6.5.2000.cots), dc-diagnostics (= 1.0.9000.mbu), busybox (= 1.22.1.4000.cots), dc6000-browser (= 1.1.7001.mbu), linux-kernel-viper (= 2.6.24.6.0.78000.cots), qt-webkit-install (= 1.0.1004.cr), micro-httpd (= 1.0.9000.mbu), qt-base-install (= 1.1.2002.cr), apt-cobra (= 1.0.8000.cots), myki-utils (= 1.0.106001.mbu), myki-commission-vehicle (= 1.0.36000.mbu), vsftpd (= 1.0.4000.mbu), fdt-viper (= 3.7.17000.cr), myki-dc (= 1.3.81000.mbu), gacreaderapp (= 2.2.63001.mbu), myki-tinyproxy (= 1.0.1000.mbu), myki-tram-avm (= 1.2.6018.mbu), tslib (= 1.0.10003.cots), processmanager (= 1.1.8000.mbu)
+Description: tdc package for device TramDriverConsole, release 200.24.mbu
+
+Package: tdc
+Version: 200.23.mbu
+Architecture: PPC_603E
+Maintainer: VIX Technology <pdc-mbu@vixtechnology.com>
+Depends: apt-cobra (= 1.0.8000.cots), qt-base-install (= 1.1.2002.cr), gprs-services (= 0.1.3000.mbu), micro-httpd (= 1.0.9000.mbu), fdt-viper (= 3.7.17000.cr), myki-commission-vehicle (= 1.0.34003.mbu), myki-tram-avm (= 1.2.6017.mbu), cfengine-hub (= 3.6.5.2000.cots), vsftpd (= 1.0.3000.mbu), busybox (= 1.22.1.4000.cots), myki-utils (= 1.0.96001.mbu), mcrfirmware (= 14.13.0000.cr), gacreaderapp (= 2.2.36000.mbu), myki-3g-services (= 1.1.4001.mbu), myki-dc (= 1.3.58001.mbu), myki-avl (= 1.1.12008.mbu), myki-switch (= 1.0.18000.mbu), myki-tdc-www (= 1.0.190100.mbu), myki-tinyproxy (= 1.0.1000.mbu), dc6000-browser (= 1.1.7001.mbu), gpsd (= 2.37.6032.cots), dc-diagnostics (= 1.0.9000.mbu), processmanager (= 1.1.8000.mbu), vix-portmap (= 1.0.2000.mbu), linux-kernel-viper (= 2.6.24.6.0.78000.cots), vix-cce (= 0.0.18000.mbu), tslib (= 1.0.10003.cots), ppp (= 2.4.4.0007.cots), qt-webkit-install (= 1.0.1004.cr)
+Filename: dists/TRAM_CURRENT_DC/TramDriverConsole/binary-PPC_603E/tdc_200.23.mbu_PPC_603E.deb
+Size: 1024
+MD5sum: 0a206b52213025cf13bf361ffbf75f0f
+SHA1: d3c5ba753db214bce2c87be0c2cdc52c54899eb4
+SHA256: 4c9998d228d50c6220880723c092f6b21f4575f11272dedb6c816eb9ed6fd650
+Priority: standard
+Description: tdc package for device TramDriverConsole, release 200.23.mbu
+
+
+Upgrade output:
+Package: tdc
+Version: 200.24.mbu
+Architecture: PPC_603E
+Maintainer: VIX Technology <pdc-mbu@vixtechnology.com>
+Depends: gprs-services (= 0.1.3000.mbu), gpsd (= 2.37.6032.cots), myki-3g-services (= 1.1.4002.mbu), ppp (= 2.4.4.0007.cots), mcrfirmware (= 14.13.0000.cr), vix-portmap (= 1.0.2000.mbu), myki-avl (= 1.1.15000.mbu), vix-cce (= 0.0.18000.mbu), myki-tdc-www (= 1.0.202000.mbu), myki-switch (= 1.0.18000.mbu), cfengine-hub (= 3.6.5.2000.cots), dc-diagnostics (= 1.0.9000.mbu), busybox (= 1.22.1.4000.cots), dc6000-browser (= 1.1.7001.mbu), linux-kernel-viper (= 2.6.24.6.0.78000.cots), qt-webkit-install (= 1.0.1004.cr), micro-httpd (= 1.0.9000.mbu), qt-base-install (= 1.1.2002.cr), apt-cobra (= 1.0.8000.cots), myki-utils (= 1.0.106001.mbu), myki-commission-vehicle (= 1.0.36000.mbu), vsftpd (= 1.0.4000.mbu), fdt-viper (= 3.7.17000.cr), myki-dc (= 1.3.81000.mbu), gacreaderapp (= 2.2.63001.mbu), myki-tinyproxy (= 1.0.1000.mbu), myki-tram-avm (= 1.2.6018.mbu), tslib (= 1.0.10003.cots), processmanager (= 1.1.8000.mbu)
+Filename: dists/TRAM_CURRENT_DC/TramDriverConsole/binary-PPC_603E/tdc_200.24.mbu_PPC_603E.deb
+Size: 1012
+MD5sum: 05b461d582415b20ef59dcbfe353ee15
+SHA1: 6c212a4b23f78191384df207191226b7bfa082e5
+SHA256: faed6bc2c07b1a927e65b0fe460aee1ad5a9eb1e69de233df232d7da7203c73b
+Priority: standard
+Description: tdc package for device TramDriverConsole, release 200.24.mbu
+
+Package: tdc
+Status: install ok installed
+Priority: standard
+Maintainer: VIX Technology <pdc-mbu@vixtechnology.com>
+Architecture: PPC_603E
+Version: 200.23.mbu
+Depends: apt-cobra (= 1.0.8000.cots), qt-base-install (= 1.1.2002.cr), gprs-services (= 0.1.3000.mbu), micro-httpd (= 1.0.9000.mbu), fdt-viper (= 3.7.17000.cr), myki-commission-vehicle (= 1.0.34003.mbu), myki-tram-avm (= 1.2.6017.mbu), cfengine-hub (= 3.6.5.2000.cots), vsftpd (= 1.0.3000.mbu), busybox (= 1.22.1.4000.cots), myki-utils (= 1.0.96001.mbu), mcrfirmware (= 14.13.0000.cr), gacreaderapp (= 2.2.36000.mbu), myki-3g-services (= 1.1.4001.mbu), myki-dc (= 1.3.58001.mbu), myki-avl (= 1.1.12008.mbu), myki-switch (= 1.0.18000.mbu), myki-tdc-www (= 1.0.190100.mbu), myki-tinyproxy (= 1.0.1000.mbu), dc6000-browser (= 1.1.7001.mbu), gpsd (= 2.37.6032.cots), dc-diagnostics (= 1.0.9000.mbu), processmanager (= 1.1.8000.mbu), vix-portmap (= 1.0.2000.mbu), linux-kernel-viper (= 2.6.24.6.0.78000.cots), vix-cce (= 0.0.18000.mbu), tslib (= 1.0.10003.cots), ppp (= 2.4.4.0007.cots), qt-webkit-install (= 1.0.1004.cr)
+Description: tdc package for device TramDriverConsole, release 200.23.mbu
