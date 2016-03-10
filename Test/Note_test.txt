@@ -1,4 +1,27 @@
-﻿|- * Notes *
+﻿|- Test Stories
+||- White box pros
+- TDC auto logoff timer change from seconds to minutes
+  code change: ms * 1000 => ms * 60000
+  code review is safe enough with a quick test.
+
+- Test critical alarm without NTP sync for 72 hours
+  Configuralbe? Y, but min is 2 hours
+  Whitebox approach: Modify the code to use unit minutes and build a package to test.
+
+- active cradle alarm
+
+||- Missed defects
+|||- No Operation View
+- TDC: Change to use TMI, and avl is combined together with ldt.
+Issue: The stop change avl won't be seen in realtime in the opLog until the shift is closed.
+Reason: avl used to be batch every 20 minutes even shift is not closed. ldt will only be generated when shift is closed, i.e. driver logs out.
+Impact: If there is no driver login, no stop change, that means you don't know where is the tram, in the whole day.
+
+|||- Others
+- TDC terminal history, alarm/value change is still 
+  
+  
+|- * Notes *
 ||- Testability examples
 Check client - server transaction failure or response time.
 
