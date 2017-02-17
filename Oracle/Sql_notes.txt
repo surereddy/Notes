@@ -1,5 +1,40 @@
 |- FAQ
 
+||- left join / left outer join, inner join / join, right join, full join
+https://www.w3schools.com/sql/sql_join_left.asp
+
+Default is INNER JOIN.
+
+INNER JOIN: Returns all rows when there is at least one match in BOTH tables
+LEFT JOIN: Return all rows from the left table, and the matched rows from the right table
+RIGHT JOIN: Return all rows from the right table, and the matched rows from the left table
+FULL JOIN: Return all rows when there is a match in ONE of the tables
+
+There is no record in arcos_log.operation_log where arcos_config.terminal.is_active = 0.
+
+left join / left outer join:
+Return result even it is not in table 2.
+
+	select 	t.terminal_id_long
+	from 	arcos_config.terminal t
+	left join 	arcos_log.operation_log ol on ol.terminal=t.terminal_id_long
+	where t.terminal_type in ('CVMm' ,'FPDt')
+		and ol.operation_log_id is null -- This is to ensure no oplogs
+		and t.is_active = 0
+		and t.LAST_CHANGE < sysdate -60
+		;
+
+Result:
+All terminals meeting the conditions. 
+
+Inner join / join:
+	inner join 	arcos_log.operation_log ol on ol.terminal=t.terminal_id_long
+or 
+	inner join 	arcos_log.operation_log ol on ol.terminal=t.terminal_id_long
+
+Result:
+Nothing	
+	
 ||- sqlplus 直接执行sql文件
 sqlplus itaowner/iris@IRIS < truncate_ITA_7.13.1_SP4.sql
 
