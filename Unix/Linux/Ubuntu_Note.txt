@@ -1,6 +1,36 @@
+|- General
+
 By default, 
 no firewall deny like Redhat IpTable.
 no root user, use 'sudo su -' with created user during installation.
 
 
 apt-get to install new packages from internet. 
+
+|- How to enable root login
+
+#first execute in a terminal
+
+sudo passwd root
+#you will be prompted for a new Unix password. Write it twice (second for confirmation).
+
+#Then execute
+
+sudo passwd -u root 
+to unlock the account. This should return
+
+passwd: password expiry information changed
+
+#Reverting back
+#If you want to disable root account in Ubuntu you need to lock the root account by using the following command 
+sudo passwd -l root
+
+You also need to edit /etc/ssh/sshd_config, and comment out the following line:
+
+PermitRootLogin without-password
+
+Just below it, add the following line:
+PermitRootLogin yes
+
+#Then restart SSH:
+service ssh restart
