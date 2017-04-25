@@ -1,5 +1,27 @@
 |- FAQ
 
+||- dash or hyphen (-) in cmmand line
+It allows you to specify standard input or output rather than an actual file name.
+
+Listen on port 12345 and untar data sent to it.
+nc -l -p 12345 | tar xvzf -
+
+||- How to get command return value
+$?
+
+e.g. 
+grep returns 0 if a match is found.
+
+a.txt:
+ab
+cd
+
+grep -q 'cd' a.txt
+return_val=$?;echo $return_val ;  # 0
+
+Note: You cannot get a return value directly in the same line.
+e.g. return_val=`grep -q 'cd' a.txt` ;  return_val is the value of standard output, i.e. null here, instead of the return value. 
+
 ||- single v.s. double quotation
 #/bin/bash
 cat $1 | sed -e "s/DURATION=.*/DURATION=$2/"
