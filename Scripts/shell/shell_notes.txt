@@ -308,7 +308,9 @@ Key:
    h  :  hours
 
    d  :  days
-||- If
+||- If Statement
+http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
+
 There are many different ways that an conditional statement can be used. These are summarized here:
 
 String Comparison	Description
@@ -404,6 +406,55 @@ if [[ 1 -gt 0]]; then
 Correct one:
 if [[ 1 -gt 0 ]]; then
 
+|||- if statement none-default test command
+http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
+The most compact syntax of the if command is:
+if TEST-COMMANDS; then CONSEQUENT-COMMANDS; fi
+The TEST-COMMAND list is executed, and if its return status is zero, the CONSEQUENT-COMMANDS list is executed. The return status is the exit status of the last command executed, or zero if no condition tested true.
+The TEST-COMMAND often involves numerical or string comparison tests, 
+***but it can also be any command that returns a status of zero when it succeeds and some other status when it fails.***
+
+Note: If the command, e.g. grep, returns exit code 0 (not the standard output), it means TRUE for if statement, i.e. if TRUE. 
+If may be confusing if you think the exit code or standard output equal the TRUE condition. Actually exit code 0 = TRUE, and standard output is irrelevant.
+
+cat a.txt
+sss ddd
+
+script 1:
+if grep sss a.txt
+then
+echo if true and exit code $?
+else
+echo if false and exit code $?
+fi
+
+output:
+sss ddd
+if true and exit code 0
+
+script 2:
+if grep -q sss a.txt
+then
+echo if true and exit code $?
+else
+echo if false and exit code $?
+fi
+
+output:
+if true and exit code 0
+
+equivalent script 3 to script 2:
+grep -q sss a.txt
+if [ $? -eq 0]
+then
+echo if true and exit code $?
+else
+echo if false and exit code $?
+fi
+
+output:
+if true and exit code 0
+
 ||- for 
 for ((i=13;i<=35;i++))
 do 
@@ -432,6 +483,7 @@ output:
 a.txt:
 76152/InvalidTimeFormat.wav.gz
 76153/InvalidPinHangUp.wav.gz
+
 
 
 ||- exit
