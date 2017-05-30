@@ -1,4 +1,123 @@
 |- FAQ
+||- How to remove leading and tailing whitespace or tab ?
+sed (preferred):
+echo -e " \t   blahblah  \t  " | sed 's/^[ \t]*//;s/[ \t]*$//'
+blahblah
+or 
+echo -e " \t   blahblah  \t  " | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//'
+blahblah
+
+str=`echo -e " \t   blahblah  \t  " | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//'`; echo "${str}End"
+blahblahEnd
+
+awk:
+Would trim leading and trailing space or tab characters1 and also squeeze sequences of tabs and spaces into a single space.
+That works because when you assign something to one of the fields, awk rebuilds the whole record (as printed by print) 
+by joining all fields ($1, ..., $NF) with OFS (space by default).
+
+echo -e " \t   blahblah \t  ee  \t  " | awk '{$1=$1;print}'
+blahblah ee
+
+str=`echo -e " \t   blahblah \t  ee  \t  " | awk '{$1=$1;print}'`; echo "${str}End"
+blahblah eeEnd
+
+
+||- regular expressions special characters
+Most of the GNU tools that make use of regular expressions (regex) support these classes.
+
+ [[:alnum:]]  - [A-Za-z0-9]     Alphanumeric characters
+ [[:alpha:]]  - [A-Za-z]        Alphabetic characters
+ [[:blank:]]  - [ \x09]         Space or tab characters only
+ [[:cntrl:]]  - [\x00-\x19\x7F] Control characters
+ [[:digit:]]  - [0-9]           Numeric characters
+ [[:graph:]]  - [!-~]           Printable and visible characters
+ [[:lower:]]  - [a-z]           Lower-case alphabetic characters
+ [[:print:]]  - [ -~]           Printable (non-Control) characters
+ [[:punct:]]  - [!-/:-@[-`{-~]  Punctuation characters
+ [[:space:]]  - [ \t\v\f]       All whitespace chars
+ [[:upper:]]  - [A-Z]           Upper-case alphabetic characters
+ [[:xdigit:]] - [0-9a-fA-F]     Hexadecimal digit characters
+ 
+||- Arrays
+http://www.thegeekstuff.com/2010/06/bash-array-tutorial
+
+
+#!/bin/bash
+Unix[0]='Debian'
+Unix[1]='Red hat'
+Unix[2]='Ubuntu'
+Unix[3]='Suse'
+
+echo ${Unix[1]}
+
+Outputs:
+Red hat
+
+echo ${Unix[*]}
+outputs:
+Debian Red hat Ubuntu Suse
+
+# ${#arrayname[*]} gives you the length of the array.
+$ echo ${#Unix[*]}
+4
+
+# ${#arrayname[n]} should give the length of the nth element in an array.
+$ echo ${#Unix[0]}
+6
+
+||- case pattern syntax
+Support *, ? and [], not fully regex.
+Refer: https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html#Pattern-Matching
+and https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html
+
+Note: if statement string comparision does not support pattern in basic shell. But bash has the regexp support with =~.
+
+case $1 in
+    a*             ) foo;;    # matches anything starting with "a"
+    b?             ) bar;;    # matches any two-character string starting with "b"
+    c[de]          ) baz;;    # matches "cd" or "ce"
+	*) default_foo;;
+esac
+
+If using bash, there are more options. Refer to the above reference link.
+
+||- string regex comparison in if statement in bash
+Refer: http://wiki.bash-hackers.org/syntax/ccmd/conditional_expression
+
+Use =~ to compare, but don't add quote "" on regular expression.
+
+Test 1:
+#!/bin/bash
+str='abcd'
+if [[ $str =~ ^abc ]]
+then
+echo matched
+else
+echo not matched
+fi
+
+==> matched
+
+Test 2:
+#!/bin/bash
+str='abcd'
+if [[ $str =~ "^abc" ]]
+then
+echo matched
+else
+echo not matched
+fi
+
+==> not matched 
+ 
+||- [[ ]] vs []
+[[ ]] is for bash only, with extension support like regexp.
+[] is for classic sh and compatible with bash
+
+http://wiki.bash-hackers.org/syntax/ccmd/conditional_expression
+section: Word splitting
+
+
 
 ||- dash or hyphen (-) in cmmand line
 It allows you to specify standard input or output rather than an actual file name.
@@ -377,7 +496,7 @@ if [[ $OS == "OSF1" ]]
 if [[ $OS != "OSF1" ]]
 
 
-#!/bin/sh
+#!/bin/bash
 n=13
 if [[ $n -lt 10 ]]
 then
