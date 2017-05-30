@@ -1,4 +1,13 @@
 |- FAQ
+
+||- Delete lines after a pattern
+To delete 3 lines after a pattern (including the line with the pattern,i.e. delete 4 lines in total):
+sed -e '/pattern/,+3d' file.txt
+
+To delete 3 lines after a pattern (excluding the line with the pattern):
+sed -e '/pattern/{n;N;N;d}' file.txt
+
+
 ||- How to remove leading and tailing whitespace or tab ?
 sed (preferred):
 echo -e " \t   blahblah  \t  " | sed 's/^[ \t]*//;s/[ \t]*$//'
