@@ -1,1 +1,0 @@
-1. file name must be without blank and the name used in checkout is the name you checkin.
