@@ -1,0 +1,150 @@
+VIX db:
+DATABASE=kamco_itf_vix_db
+
+TSSA db:
+DATABASE=nttdata_tssa_db
+
+
+Connection string:
+----------------------
+DRIVER=SQL Server;SERVER=10.0.1.27;UID=testuser;PWD=testuser;APP=2007 Microsoft Office system;WSID=CPLP5PS1R1S;DATABASE=nttdata_tssa_db
+
+
+Query for test lab:
+------------------------
+- Modify connection properties
+  Open the excel, go to menu 'DATA', click 'Connections'. 
+  Then in the Connection Properties window, go to tab 'Definition'.
+  Connection string: Change DATABASE= string.
+  Command text, change last line CF_ITEM_NAME and replace with your test lab folder name, it must be unique in the tree, 
+  but it does not matter in which level.
+  e.g.   where CF_ITEM_NAME = 'Post L3R7 VCU 16.0.8'
+  Click OK to close the properties window, and it will pull the data from database and update the spreadsheet.
+  
+  Note: The test lab structure must meet below criteria:
+        Say 'Post L3R7 VCU 16.0.8' is your targeted directory, there must be 1 level and only 1 level sub-folder under 'Post L3R7 VCU 16.0.8'.
+		e.g. folder 'Post L3R7 VCU 16.0.8'\'TDC' and 'BDC', or ost L3R7 VCU 16.0.8'\'TestCases', then test sets, then test cases.
+		If there is not sub-folder under your targeted directory, select upper folder and filter your test cases later.
+
+		
+SQL query:
+Select 
+cf_father.CF_ITEM_NAME as [Folder Name],
+cf_sub.CF_ITEM_NAME as [Sub-Folder Name],
+cy_cycle as "Test Set",
+ts_name as "Test Name",
+TS_USER_03,
+TS_USER_08,
+TS_USER_05,
+TS_TEST_ID as "Test ID", /*Test.Test ID*/
+TS_DESCRIPTION as "Test Desc.", /*Test.Description*/
+DS_STEP_NAME as "Step Name", /*Design Step.Step Name*/
+DS_DESCRIPTION as "Step Desc.", /*Design Step.Description*/
+DS_EXPECTED as "Expected Result", /*Design Step.Expected Result*/
+TS_STATUS as "Test Status", /*Test.Status*/
+TS_TYPE "Test Type"
+From
+(
+   (
+      (td.cycle inner join td.cycl_fold as cf_sub on cy_folder_id=cf_sub.cf_item_id)
+      inner join td.cycl_fold as cf_father on cf_sub.cf_father_id=cf_father.cf_item_id
+   )
+   inner join td.testcycl on cy_cycle_id=tc_cycle_id
+)
+inner join td.test on ts_test_id=tc_test_id
+INNER JOIN td.DESSTEPS ON DS_TEST_ID = TS_TEST_ID
+Where cf_father.cf_item_id=
+(
+   Select
+   cf_item_id
+   from td.cycl_fold
+   where CF_ITEM_NAME = 'Post L3R7 VCU 16.0.8'
+)
+
+order by cf_father.CF_ITEM_NAME, cf_sub.CF_ITEM_NAME, cy_cycle,ts_name
+		
+		
+Query Test Cases from test plan:
+------------------------
+-- Note: It supports up to 4 levels of sub-folders. Just replace 'QTEM_WESTPAC' with your unique folder name.
+
+SELECT L.AL_description as "Folder",
+T.TS_TEST_ID,
+T.[TS_USER_01] as "TestCaseID",
+T.TS_NAME as "Test Name", 
+T.TS_DESCRIPTION as "Description", 
+--T.TS_STEPS as "Step_Number",
+DS.DS_STEP_NAME as "Step Name", 
+DS.DS_DESCRIPTION as "Step Description", 
+DS.DS_EXPECTED as "Expected Result"
+--select t.*
+FROM td.TEST T, td.DESSTEPS DS, td.ALL_LISTS L
+WHERE T.TS_TEST_ID = DS.DS_TEST_ID and T.TS_SUBJECT = L.AL_ITEM_ID
+and T.TS_SUBJECT in  -- folder ID list
+(
+-- 1st level folder
+select TOP 1 AL_ITEM_ID from td.ALL_LISTS 
+where AL_description ='QTEM_WESTPAC' 
+UNION ALL
+-- 2nd level folder
+select AL_ITEM_ID from td.ALL_LISTS 
+where AL_FATHER_ID in 
+( select TOP 1 AL_ITEM_ID from td.ALL_LISTS 
+where AL_description ='QTEM_WESTPAC' 
+)
+UNION ALL
+-- 3rd level folder
+select AL_ITEM_ID from td.ALL_LISTS where AL_father_id in 
+(
+	select AL_ITEM_ID from td.ALL_LISTS 
+	where AL_FATHER_ID in 
+	( select TOP 1 AL_ITEM_ID from td.ALL_LISTS 
+	where AL_description ='QTEM_WESTPAC'
+	)
+)
+UNION ALL
+-- 4rd level folder
+select AL_ITEM_ID from td.ALL_LISTS where AL_father_id in 
+(
+	select AL_ITEM_ID from td.ALL_LISTS where AL_father_id in 
+	(
+		select AL_ITEM_ID from td.ALL_LISTS 
+		where AL_FATHER_ID in 
+		( select TOP 1 AL_ITEM_ID from td.ALL_LISTS 
+		where AL_description ='QTEM_WESTPAC'
+		)
+	)
+)
+)
+order by L.AL_description,T.ts_test_id, DS.ds_step_order;
+
+
+
+-- Check 2nd and 3rd level folders:
+-- 2nd level folder
+select * from td.ALL_LISTS 
+where AL_FATHER_ID in 
+( select TOP 1 AL_ITEM_ID from td.ALL_LISTS 
+where AL_description ='Enterprise Comm Server' 
+)
+UNION ALL
+-- 3rd level folder
+select * from td.ALL_LISTS where AL_father_id in 
+(
+	select AL_ITEM_ID from td.ALL_LISTS 
+	where AL_FATHER_ID in 
+	( select TOP 1 AL_ITEM_ID from td.ALL_LISTS 
+	where AL_description ='Enterprise Comm Server'
+	)
+)
+
+
+
+
+
+FAQ:
+----------------------
+- Un-checkin'ed changes
+For un-checkin'ed changes, they are in VC_TEST, VC_DESSTEPS tables. They are visable in GUI only to the person who checkout. 
+Once the version is checked in, it will be removed from VC_* tables.
+Table TEST and DESSTEPS have the checked-in version.
