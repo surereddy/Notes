@@ -1,5 +1,44 @@
 |- FAQ
 
+||- list output, e.g. username by number and select it by sed
+cat users.txt
+peter 
+harry
+
+cat users.txt | nl -s ') '
+1) peter
+2) harry
+
+read -p "Select 1 user to delete:" username_no
+selected_user=`cat users.txt|sed -n $(username_no)p`
+
+||- nl: number lines
+cat a.txt
+line 1
+line 2
+
+cat a.txt | nl -s ') '
+1) line 1
+2) line 2
+
+||- sed: print 1 line by line number or exclude 1 line  
+https://www.gnu.org/software/sed/manual/html_node/Common-Commands.html#Common-Commands
+root@ubuntu-1gb-sgp1-01:~/scripts# seq 3
+1
+2
+3
+
+# print line 2
+# Note: p is always used with -n
+root@ubuntu-1gb-sgp1-01:~/scripts# seq 3 | sed -n 2p
+2
+
+# exclude line 2
+root@ubuntu-1gb-sgp1-01:~/scripts# seq 3 | sed 2d
+1
+3
+
+
 ||- Delete lines after a pattern
 To delete 3 lines after a pattern (including the line with the pattern,i.e. delete 4 lines in total):
 sed -e '/pattern/,+3d' file.txt
