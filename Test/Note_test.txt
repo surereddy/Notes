@@ -10,6 +10,11 @@
 
 - active cradle alarm
 
+||- Need of End to End tests (against Agile in-theory tests)
+- BDC new SP Tullamarine: Prompts invalid shifts for valid ones.
+  Root cause: Shifts in Tullamarine have milliseconds in shift start_date_time (var_char), e.g. 2017-10-13:10.00.12.324, and BDC device does not support it. 
+  In theory, a different SP makes no difference in terms of schedule and tariff.
+
 ||- Missed defects
 |||- No Operation View
 - TDC: Change to use TMI, and avl is combined together with ldt.
@@ -18,7 +23,6 @@ Reason: avl used to be batch every 20 minutes even shift is not closed. ldt will
 Impact: If there is no driver login, no stop change, that means you don't know where is the tram, in the whole day.
 
 |||- Others
-- TDC terminal history, alarm/value change is still 
   
   
 |- * Notes *
